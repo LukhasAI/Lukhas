@@ -128,7 +128,7 @@ class TestOrchestratorStressTesting:
                     "complexity": request_id % 10
                 }
 
-                result = await orchestrator.process_request(
+                await orchestrator.process_request(
                     context=context,
                     pipeline_config={
                         "stages": ["fast_node", "medium_node"],
@@ -193,7 +193,7 @@ class TestOrchestratorStressTesting:
         # Success rate analysis
         total_requests = len(results)
         success_rate = len(successful_requests) / total_requests
-        failure_rate = len(failed_requests) / total_requests
+        len(failed_requests) / total_requests
 
         print("\nStress Test Results:")
         print(f"  Total requests: {total_requests}")

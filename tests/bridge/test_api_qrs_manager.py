@@ -50,9 +50,9 @@ def test_qrs_creation_success(valid_qrs_data, mock_crypto_functions):
     # from candidate.bridge.api.qrs_manager import QRSManager
     # manager = QRSManager()
     # qrs = manager.create_qrs(valid_qrs_data)
-    
+
     pytest.skip("Pending QRSManager implementation")
-    
+
     # Expected assertions:
     # assert "qrs_id" in qrs
     # assert "signature" in qrs
@@ -63,7 +63,7 @@ def test_qrs_creation_success(valid_qrs_data, mock_crypto_functions):
 def test_qrs_verification_valid(sample_qrs_signature):
     """Test verification of valid QRS."""
     pytest.skip("Pending QRSManager implementation")
-    
+
     # Expected behavior:
     # result = manager.verify_qrs(sample_qrs_signature)
     # assert result["valid"] is True
@@ -73,14 +73,8 @@ def test_qrs_verification_valid(sample_qrs_signature):
 @pytest.mark.unit
 def test_qrs_verification_tampered():
     """Test verification fails for tampered QRS."""
-    tampered_qrs = {
-        "qrs_id": "qrs_abc123",
-        "signature": "0x_tampered_signature",
-        "hash": "wrong_hash",
-        "algorithm": "SHA256-QRS"
-    }
     pytest.skip("Pending QRSManager implementation")
-    
+
     # Expected behavior:
     # result = manager.verify_qrs(tampered_qrs)
     # assert result["valid"] is False
@@ -92,7 +86,7 @@ def test_qrs_verification_tampered():
 def test_qrs_includes_timestamp(valid_qrs_data):
     """Test that QRS includes creation timestamp."""
     pytest.skip("Pending implementation")
-    
+
     # Expected:
     # qrs = manager.create_qrs(valid_qrs_data)
     # assert "created_at" in qrs
@@ -103,7 +97,7 @@ def test_qrs_includes_timestamp(valid_qrs_data):
 def test_qrs_unique_for_same_data(valid_qrs_data):
     """Test that identical data produces different QRS (due to timestamp/nonce)."""
     pytest.skip("Pending implementation")
-    
+
     # Expected:
     # qrs1 = manager.create_qrs(valid_qrs_data)
     # qrs2 = manager.create_qrs(valid_qrs_data)
@@ -114,7 +108,7 @@ def test_qrs_unique_for_same_data(valid_qrs_data):
 def test_qrs_deterministic_hash(valid_qrs_data):
     """Test that hash is deterministic for same input."""
     pytest.skip("Pending implementation")
-    
+
     # Expected:
     # Same input + same timestamp should produce same hash
     # (but different QRS ID due to uniqueness requirement)
@@ -124,12 +118,8 @@ def test_qrs_deterministic_hash(valid_qrs_data):
 @pytest.mark.unit
 def test_qrs_creation_missing_required_fields():
     """Test QRS creation fails with missing required fields."""
-    incomplete_data = {
-        "request_id": "req_12345"
-        # Missing: response_payload, timestamp, service
-    }
     pytest.skip("Pending implementation")
-    
+
     # Expected:
     # with pytest.raises(ValueError, match="Missing required fields"):
     #     manager.create_qrs(incomplete_data)
@@ -138,14 +128,8 @@ def test_qrs_creation_missing_required_fields():
 @pytest.mark.unit
 def test_qrs_verification_invalid_signature_format():
     """Test verification fails for invalid signature format."""
-    invalid_qrs = {
-        "qrs_id": "qrs_abc123",
-        "signature": "not_a_valid_signature_format",
-        "hash": "hash_value",
-        "algorithm": "UNKNOWN"
-    }
     pytest.skip("Pending implementation")
-    
+
     # Expected:
     # result = manager.verify_qrs(invalid_qrs)
     # assert result["valid"] is False
@@ -155,14 +139,8 @@ def test_qrs_verification_invalid_signature_format():
 @pytest.mark.unit
 def test_qrs_creation_with_invalid_timestamp():
     """Test QRS creation with future timestamp fails."""
-    future_data = {
-        "request_id": "req_12345",
-        "response_payload": {"status": "success"},
-        "timestamp": 9999999999,  # Far future
-        "service": "api.lukhas.ai"
-    }
     pytest.skip("Pending implementation")
-    
+
     # Expected:
     # with pytest.raises(ValueError, match="Invalid timestamp"):
     #     manager.create_qrs(future_data)
@@ -173,7 +151,7 @@ def test_qrs_creation_with_invalid_timestamp():
 def test_qrs_uses_sha256_algorithm():
     """Test that QRS uses SHA256 by default."""
     pytest.skip("Pending implementation")
-    
+
     # Expected:
     # manager = QRSManager()
     # assert manager.default_algorithm == "SHA256-QRS"
@@ -184,7 +162,7 @@ def test_qrs_uses_sha256_algorithm():
 def test_qrs_supports_multiple_algorithms(algorithm, valid_qrs_data):
     """Test QRS supports multiple hash algorithms."""
     pytest.skip("Pending implementation")
-    
+
     # Expected:
     # qrs = manager.create_qrs(valid_qrs_data, algorithm=algorithm)
     # assert qrs["algorithm"] == algorithm
@@ -195,7 +173,7 @@ def test_qrs_supports_multiple_algorithms(algorithm, valid_qrs_data):
 def test_qrs_audit_trail_integration(valid_qrs_data):
     """Test that QRS creation logs to ΛTRACE audit trail."""
     pytest.skip("Pending ΛTRACE integration")
-    
+
     # Expected:
     # - QRS creation logged
     # - Verification attempts logged
@@ -206,7 +184,7 @@ def test_qrs_audit_trail_integration(valid_qrs_data):
 def test_qrs_with_guardian_validation(valid_qrs_data):
     """Test QRS creation with Guardian system validation."""
     pytest.skip("Pending Guardian integration")
-    
+
     # Expected:
     # - Guardian validates request integrity
     # - Constitutional AI checks applied
@@ -218,7 +196,7 @@ def test_qrs_with_guardian_validation(valid_qrs_data):
 def test_qrs_creation_performance():
     """Test QRS creation completes within 50ms."""
     pytest.skip("Pending performance benchmarking")
-    
+
     # Expected:
     # - Creation < 50ms
     # - Verification < 25ms
@@ -228,7 +206,7 @@ def test_qrs_creation_performance():
 def test_qrs_verification_batch_performance():
     """Test batch verification of multiple QRS signatures."""
     pytest.skip("Pending batch operations")
-    
+
     # Expected:
     # - 100 verifications < 1 second
     # - Parallel verification supported
@@ -238,14 +216,14 @@ def test_qrs_verification_batch_performance():
 @pytest.mark.unit
 def test_qrs_with_large_payload():
     """Test QRS creation with large response payload (>1MB)."""
-    large_data = {
+    {
         "request_id": "req_12345",
         "response_payload": {"data": "x" * (1024 * 1024)},  # 1MB
         "timestamp": 1735678800,
         "service": "api.lukhas.ai"
     }
     pytest.skip("Pending implementation")
-    
+
     # Expected:
     # - Either succeeds or raises clear size limit error
     # - Hash handles large data efficiently
@@ -254,14 +232,8 @@ def test_qrs_with_large_payload():
 @pytest.mark.unit
 def test_qrs_with_special_characters():
     """Test QRS with special characters in payload."""
-    special_data = {
-        "request_id": "req_12345",
-        "response_payload": {"message": "Test 用户 🎭 <script>alert('xss')</script>"},
-        "timestamp": 1735678800,
-        "service": "api.lukhas.ai"
-    }
     pytest.skip("Pending implementation")
-    
+
     # Expected:
     # - Handles unicode correctly
     # - Sanitizes potentially dangerous content
@@ -273,7 +245,7 @@ def test_qrs_with_special_characters():
 def test_qrs_quantum_entropy():
     """Test QRS uses quantum-inspired entropy if available."""
     pytest.skip("Pending quantum features")
-    
+
     # Expected:
     # - Check if quantum RNG used for signature
     # - Fallback to cryptographic RNG if unavailable

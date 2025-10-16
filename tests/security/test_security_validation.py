@@ -620,7 +620,7 @@ class TestDynamicApplicationSecurityTesting:
 
             for error_input in error_inducing_inputs:
                 try:
-                    result = guardian.evaluate_request(
+                    guardian.evaluate_request(
                         operation="error_test",
                         user_tier="T1",
                         context=error_input

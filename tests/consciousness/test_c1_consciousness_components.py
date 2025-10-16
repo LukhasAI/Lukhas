@@ -396,7 +396,7 @@ class TestAutoConsciousness:
     async def test_performance_latency_target(self, auto_consciousness, sample_consciousness_state):
         """Test decision-making latency meets performance targets."""
         start_time = time.time()
-        decision_context = await auto_consciousness.decide_and_act(
+        await auto_consciousness.decide_and_act(
             consciousness_state=sample_consciousness_state
         )
         latency_ms = (time.time() - start_time) * 1000
@@ -484,7 +484,7 @@ class TestConsciousnessStream:
                 "memory_pressure": 0.1 * i,
                 "cpu_utilization": 0.2 + (0.1 * i)
             }
-            metrics = await consciousness_stream.tick(signals)
+            await consciousness_stream.tick(signals)
 
         # Should have processed through multiple engines
         artifacts = consciousness_stream.get_recent_artifacts()

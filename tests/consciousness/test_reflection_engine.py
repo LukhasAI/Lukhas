@@ -509,7 +509,7 @@ class TestReflectionEnginePerformance:
                     print(f"Progress: {i}/2000")
 
                 start = time.perf_counter()
-                report = await engine.reflect(state)
+                await engine.reflect(state)
                 latency = (time.perf_counter() - start) * 1000
 
                 latencies.append(latency)
@@ -650,13 +650,13 @@ class TestPrometheusRules:
             for _ in range(50):
                 await engine.reflect(state)
 
-            stats_before = engine.get_performance_stats()
+            engine.get_performance_stats()
 
             # Simulate performance degradation
             with patch('time.perf_counter', side_effect=self._slow_perf_counter):
                 degraded_latencies = []
                 for _ in range(20):
-                    start = time.time()
+                    time.time()
                     await engine.reflect(state)
                     # Record artificially high latency
                     degraded_latencies.append(25.0)  # Simulate 25ms latency

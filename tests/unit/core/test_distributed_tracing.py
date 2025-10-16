@@ -33,7 +33,7 @@ def mock_uuid():
     """Fixture to mock uuid.uuid4() to get predictable IDs."""
     with patch('uuid.uuid4') as mock_uuid_func:
         # Provide a sequence of predictable UUIDs
-        uuids = [f"uuid-{i}" for i in range(1, 10)]
+        [f"uuid-{i}" for i in range(1, 10)]
         mock_uuid_func.side_effect = [uuid.UUID(int=i) for i in range(1, 10)]
         yield mock_uuid_func
 
@@ -361,7 +361,7 @@ class TestDistributedTracer:
         """Tests the trace_operation context manager when an exception occurs."""
         tracer._current_context.context = None # Ensure clean state
         with pytest.raises(ValueError, match="Test error"):
-            with tracer.trace_operation("error_op") as context:
+            with tracer.trace_operation("error_op"):
                 raise ValueError("Test error")
 
         # Check that the trace was completed and marked as an error
@@ -404,7 +404,7 @@ class TestAIAgentTracer:
 
     def test_trace_agent_collaboration(self, ai_tracer: AIAgentTracer, mock_uuid):
         """Tests the trace_agent_collaboration context manager."""
-        with ai_tracer.trace_agent_collaboration("agent-001", "agent-002", "knowledge_share") as context:
+        with ai_tracer.trace_agent_collaboration("agent-001", "agent-002", "knowledge_share"):
             pass
 
         span_data = ai_tracer.collector.completed_traces[0]["spans"][0]
@@ -414,7 +414,7 @@ class TestAIAgentTracer:
 
     def test_trace_memory_operation(self, ai_tracer: AIAgentTracer, mock_uuid):
         """Tests the trace_memory_operation context manager."""
-        with ai_tracer.trace_memory_operation("agent-003", "retrieve", memory_size=1024) as context:
+        with ai_tracer.trace_memory_operation("agent-003", "retrieve", memory_size=1024):
             pass
 
         span_data = ai_tracer.collector.completed_traces[0]["spans"][0]

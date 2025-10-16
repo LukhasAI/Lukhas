@@ -122,7 +122,7 @@ class TestGuardianDefaults:
     def test_guardian_initialization_logging(self, caplog):
         """Guardian initialization should log properly"""
         with caplog.at_level("INFO"):
-            guardian = GuardianSystem()
+            GuardianSystem()
 
         assert "GuardianSystem initialized" in caplog.text
 

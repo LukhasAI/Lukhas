@@ -148,7 +148,7 @@ class MemorySafeguardTestFramework:
 
         try:
             # Use the AdaptiveMemorySystem recall API
-            start_time = time.perf_counter()
+            time.perf_counter()
             results, recall_duration_ms = self.memory_system.recall_top_k(k=k)
             recall_duration = recall_duration_ms / 1000.0  # Convert to seconds
 

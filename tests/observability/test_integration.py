@@ -216,7 +216,7 @@ class TestObservabilityIntegration:
 
         # Should trigger alert
         regressions = list(stack['performance'].detected_regressions.values())
-        alerts = list(stack['alerting'].active_alerts.values())
+        list(stack['alerting'].active_alerts.values())
 
         # Verify regression was detected and alert was created
         assert len(regressions) > 0
@@ -258,7 +258,7 @@ class TestObservabilityIntegration:
 
         # Verify both evidence and anomaly were recorded
         assert evidence_id is not None
-        anomalies = stack['metrics'].get_anomaly_summary(hours_back=1)
+        stack['metrics'].get_anomaly_summary(hours_back=1)
         # Anomaly detection depends on sufficient baseline data
 
     @pytest.mark.asyncio

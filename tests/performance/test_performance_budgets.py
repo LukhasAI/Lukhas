@@ -166,7 +166,7 @@ class TestSystemPerformanceBudgets:
             """Simulate CPU-intensive work."""
             for _ in range(500):
                 # Moderate CPU work
-                result = sum(i * i for i in range(50))
+                sum(i * i for i in range(50))
                 await asyncio.sleep(0.002)  # Yield more frequently
 
         async def cpu_monitor():
@@ -203,7 +203,7 @@ class TestMATRIZPerformanceBudgets:
         from lukhas.core.matriz.pipeline_stage import PipelineStage
         from tests.e2e.test_matriz_orchestration import MockPlugin
 
-        async with monitor.monitor_performance("stage_latency") as metrics:
+        async with monitor.monitor_performance("stage_latency"):
             # Test various stage configurations
             stage_configs = [
                 ("fast_stage", 0.01),      # 10ms
@@ -216,10 +216,10 @@ class TestMATRIZPerformanceBudgets:
 
             for stage_name, processing_time in stage_configs:
                 plugin = MockPlugin(stage_name, processing_time)
-                stage = PipelineStage(stage_name, plugin, critical=True)
+                PipelineStage(stage_name, plugin, critical=True)
 
                 start_time = time.time()
-                result = await plugin.process({"test": "latency"})
+                await plugin.process({"test": "latency"})
                 end_time = time.time()
 
                 latency_ms = (end_time - start_time) * 1000
@@ -234,7 +234,7 @@ class TestMATRIZPerformanceBudgets:
         from lukhas.core.matriz.pipeline_stage import PipelineStage
         from tests.e2e.test_matriz_orchestration import MockPlugin
 
-        async with monitor.monitor_performance("pipeline_throughput") as metrics:
+        async with monitor.monitor_performance("pipeline_throughput"):
             # Create lightweight orchestrator
             orchestrator = AsyncOrchestrator(
                 metrics=monitor.metrics,
@@ -297,7 +297,7 @@ class TestMemoryPerformanceBudgets:
             return {"data": "test_fold_data"}
 
         start_time = time.time()
-        result = await mock_fold_access()
+        await mock_fold_access()
         end_time = time.time()
 
         access_time_ms = (end_time - start_time) * 1000
@@ -346,7 +346,7 @@ class TestObservabilityPerformanceBudgets:
         start_time = time.time()
         for i in range(100):
             # Simulate some actual work like a real application
-            result = sum(j * j for j in range(10))
+            sum(j * j for j in range(10))
             time.sleep(0.0001)  # Simulate I/O or other work
         baseline_duration = time.time() - start_time
 
@@ -356,7 +356,7 @@ class TestObservabilityPerformanceBudgets:
             # Simulate metrics recording overhead
             metrics.record_request("test", "GET", "200", 0.001)
             # Same baseline work
-            result = sum(j * j for j in range(10))
+            sum(j * j for j in range(10))
             time.sleep(0.0001)  # Simulate I/O or other work
         metrics_duration = time.time() - start_time
 

@@ -91,7 +91,7 @@ class TestStreamContinuity:
 
         # Sustained load test
         load_duration = 2.0  # 2 seconds
-        expected_ticks = int(20 * load_duration)  # 20 FPS * 2 seconds
+        int(20 * load_duration)  # 20 FPS * 2 seconds
 
         start_time = time.perf_counter()
         tick_count = 0
@@ -105,7 +105,7 @@ class TestStreamContinuity:
         actual_duration = end_time - start_time
 
         # Verify stream continuity metrics
-        metrics = stream.get_stream_metrics()
+        stream.get_stream_metrics()
 
         # Stream should have processed events continuously
         assert stream.events_processed > 0, "No events processed during load test"
@@ -205,7 +205,7 @@ class TestStreamContinuity:
             backpressure_threshold=0.6
         )
 
-        initial_metrics = stream.get_stream_metrics()
+        stream.get_stream_metrics()
 
         # Generate sustained pressure
         for cycle in range(10):

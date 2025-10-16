@@ -132,7 +132,7 @@ class TestMemorySystemIntegration:
             memory_system.store_memory(memory)
 
         # Force consolidation check
-        consolidated_count = memory_system.check_and_consolidate()
+        memory_system.check_and_consolidate()
 
         # Verify system state after consolidation
         total_items = memory_system.get_total_items()
@@ -267,7 +267,7 @@ class TestMemorySystemIntegration:
             ]
 
             # Wait for all tasks
-            consolidation_results = [f.result() for f in consolidation_futures]
+            [f.result() for f in consolidation_futures]
             access_results = [f.result() for f in access_futures]
 
         # Verify no race condition errors
@@ -311,7 +311,7 @@ class TestMemorySystemIntegration:
             # Check performance requirement: <100ms for memory operations
             assert op_time < 100, f"Store operation {i} too slow: {op_time:.2f}ms"
 
-        store_time = time.perf_counter() - start_time
+        time.perf_counter() - start_time
 
         # Load testing - retrieve operations
         start_time = time.perf_counter()
@@ -326,7 +326,7 @@ class TestMemorySystemIntegration:
             assert memory is not None, f"Should retrieve memory {mem_id}"
             assert op_time < 100, f"Retrieve operation {i} too slow: {op_time:.2f}ms"
 
-        retrieve_time = time.perf_counter() - start_time
+        time.perf_counter() - start_time
 
         # Load testing - search operations
         search_terms = ["category_0", "category_5", "tag_2", "batch_4", "integration_test"]
@@ -341,11 +341,11 @@ class TestMemorySystemIntegration:
             assert len(results) >= 0, f"Search should return results for {term}"
             assert op_time < 100, f"Search operation {i} too slow: {op_time:.2f}ms"
 
-        search_time = time.perf_counter() - start_time
+        time.perf_counter() - start_time
 
         # Load testing - consolidation
         start_time = time.perf_counter()
-        consolidated_count = memory_system.check_and_consolidate()
+        memory_system.check_and_consolidate()
         consolidation_time = (time.perf_counter() - start_time) * 1000
         operations["consolidate"].append(consolidation_time)
 
@@ -426,7 +426,7 @@ class TestMemorySystemIntegration:
         if LUKHASMetrics is None:
             pytest.skip("Metrics system not available")
 
-        metrics = LUKHASMetrics()
+        LUKHASMetrics()
 
         # Store memories and check metrics
         for data in sample_memory_data[:20]:

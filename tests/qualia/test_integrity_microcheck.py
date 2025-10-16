@@ -263,7 +263,7 @@ def test_dwell_after_successful_repair():
     os.environ["DRIFT_DWELL_CYCLES"] = "2"
 
     try:
-        q = AkaQualia()
+        AkaQualia()
         dm = DriftManager()
 
         # Simulate successful repair first

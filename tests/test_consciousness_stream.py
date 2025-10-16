@@ -117,7 +117,6 @@ class TestConsciousnessStream:
         stream = ConsciousnessStream()
 
         # Mock an error by breaking the router
-        original_publish = stream.router.publish
         def failing_publish(msg):
             raise ValueError("Test error")
         stream.router.publish = failing_publish

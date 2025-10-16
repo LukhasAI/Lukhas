@@ -394,7 +394,7 @@ class TestSafetyTagEnricher:
 
         # First call - cache miss
         start_time = time.perf_counter()
-        result1 = enricher.enrich_plan(plan)
+        enricher.enrich_plan(plan)
         time1 = time.perf_counter() - start_time
 
         # Second call - cache hit

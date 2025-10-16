@@ -151,10 +151,10 @@ def test_isolation_guarantee():
     print("\n=== ISOLATION GUARANTEE ===")
 
     # Compute on manager1
-    result1 = manager1.compute('ethical', state1_prev, state1_curr)
+    manager1.compute('ethical', state1_prev, state1_curr)
 
     # Compute on manager2
-    result2 = manager2.compute('lukhas.memory', state2_prev, state2_curr)
+    manager2.compute('lukhas.memory', state2_prev, state2_curr)
 
     # Verify isolation - ledgers should be independent
     ledger1 = manager1.get_drift_history()

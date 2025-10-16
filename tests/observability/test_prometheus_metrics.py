@@ -463,7 +463,7 @@ class TestMetricsConfiguration:
         """Test configuration from environment variables"""
         # Test without environment variables
         config = MetricsConfig()
-        metrics = LUKHASMetrics(config)
+        LUKHASMetrics(config)
 
         # Should use defaults
         assert config.namespace == "lukhas"

@@ -308,7 +308,7 @@ class MemorySystemStateMachine(RuleBasedStateMachine):
 def test_memory_system_10k_operations_invariants(workload):
     """
     Property test: Memory system invariants hold under 10k operation workloads
-    
+
     Tests:
     - Top-K recall monotonicity
     - Latency budget adherence 
@@ -359,7 +359,7 @@ def test_memory_system_10k_operations_invariants(workload):
                             f"Top-K monotonicity violated at position {j}: {similarities[j]} < {similarities[j+1]}"
 
             elif operation.op_type == "fold_create":
-                fold = fold_manager.create_fold(
+                fold_manager.create_fold(
                     content=operation.content,
                     importance=operation.importance,
                     mode="live"
@@ -432,7 +432,7 @@ def test_memory_system_10k_operations_invariants(workload):
 def test_topk_monotonicity_under_adversarial_workload(k_values, operations):
     """
     Property test: Top-K recall maintains monotonicity under adversarial access patterns
-    
+
     Tests recall with varying K values and interleaved operations to stress
     the ranking and retrieval system.
     """
@@ -504,7 +504,7 @@ def test_topk_monotonicity_under_adversarial_workload(k_values, operations):
 def test_memory_system_stateful_properties(data):
     """
     Stateful property testing using Hypothesis state machine
-    
+
     Tests complex interaction patterns and invariants over
     extended operation sequences.
     """
@@ -532,7 +532,7 @@ def test_memory_system_stateful_properties(data):
 def test_memory_system_10k_batch_operations(batch_size):
     """
     Simplified 10k operations test using deterministic batching
-    
+
     Tests the original requirement: property-based memory tests at 10k ops
     with invariant checking for monotonicity, latency, and cascade prevention.
     """
@@ -625,7 +625,7 @@ def test_memory_system_10k_batch_operations(batch_size):
                                 break
 
                 elif op_type == "fold_create":
-                    fold = fold_manager.create_fold(
+                    fold_manager.create_fold(
                         content=content,
                         importance=importance,
                         mode="live"
@@ -709,7 +709,7 @@ def test_memory_system_10k_batch_operations(batch_size):
 def test_memory_performance_regression_at_scale(operation_count):
     """
     Regression test: Ensure memory performance doesn't degrade at scale
-    
+
     This test validates that performance targets are maintained as 
     operation count increases.
     """
@@ -732,7 +732,7 @@ def test_memory_performance_regression_at_scale(operation_count):
 
         start_time = time.perf_counter()
 
-        memory_item = memory_system.store(
+        memory_system.store(
             content=content,
             memory_type=MemoryType.SEMANTIC,
             importance=importance,
@@ -770,7 +770,7 @@ def test_memory_performance_regression_at_scale(operation_count):
 
         start_time = time.perf_counter()
 
-        fold = fold_manager.create_fold(
+        fold_manager.create_fold(
             content=content,
             importance=importance,
             mode="live"

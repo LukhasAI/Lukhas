@@ -135,14 +135,14 @@ def test_node_registration_idempotent():
 def test_router_metrics_integration():
     """Test that router properly increments metrics"""
 
-    router = ConsciousnessSignalRouter()
+    ConsciousnessSignalRouter()
 
     # Test signal with no matching rules (should increment no_rule metric)
     # Create signal with type that has no rules
     from lukhas.core.metrics import router_no_rule_total
 
     # Get initial counter value (may not be zero due to other tests)
-    initial_count = router_no_rule_total.labels(
+    router_no_rule_total.labels(
         signal_type="CUSTOM_TYPE",
         producer_module="test_producer"
     )._value if hasattr(router_no_rule_total.labels(

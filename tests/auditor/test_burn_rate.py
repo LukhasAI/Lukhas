@@ -260,7 +260,7 @@ class TestBurnRateCalculation:
         now = datetime.now(timezone.utc)
 
         # Add large number of observations
-        start_time = time.perf_counter()
+        time.perf_counter()
         for i in range(10000):
             calc.add_metric("guardian_latency", now - timedelta(seconds=i), 80.0)
 

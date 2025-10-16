@@ -170,7 +170,7 @@ async def test_routing_configuration():
     print("\n✅ Test 1: Configuration Loading")
     try:
         # This should load the YAML configuration
-        result = await orchestrator.route_request("architecture_design", "test content")
+        await orchestrator.route_request("architecture_design", "test content")
         print("  ✅ Routing configuration loaded successfully")
     except Exception as e:
         # Expected since we don't have real providers configured
@@ -192,7 +192,7 @@ async def test_routing_configuration():
             }
 
             # Architecture design should prefer Claude
-            result = await orchestrator.route_request("architecture_design", "test content")
+            await orchestrator.route_request("architecture_design", "test content")
             print("  ✅ Task-based routing functional")
 
     return True

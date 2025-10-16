@@ -113,7 +113,7 @@ def test_memory_event_performance():
 
     for i in range(event_count):
         start_time = time.time()
-        event = factory.create(
+        factory.create(
             data={"event": i},
             metadata={"affect_delta": float(i % 100) / 100.0}
         )

@@ -329,7 +329,6 @@ class TestWebAuthnAbuseProtection:
         """Test detection of concurrent session abuse patterns."""
 
         user_id = "concurrent_abuse_user"
-        base_ip = "203.0.113.100"
 
         # Simulate concurrent sessions from different IPs
         concurrent_tasks = []

@@ -157,8 +157,8 @@ def test_responses_different_inputs_different_outputs(client, auth_headers):
     assert response1.status_code == 200
     assert response2.status_code == 200
 
-    output1 = response1.json()["output"]["text"]
-    output2 = response2.json()["output"]["text"]
+    response1.json()["output"]["text"]
+    response2.json()["output"]["text"]
 
     # Should be different (unless MATRIZ produces identical responses)
     # At minimum, request IDs should differ

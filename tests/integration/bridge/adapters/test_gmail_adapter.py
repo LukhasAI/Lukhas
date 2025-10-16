@@ -168,7 +168,7 @@ class TestGmailAdapterIntegration:
 
         mock_get.return_value.__aenter__.side_effect = [mock_response_429, mock_response_200, mock_detail_response]
 
-        with patch("asyncio.sleep", new_callable=AsyncMock) as mock_sleep:
+        with patch("asyncio.sleep", new_callable=AsyncMock):
             result = await adapter.search_emails(lid="user123", search_query="test")
             assert "emails" in result
 

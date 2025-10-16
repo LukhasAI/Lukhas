@@ -110,7 +110,7 @@ def test_guardian_performance():
     times = []
     for i in range(100):
         start_time = time.time()
-        response = guardian.validate_safety({"test": f"data_{i}"})
+        guardian.validate_safety({"test": f"data_{i}"})
         end_time = time.time()
 
         duration = (end_time - start_time) * 1000  # Convert to ms

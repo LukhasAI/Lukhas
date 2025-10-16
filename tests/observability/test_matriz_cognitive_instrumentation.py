@@ -165,7 +165,7 @@ class TestCognitivePipelineSpan:
                 "test query",
                 expected_stages=expected_stages,
                 target_slo_ms=200.0
-            ) as span:
+            ):
                 await asyncio.sleep(0.01)  # Simulate pipeline processing
 
             # Verify span was created with correct attributes
@@ -376,9 +376,9 @@ class TestOptimizedOrchestratorIntegration:
     @pytest.mark.asyncio
     async def test_orchestrator_cognitive_metrics_recording(self, orchestrator):
         """Test that orchestrator records cognitive metrics during processing"""
-        with patch('lukhas.observability.matriz_instrumentation.record_focus_drift') as mock_focus, \
-             patch('lukhas.observability.matriz_instrumentation.record_decision_confidence') as mock_decision, \
-             patch('lukhas.observability.matriz_instrumentation.record_thought_complexity') as mock_thought:
+        with patch('lukhas.observability.matriz_instrumentation.record_focus_drift'), \
+             patch('lukhas.observability.matriz_instrumentation.record_decision_confidence'), \
+             patch('lukhas.observability.matriz_instrumentation.record_thought_complexity'):
 
             # Mock successful processing
             with patch.object(orchestrator, '_process_query_with_observability') as mock_process:

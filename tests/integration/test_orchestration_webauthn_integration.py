@@ -310,7 +310,7 @@ class TestOrchestrationWebAuthnIntegration:
                     }
                 }
 
-                credential = await self.webauthn_manager.finish_registration(
+                await self.webauthn_manager.finish_registration(
                     challenge_id=challenge_id,
                     credential_data=mock_credential_data,
                     device_name="Performance Device"
@@ -417,7 +417,7 @@ class TestOrchestrationWebAuthnIntegration:
             }
         }
 
-        credential = await self.webauthn_manager.finish_registration(
+        await self.webauthn_manager.finish_registration(
             challenge_id=challenge_id,
             credential_data=mock_credential_data
         )

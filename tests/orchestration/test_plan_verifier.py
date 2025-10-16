@@ -354,7 +354,7 @@ class TestPlanVerifierPerformance:
             ctx = VerificationContext()
 
             start = time.perf_counter()
-            outcome = verifier.verify(plan, ctx)
+            verifier.verify(plan, ctx)
             duration_ms = (time.perf_counter() - start) * 1000
 
             verification_times.append(duration_ms)
@@ -387,14 +387,14 @@ class TestPlanVerifierIntegration:
 
                     # Test allowed plan
                     allowed_plan = {'action': 'safe_action', 'params': {}}
-                    outcome = verifier.verify(allowed_plan, ctx)
+                    verifier.verify(allowed_plan, ctx)
 
                     mock_attempts.labels.assert_called_with(result='allow')
                     mock_attempts.labels().inc.assert_called_once()
 
                     # Test denied plan
                     denied_plan = {'action': 'delete_user_data', 'params': {}}
-                    outcome = verifier.verify(denied_plan, ctx)
+                    verifier.verify(denied_plan, ctx)
 
                     # Should record denial
                     mock_denials.labels.assert_called()
@@ -407,7 +407,7 @@ class TestPlanVerifierIntegration:
         initial_ledger_size = len(verifier.verification_ledger)
 
         plan = {'action': 'test_action', 'params': {}}
-        outcome = verifier.verify(plan, ctx)
+        verifier.verify(plan, ctx)
 
         # Should have new ledger entry
         assert len(verifier.verification_ledger) == initial_ledger_size + 1

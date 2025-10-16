@@ -69,7 +69,7 @@ def rag_query_context():
 def test_vector_store_initialization(mock_vector_store_client):
     """Test successful vector store initialization."""
     pytest.skip("Pending OpenAI modulated service implementation")
-    
+
     # Expected:
     # from candidate.consciousness.reflection.openai_modulated_service import OpenAIModulatedService
     # service = OpenAIModulatedService(vector_store=mock_vector_store_client)
@@ -80,7 +80,7 @@ def test_vector_store_initialization(mock_vector_store_client):
 async def test_embedding_generation(mock_openai_client, sample_documents):
     """Test embedding generation for documents."""
     pytest.skip("Pending implementation")
-    
+
     # Expected:
     # service = OpenAIModulatedService(openai_client=mock_openai_client)
     # embeddings = await service.generate_embeddings(sample_documents)
@@ -92,7 +92,7 @@ async def test_embedding_generation(mock_openai_client, sample_documents):
 async def test_document_upsert(mock_vector_store_client, sample_documents, sample_embeddings):
     """Test upserting documents to vector store."""
     pytest.skip("Pending implementation")
-    
+
     # Expected:
     # service = OpenAIModulatedService(vector_store=mock_vector_store_client)
     # result = await service.upsert_documents(sample_documents, sample_embeddings)
@@ -103,7 +103,7 @@ async def test_document_upsert(mock_vector_store_client, sample_documents, sampl
 async def test_similarity_search(mock_vector_store_client, rag_query_context):
     """Test similarity search in vector store."""
     pytest.skip("Pending implementation")
-    
+
     # Expected:
     # service = OpenAIModulatedService(vector_store=mock_vector_store_client)
     # results = await service.similarity_search(rag_query_context["query"], top_k=5)
@@ -115,7 +115,7 @@ async def test_similarity_search(mock_vector_store_client, rag_query_context):
 async def test_rag_retrieval(mock_vector_store_client, mock_openai_client, rag_query_context):
     """Test RAG retrieval pipeline."""
     pytest.skip("Pending implementation")
-    
+
     # Expected flow:
     # 1. Query embedding generated
     # 2. Similarity search performed
@@ -127,7 +127,7 @@ async def test_rag_retrieval(mock_vector_store_client, mock_openai_client, rag_q
 async def test_rag_with_metadata_filtering(rag_query_context):
     """Test RAG retrieval with metadata filtering."""
     pytest.skip("Pending implementation")
-    
+
     # Expected:
     # results = await service.rag_search(
     #     query=rag_query_context["query"],
@@ -140,7 +140,7 @@ async def test_rag_with_metadata_filtering(rag_query_context):
 async def test_rag_relevance_scoring():
     """Test RAG results include relevance scores."""
     pytest.skip("Pending implementation")
-    
+
     # Expected:
     # results = await service.rag_search(query)
     # assert all("score" in r for r in results)
@@ -153,7 +153,7 @@ async def test_embedding_generation_api_failure(mock_openai_client):
     """Test handling of OpenAI API failures."""
     mock_openai_client.embeddings.create = AsyncMock(side_effect=Exception("API Error"))
     pytest.skip("Pending implementation")
-    
+
     # Expected:
     # with pytest.raises(Exception, match="API Error"):
     #     await service.generate_embeddings(["test"])
@@ -163,7 +163,7 @@ async def test_embedding_generation_api_failure(mock_openai_client):
 async def test_vector_store_connection_failure():
     """Test handling of vector store connection failures."""
     pytest.skip("Pending implementation")
-    
+
     # Expected:
     # - Graceful error handling
     # - Retry logic
@@ -173,9 +173,9 @@ async def test_vector_store_connection_failure():
 @pytest.mark.unit
 async def test_embedding_dimension_mismatch():
     """Test handling of embedding dimension mismatches."""
-    wrong_dimension_embeddings = [np.random.rand(512).tolist()]  # Wrong dimension
+    [np.random.rand(512).tolist()]  # Wrong dimension
     pytest.skip("Pending implementation")
-    
+
     # Expected:
     # with pytest.raises(ValueError, match="Dimension mismatch"):
     #     await service.upsert_documents(docs, wrong_dimension_embeddings)
@@ -185,7 +185,7 @@ async def test_embedding_dimension_mismatch():
 async def test_empty_document_list():
     """Test handling of empty document list."""
     pytest.skip("Pending implementation")
-    
+
     # Expected:
     # result = await service.upsert_documents([])
     # assert result["upserted_count"] == 0
@@ -196,7 +196,7 @@ async def test_empty_document_list():
 async def test_batch_embedding_performance():
     """Test batch embedding generation performance."""
     pytest.skip("Pending performance benchmarking")
-    
+
     # Expected:
     # - 100 documents < 5 seconds
     # - Batch processing efficient
@@ -207,7 +207,7 @@ async def test_batch_embedding_performance():
 async def test_vector_search_latency():
     """Test vector search completes within acceptable latency."""
     pytest.skip("Pending performance benchmarking")
-    
+
     # Expected:
     # - Single search < 100ms
     # - Concurrent searches supported
@@ -218,7 +218,7 @@ async def test_vector_search_latency():
 async def test_full_rag_pipeline():
     """Test complete RAG pipeline from document to retrieval."""
     pytest.skip("Pending full integration")
-    
+
     # Expected flow:
     # 1. Ingest documents
     # 2. Generate embeddings
@@ -231,7 +231,7 @@ async def test_full_rag_pipeline():
 async def test_vector_store_with_consciousness_integration():
     """Test vector store integrates with consciousness systems."""
     pytest.skip("Pending consciousness integration")
-    
+
     # Expected:
     # - Memory fold integration
     # - Awareness context included
@@ -242,7 +242,7 @@ async def test_vector_store_with_consciousness_integration():
 async def test_vector_store_with_audit_trail():
     """Test vector store operations log to ΛTRACE."""
     pytest.skip("Pending ΛTRACE integration")
-    
+
     # Expected:
     # - Upserts logged
     # - Queries logged
@@ -253,9 +253,8 @@ async def test_vector_store_with_audit_trail():
 @pytest.mark.unit
 async def test_very_long_document():
     """Test handling of very long documents (>8k tokens)."""
-    long_doc = {"id": "long1", "text": "word " * 10000, "metadata": {}}
     pytest.skip("Pending implementation")
-    
+
     # Expected:
     # - Chunking strategy
     # - Or clear size limit error
@@ -264,12 +263,8 @@ async def test_very_long_document():
 @pytest.mark.unit
 async def test_special_characters_in_documents():
     """Test documents with special characters and unicode."""
-    special_docs = [
-        {"id": "special1", "text": "Test 用户 🎭 <script>", "metadata": {}},
-        {"id": "special2", "text": "Math: ∀x∃y: x→y", "metadata": {}}
-    ]
     pytest.skip("Pending implementation")
-    
+
     # Expected:
     # - Unicode handled correctly
     # - Special chars sanitized/escaped
@@ -278,12 +273,8 @@ async def test_special_characters_in_documents():
 @pytest.mark.unit
 async def test_duplicate_document_ids():
     """Test handling of duplicate document IDs."""
-    duplicate_docs = [
-        {"id": "doc1", "text": "First version", "metadata": {}},
-        {"id": "doc1", "text": "Second version", "metadata": {}}
-    ]
     pytest.skip("Pending implementation")
-    
+
     # Expected:
     # - Upsert behavior (update existing)
     # - Or error on duplicate
@@ -293,14 +284,8 @@ async def test_duplicate_document_ids():
 @pytest.mark.unit
 def test_vector_store_config_pinecone():
     """Test Pinecone-specific configuration."""
-    config = {
-        "provider": "pinecone",
-        "api_key": "test_key",
-        "environment": "us-west1-gcp",
-        "index_name": "lukhas-embeddings"
-    }
     pytest.skip("Pending implementation")
-    
+
     # Expected:
     # service = OpenAIModulatedService(config=config)
     # assert service.provider == "pinecone"
@@ -309,13 +294,8 @@ def test_vector_store_config_pinecone():
 @pytest.mark.unit
 def test_vector_store_config_weaviate():
     """Test Weaviate-specific configuration."""
-    config = {
-        "provider": "weaviate",
-        "url": "http://localhost:8080",
-        "class_name": "LukhasDocuments"
-    }
     pytest.skip("Pending implementation")
-    
+
     # Expected:
     # service = OpenAIModulatedService(config=config)
     # assert service.provider == "weaviate"
@@ -326,7 +306,7 @@ def test_vector_store_config_weaviate():
 async def test_document_deletion(mock_vector_store_client):
     """Test document deletion from vector store."""
     pytest.skip("Pending implementation")
-    
+
     # Expected:
     # result = await service.delete_documents(["doc1", "doc2"])
     # assert result["deleted_count"] == 2
@@ -336,7 +316,7 @@ async def test_document_deletion(mock_vector_store_client):
 async def test_bulk_deletion_with_filter():
     """Test bulk deletion using metadata filters."""
     pytest.skip("Pending implementation")
-    
+
     # Expected:
     # result = await service.delete_by_filter({"type": "deprecated"})
     # assert result["deleted_count"] > 0

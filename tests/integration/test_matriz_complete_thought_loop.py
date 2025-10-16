@@ -384,7 +384,7 @@ class TestMATRIZCompleteThoughtLoop:
         ]
 
         results = await asyncio.gather(*tasks, return_exceptions=True)
-        total_time = (time.time() - start_time) * 1000
+        (time.time() - start_time) * 1000
 
         # Validate results
         successful_results = [r for r in results if isinstance(r, ThoughtLoopResult) and r.success]

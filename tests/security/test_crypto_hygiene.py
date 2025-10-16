@@ -50,12 +50,12 @@ class TestCryptographicWeakness:
         # Test MD5 rejection
         with pytest.raises((ValueError, RuntimeError)):
             # This should be blocked by security controls
-            weak_hash = hashlib.md5(b"test")
+            hashlib.md5(b"test")
 
         # Test SHA1 rejection for security-critical operations
         with pytest.raises((ValueError, RuntimeError)):
             # SHA1 should be rejected for password hashing
-            weak_hash = hashlib.sha1(b"password")
+            hashlib.sha1(b"password")
 
     def test_strong_hash_algorithms_allowed(self):
         """Test that strong hash algorithms work correctly."""
@@ -79,7 +79,7 @@ class TestCryptographicWeakness:
         # DES should be rejected
         with pytest.raises((ValueError, ImportError)):
             from cryptography.hazmat.primitives.ciphers import algorithms
-            weak_cipher = algorithms.TripleDES(b"12345678" * 3)  # Should fail
+            algorithms.TripleDES(b"12345678" * 3)  # Should fail
 
     def test_strong_symmetric_encryption_allowed(self):
         """Test that strong symmetric encryption works."""
@@ -137,7 +137,7 @@ class TestKeyStrengthValidation:
         """Test RSA key strength requirements."""
         # Weak RSA keys should be rejected
         with pytest.raises(ValueError):
-            weak_key = rsa.generate_private_key(
+            rsa.generate_private_key(
                 public_exponent=65537,
                 key_size=1024,  # Too weak for modern standards
                 backend=default_backend()
@@ -222,7 +222,6 @@ class TestSecureRandomGeneration:
         """Test that weak random number generators are rejected."""
         # Mock the random module to ensure it's not used
         import random
-        original_random = random.random
 
         def failing_random():
             raise RuntimeError("Insecure random number generation detected")
@@ -291,11 +290,11 @@ class TestPasswordHashing:
 
         # Plain text storage should be impossible
         with pytest.raises((ValueError, RuntimeError)):
-            stored_password = password  # Should be rejected
+            pass  # Should be rejected
 
         # Simple hash without salt should be rejected
         with pytest.raises((ValueError, RuntimeError)):
-            weak_hash = hashlib.sha256(password.encode()).hexdigest()
+            hashlib.sha256(password.encode()).hexdigest()
 
     def test_secure_password_hashing(self):
         """Test secure password hashing with proper salt."""
@@ -365,7 +364,7 @@ class TestPasswordHashing:
         salt2 = secrets.token_bytes(16)
 
         hash1 = self._secure_hash_password(password1, salt1)
-        hash2 = self._secure_hash_password(password2, salt2)
+        self._secure_hash_password(password2, salt2)
 
         # Time password verification
         times = []
@@ -440,7 +439,7 @@ class TestJWTSecurity:
 
         # 'none' algorithm should be rejected
         with pytest.raises((ValueError, jwt.InvalidAlgorithmError)):
-            token = jwt.encode(payload, "", algorithm="none")
+            jwt.encode(payload, "", algorithm="none")
 
         # Decoding with 'none' should be rejected
         malicious_token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJub25lIn0.eyJ1c2VyX2lkIjoxMjN9."

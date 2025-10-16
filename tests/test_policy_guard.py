@@ -84,7 +84,7 @@ class TestPolicyGuard:
         """Test cross-lane replay policy enforcement."""
         exp_guard = PolicyGuard(lane="experimental")
         cand_guard = PolicyGuard(lane="labs")
-        prod_guard = PolicyGuard(lane="prod")
+        PolicyGuard(lane="prod")
 
         # Experimental -> Candidate: should be allowed (same or lower level)
         decision = cand_guard.check_replay(
@@ -192,7 +192,7 @@ class TestPolicyGuard:
 
         # Make some decisions
         decision1 = guard.check_replay(event_kind="action")
-        decision2 = guard.check_replay(event_kind="malicious_action")
+        guard.check_replay(event_kind="malicious_action")
 
         # Check decision log
         log = guard.get_decision_log()

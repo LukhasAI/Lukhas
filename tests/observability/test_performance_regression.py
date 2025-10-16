@@ -131,7 +131,6 @@ class TestPerformanceRegressionDetector:
         await regression_detector.record_performance_metric(metric_name, component, 0.5)  # 500ms - significant regression
 
         # Should detect regression
-        metric_key = f"{component}_{metric_name}"
         regressions = [r for r in regression_detector.detected_regressions.values() if r.metric_name == metric_name]
         assert len(regressions) > 0
 
@@ -160,7 +159,7 @@ class TestPerformanceRegressionDetector:
         assert baseline is not None
 
         # Should detect trend regression
-        regressions = [r for r in regression_detector.detected_regressions.values()
+        [r for r in regression_detector.detected_regressions.values()
                       if r.metric_name == metric_name and r.detection_method == DetectionMethod.TREND_ANALYSIS]
         # Note: Trend detection requires scipy and sufficient data points
 
@@ -192,7 +191,7 @@ class TestPerformanceRegressionDetector:
         await regression_detector.record_performance_metric(metric_name, component, 1.0)  # 10x increase
 
         # Check for ML-detected regression
-        ml_regressions = [r for r in regression_detector.detected_regressions.values()
+        [r for r in regression_detector.detected_regressions.values()
                          if r.metric_name == metric_name and r.detection_method == DetectionMethod.ISOLATION_FOREST]
         # ML detection might not always trigger depending on the model
 

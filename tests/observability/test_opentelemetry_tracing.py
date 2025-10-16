@@ -99,7 +99,7 @@ class TestLUKHASTracerWithOTel:
         tracer = LUKHASTracer("test-service", enable_auto_instrumentation=False)
 
         with pytest.raises(ValueError):
-            with tracer.trace_operation("failing_operation") as span:
+            with tracer.trace_operation("failing_operation"):
                 raise ValueError("Test exception")
 
     def test_memory_operation_tracing(self):

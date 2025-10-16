@@ -19,7 +19,7 @@ def test_models_includes_ratelimit_headers_and_trace():
     client = TestClient(app)
 
     r = client.get("/v1/models", headers={"Authorization": "Bearer testtoken"})
-    
+
     # Status may be 200 (permissive) or 401/403 (strict); we still want headers
     assert r.status_code in (200, 401, 403), f"Unexpected status: {r.status_code}"
 
@@ -53,7 +53,7 @@ def test_embeddings_includes_ratelimit_headers():
         json={"input": "test", "model": "lukhas-embed"},
         headers={"Authorization": "Bearer testtoken"}
     )
-    
+
     # May be 200 (permissive) or 401/403 (strict)
     assert r.status_code in (200, 401, 403)
 
@@ -73,7 +73,7 @@ def test_responses_includes_ratelimit_headers():
         json={"input": "test", "model": "lukhas-response", "stream": False},
         headers={"Authorization": "Bearer testtoken"}
     )
-    
+
     # May be 200 (permissive) or 401/403 (strict)
     assert r.status_code in (200, 401, 403)
 
@@ -93,13 +93,13 @@ def test_ratelimit_remaining_decreases_across_requests():
     if r1.status_code not in (200,):
         # Skip if auth is required
         return
-    
+
     remaining1 = int(float(r1.headers["x-ratelimit-remaining-requests"]))
-    
+
     # Make second request
     r2 = client.get("/v1/models", headers={"Authorization": "Bearer test123"})
     remaining2 = int(float(r2.headers["x-ratelimit-remaining-requests"]))
-    
+
     # Remaining should decrease (or stay same if bucket refilled)
     assert remaining2 <= remaining1, f"Remaining increased: {remaining1} -> {remaining2}"
 
@@ -110,12 +110,12 @@ def test_token_dimension_headers_present():
     client = TestClient(app)
 
     r = client.get("/v1/models", headers={"Authorization": "Bearer test"})
-    
+
     # Token dimension headers should be present (for OpenAI parity)
     assert "x-ratelimit-limit-tokens" in r.headers
     assert "x-ratelimit-remaining-tokens" in r.headers
     assert "x-ratelimit-reset-tokens" in r.headers
-    
+
     # Values should be numeric (may be 0 until token tracking is wired)
     int(float(r.headers["x-ratelimit-limit-tokens"]))
     int(float(r.headers["x-ratelimit-remaining-tokens"]))

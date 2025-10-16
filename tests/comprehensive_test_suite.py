@@ -585,7 +585,7 @@ class TestComprehensiveValidation:
 
         try:
             # Run representative tests
-            result = subprocess.run([
+            subprocess.run([
                 sys.executable, "-m", "pytest",
                 "tests/memory/test_topk_recall.py",
                 "tests/reliability/",

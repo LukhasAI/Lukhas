@@ -457,7 +457,7 @@ class TestGovernanceCapabilities:
         for cross-lane operations and available via statistics.
         """
         # Create guards for promotion chain
-        experimental_guard = PolicyGuard(lane="experimental")
+        PolicyGuard(lane="experimental")
         candidate_guard = PolicyGuard(lane="labs")
 
         # Test cross-lane promotion attempts

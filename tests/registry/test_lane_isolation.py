@@ -396,8 +396,8 @@ class TestLaneIsolationEnforcement:
             lane_config = self.isolation_manager.get_lane_config(lane)
 
             # Register plugins up to but not exceeding lane limits
-            memory_limit = lane_config.resource_limits['memory_mb']
-            cpu_limit = lane_config.resource_limits['cpu_percent']
+            lane_config.resource_limits['memory_mb']
+            lane_config.resource_limits['cpu_percent']
 
             # Production: small, efficient plugins
             if lane == 'production':
@@ -543,7 +543,7 @@ class TestLaneIsolationEnforcement:
 
             for plugin_name, risk_level in security_test_plugins:
                 # Determine if plugin should be allowed based on lane security level
-                should_allow = self._should_allow_plugin_by_security_policy(
+                self._should_allow_plugin_by_security_policy(
                     plugin_name, risk_level, lane_config.security_level
                 )
 

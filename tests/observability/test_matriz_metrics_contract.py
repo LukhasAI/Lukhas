@@ -600,7 +600,7 @@ class TestMATRIZMetricsContract:
         ]
 
         for operation, metric_name, test_value in operation_test_cases:
-            violations = validator.record_and_validate_matriz_metric(
+            validator.record_and_validate_matriz_metric(
                 name=metric_name,
                 value=test_value,
                 service=ServiceType.CONSCIOUSNESS,

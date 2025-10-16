@@ -193,7 +193,7 @@ def mock_template_loader():
                 ("symbolic", "high"): "⚛️ {action} ← {factors} [ψ={confidence}]"
             }
             return templates.get((format, detail_level), "Default template")
-    
+
     return MockTemplateLoader()
 
 

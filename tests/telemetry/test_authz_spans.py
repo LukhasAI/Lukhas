@@ -44,7 +44,7 @@ async def test_authz_check_span_emission(telemetry_capture, test_subjects):
     )
 
     # Make authorization decision (this should emit spans)
-    decision = await middleware.authorize_request(request)
+    await middleware.authorize_request(request)
 
     # Verify authz.check span was emitted
     authz_spans = telemetry_capture.get_authz_spans()
@@ -76,7 +76,7 @@ async def test_authz_span_attributes_allow(telemetry_capture, test_subjects, spa
     )
 
     # Make authorization decision
-    decision = await middleware.authorize_request(request)
+    await middleware.authorize_request(request)
 
     # Verify span attributes
     authz_spans = telemetry_capture.get_authz_spans()
@@ -131,7 +131,7 @@ async def test_authz_span_attributes_deny(telemetry_capture, test_subjects, span
     )
 
     # Make authorization decision
-    decision = await middleware.authorize_request(request)
+    await middleware.authorize_request(request)
 
     # Verify span attributes
     authz_spans = telemetry_capture.get_authz_spans()
@@ -180,7 +180,7 @@ async def test_authz_span_mfa_stepup(telemetry_capture, test_subjects):
         region="us-west-2"
     )
 
-    decision_no_mfa = await middleware.authorize_request(request_no_mfa)
+    await middleware.authorize_request(request_no_mfa)
 
     # Then test with MFA (should be allowed)
     request_with_mfa = AuthzRequest(
@@ -196,7 +196,7 @@ async def test_authz_span_mfa_stepup(telemetry_capture, test_subjects):
         region="us-west-2"
     )
 
-    decision_with_mfa = await middleware.authorize_request(request_with_mfa)
+    await middleware.authorize_request(request_with_mfa)
 
     # Verify both spans were emitted
     authz_spans = telemetry_capture.get_authz_spans()
@@ -243,7 +243,7 @@ async def test_authz_span_service_account(telemetry_capture, test_subjects):
     )
 
     # Make authorization decision
-    decision = await middleware.authorize_request(request)
+    await middleware.authorize_request(request)
 
     # Verify span attributes
     authz_spans = telemetry_capture.get_authz_spans()
@@ -279,7 +279,7 @@ async def test_authz_span_performance_tracking(telemetry_capture, test_subjects)
     )
 
     # Make authorization decision
-    decision = await middleware.authorize_request(request)
+    await middleware.authorize_request(request)
 
     # Verify performance tracking
     authz_spans = telemetry_capture.get_authz_spans()
@@ -320,7 +320,7 @@ async def test_authz_span_error_handling(telemetry_capture, test_subjects):
     )
 
     # Make authorization decision (should handle error gracefully)
-    decision = await middleware.authorize_request(request)
+    await middleware.authorize_request(request)
 
     # Verify span was still emitted even with error
     authz_spans = telemetry_capture.get_authz_spans()

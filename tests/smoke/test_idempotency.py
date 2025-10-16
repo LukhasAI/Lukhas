@@ -48,7 +48,7 @@ def test_idempotency_key_different_body_handled(client: TestClient) -> None:
     p1 = {"input": "hello", "model": "lukhas-embed"}
     p2 = {"input": "world", "model": "lukhas-embed"}
 
-    r1 = client.post("/v1/embeddings", headers=headers, json=p1)
+    client.post("/v1/embeddings", headers=headers, json=p1)
     r2 = client.post("/v1/embeddings", headers=headers, json=p2)
 
     assert r2.status_code in (200, 409, 401, 403), f"Unexpected: {r2.status_code}"

@@ -102,11 +102,11 @@ def validate_authorization_middleware():
         from matrix_authz_middleware import AuthzRequest, MatrixAuthzMiddleware
 
         # Test middleware instantiation
-        middleware = MatrixAuthzMiddleware(shadow_mode=True)
+        MatrixAuthzMiddleware(shadow_mode=True)
         print("  ✅ Middleware instantiation successful")
 
         # Test request creation
-        request = AuthzRequest(
+        AuthzRequest(
             subject="lukhas:user:test",
             tier="trusted",
             tier_num=3,
