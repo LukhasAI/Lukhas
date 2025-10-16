@@ -453,6 +453,48 @@ async function robustLukhasCall(prompt: string): Promise<string> {
 }
 ```
 
+#### API Headers & Multi-Tenant Routing
+
+**Request Correlation Headers:**
+- `X-Request-Id` (OpenAI-style) - Request correlation, alias for `X-Trace-Id`
+- `X-Trace-Id` (LUKHAS-native) - W3C distributed tracing
+
+**Rate Limit Headers (Response):**
+- `X-RateLimit-Limit` / `x-ratelimit-limit-requests` - Maximum requests per window
+- `X-RateLimit-Remaining` / `x-ratelimit-remaining-requests` - Remaining requests
+- `X-RateLimit-Reset` / `x-ratelimit-reset-requests` - Epoch seconds until reset
+
+**Multi-Tenant Routing (Optional):**
+```bash
+# Pass organization and project headers for fine-grained routing
+curl https://api.lukhas.ai/v1/models \
+  -H "Authorization: Bearer $LUKHAS_API_KEY" \
+  -H "OpenAI-Organization: org_abc123" \
+  -H "OpenAI-Project: proj_xyz789"
+```
+
+**Reading Headers in Code:**
+
+```typescript
+// TypeScript - Check rate limits
+const reqId = response.headers.get('x-request-id') ?? response.headers.get('X-Request-Id');
+const limit = parseInt(response.headers.get('x-ratelimit-limit-requests') || '0');
+const remaining = parseInt(response.headers.get('x-ratelimit-remaining-requests') || '0');
+const reset = parseInt(response.headers.get('x-ratelimit-reset-requests') || '0');
+
+console.log(`Request ${reqId}: ${remaining}/${limit} remaining, resets at ${new Date(reset * 1000)}`);
+```
+
+```python
+# Python - Check rate limits
+req_id = r.headers.get('X-Request-Id') or r.headers.get('x-request-id')
+limit = int(r.headers.get('x-ratelimit-limit-requests', 0))
+remaining = int(r.headers.get('x-ratelimit-remaining-requests', 0))
+reset = int(r.headers.get('x-ratelimit-reset-requests', 0))
+
+print(f"Request {req_id}: {remaining}/{limit} remaining, resets at {datetime.fromtimestamp(reset)}")
+```
+
 **Key Features:**
 - ✅ **OpenAI-compatible** - Drop-in replacement for existing OpenAI integrations
 - ✅ **Idempotency** - Safe request retries with `Idempotency-Key` header
