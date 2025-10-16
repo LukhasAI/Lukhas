@@ -217,6 +217,7 @@ try:
                 trace_id = uuid.uuid4().hex
 
             resp.headers.setdefault("X-Trace-Id", trace_id)
+            resp.headers.setdefault("X-Request-Id", trace_id)  # OpenAI-style alias
 
             # Record trace coverage metrics
             if PROMETHEUS_AVAILABLE_TRACE and TRACE_COUNTER:

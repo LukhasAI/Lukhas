@@ -63,6 +63,22 @@ _request_counts: Dict[str, int] = defaultdict(int)
 _request_latencies: Dict[str, List[float]] = defaultdict(list)
 _error_counts: Dict[str, int] = defaultdict(int)
 
+
+def _alias_rate_limit_headers(headers: Dict[str, str]) -> Dict[str, str]:
+    """
+    Ensure OpenAI-style lowercase rate-limit aliases accompany canonical headers.
+    Mutates and returns the provided headers mapping.
+    """
+    if "X-RateLimit-Limit" in headers:
+        headers.setdefault("x-ratelimit-limit-requests", headers["X-RateLimit-Limit"])
+    if "X-RateLimit-Remaining" in headers:
+        headers.setdefault(
+            "x-ratelimit-remaining-requests", headers["X-RateLimit-Remaining"]
+        )
+    if "X-RateLimit-Reset" in headers:
+        headers.setdefault("x-ratelimit-reset-requests", headers["X-RateLimit-Reset"])
+    return headers
+
 # Try to import MATRIZ orchestrator (graceful fallback to stub mode)
 try:
     from matriz.core.orchestrator import CognitiveOrchestrator
@@ -172,10 +188,17 @@ def get_app() -> FastAPI:
 
     def _trace_headers(request: Request) -> dict:
         tid = getattr(getattr(request, "state", object()), "trace_id", None)
-        return {"X-Trace-Id": tid} if tid else {}
+        headers = {}
+        if tid:
+            headers["X-Trace-Id"] = tid
+            headers["X-Request-Id"] = tid  # OpenAI-style alias
+        return headers
 
-    def _payload(code: str, message: str) -> dict:
-        return {"error": {"type": code, "message": message, "code": code}}
+    def _payload(code: str, message: str, param: Optional[str] = None) -> dict:
+        err = {"type": code, "message": message, "code": code}
+        if param:
+            err["param"] = param
+        return {"error": err}
 
     async def _http_exc_handler(request: Request, exc: StarletteHTTPException):
         code = OPENAI_ERROR_CODE_BY_STATUS.get(exc.status_code, "http_error")
@@ -205,11 +228,12 @@ def get_app() -> FastAPI:
             )
             if isinstance(win, dict):
                 if "limit" in win:
-                    resp.headers["X-RateLimit-Limit"] = str(win["limit"])
+                    resp.headers.setdefault("X-RateLimit-Limit", str(win["limit"]))
                 if "remaining" in win:
-                    resp.headers["X-RateLimit-Remaining"] = str(win["remaining"])
+                    resp.headers.setdefault("X-RateLimit-Remaining", str(win["remaining"]))
                 if "reset_in" in win:
-                    resp.headers["X-RateLimit-Reset"] = str(win["reset_in"])
+                    resp.headers.setdefault("X-RateLimit-Reset", str(win["reset_in"]))
+                _alias_rate_limit_headers(resp.headers)
         except Exception:
             pass
 
@@ -264,6 +288,8 @@ def get_app() -> FastAPI:
                 data_classification="internal",  # Default classification
                 policy_etag=app.state.pdp.policy.etag if app.state.pdp else "unknown",
                 trace_id=getattr(getattr(request, "state", object()), "trace_id", "unknown"),
+                # Add project_id if available from OpenAI-Project header
+                project_id=getattr(claims, "project_id", None),
             )
 
             # Evaluate policy
@@ -367,10 +393,11 @@ def get_app() -> FastAPI:
                     # Add span attributes for response
                     span.set_attribute("http.status_code", response.status_code)
 
-                    # Add trace ID to response headers
+                    # Add trace ID to response headers (both X-Trace-Id and X-Request-Id)
                     trace_id = get_trace_id_hex(span)
                     if trace_id:
                         response.headers["X-Trace-Id"] = trace_id
+                        response.headers["X-Request-Id"] = trace_id  # OpenAI-style alias
 
                     return response
                 except Exception as e:
@@ -433,6 +460,7 @@ def get_app() -> FastAPI:
                 pass
 
             headers = rate_limiter.headers_for(rl_key)
+            headers = _alias_rate_limit_headers(headers)
             headers["Retry-After"] = str(int(math.ceil(retry_after))) if retry_after else "1"
 
             error_response = rate_limit_error(retry_after)
@@ -443,8 +471,9 @@ def get_app() -> FastAPI:
 
         # Phase 3: Add rate-limit headers to successful responses
         try:
-            response.headers.update(rate_limiter.headers_for(rl_key))
-
+            rl_headers = rate_limiter.headers_for(rl_key)
+            response.headers.update(rl_headers)
+            _alias_rate_limit_headers(response.headers)
             # Record metrics for successful requests
             from lukhas.observability.ratelimit_metrics import record_window
 
@@ -681,17 +710,29 @@ def get_app() -> FastAPI:
         _pol: TokenClaims = Depends(enforce_policy("models:read")),
     ):
         """List available models."""
-        return {
-            "data": [
-                {
-                    "id": "lukhas-matriz",
-                    "object": "model",
-                    "created": 1699564800,
-                    "owned_by": "lukhas-ai",
-                    "capabilities": ["responses", "embeddings", "dreams"],
-                }
-            ]
-        }
+        models = [
+            {
+                "id": "lukhas-matriz",
+                "object": "model",
+                "created": 1699564800,
+                "owned_by": "lukhas-ai",
+                "capabilities": ["responses", "embeddings", "dreams"],
+            }
+        ]
+
+        return JSONResponse(
+            {
+                "object": "list",
+                "data": [
+                    {
+                        "id": model["id"],
+                        "object": "model",
+                        **{k: v for k, v in model.items() if k != "id" and k != "object"},
+                    }
+                    for model in models
+                ],
+            }
+        )
 
     @app.post("/v1/embeddings")
     async def embeddings(
@@ -781,11 +822,14 @@ def get_app() -> FastAPI:
             )
             if isinstance(win, dict):
                 if "limit" in win:
-                    resp.headers["X-RateLimit-Limit"] = str(win.get("limit", ""))
+                    resp.headers.setdefault("X-RateLimit-Limit", str(win.get("limit", "")))
                 if "remaining" in win:
-                    resp.headers["X-RateLimit-Remaining"] = str(win.get("remaining", ""))
+                    resp.headers.setdefault(
+                        "X-RateLimit-Remaining", str(win.get("remaining", ""))
+                    )
                 if "reset_in" in win:
-                    resp.headers["X-RateLimit-Reset"] = str(win.get("reset_in", ""))
+                    resp.headers.setdefault("X-RateLimit-Reset", str(win.get("reset_in", "")))
+                _alias_rate_limit_headers(resp.headers)
         except Exception:
             pass
 
