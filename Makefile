@@ -1480,12 +1480,20 @@ openapi-spec: ## Generate OpenAPI JSON spec with metadata polish
 
 openapi-validate: ## Validate OpenAPI spec against OpenAPI 3.1 schema
 	@echo "✅ Validating OpenAPI spec..."
-	@python3 -m pip install --upgrade openapi-spec-validator >/dev/null || true
-	@python3 scripts/validate_openapi.py
+	@python -m pip install --upgrade openapi-spec-validator >/dev/null || true
+	@python -c "import json; from openapi_spec_validator import openapi_v3_spec_validator;\
+spec=json.load(open('docs/openapi/lukhas-openai.json'));\
+errors=list(openapi_v3_spec_validator.iter_errors(spec));\
+assert not errors, f'OpenAPI schema errors: {errors[:5]}';\
+print('✅ OpenAPI validation passed')"
 
 openapi-headers-guard: openapi-spec ## Verify X-RateLimit-* headers present on all 2xx/4xx/5xx responses
 	@echo "🛡️  Checking OpenAPI spec for required X-RateLimit-* headers..."
 	@python3 scripts/check_openapi_headers.py
+
+shadow-diff: ## Compare Lukhas façade responses with OpenAI for parity
+	@echo "🔍 Running shadow diff harness..."
+	@PYTHONPATH=. python3 scripts/shadow_diff.py
 
 .PHONY: guard
 guard: ## Validate Guardian policy schema
@@ -1503,17 +1511,13 @@ openapi-diff: openapi-spec ## Diff OpenAPI spec against main branch (requires gi
 compat-enforce: ## Check compat alias hits (LUKHAS_COMPAT_MAX_HITS=0 in Phase 3)
 	@echo "🔒 Checking compat alias hits..."
 	@LUKHAS_COMPAT_MAX_HITS=0 python3 scripts/report_compat_hits.py --out docs/audits/compat_alias_hits.json || true
-	@python3 - <<'PY'
-	import json, sys
-	try:
-	    data = json.load(open("docs/audits/compat_alias_hits.json"))
-	    hits = sum(v if isinstance(v, int) else v.get("count", 0) for v in data.values())
-	    print(f"Compat alias hits: {hits}")
-	    sys.exit(0 if hits <= 0 else 2)
-	except FileNotFoundError:
-	    print("✅ No compat hits file (0 hits)")
-	    sys.exit(0)
-	PY
+	@python -c "import json, sys, pathlib; path=pathlib.Path('docs/audits/compat_alias_hits.json');\
+data=json.load(path.open()) if path.exists() else {};\
+hits = 0;\
+for value in data.values():\
+    hits += value if isinstance(value, int) else value.get('count', 0);\
+print(f'Compat alias hits: {hits}');\
+sys.exit(0 if hits <= 0 else 2)"
 
 compat-remove: ## Remove lukhas/compat/ directory (Phase 3 gate: run after hits=0 for 48h)
 	@echo "⚠️  Removing compat layer..."
@@ -1594,12 +1598,6 @@ state-sweep: ## Run automated state sweep (Ruff, candidate refs, OpenAPI, etc.)
 	@echo "🔍 Running state sweep..."
 	@./scripts/state_sweep_and_prepare_prs.sh
 	@echo "✅ State sweep complete. Check docs/audits/live/<timestamp>/"
-
-.PHONY: shadow-diff
-shadow-diff: ## Run shadow-diff comparison (Lukhas vs OpenAI alignment)
-	@echo "🔍 Running shadow-diff harness..."
-	@python3 scripts/shadow_diff.py
-	@echo "✅ Shadow-diff complete. Check docs/audits/shadow/<date>/"
 
 .PHONY: plan-colony-renames
 plan-colony-renames: ## Generate colony rename plan (dry-run, no execution)
