@@ -20,7 +20,7 @@ from typing import Any
 
 import numpy as np
 
-from .. import GestureRecognizer, GestureType
+from .. import EdgeGestureProcessor, GestureRecognizer, GestureType
 
 
 class StrokeGestureRecognizer(GestureRecognizer):
@@ -400,9 +400,6 @@ def create_gesture_recognizer(gesture_type: GestureType) -> GestureRecognizer:
     else:
         raise ValueError(f"Unsupported gesture type: {gesture_type}")
 
-
-# Import EdgeGestureProcessor from parent module
-from .. import EdgeGestureProcessor
 
 __all__ = [
     "EdgeGestureProcessor",  # Re-export from parent
