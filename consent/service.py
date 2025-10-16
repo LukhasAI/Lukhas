@@ -19,6 +19,7 @@ import json
 import secrets
 import time
 from datetime import datetime, timedelta, timezone
+from enum import Enum
 from typing import Any, Optional
 
 import asyncpg
@@ -111,9 +112,6 @@ class ConsentLedgerEntry(BaseModel):
     use_count: int
     status: str
     active_tokens: int
-
-
-from enum import Enum
 
 
 class EscalationLevel(Enum):

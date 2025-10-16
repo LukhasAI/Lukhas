@@ -31,7 +31,9 @@ from typing import Any, Optional
 
 import uvicorn
 from fastapi import Depends, FastAPI, HTTPException, Request, status
+from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel, ConfigDict, Field
 from slowapi import Limiter, _rate_limit_exceeded_handler
@@ -630,9 +632,6 @@ async def shutdown_event():
 # ===============================================================================
 # Error Handlers
 # ===============================================================================
-
-from fastapi.encoders import jsonable_encoder
-from fastapi.responses import JSONResponse
 
 
 @app.exception_handler(HTTPException)
