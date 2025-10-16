@@ -674,7 +674,7 @@ class TestLifecycleIntegration:
 
         # Mock the list_expired_documents to return our test documents
         with patch.object(vector_store, 'list_expired_documents', return_value=documents[:10]):
-            stats = await manager.cleanup_expired_documents(max_documents=10)
+            await manager.cleanup_expired_documents(max_documents=10)
 
         end_time = asyncio.get_event_loop().time()
         duration_ms = (end_time - start_time) * 1000

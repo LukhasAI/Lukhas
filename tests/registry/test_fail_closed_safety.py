@@ -306,7 +306,7 @@ class TestFailClosedSafetyMechanisms:
 
         try:
             # Attempt to instantiate resource-hungry plugin
-            instance = _instantiate_plugin('resource_exhaustion', ResourcePlugin)
+            _instantiate_plugin('resource_exhaustion', ResourcePlugin)
 
             # Check memory usage didn't grow excessively
             final_memory = process.memory_info().rss
@@ -331,7 +331,7 @@ class TestFailClosedSafetyMechanisms:
         start_time = time.time()
 
         # Attempt to instantiate plugin with infinite loop
-        instance = _instantiate_plugin('infinite_loop', InfinitePlugin)
+        _instantiate_plugin('infinite_loop', InfinitePlugin)
 
         duration = time.time() - start_time
 
@@ -411,7 +411,7 @@ class TestFailClosedSafetyMechanisms:
 
         error_count = 0
         while not errors.empty():
-            error = errors.get()
+            errors.get()
             error_count += 1
 
         # System should survive concurrent failures
@@ -483,7 +483,7 @@ class TestFailClosedSafetyMechanisms:
         """Test that system can recover from failure states"""
 
         # Simulate failure state
-        original_reg = dict(_REG)
+        dict(_REG)
 
         # Corrupt registry state
         _REG.clear()
@@ -588,7 +588,7 @@ class TestRegistryFailClosedIntegration:
 
         # Clear registry
         _REG.clear()
-        initial_state = dict(_REG)
+        dict(_REG)
 
         # System should start in safe state
         assert len(_REG) == 0, "Should start with empty registry"

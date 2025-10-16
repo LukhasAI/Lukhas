@@ -70,7 +70,7 @@ class TestEvidenceCollectionEngine:
     async def test_evidence_integrity_verification(self, evidence_engine):
         """Test evidence integrity verification"""
         # Collect evidence
-        evidence_id = await evidence_engine.collect_evidence(
+        await evidence_engine.collect_evidence(
             evidence_type=EvidenceType.AI_DECISION,
             source_component="test_ai",
             operation="decision_made",
@@ -154,7 +154,7 @@ class TestEvidenceCollectionEngine:
             "metadata": {"items": [f"item_{i}" for i in range(100)]},
         }
 
-        evidence_id = await evidence_engine.collect_evidence(
+        await evidence_engine.collect_evidence(
             evidence_type=EvidenceType.PERFORMANCE_METRIC,
             source_component="performance_monitor",
             operation="large_data_operation",
@@ -172,7 +172,7 @@ class TestEvidenceCollectionEngine:
     async def test_evidence_retention_policy(self, evidence_engine):
         """Test evidence retention policy enforcement"""
         # Create evidence with specific retention
-        evidence_id = await evidence_engine.collect_evidence(
+        await evidence_engine.collect_evidence(
             evidence_type=EvidenceType.REGULATORY_EVENT,
             source_component="compliance_monitor",
             operation="gdpr_request",
@@ -247,7 +247,6 @@ class TestEvidenceCollectionEngine:
         # Get the evidence record
         if evidence_engine.current_chain:
             record = evidence_engine.current_chain[0]
-            original_integrity = record.integrity_hash
 
             # Tamper with the payload
             record.payload["source_ip"] = "malicious_tampering"
@@ -327,7 +326,7 @@ class TestComplianceIntegration:
     @pytest.mark.asyncio
     async def test_gdpr_compliance(self, evidence_engine):
         """Test GDPR compliance evidence handling"""
-        evidence_id = await evidence_engine.collect_evidence(
+        await evidence_engine.collect_evidence(
             evidence_type=EvidenceType.DATA_ACCESS,
             source_component="user_service",
             operation="export_user_data",

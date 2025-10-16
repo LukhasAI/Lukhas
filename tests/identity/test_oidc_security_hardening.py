@@ -130,7 +130,7 @@ class TestOIDCSecurityHardening:
     async def test_rate_limiting_protection(self, security_hardening,
                                           valid_auth_params, request_context):
         """Test rate limiting blocks excessive requests"""
-        client_id = valid_auth_params['client_id']
+        valid_auth_params['client_id']
 
         # Make requests up to the limit
         for i in range(10):

@@ -710,7 +710,6 @@ class TestProductionHardening:
 
         engine = EthicsEngine(RuleSet(rules))
         plan = {"action": "test", "params": {}}
-        context = {"user_id": "test_user"}
 
         result = engine.evaluate_plan(plan)
 

@@ -975,7 +975,7 @@ class ComprehensiveCoverageFramework:
             if "t4_latency_compliance" in scenario.name:
                 start_time = time.perf_counter()
 
-                result = await self.cognitive_components['thought_engine'].synthesize_thought(
+                await self.cognitive_components['thought_engine'].synthesize_thought(
                     "T4 latency compliance test",
                     context={'complexity': ThoughtComplexity.MODERATE}
                 )

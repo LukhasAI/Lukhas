@@ -569,9 +569,9 @@ class TestPerformanceBenchmarks:
             start_time = time.perf_counter()
 
             # Full pipeline: validate, serialize, deserialize
-            validate_result = validate_guardian(decision_data)
+            validate_guardian(decision_data)
             serialize_result = serialize_guardian(decision_data)
-            deserialize_result = deserialize_guardian(serialize_result.serialized_data)
+            deserialize_guardian(serialize_result.serialized_data)
 
             end_time = time.perf_counter()
             latency = (end_time - start_time) * 1000  # Convert to ms

@@ -121,11 +121,6 @@ class TestSimulationSmoke:
     @pytest.mark.skipif(not SIMULATION_AVAILABLE, reason="Simulation module not available")
     def test_dream_inbox_memory_gating(self):
         """Test that Dream Inbox writes are properly memory-gated."""
-        simulation_result = {
-            "simulation_id": "sim_001",
-            "type": "consciousness_probe_result",
-            "data": {"insights": ["pattern_1", "pattern_2"]}
-        }
 
         # Test without memory.inbox.dreams.write scope
         with patch("consciousness.simulation.verify_capability") as mock_verify:

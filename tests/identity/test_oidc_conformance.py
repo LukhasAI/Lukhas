@@ -174,7 +174,7 @@ class TestOIDCDiscovery(OIDCConformanceTestSuite):
     async def test_jwks_endpoint_validation(self, oidc_provider):
         """Test JWKS endpoint structure and key validation"""
         discovery = DiscoveryProvider(oidc_provider.config)
-        doc = await discovery.get_discovery_document()
+        await discovery.get_discovery_document()
 
         # Mock JWKS response based on provider configuration
         jwks = {
@@ -677,7 +677,7 @@ class TestOIDCMetricsIntegration(OIDCConformanceTestSuite):
 
             # In real implementation, this would be HTTP request to /.well-known/jwks.json
             discovery = DiscoveryProvider(oidc_provider.config)
-            doc = await discovery.get_discovery_document()
+            await discovery.get_discovery_document()
 
             latency = (time.perf_counter() - start_time) * 1000
             jwks_latencies.append(latency)

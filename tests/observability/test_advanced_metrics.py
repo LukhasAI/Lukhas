@@ -140,7 +140,7 @@ class TestAdvancedMetricsSystem:
         await advanced_metrics_system.record_advanced_metric(metric_name, 200.0)  # Outlier
 
         # Check for ML-detected anomalies
-        ml_anomalies = [
+        [
             a for a in advanced_metrics_system.detected_anomalies
             if a.metric_name == metric_name and a.anomaly_type == AnomalyType.ISOLATION_FOREST
         ]
@@ -370,7 +370,7 @@ class TestAnomalyDetection:
         )
 
         # Should detect trend-based anomaly
-        trend_anomalies = [
+        [
             a for a in advanced_metrics_system.detected_anomalies
             if a.metric_name == metric_name and a.anomaly_type == AnomalyType.TREND_ANALYSIS
         ]
@@ -435,7 +435,7 @@ class TestErrorHandling:
         await advanced_metrics_system.record_advanced_metric(metric_name, 100.0)
 
         # Should not crash, but may not detect anomalies
-        anomalies = [a for a in advanced_metrics_system.detected_anomalies if a.metric_name == metric_name]
+        [a for a in advanced_metrics_system.detected_anomalies if a.metric_name == metric_name]
         # May or may not have anomalies depending on implementation
 
     def test_compliance_metric_invalid_regulation(self, advanced_metrics_system):
@@ -474,7 +474,7 @@ class TestPerformanceOptimization:
 
     def test_memory_usage_bounds(self, advanced_metrics_system):
         """Test that memory usage stays within bounds"""
-        initial_metric_count = len(advanced_metrics_system.metric_history)
+        len(advanced_metrics_system.metric_history)
 
         # Record many metrics to test memory bounds
         for i in range(20000):  # Exceed maxlen of deques

@@ -417,7 +417,7 @@ class TestSchemaSnapshotProtection:
 
     def test_fail_closed_compliance_preserved(self, schema: Dict[str, Any], schema_snapshot: Dict[str, Any]):
         """Test that fail-closed behavior compliance is preserved."""
-        fail_closed = schema_snapshot["schema_structure"]["fail_closed_defaults"]
+        schema_snapshot["schema_structure"]["fail_closed_defaults"]
 
         # Verify error status is in decision enum (fail-closed behavior)
         decision_statuses = schema["$defs"]["Decision"]["properties"]["status"]["enum"]
@@ -631,7 +631,7 @@ class TestIntegrityValidation:
 
         # For testing, we'll update the expected hash with computed value
         # In production, this would be computed during envelope creation
-        expected_hash = integrity["content_sha256"]
+        integrity["content_sha256"]
 
         # The hash should match (in real implementation)
         # For this test, we'll verify the hashing mechanism works

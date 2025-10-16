@@ -247,7 +247,7 @@ class TestMemoryProductionLoad:
         print(f"\n🧠 Testing {num_folds} sustained fold operations...")
 
         start_time = time.perf_counter()
-        results = load_framework.simulate_memory_fold_operations(num_folds)
+        load_framework.simulate_memory_fold_operations(num_folds)
         total_duration = time.perf_counter() - start_time
 
         # Generate and print report
@@ -307,7 +307,7 @@ class TestMemoryProductionLoad:
         print(f"\n📈 Testing {load_level} load level (scale: {scale})...")
 
         # Run scaled test
-        results = framework.simulate_memory_fold_operations(scale // 10)
+        framework.simulate_memory_fold_operations(scale // 10)
 
         # Performance should degrade gracefully
         if framework.results["latencies_ms"]:

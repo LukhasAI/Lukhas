@@ -153,7 +153,7 @@ class TestSQLiteSessionStore:
 
     def test_sqlite_store_initialization(self, temp_db_path):
         """Test SQLite store initialization"""
-        store = SQLiteSessionStore(db_path=temp_db_path)
+        SQLiteSessionStore(db_path=temp_db_path)
         assert temp_db_path.exists()
 
     @pytest.mark.asyncio

@@ -26,9 +26,9 @@ name: test_config
 version: 1.0
 enabled: true
 """
-    
+
     data = yaml.safe_load(yaml_content)
-    
+
     assert data["name"] == "test_config"
     assert data["version"] == 1.0
     assert data["enabled"] is True
@@ -45,9 +45,9 @@ database:
     username: admin
     password: secret
 """
-    
+
     data = yaml.safe_load(yaml_content)
-    
+
     assert data["database"]["host"] == "localhost"
     assert data["database"]["port"] == 5432
     assert data["database"]["credentials"]["username"] == "admin"
@@ -63,9 +63,9 @@ tiers:
   - gamma
   - delta
 """
-    
+
     data = yaml.safe_load(yaml_content)
-    
+
     assert len(data["tiers"]) == 4
     assert "alpha" in data["tiers"]
     assert "delta" in data["tiers"]
@@ -80,9 +80,9 @@ description: |
   description that spans
   multiple lines.
 """
-    
+
     data = yaml.safe_load(yaml_content)
-    
+
     assert "multiline" in data["description"]
     assert "\n" in data["description"]
 
@@ -95,9 +95,9 @@ description: |
 def test_json_parse_basic():
     """Test basic JSON parsing."""
     json_content = '{"name": "test", "value": 123, "active": true}'
-    
+
     data = json.loads(json_content)
-    
+
     assert data["name"] == "test"
     assert data["value"] == 123
     assert data["active"] is True
@@ -117,9 +117,9 @@ def test_json_parse_nested():
   }
 }
 '''
-    
+
     data = json.loads(json_content)
-    
+
     assert data["user"]["id"] == "user123"
     assert data["user"]["profile"]["tier"] == "alpha"
 
@@ -128,9 +128,9 @@ def test_json_parse_nested():
 def test_json_parse_array():
     """Test JSON array parsing."""
     json_content = '{"numbers": [1, 2, 3, 4, 5]}'
-    
+
     data = json.loads(json_content)
-    
+
     assert len(data["numbers"]) == 5
     assert sum(data["numbers"]) == 15
 
@@ -146,7 +146,7 @@ def test_config_required_fields():
         """Validate configuration has required fields."""
         required_fields = ["name", "version", "enabled"]
         return all(field in config for field in required_fields)
-    
+
     # Valid config
     valid_config = {
         "name": "service",
@@ -154,7 +154,7 @@ def test_config_required_fields():
         "enabled": True
     }
     assert validate_config(valid_config)
-    
+
     # Invalid config (missing field)
     invalid_config = {
         "name": "service",
@@ -170,15 +170,15 @@ def test_config_type_validation():
         """Validate configuration field types."""
         if not isinstance(config.get("name"), str):
             return False
-        
+
         if not isinstance(config.get("port"), int):
             return False
-        
+
         if not isinstance(config.get("enabled"), bool):
             return False
-        
+
         return True
-    
+
     # Valid types
     valid_config = {
         "name": "service",
@@ -186,7 +186,7 @@ def test_config_type_validation():
         "enabled": True
     }
     assert validate_types(valid_config)
-    
+
     # Invalid types
     invalid_config = {
         "name": "service",
@@ -205,28 +205,28 @@ def test_config_value_constraints():
         port = config.get("port", 0)
         if not (1 <= port <= 65535):
             return False
-        
+
         # Name must not be empty
         name = config.get("name", "")
         if len(name) == 0:
             return False
-        
+
         return True
-    
+
     # Valid constraints
     valid_config = {
         "name": "service",
         "port": 8000
     }
     assert validate_constraints(valid_config)
-    
+
     # Invalid constraints
     invalid_configs = [
         {"name": "service", "port": 0},      # Port too low
         {"name": "service", "port": 70000},  # Port too high
         {"name": "", "port": 8000},          # Empty name
     ]
-    
+
     for config in invalid_configs:
         assert not validate_constraints(config)
 
@@ -246,17 +246,17 @@ def test_config_default_values():
             "debug": False,
             "timeout": 30
         }
-        
+
         # Merge with defaults
         result = defaults.copy()
         result.update(config)
         return result
-    
+
     # Partial config
     partial_config = {"host": "0.0.0.0", "debug": True}
-    
+
     full_config = apply_defaults(partial_config)
-    
+
     # Verify defaults applied
     assert full_config["host"] == "0.0.0.0"  # Overridden
     assert full_config["port"] == 8000       # Default
@@ -270,21 +270,21 @@ def test_config_environment_override():
     def apply_env_overrides(config: Dict[str, Any], env: Dict[str, str]) -> Dict[str, Any]:
         """Apply environment variable overrides to config."""
         result = config.copy()
-        
+
         # Override from environment
         if "PORT" in env:
             result["port"] = int(env["PORT"])
-        
+
         if "DEBUG" in env:
             result["debug"] = env["DEBUG"].lower() == "true"
-        
+
         return result
-    
+
     base_config = {"port": 8000, "debug": False}
     env_vars = {"PORT": "9000", "DEBUG": "true"}
-    
+
     overridden_config = apply_env_overrides(base_config, env_vars)
-    
+
     assert overridden_config["port"] == 9000
     assert overridden_config["debug"] is True
 
@@ -311,9 +311,9 @@ tiers:
     multiplier: 1.0
     rate_limit: 100
 """
-    
+
     config = yaml.safe_load(tier_yaml)
-    
+
     # Verify tiers
     assert len(config["tiers"]) == 4
     assert config["tiers"]["alpha"]["multiplier"] == 3.0
@@ -326,26 +326,26 @@ def test_tier_config_validation():
     def validate_tier_config(config: Dict[str, Any]) -> bool:
         """Validate tier configuration structure."""
         required_tiers = ["alpha", "beta", "gamma", "delta"]
-        
+
         if "tiers" not in config:
             return False
-        
+
         tiers = config["tiers"]
-        
+
         # Check all required tiers present
         for tier in required_tiers:
             if tier not in tiers:
                 return False
-            
+
             # Check required fields
             if "multiplier" not in tiers[tier]:
                 return False
-            
+
             if "rate_limit" not in tiers[tier]:
                 return False
-        
+
         return True
-    
+
     # Valid config
     valid_config = {
         "tiers": {
@@ -356,7 +356,7 @@ def test_tier_config_validation():
         }
     }
     assert validate_tier_config(valid_config)
-    
+
     # Invalid config (missing tier)
     invalid_config = {
         "tiers": {
@@ -379,15 +379,15 @@ def test_config_merge_flat():
         "port": 8000,
         "debug": False
     }
-    
+
     override_config = {
         "port": 9000,
         "debug": True
     }
-    
+
     # Merge (override takes precedence)
     merged = {**base_config, **override_config}
-    
+
     assert merged["host"] == "localhost"  # From base
     assert merged["port"] == 9000         # Overridden
     assert merged["debug"] is True        # Overridden
@@ -399,15 +399,15 @@ def test_config_merge_nested():
     def deep_merge(base: Dict, override: Dict) -> Dict:
         """Deep merge two dictionaries."""
         result = base.copy()
-        
+
         for key, value in override.items():
             if key in result and isinstance(result[key], dict) and isinstance(value, dict):
                 result[key] = deep_merge(result[key], value)
             else:
                 result[key] = value
-        
+
         return result
-    
+
     base = {
         "database": {
             "host": "localhost",
@@ -415,16 +415,16 @@ def test_config_merge_nested():
             "pool": {"min": 1, "max": 10}
         }
     }
-    
+
     override = {
         "database": {
             "port": 5433,
             "pool": {"max": 20}
         }
     }
-    
+
     merged = deep_merge(base, override)
-    
+
     assert merged["database"]["host"] == "localhost"  # Preserved
     assert merged["database"]["port"] == 5433         # Overridden
     assert merged["database"]["pool"]["min"] == 1     # Preserved
@@ -443,12 +443,12 @@ def test_config_to_yaml():
         "version": "1.0",
         "tiers": ["alpha", "beta", "gamma", "delta"]
     }
-    
+
     yaml_str = yaml.dump(config)
-    
+
     # Parse back
     parsed = yaml.safe_load(yaml_str)
-    
+
     assert parsed["name"] == config["name"]
     assert parsed["tiers"] == config["tiers"]
 
@@ -461,12 +461,12 @@ def test_config_to_json():
         "port": 8000,
         "enabled": True
     }
-    
+
     json_str = json.dumps(config, indent=2)
-    
+
     # Parse back
     parsed = json.loads(json_str)
-    
+
     assert parsed == config
 
 
@@ -491,19 +491,19 @@ def test_config_full_lifecycle():
             "delta": {"multiplier": 1.0}
         }
     }
-    
+
     # 2. Serialize to YAML
     yaml_str = yaml.dump(config)
     assert "lukhas-api" in yaml_str
-    
+
     # 3. Parse back
     parsed = yaml.safe_load(yaml_str)
     assert parsed["service"]["name"] == "lukhas-api"
-    
+
     # 4. Apply defaults
     defaults = {"service": {"host": "localhost", "debug": False}}
     merged = {**defaults, **parsed}
-    
+
     # 5. Validate
     assert "service" in merged
     assert merged["service"]["port"] == 8000
@@ -533,17 +533,17 @@ def test_matriz_yaml_structure():
             }
         }
     }
-    
+
     # Validate structure
     assert "lanes" in matriz_structure
     assert len(matriz_structure["lanes"]) == 4
-    
+
     # Validate lane configurations
     for lane_name, lane_config in matriz_structure["lanes"].items():
         assert "path" in lane_config
         assert "allowed_imports" in lane_config
         assert isinstance(lane_config["allowed_imports"], list)
-    
+
     # Verify import restrictions
     assert "lukhas" not in matriz_structure["lanes"]["labs"]["allowed_imports"]
     assert "core" in matriz_structure["lanes"]["lukhas"]["allowed_imports"]

@@ -397,7 +397,7 @@ class TestCreativityEngine:
         assert len(snapshot.ideas) >= 3
 
         # Ideas should reference constraints in validation
-        constraint_checks = [
+        [
             check for check in snapshot.validation_checks
             if "constraint" in check.get("type", "").lower()
         ]

@@ -121,7 +121,7 @@ class TestAuthzTelemetrySmoke:
         }
 
         # Simulate authorization
-        result = simulate_authz_check(tracer, input_data, contract, allow=True)
+        simulate_authz_check(tracer, input_data, contract, allow=True)
 
         # Check that span was created
         spans = exporter.get_finished_spans()
@@ -166,7 +166,7 @@ class TestAuthzTelemetrySmoke:
         }
 
         # Simulate authorization denial
-        result = simulate_authz_check(tracer, input_data, contract, allow=False)
+        simulate_authz_check(tracer, input_data, contract, allow=False)
 
         # Check that span was created
         spans = exporter.get_finished_spans()
@@ -206,7 +206,7 @@ class TestAuthzTelemetrySmoke:
         }
 
         # Simulate authorization
-        result = simulate_authz_check(tracer, input_data, contract, allow=True)
+        simulate_authz_check(tracer, input_data, contract, allow=True)
 
         # Check span attributes
         spans = exporter.get_finished_spans()
@@ -240,7 +240,7 @@ class TestAuthzTelemetrySmoke:
         }
 
         # Simulate authorization
-        result = simulate_authz_check(tracer, input_data, contract, allow=True)
+        simulate_authz_check(tracer, input_data, contract, allow=True)
 
         # Check span attributes
         spans = exporter.get_finished_spans()

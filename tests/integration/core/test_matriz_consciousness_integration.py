@@ -127,7 +127,7 @@ class TestMatrizConsciousnessIntegration:
         assert len(result.patterns) >= 0
 
         # Check for consciousness-aware elements
-        consciousness_elements = [elem for elem in result.elements if elem.consciousness_weight > 0.3]
+        [elem for elem in result.elements if elem.consciousness_weight > 0.3]
         # Note: consciousness_elements may be empty for initial processing, which is OK
 
     @pytest.mark.skipif(not COMPONENTS_AVAILABLE, reason="MΛTRIZ components not available")

@@ -247,7 +247,7 @@ def test_csp_header_consideration(client, auth_headers):
 
     # CSP may or may not be present
     # Just verify request succeeds and document for production consideration
-    csp = response.headers.get("Content-Security-Policy")
+    response.headers.get("Content-Security-Policy")
     # CSP is typically more important for HTML responses
     # API responses may not need it
 

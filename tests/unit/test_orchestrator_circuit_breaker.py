@@ -143,7 +143,7 @@ class TestOrchestratoresWithCircuitBreakers:
                 self.mock_node.process.return_value = response
 
             try:
-                result = await self.orchestrator.process_query(f"mixed query {i}")
+                await self.orchestrator.process_query(f"mixed query {i}")
             except Exception:
                 pass  # Expected for failure cases
 

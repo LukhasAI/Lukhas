@@ -56,9 +56,9 @@ def matriz_config(matriz_yaml_path):
 def test_import_controller_lane_detection_lukhas(import_controller):
     """Test lane detection for lukhas/ (production lane)."""
     file_path = Path("lukhas/consciousness/awareness_protocol.py")
-    
+
     lane = import_controller.detect_lane(file_path)
-    
+
     assert lane == Lane.LUKHAS
     assert lane.name == "LUKHAS"
 
@@ -67,9 +67,9 @@ def test_import_controller_lane_detection_lukhas(import_controller):
 def test_import_controller_lane_detection_candidate(import_controller):
     """Test lane detection for candidate/ (development lane)."""
     file_path = Path("candidate/bridge/api/onboarding.py")
-    
+
     lane = import_controller.detect_lane(file_path)
-    
+
     assert lane == Lane.CANDIDATE
     assert lane.name == "CANDIDATE"
 
@@ -78,9 +78,9 @@ def test_import_controller_lane_detection_candidate(import_controller):
 def test_import_controller_lane_detection_core(import_controller):
     """Test lane detection for core/ (shared lane)."""
     file_path = Path("core/symbolic/glyph_mapping.py")
-    
+
     lane = import_controller.detect_lane(file_path)
-    
+
     assert lane == Lane.CORE
     assert lane.name == "CORE"
 
@@ -89,9 +89,9 @@ def test_import_controller_lane_detection_core(import_controller):
 def test_import_controller_lane_detection_matriz(import_controller):
     """Test lane detection for matriz/ (cognitive DNA)."""
     file_path = Path("matriz/cognitive_dna_processor.py")
-    
+
     lane = import_controller.detect_lane(file_path)
-    
+
     assert lane == Lane.MATRIZ
     assert lane.name == "MATRIZ"
 
@@ -100,10 +100,10 @@ def test_import_controller_lane_detection_matriz(import_controller):
 def test_import_controller_allowed_imports_lukhas(import_controller):
     """Test allowed imports for lukhas/ lane."""
     source_lane = Lane.LUKHAS
-    
+
     # Allowed: core, matriz, universal_language
     allowed_lanes = import_controller.get_allowed_imports(source_lane)
-    
+
     assert Lane.CORE in allowed_lanes
     assert Lane.MATRIZ in allowed_lanes
     # lukhas can import from itself
@@ -114,10 +114,10 @@ def test_import_controller_allowed_imports_lukhas(import_controller):
 def test_import_controller_allowed_imports_candidate(import_controller):
     """Test allowed imports for candidate/ lane."""
     source_lane = Lane.CANDIDATE
-    
+
     # Allowed: core, matriz ONLY (NO lukhas)
     allowed_lanes = import_controller.get_allowed_imports(source_lane)
-    
+
     assert Lane.CORE in allowed_lanes
     assert Lane.MATRIZ in allowed_lanes
     assert Lane.LUKHAS not in allowed_lanes  # Critical boundary
@@ -128,9 +128,9 @@ def test_import_controller_violation_detection_candidate_to_lukhas(import_contro
     """Test detection of candidate → lukhas violations."""
     source_file = Path("candidate/consciousness/advanced_awareness.py")
     import_statement = "from lukhas.consciousness import awareness_protocol"
-    
+
     violation = import_controller.check_import(source_file, import_statement)
-    
+
     # Should detect violation
     assert violation is not None
     assert violation.violation_type == ImportViolation.FORBIDDEN_LANE
@@ -141,9 +141,9 @@ def test_import_controller_valid_import_candidate_to_core(import_controller):
     """Test valid candidate → core imports."""
     source_file = Path("candidate/bridge/api/service.py")
     import_statement = "from core.symbolic import glyph_mapping"
-    
+
     violation = import_controller.check_import(source_file, import_statement)
-    
+
     # Should be valid (no violation)
     assert violation is None
 
@@ -164,10 +164,10 @@ def test_import_controller_yaml_valid_structure(matriz_config):
     """Test ops/matriz.yaml has valid structure."""
     if matriz_config is None:
         pytest.skip("matriz.yaml not found")
-    
+
     # Verify top-level keys
     assert "lanes" in matriz_config or "import_rules" in matriz_config
-    
+
     # Verify lanes defined
     if "lanes" in matriz_config:
         assert isinstance(matriz_config["lanes"], dict)
@@ -179,12 +179,12 @@ def test_import_controller_yaml_lane_definitions(matriz_config):
     """Test lane definitions in ops/matriz.yaml."""
     if matriz_config is None or "lanes" not in matriz_config:
         pytest.skip("matriz.yaml lanes not found")
-    
+
     lanes = matriz_config["lanes"]
-    
+
     # Essential lanes should be defined
     essential_lanes = ["lukhas", "labs", "core", "matriz"]
-    
+
     for lane in essential_lanes:
         # Check if lane exists (case-insensitive)
         lane_exists = any(k.lower() == lane for k in lanes.keys())
@@ -196,7 +196,7 @@ def test_import_controller_yaml_import_rules(matriz_config):
     """Test import rules in ops/matriz.yaml."""
     if matriz_config is None:
         pytest.skip("matriz.yaml not found")
-    
+
     # Check for import rules section
     if "import_rules" in matriz_config:
         rules = matriz_config["import_rules"]
@@ -214,10 +214,10 @@ def test_import_controller_yaml_enforcement(import_controller, matriz_config):
     """Test that controller enforces matriz.yaml rules."""
     if matriz_config is None:
         pytest.skip("matriz.yaml not found")
-    
+
     # Load rules into controller
     import_controller.load_matriz_config(matriz_config)
-    
+
     # Verify rules loaded
     assert import_controller.has_rules_loaded() is True
 
@@ -227,19 +227,19 @@ def test_import_controller_yaml_lukhas_rules(matriz_config):
     """Test lukhas/ lane rules in matriz.yaml."""
     if matriz_config is None or "lanes" not in matriz_config:
         pytest.skip("matriz.yaml lanes not found")
-    
+
     lanes = matriz_config["lanes"]
-    
+
     # Find lukhas lane (case-insensitive)
     lukhas_lane = None
     for lane_name, lane_config in lanes.items():
         if lane_name.lower() == "lukhas":
             lukhas_lane = lane_config
             break
-    
+
     if lukhas_lane and "allowed_imports" in lukhas_lane:
         allowed = lukhas_lane["allowed_imports"]
-        
+
         # Should allow core, matriz
         assert any("core" in str(a).lower() for a in allowed)
         assert any("matriz" in str(a).lower() for a in allowed)
@@ -250,23 +250,23 @@ def test_import_controller_yaml_candidate_rules(matriz_config):
     """Test candidate/ lane rules in matriz.yaml."""
     if matriz_config is None or "lanes" not in matriz_config:
         pytest.skip("matriz.yaml lanes not found")
-    
+
     lanes = matriz_config["lanes"]
-    
+
     # Find candidate lane
     candidate_lane = None
     for lane_name, lane_config in lanes.items():
         if lane_name.lower() == "labs":
             candidate_lane = lane_config
             break
-    
+
     if candidate_lane and "allowed_imports" in candidate_lane:
         allowed = candidate_lane["allowed_imports"]
-        
+
         # Should allow core, matriz ONLY
         assert any("core" in str(a).lower() for a in allowed)
         assert any("matriz" in str(a).lower() for a in allowed)
-        
+
         # Should NOT allow lukhas
         assert not any("lukhas" in str(a).lower() for a in allowed)
 
@@ -280,21 +280,21 @@ def test_import_controller_full_validation(import_controller, matriz_config):
     """Test complete import validation workflow."""
     if matriz_config is None:
         pytest.skip("matriz.yaml not found")
-    
+
     # Load config
     import_controller.load_matriz_config(matriz_config)
-    
+
     # Test valid import
     valid_source = Path("lukhas/api/service.py")
     valid_import = "from core.symbolic import SymbolMapper"
-    
+
     violation = import_controller.check_import(valid_source, valid_import)
     assert violation is None
-    
+
     # Test invalid import
     invalid_source = Path("candidate/consciousness/module.py")
     invalid_import = "from lukhas.consciousness import Protocol"
-    
+
     violation = import_controller.check_import(invalid_source, invalid_import)
     assert violation is not None
 
@@ -307,10 +307,10 @@ def test_import_controller_scan_directory(import_controller):
         Path("candidate/"),
         recursive=True
     )
-    
+
     # Should return list of violations (may be empty if compliant)
     assert isinstance(violations, list)
-    
+
     # If violations found, verify structure
     for violation in violations:
         assert hasattr(violation, 'source_file')
@@ -326,9 +326,9 @@ def test_import_controller_scan_directory(import_controller):
 def test_import_controller_unknown_lane(import_controller):
     """Test handling of files in unknown lanes."""
     unknown_file = Path("random_dir/some_file.py")
-    
+
     lane = import_controller.detect_lane(unknown_file)
-    
+
     # Should return UNKNOWN or raise exception
     assert lane == Lane.UNKNOWN or lane is None
 
@@ -338,10 +338,10 @@ def test_import_controller_relative_imports(import_controller):
     """Test handling of relative imports."""
     source_file = Path("candidate/consciousness/module.py")
     relative_import = "from . import submodule"
-    
+
     # Relative imports within same lane are always allowed
     violation = import_controller.check_import(source_file, relative_import)
-    
+
     assert violation is None
 
 
@@ -355,7 +355,7 @@ def test_import_controller_stdlib_imports(import_controller):
         "import asyncio",
         "from typing import List"
     ]
-    
+
     for import_stmt in stdlib_imports:
         violation = import_controller.check_import(source_file, import_stmt)
         assert violation is None
@@ -370,7 +370,7 @@ def test_import_controller_third_party_imports(import_controller):
         "from fastapi import FastAPI",
         "import pandas as pd"
     ]
-    
+
     for import_stmt in third_party_imports:
         violation = import_controller.check_import(source_file, import_stmt)
         # Third-party imports should be allowed
@@ -386,10 +386,10 @@ def test_import_controller_malformed_import(import_controller):
         "from",  # Incomplete
         "import 123",  # Invalid name
     ]
-    
+
     for import_stmt in malformed_imports:
         try:
-            violation = import_controller.check_import(source_file, import_stmt)
+            import_controller.check_import(source_file, import_stmt)
             # Should handle gracefully
             assert True
         except Exception:
@@ -405,17 +405,17 @@ def test_import_controller_malformed_import(import_controller):
 def test_import_controller_scan_performance(import_controller):
     """Test import scanning performance."""
     import time
-    
+
     start = time.time()
-    
+
     # Scan small directory
     violations = import_controller.scan_directory(
         Path("candidate/bridge/api/"),
         recursive=False
     )
-    
+
     elapsed = time.time() - start
-    
+
     # Should complete in reasonable time (<1 second for small dir)
     assert elapsed < 1.0
     assert isinstance(violations, list)

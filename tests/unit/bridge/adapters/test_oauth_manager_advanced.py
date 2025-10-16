@@ -412,7 +412,7 @@ class TestOAuthManagerChaosEngineering:
         user_id = "chaos_user"
 
         # First attempt should succeed in rate limiting check
-        first_check = chaos_manager._check_auth_rate_limit(user_id)
+        chaos_manager._check_auth_rate_limit(user_id)
 
         # Subsequent attempts should be rate limited
         for _ in range(100):  # Extreme load

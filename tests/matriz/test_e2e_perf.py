@@ -186,11 +186,6 @@ class MATRIZPerformanceValidator:
             await asyncio.sleep(0.002)  # 2ms baseline for reflection
 
             # Mock reflection processing
-            reflection_data = {
-                "self_assessment": 0.85,
-                "confidence_adjustment": 0.05,
-                "meta_reasoning": "Reflection complete"
-            }
 
             # Simulate some computational work
             for _ in range(100):

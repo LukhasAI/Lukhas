@@ -288,7 +288,6 @@ class TestPromQLAlertRules:
         with open(alert_rules_path, 'r') as f:
             rules_data = yaml.safe_load(f)
 
-        routing_labels = ["component", "team", "runbook_url"]
 
         for group in rules_data["groups"]:
             for rule in group["rules"]:

@@ -283,7 +283,7 @@ class TestProviderCompatibilityIntegration:
         with patch.object(self.orchestrator, 'validate_provider_health', side_effect=mock_health_check):
             with patch.object(self.orchestrator, '_call_provider', return_value="test response") as mock_call:
                 # Should route to healthy provider (gpt) instead of preferred (claude)
-                result = await self.orchestrator.route_request("architecture_design", "test content")
+                await self.orchestrator.route_request("architecture_design", "test content")
 
                 # Verify it called the healthy provider
                 mock_call.assert_called_once()
@@ -301,7 +301,7 @@ class TestProviderCompatibilityIntegration:
             mock_validate.side_effect = slow_health_check
 
             start_time = time.time()
-            result = await self.orchestrator.get_provider_health_status()
+            await self.orchestrator.get_provider_health_status()
             end_time = time.time()
 
             # Should run in parallel, not sequentially

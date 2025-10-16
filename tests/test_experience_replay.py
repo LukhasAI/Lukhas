@@ -92,14 +92,14 @@ class TestExperienceReplay:
             streams.append(stream)
 
         # Run all streams for a short burst
-        start_time = time.perf_counter()
+        time.perf_counter()
 
         for stream in streams:
             # Process ticks manually to simulate load
             for tick in range(20):
                 stream._on_consciousness_tick(tick)
 
-        end_time = time.perf_counter()
+        time.perf_counter()
 
         # Validate all streams processed events (allow for some timing variation)
         for i, stream in enumerate(streams):
@@ -183,7 +183,7 @@ class TestExperienceReplay:
     def test_memory_efficiency_under_load(self, golden_fixture):
         """Test memory efficiency during extended replay operations."""
         fixture = golden_fixture
-        load_config = fixture["load_testing"]
+        fixture["load_testing"]
 
         stream = ConsciousnessStream(fps=10, store_capacity=1000)  # Bounded capacity
 
@@ -194,8 +194,8 @@ class TestExperienceReplay:
                 stream._on_consciousness_tick(cycle * 50 + i)
 
             # Perform replay operations
-            recent = stream.get_recent_events(limit=100)
-            replay = stream.replay_events(since_minutes=1)
+            stream.get_recent_events(limit=100)
+            stream.replay_events(since_minutes=1)
 
             # Validate memory usage stays bounded
             store_size = len(stream.event_store.events)

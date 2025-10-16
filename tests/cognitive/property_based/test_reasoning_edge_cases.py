@@ -645,7 +645,7 @@ class TestStressScenarios:
 
         # Analyze results
         successful_results = [r for r in results if not isinstance(r, Exception)]
-        failed_results = [r for r in results if isinstance(r, Exception)]
+        [r for r in results if isinstance(r, Exception)]
 
         total_latency = (end_time - start_time) * 1000
         success_rate = len(successful_results) / len(results)

@@ -126,7 +126,7 @@ class TestTopKRecall:
         )
         time.sleep(0.01)  # Ensure time difference
 
-        new_important = memory.store(
+        memory.store(
             content="New important",
             importance=0.9,
         )

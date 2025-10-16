@@ -126,7 +126,7 @@ def test_embeddings_rps_higher_than_responses(reliability_config):
     """Embeddings typically faster, should have higher RPS limit."""
     responses_rps = reliability_config["rate_limits"]["responses_rps"]
     embeddings_rps = reliability_config["rate_limits"]["embeddings_rps"]
-    
+
     if embeddings_rps < responses_rps:
         pytest.skip(
             f"INFO: embeddings_rps ({embeddings_rps}) < responses_rps ({responses_rps}). "
@@ -138,14 +138,14 @@ def test_backoff_max_delay_reasonable():
     """Ensure backoff doesn't result in excessive max delays."""
     with open(CONFIG_PATH) as f:
         config = yaml.safe_load(f)
-    
+
     base_s = config["backoff"]["base_s"]
     factor = config["backoff"]["factor"]
     max_attempts = 5  # Typical max retry attempts
-    
+
     # Calculate max delay (without jitter)
     max_delay_s = base_s * (factor ** (max_attempts - 1))
-    
+
     assert max_delay_s <= 30.0, \
         f"Max backoff delay ({max_delay_s:.1f}s) exceeds 30s. " \
         "Users may experience long hangs. Consider reducing base_s or factor."
@@ -155,7 +155,7 @@ def test_config_documented():
     """Ensure reliability.yaml has comprehensive inline comments."""
     with open(CONFIG_PATH) as f:
         content = f.read()
-    
+
     # Check for key documentation markers
     assert "Tuning Guidelines" in content, "Missing tuning guidelines in config"
     assert "milliseconds" in content.lower(), "Missing unit documentation"
@@ -177,27 +177,27 @@ def test_config_production_ready():
     """Comprehensive production readiness check."""
     with open(CONFIG_PATH) as f:
         config = yaml.safe_load(f)
-    
+
     issues = []
-    
+
     # Check all required sections
     required_sections = ["timeouts", "backoff", "rate_limits"]
     for section in required_sections:
         if section not in config:
             issues.append(f"Missing required section: {section}")
-    
+
     # Validate timeout values
     if "timeouts" in config:
         if config["timeouts"].get("connect_ms", 0) < 500:
             issues.append("connect_ms < 500ms may cause issues in cloud environments")
         if config["timeouts"].get("read_ms", 0) < SLO_E2E_MS * 2:
             issues.append(f"read_ms should be >= {SLO_E2E_MS * 2}ms for SLO compliance")
-    
+
     # Validate backoff configuration
     if "backoff" in config:
         if config["backoff"].get("jitter", 0) == 0:
             issues.append("jitter=0 can cause thundering herd problems")
-    
+
     if issues:
         pytest.fail(f"Production readiness issues:\n" + "\n".join(f"  - {i}" for i in issues))
 
@@ -207,15 +207,15 @@ def test_config_production_ready():
 def test_config_applied_correctly():
     """Verify config is actually loaded by the application."""
     import requests
-    
+
     try:
         # Make a request and check for rate limit headers
         response = requests.get("http://localhost:8000/health", timeout=5)
-        
+
         # Check for rate limit headers (if implemented)
         if "X-RateLimit-Limit" in response.headers:
             limit = int(response.headers["X-RateLimit-Limit"])
             assert limit > 0, "Rate limit header present but invalid"
-    
+
     except requests.exceptions.ConnectionError:
         pytest.skip("Server not running (expected for unit tests)")

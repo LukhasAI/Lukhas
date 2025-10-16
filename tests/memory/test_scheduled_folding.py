@@ -312,7 +312,7 @@ class TestBackgroundScheduling:
             scheduled_fold.metrics.last_accessed = datetime.now() - timedelta(hours=1)
 
         initial_active = len(manager.active_folds)
-        initial_compressed = len(manager.compressed_folds)
+        len(manager.compressed_folds)
 
         # Wait for background processing
         time.sleep(2)

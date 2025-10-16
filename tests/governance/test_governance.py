@@ -68,10 +68,10 @@ async def test_ethical_decision_maker_algorithms(ethical_decision_maker):
         "purpose": "analytics",
         "consent_given": True
     }
-    
+
     # Make ethical decision
     result = await ethical_decision_maker.evaluate_decision(decision_context)
-    
+
     # Verify decision structure
     assert result is not None
     assert "decision" in result
@@ -91,9 +91,9 @@ async def test_ethical_decision_edge_cases(ethical_decision_maker):
         "data_sensitivity": "critical",
         "consent_given": False
     }
-    
+
     result = await ethical_decision_maker.evaluate_decision(context)
-    
+
     # Should deny without consent for critical data
     assert result["decision"] == "deny"
     assert "consent" in result["reasoning"].lower()
@@ -108,9 +108,9 @@ async def test_ethical_decision_constitutional_compliance(ethical_decision_maker
         "content_type": "user_generated",
         "potential_harm": "low"
     }
-    
+
     result = await ethical_decision_maker.evaluate_decision(context)
-    
+
     # Verify Constitutional AI principles applied
     assert "constitutional_compliance" in result
     assert result["constitutional_compliance"] is True
@@ -126,13 +126,13 @@ async def test_compliance_monitor_real_time(compliance_monitor):
     """Test real-time compliance monitoring for ethical boundaries."""
     # Perform comprehensive assessment
     assessment = await compliance_monitor.perform_comprehensive_assessment()
-    
+
     # Verify assessment structure
     assert assessment is not None
     assert hasattr(assessment, 'overall_status')
     assert hasattr(assessment, 'framework_statuses')
     assert hasattr(assessment, 'compliance_score')
-    
+
     # Verify compliance score range
     assert 0.0 <= assessment.compliance_score <= 100.0
 
@@ -142,13 +142,13 @@ async def test_compliance_monitor_real_time(compliance_monitor):
 async def test_compliance_monitor_boundary_violations(compliance_monitor):
     """Test monitoring of boundary violations."""
     # Simulate boundary violation
-    violation_event = {
+    {
         "type": "data_access",
         "severity": "high",
         "description": "Unauthorized access attempt",
         "timestamp": datetime.now(timezone.utc)
     }
-    
+
     # Monitor should detect violation
     # (Implementation depends on actual API)
     assert compliance_monitor is not None
@@ -161,7 +161,7 @@ async def test_compliance_monitor_guardian_integration(compliance_monitor):
     # Start monitoring
     # (This would typically be a background task)
     assert compliance_monitor is not None
-    
+
     # Verify monitoring configuration
     assert compliance_monitor.monitoring_interval == 300  # 5 minutes
     assert compliance_monitor.assessment_interval == 3600  # 1 hour
@@ -175,7 +175,7 @@ async def test_compliance_monitor_gdpr(compliance_monitor):
     assessment = await compliance_monitor.perform_comprehensive_assessment(
         frameworks=[ComplianceFramework.GDPR]
     )
-    
+
     # Verify GDPR assessment
     assert ComplianceFramework.GDPR in assessment.framework_statuses
     gdpr_status = assessment.framework_statuses[ComplianceFramework.GDPR]
@@ -191,11 +191,11 @@ async def test_compliance_monitor_multi_framework(compliance_monitor):
         ComplianceFramework.CCPA,
         ComplianceFramework.HIPAA
     ]
-    
+
     assessment = await compliance_monitor.perform_comprehensive_assessment(
         frameworks=frameworks
     )
-    
+
     # Verify all frameworks assessed
     for framework in frameworks:
         assert framework in assessment.framework_statuses
@@ -216,9 +216,9 @@ def test_access_control_rbac_tiers():
         AccessTier.T4_PRIVILEGED,
         AccessTier.T5_SYSTEM
     ]
-    
+
     assert len(tiers) == 5
-    
+
     # Verify tier hierarchy
     assert AccessTier.T1_BASIC.value < AccessTier.T2_USER.value
     assert AccessTier.T2_USER.value < AccessTier.T3_ADVANCED.value
@@ -232,7 +232,7 @@ def test_access_control_role_assignment():
     # T1: Basic - read-only access
     tier = AccessTier.T1_BASIC
     assert tier.value == 1
-    
+
     # T5: System - full control
     tier = AccessTier.T5_SYSTEM
     assert tier.value == 5
@@ -249,10 +249,10 @@ def test_access_control_tier_permissions():
         AccessTier.T4_PRIVILEGED: [AccessType.READ, AccessType.WRITE, AccessType.EXECUTE, AccessType.DELETE],
         AccessTier.T5_SYSTEM: [AccessType.READ, AccessType.WRITE, AccessType.EXECUTE, AccessType.DELETE, AccessType.ADMIN]
     }
-    
+
     # Verify T1 has minimal access
     assert len(tier_permissions[AccessTier.T1_BASIC]) == 1
-    
+
     # Verify T5 has full access
     assert len(tier_permissions[AccessTier.T5_SYSTEM]) == 5
 
@@ -263,7 +263,7 @@ def test_access_control_unauthorized_rejection():
     # T1 attempting ADMIN action
     user_tier = AccessTier.T1_BASIC
     required_tier = AccessTier.T5_SYSTEM
-    
+
     # Should be rejected
     assert user_tier.value < required_tier.value
 
@@ -284,7 +284,7 @@ def test_audit_system_lambda_trace():
         "lambda_id": "Λ_alpha_user123",
         "result": "success"
     }
-    
+
     # Verify entry structure
     assert "event_id" in audit_entry
     assert "timestamp" in audit_entry
@@ -295,14 +295,14 @@ def test_audit_system_lambda_trace():
 def test_audit_system_hash_chain_integrity():
     """Test hash chain integrity verification."""
     import hashlib
-    
+
     # Create mock audit chain
     entries = [
         {"id": 1, "data": "entry1"},
         {"id": 2, "data": "entry2"},
         {"id": 3, "data": "entry3"}
     ]
-    
+
     # Calculate hash chain
     previous_hash = "0" * 64
     for entry in entries:
@@ -311,7 +311,7 @@ def test_audit_system_hash_chain_integrity():
         entry["hash"] = current_hash
         entry["previous_hash"] = previous_hash
         previous_hash = current_hash
-    
+
     # Verify chain integrity
     for i, entry in enumerate(entries):
         if i > 0:
@@ -322,18 +322,18 @@ def test_audit_system_hash_chain_integrity():
 def test_audit_system_tampering_detection():
     """Test tampering detection in audit trail."""
     import hashlib
-    
+
     # Create audit entry with hash
     entry = {"data": "original_data"}
     entry["hash"] = hashlib.sha256(entry["data"].encode()).hexdigest()
     original_hash = entry["hash"]
-    
+
     # Tamper with data
     entry["data"] = "tampered_data"
-    
+
     # Recalculate hash
     new_hash = hashlib.sha256(entry["data"].encode()).hexdigest()
-    
+
     # Hashes should not match
     assert new_hash != original_hash
 
@@ -352,12 +352,12 @@ async def test_governance_full_pipeline(ethical_decision_maker, compliance_monit
         "consent_given": True,
         "data_sensitivity": "medium"
     }
-    
+
     ethical_result = await ethical_decision_maker.evaluate_decision(decision_context)
-    
+
     # Monitor compliance
     compliance_assessment = await compliance_monitor.perform_comprehensive_assessment()
-    
+
     # Verify both components working
     assert ethical_result is not None
     assert compliance_assessment is not None
@@ -372,7 +372,7 @@ async def test_governance_full_pipeline(ethical_decision_maker, compliance_monit
 async def test_ethical_decision_missing_context(ethical_decision_maker):
     """Test handling of incomplete decision context."""
     context = {}  # Empty context
-    
+
     # Should handle gracefully
     try:
         result = await ethical_decision_maker.evaluate_decision(context)
@@ -389,7 +389,7 @@ async def test_compliance_monitor_empty_frameworks(compliance_monitor):
     assessment = await compliance_monitor.perform_comprehensive_assessment(
         frameworks=None
     )
-    
+
     assert assessment is not None
     assert len(assessment.framework_statuses) > 0
 

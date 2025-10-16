@@ -21,16 +21,16 @@ def test_metrics_surface_basic_ratelimit_series():
     """Verify rate-limit metrics appear in /metrics endpoint."""
     app = get_app()
     client = TestClient(app)
-    
+
     # Trigger a couple of calls to ensure gauges update
     client.get("/v1/models", headers={"Authorization": "Bearer testtoken"})
     client.get("/v1/models", headers={"Authorization": "Bearer testtoken"})
 
     r = client.get("/metrics")
     assert r.status_code == 200, f"Metrics endpoint failed: {r.status_code}"
-    
+
     text = r.text
-    
+
     # Check for presence of rate-limit metrics
     # We don't assert exact label values to avoid flakiness
     for k in METRIC_KEYS:
@@ -47,18 +47,18 @@ def test_metrics_endpoint_includes_standard_lukhas_metrics():
     """Verify existing LUKHAS metrics are still present."""
     app = get_app()
     client = TestClient(app)
-    
+
     # Make a request to generate some metrics
     client.get("/v1/models", headers={"Authorization": "Bearer test"})
-    
+
     r = client.get("/metrics")
     assert r.status_code == 200
-    
+
     text = r.text
-    
+
     # Standard LUKHAS metrics should still be there
     assert "http_requests_total" in text or "lukhas_requests_total" in text
-    
+
     # Prometheus format basics
     assert "# HELP" in text
     assert "# TYPE" in text

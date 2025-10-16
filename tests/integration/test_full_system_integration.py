@@ -244,7 +244,6 @@ class TestMemoryConsciousnessIntegration:
         # Create consciousness session
         from lukhas.consciousness.types import ConsciousnessState
 
-        test_lambda_id = "λtest_user_123"
         consciousness_state = ConsciousnessState(
             phase="AWARE",
             awareness_level="enhanced",
@@ -279,7 +278,7 @@ class TestMemoryConsciousnessIntegration:
     async def test_distributed_memory_operations(self, integration_harness):
         """Test distributed memory operations"""
 
-        distributed_memory = integration_harness.components['distributed_memory']
+        integration_harness.components['distributed_memory']
         memory_integrator = integration_harness.components['memory_integrator']
 
         # Create test memory fold
@@ -561,7 +560,7 @@ class TestResilience:
 
         # Simulate memory error by attempting invalid operation
         try:
-            invalid_fold = await memory_integrator.create_consciousness_memory_fold(
+            await memory_integrator.create_consciousness_memory_fold(
                 content=None,  # Invalid content
                 fold_type=None,  # Invalid type
                 consciousness_context="",  # Empty context

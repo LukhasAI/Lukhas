@@ -378,7 +378,7 @@ class TestFoldConsolidationEdgeCases:
             )
             fold.add_item(memory)
 
-        creation_time = time.perf_counter() - start_time
+        time.perf_counter() - start_time
 
         # Measure consolidation time
         consolidation_start = time.perf_counter()

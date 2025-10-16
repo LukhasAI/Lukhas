@@ -225,7 +225,7 @@ class TestMemoryEventOptimization:
 
         # System should still be responsive
         start_time = time.time()
-        test_event = factory.create(
+        factory.create(
             data={"final_test": True},
             metadata={"affect_delta": 0.5}
         )
@@ -262,7 +262,7 @@ class TestMemoryEventOptimization:
         # Test recent access performance
         start_time = time.time()
         for _ in range(1000):
-            recent_values = list(self.factory._drift_history)[-3:]
+            list(self.factory._drift_history)[-3:]
         access_time = time.time() - start_time
 
         assert access_time < 0.1, f"Recent access too slow: {access_time:.3f}s"
