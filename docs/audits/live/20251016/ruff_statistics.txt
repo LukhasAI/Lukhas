@@ -1,0 +1,31 @@
+Ruff Statistics Baseline - 2025-10-16
+Scope: lukhas core MATRIZ
+Total violations: 388
+
+Breakdown by rule:
+168	E402  	[ ] module-import-not-at-top-of-file
+148	RUF100	[*] unused-noqa
+ 29	W293  	[*] blank-line-with-whitespace
+ 19	F841  	[*] unused-variable
+  9	F401  	[ ] unused-import
+  8	E722  	[ ] bare-except
+  6	F402  	[ ] import-shadowed-by-loop-var
+  1	F403  	[ ] undefined-local-with-import-star
+
+Hot-path violations (non-auto-fixable):
+- E402: 168 violations (import at top of file)
+- E722: 8 violations (bare except)
+- F401: 9 violations (unused import)
+- F402: 6 violations (import shadowed by loop var)
+- F403: 1 violation (undefined local with import star)
+
+Auto-fixable violations:
+- RUF100: 148 violations (unused noqa)
+- W293: 29 violations (blank line with whitespace)
+- F841: 19 violations (unused variable)
+
+Total auto-fixable: 196 violations
+Total manual-fix required: 192 violations
+
+Command used:
+python3 -m ruff check lukhas core MATRIZ --statistics --no-cache
