@@ -12,6 +12,8 @@ import pytest
 from fastapi.testclient import TestClient
 from lukhas.adapters.openai.api import get_app
 
+from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
+
 
 @pytest.fixture
 def client():
@@ -21,8 +23,8 @@ def client():
 
 @pytest.fixture
 def auth_headers():
-    """Provide valid Bearer token."""
-    return {"Authorization": "Bearer sk-lukhas-test-1234567890abcdef"}
+    """Provide valid Bearer token for authenticated requests."""
+    return GOLDEN_AUTH_HEADERS
 
 
 def test_models_requires_auth(client):

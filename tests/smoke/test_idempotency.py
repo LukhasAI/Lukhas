@@ -19,6 +19,8 @@ from fastapi.testclient import TestClient
 
 from lukhas.adapters.openai.api import get_app
 
+from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
+
 
 @pytest.fixture
 def client() -> TestClient:
@@ -27,7 +29,7 @@ def client() -> TestClient:
 
 
 def _auth_headers(extra: dict[str, str] | None = None) -> dict[str, str]:
-    headers = {"Authorization": "Bearer sk-lukhas-test-1234567890abcdef"}
+    headers = GOLDEN_AUTH_HEADERS
     if extra:
         headers.update(extra)
     return headers
