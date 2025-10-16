@@ -39,5 +39,36 @@ print(json.dumps(r.json(), indent=2))
 
 ## Expected Headers
 
-* `X-Trace-Id` — W3C trace correlation
-* `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset`
+* `X-Trace-Id` / `X-Request-Id` — W3C trace correlation (dual headers for OpenAI compatibility)
+* `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset` — LUKHAS-style rate limits
+* `x-ratelimit-limit-requests`, `x-ratelimit-remaining-requests`, `x-ratelimit-reset-requests` — OpenAI-style aliases
+
+## Multi-Tenant Routing (Optional)
+
+Pass org/project headers for multi-tenant routing:
+
+```bash
+curl -sS -H "Authorization: Bearer $API_KEY" \
+  -H "OpenAI-Organization: $ORG_ID" \
+  -H "OpenAI-Project: $PROJECT_ID" \
+  http://localhost:8000/v1/models
+```
+
+## Reading Headers
+
+### Node.js
+```js
+const reqId = res.headers.get('x-request-id') ?? res.headers.get('X-Request-Id');
+const limit = res.headers.get('x-ratelimit-limit-requests');
+const remaining = res.headers.get('x-ratelimit-remaining-requests');
+const reset = res.headers.get('x-ratelimit-reset-requests');
+console.log(`Request ${reqId}: ${remaining}/${limit} remaining, resets at ${reset}`);
+```
+
+### Python
+```python
+req_id = r.headers.get('X-Request-Id') or r.headers.get('x-request-id')
+limit = r.headers.get('x-ratelimit-limit-requests')
+remaining = r.headers.get('x-ratelimit-remaining-requests')
+reset = r.headers.get('x-ratelimit-reset-requests')
+print(f"Request {req_id}: {remaining}/{limit} remaining, resets at {reset}")
