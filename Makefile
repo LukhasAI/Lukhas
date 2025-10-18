@@ -1617,3 +1617,10 @@ plan-colony-renames: ## Generate colony rename plan (dry-run, no execution)
 	@echo "📋 Planning colony renames (dry-run)..."
 	@python3 scripts/plan_colony_renames.py
 	@echo "✅ Review docs/audits/colony/colony_renames_<timestamp>.csv"
+
+# Coordination targets (Claude Code)
+.PHONY: coord-snapshot
+
+coord-snapshot:
+	@echo "📸 Running coordination snapshot..."
+	@bash scripts/coordination/daily_snapshot.sh
