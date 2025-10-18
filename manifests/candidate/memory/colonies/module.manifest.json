@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.1.0",
+  "module": {
+    "name": "candidate.memory.colonies",
+    "path": "candidate/memory/colonies",
+    "type": "package",
+    "lane": "candidate",
+    "colony": "memory"
+  },
+  "matriz_integration": {
+    "status": "partial",
+    "pipeline_nodes": [
+      "memory"
+    ],
+    "cognitive_function": ""
+  },
+  "constellation_alignment": {
+    "primary_star": "✦ Trail (Memory)",
+    "star_aliases": [],
+    "trinity_aspects": []
+  },
+  "capabilities": [
+    {
+      "name": "memory_management",
+      "type": "storage",
+      "description": "Provides memory storage, retrieval, and context management",
+      "interfaces": []
+    },
+    {
+      "name": "memory_persistence",
+      "type": "storage",
+      "description": "Provides persistent memory and recall",
+      "interfaces": []
+    }
+  ],
+  "dependencies": {
+    "internal": [],
+    "external": [],
+    "circular_dependencies": []
+  },
+  "exports": {
+    "classes": [],
+    "functions": [],
+    "constants": []
+  },
+  "testing": {
+    "has_tests": false,
+    "quality_tier": "T2_important",
+    "test_paths": []
+  },
+  "observability": {
+    "spans": [],
+    "metrics": [],
+    "logging": {
+      "logger_name": "candidate.memory.colonies",
+      "default_level": "INFO"
+    },
+    "events": {
+      "publishes": [],
+      "subscribes": []
+    }
+  },
+  "security": {
+    "requires_auth": false,
+    "data_classification": "internal",
+    "secrets_used": [],
+    "network_calls": false,
+    "sandboxed": true,
+    "policies": []
+  },
+  "metadata": {
+    "created": "2025-10-18T17:41:15Z",
+    "last_updated": "2025-10-18T17:41:15Z",
+    "manifest_generated": true,
+    "owner": "unassigned",
+    "documentation_url": "",
+    "tags": []
+  }
+}

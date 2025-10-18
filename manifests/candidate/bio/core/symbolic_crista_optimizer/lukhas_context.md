@@ -1,12 +1,3 @@
----
-module: candidate.bio.core.symbolic_crista_optimizer
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/candidate/bio/core/symbolic_crista_optimizer/module.manifest.json
-matriz: [supporting]
----
 # candidate.bio.core.symbolic_crista_optimizer
 
 **Star**: Supporting

@@ -1,12 +1,3 @@
----
-module: lukhas.bridge.orchestration
-star: Supporting
-tier: T2_important
-owner: triage@lukhas
-colony: actuation
-manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/lukhas/bridge/orchestration/module.manifest.json
-matriz: [intent]
----
 # lukhas.bridge.orchestration
 
 **Star**: Supporting

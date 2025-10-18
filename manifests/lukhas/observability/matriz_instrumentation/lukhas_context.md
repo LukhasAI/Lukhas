@@ -1,12 +1,3 @@
----
-module: lukhas.observability.matriz_instrumentation
-star: Supporting
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/lukhas/observability/matriz_instrumentation/module.manifest.json
-matriz: [supporting]
----
 # lukhas.observability.matriz_instrumentation
 
 **Star**: Supporting

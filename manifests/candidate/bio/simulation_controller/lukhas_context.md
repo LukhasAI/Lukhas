@@ -1,12 +1,3 @@
----
-module: candidate.bio.simulation_controller
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: simulation
-manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/candidate/bio/simulation_controller/module.manifest.json
-matriz: [supporting]
----
 # candidate.bio.simulation_controller
 
 **Star**: Supporting

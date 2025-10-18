@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.1.0",
+  "module": {
+    "name": "candidate.governance.audit.exports",
+    "path": "candidate/governance/audit/exports",
+    "type": "package",
+    "lane": "candidate"
+  },
+  "matriz_integration": {
+    "status": "partial",
+    "pipeline_nodes": [
+      "risk"
+    ],
+    "cognitive_function": ""
+  },
+  "constellation_alignment": {
+    "primary_star": "🛡️ Watch (Guardian)",
+    "star_aliases": [],
+    "trinity_aspects": []
+  },
+  "capabilities": [
+    {
+      "name": "risk_assessment",
+      "type": "processing",
+      "description": "Evaluates risks and safety constraints",
+      "interfaces": []
+    },
+    {
+      "name": "policy_enforcement",
+      "type": "monitoring",
+      "description": "Enforces policies and constitutional constraints",
+      "interfaces": []
+    }
+  ],
+  "dependencies": {
+    "internal": [],
+    "external": [],
+    "circular_dependencies": []
+  },
+  "exports": {
+    "classes": [],
+    "functions": [],
+    "constants": []
+  },
+  "testing": {
+    "has_tests": false,
+    "quality_tier": "T2_important",
+    "test_paths": []
+  },
+  "observability": {
+    "spans": [],
+    "metrics": [],
+    "logging": {
+      "logger_name": "candidate.governance.audit.exports",
+      "default_level": "INFO"
+    },
+    "events": {
+      "publishes": [],
+      "subscribes": []
+    }
+  },
+  "security": {
+    "requires_auth": false,
+    "data_classification": "internal",
+    "secrets_used": [],
+    "network_calls": false,
+    "sandboxed": true,
+    "policies": []
+  },
+  "metadata": {
+    "created": "2025-10-18T17:41:15Z",
+    "last_updated": "2025-10-18T17:41:15Z",
+    "manifest_generated": true,
+    "owner": "unassigned",
+    "documentation_url": "",
+    "tags": []
+  }
+}

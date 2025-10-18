@@ -1,12 +1,3 @@
----
-module: candidate.bio.quantum_inspired_layer
-star: 🔮 Oracle (Quantum)
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/candidate/bio/quantum_inspired_layer/module.manifest.json
-matriz: [supporting]
----
 # candidate.bio.quantum_inspired_layer
 
 **Star**: 🔮 Oracle (Quantum)

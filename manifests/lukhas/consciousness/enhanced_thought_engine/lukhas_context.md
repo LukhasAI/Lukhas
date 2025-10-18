@@ -1,12 +1,3 @@
----
-module: lukhas.consciousness.enhanced_thought_engine
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: triage@lukhas
-colony: simulation
-manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/lukhas/consciousness/enhanced_thought_engine/module.manifest.json
-matriz: [thought]
----
 # lukhas.consciousness.enhanced_thought_engine
 
 **Star**: 🌊 Flow (Consciousness)

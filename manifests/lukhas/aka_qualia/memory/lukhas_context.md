@@ -1,12 +1,3 @@
----
-module: lukhas.aka_qualia.memory
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: triage@lukhas
-colony: -
-manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/lukhas/aka_qualia/memory/module.manifest.json
-matriz: [memory]
----
 # lukhas.aka_qualia.memory
 
 **Star**: ✦ Trail (Memory)

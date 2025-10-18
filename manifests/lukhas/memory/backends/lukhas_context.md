@@ -1,12 +1,3 @@
----
-module: lukhas.memory.backends
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: triage@lukhas
-colony: memory
-manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/lukhas/memory/backends/module.manifest.json
-matriz: [memory]
----
 # lukhas.memory.backends
 
 **Star**: ✦ Trail (Memory)

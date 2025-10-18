@@ -1,12 +1,3 @@
----
-module: lukhas.branding_bridge
-star: Supporting
-tier: T2_important
-owner: triage@lukhas
-colony: -
-manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/lukhas/branding_bridge/module.manifest.json
-matriz: [action]
----
 # lukhas.branding_bridge
 
 **Star**: Supporting

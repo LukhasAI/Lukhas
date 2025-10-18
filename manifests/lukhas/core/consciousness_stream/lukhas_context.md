@@ -1,12 +1,3 @@
----
-module: lukhas.core.consciousness_stream
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: triage@lukhas
-colony: -
-manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/lukhas/core/consciousness_stream/module.manifest.json
-matriz: [thought]
----
 # lukhas.core.consciousness_stream
 
 **Star**: 🌊 Flow (Consciousness)

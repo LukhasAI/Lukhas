@@ -1,12 +1,3 @@
----
-module: candidate.bridge.adapters
-star: Supporting
-tier: T2_important
-owner: triage@lukhas
-colony: actuation
-manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/candidate/bridge/adapters/module.manifest.json
-matriz: [action]
----
 # candidate.bridge.adapters
 
 **Star**: Supporting

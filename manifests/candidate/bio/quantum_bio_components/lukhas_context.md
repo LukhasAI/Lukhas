@@ -1,12 +1,3 @@
----
-module: candidate.bio.quantum_bio_components
-star: 🔮 Oracle (Quantum)
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/candidate/bio/quantum_bio_components/module.manifest.json
-matriz: [supporting]
----
 # candidate.bio.quantum_bio_components
 
 **Star**: 🔮 Oracle (Quantum)

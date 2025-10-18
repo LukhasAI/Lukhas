@@ -1,12 +1,3 @@
----
-module: lukhas.matriz
-star: Supporting
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/lukhas/matriz/module.manifest.json
-matriz: [supporting]
----
 # lukhas.matriz
 
 **Star**: Supporting

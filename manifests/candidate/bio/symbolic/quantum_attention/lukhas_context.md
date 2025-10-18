@@ -1,12 +1,3 @@
----
-module: candidate.bio.symbolic.quantum_attention
-star: 🔮 Oracle (Quantum)
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/candidate/bio/symbolic/quantum_attention/module.manifest.json
-matriz: [attention]
----
 # candidate.bio.symbolic.quantum_attention
 
 **Star**: 🔮 Oracle (Quantum)

@@ -1,12 +1,3 @@
----
-module: lukhas.core.orchestration.core_modules.symbolic_signal_router
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/lukhas/core/orchestration/core_modules/symbolic_signal_router/module.manifest.json
-matriz: [intent]
----
 # lukhas.core.orchestration.core_modules.symbolic_signal_router
 
 **Star**: Supporting

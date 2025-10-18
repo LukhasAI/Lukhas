@@ -1,12 +1,3 @@
----
-module: lukhas.observability.security_hardening
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/lukhas/observability/security_hardening/module.manifest.json
-matriz: [supporting]
----
 # lukhas.observability.security_hardening
 
 **Star**: Supporting

@@ -1,12 +1,3 @@
----
-module: lukhas.bio.core.architecture_analyzer
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/lukhas/bio/core/architecture_analyzer/module.manifest.json
-matriz: [supporting]
----
 # lukhas.bio.core.architecture_analyzer
 
 **Star**: Supporting
