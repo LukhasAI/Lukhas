@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.1.0",
+  "module": {
+    "name": "symbolic",
+    "path": "symbolic",
+    "type": "package",
+    "lane": "root",
+    "quality_tier": "T1"
+  },
+  "matriz_integration": {
+    "status": "partial",
+    "pipeline_nodes": [
+      "processor"
+    ],
+    "cognitive_function": ""
+  },
+  "constellation_alignment": {
+    "primary_star": "\u269b\ufe0f Core",
+    "star_aliases": [],
+    "trinity_aspects": []
+  },
+  "capabilities": [
+    {
+      "name": "symbolic_processing",
+      "description": "Process symbolic representations"
+    },
+    {
+      "name": "symbolic_reasoning",
+      "description": "Reason using symbolic logic"
+    },
+    {
+      "name": "pattern_matching",
+      "description": "Match symbolic patterns"
+    }
+  ],
+  "dependencies": {
+    "internal": [],
+    "external": [],
+    "circular_dependencies": []
+  },
+  "exports": {
+    "classes": [],
+    "functions": [],
+    "constants": []
+  },
+  "testing": {
+    "has_tests": true,
+    "quality_tier": "T3_standard",
+    "test_paths": [
+      "symbolic/tests/test_symbolic_integration.py",
+      "symbolic/tests/test_symbolic_unit.py"
+    ]
+  },
+  "observability": {
+    "spans": [],
+    "metrics": [],
+    "logging": {
+      "logger_name": "symbolic",
+      "default_level": "INFO"
+    },
+    "events": {
+      "publishes": [],
+      "subscribes": []
+    }
+  },
+  "security": {
+    "requires_auth": false,
+    "data_classification": "internal",
+    "secrets_used": [],
+    "network_calls": false,
+    "sandboxed": true,
+    "policies": []
+  },
+  "metadata": {
+    "created": "2025-10-18T20:48:26Z",
+    "last_updated": "2025-10-18T20:48:26Z",
+    "manifest_generated": true,
+    "owner": "unassigned",
+    "documentation_url": "",
+    "tags": []
+  }
+}

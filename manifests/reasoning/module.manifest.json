@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.1.0",
+  "module": {
+    "name": "reasoning",
+    "path": "reasoning",
+    "type": "package",
+    "lane": "root",
+    "quality_tier": "T2"
+  },
+  "matriz_integration": {
+    "status": "partial",
+    "pipeline_nodes": [
+      "reasoner"
+    ],
+    "cognitive_function": ""
+  },
+  "constellation_alignment": {
+    "primary_star": "\ud83d\udca0 Skill",
+    "star_aliases": [],
+    "trinity_aspects": []
+  },
+  "capabilities": [
+    {
+      "name": "reasoning",
+      "description": "Logical reasoning and inference"
+    },
+    {
+      "name": "inference",
+      "description": "Draw inferences from knowledge"
+    },
+    {
+      "name": "deduction",
+      "description": "Deductive reasoning"
+    }
+  ],
+  "dependencies": {
+    "internal": [],
+    "external": [],
+    "circular_dependencies": []
+  },
+  "exports": {
+    "classes": [],
+    "functions": [],
+    "constants": []
+  },
+  "testing": {
+    "has_tests": true,
+    "quality_tier": "T3_standard",
+    "test_paths": [
+      "reasoning/tests/test_reasoning_integration.py",
+      "reasoning/tests/test_reasoning_unit.py"
+    ]
+  },
+  "observability": {
+    "spans": [],
+    "metrics": [],
+    "logging": {
+      "logger_name": "reasoning",
+      "default_level": "INFO"
+    },
+    "events": {
+      "publishes": [],
+      "subscribes": []
+    }
+  },
+  "security": {
+    "requires_auth": false,
+    "data_classification": "internal",
+    "secrets_used": [],
+    "network_calls": false,
+    "sandboxed": true,
+    "policies": []
+  },
+  "metadata": {
+    "created": "2025-10-18T20:48:26Z",
+    "last_updated": "2025-10-18T20:48:26Z",
+    "manifest_generated": true,
+    "owner": "unassigned",
+    "documentation_url": "",
+    "tags": []
+  }
+}

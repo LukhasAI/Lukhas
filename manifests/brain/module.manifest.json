@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.1.0",
+  "module": {
+    "name": "brain",
+    "path": "brain",
+    "type": "package",
+    "lane": "root",
+    "quality_tier": "T1"
+  },
+  "matriz_integration": {
+    "status": "partial",
+    "pipeline_nodes": [
+      "orchestrator"
+    ],
+    "cognitive_function": ""
+  },
+  "constellation_alignment": {
+    "primary_star": "\ud83c\udf38 Flow",
+    "star_aliases": [],
+    "trinity_aspects": []
+  },
+  "capabilities": [
+    {
+      "name": "orchestration",
+      "description": "Coordinate multi-system operations"
+    },
+    {
+      "name": "flow_coordination",
+      "description": "Manage data flow between modules"
+    },
+    {
+      "name": "cognitive_routing",
+      "description": "Route cognitive processing tasks"
+    }
+  ],
+  "dependencies": {
+    "internal": [],
+    "external": [],
+    "circular_dependencies": []
+  },
+  "exports": {
+    "classes": [],
+    "functions": [],
+    "constants": []
+  },
+  "testing": {
+    "has_tests": true,
+    "quality_tier": "T3_standard",
+    "test_paths": [
+      "brain/tests/test_brain_integration.py",
+      "brain/tests/test_brain_unit.py"
+    ]
+  },
+  "observability": {
+    "spans": [],
+    "metrics": [],
+    "logging": {
+      "logger_name": "brain",
+      "default_level": "INFO"
+    },
+    "events": {
+      "publishes": [],
+      "subscribes": []
+    }
+  },
+  "security": {
+    "requires_auth": false,
+    "data_classification": "internal",
+    "secrets_used": [],
+    "network_calls": false,
+    "sandboxed": true,
+    "policies": []
+  },
+  "metadata": {
+    "created": "2025-10-18T20:48:26Z",
+    "last_updated": "2025-10-18T20:48:26Z",
+    "manifest_generated": true,
+    "owner": "unassigned",
+    "documentation_url": "",
+    "tags": []
+  }
+}

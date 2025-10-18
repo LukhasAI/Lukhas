@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.1.0",
+  "module": {
+    "name": "monitoring",
+    "path": "monitoring",
+    "type": "package",
+    "lane": "root",
+    "quality_tier": "T1"
+  },
+  "matriz_integration": {
+    "status": "partial",
+    "pipeline_nodes": [
+      "observer"
+    ],
+    "cognitive_function": ""
+  },
+  "constellation_alignment": {
+    "primary_star": "\ud83c\udfaf Guard",
+    "star_aliases": [],
+    "trinity_aspects": []
+  },
+  "capabilities": [
+    {
+      "name": "monitoring",
+      "description": "Monitor system health"
+    },
+    {
+      "name": "observability",
+      "description": "Provide system observability"
+    },
+    {
+      "name": "alerting",
+      "description": "Generate alerts for anomalies"
+    }
+  ],
+  "dependencies": {
+    "internal": [],
+    "external": [],
+    "circular_dependencies": []
+  },
+  "exports": {
+    "classes": [],
+    "functions": [],
+    "constants": []
+  },
+  "testing": {
+    "has_tests": true,
+    "quality_tier": "T3_standard",
+    "test_paths": [
+      "monitoring/tests/test_monitoring_integration.py",
+      "monitoring/tests/test_monitoring_unit.py",
+      "tests/monitoring/test_alert_rules.py"
+    ]
+  },
+  "observability": {
+    "spans": [],
+    "metrics": [],
+    "logging": {
+      "logger_name": "monitoring",
+      "default_level": "INFO"
+    },
+    "events": {
+      "publishes": [],
+      "subscribes": []
+    }
+  },
+  "security": {
+    "requires_auth": false,
+    "data_classification": "internal",
+    "secrets_used": [],
+    "network_calls": false,
+    "sandboxed": true,
+    "policies": []
+  },
+  "metadata": {
+    "created": "2025-10-18T20:48:26Z",
+    "last_updated": "2025-10-18T20:48:26Z",
+    "manifest_generated": true,
+    "owner": "unassigned",
+    "documentation_url": "",
+    "tags": []
+  }
+}

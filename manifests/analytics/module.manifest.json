@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.1.0",
+  "module": {
+    "name": "analytics",
+    "path": "analytics",
+    "type": "package",
+    "lane": "root",
+    "quality_tier": "T2"
+  },
+  "matriz_integration": {
+    "status": "partial",
+    "pipeline_nodes": [
+      "observer"
+    ],
+    "cognitive_function": ""
+  },
+  "constellation_alignment": {
+    "primary_star": "\ud83d\udd27 Bridge",
+    "star_aliases": [],
+    "trinity_aspects": []
+  },
+  "capabilities": [
+    {
+      "name": "analytics",
+      "description": "Analytics and metrics collection"
+    },
+    {
+      "name": "metrics_processing",
+      "description": "Process and aggregate metrics"
+    },
+    {
+      "name": "performance_tracking",
+      "description": "Track system performance"
+    }
+  ],
+  "dependencies": {
+    "internal": [],
+    "external": [],
+    "circular_dependencies": []
+  },
+  "exports": {
+    "classes": [],
+    "functions": [],
+    "constants": []
+  },
+  "testing": {
+    "has_tests": true,
+    "quality_tier": "T3_standard",
+    "test_paths": [
+      "analytics/tests/test_analytics_integration.py",
+      "analytics/tests/test_analytics_unit.py"
+    ]
+  },
+  "observability": {
+    "spans": [],
+    "metrics": [],
+    "logging": {
+      "logger_name": "analytics",
+      "default_level": "INFO"
+    },
+    "events": {
+      "publishes": [],
+      "subscribes": []
+    }
+  },
+  "security": {
+    "requires_auth": false,
+    "data_classification": "internal",
+    "secrets_used": [],
+    "network_calls": false,
+    "sandboxed": true,
+    "policies": []
+  },
+  "metadata": {
+    "created": "2025-10-18T20:48:26Z",
+    "last_updated": "2025-10-18T20:48:26Z",
+    "manifest_generated": true,
+    "owner": "unassigned",
+    "documentation_url": "",
+    "tags": []
+  }
+}

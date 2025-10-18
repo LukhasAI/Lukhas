@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.1.0",
+  "module": {
+    "name": "adapters",
+    "path": "adapters",
+    "type": "package",
+    "lane": "root",
+    "quality_tier": "T2"
+  },
+  "matriz_integration": {
+    "status": "partial",
+    "pipeline_nodes": [
+      "bridge"
+    ],
+    "cognitive_function": ""
+  },
+  "constellation_alignment": {
+    "primary_star": "\ud83d\udd27 Bridge",
+    "star_aliases": [],
+    "trinity_aspects": []
+  },
+  "capabilities": [
+    {
+      "name": "external_integration",
+      "description": "Integration with external services"
+    },
+    {
+      "name": "service_adapters",
+      "description": "Adapters for Drive, Dropbox, Gmail, etc."
+    },
+    {
+      "name": "api_bridging",
+      "description": "Bridge between LUKHAS and external APIs"
+    }
+  ],
+  "dependencies": {
+    "internal": [],
+    "external": [],
+    "circular_dependencies": []
+  },
+  "exports": {
+    "classes": [],
+    "functions": [],
+    "constants": []
+  },
+  "testing": {
+    "has_tests": true,
+    "quality_tier": "T3_standard",
+    "test_paths": [
+      "adapters/tests/test_adapters_integration.py",
+      "adapters/tests/test_adapters_unit.py"
+    ]
+  },
+  "observability": {
+    "spans": [],
+    "metrics": [],
+    "logging": {
+      "logger_name": "adapters",
+      "default_level": "INFO"
+    },
+    "events": {
+      "publishes": [],
+      "subscribes": []
+    }
+  },
+  "security": {
+    "requires_auth": false,
+    "data_classification": "internal",
+    "secrets_used": [],
+    "network_calls": false,
+    "sandboxed": true,
+    "policies": []
+  },
+  "metadata": {
+    "created": "2025-10-18T20:48:26Z",
+    "last_updated": "2025-10-18T20:48:26Z",
+    "manifest_generated": true,
+    "owner": "unassigned",
+    "documentation_url": "",
+    "tags": []
+  }
+}
