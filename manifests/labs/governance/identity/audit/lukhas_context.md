@@ -1,3 +1,12 @@
+---
+module: candidate.governance.identity.audit
+star: ⚛️ Anchor (Identity)
+tier: T3_standard
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/governance/identity/audit/module.manifest.json
+matriz: [risk]
+---
 # candidate.governance.identity.audit
 
 **Star**: ⚛️ Anchor (Identity)

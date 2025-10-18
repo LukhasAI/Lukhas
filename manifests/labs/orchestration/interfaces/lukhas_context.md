@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.interfaces
+star: 🔬 Horizon (Vision)
+tier: T3_standard
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/orchestration/interfaces/module.manifest.json
+matriz: [intent]
+---
 # candidate.orchestration.interfaces
 
 **Star**: 🔬 Horizon (Vision)

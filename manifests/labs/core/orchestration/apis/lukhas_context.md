@@ -1,3 +1,12 @@
+---
+module: candidate.core.orchestration.apis
+star: Supporting
+tier: T3_standard
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/core/orchestration/apis/module.manifest.json
+matriz: [intent]
+---
 # candidate.core.orchestration.apis
 
 **Star**: Supporting

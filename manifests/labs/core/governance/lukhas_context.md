@@ -1,3 +1,12 @@
+---
+module: candidate.core.governance
+star: 🛡️ Watch (Guardian)
+tier: T2_important
+owner: triage@lukhas
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/core/governance/module.manifest.json
+matriz: [risk]
+---
 # candidate.core.governance
 
 **Star**: 🛡️ Watch (Guardian)

@@ -1,3 +1,12 @@
+---
+module: candidate.core.interfaces.voice.voice_emotional
+star: 🔬 Horizon (Vision)
+tier: T3_standard
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/core/interfaces/voice/voice_emotional/module.manifest.json
+matriz: [action]
+---
 # candidate.core.interfaces.voice.voice_emotional
 
 **Star**: 🔬 Horizon (Vision)

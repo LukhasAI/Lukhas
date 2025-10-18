@@ -1,3 +1,12 @@
+---
+module: candidate.core.matriz
+star: Supporting
+tier: T3_standard
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/core/matriz/module.manifest.json
+matriz: [supporting]
+---
 # candidate.core.matriz
 
 **Star**: Supporting

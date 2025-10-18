@@ -1,3 +1,12 @@
+---
+module: candidate.core.verifold
+star: ✦ Trail (Memory)
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/core/verifold/module.manifest.json
+matriz: [memory]
+---
 # candidate.core.verifold
 
 **Star**: ✦ Trail (Memory)

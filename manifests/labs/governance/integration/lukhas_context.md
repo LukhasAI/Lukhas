@@ -1,3 +1,12 @@
+---
+module: candidate.governance.integration
+star: 🛡️ Watch (Guardian)
+tier: T2_important
+owner: triage@lukhas
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/governance/integration/module.manifest.json
+matriz: [risk]
+---
 # candidate.governance.integration
 
 **Star**: 🛡️ Watch (Guardian)

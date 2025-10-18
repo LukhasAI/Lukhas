@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.meta_cognitive_orchestrator
+star: Supporting
+tier: T3_standard
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/orchestration/meta_cognitive_orchestrator/module.manifest.json
+matriz: [thought]
+---
 # candidate.orchestration.meta_cognitive_orchestrator
 
 **Star**: Supporting

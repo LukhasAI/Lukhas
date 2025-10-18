@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.golden_trio.trio_orchestrator
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/orchestration/golden_trio/trio_orchestrator/module.manifest.json
+matriz: [intent]
+---
 # candidate.orchestration.golden_trio.trio_orchestrator
 
 **Star**: Supporting

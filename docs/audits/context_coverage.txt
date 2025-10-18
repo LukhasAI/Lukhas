@@ -1,0 +1,5 @@
+Context coverage report
+Manifests: 969
+Context files present: 828 (85.4%)
+With front-matter: 778 (80.3%)
+Threshold (front-matter): 0%

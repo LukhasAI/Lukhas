@@ -1,3 +1,12 @@
+---
+module: candidate.core.orchestration.brain.neuro_symbolic.governance
+star: 🛡️ Watch (Guardian)
+tier: T2_important
+owner: triage@lukhas
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/core/orchestration/brain/neuro_symbolic/governance/module.manifest.json
+matriz: [risk]
+---
 # candidate.core.orchestration.brain.neuro_symbolic.governance
 
 **Star**: 🛡️ Watch (Guardian)

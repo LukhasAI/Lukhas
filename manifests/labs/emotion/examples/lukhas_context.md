@@ -1,3 +1,12 @@
+---
+module: candidate.emotion.examples
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/emotion/examples/module.manifest.json
+matriz: [supporting]
+---
 # candidate.emotion.examples
 
 **Star**: Supporting

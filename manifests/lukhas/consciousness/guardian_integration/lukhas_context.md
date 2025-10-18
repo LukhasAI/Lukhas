@@ -1,3 +1,12 @@
+---
+module: lukhas.consciousness.guardian_integration
+star: 🛡️ Watch (Guardian)
+tier: T3_standard
+owner: unassigned
+colony: simulation
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/lukhas/consciousness/guardian_integration/module.manifest.json
+matriz: [thought]
+---
 # lukhas.consciousness.guardian_integration
 
 **Star**: 🛡️ Watch (Guardian)

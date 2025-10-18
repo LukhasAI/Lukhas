@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.service_registry
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/orchestration/service_registry/module.manifest.json
+matriz: [intent]
+---
 # candidate.orchestration.service_registry
 
 **Star**: Supporting

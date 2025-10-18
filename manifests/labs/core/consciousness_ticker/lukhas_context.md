@@ -1,3 +1,12 @@
+---
+module: candidate.core.consciousness_ticker
+star: 🌊 Flow (Consciousness)
+tier: T2_important
+owner: triage@lukhas
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/core/consciousness_ticker/module.manifest.json
+matriz: [thought]
+---
 # candidate.core.consciousness_ticker
 
 **Star**: 🌊 Flow (Consciousness)

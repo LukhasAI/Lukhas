@@ -1,3 +1,12 @@
+---
+module: candidate.consciousness.creativity.personality.voice
+star: 🌊 Flow (Consciousness)
+tier: T2_important
+owner: triage@lukhas
+colony: simulation
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/consciousness/creativity/personality/voice/module.manifest.json
+matriz: [thought]
+---
 # candidate.consciousness.creativity.personality.voice
 
 **Star**: 🌊 Flow (Consciousness)

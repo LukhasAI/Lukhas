@@ -1,3 +1,12 @@
+---
+module: lukhas.governance.identity.core
+star: ⚛️ Anchor (Identity)
+tier: T3_standard
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/lukhas/governance/identity/core/module.manifest.json
+matriz: [risk]
+---
 # lukhas.governance.identity.core
 
 **Star**: ⚛️ Anchor (Identity)

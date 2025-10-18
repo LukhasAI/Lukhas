@@ -1,3 +1,12 @@
+---
+module: candidate.core.bio_systems
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/core/bio_systems/module.manifest.json
+matriz: [supporting]
+---
 # candidate.core.bio_systems
 
 **Star**: Supporting

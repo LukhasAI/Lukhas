@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.kernel_bus
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/orchestration/kernel_bus/module.manifest.json
+matriz: [intent]
+---
 # candidate.orchestration.kernel_bus
 
 **Star**: Supporting

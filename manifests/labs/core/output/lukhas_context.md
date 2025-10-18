@@ -1,3 +1,12 @@
+---
+module: candidate.core.output
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/core/output/module.manifest.json
+matriz: [supporting]
+---
 # candidate.core.output
 
 **Star**: Supporting

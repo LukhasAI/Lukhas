@@ -1,3 +1,12 @@
+---
+module: candidate.api.oidc
+star: Supporting
+tier: T3_standard
+owner: unassigned
+colony: actuation
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/api/oidc/module.manifest.json
+matriz: [action]
+---
 # candidate.api.oidc
 
 **Star**: Supporting

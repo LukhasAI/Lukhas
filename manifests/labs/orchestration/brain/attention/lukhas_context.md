@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.brain.attention
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/orchestration/brain/attention/module.manifest.json
+matriz: [attention]
+---
 # candidate.orchestration.brain.attention
 
 **Star**: Supporting

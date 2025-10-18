@@ -1,3 +1,12 @@
+---
+module: candidate.core.symbolic.collapse
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/core/symbolic/collapse/module.manifest.json
+matriz: [supporting]
+---
 # candidate.core.symbolic.collapse
 
 **Star**: Supporting

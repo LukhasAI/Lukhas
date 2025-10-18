@@ -1,3 +1,12 @@
+---
+module: candidate.memory.connected
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: triage@lukhas
+colony: memory
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/memory/connected/module.manifest.json
+matriz: [memory]
+---
 # candidate.memory.connected
 
 **Star**: ✦ Trail (Memory)

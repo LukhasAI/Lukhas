@@ -1,3 +1,12 @@
+---
+module: candidate.bio.symbolic
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/bio/symbolic/module.manifest.json
+matriz: [supporting]
+---
 # candidate.bio.symbolic
 
 **Star**: Supporting

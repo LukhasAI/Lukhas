@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.agents.builtin
+star: 🔬 Horizon (Vision)
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/orchestration/agents/builtin/module.manifest.json
+matriz: [intent]
+---
 # candidate.orchestration.agents.builtin
 
 **Star**: 🔬 Horizon (Vision)

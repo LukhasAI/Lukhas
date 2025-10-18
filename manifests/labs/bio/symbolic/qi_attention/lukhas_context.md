@@ -1,3 +1,12 @@
+---
+module: candidate.bio.symbolic.qi_attention
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/bio/symbolic/qi_attention/module.manifest.json
+matriz: [attention]
+---
 # candidate.bio.symbolic.qi_attention
 
 **Star**: Supporting

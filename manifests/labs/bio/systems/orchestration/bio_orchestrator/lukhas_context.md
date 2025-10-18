@@ -1,3 +1,12 @@
+---
+module: candidate.bio.systems.orchestration.bio_orchestrator
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/bio/systems/orchestration/bio_orchestrator/module.manifest.json
+matriz: [intent]
+---
 # candidate.bio.systems.orchestration.bio_orchestrator
 
 **Star**: Supporting

@@ -1,3 +1,12 @@
+---
+module: lukhas.utils
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/lukhas/utils/module.manifest.json
+matriz: [supporting]
+---
 # lukhas.utils
 
 **Star**: Supporting

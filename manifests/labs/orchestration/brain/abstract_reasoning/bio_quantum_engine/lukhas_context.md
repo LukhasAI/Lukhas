@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.brain.abstract_reasoning.bio_quantum_engine
+star: 🔮 Oracle (Quantum)
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/orchestration/brain/abstract_reasoning/bio_quantum_engine/module.manifest.json
+matriz: [thought]
+---
 # candidate.orchestration.brain.abstract_reasoning.bio_quantum_engine
 
 **Star**: 🔮 Oracle (Quantum)

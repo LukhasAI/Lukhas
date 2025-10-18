@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.brain.spine.accent_adapter
+star: Supporting
+tier: T3_standard
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/orchestration/brain/spine/accent_adapter/module.manifest.json
+matriz: [intent]
+---
 # candidate.orchestration.brain.spine.accent_adapter
 
 **Star**: Supporting

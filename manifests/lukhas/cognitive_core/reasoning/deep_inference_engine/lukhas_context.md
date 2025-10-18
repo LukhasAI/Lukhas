@@ -1,3 +1,12 @@
+---
+module: lukhas.cognitive_core.reasoning.deep_inference_engine
+star: Supporting
+tier: T3_standard
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/lukhas/cognitive_core/reasoning/deep_inference_engine/module.manifest.json
+matriz: [thought]
+---
 # lukhas.cognitive_core.reasoning.deep_inference_engine
 
 **Star**: Supporting

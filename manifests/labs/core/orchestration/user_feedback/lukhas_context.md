@@ -1,3 +1,12 @@
+---
+module: candidate.core.orchestration.user_feedback
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/core/orchestration/user_feedback/module.manifest.json
+matriz: [intent]
+---
 # candidate.core.orchestration.user_feedback
 
 **Star**: Supporting

@@ -1,3 +1,12 @@
+---
+module: candidate.memory.learning.adaptive_agi.Meta_Learning
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: triage@lukhas
+colony: memory
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/memory/learning/adaptive_agi/Meta_Learning/module.manifest.json
+matriz: [memory]
+---
 # candidate.memory.learning.adaptive_agi.Meta_Learning
 
 **Star**: ✦ Trail (Memory)

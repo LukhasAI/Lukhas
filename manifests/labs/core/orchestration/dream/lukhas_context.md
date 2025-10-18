@@ -1,3 +1,12 @@
+---
+module: candidate.core.orchestration.dream
+star: 🌊 Flow (Consciousness)
+tier: T4_experimental
+owner: unassigned
+colony: simulation
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/core/orchestration/dream/module.manifest.json
+matriz: [intent]
+---
 # candidate.core.orchestration.dream
 
 **Star**: 🌊 Flow (Consciousness)

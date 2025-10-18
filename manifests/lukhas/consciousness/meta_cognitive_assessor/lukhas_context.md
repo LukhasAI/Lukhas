@@ -1,3 +1,12 @@
+---
+module: lukhas.consciousness.meta_cognitive_assessor
+star: 🌊 Flow (Consciousness)
+tier: T2_important
+owner: triage@lukhas
+colony: simulation
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/lukhas/consciousness/meta_cognitive_assessor/module.manifest.json
+matriz: [thought]
+---
 # lukhas.consciousness.meta_cognitive_assessor
 
 **Star**: 🌊 Flow (Consciousness)

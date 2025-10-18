@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.brain.cognitive_core
+star: Supporting
+tier: T3_standard
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/orchestration/brain/cognitive_core/module.manifest.json
+matriz: [thought]
+---
 # candidate.orchestration.brain.cognitive_core
 
 **Star**: Supporting

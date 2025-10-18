@@ -1,3 +1,12 @@
+---
+module: candidate.core.orchestration.coordination
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/core/orchestration/coordination/module.manifest.json
+matriz: [intent]
+---
 # candidate.core.orchestration.coordination
 
 **Star**: Supporting

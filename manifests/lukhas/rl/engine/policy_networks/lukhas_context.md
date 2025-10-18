@@ -1,3 +1,12 @@
+---
+module: lukhas.rl.engine.policy_networks
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/lukhas/rl/engine/policy_networks/module.manifest.json
+matriz: [supporting]
+---
 # lukhas.rl.engine.policy_networks
 
 **Star**: Supporting

@@ -1,3 +1,12 @@
+---
+module: candidate.consciousness.bridges.core
+star: 🌊 Flow (Consciousness)
+tier: T2_important
+owner: triage@lukhas
+colony: simulation
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/consciousness/bridges/core/module.manifest.json
+matriz: [thought]
+---
 # candidate.consciousness.bridges.core
 
 **Star**: 🌊 Flow (Consciousness)

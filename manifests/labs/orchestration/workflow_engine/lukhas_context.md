@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.workflow_engine
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/orchestration/workflow_engine/module.manifest.json
+matriz: [intent]
+---
 # candidate.orchestration.workflow_engine
 
 **Star**: Supporting

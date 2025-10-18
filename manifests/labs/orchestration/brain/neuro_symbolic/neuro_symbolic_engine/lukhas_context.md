@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.brain.neuro_symbolic.neuro_symbolic_engine
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/orchestration/brain/neuro_symbolic/neuro_symbolic_engine/module.manifest.json
+matriz: [intent]
+---
 # candidate.orchestration.brain.neuro_symbolic.neuro_symbolic_engine
 
 **Star**: Supporting

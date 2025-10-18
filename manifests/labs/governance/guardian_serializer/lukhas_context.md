@@ -1,3 +1,12 @@
+---
+module: candidate.governance.guardian_serializer
+star: 🛡️ Watch (Guardian)
+tier: T3_standard
+owner: unassigned
+colony: ethics
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/governance/guardian_serializer/module.manifest.json
+matriz: [risk]
+---
 # candidate.governance.guardian_serializer
 
 **Star**: 🛡️ Watch (Guardian)

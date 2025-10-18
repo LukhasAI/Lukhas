@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.1.0",
+  "module": {
+    "name": "candidate.api.oidc",
+    "path": "candidate/api/oidc",
+    "type": "package",
+    "lane": "candidate",
+    "colony": "actuation"
+  },
+  "matriz_integration": {
+    "status": "partial",
+    "pipeline_nodes": [
+      "action"
+    ],
+    "cognitive_function": ""
+  },
+  "constellation_alignment": {
+    "primary_star": "🛡️ Watch (Guardian)",
+    "star_aliases": [],
+    "trinity_aspects": []
+  },
+  "capabilities": [
+    {
+      "name": "action_execution",
+      "type": "orchestration",
+      "description": "Executes actions and effects in the system",
+      "interfaces": []
+    },
+    {
+      "name": "api_interface",
+      "type": "api",
+      "description": "Exposes external API endpoints",
+      "interfaces": [
+        "REST",
+        "HTTP"
+      ]
+    },
+    {
+      "name": "authentication",
+      "type": "authentication",
+      "description": "Handles authentication flows",
+      "interfaces": [
+        "OAuth2",
+        "OIDC"
+      ]
+    }
+  ],
+  "dependencies": {
+    "internal": [],
+    "external": [],
+    "circular_dependencies": []
+  },
+  "exports": {
+    "classes": [],
+    "functions": [],
+    "constants": []
+  },
+  "testing": {
+    "has_tests": false,
+    "quality_tier": "T3_standard"
+  },
+  "observability": {
+    "spans": [],
+    "metrics": [],
+    "logging": {
+      "logger_name": "candidate.api.oidc",
+      "default_level": "INFO"
+    },
+    "events": {
+      "publishes": [],
+      "subscribes": []
+    }
+  },
+  "security": {
+    "requires_auth": false,
+    "data_classification": "internal",
+    "secrets_used": [],
+    "network_calls": false,
+    "sandboxed": true,
+    "policies": []
+  },
+  "metadata": {
+    "created": "2025-10-18T17:36:41Z",
+    "last_updated": "2025-10-18T17:36:41Z",
+    "manifest_generated": true,
+    "owner": "unassigned",
+    "documentation_url": "",
+    "tags": []
+  }
+}

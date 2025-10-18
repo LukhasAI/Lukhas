@@ -1,3 +1,12 @@
+---
+module: lukhas.aka_qualia.pls
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/lukhas/aka_qualia/pls/module.manifest.json
+matriz: [supporting]
+---
 # lukhas.aka_qualia.pls
 
 **Star**: Supporting

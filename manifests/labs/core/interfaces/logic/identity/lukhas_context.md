@@ -1,3 +1,12 @@
+---
+module: candidate.core.interfaces.logic.identity
+star: ⚛️ Anchor (Identity)
+tier: T3_standard
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/core/interfaces/logic/identity/module.manifest.json
+matriz: [action]
+---
 # candidate.core.interfaces.logic.identity
 
 **Star**: ⚛️ Anchor (Identity)

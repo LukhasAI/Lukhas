@@ -1,3 +1,12 @@
+---
+module: candidate.core.quantum_biometrics
+star: 🔮 Oracle (Quantum)
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/core/quantum_biometrics/module.manifest.json
+matriz: [supporting]
+---
 # candidate.core.quantum_biometrics
 
 **Star**: 🔮 Oracle (Quantum)

@@ -1,3 +1,12 @@
+---
+module: candidate.memory.folds.multi
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: triage@lukhas
+colony: memory
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/memory/folds/multi/module.manifest.json
+matriz: [memory]
+---
 # candidate.memory.folds.multi
 
 **Star**: ✦ Trail (Memory)

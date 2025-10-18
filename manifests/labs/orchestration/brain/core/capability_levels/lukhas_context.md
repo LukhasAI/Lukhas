@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.brain.core.capability_levels
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/orchestration/brain/core/capability_levels/module.manifest.json
+matriz: [intent]
+---
 # candidate.orchestration.brain.core.capability_levels
 
 **Star**: Supporting

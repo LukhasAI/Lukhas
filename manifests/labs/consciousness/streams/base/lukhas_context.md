@@ -1,3 +1,12 @@
+---
+module: candidate.consciousness.streams.base
+star: 🌊 Flow (Consciousness)
+tier: T2_important
+owner: triage@lukhas
+colony: simulation
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/consciousness/streams/base/module.manifest.json
+matriz: [thought]
+---
 # candidate.consciousness.streams.base
 
 **Star**: 🌊 Flow (Consciousness)

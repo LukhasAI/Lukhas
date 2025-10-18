@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.signals
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/orchestration/signals/module.manifest.json
+matriz: [intent]
+---
 # candidate.orchestration.signals
 
 **Star**: Supporting

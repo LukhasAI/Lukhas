@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.brain.compliance
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/orchestration/brain/compliance/module.manifest.json
+matriz: [risk]
+---
 # candidate.orchestration.brain.compliance
 
 **Star**: Supporting

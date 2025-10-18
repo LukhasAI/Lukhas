@@ -1,3 +1,12 @@
+---
+module: lukhas.consciousness.matriz_thought_loop
+star: 🌊 Flow (Consciousness)
+tier: T3_standard
+owner: unassigned
+colony: simulation
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/lukhas/consciousness/matriz_thought_loop/module.manifest.json
+matriz: [thought]
+---
 # lukhas.consciousness.matriz_thought_loop
 
 **Star**: 🌊 Flow (Consciousness)

@@ -1,3 +1,12 @@
+---
+module: candidate.bio.core.symbolic_fallback_systems
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/bio/core/symbolic_fallback_systems/module.manifest.json
+matriz: [supporting]
+---
 # candidate.bio.core.symbolic_fallback_systems
 
 **Star**: Supporting

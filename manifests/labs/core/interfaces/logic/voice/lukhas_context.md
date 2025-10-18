@@ -1,3 +1,12 @@
+---
+module: candidate.core.interfaces.logic.voice
+star: 🔬 Horizon (Vision)
+tier: T3_standard
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/core/interfaces/logic/voice/module.manifest.json
+matriz: [action]
+---
 # candidate.core.interfaces.logic.voice
 
 **Star**: 🔬 Horizon (Vision)

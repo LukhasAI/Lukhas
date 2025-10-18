@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.brain.safety_guardrails
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/orchestration/brain/safety_guardrails/module.manifest.json
+matriz: [intent]
+---
 # candidate.orchestration.brain.safety_guardrails
 
 **Star**: Supporting

@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.learning_initializer
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/orchestration/learning_initializer/module.manifest.json
+matriz: [intent]
+---
 # candidate.orchestration.learning_initializer
 
 **Star**: Supporting

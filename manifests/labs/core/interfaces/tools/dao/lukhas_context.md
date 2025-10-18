@@ -1,3 +1,12 @@
+---
+module: candidate.core.interfaces.tools.dao
+star: 🔬 Horizon (Vision)
+tier: T3_standard
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/core/interfaces/tools/dao/module.manifest.json
+matriz: [action]
+---
 # candidate.core.interfaces.tools.dao
 
 **Star**: 🔬 Horizon (Vision)

@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.brain.dynamic_adaptive_dashboard
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/orchestration/brain/dynamic_adaptive_dashboard/module.manifest.json
+matriz: [intent]
+---
 # candidate.orchestration.brain.dynamic_adaptive_dashboard
 
 **Star**: Supporting

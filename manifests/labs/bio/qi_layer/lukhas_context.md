@@ -1,3 +1,12 @@
+---
+module: candidate.bio.qi_layer
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/bio/qi_layer/module.manifest.json
+matriz: [supporting]
+---
 # candidate.bio.qi_layer
 
 **Star**: Supporting

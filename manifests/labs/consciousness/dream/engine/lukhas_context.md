@@ -1,3 +1,12 @@
+---
+module: candidate.consciousness.dream.engine
+star: 🌊 Flow (Consciousness)
+tier: T2_important
+owner: triage@lukhas
+colony: simulation
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/consciousness/dream/engine/module.manifest.json
+matriz: [thought]
+---
 # candidate.consciousness.dream.engine
 
 **Star**: 🌊 Flow (Consciousness)

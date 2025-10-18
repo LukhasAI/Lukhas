@@ -1,3 +1,12 @@
+---
+module: candidate.core.hub_services
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/core/hub_services/module.manifest.json
+matriz: [supporting]
+---
 # candidate.core.hub_services
 
 **Star**: Supporting

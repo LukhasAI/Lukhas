@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.brain.compliance.ethical_engine
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: ethics
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/orchestration/brain/compliance/ethical_engine/module.manifest.json
+matriz: [risk]
+---
 # candidate.orchestration.brain.compliance.ethical_engine
 
 **Star**: Supporting

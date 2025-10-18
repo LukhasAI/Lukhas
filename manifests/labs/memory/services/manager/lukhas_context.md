@@ -1,3 +1,12 @@
+---
+module: candidate.memory.services.manager
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: triage@lukhas
+colony: memory
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/memory/services/manager/module.manifest.json
+matriz: [memory]
+---
 # candidate.memory.services.manager
 
 **Star**: ✦ Trail (Memory)

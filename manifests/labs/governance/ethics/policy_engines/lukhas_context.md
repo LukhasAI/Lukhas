@@ -1,3 +1,12 @@
+---
+module: candidate.governance.ethics.policy_engines
+star: 🛡️ Watch (Guardian)
+tier: T2_important
+owner: triage@lukhas
+colony: ethics
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/governance/ethics/policy_engines/module.manifest.json
+matriz: [risk]
+---
 # candidate.governance.ethics.policy_engines
 
 **Star**: 🛡️ Watch (Guardian)

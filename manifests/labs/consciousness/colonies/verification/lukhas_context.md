@@ -1,3 +1,12 @@
+---
+module: candidate.consciousness.colonies.verification
+star: 🌊 Flow (Consciousness)
+tier: T2_important
+owner: triage@lukhas
+colony: simulation
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/consciousness/colonies/verification/module.manifest.json
+matriz: [thought]
+---
 # candidate.consciousness.colonies.verification
 
 **Star**: 🌊 Flow (Consciousness)

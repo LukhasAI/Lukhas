@@ -1,3 +1,12 @@
+---
+module: candidate.governance.consent_ledger
+star: 🛡️ Watch (Guardian)
+tier: T2_important
+owner: triage@lukhas
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/governance/consent_ledger/module.manifest.json
+matriz: [risk]
+---
 # candidate.governance.consent_ledger
 
 **Star**: 🛡️ Watch (Guardian)

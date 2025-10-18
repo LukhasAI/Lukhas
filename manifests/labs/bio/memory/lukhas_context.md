@@ -1,3 +1,12 @@
+---
+module: candidate.bio.memory
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: triage@lukhas
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/bio/memory/module.manifest.json
+matriz: [memory]
+---
 # candidate.bio.memory
 
 **Star**: ✦ Trail (Memory)

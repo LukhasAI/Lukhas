@@ -1,3 +1,12 @@
+---
+module: candidate.core.collective.clusters
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/core/collective/clusters/module.manifest.json
+matriz: [supporting]
+---
 # candidate.core.collective.clusters
 
 **Star**: Supporting

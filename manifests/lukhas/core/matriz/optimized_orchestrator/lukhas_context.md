@@ -1,3 +1,12 @@
+---
+module: lukhas.core.matriz.optimized_orchestrator
+star: Supporting
+tier: T3_standard
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/lukhas/core/matriz/optimized_orchestrator/module.manifest.json
+matriz: [supporting]
+---
 # lukhas.core.matriz.optimized_orchestrator
 
 **Star**: Supporting

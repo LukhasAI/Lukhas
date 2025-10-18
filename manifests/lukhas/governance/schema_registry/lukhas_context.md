@@ -1,3 +1,12 @@
+---
+module: lukhas.governance.schema_registry
+star: 🛡️ Watch (Guardian)
+tier: T2_important
+owner: triage@lukhas
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/lukhas/governance/schema_registry/module.manifest.json
+matriz: [risk]
+---
 # lukhas.governance.schema_registry
 
 **Star**: 🛡️ Watch (Guardian)

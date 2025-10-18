@@ -1,3 +1,12 @@
+---
+module: lukhas.api
+star: Supporting
+tier: T3_standard
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/lukhas/api/module.manifest.json
+matriz: [action]
+---
 # lukhas.api
 
 **Star**: Supporting

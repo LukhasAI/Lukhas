@@ -1,3 +1,12 @@
+---
+module: candidate.core.orchestration.brain.abstract_reasoning
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/core/orchestration/brain/abstract_reasoning/module.manifest.json
+matriz: [thought]
+---
 # candidate.core.orchestration.brain.abstract_reasoning
 
 **Star**: Supporting

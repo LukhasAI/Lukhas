@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.brain.cognitive.cognitive_updater
+star: Supporting
+tier: T3_standard
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/orchestration/brain/cognitive/cognitive_updater/module.manifest.json
+matriz: [thought]
+---
 # candidate.orchestration.brain.cognitive.cognitive_updater
 
 **Star**: Supporting

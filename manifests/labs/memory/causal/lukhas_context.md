@@ -1,3 +1,12 @@
+---
+module: candidate.memory.causal
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: triage@lukhas
+colony: memory
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/memory/causal/module.manifest.json
+matriz: [memory]
+---
 # candidate.memory.causal
 
 **Star**: ✦ Trail (Memory)

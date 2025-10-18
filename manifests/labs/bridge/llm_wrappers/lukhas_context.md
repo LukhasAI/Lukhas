@@ -1,3 +1,12 @@
+---
+module: candidate.bridge.llm_wrappers
+star: Supporting
+tier: T2_important
+owner: triage@lukhas
+colony: actuation
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/bridge/llm_wrappers/module.manifest.json
+matriz: [action]
+---
 # candidate.bridge.llm_wrappers
 
 **Star**: Supporting

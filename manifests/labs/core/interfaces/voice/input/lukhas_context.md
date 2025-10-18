@@ -1,3 +1,12 @@
+---
+module: candidate.core.interfaces.voice.input
+star: 🔬 Horizon (Vision)
+tier: T3_standard
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/core/interfaces/voice/input/module.manifest.json
+matriz: [action]
+---
 # candidate.core.interfaces.voice.input
 
 **Star**: 🔬 Horizon (Vision)

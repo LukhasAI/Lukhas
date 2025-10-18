@@ -1,3 +1,12 @@
+---
+module: candidate.bio.bio_hub
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/bio/bio_hub/module.manifest.json
+matriz: [supporting]
+---
 # candidate.bio.bio_hub
 
 **Star**: Supporting

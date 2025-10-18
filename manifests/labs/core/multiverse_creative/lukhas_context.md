@@ -1,3 +1,12 @@
+---
+module: candidate.core.multiverse_creative
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/core/multiverse_creative/module.manifest.json
+matriz: [supporting]
+---
 # candidate.core.multiverse_creative
 
 **Star**: Supporting

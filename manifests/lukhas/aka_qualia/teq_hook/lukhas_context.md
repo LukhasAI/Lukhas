@@ -1,3 +1,12 @@
+---
+module: lukhas.aka_qualia.teq_hook
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/lukhas/aka_qualia/teq_hook/module.manifest.json
+matriz: [supporting]
+---
 # lukhas.aka_qualia.teq_hook
 
 **Star**: Supporting

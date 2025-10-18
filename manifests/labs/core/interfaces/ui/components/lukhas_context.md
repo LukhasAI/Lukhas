@@ -1,3 +1,12 @@
+---
+module: candidate.core.interfaces.ui.components
+star: 🔬 Horizon (Vision)
+tier: T3_standard
+owner: unassigned
+colony: interface
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/core/interfaces/ui/components/module.manifest.json
+matriz: [action]
+---
 # candidate.core.interfaces.ui.components
 
 **Star**: 🔬 Horizon (Vision)

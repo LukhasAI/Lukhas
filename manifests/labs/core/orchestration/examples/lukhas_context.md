@@ -1,3 +1,12 @@
+---
+module: candidate.core.orchestration.examples
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/core/orchestration/examples/module.manifest.json
+matriz: [intent]
+---
 # candidate.core.orchestration.examples
 
 **Star**: Supporting

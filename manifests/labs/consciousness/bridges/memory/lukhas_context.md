@@ -1,3 +1,12 @@
+---
+module: candidate.consciousness.bridges.memory
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: triage@lukhas
+colony: simulation
+manifest_path: /Users/agi_dev/LOCAL-REPOS/Lukhas-main-worktree/manifests/labs/consciousness/bridges/memory/module.manifest.json
+matriz: [memory]
+---
 # candidate.consciousness.bridges.memory
 
 **Star**: ✦ Trail (Memory)

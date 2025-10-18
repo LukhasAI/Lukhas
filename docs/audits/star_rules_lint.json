@@ -25,8 +25,8 @@
     "min_autopromote": 0.7
   },
   "totals": {
-    "manifests_scanned": 780,
-    "supporting_count": 403
+    "manifests_scanned": 778,
+    "supporting_count": 401
   },
   "hit_counts": {
     "rules": {
