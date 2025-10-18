@@ -26,7 +26,7 @@ def fix_later(*args, **kwargs):
 
 sys.path.append(str(Path(__file__).parent.parent))
 
-from analysis.voice_coherence_analyzer import VoiceCoherenceAnalyzer
+from analysis.voice_coherence_analyzer import VoiceCoherenceAnalyzer  # noqa: E402
 
 
 @dataclass

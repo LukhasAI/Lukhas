@@ -14,7 +14,7 @@ import pytest
 project_root = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(project_root))
 
-from lukhas.core.identity.matriz_consciousness_identity_signals import (
+from lukhas.core.identity.matriz_consciousness_identity_signals import (  # noqa: E402
     ConsciousnessIdentitySignalProcessor,
     CorrelationMatrix,
     IdentitySignalType,
