@@ -605,7 +605,7 @@ lukhasAwarenessEngine = AwarenessEngine
 ║ REFERENCES:
 ║   - Docs: docs/consciousness/awareness_engine.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=awareness-engine
-║   - Wiki: internal.lukhas.ai/wiki/consciousness-architecture
+║   - Wiki: internal.ai/wiki/consciousness-architecture
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

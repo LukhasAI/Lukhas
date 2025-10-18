@@ -309,7 +309,7 @@ class VivoxAkaQualiaIntegration:
         # Initialize VIVOX collapse engine if needed
         if self._vivox_collapse_engine is None:
             try:
-                from lukhas.vivox.collapse.z_collapse_engine import ZCollapseEngine
+                from vivox.collapse.z_collapse_engine import ZCollapseEngine
 
                 self._vivox_collapse_engine = ZCollapseEngine(
                     entropy_threshold=0.5,
@@ -380,7 +380,7 @@ class VivoxAkaQualiaIntegration:
         # Initialize VIVOX ME if needed
         if self._vivox_memory_expansion is None:
             try:
-                from lukhas.vivox.memory_expansion.vivox_me_core import (
+                from vivox.memory_expansion.vivox_me_core import (
                     VIVOXMemoryExpansion,
                 )
 

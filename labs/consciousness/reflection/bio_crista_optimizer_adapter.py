@@ -35,7 +35,7 @@ Description: Quantum module for advanced Cognitive functionality
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 Licensed under the LUKHAS Enterprise License.
 
-For documentation and support: https://lukhas.ai/docs
+For documentation and support: https://ai/docs
 """
 
 __module_name__ = "Quantum Bio Crista Optimizer Adapter"
@@ -55,7 +55,7 @@ import numpy as np
 
 # AIMPORT_TODO: Define or import the actual `CristaOptimizerBase` or similar type
 #               that `self.crista_optimizer` is expected to be.
-# from lukhas.core.bio.crista_optimizer import CristaOptimizerBase # Conceptual import
+# from core.bio.crista_optimizer import CristaOptimizerBase # Conceptual import
 CristaOptimizerBase = Any  # Placeholder type
 
 

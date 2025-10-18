@@ -60,13 +60,13 @@ from typing import Any, Optional
 
 # Import colony infrastructure
 try:
-    from lukhas.core.colonies.base_colony import BaseColony
-    from lukhas.core.colonies.creativity_colony import CreativityColony
-    from lukhas.core.colonies.ethics_swarm_colony import EthicsSwarmColony
-    from lukhas.core.colonies.memory_colony import MemoryColony
-    from lukhas.core.colonies.oracle_colony import OracleColony
-    from lukhas.core.colonies.reasoning_colony import ReasoningColony
-    from lukhas.core.colonies.temporal_colony import TemporalColony
+    from core.colonies.base_colony import BaseColony
+    from core.colonies.creativity_colony import CreativityColony
+    from core.colonies.ethics_swarm_colony import EthicsSwarmColony
+    from core.colonies.memory_colony import MemoryColony
+    from core.colonies.oracle_colony import OracleColony
+    from core.colonies.reasoning_colony import ReasoningColony
+    from core.colonies.temporal_colony import TemporalColony
 
     COLONY_SYSTEM_AVAILABLE = True
 except ImportError as e:
@@ -98,7 +98,7 @@ except ImportError as e:
 
 # Import quantum identity integration
 try:
-    from lukhas.core.tier_aware_colony_proxy import TierAwareColonyProxy
+    from core.tier_aware_colony_proxy import TierAwareColonyProxy
 
     from ._cleanup_archive.BACKUP_BEFORE_CONSOLIDATION_20250801_002312.core.qi_identity_manager import (
         QIUserContext,
@@ -117,7 +117,7 @@ class ColonyType(Enum):
 
     REASONING = "reasoning"
     CREATIVITY = "creativity"
-    MEMORY = "lukhas.memory"
+    MEMORY = "memory"
     ORACLE = "oracle"
     ETHICS = "ethics"
     TEMPORAL = "temporal"
@@ -314,7 +314,7 @@ class ColonyOrchestrator:
             self.coherence_processors = {
                 "reasoning": BioSymbolicProcessor("reasoning_coherence"),
                 "creativity": BioSymbolicProcessor("creativity_coherence"),
-                "lukhas.memory": BioSymbolicProcessor("memory_coherence"),
+                "memory": BioSymbolicProcessor("memory_coherence"),
                 "oracle": BioSymbolicProcessor("oracle_coherence"),
                 "ethics": BioSymbolicProcessor("ethics_coherence"),
             }

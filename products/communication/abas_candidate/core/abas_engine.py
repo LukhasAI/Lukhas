@@ -9,10 +9,10 @@ from typing import Any
 try:
     from ethics.core import get_shared_ethics_engine  # ΛTAG: ethics_bridge
 except (ImportError, AttributeError):  # pragma: no cover - fallback when namespace missing
-    from lukhas.governance.ethics.shared_ethics_engine import get_shared_ethics_engine
+    from governance.ethics.shared_ethics_engine import get_shared_ethics_engine
 
 try:
-    from lukhas.core.symbolic_core.symbolic_vocabulary import SymbolicVocabulary, get_symbolic_vocabulary
+    from core.symbolic_core.symbolic_vocabulary import SymbolicVocabulary, get_symbolic_vocabulary
 except ImportError:
     # Fallback for legacy path
     try:
@@ -67,7 +67,7 @@ class ConflictDetector:
 
     def __init__(self) -> None:
         try:
-            from lukhas.orchestration.golden_trio import get_trio_orchestrator
+            from orchestration.golden_trio import get_trio_orchestrator
 
             self.orchestrator = get_trio_orchestrator()
         except Exception:

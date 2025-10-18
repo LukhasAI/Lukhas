@@ -59,7 +59,7 @@ import numpy as np
 
 # Import LUKHAS components
 try:
-    from lukhas.core.colonies.base_colony import BaseColony
+    from core.colonies.base_colony import BaseColony
 
     from ..proteome.symbolic_proteome import ProteinType
 
@@ -486,7 +486,7 @@ class NeocorticalNetwork:
             await self.persistence.persist_memory(
                 content={
                     "type": "semantic",
-                    "lukhas.memory": memory.__dict__,
+                    "memory": memory.__dict__,
                     "neocortical": True,
                 },
                 memory_id=f"neo_{memory.memory_id}",

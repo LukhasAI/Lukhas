@@ -11,7 +11,7 @@ import logging
 from threading import RLock
 from typing import Any
 
-from lukhas.memory.distributed_state_manager import MultiNodeStateManager
+from memory.distributed_state_manager import MultiNodeStateManager
 
 logger = logging.getLogger(__name__)
 

@@ -24,11 +24,11 @@ from fastapi.responses import JSONResponse
 # Import observability
 from prometheus_client import Counter, Gauge, Histogram, make_asgi_app
 
-from lukhas.governance.guardian import get_guardian_status
+from governance.guardian import get_guardian_status
 
 # Import API routers
 from identity.webauthn_api import router as webauthn_router
-from lukhas.orchestration.api import router as orchestration_router
+from orchestration.api import router as orchestration_router
 
 logger = logging.getLogger(__name__)
 
@@ -286,7 +286,7 @@ if __name__ == "__main__":
     logger.info(f"🚀 Starting LUKHAS AI API on {host}:{port}")
 
     uvicorn.run(
-        "lukhas.main:app",
+        "main:app",
         host=host,
         port=port,
         reload=os.getenv("LUKHAS_MODE") == "development",

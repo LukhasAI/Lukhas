@@ -10,7 +10,7 @@ import pytest
 def test_real_consent_ledger_initialization():
     """Test real ConsentLedgerV1 initialization and basic functionality."""
     try:
-        from lukhas.governance.consent_ledger_impl import ConsentLedgerV1
+        from governance.consent_ledger_impl import ConsentLedgerV1
 
         # Create temporary database for testing
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -33,7 +33,7 @@ def test_real_consent_ledger_initialization():
 def test_real_consent_granting():
     """Test real consent granting functionality with actual database operations."""
     try:
-        from lukhas.governance.consent_ledger_impl import ConsentLedgerV1, ConsentScope, ConsentStatus
+        from governance.consent_ledger_impl import ConsentLedgerV1, ConsentScope, ConsentStatus
 
         with tempfile.TemporaryDirectory() as temp_dir:
             db_path = Path(temp_dir) / "test_consent.db"
@@ -63,7 +63,7 @@ def test_real_consent_granting():
 def test_real_consent_validation():
     """Test real consent validation logic."""
     try:
-        from lukhas.governance.consent_ledger_impl import ConsentLedgerV1, ConsentScope
+        from governance.consent_ledger_impl import ConsentLedgerV1, ConsentScope
 
         with tempfile.TemporaryDirectory() as temp_dir:
             db_path = Path(temp_dir) / "test_consent.db"
@@ -98,7 +98,7 @@ def test_real_consent_validation():
 def test_real_consent_revocation():
     """Test real consent revocation (GDPR Article 7 Right to Withdraw)."""
     try:
-        from lukhas.governance.consent_ledger_impl import ConsentLedgerV1, ConsentScope, ConsentStatus
+        from governance.consent_ledger_impl import ConsentLedgerV1, ConsentScope, ConsentStatus
 
         with tempfile.TemporaryDirectory() as temp_dir:
             db_path = Path(temp_dir) / "test_consent.db"
@@ -133,7 +133,7 @@ def test_real_consent_revocation():
 def test_real_audit_trail():
     """Test real audit trail functionality."""
     try:
-        from lukhas.governance.consent_ledger_impl import ConsentLedgerV1, ConsentScope
+        from governance.consent_ledger_impl import ConsentLedgerV1, ConsentScope
 
         with tempfile.TemporaryDirectory() as temp_dir:
             db_path = Path(temp_dir) / "test_consent.db"
@@ -167,7 +167,7 @@ def test_real_audit_trail():
 def test_real_gdpr_compliance():
     """Test real GDPR compliance features."""
     try:
-        from lukhas.governance.consent_ledger_impl import ConsentLedgerV1
+        from governance.consent_ledger_impl import ConsentLedgerV1
 
         with tempfile.TemporaryDirectory() as temp_dir:
             db_path = Path(temp_dir) / "test_consent.db"
@@ -206,7 +206,7 @@ def test_real_gdpr_compliance():
 def test_real_triad_framework_integration():
     """Test real Constellation Framework integration with consent ledger."""
     try:
-        from lukhas.governance.consent_ledger_impl import ConsentLedgerV1, ConsentScope
+        from governance.consent_ledger_impl import ConsentLedgerV1, ConsentScope
 
         with tempfile.TemporaryDirectory() as temp_dir:
             db_path = Path(temp_dir) / "test_consent.db"
@@ -244,7 +244,7 @@ def test_real_triad_framework_integration():
 def test_real_consent_ledger_edge_cases():
     """Test real consent ledger edge case handling."""
     try:
-        from lukhas.governance.consent_ledger_impl import ConsentLedgerV1, ConsentScope
+        from governance.consent_ledger_impl import ConsentLedgerV1, ConsentScope
 
         with tempfile.TemporaryDirectory() as temp_dir:
             db_path = Path(temp_dir) / "test_consent.db"

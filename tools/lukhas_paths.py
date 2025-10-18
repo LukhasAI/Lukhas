@@ -24,7 +24,7 @@ class LukhasPathManager:
 
     @property
     def config_tools(self):
-        return self.root / "config" / "lukhas.tools"
+        return self.root / "config" / "tools"
 
     @property
     def config_project(self):
@@ -109,7 +109,7 @@ class LukhasPathManager:
 
     @property
     def tools(self):
-        return self.root / "lukhas.tools"
+        return self.root / "tools"
 
     @property
     def performance(self):
@@ -146,7 +146,7 @@ class LukhasPathManager:
         """Get path for configuration files based on type"""
         config_paths = {
             "env": self.config_env,
-            "lukhas.tools": self.config_tools,
+            "tools": self.config_tools,
             "project": self.config_project,
             "node": self.config_node,
         }

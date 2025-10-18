@@ -163,7 +163,7 @@ class PerformanceAnalyzer:
 
         # Test critical module imports
         critical_modules = [
-            "lukhas.flags",
+            "flags",
             "governance.policy.base",
             "orchestration.signals.signal_bus",
             "consciousness.unified.auto_consciousness",

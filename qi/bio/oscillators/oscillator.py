@@ -432,7 +432,7 @@ class MoodOscillator(BioOscillator):
 ║ REFERENCES:
 ║   - Docs: docs/bio_systems/oscillator_guide.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=bio-oscillator
-║   - Wiki: internal.lukhas.ai/wiki/neural-oscillations
+║   - Wiki: internal.ai/wiki/neural-oscillations
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

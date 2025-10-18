@@ -34,9 +34,9 @@ if TYPE_CHECKING:
     from opentelemetry import metrics as otel_metrics
     from opentelemetry.sdk.trace.export import BatchSpanProcessor
 
-    from lukhas.consciousness import ConsciousnessCore
-    from lukhas.guardian import GuardianSystem
-    from lukhas.memory import MemoryFoldSystem
+    from consciousness import ConsciousnessCore
+    from guardian import GuardianSystem
+    from memory import MemoryFoldSystem
 
 
 datadog_module = _load_optional("datadog")
@@ -53,16 +53,16 @@ OPENTELEMETRY_AVAILABLE = bool(trace and TracerProvider)
 prometheus_client = _load_optional("prometheus_client")
 PROMETHEUS_AVAILABLE = prometheus_client is not None
 
-ConsciousnessCore = _load_optional("lukhas.consciousness", "ConsciousnessCore") or _load_optional(
+ConsciousnessCore = _load_optional("consciousness", "ConsciousnessCore") or _load_optional(
     "candidate.consciousness", "ConsciousnessCore"
 )
-MemoryFoldSystem = _load_optional("lukhas.memory", "MemoryFoldSystem") or _load_optional(
+MemoryFoldSystem = _load_optional("memory", "MemoryFoldSystem") or _load_optional(
     "candidate.memory", "MemoryFoldSystem"
 )
-GuardianSystem = _load_optional("lukhas.guardian", "GuardianSystem") or _load_optional(
+GuardianSystem = _load_optional("guardian", "GuardianSystem") or _load_optional(
     "candidate.governance", "GuardianSystem"
 )
-TrinityFramework = _load_optional("lukhas.trinity", "TrinityFramework")
+TrinityFramework = _load_optional("trinity", "TrinityFramework")
 LUKHAS_AVAILABLE = bool(ConsciousnessCore or MemoryFoldSystem or GuardianSystem or TrinityFramework)
 
 logging.basicConfig(level=logging.INFO)
@@ -291,7 +291,7 @@ class T4ObservabilityStack:
 
         Args:
             metric_type (str): The type of metric (e.g., 'gauge', 'count', 'histogram').
-            metric_name (str): The name of the metric (e.g., 'lukhas.business.revenue').
+            metric_name (str): The name of the metric (e.g., 'business.revenue').
             value (float): The value of the metric.
             tags (list, optional): A list of tags to associate with the metric.
         """

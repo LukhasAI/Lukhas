@@ -52,7 +52,7 @@ class SecurityIntegration:
     async def _replace_xor_encryption(self):
         """Replace XOR encryption with real crypto"""
         # Memory module encryption
-        self.module_hooks["lukhas.memory"] = self._create_memory_encryption_hook()
+        self.module_hooks["memory"] = self._create_memory_encryption_hook()
 
         # Identity module encryption
         self.module_hooks["identity"] = self._create_identity_encryption_hook()
@@ -141,9 +141,9 @@ class SecurityIntegration:
         """Setup encrypted channels for module communication"""
         # Create channels for critical module pairs
         critical_channels = [
-            ("consciousness", "lukhas.memory"),
-            ("lukhas.governance", "consciousness"),
-            ("identity", "lukhas.governance"),
+            ("consciousness", "memory"),
+            ("governance", "consciousness"),
+            ("identity", "governance"),
             ("orchestration", "all"),
         ]
 
@@ -337,7 +337,7 @@ class SecurityIntegration:
         sensitive_ops = [
             "personality",
             "consciousness",
-            "lukhas.governance",
+            "governance",
             "delete",
             "modify_core",
             "admin",

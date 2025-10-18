@@ -577,7 +577,7 @@ async def demo_integration():
         ],
         "code_example": """
 # Store user interaction with emotion
-memory = lukhas.create_memory_fold({
+memory = create_memory_fold({
     'content': user_message,
     'emotional_state': detect_emotion(user_message),
     'causal_links': [previous_interaction_id],
@@ -585,7 +585,7 @@ memory = lukhas.create_memory_fold({
 })
 
 # Later, recall with quantum search
-relevant_memories = lukhas.recall_memories({
+relevant_memories = recall_memories({
     'query': new_user_query,
     'emotional_context': current_mood,
     'causal_depth': 5,

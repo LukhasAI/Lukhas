@@ -1,10 +1,10 @@
 """Bridge: orchestration.kernel_bus (message bus/contracts)."""
 from __future__ import annotations
 
-from lukhas._bridgeutils import bridge_from_candidates, safe_guard
+from _bridgeutils import bridge_from_candidates, safe_guard
 
 _CANDIDATES = (
-    "lukhas_website.lukhas.orchestration.kernel_bus",
+    "lukhas_website.orchestration.kernel_bus",
     "candidate.orchestration.kernel_bus",
     "orchestration.kernel_bus",
 )

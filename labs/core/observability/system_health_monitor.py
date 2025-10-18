@@ -56,7 +56,7 @@ class ComponentType(Enum):
     GUARDIAN = "guardian"
     CONSCIOUSNESS = "consciousness"
     IDENTITY = "identity"
-    MEMORY = "lukhas.memory"
+    MEMORY = "memory"
     API = "api"
     QUANTUM = "quantum"
     BIO = "bio"

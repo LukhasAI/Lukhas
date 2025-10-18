@@ -11,12 +11,12 @@ while maintaining backward compatibility.
 import time
 from enum import Enum
 
-from lukhas.core.fault_tolerance import SupervisionStrategy
-from lukhas.core.minimal_actor import Actor
+from core.fault_tolerance import SupervisionStrategy
+from core.minimal_actor import Actor
 
 # Import enhanced implementations for better functionality
 try:
-    from lukhas.core.enhanced_swarm import (
+    from core.enhanced_swarm import (
         EnhancedColony as AgentColonyEnhanced,
         EnhancedSwarmAgent as SwarmAgentEnhanced,
         EnhancedSwarmHub as SwarmHubEnhanced,
@@ -272,7 +272,7 @@ class SwarmHub:
 
         # Create specialized colonies
         reasoning = self.create_colony("reasoning", ["logical_reasoning", "problem_solving"], 3)
-        self.create_colony("lukhas.memory", ["episodic_memory", "semantic_memory"], 3)
+        self.create_colony("memory", ["episodic_memory", "semantic_memory"], 3)
         self.create_colony("creativity", ["idea_generation", "synthesis"], 2)
 
         # Start colonies (enhanced behavior)

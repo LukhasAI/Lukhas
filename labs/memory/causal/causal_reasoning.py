@@ -880,7 +880,7 @@ logger.debug("ΛTRACE: causal_reasoning.py module `__all__` defined.", exported_
 ║ REFERENCES:
 ║   - Docs: docs/reasoning/causal_reasoning.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=causal-reasoning
-║   - Wiki: wiki.lukhas.ai/causal-inference
+║   - Wiki: wiki.ai/causal-inference
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

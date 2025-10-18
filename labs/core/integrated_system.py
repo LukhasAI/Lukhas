@@ -22,7 +22,7 @@ except ImportError:
 
 
 # Use the colony system from lukhas
-from lukhas.colonies.base import BaseColony
+from colonies.base import BaseColony
 
 # Import our core components
 
@@ -170,7 +170,7 @@ async def demo_integrated_system():
         tasks = [
             {
                 "type": "complex_analysis",
-                "required_capabilities": ["reasoning", "lukhas.memory"],
+                "required_capabilities": ["reasoning", "memory"],
                 "complexity": "high",
                 "data_size": "large",
             },
@@ -182,7 +182,7 @@ async def demo_integrated_system():
             },
             {
                 "type": "knowledge_integration",
-                "required_capabilities": ["lukhas.memory", "reasoning", "creativity"],
+                "required_capabilities": ["memory", "reasoning", "creativity"],
                 "complexity": "very_high",
                 "domains": ["ai", "neuroscience", "philosophy"],
             },

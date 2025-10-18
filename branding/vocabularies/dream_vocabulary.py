@@ -384,7 +384,7 @@ class BrandingDreamVocabulary:
 ║ REFERENCES:
 ║   - Docs: docs/symbolic/vocabularies/dream_vocabulary.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=dream-vocabulary
-║   - Wiki: internal.lukhas.ai/wiki/dream-symbolic-system
+║   - Wiki: internal.ai/wiki/dream-symbolic-system
 ║
 ║ VOCABULARY STATUS:
 ║   - Total Symbols: 50+ dream-related symbols

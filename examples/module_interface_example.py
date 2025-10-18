@@ -14,16 +14,16 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from lukhas.core.common import GLYPHSymbol, GLYPHToken, get_logger
-from lukhas.core.common.exceptions import LukhasError, ValidationError
+from core.common import GLYPHSymbol, GLYPHToken, get_logger
+from core.common.exceptions import LukhasError, ValidationError
 
 # LUKHAS imports
-from lukhas.core.interfaces import CoreInterface
-from lukhas.core.interfaces.dependency_injection import (
+from core.interfaces import CoreInterface
+from core.interfaces.dependency_injection import (
     get_service,
     register_service,
 )
-from lukhas.core.interfaces.memory_interface import MemoryType
+from core.interfaces.memory_interface import MemoryType
 
 # Configure logging
 logger = get_logger(__name__)
@@ -527,7 +527,7 @@ async def main():
     )
 
     # Register mock services
-    from lukhas.core.interfaces.dependency_injection import register_service
+    from core.interfaces.dependency_injection import register_service
 
     register_service("memory_service", mock_memory)
     register_service("consciousness_service", mock_consciousness)

@@ -14,10 +14,10 @@ class LUKHASBootstrap:
         self.modules = {
             "core": "Brain Stem - Foundation",
             "consciousness": "Cortex - Awareness",
-            "lukhas.memory": "Hippocampus - Storage",
+            "memory": "Hippocampus - Storage",
             "qim": "Quantum-Inspired Metaphors (formerly quantum)",
             "emotion": "Limbic System - Affect",
-            "lukhas.governance": "Immune System - Protection",
+            "governance": "Immune System - Protection",
             "bridge": "Peripheral Nervous - I/O",
         }
 
@@ -47,7 +47,7 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('lukhas.log'),
+        logging.FileHandler('log'),
         logging.StreamHandler()
     ]
 )
@@ -132,13 +132,13 @@ def main():
     lukhas = LUKHAS()
 
     # Start system
-    if lukhas.start():
+    if start():
         try:
             # Run interactive mode
-            lukhas.run_interactive_mode()
+            run_interactive_mode()
         finally:
             # Ensure proper shutdown
-            lukhas.shutdown()
+            shutdown()
     else:
         sys.exit(1)
 
@@ -187,7 +187,7 @@ BATCH_SIZE=32
 CACHE_SIZE=1024
 
 # Database
-DATABASE_URL=sqlite:///lukhas.db
+DATABASE_URL=sqlite:///db
 """
 
         with open(".env.example", "w") as f:

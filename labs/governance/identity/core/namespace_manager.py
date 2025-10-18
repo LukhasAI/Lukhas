@@ -14,10 +14,10 @@ Features:
 - <5ms namespace resolution latency
 
 Namespace Schema:
-- Root namespaces: lukhas.ai, enterprise.lukhas.ai, dev.lukhas.ai
-- Tenant namespaces: {tenant}.lukhas.ai
-- Service namespaces: {service}.{tenant}.lukhas.ai
-- User namespaces: user.{user_id}.lukhas.ai
+- Root namespaces: ai, enterprise.ai, dev.ai
+- Tenant namespaces: {tenant}.ai
+- Service namespaces: {service}.{tenant}.ai
+- User namespaces: user.{user_id}.ai
 """
 import secrets
 import time
@@ -164,7 +164,7 @@ class NamespaceManager:
         """Initialize default system namespaces"""
         default_namespaces = [
             {
-                "namespace_id": "lukhas.ai",
+                "namespace_id": "ai",
                 "namespace_type": "root",
                 "display_name": "LUKHAS AI Root",
                 "description": "Root namespace for LUKHAS AI system",
@@ -172,16 +172,16 @@ class NamespaceManager:
                 "rate_limit_per_minute": 10000,
             },
             {
-                "namespace_id": "enterprise.lukhas.ai",
-                "parent_namespace": "lukhas.ai",
+                "namespace_id": "enterprise.ai",
+                "parent_namespace": "ai",
                 "namespace_type": "enterprise",
                 "display_name": "LUKHAS AI Enterprise",
                 "description": "Enterprise tenant namespace",
                 "isolation_level": "strict",
             },
             {
-                "namespace_id": "dev.lukhas.ai",
-                "parent_namespace": "lukhas.ai",
+                "namespace_id": "dev.ai",
+                "parent_namespace": "ai",
                 "namespace_type": "development",
                 "display_name": "LUKHAS AI Development",
                 "description": "Development and testing namespace",

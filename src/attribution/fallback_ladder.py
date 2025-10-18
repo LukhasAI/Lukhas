@@ -758,7 +758,7 @@ async def main():
                 "timestamp": time.time() - 1800,  # 30 minutes ago
             },
             "click_id": "click_abcdef123456",
-            "referrer": "https://lukhas.ai/r/tech-headphones",
+            "referrer": "https://ai/r/tech-headphones",
             "session_data": {"device": "desktop", "browser": "chrome"},
             "last_lukhas_interaction": time.time() - 3600,  # 1 hour ago
             "merchant_s2s_endpoint": "https://techstore.com/api/lukhas/verify",

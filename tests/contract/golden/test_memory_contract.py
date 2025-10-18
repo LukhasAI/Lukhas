@@ -6,7 +6,7 @@ import pytest
 @pytest.mark.no_mock
 def test_memory_dump_contract(tmp_path):
     p = tmp_path / "dump.json"
-    from lukhas.memory import dump_state
+    from memory import dump_state
 
     dump_state(str(p))  # must write a real file
     got = json.loads(p.read_text())

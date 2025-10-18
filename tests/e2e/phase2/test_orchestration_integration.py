@@ -35,7 +35,7 @@ try:
         MultiModelOrchestrator,
         WorkflowExecution,
     )
-    from lukhas.governance.guardian_system import GuardianSystem
+    from governance.guardian_system import GuardianSystem
     from bridge.anthropic_bridge import AnthropicBridge
     from bridge.google_bridge import GoogleBridge
     from bridge.openai_bridge import OpenAIBridge

@@ -1,7 +1,7 @@
 from typing import Any
 
-from lukhas.core.colonies.governance_colony import GovernanceColony
-from lukhas.core.colonies.reasoning_colony import ReasoningColony
+from core.colonies.governance_colony import GovernanceColony
+from core.colonies.reasoning_colony import ReasoningColony
 
 
 class _StubColony:

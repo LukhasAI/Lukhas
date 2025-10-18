@@ -32,11 +32,11 @@ from unittest.mock import patch
 import pytest
 
 # Import MATRIZ components
-from lukhas.consciousness.matriz_thought_loop import MATRIZProcessingContext, MATRIZThoughtLoop
-from lukhas.consciousness.types import ConsciousnessState
+from consciousness.matriz_thought_loop import MATRIZProcessingContext, MATRIZThoughtLoop
+from consciousness.types import ConsciousnessState
 
 # Import Guardian components
-from lukhas.governance.guardian_serializers import GuardianEnvelopeSerializer
+from governance.guardian_serializers import GuardianEnvelopeSerializer
 
 logger = logging.getLogger(__name__)
 

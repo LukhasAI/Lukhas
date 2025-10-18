@@ -9,7 +9,7 @@ __all__: List[str] = []
 
 for _candidate in (
     "labs.candidate.consciousness.reflection_engine",
-    "lukhas_website.lukhas.consciousness.reflection_engine",
+    "lukhas_website.consciousness.reflection_engine",
     "consciousness.reflection_engine",
 ):
     try:

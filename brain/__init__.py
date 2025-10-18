@@ -40,8 +40,8 @@ logger = logging.getLogger(__name__)
 BRAIN_ACTIVE = True
 
 try:
-    # Import from production lukhas.orchestration system (the real brain!)
-    from lukhas.orchestration import (
+    # Import from production orchestration system (the real brain!)
+    from orchestration import (
         BrandContext,
         EventPriority,
         KernelBus,
@@ -58,7 +58,7 @@ try:
 
     # Also import brain monitoring if available
     try:
-        from lukhas.orchestration.brain.monitoring.intelligence_monitor import (
+        from orchestration.brain.monitoring.intelligence_monitor import (
             AlertEvent,
             AlertLevel,
             LukhasIntelligenceMonitor,
@@ -91,7 +91,7 @@ try:
     logger.info("✅ LUKHAS brain orchestration system loaded (production)")
 
 except ImportError as e:
-    logger.warning(f"⚠️  Could not import lukhas.orchestration: {e}")
+    logger.warning(f"⚠️  Could not import orchestration: {e}")
 
     # Fallback placeholder classes for all components
     class OrchestrationHub:
@@ -211,7 +211,7 @@ def get_brain_status() -> dict[str, Any]:
                 "validate_output",
             ],
             "orchestration_functions": ["create_orchestration_hub", "process_cognitive_flow", "monitor_brain_health"],
-            "architecture": "Lane System (lukhas.orchestration + monitoring → brain)",
+            "architecture": "Lane System (orchestration + monitoring → brain)",
             "version": "2.0.0",
         }
 

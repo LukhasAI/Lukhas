@@ -93,7 +93,7 @@ class WorkflowEngine:
 
         if category == "consciousness":
             return await self._process_consciousness(data)
-        elif category == "lukhas.governance":
+        elif category == "governance":
             return await self._process_governance(data)
         elif category == "voice":
             return await self._process_voice(data)
@@ -237,7 +237,7 @@ if __name__ == "__main__":
 ║ REFERENCES:
 ║   - Docs: docs/orchestration/workflow_engine.md
 ║   - Issues: github.com/lukhas-ai/lukhas/issues?label=orchestration
-║   - Wiki: https://lukhas.ai/wiki/Orchestration-Workflow-Engine
+║   - Wiki: https://ai/wiki/Orchestration-Workflow-Engine
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

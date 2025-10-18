@@ -93,7 +93,7 @@ def main():
     print("=" * 60)
 
     # Target directories with most issues
-    target_dirs = ["core", "bridge", "lukhas.tools"]
+    target_dirs = ["core", "bridge", "tools"]
 
     total_fixed = 0
 

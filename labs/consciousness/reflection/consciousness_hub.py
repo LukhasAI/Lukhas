@@ -81,7 +81,7 @@ AUTHORS: LUKHAS Consciousness Research Collective
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 Licensed under the LUKHAS Enterprise License.
 
-For documentation and support: https://lukhas.ai/consciousness
+For documentation and support: https://ai/consciousness
 """
 from datetime import timezone
 
@@ -95,7 +95,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Callable, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 # Set up logger first
 logger = get_logger(__name__)

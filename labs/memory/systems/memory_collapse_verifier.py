@@ -7,7 +7,7 @@ Ensures symbolic memory collapses maintain structural and semantic integrity.
 """
 from dataclasses import dataclass
 
-from lukhas.core.symbolic.symbolic_tracer import SymbolicTracer
+from core.symbolic.symbolic_tracer import SymbolicTracer
 
 
 @dataclass

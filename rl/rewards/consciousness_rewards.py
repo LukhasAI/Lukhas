@@ -25,7 +25,7 @@ try:
 except ImportError:
     np = None
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 from ..engine.consciousness_environment import MatrizNode
 
@@ -105,7 +105,7 @@ class ConsciousnessRewards:
         """Get reference to existing consciousness module (no duplication)"""
         try:
             if module_path == "governance.guardian.v1":
-                from lukhas.core.governance import GuardianSystem
+                from core.governance import GuardianSystem
 
                 return GuardianSystem()
             elif module_path == "ethics.engine.v1":

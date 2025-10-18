@@ -37,7 +37,7 @@ class ConsciousnessMatrizAdapter:
             },
             "timestamps": {"created_ts": int(time.time() * 1000)},
             "provenance": {
-                "producer": "lukhas.consciousness",
+                "producer": "consciousness",
                 "capabilities": [
                     "consciousness:aware",
                     "consciousness:decide",

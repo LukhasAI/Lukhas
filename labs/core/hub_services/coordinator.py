@@ -18,7 +18,7 @@ class ModuleType(Enum):
     """Types of modules that can be coordinated"""
 
     CORE = "core"
-    MEMORY = "lukhas.memory"
+    MEMORY = "memory"
     CONSCIOUSNESS = "consciousness"
     LEARNING = "learning"
     IDENTITY = "identity"

@@ -32,7 +32,7 @@ from typing import Any, Callable, Optional
 
 import aiofiles
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 from .actor_system import Actor, ActorMessage, ActorSystem
 

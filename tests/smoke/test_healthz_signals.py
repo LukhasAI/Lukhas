@@ -6,7 +6,7 @@ when available, enabling operational monitoring without requiring verbose logs.
 """
 import os
 from fastapi.testclient import TestClient
-from lukhas.adapters.openai.api import get_app
+from adapters.openai.api import get_app
 
 
 def _client():

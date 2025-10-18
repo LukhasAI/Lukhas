@@ -11,7 +11,7 @@ Constellation Framework: ⚛️🧠🛡️
 
 This module provides unified access to LUKHAS emotion processing capabilities
 following the lane system architecture where production-ready emotion logic
-resides in lukhas.emotion.
+resides in emotion.
 
 Key Features:
 - Valence-Arousal-Dominance (VAD) emotion processing
@@ -20,7 +20,7 @@ Key Features:
 - Real-time emotion tracking and analysis
 
 Architecture:
-- Production Logic: lukhas.emotion (emotion_wrapper.py, comprehensive VAD processing)
+- Production Logic: emotion (emotion_wrapper.py, comprehensive VAD processing)
 - Development Logic: candidate.emotion (extensive development modules)
 - Bridge Module: This file provides unified root-level access
 
@@ -39,7 +39,7 @@ logger = logging.getLogger(__name__)
 EMOTION_ACTIVE = True
 
 try:
-    # Import from production lukhas.emotion system
+    # Import from production emotion system
     from emotion import (
         EMOTION_ACTIVE as _emotion_active,
         EmotionWrapper,
@@ -125,7 +125,7 @@ def get_emotion_status() -> dict[str, Any]:
                 "instrument",
             ],
             "emotion_wrapper_available": EmotionWrapper is not None,
-            "architecture": "Lane System (lukhas.emotion → emotion)",
+            "architecture": "Lane System (emotion → emotion)",
             "version": "2.0.0",
         }
 

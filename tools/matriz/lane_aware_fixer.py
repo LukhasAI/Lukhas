@@ -38,7 +38,7 @@ MATRIZ_CONFIG = ROOT / "ops" / "matriz.yaml"
 LANE_POLICIES_CONFIG = ROOT / "config" / "lane_fix_policies.json"
 
 # Import our existing fixers
-sys.path.insert(0, str(ROOT / "lukhas.tools" / "automation"))
+sys.path.insert(0, str(ROOT / "tools" / "automation"))
 try:
     from diagnostic_orchestrator import DiagnosticOrchestrator  # noqa: F401  # Bridge validation import
     from enhanced_fstring_fixer import EnhancedFStringFixer
@@ -306,7 +306,7 @@ class LaneAwareFixer:
             return "accepted"
         elif module_path.startswith("labs."):
             return "labs"
-        elif module_path.startswith("core.") or module_path.startswith("lukhas.core."):
+        elif module_path.startswith("core.") or module_path.startswith("core."):
             return "core"
         elif module_path.startswith("matriz."):
             return "matriz"

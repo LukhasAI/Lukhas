@@ -51,7 +51,7 @@ import asyncio
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from lukhas.consciousness.reflection.openai_core_service import (
+from consciousness.reflection.openai_core_service import (
     ModelType,
     OpenAICapability,
     OpenAICoreService,

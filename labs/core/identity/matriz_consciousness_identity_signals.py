@@ -160,8 +160,8 @@ class MatrizConsciousnessIdentitySignalEmitter:
         # Signal routing and targeting
         self.default_target_modules = [
             "consciousness.unified.auto_consciousness",
-            "lukhas.governance.guardian_system",
-            "lukhas.memory.fold_system",
+            "governance.guardian_system",
+            "memory.fold_system",
             "orchestration.brain.primary_hub",
         ]
 
@@ -538,7 +538,7 @@ class MatrizConsciousnessIdentitySignalEmitter:
                     metacognition_active=True,
                     bio_symbolic_data=bio_symbolic_data,
                     constellation_compliance=constellation_compliance,
-                    target_modules=[*self.default_target_modules, "lukhas.governance.constitutional_ai"],
+                    target_modules=[*self.default_target_modules, "governance.constitutional_ai"],
                     processing_hints={
                         "identity_signal_type": IdentitySignalType.CONSTITUTIONAL_COMPLIANCE.value,
                         "compliance_score": compliance_score,

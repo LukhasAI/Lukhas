@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 from datetime import datetime
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 from .voice_profiling import VoiceProfile, VoiceProfileManager
 

@@ -24,7 +24,7 @@
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-from lukhas.core.lukhas_emotion_log import get_emotion_state
+from core.lukhas_emotion_log import get_emotion_state
 
 
 def synthesize_voice(text, tone=None, actor="Lukhas"):
@@ -71,7 +71,7 @@ def synthesize_voice(text, tone=None, actor="Lukhas"):
 ║ REFERENCES:
 ║   - Docs: docs.elevenlabs.io/api-reference
 ║   - Issues: N/A
-║   - Wiki: internal.lukhas.ai/wiki/voice-synthesis
+║   - Wiki: internal.ai/wiki/voice-synthesis
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

@@ -6,7 +6,7 @@ validates graceful degradation to stub mode when unavailable.
 """
 import pytest
 from starlette.testclient import TestClient
-from lukhas.adapters.openai.api import get_app, MATRIZ_AVAILABLE
+from adapters.openai.api import get_app, MATRIZ_AVAILABLE
 
 # Skip entire module if MATRIZ not available
 pytestmark = pytest.mark.skipif(

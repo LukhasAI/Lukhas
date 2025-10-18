@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 # ΛTAG: ethical_tag_misinterpretation
 

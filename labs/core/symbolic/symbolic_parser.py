@@ -795,7 +795,7 @@ class SymbolicParser:
 ║ REFERENCES:
 ║   - Docs: docs/identity/symbolic_parsing.md
 ║   - Issues: github.com/lukhas-ai/lukhas/issues?label=symbolic-parser
-║   - Wiki: https://internal.lukhas.ai/wiki/Symbolic_Parser
+║   - Wiki: https://internal.ai/wiki/Symbolic_Parser
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

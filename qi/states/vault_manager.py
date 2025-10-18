@@ -31,7 +31,7 @@ Description: Quantum module for advanced Cognitive functionality
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 Licensed under the LUKHAS Enterprise License.
 
-For documentation and support: https://lukhas.ai/docs
+For documentation and support: https://ai/docs
 """
 from datetime import timezone
 
@@ -513,7 +513,7 @@ if __name__ == "__main__":
 ║ REFERENCES:
 ║   - Docs: docs/quantum/vault-security.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=quantum-vault
-║   - Wiki: wiki.lukhas.ai/quantum-security-architecture
+║   - Wiki: wiki.ai/quantum-security-architecture
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

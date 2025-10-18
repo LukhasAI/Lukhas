@@ -26,7 +26,7 @@ import pytest
 # Tool execution imports with fallback handling
 try:
     from labs.tools.tool_executor import ResourceLimits, ToolExecutor
-    from lukhas.governance.guardian_system import GuardianSystem
+    from governance.guardian_system import GuardianSystem
     from tools.code_executor import CodeExecutor
     from tools.docker_sandbox import DockerSandbox
     from tools.web_scraper import SafeWebScraper
@@ -121,7 +121,7 @@ for i in range(1000000):
 
         # Should be terminated or contained within memory limits
         if not result.success:
-            assert "lukhas.memory" in result.error.lower() or "killed" in result.error.lower()
+            assert "memory" in result.error.lower() or "killed" in result.error.lower()
 
         # CPU limit test - should complete but be throttled
         cpu_intensive_code = """
@@ -520,7 +520,7 @@ except MemoryError:
         if result.success:
             assert "Memory limit reached" in result.output
         else:
-            assert "lukhas.memory" in result.error.lower() or "limit" in result.error.lower()
+            assert "memory" in result.error.lower() or "limit" in result.error.lower()
 
     @pytest.mark.asyncio
     async def test_execution_timeout(self, resource_monitor):

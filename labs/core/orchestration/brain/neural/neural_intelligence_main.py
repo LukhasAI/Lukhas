@@ -94,12 +94,12 @@ async def main():
     lukhas = LukhasNeuralIntelligence(config)
 
     # Show system status
-    status = lukhas.get_system_status()
+    status = get_system_status()
     print(f"Session ID: {status['session_id']}")
     print(f"Capability Level: {status['capability_level']}")
 
     # Show Lukhas innovations
-    innovations = lukhas.get_innovations_status()
+    innovations = get_innovations_status()
     print("\n🌟 Lukhas Unique Innovations:")
     for name, info in innovations.items():
         status_icon = "✅" if info["active"] else "⚠️"
@@ -119,7 +119,7 @@ async def main():
     for i, request in enumerate(test_requests, 1):
         print(f"\n{i}. Request: {request}")
 
-        response_data = await lukhas.process_request(request)
+        response_data = await process_request(request)
 
         print(f"   Response: {response_data['response'][:150]}...")
         print(f"   Confidence: {response_data['confidence']:.2f}")
@@ -127,7 +127,7 @@ async def main():
         print(f"   Healix Active: {response_data['lukhas_innovations']['healix']['active']}")
 
     # Final status
-    final_status = lukhas.get_system_status()
+    final_status = get_system_status()
     print("\n📊 Final Metrics:")
     print(f"   Total Interactions: {final_status['performance_metrics']['total_interactions']}")
     print(f"   Average Confidence: {final_status['performance_metrics']['average_confidence']:.3f}")

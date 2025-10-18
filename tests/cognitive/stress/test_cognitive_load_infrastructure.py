@@ -37,8 +37,8 @@ import pytest
 # LUKHAS cognitive imports
 from cognitive_core.reasoning.contradiction_integrator import ContradictionIntegrator
 from cognitive_core.reasoning.deep_inference_engine import DeepInferenceEngine, InferenceType
-from lukhas.consciousness.enhanced_thought_engine import EnhancedThoughtEngine, ThoughtComplexity
-from lukhas.consciousness.meta_cognitive_assessor import MetaCognitiveAssessor
+from consciousness.enhanced_thought_engine import EnhancedThoughtEngine, ThoughtComplexity
+from consciousness.meta_cognitive_assessor import MetaCognitiveAssessor
 
 logger = logging.getLogger(__name__)
 
@@ -142,7 +142,7 @@ class SystemResourceMonitor:
                 'max': max(self.metrics.cpu_usage_percent),
                 'p95': np.percentile(self.metrics.cpu_usage_percent, 95)
             },
-            'lukhas.memory': {
+            'memory': {
                 'mean_mb': statistics.mean(self.metrics.memory_usage_mb),
                 'max_mb': max(self.metrics.memory_usage_mb),
                 'p95_mb': np.percentile(self.metrics.memory_usage_mb, 95)

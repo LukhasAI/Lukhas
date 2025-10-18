@@ -152,9 +152,9 @@ class VocabularyAwareContentGenerator:
         # Default symbols
         default_symbols = {
             'consciousness': '🧠',
-            'lukhas.memory': '📜',
+            'memory': '📜',
             'identity': '⚛️',
-            'lukhas.governance': '⚖️',
+            'governance': '⚖️',
             'brain': '🧠',
             'core': '⚛️',
             'api': '🌐',
@@ -207,9 +207,9 @@ class VocabularyAwareContentGenerator:
         """Fallback poetic opening when no vocabulary is available."""
         symbols = {
             'consciousness': '🧠',
-            'lukhas.memory': '📜',
+            'memory': '📜',
             'identity': '⚛️',
-            'lukhas.governance': '⚖️',
+            'governance': '⚖️',
             'brain': '🧠',
             'core': '⚛️'
         }
@@ -442,7 +442,7 @@ def main():
 
     # Priority modules
     priority_modules = [
-        'brain', 'consciousness', 'lukhas.memory', 'identity', 'lukhas.governance',
+        'brain', 'consciousness', 'memory', 'identity', 'governance',
         'matriz', 'core', 'api', 'bridge', 'orchestration'
     ]
 

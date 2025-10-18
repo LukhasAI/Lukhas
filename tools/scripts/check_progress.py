@@ -48,7 +48,7 @@ def main():
         "bridge/api": "Bridge API",
         "serve": "Serve Module",
         "tests": "Tests",
-        "lukhas.tools": "Tools",
+        "tools": "Tools",
     }
 
     total_issues = 0

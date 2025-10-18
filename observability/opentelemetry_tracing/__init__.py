@@ -1,11 +1,11 @@
 """Bridge: observability.opentelemetry_tracing (no-op fallback if OTEL missing)."""
 from __future__ import annotations
 
-from lukhas._bridgeutils import bridge_from_candidates
+from _bridgeutils import bridge_from_candidates
 
 try:
     __all__, _exp = bridge_from_candidates(
-        "lukhas_website.lukhas.observability.opentelemetry_tracing",
+        "lukhas_website.observability.opentelemetry_tracing",
         "candidate.observability.opentelemetry_tracing",
         "observability.opentelemetry_tracing",
     )

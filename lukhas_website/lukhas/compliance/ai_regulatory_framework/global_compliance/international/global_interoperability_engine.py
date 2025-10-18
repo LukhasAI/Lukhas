@@ -11,9 +11,9 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any
 
-from lukhas.core.container.service_container import ServiceContainer
-from lukhas.core.interfaces import CoreInterface
-from lukhas.core.symbolic_engine import SymbolicEffect, SymbolicEvent
+from core.container.service_container import ServiceContainer
+from core.interfaces import CoreInterface
+from core.symbolic_engine import SymbolicEffect, SymbolicEvent
 
 logger = logging.getLogger(__name__)
 
@@ -83,14 +83,14 @@ class GlobalInteroperabilityEngine(CoreInterface):
         try:
             self.kernel_bus = container.get_service("symbolic_kernel_bus")
         except (KeyError, AttributeError, ImportError):
-            from lukhas.orchestration.symbolic_kernel_bus import SymbolicKernelBus
+            from orchestration.symbolic_kernel_bus import SymbolicKernelBus
 
             self.kernel_bus = SymbolicKernelBus()
 
         try:
             self.guardian = container.get_service("guardian_system")
         except:
-            from lukhas.governance.guardian_system import GuardianSystem
+            from governance.guardian_system import GuardianSystem
 
             self.guardian = GuardianSystem()
 

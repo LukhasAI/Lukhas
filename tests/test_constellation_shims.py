@@ -7,7 +7,7 @@ def test_constellation_shims_imports():
     # Import new path
     import importlib
 
-    triad = importlib.import_module("lukhas.constellation.triad")
+    triad = importlib.import_module("constellation.triad")
     assert hasattr(triad, "Identity")
 
     # Import legacy shim

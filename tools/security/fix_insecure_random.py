@@ -4,7 +4,7 @@ LUKHAS AI - tools/security/fix_insecure_random.py
 
 Small, robust script to find and replace insecure uses of Python's
 `random` module with a secure random wrapper located at
-`lukhas.security.secure_random`.
+`security.secure_random`.
 
 This file is intentionally conservative: it performs text-based checks
 and replacements and logs counts of files and fixes applied. Designed to
@@ -44,7 +44,7 @@ class InsecureRandomFixer:
 
         # Directories considered higher priority for security fixes
         self.critical_dirs = [
-            "lukhas.governance",
+            "governance",
             "security",
             "identity",
             "auth",
@@ -119,7 +119,7 @@ class InsecureRandomFixer:
             # Replace `from random import X` with direct secure_random imports
             content = re.sub(
                 r"^from random import (.+)$",
-                r"# SECURITY FIX: Replaced insecure random imports\nfrom lukhas.security.secure_random import \1",
+                r"# SECURITY FIX: Replaced insecure random imports\nfrom security.secure_random import \1",
                 content,
                 flags=re.MULTILINE,
             )

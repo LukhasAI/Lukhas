@@ -17,7 +17,7 @@ import uuid
 import pytest
 from fastapi.testclient import TestClient
 
-from lukhas.adapters.openai.api import get_app
+from adapters.openai.api import get_app
 
 from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
 

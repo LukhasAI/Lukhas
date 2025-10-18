@@ -1,10 +1,10 @@
 """Bridge: consciousness.types (ConsciousnessState, enums)."""
 from __future__ import annotations
 
-from lukhas._bridgeutils import bridge_from_candidates
+from _bridgeutils import bridge_from_candidates
 
 _CANDIDATES = (
-  "lukhas_website.lukhas.consciousness.types",
+  "lukhas_website.consciousness.types",
   "candidate.consciousness.types",
   "consciousness.types",
 )
@@ -15,7 +15,7 @@ _required = ("ConsciousnessState", "CognitiveNodeBase")
 for sym in _required:
     if sym not in __all__:
         try:
-            from lukhas._bridgeutils import bridge_from_candidates as bcf
+            from _bridgeutils import bridge_from_candidates as bcf
             a2, e2 = bcf("core.common")
             if sym in a2:
                 globals()[sym] = e2[sym]

@@ -50,8 +50,8 @@ from enum import Enum
 from typing import Any
 
 # LUKHAS colony system integration
-from lukhas.core.colonies.base_colony import BaseColony
-from lukhas.core.symbolism.tags import TagPermission, TagScope
+from core.colonies.base_colony import BaseColony
+from core.symbolism.tags import TagPermission, TagScope
 
 # Dashboard integration
 
@@ -188,10 +188,10 @@ class DashboardColonyAgent(BaseColony):
         """Connect to core LUKHAS AI systems."""
         try:
             # Import and connect to systems (avoiding circular imports)
-            from lukhas.core.colonies.ethics_swarm_colony import (
+            from core.colonies.ethics_swarm_colony import (
                 get_ethics_swarm_colony,
             )
-            from lukhas.core.oracle_nervous_system import get_oracle_nervous_system
+            from core.oracle_nervous_system import get_oracle_nervous_system
 
             self.oracle_nervous_system = await get_oracle_nervous_system()
             self.ethics_swarm = await get_ethics_swarm_colony()

@@ -103,7 +103,7 @@ class CognitiveConfig:
     def _set_defaults(self):
         """Set default configuration values."""
         # Memory configuration
-        self.config["lukhas.memory"] = {
+        self.config["memory"] = {
             "working_memory_capacity": "7",
             "working_memory_decay_rate": "0.1",
             "episodic_memory_capacity": "10000",
@@ -376,11 +376,11 @@ class MemorySystem(ABC):
 
     @abstractmethod
     def retrieve(self, key: str) -> Optional[Any]:
-        """Retrieve an item from lukhas.memory."""
+        """Retrieve an item from memory."""
 
     @abstractmethod
     def forget(self, key: str) -> bool:
-        """Remove an item from lukhas.memory."""
+        """Remove an item from memory."""
 
     @abstractmethod
     def consolidate(self):
@@ -392,8 +392,8 @@ class WorkingMemory(MemorySystem):
 
     def __init__(self, config: CognitiveConfig):
         self.config = config
-        self.capacity = config.get_int("lukhas.memory", "working_memory_capacity", 7)
-        self.decay_rate = config.get_float("lukhas.memory", "working_memory_decay_rate", 0.1)
+        self.capacity = config.get_int("memory", "working_memory_capacity", 7)
+        self.decay_rate = config.get_float("memory", "working_memory_decay_rate", 0.1)
         self.items: dict[str, MemoryItem] = {}
         self.access_order: deque = deque(maxlen=self.capacity)
         self.lock = threading.RLock()
@@ -456,7 +456,7 @@ class WorkingMemory(MemorySystem):
     def consolidate(self):
         """Apply decay and remove items below threshold."""
         with self.lock:
-            forgetting_threshold = self.config.get_float("lukhas.memory", "forgetting_threshold", 0.1)
+            forgetting_threshold = self.config.get_float("memory", "forgetting_threshold", 0.1)
             current_time = datetime.now(timezone.utc)
             keys_to_forget = []
 
@@ -479,7 +479,7 @@ class EpisodicMemory(MemorySystem):
 
     def __init__(self, config: CognitiveConfig):
         self.config = config
-        self.capacity = config.get_int("lukhas.memory", "episodic_memory_capacity", 10000)
+        self.capacity = config.get_int("memory", "episodic_memory_capacity", 10000)
         self.items: dict[str, MemoryItem] = {}
         self.temporal_index: list[tuple[datetime, str]] = []
         self.lock = threading.RLock()
@@ -542,7 +542,7 @@ class EpisodicMemory(MemorySystem):
         """Consolidate episodic memories based on importance and recency."""
         with self.lock:
             current_time = datetime.now(timezone.utc)
-            forgetting_threshold = self.config.get_float("lukhas.memory", "forgetting_threshold", 0.1)
+            forgetting_threshold = self.config.get_float("memory", "forgetting_threshold", 0.1)
             keys_to_forget = []
 
             for key, item in self.items.items():
@@ -568,7 +568,7 @@ class SemanticMemory(MemorySystem):
 
     def __init__(self, config: CognitiveConfig):
         self.config = config
-        self.capacity = config.get_int("lukhas.memory", "semantic_memory_capacity", 50000)
+        self.capacity = config.get_int("memory", "semantic_memory_capacity", 50000)
         self.items: dict[str, MemoryItem] = {}
         self.concept_graph: dict[str, set[str]] = defaultdict(set)
         self.lock = threading.RLock()
@@ -669,7 +669,7 @@ class SemanticMemory(MemorySystem):
         with self.lock:
             # Semantic memories are generally more stable
             # Only remove if importance is very low
-            forgetting_threshold = self.config.get_float("lukhas.memory", "forgetting_threshold", 0.1) / 10
+            forgetting_threshold = self.config.get_float("memory", "forgetting_threshold", 0.1) / 10
             keys_to_forget = []
 
             for key, item in self.items.items():
@@ -685,7 +685,7 @@ class ProceduralMemory(MemorySystem):
 
     def __init__(self, config: CognitiveConfig):
         self.config = config
-        self.capacity = config.get_int("lukhas.memory", "procedural_memory_capacity", 1000)
+        self.capacity = config.get_int("memory", "procedural_memory_capacity", 1000)
         self.procedures: dict[str, dict[str, Any]] = {}
         self.skill_levels: dict[str, float] = defaultdict(float)
         self.lock = threading.RLock()
@@ -1554,7 +1554,7 @@ class CognitiveArchitectureController:
 
     def _start_consolidation_thread(self):
         """Start memory consolidation thread."""
-        consolidation_interval = self.config.get_int("lukhas.memory", "consolidation_interval_seconds", 3600)
+        consolidation_interval = self.config.get_int("memory", "consolidation_interval_seconds", 3600)
 
         def consolidation_loop():
             while True:
@@ -1611,7 +1611,7 @@ class CognitiveArchitectureController:
 
     @lukhas_tier_required(1)
     def recall(self, key: str, memory_type: Optional[MemoryType] = None) -> Optional[Any]:
-        """Recall information from lukhas.memory."""
+        """Recall information from memory."""
         if memory_type:
             memory_system = self.memory_systems.get(memory_type)
             if memory_system:
@@ -1794,7 +1794,7 @@ class CognitiveArchitectureController:
                 }
                 for rt, available in resource_availability.items()
             },
-            "lukhas.memory": memory_status,
+            "memory": memory_status,
             "uptime": time.time(),  # Would track actual uptime in production
         }
 
@@ -1898,7 +1898,7 @@ if __name__ == "__main__":
 ║ REFERENCES:
 ║   - Docs: docs/consciousness/cognitive-architecture.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=cognitive-architecture
-║   - Wiki: wiki.lukhas.ai/cognitive-architecture-design
+║   - Wiki: wiki.ai/cognitive-architecture-design
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

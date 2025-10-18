@@ -9,7 +9,7 @@ from abc import ABC, abstractmethod
 from enum import Enum
 from typing import Any, Optional
 
-from lukhas.core.common import GLYPHToken
+from core.common import GLYPHToken
 
 
 class MessagePriority(Enum):
@@ -35,7 +35,7 @@ class OptimizationStrategy(Enum):
 
     BALANCED = "balanced"
     PERFORMANCE = "performance"
-    MEMORY = "lukhas.memory"
+    MEMORY = "memory"
     POWER = "power"
 
 

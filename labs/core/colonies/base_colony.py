@@ -8,13 +8,13 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from typing import Any, Optional
 
-from lukhas.core.actor_system import ActorRef, AIAgentActor, get_global_actor_system
-from lukhas.core.colonies.supervisor_agent import SupervisorAgent
-from lukhas.core.distributed_tracing import create_ai_tracer
-from lukhas.core.efficient_communication import EfficientCommunicationFabric
-from lukhas.core.event_sourcing import AIAgentAggregate, get_global_event_store
-from lukhas.core.symbolism.methylation_model import MethylationModel
-from lukhas.core.symbolism.tags import TagPermission, TagScope
+from core.actor_system import ActorRef, AIAgentActor, get_global_actor_system
+from core.colonies.supervisor_agent import SupervisorAgent
+from core.distributed_tracing import create_ai_tracer
+from core.efficient_communication import EfficientCommunicationFabric
+from core.event_sourcing import AIAgentAggregate, get_global_event_store
+from core.symbolism.methylation_model import MethylationModel
+from core.symbolism.tags import TagPermission, TagScope
 
 logger = logging.getLogger(__name__)
 

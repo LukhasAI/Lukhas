@@ -20,8 +20,8 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from lukhas.core.matriz.optimized_orchestrator import OptimizedAsyncOrchestrator
-from lukhas.observability.matriz_instrumentation import (
+from core.matriz.optimized_orchestrator import OptimizedAsyncOrchestrator
+from observability.matriz_instrumentation import (
     cognitive_pipeline_span,
     get_cognitive_instrumentation_status,
     initialize_cognitive_instrumentation,
@@ -31,7 +31,7 @@ from lukhas.observability.matriz_instrumentation import (
     record_memory_cascade_risk,
     record_thought_complexity,
 )
-from lukhas.observability.otel_instrumentation import instrument_cognitive_event
+from observability.otel_instrumentation import instrument_cognitive_event
 
 
 class TestCognitiveInstrumentationInitialization:
@@ -39,8 +39,8 @@ class TestCognitiveInstrumentationInitialization:
 
     def test_initialization_success(self):
         """Test successful initialization of cognitive instrumentation"""
-        with patch('lukhas.observability.matriz_instrumentation.OTEL_AVAILABLE', True), \
-             patch('lukhas.observability.matriz_instrumentation._metrics_initialized', True):
+        with patch('observability.matriz_instrumentation.OTEL_AVAILABLE', True), \
+             patch('observability.matriz_instrumentation._metrics_initialized', True):
 
             result = initialize_cognitive_instrumentation(enable_metrics=True)
             assert result is True
@@ -50,7 +50,7 @@ class TestCognitiveInstrumentationInitialization:
 
     def test_initialization_failure_no_otel(self):
         """Test initialization failure when OTel is not available"""
-        with patch('lukhas.observability.matriz_instrumentation.OTEL_AVAILABLE', False):
+        with patch('observability.matriz_instrumentation.OTEL_AVAILABLE', False):
             result = initialize_cognitive_instrumentation(enable_metrics=True)
             assert result is False
 
@@ -59,8 +59,8 @@ class TestCognitiveInstrumentationInitialization:
 
     def test_initialization_failure_no_base_metrics(self):
         """Test initialization failure when base metrics are not initialized"""
-        with patch('lukhas.observability.matriz_instrumentation.OTEL_AVAILABLE', True), \
-             patch('lukhas.observability.matriz_instrumentation._metrics_initialized', False):
+        with patch('observability.matriz_instrumentation.OTEL_AVAILABLE', True), \
+             patch('observability.matriz_instrumentation._metrics_initialized', False):
 
             result = initialize_cognitive_instrumentation(enable_metrics=True)
             assert result is False
@@ -72,8 +72,8 @@ class TestCognitiveStageInstrumentation:
     @pytest.fixture
     def mock_cognitive_metrics(self):
         """Mock cognitive metrics for testing"""
-        with patch('lukhas.observability.matriz_instrumentation._cognitive_initialized', True), \
-             patch('lukhas.observability.matriz_instrumentation._cognitive_metrics') as mock_metrics:
+        with patch('observability.matriz_instrumentation._cognitive_initialized', True), \
+             patch('observability.matriz_instrumentation._cognitive_metrics') as mock_metrics:
 
             # Mock all metric objects
             mock_metrics.stage_duration_histogram = Mock()
@@ -88,7 +88,7 @@ class TestCognitiveStageInstrumentation:
 
     def test_cognitive_stage_decorator_success(self, mock_cognitive_metrics):
         """Test successful cognitive stage decoration"""
-        @instrument_cognitive_stage("lukhas.memory", node_id="test_node", slo_target_ms=50.0)
+        @instrument_cognitive_stage("memory", node_id="test_node", slo_target_ms=50.0)
         def test_function(data: str):
             time.sleep(0.01)  # Simulate processing time
             return {"result": "processed", "confidence": 0.8}
@@ -152,13 +152,13 @@ class TestCognitivePipelineSpan:
     @pytest.mark.asyncio
     async def test_pipeline_span_success(self):
         """Test successful pipeline span execution"""
-        with patch('lukhas.observability.matriz_instrumentation._cognitive_initialized', True), \
-             patch('lukhas.observability.matriz_instrumentation._tracer') as mock_tracer:
+        with patch('observability.matriz_instrumentation._cognitive_initialized', True), \
+             patch('observability.matriz_instrumentation._tracer') as mock_tracer:
 
             mock_span = Mock()
             mock_tracer.start_as_current_span.return_value.__enter__.return_value = mock_span
 
-            expected_stages = ["lukhas.memory", "attention", "thought", "decision"]
+            expected_stages = ["memory", "attention", "thought", "decision"]
 
             async with cognitive_pipeline_span(
                 "test_pipeline",
@@ -175,8 +175,8 @@ class TestCognitivePipelineSpan:
     @pytest.mark.asyncio
     async def test_pipeline_span_error_handling(self):
         """Test pipeline span error handling"""
-        with patch('lukhas.observability.matriz_instrumentation._cognitive_initialized', True), \
-             patch('lukhas.observability.matriz_instrumentation._tracer') as mock_tracer:
+        with patch('observability.matriz_instrumentation._cognitive_initialized', True), \
+             patch('observability.matriz_instrumentation._tracer') as mock_tracer:
 
             mock_span = Mock()
             mock_tracer.start_as_current_span.return_value.__enter__.return_value = mock_span
@@ -195,8 +195,8 @@ class TestCognitiveMetricsRecording:
     @pytest.fixture
     def mock_metrics(self):
         """Mock cognitive metrics objects"""
-        with patch('lukhas.observability.matriz_instrumentation._cognitive_initialized', True), \
-             patch('lukhas.observability.matriz_instrumentation._cognitive_metrics') as mock_metrics:
+        with patch('observability.matriz_instrumentation._cognitive_initialized', True), \
+             patch('observability.matriz_instrumentation._cognitive_metrics') as mock_metrics:
 
             mock_metrics.focus_drift_gauge = Mock()
             mock_metrics.memory_cascade_risk_gauge = Mock()
@@ -289,8 +289,8 @@ class TestCognitiveEventInstrumentation:
             "metadata": {"priority": "high"}
         }
 
-        with patch('lukhas.observability.otel_instrumentation._metrics_initialized', True), \
-             patch('lukhas.observability.otel_instrumentation._tracer') as mock_tracer:
+        with patch('observability.otel_instrumentation._metrics_initialized', True), \
+             patch('observability.otel_instrumentation._tracer') as mock_tracer:
 
             mock_span = Mock()
             mock_tracer.start_as_current_span.return_value.__enter__.return_value = mock_span
@@ -298,7 +298,7 @@ class TestCognitiveEventInstrumentation:
             result = process_event(test_event)
 
             assert result["processed"] is True
-            assert result["stage"] == "lukhas.memory"
+            assert result["stage"] == "memory"
             assert result["node_id"] == "test_node_123"
 
             # Verify span was created with cognitive context
@@ -316,8 +316,8 @@ class TestCognitiveEventInstrumentation:
 
         test_event = {"uuid": "abc123", "type": "custom"}
 
-        with patch('lukhas.observability.otel_instrumentation._metrics_initialized', True), \
-             patch('lukhas.observability.otel_instrumentation._tracer') as mock_tracer:
+        with patch('observability.otel_instrumentation._metrics_initialized', True), \
+             patch('observability.otel_instrumentation._tracer') as mock_tracer:
 
             mock_span = Mock()
             mock_tracer.start_as_current_span.return_value.__enter__.return_value = mock_span
@@ -338,7 +338,7 @@ class TestOptimizedOrchestratorIntegration:
     @pytest.fixture
     def orchestrator(self):
         """Create optimized orchestrator with cognitive instrumentation enabled"""
-        with patch('lukhas.observability.matriz_instrumentation.initialize_cognitive_instrumentation') as mock_init:
+        with patch('observability.matriz_instrumentation.initialize_cognitive_instrumentation') as mock_init:
             mock_init.return_value = True
 
             orchestrator = OptimizedAsyncOrchestrator(
@@ -352,7 +352,7 @@ class TestOptimizedOrchestratorIntegration:
     @pytest.mark.asyncio
     async def test_orchestrator_cognitive_pipeline_span(self, orchestrator):
         """Test that orchestrator uses cognitive pipeline spans"""
-        with patch('lukhas.observability.matriz_instrumentation.cognitive_pipeline_span') as mock_span:
+        with patch('observability.matriz_instrumentation.cognitive_pipeline_span') as mock_span:
             mock_span.return_value.__aenter__.return_value = Mock()
             mock_span.return_value.__aexit__.return_value = None
 
@@ -376,9 +376,9 @@ class TestOptimizedOrchestratorIntegration:
     @pytest.mark.asyncio
     async def test_orchestrator_cognitive_metrics_recording(self, orchestrator):
         """Test that orchestrator records cognitive metrics during processing"""
-        with patch('lukhas.observability.matriz_instrumentation.record_focus_drift'), \
-             patch('lukhas.observability.matriz_instrumentation.record_decision_confidence'), \
-             patch('lukhas.observability.matriz_instrumentation.record_thought_complexity'):
+        with patch('observability.matriz_instrumentation.record_focus_drift'), \
+             patch('observability.matriz_instrumentation.record_decision_confidence'), \
+             patch('observability.matriz_instrumentation.record_thought_complexity'):
 
             # Mock successful processing
             with patch.object(orchestrator, '_process_query_with_observability') as mock_process:
@@ -399,15 +399,15 @@ class TestAnomalyDetection:
     @pytest.fixture
     def mock_metrics_with_anomaly(self):
         """Mock metrics with anomaly detection"""
-        with patch('lukhas.observability.matriz_instrumentation._cognitive_initialized', True), \
-             patch('lukhas.observability.matriz_instrumentation._cognitive_metrics') as mock_metrics:
+        with patch('observability.matriz_instrumentation._cognitive_initialized', True), \
+             patch('observability.matriz_instrumentation._cognitive_metrics') as mock_metrics:
 
             mock_metrics.anomaly_detection_counter = Mock()
             yield mock_metrics
 
     def test_performance_outlier_detection(self, mock_metrics_with_anomaly):
         """Test detection of performance outliers"""
-        @instrument_cognitive_stage("lukhas.memory", node_id="outlier_test", slo_target_ms=50.0, anomaly_detection=True)
+        @instrument_cognitive_stage("memory", node_id="outlier_test", slo_target_ms=50.0, anomaly_detection=True)
         def slow_memory_function():
             time.sleep(0.15)  # 150ms - 3x the SLO target
             return {"retrieved": True}
@@ -470,7 +470,7 @@ class TestPerformanceImpact:
         direct_duration = time.perf_counter() - start_time
 
         # Measure time with instrumentation (but disabled)
-        with patch('lukhas.observability.matriz_instrumentation._cognitive_initialized', False):
+        with patch('observability.matriz_instrumentation._cognitive_initialized', False):
             start_time = time.perf_counter()
             for _ in range(1000):
                 simple_function()
@@ -488,7 +488,7 @@ class TestPerformanceImpact:
             return {"processed": True}
 
         # Test with span disabled
-        with patch('lukhas.observability.matriz_instrumentation._cognitive_initialized', False):
+        with patch('observability.matriz_instrumentation._cognitive_initialized', False):
             start_time = time.perf_counter()
             async with cognitive_pipeline_span("perf_test", "test query"):
                 result = await simple_pipeline()

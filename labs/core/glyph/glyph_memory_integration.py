@@ -70,8 +70,8 @@ import numpy as np
 
 # Internal imports
 try:
-    from lukhas.core.common.glyph import EmotionVector, Glyph, GlyphFactory, GlyphType
-    from lukhas.core.glyph.glyphs import GLYPH_MAP, get_glyph_meaning
+    from core.common.glyph import EmotionVector, Glyph, GlyphFactory, GlyphType
+    from core.glyph.glyphs import GLYPH_MAP, get_glyph_meaning
 except ImportError:
     # Fallback imports if core modules not available
     GLYPH_MAP = {}
@@ -85,10 +85,10 @@ except ImportError:
     EmotionVector = None
 
 try:
-    from lukhas.memory.folds.memory_fold import MemoryFoldConfig, MemoryFoldSystem
+    from memory.folds.memory_fold import MemoryFoldConfig, MemoryFoldSystem
 except ImportError:
     try:
-        from lukhas.consciousness.reflection.unified_memory_manager import (
+        from consciousness.reflection.unified_memory_manager import (
             MemoryFoldSystem,
         )
 
@@ -1097,7 +1097,7 @@ def fold_recent_memories(hours: int = 24) -> dict[str, Any]:
 ║ REFERENCES:
 ║   - Docs: docs/memory/glyph-memory-integration.md
 ║   - Issues: github.com/lukhas-ai/memory/issues?label=glyph-integration
-║   - Wiki: wiki.lukhas.ai/memory/symbolic-indexing
+║   - Wiki: wiki.ai/memory/symbolic-indexing
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

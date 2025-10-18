@@ -66,7 +66,7 @@ try:
 
     from ethics.meta_ethics_governor import EthicalVerdict, MetaEthicsGovernor
     from ethics.self_reflective_debugger import SelfReflectiveDebugger
-    from lukhas.orchestration.lukhas_master_orchestrator import (
+    from orchestration.lukhas_master_orchestrator import (
         LukhasMasterOrchestrator,
     )
 

@@ -22,7 +22,7 @@ try:
     from .emotional_memory import EmotionalMemory
 except ImportError:
     try:
-        from lukhas.memory.emotional import EmotionalMemory
+        from memory.emotional import EmotionalMemory
     except ImportError:
         # Create stub for development/testing
         class EmotionalMemory:

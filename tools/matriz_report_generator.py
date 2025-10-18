@@ -134,7 +134,7 @@ def generate_audit_report(audit_data: Dict[str, Any], output_path: pathlib.Path)
         "",
         "### Phase 1: Critical Fixes",
         "1. Address schema validation failures",
-        "2. Fix bad import patterns (`lukhas.lukhas.*`, `lukhas.accepted.*`)",
+        "2. Fix bad import patterns (`lukhas.*`, `accepted.*`)",
         "3. Resolve identity configuration issues",
         "",
         "### Phase 2: Organization",

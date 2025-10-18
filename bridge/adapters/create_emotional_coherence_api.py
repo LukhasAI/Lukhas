@@ -377,7 +377,7 @@ async def demo_integration():
 gpt_response = openai.complete(prompt)
 
 # Analyze emotional coherence
-coherence = lukhas.emotional_coherence({
+coherence = emotional_coherence({
     'text': gpt_response,
     'context_type': 'support'
 })

@@ -11,8 +11,8 @@ import asyncio
 import logging
 from typing import Any
 
-from lukhas.core.container.service_container import ServiceContainer
-from lukhas.core.interfaces.dependency_injection import get_service, register_service
+from core.container.service_container import ServiceContainer
+from core.interfaces.dependency_injection import get_service, register_service
 
 logger = logging.getLogger(__name__)
 
@@ -60,7 +60,7 @@ async def initialize_agi_supremacy_modules() -> dict[str, Any]:
 
     # 2. Consciousness Expansion Engine
     try:
-        from lukhas.consciousness.expansion.consciousness_expansion_engine import (
+        from consciousness.expansion.consciousness_expansion_engine import (
             ConsciousnessExpansionEngine,
         )
 
@@ -118,7 +118,7 @@ async def initialize_agi_supremacy_modules() -> dict[str, Any]:
 
     # 4. Breakthrough Detector V2
     try:
-        from lukhas.core.consciousness.innovation.breakthrough_detector_v2 import (
+        from core.consciousness.innovation.breakthrough_detector_v2 import (
             BreakthroughDetectorV2,
         )
 
@@ -147,7 +147,7 @@ async def initialize_agi_supremacy_modules() -> dict[str, Any]:
 
     # 5. Autonomous Innovation Orchestrator
     try:
-        from lukhas.core.integration.innovation_orchestrator.autonomous_innovation_orchestrator import (
+        from core.integration.innovation_orchestrator.autonomous_innovation_orchestrator import (
             AutonomousInnovationOrchestrator,
         )
 

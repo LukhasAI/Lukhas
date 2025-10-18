@@ -83,7 +83,7 @@ class CodeAtlasBuilder:
             "lucid",
             "dream",
             "identity",
-            "lukhas.memory",
+            "memory",
             "fold",
             "guardian",
             "ethics",
@@ -593,7 +593,7 @@ class CodeAtlasBuilder:
             return "domain_model"
 
         # LUKHAS-specific roles
-        if any(keyword in all_text for keyword in ["consciousness", "dream", "identity", "lukhas.memory"]):
+        if any(keyword in all_text for keyword in ["consciousness", "dream", "identity", "memory"]):
             return "consciousness_component"
 
         if any(keyword in all_text for keyword in ["guardian", "ethics", "drift"]):

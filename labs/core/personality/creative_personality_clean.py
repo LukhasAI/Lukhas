@@ -268,7 +268,7 @@ class HarmonyEngine:
 ║ REFERENCES:
 ║   - Docs: docs/core/personality/creative_engine_clean.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=personality-clean
-║   - Wiki: wiki.lukhas.ai/personality/clean-architecture
+║   - Wiki: wiki.ai/personality/clean-architecture
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

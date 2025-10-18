@@ -11,9 +11,9 @@ from typing import Any, Optional
 sys.path.append(str(Path(__file__).parent.parent.parent / "core"))
 
 try:
-    from lukhas.core.personality.creative_expressions import CreativeExpressions
-    from lukhas.core.personality.creative_personality import CreativePersonality
-    from lukhas.core.personality.personality import Personality
+    from core.personality.creative_expressions import CreativeExpressions
+    from core.personality.creative_personality import CreativePersonality
+    from core.personality.personality import Personality
 except ImportError:
     # Fallback for development/testing
     print("Warning: Core personality systems not available, using mock implementations")

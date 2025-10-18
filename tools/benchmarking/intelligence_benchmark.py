@@ -21,15 +21,15 @@ from typing import Any, Optional
 import psutil
 
 # TODO: Fix missing modules - these imports are broken
-# from lukhas.governance.intelligence_safety_validator import SafetyLevel, get_safety_validator
-# from lukhas.orchestration.agent_orchestrator.intelligence_bridge import (
+# from governance.intelligence_safety_validator import SafetyLevel, get_safety_validator
+# from orchestration.agent_orchestrator.intelligence_bridge import (
 #     AgentType,
 #     IntelligenceRequestType,
 #     create_agent_request,
 #     get_agent_bridge,
 # )
-# from lukhas.orchestration.brain.monitoring.intelligence_monitor import get_monitor
-# from lukhas.orchestration.intelligence_adapter import get_orchestration_adapter
+# from orchestration.brain.monitoring.intelligence_monitor import get_monitor
+# from orchestration.intelligence_adapter import get_orchestration_adapter
 
 # Temporary placeholders to fix undefined names
 class SafetyLevel(Enum):

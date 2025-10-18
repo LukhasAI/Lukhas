@@ -26,7 +26,7 @@ def valid_qrs_data():
         "request_id": "req_12345",
         "response_payload": {"status": "success", "data": {"key": "value"}},
         "timestamp": 1735678800,
-        "service": "api.lukhas.ai"
+        "service": "api.ai"
     }
 
 
@@ -220,7 +220,7 @@ def test_qrs_with_large_payload():
         "request_id": "req_12345",
         "response_payload": {"data": "x" * (1024 * 1024)},  # 1MB
         "timestamp": 1735678800,
-        "service": "api.lukhas.ai"
+        "service": "api.ai"
     }
     pytest.skip("Pending implementation")
 

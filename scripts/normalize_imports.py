@@ -22,7 +22,7 @@ except ImportError:
 
 
 def dotted_from_file(py: pathlib.Path, repo_root: pathlib.Path, root_pkg: str) -> tuple[str, str]:
-    """Return (pkg_path, mod_name) for the file, e.g. ('lukhas.foo.bar', 'baz') from lukhas/foo/bar/baz.py"""
+    """Return (pkg_path, mod_name) for the file, e.g. ('foo.bar', 'baz') from lukhas/foo/bar/baz.py"""
     rel = py.resolve().relative_to(repo_root.resolve())
     parts = list(rel.parts)
     if parts[0] != root_pkg:
@@ -37,7 +37,7 @@ def dotted_from_file(py: pathlib.Path, repo_root: pathlib.Path, root_pkg: str) -
 
 
 def join_dotted(base_pkg: str, up_levels: int, tail: str | None) -> str:
-    """Base 'lukhas.a.b.c', go up 'up_levels', then append tail (may be None)."""
+    """Base 'a.b.c', go up 'up_levels', then append tail (may be None)."""
     parts = base_pkg.split(".")
     if parts and parts[-1] == "__init__":
         parts = parts[:-1]

@@ -35,7 +35,7 @@ class AIComplianceManager:
             "INTERNATIONAL": {
                 "IEEE_AI_ETHICS": True,
                 "ISO_AI": ["ISO/IEC 24368", "ISO/IEC 42001"],
-                "required_assessments": ["ethics", "lukhas.governance"],
+                "required_assessments": ["ethics", "governance"],
             },
         }
 

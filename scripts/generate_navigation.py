@@ -94,7 +94,7 @@ def generate_navigation():
     essential_ref = [
         ("API Overview", "index.md"),
         ("Core Modules", "core.md"),
-        ("Lukhas Modules", "lukhas.md"),
+        ("Lukhas Modules", "md"),
         ("Candidate Modules", "candidate.md"),
         ("Configuration", "configuration.md"),
         ("Claude Integration", "claude-integration.md"),

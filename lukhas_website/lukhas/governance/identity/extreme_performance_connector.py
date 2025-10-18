@@ -136,7 +136,7 @@ class ExtremePerformanceIdentityConnector:
 
         # 1. OPTIMIZED COMPONENT LOADING (<1ms vs 15-25ms)
         access_control = await self.extreme_optimizer.get_optimized_component(
-            "lukhas.governance.security.access_control", "AccessControlEngine", metrics
+            "governance.security.access_control", "AccessControlEngine", metrics
         )
 
         if not access_control:
@@ -145,11 +145,11 @@ class ExtremePerformanceIdentityConnector:
             return await self._create_fallback_response(agent_id, func.__name__, "component_unavailable")
 
         safety_monitor = await self.extreme_optimizer.get_optimized_component(
-            "lukhas.governance.ethics.constitutional_ai", "SafetyMonitor", metrics
+            "governance.ethics.constitutional_ai", "SafetyMonitor", metrics
         )
 
         await self.extreme_optimizer.get_optimized_component(
-            "lukhas.governance.identity.auth_backend.audit_logger",
+            "governance.identity.auth_backend.audit_logger",
             "AuditLogger",
             metrics,
         )

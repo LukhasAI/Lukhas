@@ -57,7 +57,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-from lukhas.core.colonies.base_colony import BaseColony
+from core.colonies.base_colony import BaseColony
 
 logger = logging.getLogger("ΛTRACE.ethics_swarm_colony")
 
@@ -306,12 +306,12 @@ class EthicsSwarmColony(BaseColony):
 
         try:
             # Initialize collapse tracking
-            from lukhas.core.monitoring.collapse_tracker import CollapseTracker
+            from core.monitoring.collapse_tracker import CollapseTracker
 
             self.collapse_tracker = CollapseTracker()
 
             # Initialize VeriFold connector
-            from lukhas.core.verifold.verifold_unified import VeriFoldConnector
+            from core.verifold.verifold_unified import VeriFoldConnector
 
             self.verifold_connector = VeriFoldConnector()
 
@@ -412,7 +412,7 @@ class EthicsSwarmColony(BaseColony):
             {
                 "type": EthicalDecisionType.CROSS_COLONY_IMPACT_ASSESSMENT,
                 "context": {
-                    "affecting_colonies": ["lukhas.memory", "reasoning"],
+                    "affecting_colonies": ["memory", "reasoning"],
                     "change_type": "policy_update",
                 },
                 "ethical_dimensions": {

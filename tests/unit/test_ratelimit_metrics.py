@@ -7,7 +7,7 @@ and contain expected series names.
 Phase 3: Added for rate-limit metrics validation.
 """
 from fastapi.testclient import TestClient
-from lukhas.adapters.openai.api import get_app
+from adapters.openai.api import get_app
 
 METRIC_KEYS = (
     "lukhas_ratelimit_limit_requests",

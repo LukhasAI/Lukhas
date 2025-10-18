@@ -70,27 +70,27 @@ def simulate_authz_check(tracer, input_data: Dict[str, Any], contract: Dict[str,
 
         # Set span attributes
         span.set_attributes({
-            "lukhas.subject": input_data["subject"],
-            "lukhas.tier": input_data["tier"],
-            "lukhas.tier_num": input_data.get("tier_num", 0),
-            "lukhas.scopes": ",".join(input_data.get("scopes", [])),
-            "lukhas.module": input_data["module"],
-            "lukhas.action": input_data["action"],
-            "lukhas.decision": "allow" if allow else "deny",
-            "lukhas.reason": "Authorized by tier and scope" if allow else "Insufficient tier level",
-            "lukhas.policy_sha": policy_sha,
-            "lukhas.contract_sha": contract_sha,
-            "lukhas.capability_id": masked_capability,
-            "lukhas.mfa_used": input_data.get("mfa_used", False),
-            "lukhas.region": input_data.get("region", "us-west-2"),
-            "lukhas.decision_time_ms": 42,
+            "subject": input_data["subject"],
+            "tier": input_data["tier"],
+            "tier_num": input_data.get("tier_num", 0),
+            "scopes": ",".join(input_data.get("scopes", [])),
+            "module": input_data["module"],
+            "action": input_data["action"],
+            "decision": "allow" if allow else "deny",
+            "reason": "Authorized by tier and scope" if allow else "Insufficient tier level",
+            "policy_sha": policy_sha,
+            "contract_sha": contract_sha,
+            "capability_id": masked_capability,
+            "mfa_used": input_data.get("mfa_used", False),
+            "region": input_data.get("region", "us-west-2"),
+            "decision_time_ms": 42,
         })
 
         # Set span status
         if allow:
-            span.set_attribute("lukhas.status", "success")
+            span.set_attribute("status", "success")
         else:
-            span.set_attribute("lukhas.status", "denied")
+            span.set_attribute("status", "denied")
 
         return {
             "allow": allow,
@@ -133,32 +133,32 @@ class TestAuthzTelemetrySmoke:
 
         # Verify required attributes
         attrs = dict(span.attributes)
-        assert attrs["lukhas.subject"] == "lukhas:user:test123"
-        assert attrs["lukhas.tier"] == "trusted"
-        assert attrs["lukhas.tier_num"] == 3
-        assert attrs["lukhas.scopes"] == "memoria.read,memoria.fold"
-        assert attrs["lukhas.module"] == "memoria"
-        assert attrs["lukhas.action"] == "read"
-        assert attrs["lukhas.decision"] == "allow"
-        assert "lukhas.policy_sha" in attrs
-        assert "lukhas.contract_sha" in attrs
-        assert attrs["lukhas.capability_id"] == "cap_1234***cdef"  # Masked
-        assert attrs["lukhas.mfa_used"] == False
-        assert attrs["lukhas.region"] == "us-west-2"
-        assert attrs["lukhas.decision_time_ms"] == 42
+        assert attrs["subject"] == "lukhas:user:test123"
+        assert attrs["tier"] == "trusted"
+        assert attrs["tier_num"] == 3
+        assert attrs["scopes"] == "memoria.read,memoria.fold"
+        assert attrs["module"] == "memoria"
+        assert attrs["action"] == "read"
+        assert attrs["decision"] == "allow"
+        assert "policy_sha" in attrs
+        assert "contract_sha" in attrs
+        assert attrs["capability_id"] == "cap_1234***cdef"  # Masked
+        assert attrs["mfa_used"] == False
+        assert attrs["region"] == "us-west-2"
+        assert attrs["decision_time_ms"] == 42
 
     def test_authz_deny_span_attributes(self, telemetry_setup):
         """Test that denied authorization emits proper span attributes."""
         tracer, exporter = telemetry_setup
 
         # Create test data - guest trying to access trusted resource
-        contract = create_mock_contract("lukhas.governance", ["inner_circle", "root_dev"], ["lukhas.governance.enforce"])
+        contract = create_mock_contract("governance", ["inner_circle", "root_dev"], ["governance.enforce"])
         input_data = {
             "subject": "lukhas:user:guest123",
             "tier": "guest",
             "tier_num": 0,
-            "scopes": ["lukhas.governance.enforce"],
-            "module": "lukhas.governance",
+            "scopes": ["governance.enforce"],
+            "module": "governance",
             "action": "enforce",
             "capability_id": "cap_abcdef1234567890",
             "mfa_used": False,
@@ -178,14 +178,14 @@ class TestAuthzTelemetrySmoke:
 
         # Verify required attributes
         attrs = dict(span.attributes)
-        assert attrs["lukhas.subject"] == "lukhas:user:guest123"
-        assert attrs["lukhas.tier"] == "guest"
-        assert attrs["lukhas.tier_num"] == 0
-        assert attrs["lukhas.decision"] == "deny"
-        assert attrs["lukhas.reason"] == "Insufficient tier level"
-        assert attrs["lukhas.module"] == "lukhas.governance"
-        assert attrs["lukhas.action"] == "enforce"
-        assert attrs["lukhas.capability_id"] == "cap_abcd***7890"  # Masked
+        assert attrs["subject"] == "lukhas:user:guest123"
+        assert attrs["tier"] == "guest"
+        assert attrs["tier_num"] == 0
+        assert attrs["decision"] == "deny"
+        assert attrs["reason"] == "Insufficient tier level"
+        assert attrs["module"] == "governance"
+        assert attrs["action"] == "enforce"
+        assert attrs["capability_id"] == "cap_abcd***7890"  # Masked
 
     def test_authz_webauthn_required_span(self, telemetry_setup):
         """Test spans for WebAuthn-required modules."""
@@ -214,10 +214,10 @@ class TestAuthzTelemetrySmoke:
         span = spans[0]
         attrs = dict(span.attributes)
 
-        assert attrs["lukhas.tier"] == "inner_circle"
-        assert attrs["lukhas.mfa_used"] == True
-        assert attrs["lukhas.module"] == "identity"
-        assert attrs["lukhas.decision"] == "allow"
+        assert attrs["tier"] == "inner_circle"
+        assert attrs["mfa_used"] == True
+        assert attrs["module"] == "identity"
+        assert attrs["decision"] == "allow"
 
     def test_authz_service_account_span(self, telemetry_setup):
         """Test spans for service account access."""
@@ -248,9 +248,9 @@ class TestAuthzTelemetrySmoke:
         span = spans[0]
         attrs = dict(span.attributes)
 
-        assert attrs["lukhas.subject"] == "lukhas:svc:orchestration"
-        assert attrs["lukhas.module"] == "orchestration"
-        assert attrs["lukhas.decision"] == "allow"
+        assert attrs["subject"] == "lukhas:svc:orchestration"
+        assert attrs["module"] == "orchestration"
+        assert attrs["decision"] == "allow"
 
     def test_authz_span_performance(self, telemetry_setup):
         """Test that authorization telemetry has minimal overhead."""
@@ -304,8 +304,8 @@ class TestAuthzTelemetrySmoke:
         # Check that contract hashes are identical
         spans = exporter.get_finished_spans()
         assert len(spans) == 2
-        hash1 = dict(spans[0].attributes)["lukhas.contract_sha"]
-        hash2 = dict(spans[1].attributes)["lukhas.contract_sha"]
+        hash1 = dict(spans[0].attributes)["contract_sha"]
+        hash2 = dict(spans[1].attributes)["contract_sha"]
         assert hash1 == hash2
 
     def test_authz_span_security_masking(self, telemetry_setup):
@@ -333,7 +333,7 @@ class TestAuthzTelemetrySmoke:
         attrs = dict(span.attributes)
 
         # Verify sensitive data is masked
-        capability_id = attrs["lukhas.capability_id"]
+        capability_id = attrs["capability_id"]
         assert "***" in capability_id
         assert not capability_id.startswith("cap_very_sensitive_token")
         assert capability_id.endswith("3456789"[-4:])  # Last 4 chars preserved

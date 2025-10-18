@@ -42,7 +42,7 @@ from slowapi.util import get_remote_address
 
 # Updated imports for current LUKHAS structure
 try:
-    from lukhas.core.security.auth import get_auth_system
+    from core.security.auth import get_auth_system
 except ImportError:
     # Fallback for development - would need to implement
     def get_auth_system():
@@ -104,19 +104,19 @@ Access advanced AI consciousness, memory, and reasoning capabilities through our
 - 🛡️ **Ethical Oversight**: Guardian system protection
 
 ## Getting Started
-1. Obtain an API key from [LUKHAS AI Console](https://console.lukhas.ai)
+1. Obtain an API key from [LUKHAS AI Console](https://console.ai)
 2. Include your API key in the `Authorization` header: `Bearer YOUR_API_KEY`
 3. Start making requests to explore consciousness technology!
 
 ## Support
-- Documentation: [docs.lukhas.ai](https://docs.lukhas.ai)
+- Documentation: [docs.ai](https://docs.ai)
 - GitHub: [github.com/LukhasAI](https://github.com/LukhasAI)
-- Support: [support@lukhas.ai](mailto:support@lukhas.ai)
+- Support: [support@ai](mailto:support@ai)
 """,
     contact={
         "name": "LUKHAS AI Team",
         "url": "https://github.com/LukhasAI/Lukhas",
-        "email": "support@lukhas.ai",
+        "email": "support@ai",
     },
     license_info={
         "name": "MIT",
@@ -124,7 +124,7 @@ Access advanced AI consciousness, memory, and reasoning capabilities through our
     },
     servers=[
         {"url": "http://localhost:8080", "description": "Local development"},
-        {"url": "https://api.lukhas.ai", "description": "Production"},
+        {"url": "https://api.ai", "description": "Production"},
     ],
     docs_url="/docs",
     redoc_url="/redoc",
@@ -137,7 +137,7 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 # Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://lukhas.ai", "https://console.lukhas.ai", "http://localhost:3000"],
+    allow_origins=["https://ai", "https://console.ai", "http://localhost:3000"],
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE"],
     allow_headers=["*"],

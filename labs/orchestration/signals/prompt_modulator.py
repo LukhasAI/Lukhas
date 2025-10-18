@@ -15,7 +15,7 @@ from typing import Any, Optional
 
 import yaml
 
-from lukhas.orchestration.signals.signal_bus import Signal
+from orchestration.signals.signal_bus import Signal
 
 logger = logging.getLogger(__name__)
 

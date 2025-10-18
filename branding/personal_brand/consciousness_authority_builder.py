@@ -104,7 +104,7 @@ class ConsciousnessAuthorityBuilder:
         self.engagement_systems = self._create_engagement_systems()
         self.thought_leadership_framework = self._create_thought_leadership_framework()
         try:
-            from lukhas.consciousness.consciousness_wrapper import ConsciousnessWrapper
+            from consciousness.consciousness_wrapper import ConsciousnessWrapper
             from identity.lambda_id_wrapper import LambdaIdWrapper
             self.identity_wrapper = LambdaIdWrapper()
             self.consciousness_wrapper = ConsciousnessWrapper()

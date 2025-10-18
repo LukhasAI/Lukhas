@@ -30,7 +30,7 @@ from typing import Any, Optional
 
 from cryptography.fernet import Fernet
 
-from lukhas.core.identity.vault.lukhas_id import (get_encryption_key,
+from core.identity.vault.lukhas_id import (get_encryption_key,
                                                   has_access, log_access)
 
 # Initialize logger

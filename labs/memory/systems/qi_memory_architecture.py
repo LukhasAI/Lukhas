@@ -30,7 +30,7 @@ class QIAssociativeMemoryBank:
 
     def __init__(self, capacity_qubits: int = 10):
         self.capacity = 2**capacity_qubits
-        self.memory_register = QIRegister(capacity_qubits, "lukhas.memory")
+        self.memory_register = QIRegister(capacity_qubits, "memory")
         self.query_register = QIRegister(capacity_qubits, "query")
         self.oracle_circuits: dict[str, QICircuit] = {}
 

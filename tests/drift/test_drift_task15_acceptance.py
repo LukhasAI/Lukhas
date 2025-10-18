@@ -33,7 +33,7 @@ def test_injected_drift_reduction():
     # Test scenarios: (kind, initial_score, target_min_reduction_pct)
     scenarios = [
         ('ethical', 0.25, 20.0),
-        ('lukhas.memory', 0.30, 25.0),
+        ('memory', 0.30, 25.0),
         ('identity', 0.22, 20.0),
     ]
 
@@ -182,7 +182,7 @@ def test_ledger_repair_rationale():
     # Trigger repairs for different scenarios
     test_scenarios = [
         ('ethical', 0.25, ['ethical.compliance', 'ethical.constitutional']),
-        ('lukhas.memory', 0.30, ['lukhas.memory.fold_stability', 'lukhas.memory.entropy']),
+        ('memory', 0.30, ['memory.fold_stability', 'memory.entropy']),
         ('identity', 0.20, ['identity.coherence', 'identity.namespace_change']),
     ]
 

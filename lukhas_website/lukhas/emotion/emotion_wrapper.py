@@ -11,8 +11,8 @@ Provides budget-optimized emotion processing with memory integration.
 import logging
 from typing import Any, Optional
 
-from lukhas.observability.matriz_decorators import instrument
-from lukhas.observability.matriz_emit import emit
+from observability.matriz_decorators import instrument
+from observability.matriz_emit import emit
 
 logger = logging.getLogger(__name__)
 
@@ -31,7 +31,7 @@ class EmotionMemoryIntegration:
         """Initialize integrations with memory and consciousness"""
         try:
             # Try to connect to memory system
-            from lukhas.memory import get_memory_wrapper
+            from memory import get_memory_wrapper
 
             self._memory_wrapper = get_memory_wrapper()
             self._memory_available = True
@@ -42,7 +42,7 @@ class EmotionMemoryIntegration:
 
         try:
             # Try to connect to consciousness system
-            from lukhas.consciousness import get_consciousness_wrapper
+            from consciousness import get_consciousness_wrapper
 
             self._consciousness_wrapper = get_consciousness_wrapper()
             self._consciousness_available = True

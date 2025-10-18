@@ -266,7 +266,7 @@ class ConsentReceiptGenerator:
             consciousness_state=consciousness_state,
             cultural_region=cultural_region,
             glyph_trail=glyph_trail[:7],  # First 7 glyphs
-            trusthelix_url=f"https://lukhas.ai/trusthelix/verify/{consent_hash[:16]}",
+            trusthelix_url=f"https://ai/trusthelix/verify/{consent_hash[:16]}",
         )
 
     def verify_receipt(self, receipt_path: str) -> dict[str, Any]:
@@ -319,7 +319,7 @@ def main():
         consciousness_state="flow_state",
         cultural_region="asia",
         glyph_trail=["🌿", "🪷", "🔐", "👁️", "🌊", "🧬", "✨"],
-        trusthelix_url="https://lukhas.ai/trusthelix/verify/abc123",
+        trusthelix_url="https://ai/trusthelix/verify/abc123",
     )
 
     print(f"✅ Receipt generated: {receipt_path}")

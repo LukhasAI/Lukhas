@@ -31,7 +31,7 @@ from typing import Any, Dict, List, Optional
 
 from opentelemetry import trace
 
-from lukhas.observability import counter, gauge, histogram
+from observability import counter, gauge, histogram
 
 from .context_preservation import ContextType, get_context_preservation_engine
 from .health_monitor import get_health_monitor

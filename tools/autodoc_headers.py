@@ -116,9 +116,9 @@ class DocHeaderGenerator:
 
         if any(term in path_str for term in ["identity", "auth", "lid", "lambda"]):
             return "⚛️"
-        elif any(term in path_str for term in ["consent", "lukhas.governance", "guardian", "ethics", "policy"]):
+        elif any(term in path_str for term in ["consent", "governance", "guardian", "ethics", "policy"]):
             return "🛡️"
-        elif any(term in path_str for term in ["consciousness", "brain", "lukhas.memory", "context"]):
+        elif any(term in path_str for term in ["consciousness", "brain", "memory", "context"]):
             return "🧠"
         else:
             # Default based on parent directory

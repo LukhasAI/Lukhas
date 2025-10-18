@@ -7,7 +7,7 @@ but no routing rules are created for them.
 import pytest
 
 from core.consciousness_signal_router import ConsciousnessSignalRouter
-from lukhas.core.matriz_consciousness_signals import ConsciousnessSignal, ConsciousnessSignalType
+from core.matriz_consciousness_signals import ConsciousnessSignal, ConsciousnessSignalType
 
 
 def test_all_signal_types_have_rules_and_targets():
@@ -21,10 +21,10 @@ def test_all_signal_types_have_rules_and_targets():
         "consciousness": ["awareness", "reflection", "consciousness_core"],
         "orchestration": ["network_pulse", "coordination", "health_monitoring"],
         "identity": ["authentication", "namespace", "trinity_compliance"],
-        "lukhas.governance": ["compliance", "ethics", "guardian", "policy"],
+        "governance": ["compliance", "ethics", "guardian", "policy"],
         "symbolic_core": ["symbolic_processing", "pattern_recognition"],
         "bio": ["biological_modeling", "bio_symbolic_adaptation"],
-        "lukhas.memory": ["storage", "retrieval", "temporal_processing"]
+        "memory": ["storage", "retrieval", "temporal_processing"]
     }
 
     for module_name, capabilities in test_nodes.items():
@@ -139,7 +139,7 @@ def test_router_metrics_integration():
 
     # Test signal with no matching rules (should increment no_rule metric)
     # Create signal with type that has no rules
-    from lukhas.core.metrics import router_no_rule_total
+    from core.metrics import router_no_rule_total
 
     # Get initial counter value (may not be zero due to other tests)
     router_no_rule_total.labels(

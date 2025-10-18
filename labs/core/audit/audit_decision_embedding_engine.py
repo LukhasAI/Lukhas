@@ -17,8 +17,8 @@ from ethics.core.shared_ethics_engine import SharedEthicsEngine
 from ethics.seedra.seedra_core import SEEDRACore
 
 # Import existing infrastructure
-from lukhas.core.swarm import SwarmHub
-from lukhas.orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
+from core.swarm import SwarmHub
+from orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
 from symbolic.core.symbolic_language import SymbolicLanguageFramework
 
 
@@ -40,7 +40,7 @@ class DecisionType(Enum):
     SAFETY = "safety"
     PRIVACY = "privacy"
     CREATIVE = "creative"
-    MEMORY = "lukhas.memory"
+    MEMORY = "memory"
     REASONING = "reasoning"
     ORCHESTRATION = "orchestration"
     USER_INTERACTION = "user_interaction"

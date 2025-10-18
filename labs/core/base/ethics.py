@@ -124,7 +124,7 @@ ethics_validator = EthicsValidator()
 ║ REFERENCES:
 ║   - Docs: docs/common/ethics-framework.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=ethics
-║   - Wiki: wiki.lukhas.ai/ethical-principles
+║   - Wiki: wiki.ai/ethical-principles
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

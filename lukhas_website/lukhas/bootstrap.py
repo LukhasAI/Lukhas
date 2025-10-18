@@ -64,7 +64,7 @@ def initialize_lukhas_services() -> Dict[str, Any]:
 
     # 1. Initialize OpenTelemetry
     try:
-        from lukhas.observability.otel_instrumentation import (
+        from observability.otel_instrumentation import (
             get_instrumentation_status,
             initialize_otel_instrumentation,
         )
@@ -109,7 +109,7 @@ def initialize_lukhas_services() -> Dict[str, Any]:
 
     # 3. Initialize Metrics Endpoint
     try:
-        from lukhas.observability.prometheus_metrics import setup_metrics_endpoint
+        from observability.prometheus_metrics import setup_metrics_endpoint
 
         metrics_port = int(os.getenv("METRICS_PORT", "8090"))
         setup_metrics_endpoint(port=metrics_port)
@@ -144,7 +144,7 @@ def validate_per_stage_spans() -> Dict[str, Any]:
         import asyncio
         import time
 
-        from lukhas.observability.otel_instrumentation import instrument_matriz_stage, matriz_pipeline_span
+        from observability.otel_instrumentation import instrument_matriz_stage, matriz_pipeline_span
 
         # Test each stage type
         @instrument_matriz_stage("intent_processing", "intent", slo_target_ms=50.0)

@@ -1,6 +1,6 @@
 import yaml
 
-from lukhas.adapters.openai.policy_pdp import PDP
+from adapters.openai.policy_pdp import PDP
 
 LEGACY_POLICY = {
     "rules": [

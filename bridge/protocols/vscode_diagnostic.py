@@ -92,4 +92,4 @@ def check_vscode_config():
 if __name__ == "__main__":
     check_vscode_config()
 
-# Λ Systems 2025 www.lukhas.ai
+# Λ Systems 2025 www.ai

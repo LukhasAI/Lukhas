@@ -22,10 +22,10 @@ from typing import Any, Dict, List
 
 import pytest
 
-from lukhas.governance.schema_registry import LUKHASLane
+from governance.schema_registry import LUKHASLane
 
 # Import observability components
-from lukhas.observability.service_metrics import MetricType, ServiceMetricsCollector, ServiceType
+from observability.service_metrics import MetricType, ServiceMetricsCollector, ServiceType
 
 logger = logging.getLogger(__name__)
 

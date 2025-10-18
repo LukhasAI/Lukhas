@@ -240,17 +240,17 @@ class LukhasServiceStub:
         self.channel = channel
         if grpc:
             self.Process = channel.unary_unary(
-                "/lukhas.v1.LukhasService/Process",
+                "/v1.LukhasService/Process",
                 request_serializer=lukhas_pb2.ProcessRequest.SerializeToString,
                 response_deserializer=lukhas_pb2.ProcessResponse.FromString,
             )
             self.StreamProcess = channel.stream_stream(
-                "/lukhas.v1.LukhasService/StreamProcess",
+                "/v1.LukhasService/StreamProcess",
                 request_serializer=lukhas_pb2.ProcessRequest.SerializeToString,
                 response_deserializer=lukhas_pb2.ProcessResponse.FromString,
             )
             self.CheckHealth = channel.unary_unary(
-                "/lukhas.v1.LukhasService/CheckHealth",
+                "/v1.LukhasService/CheckHealth",
                 request_serializer=lukhas_pb2.HealthRequest.SerializeToString,
                 response_deserializer=lukhas_pb2.HealthResponse.FromString,
             )

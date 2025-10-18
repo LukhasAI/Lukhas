@@ -13,8 +13,8 @@ from datetime import datetime, timezone
 import pytest
 
 try:
-    from lukhas.core.bridges.identity_core_bridge import get_identity_core_bridge
-    from lukhas.core.identity.lambda_id_core import (
+    from core.bridges.identity_core_bridge import get_identity_core_bridge
+    from core.identity.lambda_id_core import (
         LukhasIdentityService,
         WebAuthnPasskeyManager,
         validate_constellation_framework,
@@ -62,7 +62,7 @@ async def validate_constellation_framework_integration():
 
         # Test ΛID generation with namespace awareness
         test_user = identity_service.register_user(
-            email="constellation@lukhas.ai",
+            email="constellation@ai",
             display_name="Constellation Test User",
             consent_id="constellation_validation_v1",
         )

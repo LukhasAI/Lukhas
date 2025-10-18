@@ -17,11 +17,11 @@ import pytest
 
 def _reset_exporters_module(monkeypatch):
     """
-    Reload lukhas.core.metrics_exporters and reset its singletons so tests
+    Reload core.metrics_exporters and reset its singletons so tests
     can assert on fresh log emissions each time.
     """
-    if "lukhas.core.metrics_exporters" in sys.modules:
-        me = sys.modules["lukhas.core.metrics_exporters"]
+    if "core.metrics_exporters" in sys.modules:
+        me = sys.modules["core.metrics_exporters"]
         # Reset private singletons/guards if present
         for name in ("_PROM_SERVER", "_otel_inited"):
             if hasattr(me, name):
@@ -29,7 +29,7 @@ def _reset_exporters_module(monkeypatch):
         importlib.reload(me)
         return me
     else:
-        import lukhas.core.metrics_exporters as me
+        import core.metrics_exporters as me
         return me
 
 
@@ -48,14 +48,14 @@ def test_prometheus_exporter_starts_and_exposes_metrics(monkeypatch):
 
     # Import modules to register metrics first
     try:
-        import lukhas.core.breakthrough  # Register breakthrough metrics
-        import lukhas.memory.folds  # Register memory metrics
+        import core.breakthrough  # Register breakthrough metrics
+        import memory.folds  # Register memory metrics
         import storage.events  # Register event metrics
     except ImportError:
         pytest.skip("Phase 3 modules not available")
 
     # Late import triggers exporter on boot
-    from lukhas.core.metrics_exporters import enable_runtime_exporters
+    from core.metrics_exporters import enable_runtime_exporters
     enable_runtime_exporters()
 
     # Give the server a moment to start
@@ -95,7 +95,7 @@ def test_prometheus_exporter_starts_and_exposes_metrics(monkeypatch):
 def test_prometheus_exporter_disabled_when_no_port(monkeypatch, caplog):
     """Test that Prometheus exporter is disabled when LUKHAS_PROM_PORT is unset."""
     monkeypatch.delenv("LUKHAS_PROM_PORT", raising=False)
-    with caplog.at_level(logging.INFO, logger="lukhas.core.metrics_exporters"):
+    with caplog.at_level(logging.INFO, logger="core.metrics_exporters"):
         me = _reset_exporters_module(monkeypatch)
         me.start_prometheus_exporter()
     assert "Prometheus exporter disabled" in caplog.text
@@ -105,7 +105,7 @@ def test_prometheus_exporter_disabled_when_no_port(monkeypatch, caplog):
 def test_otel_disabled_is_noop(monkeypatch, caplog):
     """Test that OTEL init is noop when LUKHAS_OTEL_ENDPOINT is unset."""
     monkeypatch.delenv("LUKHAS_OTEL_ENDPOINT", raising=False)
-    with caplog.at_level(logging.INFO, logger="lukhas.core.metrics_exporters"):
+    with caplog.at_level(logging.INFO, logger="core.metrics_exporters"):
         me = _reset_exporters_module(monkeypatch)
         me.init_opentelemetry()
     assert "OTEL disabled" in caplog.text
@@ -118,7 +118,7 @@ def test_enable_runtime_exporters_idempotent(monkeypatch):
     monkeypatch.setenv("LUKHAS_PROM_PORT", str(port))
     monkeypatch.delenv("LUKHAS_OTEL_ENDPOINT", raising=False)
 
-    from lukhas.core.metrics_exporters import enable_runtime_exporters
+    from core.metrics_exporters import enable_runtime_exporters
 
     # Should not raise on multiple calls
     enable_runtime_exporters()
@@ -138,7 +138,7 @@ def test_enable_runtime_exporters_idempotent(monkeypatch):
 def test_prometheus_exporter_handles_invalid_port(monkeypatch, caplog):
     """Test that invalid port configuration is handled gracefully."""
     monkeypatch.setenv("LUKHAS_PROM_PORT", "invalid_port")
-    with caplog.at_level(logging.WARNING, logger="lukhas.core.metrics_exporters"):
+    with caplog.at_level(logging.WARNING, logger="core.metrics_exporters"):
         me = _reset_exporters_module(monkeypatch)
         me.start_prometheus_exporter()
     assert ("Prometheus exporter not started" in caplog.text
@@ -192,7 +192,7 @@ def test_otel_missing_packages_handled_gracefully(monkeypatch, caplog):
         return orig_import(name, *args, **kwargs)
 
     monkeypatch.setattr(builtins, "__import__", mock_import)
-    with caplog.at_level(logging.WARNING, logger="lukhas.core.metrics_exporters"):
+    with caplog.at_level(logging.WARNING, logger="core.metrics_exporters"):
         me = _reset_exporters_module(monkeypatch)
         me.init_opentelemetry()
     assert "OTEL not initialized" in caplog.text
@@ -211,7 +211,7 @@ def test_prometheus_missing_package_is_logged(monkeypatch, caplog):
 
     monkeypatch.setattr(builtins, "__import__", mock_import)
     monkeypatch.setenv("LUKHAS_PROM_PORT", "9099")
-    with caplog.at_level(logging.WARNING, logger="lukhas.core.metrics_exporters"):
+    with caplog.at_level(logging.WARNING, logger="core.metrics_exporters"):
         me = _reset_exporters_module(monkeypatch)
         me.start_prometheus_exporter()
     assert ("Prometheus exporter not started" in caplog.text

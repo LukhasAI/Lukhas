@@ -3,7 +3,7 @@ import logging
 logger = logging.getLogger(__name__)
 from typing import Any
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 from .immersive_ingestion import dream_breath
 
@@ -15,7 +15,7 @@ async def direct_dream_flow(memory_snaps: list[dict[str, Any]]) -> dict[str, Any
     """Run a minimal dream cycle and produce tag metrics."""
     result = await dream_breath(memory_snaps)
     reflection = result.get("reflection", {})
-    tags = [snap.get("tag", "lukhas.memory") for snap in memory_snaps]
+    tags = [snap.get("tag", "memory") for snap in memory_snaps]
     tags.append("dream_generated")
     drift = result.get("affect_delta", 0.0)
     convergence = max(0.0, 1.0 - drift)

@@ -33,8 +33,8 @@ from .types import AwarenessSnapshot, ConsciousnessState, ReflectionReport
 
 # Import memory and observability systems
 try:
-    from lukhas.memory.backends.base import MemoryBackend
-    from lukhas.memory.fold_system import MemoryFoldSystem
+    from memory.backends.base import MemoryBackend
+    from memory.fold_system import MemoryFoldSystem
     MEMORY_AVAILABLE = True
 except ImportError:
     MEMORY_AVAILABLE = False
@@ -42,7 +42,7 @@ except ImportError:
     MemoryBackend = None
 
 try:
-    from lukhas.observability.prometheus_metrics import get_lukhas_metrics
+    from observability.prometheus_metrics import get_lukhas_metrics
     OBSERVABILITY_AVAILABLE = True
 except ImportError:
     OBSERVABILITY_AVAILABLE = False

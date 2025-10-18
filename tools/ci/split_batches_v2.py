@@ -156,7 +156,7 @@ class T4BatchSplitter:
             return self._find_available_agent(["jules01"], todo)
 
         # Jules-02: Consent/Scopes (tier boundaries, validation, history → ΛTRACE)
-        if any(keyword in module for keyword in ["consent", "lukhas.governance", "tier", "scope"]):
+        if any(keyword in module for keyword in ["consent", "governance", "tier", "scope"]):
             return self._find_available_agent(["jules02"], todo)
 
         # Jules-03: SSO/biometrics/symbolic challenge (gated, mocked)
@@ -168,7 +168,7 @@ class T4BatchSplitter:
             return self._find_available_agent(["jules04"], todo)
 
         # Jules-05: Guardian ethics advanced intent + governance forwarding
-        if any(keyword in module for keyword in ["guardian", "ethics", "lukhas.governance"]):
+        if any(keyword in module for keyword in ["guardian", "ethics", "governance"]):
             return self._find_available_agent(["jules05"], todo)
 
         # Jules-06: QRG generator & session replay scaffolding

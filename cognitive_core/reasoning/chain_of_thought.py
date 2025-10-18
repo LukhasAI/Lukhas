@@ -32,11 +32,11 @@ def _load_consciousness_wrapper() -> tuple[bool, Optional[type]]:
     environments where the consciousness lane is not present.
     """
 
-    if find_spec("lukhas.consciousness.consciousness_wrapper") is None:
+    if find_spec("consciousness.consciousness_wrapper") is None:
         return False, None
 
     try:
-        module = import_module("lukhas.consciousness.consciousness_wrapper")
+        module = import_module("consciousness.consciousness_wrapper")
         wrapper = getattr(module, "ConsciousnessWrapper")
         return True, wrapper
     except Exception:  # pragma: no cover - optional dependency

@@ -20,17 +20,17 @@ def fix_imports_in_file(file_path):
         fixes = [
             # from bridge.module -> from bridge.module
             (r"from bridge\.([a-zA-Z_][a-zA-Z0-9_.]*)", r"from bridge.\1"),
-            # from orchestration.module -> from lukhas.orchestration.module
+            # from orchestration.module -> from orchestration.module
             (
                 r"from orchestration\.([a-zA-Z_][a-zA-Z0-9_.]*)",
-                r"from lukhas.orchestration.\1",
+                r"from orchestration.\1",
             ),
-            # from core.module -> from lukhas.core.module (but avoid lukhas.core)
+            # from core.module -> from core.module (but avoid core)
             (
                 r"(?<!lukhas\.)from core\.([a-zA-Z_][a-zA-Z0-9_.]*)",
-                r"from lukhas.core.\1",
+                r"from core.\1",
             ),
-            # from lukhas.module -> keep as is (these should stay)
+            # from module -> keep as is (these should stay)
         ]
 
         for pattern, replacement in fixes:

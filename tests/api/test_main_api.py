@@ -12,7 +12,7 @@ from unittest.mock import patch
 import pytest
 from fastapi.testclient import TestClient
 
-from lukhas.main import app
+from main import app
 
 
 @pytest.fixture

@@ -604,7 +604,7 @@ LUKHAS_MODEL_TYPES = {
     "cognitive": "Core reasoning and decision making",
     "adaptation": "System adaptation to user behavior",
     "security": "Security and privacy preferences",
-    "lukhas.memory": "Memory organization and retrieval",
+    "memory": "Memory organization and retrieval",
     # ΛDREAM_LOOP: Dream generation itself can be a federated learning task.
     "dream": "Dream processing and narrative generation",
 }
@@ -672,7 +672,7 @@ def initialize_lukhas_federated_learning(
 ║ REFERENCES:
 ║   - Docs: docs/learning/federated-learning.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=federated-learning
-║   - Wiki: wiki.lukhas.ai/federated-learning-architecture
+║   - Wiki: wiki.ai/federated-learning-architecture
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

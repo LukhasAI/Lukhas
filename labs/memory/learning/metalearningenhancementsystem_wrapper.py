@@ -9,7 +9,7 @@ Integration wrapper for meta-learning enhancement system
 import logging
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 try:
     from .metalearningenhancementsystem import (

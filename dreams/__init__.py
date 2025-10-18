@@ -40,10 +40,10 @@ logger = logging.getLogger(__name__)
 DREAMS_ACTIVE = True
 
 try:
-    # Import core dream functionality from lukhas.consciousness.dream
-    from lukhas.consciousness.dream.core.dream_loop_generator import DreamLoopGenerator
-    from lukhas.consciousness.dream.core.dream_memory_manager import DreamMemoryManager
-    from lukhas.consciousness.dream.core.dream_stats import DreamStatistics, dream_stats
+    # Import core dream functionality from consciousness.dream
+    from consciousness.dream.core.dream_loop_generator import DreamLoopGenerator
+    from consciousness.dream.core.dream_memory_manager import DreamMemoryManager
+    from consciousness.dream.core.dream_stats import DreamStatistics, dream_stats
 
     logger.info("✅ LUKHAS dreams system core modules loaded")
 

@@ -87,10 +87,10 @@ class SymbolicMeshRouterClient:
         # Import LUKHAS symbolic signal router
         if not router_module:
             try:
-                from lukhas.core.orchestration.core_modules.symbolic_signal_router import (
+                from core.orchestration.core_modules.symbolic_signal_router import (
                     route_signal,
                 )
-                from lukhas.orchestration.signals import (
+                from orchestration.signals import (
                     DiagnosticSignalType,
                     SymbolicSignal,
                 )

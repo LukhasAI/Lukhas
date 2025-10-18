@@ -8,7 +8,7 @@ Provides data analysis capabilities for LUKHAS pipelines.
 import time
 from typing import Any, Dict
 
-from lukhas.core.registry.plugin_registry import PluginBase, PluginInfo
+from core.registry.plugin_registry import PluginBase, PluginInfo
 
 
 class DataAnalysisPlugin(PluginBase):

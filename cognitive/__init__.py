@@ -11,15 +11,15 @@ import os
 # Only provide aliases if compat mode is enabled
 if os.getenv("MATRIZ_COMPAT_IMPORTS", "1") == "1":
     try:
-        # Import from lukhas.core.matrix.nodes when available
-        from lukhas.core.matrix.nodes import *  # noqa: F401,F403
+        # Import from core.matrix.nodes when available
+        from core.matrix.nodes import *  # noqa: F401,F403
     except ImportError:
         # Graceful degradation if nodes aren't implemented yet
         pass
 
     # Add any other cognitive module aliases here as needed
-    # from lukhas.consciousness import *  # noqa: F401,F403
-    # from lukhas.memory import *  # noqa: F401,F403
+    # from consciousness import *  # noqa: F401,F403
+    # from memory import *  # noqa: F401,F403
 
 else:
     # Strict mode: avoid exporting aliases

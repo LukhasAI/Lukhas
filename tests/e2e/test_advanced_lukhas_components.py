@@ -398,7 +398,7 @@ class TestDreamSystem:
                 "message_id": "dream_001",
                 "source_widget": "consciousness_engine",
                 "context_tier": "T3",
-                "tags": ["lucid", "symbolic", "lukhas.memory"],
+                "tags": ["lucid", "symbolic", "memory"],
                 "emotion_vector": {"joy": 0.7, "calm": 0.8, "stress": 0.2, "longing": 0.4},
                 "emoji": "🌙",
                 "replay_candidate": True,

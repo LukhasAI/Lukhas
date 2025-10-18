@@ -219,7 +219,7 @@ class MatrizConsciousnessSystem:
 
             # Step 5: Orchestrate inter-module integration
             integration_signal = await self.emitters["orchestration"].emit_coordination_signal(
-                coordinated_modules=["consciousness", "identity", "lukhas.governance", "symbolic_core"],
+                coordinated_modules=["consciousness", "identity", "governance", "symbolic_core"],
                 coordination_strength=0.8,
             )
 
@@ -242,7 +242,7 @@ class MatrizConsciousnessSystem:
                 cycle_results["signals_processed"] += 1
 
             # Step 7: Guardian compliance check
-            guardian_signal = await self.emitters["lukhas.governance"].emit_guardian_compliance_signal(
+            guardian_signal = await self.emitters["governance"].emit_guardian_compliance_signal(
                 compliance_score=0.94, violation_flags=[], drift_score=0.08
             )
 
@@ -372,11 +372,11 @@ class MatrizConsciousnessSystem:
         module_capabilities = {
             "consciousness": ["awareness", "reflection", "evolution", "bio_adaptation"],
             "identity": ["authentication", "namespace", "constellation_compliance"],
-            "lukhas.governance": ["compliance", "ethics", "guardian", "policy"],
+            "governance": ["compliance", "ethics", "guardian", "policy"],
             "orchestration": ["coordination", "health_monitoring", "network_management"],
             "symbolic_core": ["symbolic_processing", "pattern_recognition", "adaptation"],
             "bio": ["biological_modeling", "bio_symbolic_adaptation", "oscillation"],
-            "lukhas.memory": ["storage", "retrieval", "temporal_processing", "fold_management"],
+            "memory": ["storage", "retrieval", "temporal_processing", "fold_management"],
         }
 
         # Register each module as a network node
@@ -428,7 +428,7 @@ class MatrizConsciousnessSystem:
             self.emitters["consciousness"].emit_awareness_pulse(0.7),
             self.emitters["orchestration"].emit_network_health_pulse(),
             self.emitters["identity"].emit_identity_authentication(0.9, {"startup": True}),
-            self.emitters["lukhas.governance"].emit_guardian_compliance_signal(0.95, [], 0.05),
+            self.emitters["governance"].emit_guardian_compliance_signal(0.95, [], 0.05),
         ]
 
         # Wait for all startup signals to complete
@@ -569,7 +569,7 @@ class MatrizConsciousnessSystem:
         integration_tasks = []
         for i in range(5):  # Multiple coordinated signals
             task = self.emitters["orchestration"].emit_coordination_signal(
-                coordinated_modules=["consciousness", "identity", "lukhas.governance"], coordination_strength=0.7 + (i * 0.05)
+                coordinated_modules=["consciousness", "identity", "governance"], coordination_strength=0.7 + (i * 0.05)
             )
             integration_tasks.append(task)
 

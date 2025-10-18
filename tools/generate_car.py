@@ -81,7 +81,7 @@ def generate_provenance_car(
     """
     # Build provenance block
     block = {
-        "@context": "https://lukhas.ai/provenance/v1",
+        "@context": "https://ai/provenance/v1",
         "module": module,
         "timestamp": datetime.utcnow().isoformat() + "Z",
         "schema_version": "1.0.0",

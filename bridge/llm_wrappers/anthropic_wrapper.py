@@ -40,7 +40,7 @@
 """
 import logging
 
-from lukhas.branding.terminology import normalize_output
+from branding.terminology import normalize_output
 
 from .base import LLMWrapper
 
@@ -126,7 +126,7 @@ class AnthropicWrapper(LLMWrapper):
 ║ REFERENCES:
 ║   - Docs: docs/bridge/llm-wrappers/anthropic.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=anthropic-wrapper
-║   - Wiki: wiki.lukhas.ai/claude-integration
+║   - Wiki: wiki.ai/claude-integration
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

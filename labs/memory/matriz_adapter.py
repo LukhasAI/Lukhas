@@ -37,7 +37,7 @@ class MemoryMatrizAdapter:
             },
             "timestamps": {"created_ts": int(time.time() * 1000)},
             "provenance": {
-                "producer": "lukhas.memory",
+                "producer": "memory",
                 "capabilities": ["memory:fold", "memory:recall", "memory:cascade"],
                 "tenant": "system",
                 "trace_id": f"LT-MEM-{int(time.time())}",

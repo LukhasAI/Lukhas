@@ -130,7 +130,7 @@ class LUKHAS2030Consolidator:
             },
             "guardian_governance": {
                 "description": "Unified ethical oversight and governance",
-                "targets": ["lukhas.governance", "ethics", "guardian", "moral_compass"],
+                "targets": ["governance", "ethics", "guardian", "moral_compass"],
                 "vision": "Incorruptible guardian system",
                 "features": [
                     "Multi-framework moral reasoning",

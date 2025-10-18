@@ -179,9 +179,9 @@ def main():
         "lukhas",
         "serve",
         "orchestration",
-        "lukhas.governance",
+        "governance",
         "consciousness",
-        "lukhas.memory",
+        "memory",
     ]
 
     print("🔧 Fixing real linting issues (not just formatting)...")

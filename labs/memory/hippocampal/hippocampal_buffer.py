@@ -66,7 +66,7 @@ class PersistenceMode(Enum):
 
 # Import LUKHAS components
 try:
-    from lukhas.core.symbolism.tags import TagScope
+    from core.symbolism.tags import TagScope
     LUKHAS_AVAILABLE = True
 except ImportError as e:
     print(f"Warning: Some LUKHAS modules not available: {e}")
@@ -345,7 +345,7 @@ class HippocampalBuffer:
             await self.persistence.persist_memory(
                 content={
                     "type": "episodic",
-                    "lukhas.memory": memory.__dict__,
+                    "memory": memory.__dict__,
                     "hippocampal": True,
                 },
                 memory_id=f"hippo_{memory.memory_id}",

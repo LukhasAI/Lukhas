@@ -14,7 +14,7 @@ from typing import Any, Dict, List, Optional
 
 import numpy as np
 
-from lukhas.governance.schema_registry import get_lane_enum
+from governance.schema_registry import get_lane_enum
 
 
 class VectorDimension(Enum):

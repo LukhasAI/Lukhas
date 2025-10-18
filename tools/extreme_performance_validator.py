@@ -40,11 +40,11 @@ try:
         ExtremeAuthPerformanceOptimizer,  # noqa: F401  # Import available when enterprise features enabled
         get_extreme_optimizer,
     )
-    from lukhas.governance.identity.auth_backend.extreme_performance_audit_logger import (
+    from governance.identity.auth_backend.extreme_performance_audit_logger import (
         get_extreme_audit_logger,
         run_audit_benchmark_extreme,  # noqa: F401  # Import available when extreme auth logging enabled
     )
-    from lukhas.governance.identity.extreme_performance_connector import (
+    from governance.identity.extreme_performance_connector import (
         get_extreme_identity_connector,
         run_auth_benchmark,
     )
@@ -57,7 +57,7 @@ except ImportError as e:
 
 # Import standard components for comparison
 try:
-    from lukhas.governance.identity.connector import get_identity_connector
+    from governance.identity.connector import get_identity_connector
 
     STANDARD_COMPONENTS_AVAILABLE = True
     # Store reference for potential performance comparison
@@ -205,7 +205,7 @@ class ExtremePerformanceValidator:
 
             # Test component import with caching
             await self.extreme_optimizer.get_optimized_component(
-                "lukhas.governance.security.access_control", "AccessControlEngine"
+                "governance.security.access_control", "AccessControlEngine"
             )
 
             import_time_ms = (time.perf_counter() - start_time) * 1000

@@ -15,7 +15,7 @@ def test_core_common_comprehensive():
     """Test comprehensive coverage for core common modules that import successfully."""
     # Test logger module
     try:
-        from lukhas.core.common.logger import configure_logging, get_logger, get_module_logger
+        from core.common.logger import configure_logging, get_logger, get_module_logger
 
         logging_scenarios = [
             {"level": "INFO", "format_type": "standard"},
@@ -34,7 +34,7 @@ def test_core_common_comprehensive():
                 logger_instance = get_logger("test_logger")
                 assert hasattr(logger_instance, "info")
 
-                module_logger = get_module_logger("lukhas.tests.high_impact")
+                module_logger = get_module_logger("tests.high_impact")
                 assert hasattr(module_logger, "info")
 
     except ImportError:
@@ -42,11 +42,11 @@ def test_core_common_comprehensive():
 
     # Test GLYPH module
     try:
-        from lukhas.core.common.glyph import GLYPHContext, GLYPHSymbol, GLYPHToken
+        from core.common.glyph import GLYPHContext, GLYPHSymbol, GLYPHToken
 
         glyph_scenarios = [
             {"symbol": GLYPHSymbol.TRUST, "context": "consciousness"},
-            {"symbol": GLYPHSymbol.REMEMBER, "context": "lukhas.memory"},
+            {"symbol": GLYPHSymbol.REMEMBER, "context": "memory"},
             {"symbol": GLYPHSymbol.PROTECT, "context": "guardian"},
             {"symbol": GLYPHSymbol.CREATE, "context": "creative"},
         ]
@@ -55,7 +55,7 @@ def test_core_common_comprehensive():
             token = GLYPHToken(
                 symbol=scenario["symbol"],
                 source="tests.e2e.high_impact",
-                target="lukhas.core",
+                target="core",
                 metadata={"context": scenario["context"]},
                 context=GLYPHContext(module_trace=[scenario["context"]]),
             )
@@ -71,7 +71,7 @@ def test_core_common_comprehensive():
 
     # Test exceptions module
     try:
-        from lukhas.core.common.exceptions import ConsciousnessError, GuardianError, LukhaSException, MemoryError
+        from core.common.exceptions import ConsciousnessError, GuardianError, LukhaSException, MemoryError
 
         # Test exception scenarios
         exception_scenarios = [
@@ -103,8 +103,8 @@ def test_core_common_comprehensive():
 def test_observability_comprehensive():
     """Test comprehensive coverage for observability modules."""
     try:
-        from lukhas.observability.matriz_decorators import measure, monitor, trace
-        from lukhas.observability.matriz_emit import emit_event, emit_metric
+        from observability.matriz_decorators import measure, monitor, trace
+        from observability.matriz_emit import emit_event, emit_metric
 
         # Test decorator functionality
         @trace
@@ -198,7 +198,7 @@ def test_core_symbolism_comprehensive():
     """Test comprehensive coverage for core symbolism modules."""
     try:
         from labs.core.symbolism.tags import SymbolicTag, TagProcessor
-        from lukhas.core.symbolism.methylation_model import MethylationModel
+        from core.symbolism.methylation_model import MethylationModel
 
         # Test tag processing
         tag_scenarios = [
@@ -257,12 +257,12 @@ def test_core_symbolism_comprehensive():
 def test_core_actor_system_comprehensive():
     """Test comprehensive coverage for core actor system."""
     try:
-        from lukhas.core.actor_system import Actor, ActorSystem, Message
+        from core.actor_system import Actor, ActorSystem, Message
 
         # Test actor system creation
         actor_scenarios = [
             {"name": "consciousness_actor", "type": "consciousness"},
-            {"name": "memory_actor", "type": "lukhas.memory"},
+            {"name": "memory_actor", "type": "memory"},
             {"name": "guardian_actor", "type": "security"},
             {"name": "qi_actor", "type": "quantum"},
         ]
@@ -300,7 +300,7 @@ def test_core_actor_system_comprehensive():
 def test_core_wrapper_comprehensive():
     """Test comprehensive coverage for core wrapper functionality."""
     try:
-        from lukhas.core.core_wrapper import CoreSystem, CoreWrapper
+        from core.core_wrapper import CoreSystem, CoreWrapper
 
         # Test core wrapper initialization
         wrapper_configs = [
@@ -386,7 +386,7 @@ def test_efficient_communication_comprehensive():
 def test_event_sourcing_comprehensive():
     """Test comprehensive coverage for event sourcing system."""
     try:
-        from lukhas.core.event_sourcing import Event, EventReplayService, EventStore
+        from core.event_sourcing import Event, EventReplayService, EventStore
 
         store = EventStore(":memory:")
 

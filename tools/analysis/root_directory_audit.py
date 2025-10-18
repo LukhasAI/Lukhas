@@ -18,10 +18,10 @@ class RootDirectoryAuditor:
         self.core_modules = [
             "core",
             "consciousness",
-            "lukhas.memory",
+            "memory",
             "qi",
             "emotion",
-            "lukhas.governance",
+            "governance",
             "bridge",
         ]
         self.essential_root = {
@@ -30,7 +30,7 @@ class RootDirectoryAuditor:
             ".venv",
             "docs",
             "tests",
-            "lukhas.tools",
+            "tools",
             "config",
             "requirements.txt",
             "README.md",
@@ -93,7 +93,7 @@ class RootDirectoryAuditor:
             analysis["suggested_action"] = "MERGE"
             analysis["suggested_location"] = target
             analysis["reason"] = f"Belongs under {target}"
-        elif directory in ["lukhas.tools", "analysis_tools", "healing"]:
+        elif directory in ["tools", "analysis_tools", "healing"]:
             self.categories["tools_and_utils"].append(directory)
             analysis["suggested_action"] = "CONSOLIDATE"
             analysis["suggested_location"] = "tools/"
@@ -126,9 +126,9 @@ class RootDirectoryAuditor:
             "bio": "qi",
             "creativity": "consciousness",
             "dream": "consciousness",
-            "ethics": "lukhas.governance",
-            "identity": "lukhas.governance",
-            "learning": "lukhas.memory",
+            "ethics": "governance",
+            "identity": "governance",
+            "learning": "memory",
             "orchestration": "core",
             "reasoning": "consciousness",
             "symbolic": "core",

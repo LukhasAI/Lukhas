@@ -127,7 +127,7 @@ def test_import_controller_allowed_imports_candidate(import_controller):
 def test_import_controller_violation_detection_candidate_to_lukhas(import_controller):
     """Test detection of candidate → lukhas violations."""
     source_file = Path("candidate/consciousness/advanced_awareness.py")
-    import_statement = "from lukhas.consciousness import awareness_protocol"
+    import_statement = "from consciousness import awareness_protocol"
 
     violation = import_controller.check_import(source_file, import_statement)
 
@@ -293,7 +293,7 @@ def test_import_controller_full_validation(import_controller, matriz_config):
 
     # Test invalid import
     invalid_source = Path("candidate/consciousness/module.py")
-    invalid_import = "from lukhas.consciousness import Protocol"
+    invalid_import = "from consciousness import Protocol"
 
     violation = import_controller.check_import(invalid_source, invalid_import)
     assert violation is not None

@@ -32,8 +32,8 @@ def test_symbol_or_module_resolves(mod, sym):
 @pytest.mark.parametrize(
     "mod",
     [
-        "lukhas.governance.schema_registry",
-        "lukhas.bio.utils",
+        "governance.schema_registry",
+        "bio.utils",
         "labs.observability",
         "labs.cognitive_core",
     ],

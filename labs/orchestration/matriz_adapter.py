@@ -36,7 +36,7 @@ class OrchestrationMatrizAdapter:
             },
             "timestamps": {"created_ts": int(time.time() * 1000)},
             "provenance": {
-                "producer": "lukhas.orchestration",
+                "producer": "orchestration",
                 "capabilities": [
                     "orchestration:brain",
                     "orchestration:coordinate",

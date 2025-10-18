@@ -1,7 +1,7 @@
 """Pre-freeze bridge surface for `bridge.adapters` expected by tests."""
 from __future__ import annotations
 
-from lukhas._bridgeutils import bridge
+from _bridgeutils import bridge
 
 _mod: object | None = None
 _exports: dict[str, object] = {}
@@ -9,7 +9,7 @@ _exports: dict[str, object] = {}
 try:
     _mod, _exports, __all__ = bridge(
         candidates=(
-            "lukhas_website.lukhas.bridge.adapters",
+            "lukhas_website.bridge.adapters",
             "candidate.bridge.adapters",
         ),
         names=("OpenAIAdapter", "AnthropicAdapter", "BedrockAdapter", "BridgeTraceLogger"),

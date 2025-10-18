@@ -1,4 +1,4 @@
-"""Compatibility shim: expose the top-level `matriz` package under ``lukhas.matriz``.
+"""Compatibility shim: expose the top-level `matriz` package under ``matriz``.
 
 This module prefers an installed ``matriz`` package, otherwise falls back to
 the local repository copy. It also re-exports a small set of runtime symbols

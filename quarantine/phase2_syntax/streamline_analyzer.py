@@ -333,7 +333,7 @@ class StreamlineAnalyzer:
                 "name": "Create Common Utilities",
                 "duration": "2-3 days",
                 "tasks": [
-                    "Create lukhas.common.utils module",
+                    "Create common.utils module",
                     "Extract logger initialization utility",
                     "Create config loading utilities",
                     "Standardize error handling patterns",

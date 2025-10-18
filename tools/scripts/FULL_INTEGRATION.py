@@ -148,7 +148,7 @@ class LukhasLambdaIntegrator:
                 }
             )
 
-            self.integration_status["components"]["lukhas.memory"] = "✅ CONNECTED"
+            self.integration_status["components"]["memory"] = "✅ CONNECTED"
             print("   ✅ Memory folds connected to Lambda Products")
 
             # Enable memory for agents
@@ -171,7 +171,7 @@ class LukhasLambdaIntegrator:
 
         except Exception as e:
             print(f"   ❌ Memory integration failed: {e}")
-            self.integration_status["components"]["lukhas.memory"] = f"❌ FAILED: {e}"
+            self.integration_status["components"]["memory"] = f"❌ FAILED: {e}"
             return False
 
     async def integrate_glyph_communication(self) -> bool:

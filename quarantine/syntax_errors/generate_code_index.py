@@ -373,10 +373,10 @@ class CodeIndexer:
             """
             INSERT INTO migrations (old_import, new_import, shim_required, deprecation_date)
             VALUES
-                ('bio_core', 'lukhas.accepted.bio', true, '2025-11-01'),
-                ('bio_orchestrator', 'lukhas.accepted.bio.orchestrator', true, '2025-11-01'),
-                ('bio_symbolic', 'lukhas.accepted.bio.symbolic', true, '2025-11-01'),
-                ('bio_quantum_radar_integration', 'lukhas.candidate.bio.quantum', true, '2025-11-01')
+                ('bio_core', 'accepted.bio', true, '2025-11-01'),
+                ('bio_orchestrator', 'accepted.bio.orchestrator', true, '2025-11-01'),
+                ('bio_symbolic', 'accepted.bio.symbolic', true, '2025-11-01'),
+                ('bio_quantum_radar_integration', 'candidate.bio.quantum', true, '2025-11-01')
         """
         )
 
@@ -385,9 +385,9 @@ class CodeIndexer:
             """
             INSERT INTO migrations (old_import, new_import, shim_required, deprecation_date)
             VALUES
-                ('memory.fold_manager', 'lukhas.accepted.memory.fold', true, '2025-11-01'),
-                ('memory.memory_consolidation', 'lukhas.accepted.memory.consolidation', true, '2025-11-01'),
-                ('memory.episodic', 'lukhas.accepted.memory.episodic', true, '2025-11-01')
+                ('memory.fold_manager', 'accepted.memory.fold', true, '2025-11-01'),
+                ('memory.memory_consolidation', 'accepted.memory.consolidation', true, '2025-11-01'),
+                ('memory.episodic', 'accepted.memory.episodic', true, '2025-11-01')
         """
         )
 
@@ -396,9 +396,9 @@ class CodeIndexer:
             """
             INSERT INTO migrations (old_import, new_import, shim_required, deprecation_date)
             VALUES
-                ('core.glyph', 'lukhas.accepted.core.glyph', true, '2025-11-01'),
-                ('identity.core', 'lukhas.accepted.identity', true, '2025-11-01'),
-                ('governance.guardian', 'lukhas.accepted.governance.guardian', true, '2025-11-01')
+                ('core.glyph', 'accepted.core.glyph', true, '2025-11-01'),
+                ('identity.core', 'accepted.identity', true, '2025-11-01'),
+                ('governance.guardian', 'accepted.governance.guardian', true, '2025-11-01')
         """
         )
 
@@ -407,9 +407,9 @@ class CodeIndexer:
             """
             INSERT INTO migrations (old_import, new_import, shim_required, deprecation_date)
             VALUES
-                ('universal_language', 'lukhas.candidate.ul', true, '2025-11-01'),
-                ('vivox', 'lukhas.candidate.vivox', true, '2025-11-01'),
-                ('qim', 'lukhas.candidate.qim', true, '2025-11-01')
+                ('universal_language', 'candidate.ul', true, '2025-11-01'),
+                ('vivox', 'candidate.vivox', true, '2025-11-01'),
+                ('qim', 'candidate.qim', true, '2025-11-01')
         """
         )
 

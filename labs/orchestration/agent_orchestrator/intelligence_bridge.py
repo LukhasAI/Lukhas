@@ -16,7 +16,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
-from lukhas.consciousness.reasoning.advanced_engines.intelligence_engines import (
+from consciousness.reasoning.advanced_engines.intelligence_engines import (
     LukhasAutonomousGoalEngine,
     LukhasCausalReasoningEngine,
     LukhasCuriosityEngine,

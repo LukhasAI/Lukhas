@@ -216,7 +216,7 @@ class TestFailClosedSafetyMechanisms:
         """Test graceful degradation when components fail"""
 
         # Test registry continues to work even when discovery fails
-        with patch('lukhas.core.registry.entry_points', side_effect=ImportError("Discovery failure")):
+        with patch('core.registry.entry_points', side_effect=ImportError("Discovery failure")):
             # Enable discovery for this test
             with patch.dict(os.environ, {'LUKHAS_PLUGIN_DISCOVERY': 'auto'}):
                 # Discovery should handle the failure gracefully
@@ -430,7 +430,7 @@ class TestFailClosedSafetyMechanisms:
 
         # Simulate a compromised environment with discovery enabled
         with patch.dict(os.environ, {'LUKHAS_PLUGIN_DISCOVERY': 'auto'}):
-            with patch('lukhas.core.registry.entry_points') as mock_entry_points:
+            with patch('core.registry.entry_points') as mock_entry_points:
                 # Create malicious entry point
                 malicious_ep = Mock()
                 malicious_ep.name = "malicious_plugin"

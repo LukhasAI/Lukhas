@@ -284,7 +284,7 @@ class EnhancedPersonalityCommunicationEngine:
 ║ REFERENCES:
 ║   - Docs: docs/bridge/personality-communication.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=personality
-║   - Wiki: wiki.lukhas.ai/personality-engine
+║   - Wiki: wiki.ai/personality-engine
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

@@ -17,12 +17,12 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from lukhas.observability.advanced_metrics import AdvancedMetricsSystem
-from lukhas.observability.compliance_dashboard import ComplianceDashboard
-from lukhas.observability.enhanced_distributed_tracing import EnhancedLUKHASTracer, TraceConfig
-from lukhas.observability.evidence_collection import ComplianceRegime, EvidenceCollectionEngine, EvidenceType
-from lukhas.observability.intelligent_alerting import IntelligentAlertingSystem
-from lukhas.observability.performance_regression import PerformanceRegressionDetector
+from observability.advanced_metrics import AdvancedMetricsSystem
+from observability.compliance_dashboard import ComplianceDashboard
+from observability.enhanced_distributed_tracing import EnhancedLUKHASTracer, TraceConfig
+from observability.evidence_collection import ComplianceRegime, EvidenceCollectionEngine, EvidenceType
+from observability.intelligent_alerting import IntelligentAlertingSystem
+from observability.performance_regression import PerformanceRegressionDetector
 
 
 @pytest.fixture
@@ -89,9 +89,9 @@ async def integrated_observability_stack(temp_dirs, mock_external_dependencies):
     )
 
     # Mock dependencies for components
-    with patch('lukhas.observability.advanced_metrics.get_lukhas_metrics', return_value=mock_external_dependencies['prometheus_metrics']):
-        with patch('lukhas.observability.performance_regression.get_advanced_metrics', return_value=advanced_metrics):
-            with patch('lukhas.observability.performance_regression.get_alerting_system', return_value=alerting_system):
+    with patch('observability.advanced_metrics.get_lukhas_metrics', return_value=mock_external_dependencies['prometheus_metrics']):
+        with patch('observability.performance_regression.get_advanced_metrics', return_value=advanced_metrics):
+            with patch('observability.performance_regression.get_alerting_system', return_value=alerting_system):
 
                 stack = {
                     'evidence': evidence_engine,

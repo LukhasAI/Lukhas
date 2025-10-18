@@ -210,7 +210,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
         "compliance": ["✅", "📋", "⚖️"],
         "incident": ["🚨", "⚠️", "🔍"],
         "audit": ["📊", "🔍", "📝"],
-        "lukhas.governance": ["🛡️", "⚖️", "✅"],
+        "governance": ["🛡️", "⚖️", "✅"],
         "constellation_protected": ["⚛️", "🧠", "🛡️"],
         "privacy_violation": ["🚨", "⚖️", "🔒"],
     }
@@ -775,7 +775,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "profile",
         ]
         consciousness_keywords = [
-            "lukhas.memory",
+            "memory",
             "thought",
             "decision",
             "consciousness",
@@ -787,7 +787,7 @@ class PrivacyGuardian(GlyphIntegrationMixin):
             "protection",
             "guardian",
             "policy",
-            "lukhas.governance",
+            "governance",
             "audit",
         ]
 

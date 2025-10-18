@@ -34,7 +34,7 @@ TOKEN_TIER_MAP = {
 def compute_drift_score(symbols: list[str]) -> float:
     """Compute drift score from symbols using real drift computation"""
     try:
-        from lukhas.governance.guardian.guardian_impl import GuardianSystemImpl
+        from governance.guardian.guardian_impl import GuardianSystemImpl
 
         guardian = GuardianSystemImpl()
 

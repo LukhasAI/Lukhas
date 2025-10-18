@@ -143,7 +143,7 @@ class EnhancedMatrizAdapter:
                 "utc_iso": signal.timestamp.isoformat(),
             },
             "provenance": {
-                "producer": f"lukhas.core.{signal.source_module}",
+                "producer": f"core.{signal.source_module}",
                 "capabilities": ["consciousness:process", "bio:adapt", "symbolic:reason", "constellation:validate"],
                 "tenant": "consciousness_network",
                 "trace_id": f"MΛTRIZ-{signal.signal_id}",

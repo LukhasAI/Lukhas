@@ -13,7 +13,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 from .qrg_100_percent_coverage import (
     TestIntegrationBoundaries,

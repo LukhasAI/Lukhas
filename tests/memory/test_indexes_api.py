@@ -15,8 +15,8 @@ from __future__ import annotations
 import pytest
 from fastapi.testclient import TestClient
 
-from lukhas.adapters.openai.api import get_app
-from lukhas.memory.index_manager import IndexManager
+from adapters.openai.api import get_app
+from memory.index_manager import IndexManager
 
 
 @pytest.fixture(autouse=True)

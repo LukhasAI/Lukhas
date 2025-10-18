@@ -15,8 +15,8 @@ from pathlib import Path
 from typing import Any, Optional
 
 from bridge.local_llm_fixer import CodeIssue, FixType, LocalLLMFixer
-from lukhas.core.cognitive.self_healing import FailureType, HealingAction, HealingStrategy, SystemFailure
-from lukhas.governance.guardian import GuardianSystem
+from core.cognitive.self_healing import FailureType, HealingAction, HealingStrategy, SystemFailure
+from governance.guardian import GuardianSystem
 
 logger = logging.getLogger(__name__)
 

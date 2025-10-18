@@ -213,7 +213,7 @@ class DiscoveryProvider:
         Initialize discovery provider with security validation.
 
         Args:
-            base_url: Base URL for the OIDC provider (e.g., https://auth.lukhas.ai)
+            base_url: Base URL for the OIDC provider (e.g., https://auth.ai)
             custom_config: Optional custom configuration overrides
         """
         self.base_url = base_url.rstrip('/')

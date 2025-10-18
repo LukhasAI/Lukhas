@@ -397,11 +397,11 @@ class HealixVisualizer:
                 y = radius * np.sin(angle)
 
                 positions.append([x, y])
-                all_memories.append({"lukhas.memory": memory, "strand": strand_type, "x": x, "y": y})
+                all_memories.append({"memory": memory, "strand": strand_type, "x": x, "y": y})
 
         # Add memory nodes
         for mem_info in all_memories:
-            memory = mem_info["lukhas.memory"]
+            memory = mem_info["memory"]
             strand = mem_info["strand"]
 
             # Create hover text with emoji indicators
@@ -631,7 +631,7 @@ async def launch_healix_ui():
     # Create some sample memories for demonstration
     sample_memories = [
         {
-            "lukhas.memory": {
+            "memory": {
                 "content": "The moment I first understood the beauty of DNA-inspired computing",
                 "emotional_weight": 0.95,
                 "valence": "positive",
@@ -641,7 +641,7 @@ async def launch_healix_ui():
             "context": {"research_session": "biomimetic_computing"},
         },
         {
-            "lukhas.memory": {
+            "memory": {
                 "content": "Traditional family stories passed down through generations",
                 "cultural_markers": ["storytelling", "heritage", "wisdom"],
                 "origin": "grandmother",
@@ -651,7 +651,7 @@ async def launch_healix_ui():
             "context": {"family_gathering": "holiday_tradition"},
         },
         {
-            "lukhas.memory": {
+            "memory": {
                 "content": "The overwhelming joy of seeing a complex system finally work",
                 "emotional_weight": 0.9,
                 "valence": "positive",
@@ -666,7 +666,7 @@ async def launch_healix_ui():
     # Add sample memories
     memory_ids = []
     for sample in sample_memories:
-        memory_id = await healix.encode_memory(sample["lukhas.memory"], sample["strand"], sample["context"])
+        memory_id = await healix.encode_memory(sample["memory"], sample["strand"], sample["context"])
         memory_ids.append(memory_id)
         print(f"✅ Added {sample['strand'].value} memory: {memory_id[:30]}...")
 

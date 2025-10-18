@@ -1,4 +1,4 @@
-from lukhas.consciousness.dream.expand import atlas
+from consciousness.dream.expand import atlas
 
 
 def test_log_creates_entry():

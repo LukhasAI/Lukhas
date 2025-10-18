@@ -179,7 +179,7 @@ class TestFaultInjection:
 
         except (MemoryError, DatabaseError, OperationalError) as e:
             # These are acceptable failures for huge data
-            assert "lukhas.memory" in str(e).lower() or "too large" in str(e).lower()
+            assert "memory" in str(e).lower() or "too large" in str(e).lower()
 
     @pytest.mark.fault
     def test_corrupt_data_handling(self, sql_memory):
@@ -516,7 +516,7 @@ class TestResourceLimits:
 
         except Exception as e:
             # If we hit resource limits, that's acceptable
-            if "lukhas.memory" in str(e).lower() or "limit" in str(e).lower():
+            if "memory" in str(e).lower() or "limit" in str(e).lower():
                 pass
             else:
                 raise

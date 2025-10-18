@@ -593,7 +593,7 @@ class USInstitutionalAwarenessEngine:
                 "opt_out": "available",
                 "non_discrimination": "guaranteed",
             },
-            "contact_info": "privacy@lukhas.us",
+            "contact_info": "privacy@us",
             "response_time": "45 days",
         }
 

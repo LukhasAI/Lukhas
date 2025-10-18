@@ -1,7 +1,7 @@
 """Bridge for `candidate.memory.scheduled_folding`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.candidate.memory.scheduled_folding
+  1) lukhas_website.candidate.memory.scheduled_folding
   2) candidate.candidate.memory.scheduled_folding
   3) memory.scheduled_folding
 
@@ -22,9 +22,9 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.candidate.memory.scheduled_folding",
+    "lukhas_website.candidate.memory.scheduled_folding",
     "labs.candidate.memory.scheduled_folding",
-    "lukhas.memory.scheduled_folding",
+    "memory.scheduled_folding",
 )
 
 _SRC = None

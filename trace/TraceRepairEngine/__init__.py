@@ -1,7 +1,7 @@
 """Bridge for `trace.TraceRepairEngine`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.trace.TraceRepairEngine
+  1) lukhas_website.trace.TraceRepairEngine
   2) candidate.trace.TraceRepairEngine
   3) trace.TraceRepairEngine
 
@@ -22,7 +22,7 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.trace.TraceRepairEngine",
+    "lukhas_website.trace.TraceRepairEngine",
     "candidate.trace.TraceRepairEngine",
     "trace.TraceRepairEngine",
 )

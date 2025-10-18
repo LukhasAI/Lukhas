@@ -1,7 +1,7 @@
 """Bridge for `aka_qualia.memory_noop`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.aka_qualia.memory_noop
+  1) lukhas_website.aka_qualia.memory_noop
   2) candidate.aka_qualia.memory_noop
   3) aka_qualia.memory_noop
 
@@ -22,7 +22,7 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.aka_qualia.memory_noop",
+    "lukhas_website.aka_qualia.memory_noop",
     "candidate.aka_qualia.memory_noop",
     "aka_qualia.memory_noop",
 )

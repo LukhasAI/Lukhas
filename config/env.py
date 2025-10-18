@@ -208,7 +208,7 @@ class LUKHASConfig:
     @property
     def database_url(self) -> str:
         """Primary database connection URL"""
-        return self.config.get("DATABASE_URL", "sqlite:///lukhas.db")
+        return self.config.get("DATABASE_URL", "sqlite:///db")
 
     @property
     def redis_url(self) -> str:

@@ -80,10 +80,10 @@ class AuditEventType(str, Enum):
     AUDIT_TRAIL_ACCESS = "compliance.audit.access"
 
     # LUKHAS Specific
-    MEMORY_FOLD = "lukhas.memory.fold"
-    CONSCIOUSNESS_STATE_CHANGE = "lukhas.consciousness.change"
-    EMOTIONAL_DRIFT = "lukhas.emotion.drift"
-    TIER_ACCESS = "lukhas.tier.access"
+    MEMORY_FOLD = "memory.fold"
+    CONSCIOUSNESS_STATE_CHANGE = "consciousness.change"
+    EMOTIONAL_DRIFT = "emotion.drift"
+    TIER_ACCESS = "tier.access"
 
 
 class AuditEvent(BaseModel):
@@ -549,7 +549,7 @@ async def main():
     await log_login(audit_logger, "user123", True, "192.168.1.1")
 
     await log_data_access(
-        audit_logger, "user123", "lukhas.memory", "mem_456", "fold_memory", tier_level=3
+        audit_logger, "user123", "memory", "mem_456", "fold_memory", tier_level=3
     )
 
     # Query logs

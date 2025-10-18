@@ -14,7 +14,7 @@ def test_example_unit():
 
 # Example structure for lukhas module tests
 class TestLukhasCore:
-    """Unit tests for lukhas.core modules."""
+    """Unit tests for core modules."""
 
     @pytest.mark.unit
     def test_core_functionality(self):

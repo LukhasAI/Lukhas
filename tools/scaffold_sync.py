@@ -98,7 +98,7 @@ def get_template_context(module_name: str, manifest: Dict[str, Any]) -> Dict[str
     context.setdefault("module_tier", "T3")
     context.setdefault("module_lane", "development")
     context.setdefault("module_team", "consciousness")
-    context.setdefault("module_owner", "team-consciousness@lukhas.ai")
+    context.setdefault("module_owner", "team-consciousness@ai")
     context.setdefault("module_coverage", "pending")
     context.setdefault("module_rate_limit", "1000 req/s")
     context.setdefault("module_memory_budget", "512MB heap, 1GB total")

@@ -37,7 +37,7 @@ from dataclasses import dataclass
 from functools import wraps
 from typing import Any, Callable, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 logger = get_logger(__name__)
 

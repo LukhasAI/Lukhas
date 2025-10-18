@@ -33,7 +33,7 @@ DREAM_SIMULATION_ENABLED = os.getenv("DREAM_SIMULATION_ENABLED", "false").lower(
 QUANTUM_PROCESSING_ENABLED = os.getenv("QUANTUM_PROCESSING_ENABLED", "false").lower() == "true"
 
 # Database
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///lukhas.db")
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///db")
 
 # Logging
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")

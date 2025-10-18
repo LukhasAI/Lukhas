@@ -51,11 +51,11 @@ def mock_oidc_provider():
     """Mock OIDC provider"""
     provider = Mock()
     provider.get_discovery_document.return_value = {
-        "issuer": "https://test.lukhas.ai",
-        "authorization_endpoint": "https://test.lukhas.ai/oauth2/authorize",
-        "token_endpoint": "https://test.lukhas.ai/oauth2/token",
-        "userinfo_endpoint": "https://test.lukhas.ai/oauth2/userinfo",
-        "jwks_uri": "https://test.lukhas.ai/.well-known/jwks.json"
+        "issuer": "https://test.ai",
+        "authorization_endpoint": "https://test.ai/oauth2/authorize",
+        "token_endpoint": "https://test.ai/oauth2/token",
+        "userinfo_endpoint": "https://test.ai/oauth2/userinfo",
+        "jwks_uri": "https://test.ai/.well-known/jwks.json"
     }
     provider.get_jwks.return_value = {
         "keys": [
@@ -74,9 +74,9 @@ def mock_oidc_provider():
 class TestOIDCDiscoveryEndpoint:
     """Test OIDC Discovery endpoint"""
 
-    @patch('lukhas.api.oidc.security_check_dependency')
-    @patch('lukhas.api.oidc.get_oidc_provider')
-    @patch('lukhas.api.oidc.rate_limiter')
+    @patch('api.oidc.security_check_dependency')
+    @patch('api.oidc.get_oidc_provider')
+    @patch('api.oidc.rate_limiter')
     def test_discovery_success(
         self, mock_rate_limiter, mock_provider_dep, mock_security_dep, client
     ):
@@ -91,8 +91,8 @@ class TestOIDCDiscoveryEndpoint:
 
         mock_provider = Mock()
         mock_provider.get_discovery_document.return_value = {
-            "issuer": "https://test.lukhas.ai",
-            "authorization_endpoint": "https://test.lukhas.ai/oauth2/authorize"
+            "issuer": "https://test.ai",
+            "authorization_endpoint": "https://test.ai/oauth2/authorize"
         }
         mock_provider_dep.return_value = mock_provider
 
@@ -104,7 +104,7 @@ class TestOIDCDiscoveryEndpoint:
         # Assertions
         assert response.status_code == 200
         data = response.json()
-        assert data["issuer"] == "https://test.lukhas.ai"
+        assert data["issuer"] == "https://test.ai"
         assert "lukhas_version" in data
         assert data["tier_authentication_supported"] is True
         assert data["webauthn_supported"] is True
@@ -114,8 +114,8 @@ class TestOIDCDiscoveryEndpoint:
         assert response.headers["X-Content-Type-Options"] == "nosniff"
         assert "Cache-Control" in response.headers
 
-    @patch('lukhas.api.oidc.security_check_dependency')
-    @patch('lukhas.api.oidc.rate_limiter')
+    @patch('api.oidc.security_check_dependency')
+    @patch('api.oidc.rate_limiter')
     def test_discovery_rate_limited(self, mock_rate_limiter, mock_security_dep, client):
         """Test discovery endpoint rate limiting"""
         mock_security_dep.return_value = {
@@ -135,9 +135,9 @@ class TestOIDCDiscoveryEndpoint:
         assert "Retry-After" in response.headers
         assert response.headers["Retry-After"] == "60"
 
-    @patch('lukhas.api.oidc.security_check_dependency')
-    @patch('lukhas.api.oidc.get_oidc_provider')
-    @patch('lukhas.api.oidc.rate_limiter')
+    @patch('api.oidc.security_check_dependency')
+    @patch('api.oidc.get_oidc_provider')
+    @patch('api.oidc.rate_limiter')
     def test_discovery_server_error(
         self, mock_rate_limiter, mock_provider_dep, mock_security_dep, client
     ):
@@ -166,10 +166,10 @@ class TestOIDCDiscoveryEndpoint:
 class TestJWKSEndpoint:
     """Test JWKS endpoint"""
 
-    @patch('lukhas.api.oidc.security_check_dependency')
-    @patch('lukhas.api.oidc.get_oidc_provider')
-    @patch('lukhas.api.oidc.jwks_cache')
-    @patch('lukhas.api.oidc.rate_limiter')
+    @patch('api.oidc.security_check_dependency')
+    @patch('api.oidc.get_oidc_provider')
+    @patch('api.oidc.jwks_cache')
+    @patch('api.oidc.rate_limiter')
     def test_jwks_cache_hit(
         self, mock_rate_limiter, mock_cache, mock_provider_dep, mock_security_dep, client
     ):
@@ -202,10 +202,10 @@ class TestJWKSEndpoint:
         mock_cache.get.assert_called_once()
         mock_provider_dep.assert_not_called()
 
-    @patch('lukhas.api.oidc.security_check_dependency')
-    @patch('lukhas.api.oidc.get_oidc_provider')
-    @patch('lukhas.api.oidc.jwks_cache')
-    @patch('lukhas.api.oidc.rate_limiter')
+    @patch('api.oidc.security_check_dependency')
+    @patch('api.oidc.get_oidc_provider')
+    @patch('api.oidc.jwks_cache')
+    @patch('api.oidc.rate_limiter')
     def test_jwks_cache_miss(
         self, mock_rate_limiter, mock_cache, mock_provider_dep, mock_security_dep, client
     ):
@@ -246,9 +246,9 @@ class TestJWKSEndpoint:
 
     def test_jwks_cors_headers(self, client):
         """Test JWKS CORS headers for cross-origin access"""
-        with patch('lukhas.api.oidc.security_check_dependency') as mock_security_dep, \
-             patch('lukhas.api.oidc.jwks_cache') as mock_cache, \
-             patch('lukhas.api.oidc.rate_limiter') as mock_rate_limiter:
+        with patch('api.oidc.security_check_dependency') as mock_security_dep, \
+             patch('api.oidc.jwks_cache') as mock_cache, \
+             patch('api.oidc.rate_limiter') as mock_rate_limiter:
 
             mock_security_dep.return_value = {
                 "correlation_id": "test-123",
@@ -272,7 +272,7 @@ class TestAuthorizationEndpoint:
 
     def test_authorization_request_validation(self, client):
         """Test authorization request parameter validation"""
-        with patch('lukhas.api.oidc.security_check_dependency') as mock_security_dep:
+        with patch('api.oidc.security_check_dependency') as mock_security_dep:
             mock_security_dep.return_value = {
                 "correlation_id": "test-123",
                 "client_ip": "127.0.0.1",
@@ -288,10 +288,10 @@ class TestAuthorizationEndpoint:
             response = client.get("/authorize?client_id=test&response_type=code&redirect_uri=invalid_uri&scope=openid")
             assert response.status_code == 400
 
-    @patch('lukhas.api.oidc.security_check_dependency')
-    @patch('lukhas.api.oidc.get_oidc_provider')
-    @patch('lukhas.api.oidc.get_current_user')
-    @patch('lukhas.api.oidc.rate_limiter')
+    @patch('api.oidc.security_check_dependency')
+    @patch('api.oidc.get_oidc_provider')
+    @patch('api.oidc.get_current_user')
+    @patch('api.oidc.rate_limiter')
     def test_authorization_success_redirect(
         self, mock_rate_limiter, mock_get_user, mock_provider_dep, mock_security_dep, client
     ):
@@ -332,8 +332,8 @@ class TestAuthorizationEndpoint:
         assert response.status_code == 302
         assert "client.example.com" in response.headers["location"]
 
-    @patch('lukhas.api.oidc.security_check_dependency')
-    @patch('lukhas.api.oidc.rate_limiter')
+    @patch('api.oidc.security_check_dependency')
+    @patch('api.oidc.rate_limiter')
     def test_authorization_rate_limited(self, mock_rate_limiter, mock_security_dep, client):
         """Test authorization endpoint rate limiting"""
         mock_security_dep.return_value = {
@@ -389,7 +389,7 @@ class TestSecurityFeatures:
         assert correlation_id is not None
         assert len(correlation_id) > 0
 
-    @patch('lukhas.api.oidc.security_manager')
+    @patch('api.oidc.security_manager')
     def test_security_check_dependency_block(self, mock_security_manager):
         """Test security check that blocks request"""
         from unittest.mock import Mock
@@ -425,14 +425,14 @@ class TestSecurityFeatures:
         from fastapi import Request
 
         request = Mock(spec=Request)
-        request.headers = {"Origin": "https://app.lukhas.ai"}
+        request.headers = {"Origin": "https://app.ai"}
 
         headers = {}
         from api.oidc import _add_cors_headers
         result = _add_cors_headers(headers, request)
 
         assert "Access-Control-Allow-Origin" in result
-        assert result["Access-Control-Allow-Origin"] == "https://app.lukhas.ai"
+        assert result["Access-Control-Allow-Origin"] == "https://app.ai"
         assert result["Access-Control-Allow-Credentials"] == "true"
 
     def test_cors_headers_invalid_domain(self):
@@ -454,10 +454,10 @@ class TestSecurityFeatures:
 class TestPerformanceAndCompliance:
     """Test performance and compliance requirements"""
 
-    @patch('lukhas.api.oidc.security_check_dependency')
-    @patch('lukhas.api.oidc.get_oidc_provider')
-    @patch('lukhas.api.oidc.jwks_cache')
-    @patch('lukhas.api.oidc.rate_limiter')
+    @patch('api.oidc.security_check_dependency')
+    @patch('api.oidc.get_oidc_provider')
+    @patch('api.oidc.jwks_cache')
+    @patch('api.oidc.rate_limiter')
     def test_jwks_sub_100ms_performance(
         self, mock_rate_limiter, mock_cache, mock_provider_dep, mock_security_dep, client
     ):
@@ -488,9 +488,9 @@ class TestPerformanceAndCompliance:
 
     def test_oidc_compliance_discovery_document(self, client):
         """Test OIDC compliance of discovery document"""
-        with patch('lukhas.api.oidc.security_check_dependency') as mock_security_dep, \
-             patch('lukhas.api.oidc.get_oidc_provider') as mock_provider_dep, \
-             patch('lukhas.api.oidc.rate_limiter') as mock_rate_limiter:
+        with patch('api.oidc.security_check_dependency') as mock_security_dep, \
+             patch('api.oidc.get_oidc_provider') as mock_provider_dep, \
+             patch('api.oidc.rate_limiter') as mock_rate_limiter:
 
             mock_security_dep.return_value = {
                 "correlation_id": "test-123",
@@ -503,11 +503,11 @@ class TestPerformanceAndCompliance:
 
             mock_provider = Mock()
             mock_provider.get_discovery_document.return_value = {
-                "issuer": "https://test.lukhas.ai",
-                "authorization_endpoint": "https://test.lukhas.ai/oauth2/authorize",
-                "token_endpoint": "https://test.lukhas.ai/oauth2/token",
-                "userinfo_endpoint": "https://test.lukhas.ai/oauth2/userinfo",
-                "jwks_uri": "https://test.lukhas.ai/.well-known/jwks.json"
+                "issuer": "https://test.ai",
+                "authorization_endpoint": "https://test.ai/oauth2/authorize",
+                "token_endpoint": "https://test.ai/oauth2/token",
+                "userinfo_endpoint": "https://test.ai/oauth2/userinfo",
+                "jwks_uri": "https://test.ai/.well-known/jwks.json"
             }
             mock_provider_dep.return_value = mock_provider
 

@@ -26,8 +26,8 @@ from typing import Any, Optional
 
 import numpy as np
 
-from lukhas.observability.matriz_decorators import instrument
-from lukhas.observability.matriz_emit import emit
+from observability.matriz_decorators import instrument
+from observability.matriz_emit import emit
 
 logger = logging.getLogger(__name__)
 

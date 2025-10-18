@@ -194,7 +194,7 @@ class ServiceNames:
     LEARNING = "learning"
     QUANTUM = "quantum"
     ETHICS = "ethics"
-    MEMORY = "lukhas.memory"
+    MEMORY = "memory"
     CREATIVITY = "creativity"
     CONSCIOUSNESS = "consciousness"
     IDENTITY = "identity"

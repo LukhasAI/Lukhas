@@ -83,12 +83,12 @@ class OwnershipAssigner:
             "labs.consciousness": "@Agent03",
             "labs.governance": "@Gonzalo",
             "labs.identity": "@SecurityTeam",
-            "lukhas.core": "@TechLead",
-            "lukhas.governance": "@Gonzalo",
-            "lukhas.identity": "@SecurityTeam",
+            "core": "@TechLead",
+            "governance": "@Gonzalo",
+            "identity": "@SecurityTeam",
             "branding": "@MarketingTeam",
             "products.security": "@SecurityTeam",
-            "lukhas.tools": "@DevOpsTeam",
+            "tools": "@DevOpsTeam",
             "matriz": "@ArchitectureTeam",
         }
 

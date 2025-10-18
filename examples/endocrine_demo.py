@@ -8,7 +8,7 @@ import asyncio
 import os
 import sys
 
-from lukhas.core.endocrine import get_endocrine_system
+from core.endocrine import get_endocrine_system
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 

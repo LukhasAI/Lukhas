@@ -15,7 +15,7 @@ __all__ = [
 ]
 
 _CANDIDATES: tuple[str, ...] = (
-    "lukhas_website.lukhas.api.identity",
+    "lukhas_website.api.identity",
     "candidate.api.identity",
     "core.identity.api",
 )

@@ -27,7 +27,7 @@ Description: Quantum module for advanced Cognitive functionality
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 Licensed under the LUKHAS Enterprise License.
 
-For documentation and support: https://lukhas.ai/docs
+For documentation and support: https://ai/docs
 """
 
 __module_name__ = "Quantum Bio Components"
@@ -54,7 +54,7 @@ try:
     from bridge.voice.bio_core.oscillator.qi_layer import QIBioOscillator
 
     # type: ignore
-    from lukhas.qi.processing.qi_engine import QIOscillator  # type: ignore
+    from qi.processing.qi_engine import QIOscillator  # type: ignore
 
     LUKHAS_OSCILLATORS_AVAILABLE = True
     log.debug("LUKHAS Oscillators imported successfully from candidate lane.")
@@ -64,7 +64,7 @@ except ImportError:
         from bridge.voice.bio_core.oscillator.qi_layer import QIBioOscillator
 
         # type: ignore
-        from lukhas.qi.processing.qi_engine import QIOscillator  # type: ignore
+        from qi.processing.qi_engine import QIOscillator  # type: ignore
 
         LUKHAS_OSCILLATORS_AVAILABLE = True
         log.debug("LUKHAS Oscillators imported successfully from production lane.")

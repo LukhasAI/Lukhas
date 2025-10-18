@@ -18,7 +18,7 @@ from async_manager import (
     get_orchestration_manager,
     shutdown_all_managers,
 )
-from lukhas.async_utils import (
+from async_utils import (
     await_with_timeout,
     consciousness_context,
     consciousness_task,
@@ -385,7 +385,7 @@ class TestAsyncReliabilityIntegration:
             ethical_evaluation(),
             name="ethical_evaluation",
             priority=TaskPriority.CRITICAL,
-            component="lukhas.governance.guardian",
+            component="governance.guardian",
             description="Perform ethical drift evaluation",
             consciousness_context="guardian_ethics",
         )
@@ -394,7 +394,7 @@ class TestAsyncReliabilityIntegration:
             threat_detection(),
             name="threat_detection",
             priority=TaskPriority.CRITICAL,
-            component="lukhas.governance.guardian",
+            component="governance.guardian",
             description="Scan for security threats",
             consciousness_context="guardian_security",
         )

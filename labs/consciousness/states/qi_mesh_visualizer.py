@@ -28,7 +28,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 # Visualization libraries
 try:
@@ -76,7 +76,7 @@ class QIMeshVisualizer:
         # Standard subsystem names
         self.subsystems = [
             "emotion",
-            "lukhas.memory",
+            "memory",
             "reasoning",
             "dream",
             "ethics",
@@ -134,7 +134,7 @@ class QIMeshVisualizer:
                 "alignment": np.random.uniform(0.75, 0.95),
                 "phase": np.random.uniform(0, 2 * np.pi),
             },
-            "lukhas.memory": {
+            "memory": {
                 "coherence": np.random.uniform(0.8, 0.95),
                 "confidence": np.random.uniform(0.8, 0.98),
                 "entropy": np.random.uniform(0.05, 0.25),

@@ -13,7 +13,7 @@ def test_memory_functionality():
     print("-" * 35)
 
     try:
-        from lukhas.memory import MEMORY_AVAILABLE, access_memory, create_fold, dump_state
+        from memory import MEMORY_AVAILABLE, access_memory, create_fold, dump_state
 
         print(f"   Memory Available: {MEMORY_AVAILABLE}")
 
@@ -122,7 +122,7 @@ def test_lukhas_namespace_issues():
     print("\n🔍 LUKHAS NAMESPACE TEST:")
     print("-" * 25)
 
-    lukhas_modules = ["lukhas.memory", "lukhas.consciousness", "lukhas.api", "lukhas.core", "lukhas.identity"]
+    lukhas_modules = ["memory", "consciousness", "api", "core", "identity"]
     results = {}
 
     for module in lukhas_modules:

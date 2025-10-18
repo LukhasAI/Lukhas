@@ -22,7 +22,7 @@ class LUKHASSymbolResolver:
                 "candidate/memory",
                 "lukhas/identity",
                 "candidate/bio",
-                "lukhas.governance",
+                "governance",
             ],
             "TIER_2_INTEGRATION": ["orchestration/brain", "bridge", "api", "visualization"],
             "TIER_3_EXPERIMENTAL": ["candidate/core", "products/", "branding/", "tools/"],

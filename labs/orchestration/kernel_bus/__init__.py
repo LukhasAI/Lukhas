@@ -11,7 +11,7 @@ _BACKEND: ModuleType | None = None
 
 for _candidate in (
     "labs.candidate.orchestration.kernel_bus",
-    "lukhas_website.lukhas.orchestration.kernel_bus",
+    "lukhas_website.orchestration.kernel_bus",
     "orchestration.kernel_bus",
 ):
     try:

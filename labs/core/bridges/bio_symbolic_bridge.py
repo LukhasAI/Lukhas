@@ -7,7 +7,7 @@ import logging
 from datetime import timezone
 from typing import Any
 
-from lukhas.core.integration.hub_registry import HubRegistry
+from core.integration.hub_registry import HubRegistry
 
 logger = logging.getLogger(__name__)
 

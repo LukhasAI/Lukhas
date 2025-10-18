@@ -1,11 +1,11 @@
 from starlette.testclient import TestClient
-from lukhas.adapters.openai.api import get_app
+from adapters.openai.api import get_app
 
 from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
 
 def test_responses_minimal():
     client = TestClient(get_app())
-    payload = {"input": "hello lukhas", "lukhas.tools": []}
+    payload = {"input": "hello lukhas", "tools": []}
     r = client.post("/v1/responses", json=payload, headers=GOLDEN_AUTH_HEADERS)
     assert r.status_code == 200
     body = r.json()

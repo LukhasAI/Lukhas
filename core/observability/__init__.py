@@ -26,7 +26,7 @@ Features:
 - Predictive analytics and optimization recommendations
 
 Usage:
-    from lukhas.core.observability import (
+    from core.observability import (
         UnifiedMonitoringDashboard,
         GuardianMonitoringDashboard,
         AwarenessMonitoringSystem,
@@ -88,7 +88,7 @@ except ImportError as e:
     UNIFIED_DASHBOARD_AVAILABLE = False
 
 try:
-    from lukhas.governance.guardian.monitoring_dashboard import (
+    from governance.guardian.monitoring_dashboard import (
         AlertSeverity as GuardianAlertSeverity,
         ComplianceViolation,
         GuardianMonitoringDashboard,
@@ -106,7 +106,7 @@ except ImportError as e:
     GUARDIAN_MONITORING_AVAILABLE = False
 
 try:
-    from lukhas.consciousness.awareness.awareness_monitoring_system import (
+    from consciousness.awareness.awareness_monitoring_system import (
         AttentionMode,
         AttentionPattern,
         AwarenessLevel,

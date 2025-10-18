@@ -29,7 +29,7 @@ subsystem, enabling glyph-to-dream seed conversion, dream-to-glyph generation,
 archetypal mapping, and symbolic memory integration for enhanced dream
 processing and glyph evolution.
 
-For more information, visit: https://lukhas.ai
+For more information, visit: https://ai
 """
 
 # ΛTRACE: Dream-Glyph Bridge initialization
@@ -38,7 +38,7 @@ For more information, visit: https://lukhas.ai
 
 __version__ = "1.0.0"
 __author__ = "LUKHAS Development Team"
-__email__ = "dev@lukhas.ai"
+__email__ = "dev@ai"
 __status__ = "Production"
 
 import json

@@ -16,8 +16,8 @@ import logging
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from lukhas.core.colonies.base_colony import BaseColony
-from lukhas.core.enhanced_swarm import EnhancedSwarmHub
+from core.colonies.base_colony import BaseColony
+from core.enhanced_swarm import EnhancedSwarmHub
 
 # Import bio-symbolic colonies
 try:
@@ -32,7 +32,7 @@ except ImportError:
 
 # Import oracle colony
 try:
-    from lukhas.core.colonies.oracle_colony import OracleColony, OracleQuery
+    from core.colonies.oracle_colony import OracleColony, OracleQuery
 
     ORACLE_AVAILABLE = True
 except ImportError:
@@ -40,7 +40,7 @@ except ImportError:
 
 # Import consciousness integration
 try:
-    from lukhas.consciousness.systems.consciousness_colony_integration import DistributedConsciousnessEngine
+    from consciousness.systems.consciousness_colony_integration import DistributedConsciousnessEngine
 
     CONSCIOUSNESS_AVAILABLE = True
 except ImportError:

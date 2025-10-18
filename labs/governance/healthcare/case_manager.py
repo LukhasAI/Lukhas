@@ -115,7 +115,7 @@ class CaseManager(GlyphIntegrationMixin):
                 "created_at": timestamp,
                 "updates": [],
                 "encrypted_data": encrypted_case_data,
-                "lukhas.governance": {
+                "governance": {
                     "consent_grant_id": consent_valid["claims"]["grant_id"],
                     "ethical_approval": True,
                     "compliance_status": "validated",
@@ -173,7 +173,7 @@ class CaseManager(GlyphIntegrationMixin):
                     del case_copy["encrypted_data"]
 
                     # Add governance metadata
-                    case_copy["lukhas.governance"]["access_granted_to"] = provider_id
+                    case_copy["governance"]["access_granted_to"] = provider_id
                     cases.append(case_copy)
 
             # Sort by priority and creation time
@@ -224,7 +224,7 @@ class CaseManager(GlyphIntegrationMixin):
                 return False
 
         # Check governance compliance
-        return case.get("lukhas.governance", {}).get("compliance_status") == "validated"
+        return case.get("governance", {}).get("compliance_status") == "validated"
 
     async def update_case(self, case_id: str, update_data: dict[str, Any], provider_id: str) -> dict[str, Any]:
         """
@@ -260,7 +260,7 @@ class CaseManager(GlyphIntegrationMixin):
                 "provider_id": provider_id,
                 "timestamp": timestamp,
                 "data": update_data,
-                "lukhas.governance": {"validated": True, "audit_logged": True},
+                "governance": {"validated": True, "audit_logged": True},
             }
 
             # Add to case updates
@@ -272,7 +272,7 @@ class CaseManager(GlyphIntegrationMixin):
             if "status" in update_data:
                 old_status = case["status"]
                 case["status"] = update_data["status"]
-                case["lukhas.governance"]["audit_trail"].append(
+                case["governance"]["audit_trail"].append(
                     {
                         "action": "status_changed",
                         "timestamp": timestamp,
@@ -285,7 +285,7 @@ class CaseManager(GlyphIntegrationMixin):
             if "priority" in update_data:
                 old_priority = case["priority"]
                 case["priority"] = update_data["priority"]
-                case["lukhas.governance"]["audit_trail"].append(
+                case["governance"]["audit_trail"].append(
                     {
                         "action": "priority_changed",
                         "timestamp": timestamp,
@@ -362,7 +362,7 @@ class CaseManager(GlyphIntegrationMixin):
                 "status": "active",
                 "start_time": timestamp,
                 "notes": [],
-                "lukhas.governance": {
+                "governance": {
                     "consent_token": consent_token,
                     "compliance_status": "validated",
                     "audit_trail": [
@@ -421,7 +421,7 @@ class CaseManager(GlyphIntegrationMixin):
             del case["encrypted_data"]
 
             # Add access log to governance trail
-            case["lukhas.governance"]["audit_trail"].append(
+            case["governance"]["audit_trail"].append(
                 {
                     "action": "case_accessed",
                     "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -571,7 +571,7 @@ class CaseManager(GlyphIntegrationMixin):
                     return True
 
             # Check if requestor has consent from patient for this specific case
-            consent_token = case.get("lukhas.governance", {}).get("consent_token")
+            consent_token = case.get("governance", {}).get("consent_token")
             if consent_token:
                 has_consent_access = await self.auth_manager.verify_patient_consent(
                     requestor_id, case.get("user_id"), consent_token
@@ -584,7 +584,7 @@ class CaseManager(GlyphIntegrationMixin):
             has_read_scope = await self.auth_manager.check_scope(requestor_id, "healthcare.case.read")
             if has_read_scope and auth_result.tier.value >= AuthTier.TIER_2.value:
                 # Additional check: ensure case is not marked as restricted
-                if not case.get("lukhas.governance", {}).get("restricted_access", False):
+                if not case.get("governance", {}).get("restricted_access", False):
                     logger.info(f"✅ General read access granted to {requestor_id} for case {case_id}")
                     return True
                 else:
@@ -646,7 +646,7 @@ class CaseManager(GlyphIntegrationMixin):
         """Get governance and compliance summary"""
         total_cases = len(self.cases)
         compliant_cases = len(
-            [case for case in self.cases.values() if case.get("lukhas.governance", {}).get("compliance_status") == "validated"]
+            [case for case in self.cases.values() if case.get("governance", {}).get("compliance_status") == "validated"]
         )
 
         return {

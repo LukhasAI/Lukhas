@@ -23,7 +23,7 @@ from typing import Any, Dict, List, Optional
 import numpy as np
 import pytest
 
-from lukhas.memory.lifecycle import (
+from memory.lifecycle import (
     ArchivalTier,
     FileArchivalBackend,
     FileTombstoneStore,

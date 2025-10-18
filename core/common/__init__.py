@@ -1,28 +1,43 @@
-"""Bridge: core.common -> canonical implementations (GLYPHToken + get_logger)."""
+"""Bridge for core.common (+ real 'exceptions' submodule).
+
+Exports from the richest available backend (core.common preferred).
+Also provides real exceptions submodule for explicit imports.
+"""
 from __future__ import annotations
 
-# First get local logger
-try:
-    from .logger import (
-        get_logger as _get_logger,  # noqa: TID252 (relative imports in __init__.py are idiomatic)
-    )
-except ImportError:
-    import logging
-    _get_logger = logging.getLogger
+from importlib import import_module
+from typing import List, Optional
 
-# Then bridge to get GLYPHToken and other symbols
-from lukhas._bridgeutils import bridge_from_candidates
+__all__: List[str] = []
+_SRC: Optional[object] = None
 
-_CANDIDATES = (
+def _bind(modname: str) -> bool:
+    global _SRC, __all__
+    try:
+        m = import_module(modname)
+    except Exception:
+        return False
+    _SRC = m
+    __all__ = [n for n in dir(m) if not n.startswith("_")]
+    # Guarantee `exceptions` symbol is present for `from core.common import exceptions`
+    if "exceptions" not in __all__:
+        __all__.append("exceptions")
+    return True
+
+for _mod in (
     "labs.core.common",
-    "lukhas_website.lukhas.core.common",
-)
+    "core.common",
+    "lukhas_website.core.common",
+):
+    if _bind(_mod):
+        break
+else:
+    # Minimal fallback (package still presents `exceptions` submodule)
+    pass
 
-__all__, _exports = bridge_from_candidates(*_CANDIDATES)
+# Always expose our submodule path
+from . import exceptions  # noqa: F401,TID252,E402  (ensures attr exists even if backend lacks it)
 
-# Ensure get_logger is always available
-_exports["get_logger"] = _get_logger
-if "get_logger" not in __all__:
-    __all__.append("get_logger")
-
-globals().update(_exports)
+if _SRC is not None:
+    def __getattr__(name: str):
+        return getattr(_SRC, name)

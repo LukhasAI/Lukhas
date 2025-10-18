@@ -48,13 +48,13 @@ import uuid
 from datetime import datetime, timedelta, timezone
 from typing import Any, Optional, Union
 
-# from lukhas.core.common import LukhasError
+# from core.common import LukhasError
 # Use built-in Exception if core.common not available
 try:
-    from lukhas.core.common import LukhasError
+    from core.common import LukhasError
 except ImportError:
     try:
-        from lukhas.core.common import LukhasError
+        from core.common import LukhasError
     except ImportError:
 
         class LukhasError(Exception):
@@ -139,7 +139,7 @@ class AccessTier:
 
 
 # Assuming dream_reflection_loop is in CORE/dream_engine
-# from lukhas.consciousness.core_consciousness.dream_engine.dream_reflection_loop
+# from consciousness.core_consciousness.dream_engine.dream_reflection_loop
 # import DreamReflectionLoop # Removed DREAM_CLUSTERING_AVAILABLE as it's
 # not used directly here  # Removed to break circular dependency
 

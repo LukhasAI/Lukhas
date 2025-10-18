@@ -23,14 +23,14 @@ import pytest
 
 # Import test targets
 try:
-    from lukhas.core.ethics.logic.dsl_lite import (
+    from core.ethics.logic.dsl_lite import (
         has_category,
         has_tag,
         high_risk_tag_combination,
         requires_human_for_tags,
         tag_confidence,
     )
-    from lukhas.core.ethics.safety_tags import (
+    from core.ethics.safety_tags import (
         ExternalCallDetector,
         FinancialDetector,
         GDPRDetector,

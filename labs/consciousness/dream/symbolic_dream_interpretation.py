@@ -20,7 +20,7 @@ class SymbolicDomain(Enum):
     IDENTITY = "identity"
     GUARDIAN = "guardian"
     QUANTUM = "quantum"
-    MEMORY = "lukhas.memory"
+    MEMORY = "memory"
     CREATIVITY = "creativity"
 
 

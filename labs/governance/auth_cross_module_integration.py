@@ -49,7 +49,7 @@ class ModuleType(Enum):
     """LUKHAS AI module types"""
 
     CONSCIOUSNESS = "consciousness"
-    MEMORY = "lukhas.memory"
+    MEMORY = "memory"
     REASONING = "reasoning"
     EMOTION = "emotion"
     CREATIVITY = "creativity"
@@ -127,7 +127,7 @@ class ConstellationFrameworkIntegration:
         """Initialize Constellation Framework integration"""
         self.constellation_stars = {
             "identity": "⚛️",  # The Anchor Star: Identity rhythm
-            "lukhas.memory": "✦",  # The Trail Star: Experience fields
+            "memory": "✦",  # The Trail Star: Experience fields
             "vision": "🔬",  # The Horizon Star: Perception and guidance
             "bio": "🌱",  # The Living Star: Growth and resilience
             "dream": "🌙",  # The Drift Star: Creative processing

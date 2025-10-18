@@ -10,7 +10,7 @@ import asyncio
 import logging
 from typing import Any, Optional
 
-from lukhas.core.bridges.quantum_memory_bridge import get_quantum_memory_bridge
+from core.bridges.quantum_memory_bridge import get_quantum_memory_bridge
 from qi.bio.bio_optimizer import (
     MockBioOrchestrator,
     MockQIBioCoordinator,
@@ -214,7 +214,7 @@ class QIHub:
     def _register_bridge_services(self):
         """Register cross-system bridge services"""
         try:
-            from lukhas.core.bridges.consciousness_quantum_bridge import (
+            from core.bridges.consciousness_quantum_bridge import (
                 get_consciousness_quantum_bridge,
             )
 
@@ -227,7 +227,7 @@ class QIHub:
     def _register_with_service_discovery(self):
         """Register services with global service discovery"""
         try:
-            from lukhas.core.integration.service_discovery import (
+            from core.integration.service_discovery import (
                 get_service_discovery,
             )
 

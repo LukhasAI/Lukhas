@@ -81,7 +81,7 @@ try:
     from qi.systems.qi_inspired_processor import QIInspiredProcessor
 
     from ..consciousness.consciousness_integrator import ConsciousnessEvent, ConsciousnessIntegrator
-    from ..lukhas.memory.enhanced_memory_manager import EnhancedMemoryManager
+    from ..memory.enhanced_memory_manager import EnhancedMemoryManager
 except ImportError as e:
     logging.warning(f"Some core components not available: {e}")
 
@@ -350,7 +350,7 @@ class NeuralIntegrator:
 
             # Initialize memory manager
             self.memory_manager = EnhancedMemoryManager()
-            self.active_processes["lukhas.memory"] = True
+            self.active_processes["memory"] = True
             logger.info("Memory manager initialized")
 
             # Initialize quantum processor (if available)

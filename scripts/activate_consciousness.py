@@ -172,7 +172,7 @@ class ConsciousnessActivationCLI:
         """Run the consciousness activation sequence."""
         try:
             # Import consciousness modules
-            from lukhas.consciousness.activation_orchestrator import (
+            from consciousness.activation_orchestrator import (
                 ActivationConfig,
                 ConsciousnessActivationOrchestrator,
                 activate_lukhas_consciousness,  # noqa: F401  # Core activation function for consciousness orchestration
@@ -210,7 +210,7 @@ class ConsciousnessActivationCLI:
         """Run validation only without full activation."""
         print_phase_header("VALIDATION MODE", "Testing consciousness system without full activation")
 
-        from lukhas.consciousness.activation_orchestrator import ConsciousnessActivationOrchestrator
+        from consciousness.activation_orchestrator import ConsciousnessActivationOrchestrator
 
         orchestrator = ConsciousnessActivationOrchestrator(self.activation_config)
 
@@ -444,8 +444,8 @@ class ConsciousnessActivationCLI:
 
             # Next steps
             print(f"\n{Colors.CYAN}{Colors.BOLD}📋 NEXT STEPS:{Colors.ENDC}")
-            print("• Monitor consciousness health: `python -m lukhas.consciousness monitor`")
-            print("• Test consciousness decisions: `python -m lukhas.consciousness test`")
+            print("• Monitor consciousness health: `python -m consciousness monitor`")
+            print("• Test consciousness decisions: `python -m consciousness test`")
             print("• View activation logs: `tail -f consciousness_activation.log`")
             print("• Access consciousness APIs: http://localhost:8080/consciousness")
         else:

@@ -28,14 +28,14 @@ logger = logging.getLogger(__name__)
 import asyncio
 from typing import Any
 
-from lukhas.consciousness.reflection.unified_memory_manager import EnhancedMemoryManager
+from consciousness.reflection.unified_memory_manager import EnhancedMemoryManager
 
 # Existing systems to integrate with
-from lukhas.core.integration.connectivity_engine import ConnectivityEngine
+from core.integration.connectivity_engine import ConnectivityEngine
 
 # New memory systems
-from lukhas.memory.core import create_hybrid_memory_fold
-from lukhas.memory.systems.attention_memory_layer import create_attention_orchestrator
+from memory.core import create_hybrid_memory_fold
+from memory.systems.attention_memory_layer import create_attention_orchestrator
 
 
 class EnhancedMemoryIntegration:
@@ -120,7 +120,7 @@ class EnhancedMemoryIntegration:
             # Return top results
             results = []
             for idx, score in relevance_scores[:top_k]:
-                results.append({"lukhas.memory": memories[idx], "relevance_score": score})
+                results.append({"memory": memories[idx], "relevance_score": score})
 
             return results
 

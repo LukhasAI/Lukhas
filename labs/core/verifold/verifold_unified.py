@@ -45,10 +45,10 @@ try:
 except ImportError:
     PQ_AVAILABLE = False
 
-from lukhas.core.tier_unification_adapter import TierMappingConfig
+from core.tier_unification_adapter import TierMappingConfig
 
 # Core LUKHAS imports
-from lukhas.governance.identity.interface import IdentityClient, verify_access
+from governance.identity.interface import IdentityClient, verify_access
 
 logger = structlog.get_logger(__name__)
 
@@ -87,7 +87,7 @@ def require_identity(required_tier: str = "LAMBDA_TIER_1", check_consent: Option
 class VeriFoldCollapseType(Enum):
     """Types of symbolic collapse events tracked by VeriFold"""
 
-    MEMORY = "lukhas.memory"
+    MEMORY = "memory"
     SYMBOLIC = "symbolic"
     EMOTIONAL = "emotional"
     COGNITIVE = "cognitive"

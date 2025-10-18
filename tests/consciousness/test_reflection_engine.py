@@ -25,12 +25,12 @@ from hypothesis import HealthCheck, given, settings, strategies as st
 os.environ["CONSC_REFLECTION_ENABLED"] = "1"
 os.environ["LUKHAS_LANE"] = "testing"
 
-from lukhas.consciousness.reflection.self_reflection_engine import (
+from consciousness.reflection.self_reflection_engine import (
     REFLECTION_P95_TARGET_MS,
     ReflectionReport,
     SelfReflectionEngine,
 )
-from lukhas.consciousness.systems.state import ConsciousnessState
+from consciousness.systems.state import ConsciousnessState
 
 
 class MockContextProvider:
@@ -86,7 +86,7 @@ class TestReflectionEngineUnit:
 
     async def test_engine_initialization_with_context_providers(self):
         """Test engine initialization with context providers"""
-        provider1 = MockContextProvider({"lukhas.memory": "data"})
+        provider1 = MockContextProvider({"memory": "data"})
         provider2 = MockContextProvider({"emotion": "calm"})
 
         engine = SelfReflectionEngine()
@@ -489,7 +489,7 @@ class TestReflectionEnginePerformance:
         """
         # Create context providers
         providers = [
-            MockContextProvider({"lukhas.memory": f"data_{i}"})
+            MockContextProvider({"memory": f"data_{i}"})
             for i in range(3)
         ]
 

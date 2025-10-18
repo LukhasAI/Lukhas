@@ -54,7 +54,7 @@ class MemoryFoldCreated(DomainEvent):
 
     @property
     def event_type(self) -> str:
-        return "lukhas.memory.fold.created"
+        return "memory.fold.created"
 
 
 @dataclass
@@ -66,7 +66,7 @@ class MemoryFoldRetrieved(DomainEvent):
 
     @property
     def event_type(self) -> str:
-        return "lukhas.memory.fold.retrieved"
+        return "memory.fold.retrieved"
 
 
 @dataclass
@@ -80,7 +80,7 @@ class MemoryFoldCompressed(DomainEvent):
 
     @property
     def event_type(self) -> str:
-        return "lukhas.memory.fold.compressed"
+        return "memory.fold.compressed"
 
 
 @dataclass
@@ -93,7 +93,7 @@ class MemoryConsolidationCompleted(DomainEvent):
 
     @property
     def event_type(self) -> str:
-        return "lukhas.memory.consolidation.completed"
+        return "memory.consolidation.completed"
 
 
 # GLYPH and Symbol Domain Events
@@ -404,7 +404,7 @@ class EthicalViolationDetected(DomainEvent):
 
     @property
     def event_type(self) -> str:
-        return "lukhas.governance.violation.detected"
+        return "governance.violation.detected"
 
 
 @dataclass
@@ -418,7 +418,7 @@ class PolicyApplied(DomainEvent):
 
     @property
     def event_type(self) -> str:
-        return "lukhas.governance.policy.applied"
+        return "governance.policy.applied"
 
 
 @dataclass
@@ -431,7 +431,7 @@ class EthicsCheckPerformed(DomainEvent):
 
     @property
     def event_type(self) -> str:
-        return "lukhas.governance.ethics.checked"
+        return "governance.ethics.checked"
 
 
 @dataclass
@@ -444,7 +444,7 @@ class RiskEvaluated(DomainEvent):
 
     @property
     def event_type(self) -> str:
-        return "lukhas.governance.risk.evaluated"
+        return "governance.risk.evaluated"
 
 
 # Bridge Domain Events
@@ -550,10 +550,10 @@ class ModuleHealthChanged(DomainEvent):
 # Event Registry
 EVENT_REGISTRY = {
     # Memory events
-    "lukhas.memory.fold.created": MemoryFoldCreated,
-    "lukhas.memory.fold.retrieved": MemoryFoldRetrieved,
-    "lukhas.memory.fold.compressed": MemoryFoldCompressed,
-    "lukhas.memory.consolidation.completed": MemoryConsolidationCompleted,
+    "memory.fold.created": MemoryFoldCreated,
+    "memory.fold.retrieved": MemoryFoldRetrieved,
+    "memory.fold.compressed": MemoryFoldCompressed,
+    "memory.consolidation.completed": MemoryConsolidationCompleted,
     # Consciousness events
     "consciousness.state.changed": ConsciousnessStateChanged,
     "consciousness.decision.made": DecisionMade,
@@ -575,10 +575,10 @@ EVENT_REGISTRY = {
     "emotion.response.generated": EmotionalResponseGenerated,
     "emotion.regulated": EmotionRegulated,
     # Governance events
-    "lukhas.governance.violation.detected": EthicalViolationDetected,
-    "lukhas.governance.policy.applied": PolicyApplied,
-    "lukhas.governance.ethics.checked": EthicsCheckPerformed,
-    "lukhas.governance.risk.evaluated": RiskEvaluated,
+    "governance.violation.detected": EthicalViolationDetected,
+    "governance.policy.applied": PolicyApplied,
+    "governance.ethics.checked": EthicsCheckPerformed,
+    "governance.risk.evaluated": RiskEvaluated,
     # Bridge events
     "bridge.message.received": ExternalMessageReceived,
     "bridge.message.sent": ExternalMessageSent,

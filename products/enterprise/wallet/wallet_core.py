@@ -493,12 +493,12 @@ if __name__ == "__main__":
 
         # Create identities
         alice = await wallet.create_identity(
-            profile={"name": "Alice", "email": "alice@lukhas.ai"},
+            profile={"name": "Alice", "email": "alice@ai"},
             credentials=["developer", "verified_user"],
         )
 
         bob = await wallet.create_identity(
-            profile={"name": "Bob", "email": "bob@lukhas.ai"},
+            profile={"name": "Bob", "email": "bob@ai"},
             credentials=["verified_user"],
         )
 

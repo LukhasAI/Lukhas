@@ -39,13 +39,13 @@ from typing import Any, Optional
 
 try:
     from async_manager import TaskPriority, get_consciousness_manager
-    from lukhas.consciousness.registry import (
+    from consciousness.registry import (
         ComponentType,
         get_consciousness_registry,
     )
 
     # MATRIZ Integration: Consciousness component registry for Constellation Framework consciousness evolution and component coordination
-    from lukhas.core.common.config import get_config
+    from core.common.config import get_config
 except ImportError:
     # Graceful fallback for development
     def get_consciousness_registry():

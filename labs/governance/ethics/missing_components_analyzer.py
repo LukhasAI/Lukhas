@@ -19,7 +19,7 @@ def analyze_missing_components():
     current_structure = {
         "ethics": [],
         "compliance": [],
-        "lukhas.governance": [],
+        "governance": [],
         "security": [],
         "red_team": [],
     }
@@ -56,7 +56,7 @@ def analyze_missing_components():
             "industry_compliance_adapters.py",
             "compliance_reporting_engine.py",
         ],
-        "lukhas.governance": [
+        "governance": [
             "adaptive_governance_system.py",
             "democratic_governance_framework.py",
             "stakeholder_governance_model.py",
@@ -156,7 +156,7 @@ def suggest_cherry_pick_strategy():
     priority_order = [
         ("compliance", "🛡️ CRITICAL: Regulatory compliance infrastructure"),
         ("security", "🔒 HIGH: Advanced security frameworks"),
-        ("lukhas.governance", "⚖️ MEDIUM: Enhanced governance systems"),
+        ("governance", "⚖️ MEDIUM: Enhanced governance systems"),
         ("red_team", "🔴 MEDIUM: Advanced testing frameworks"),
         ("ethics", "💭 LOW: Additional ethics components (already comprehensive)"),
     ]

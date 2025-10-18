@@ -35,7 +35,7 @@ from typing import Any, Optional
 
 # Import base colony infrastructure
 try:
-    from lukhas.core.colonies.base_colony import BaseColony
+    from core.colonies.base_colony import BaseColony
 
     BASE_COLONY_AVAILABLE = True
 except ImportError:
@@ -58,8 +58,8 @@ except ImportError:
 
 # Import Oracle & Ethics integration
 try:
-    from lukhas.core.colonies.ethics_swarm_colony import EthicsSwarmColony
-    from lukhas.core.oracle_nervous_system import OracleNervousSystemHub
+    from core.colonies.ethics_swarm_colony import EthicsSwarmColony
+    from core.oracle_nervous_system import OracleNervousSystemHub
 
     ORACLE_ETHICS_AVAILABLE = True
 except ImportError:
@@ -67,7 +67,7 @@ except ImportError:
 
 # Import consciousness integration
 try:
-    from lukhas.consciousness.systems.consciousness_colony_integration import (
+    from consciousness.systems.consciousness_colony_integration import (
         DistributedConsciousnessEngine,
     )
 

@@ -25,7 +25,7 @@ def _bind(module_name: str) -> bool:
 
 
 for candidate in (
-    "lukhas.tools.todo",
+    "tools.todo",
     "candidate.tools.todo",
 ):
     if candidate == __name__:

@@ -39,11 +39,11 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Callable, Optional
 
-from lukhas.interfaces.identity import ensure_both_id_keys
+from interfaces.identity import ensure_both_id_keys
 
 # Constellation Framework and LUKHAS integrations
 try:
-    from lukhas.core.common.glyph import GLYPH as GlyphEngine
+    from core.common.glyph import GLYPH as GlyphEngine
 except ImportError:
     # Fallback for testing/development
     GlyphEngine = None

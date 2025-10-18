@@ -15,16 +15,16 @@ from unittest.mock import patch
 import numpy as np
 import pytest
 
-from lukhas.memory.backends.base import (
+from memory.backends.base import (
     DimensionMismatchError,
     DocumentNotFoundError,
     SearchResult,
     StorageStats,
     VectorDocument,
 )
-from lukhas.memory.backends.faiss_store import FAISSVectorStore
-from lukhas.memory.backends.memory_store import InMemoryVectorStore
-from lukhas.memory.backends.pgvector_store import PgVectorStore
+from memory.backends.faiss_store import FAISSVectorStore
+from memory.backends.memory_store import InMemoryVectorStore
+from memory.backends.pgvector_store import PgVectorStore
 
 
 class TestVectorDocument:

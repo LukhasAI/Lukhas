@@ -18,7 +18,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
-from lukhas.core.common.logger import get_logger
+from core.common.logger import get_logger
 
 logger = get_logger(__name__)
 

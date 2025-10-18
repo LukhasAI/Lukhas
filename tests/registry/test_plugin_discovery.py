@@ -87,7 +87,7 @@ class TestPluginDiscoverySecurityHardening:
             os.environ['LUKHAS_PLUGIN_DISCOVERY'] = 'auto'
 
             # Mock entry_points to avoid actual plugin loading
-            with patch('lukhas.core.registry.entry_points') as mock_entry_points:
+            with patch('core.registry.entry_points') as mock_entry_points:
                 # Mock empty entry points
                 mock_entry_points.return_value = []
 
@@ -203,7 +203,7 @@ class TestPluginDiscoverySecurityHardening:
             pytest.fail("Plugin instantiation failure should be handled gracefully")
 
         # Test entry point discovery with failing plugins
-        with patch('lukhas.core.registry.entry_points') as mock_entry_points:
+        with patch('core.registry.entry_points') as mock_entry_points:
             # Create mock entry point that fails to load
             failing_ep = Mock()
             failing_ep.name = "failing_plugin"
@@ -278,7 +278,7 @@ class TestPluginDiscoverySecurityHardening:
             # Clear registry for each lane test
             _REG.clear()
 
-            with patch('lukhas.core.registry.entry_points') as mock_entry_points:
+            with patch('core.registry.entry_points') as mock_entry_points:
                 # Create mock entry points for this lane
                 mock_eps = []
                 for plugin_name in plugins:
@@ -308,7 +308,7 @@ class TestPluginDiscoverySecurityHardening:
     def test_entry_point_security_validation(self):
         """Test security validation of entry points"""
 
-        with patch('lukhas.core.registry.entry_points') as mock_entry_points:
+        with patch('core.registry.entry_points') as mock_entry_points:
             # Create entry points with potentially suspicious characteristics
             suspicious_ep = Mock()
             suspicious_ep.name = "suspicious_plugin"
@@ -323,7 +323,7 @@ class TestPluginDiscoverySecurityHardening:
             legitimate_ep.load.return_value = type('LegitimatePlugin', (), {
                 '__init__': lambda self, name=None: setattr(self, 'name', name),
                 '__file__': '/opt/lukhas/plugins/legitimate.py',  # Expected location
-                '__module__': 'lukhas.plugins.legitimate'  # Expected module
+                '__module__': 'plugins.legitimate'  # Expected module
             })
 
             mock_entry_points.return_value = [suspicious_ep, legitimate_ep]
@@ -492,7 +492,7 @@ except LookupError:
             os.environ['LUKHAS_PLUGIN_DISCOVERY'] = 'auto'
 
             # Mock entry_points to raise exception
-            with patch('lukhas.core.registry.entry_points', side_effect=ImportError("Critical discovery failure")):
+            with patch('core.registry.entry_points', side_effect=ImportError("Critical discovery failure")):
                 # Clear registry
                 _REG.clear()
                 initial_size = len(_REG)
@@ -626,7 +626,7 @@ class TestRegistrySecurityIntegration:
             # Test with discovery enabled
             os.environ['LUKHAS_PLUGIN_DISCOVERY'] = 'auto'
 
-            with patch('lukhas.core.registry.entry_points') as mock_entry_points:
+            with patch('core.registry.entry_points') as mock_entry_points:
                 # Create mock legitimate plugins
                 legitimate_plugins = []
                 for i in range(3):

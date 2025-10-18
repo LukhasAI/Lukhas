@@ -1,5 +1,5 @@
 """
-Bio utils package for lukhas.accepted.bio.utils compatibility
+Bio utils package for accepted.bio.utils compatibility
 """
 
 from .utils import *

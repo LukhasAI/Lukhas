@@ -83,7 +83,7 @@ class LukhasConfig(BaseSettings):
     cors_origins: str = Field(
         default_factory=lambda: os.getenv(
             "LUKHAS_API_CORS_ORIGINS",
-            "http://localhost:3000,http://localhost:5000,https://*.lukhas.ai",
+            "http://localhost:3000,http://localhost:5000,https://*.ai",
         ),
         description="Allowed CORS origins (comma-separated)",
     )
@@ -143,7 +143,7 @@ def get_config() -> LukhasConfig:
 
 # ═══════════════════════════════════════════════════════════════════════════
 # HOW TO USE:
-#   from lukhas.core.common.config import get_config
+#   from core.common.config import get_config
 #
 #   config = get_config()
 #   db_url = config.database_url

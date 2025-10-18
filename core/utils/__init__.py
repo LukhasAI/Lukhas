@@ -102,7 +102,7 @@ def legacy_parse_lukhas_command(
 
 # ΛNOTE: create_diagnostic_payload function has been moved to:
 # core/diagnostic_engine/diagnostic_payloads.py
-# Import it from there: from lukhas.core.diagnostic_engine.diagnostic_payloads
+# Import it from there: from core.diagnostic_engine.diagnostic_payloads
 # import create_diagnostic_payload
 
 # Potentially experimental or dream-related utility placeholder
@@ -140,9 +140,9 @@ def legacy_parse_lukhas_command(
 # LOGGING: ΛTRACE_ENABLED (structlog for module initialization and function operations)
 # AUTHENTICATION: N/A
 # HOW TO USE:
-#   from lukhas.core.lukhas_utils import generate_symbolic_id
-#   from lukhas.core.diagnostic_engine.diagnostic_payloads import create_diagnostic_payload
-#   from lukhas.core.utils import SystemStatus
+#   from core.lukhas_utils import generate_symbolic_id
+#   from core.diagnostic_engine.diagnostic_payloads import create_diagnostic_payload
+#   from core.utils import SystemStatus
 #
 #   new_id = generate_symbolic_id(prefix="trace_")
 #   diag_info = create_diagnostic_payload("MyComponent", SystemStatus.OK, "Operation successful.")

@@ -15,7 +15,7 @@ Key Features:
 - Anomaly detection for rare cognitive patterns
 
 Usage:
-    from lukhas.observability.matriz_instrumentation import instrument_cognitive_stage, cognitive_pipeline_span
+    from observability.matriz_instrumentation import instrument_cognitive_stage, cognitive_pipeline_span
 
     @instrument_cognitive_stage("memory", node_id="memory_node_1")
     async def memory_recall_process(query):
@@ -36,7 +36,7 @@ from enum import Enum
 from typing import Any, Callable, Dict, List, Optional, Union
 
 # Import existing OTel infrastructure
-from lukhas.observability.otel_instrumentation import OTEL_AVAILABLE, _metrics_initialized, _tracer
+from observability.otel_instrumentation import OTEL_AVAILABLE, _metrics_initialized, _tracer
 
 if OTEL_AVAILABLE:
     from opentelemetry.metrics import get_meter
@@ -89,7 +89,7 @@ def initialize_cognitive_instrumentation(enable_metrics: bool = True) -> bool:
         return False
 
     try:
-        meter = get_meter("lukhas.matriz.cognitive")
+        meter = get_meter("matriz.cognitive")
 
         # Initialize cognitive-specific metrics
         _cognitive_metrics = CognitiveMetrics(

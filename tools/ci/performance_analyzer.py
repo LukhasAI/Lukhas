@@ -187,7 +187,7 @@ class ConsciousnessPerformanceAnalyzer:
         consciousness_metrics = [
             r
             for r in reports
-            if any(keyword in r.metric_name.lower() for keyword in ["consciousness", "lukhas.memory", "identity", "ethical"])
+            if any(keyword in r.metric_name.lower() for keyword in ["consciousness", "memory", "identity", "ethical"])
         ]
 
         if consciousness_metrics:

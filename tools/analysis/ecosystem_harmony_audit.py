@@ -19,10 +19,10 @@ class EcosystemHarmonyAuditor:
         self.modules = [
             "core",
             "consciousness",
-            "lukhas.memory",
+            "memory",
             "qim",
             "emotion",
-            "lukhas.governance",
+            "governance",
             "bridge",
         ]
         self.audit_results = {

@@ -9,7 +9,7 @@ Provides comprehensive OTel spans, histograms, and counters for:
 - SLO compliance validation
 
 Usage:
-    from lukhas.observability.otel_instrumentation import instrument_matriz_stage, instrument_cognitive_event
+    from observability.otel_instrumentation import instrument_matriz_stage, instrument_cognitive_event
 
     @instrument_matriz_stage("memory_recall")
     async def recall_memories(query: str):

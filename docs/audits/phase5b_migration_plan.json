@@ -1,0 +1,126 @@
+{
+  "direct_moves": [
+    {
+      "source": "lukhas/adapters/openai",
+      "target": "adapters/openai",
+      "action": "git mv lukhas/adapters/openai adapters/openai",
+      "merge_needed": false
+    },
+    {
+      "source": "lukhas/adapters/openai/routes",
+      "target": "adapters/openai/routes",
+      "action": "git mv lukhas/adapters/openai/routes adapters/openai/routes",
+      "merge_needed": false
+    },
+    {
+      "source": "lukhas/adapters/openai/schemas",
+      "target": "adapters/openai/schemas",
+      "action": "git mv lukhas/adapters/openai/schemas adapters/openai/schemas",
+      "merge_needed": false
+    },
+    {
+      "source": "lukhas/async_utils",
+      "target": "async_utils",
+      "action": "git mv lukhas/async_utils async_utils",
+      "merge_needed": false
+    },
+    {
+      "source": "lukhas/consciousness/enhanced_thought_engine",
+      "target": "consciousness/enhanced_thought_engine",
+      "action": "git mv lukhas/consciousness/enhanced_thought_engine consciousness/enhanced_thought_engine",
+      "merge_needed": false
+    },
+    {
+      "source": "lukhas/core/reliability",
+      "target": "core/reliability",
+      "action": "git mv lukhas/core/reliability core/reliability",
+      "merge_needed": false
+    },
+    {
+      "source": "lukhas/core/reliability/circuit_breaker",
+      "target": "core/reliability/circuit_breaker",
+      "action": "git mv lukhas/core/reliability/circuit_breaker core/reliability/circuit_breaker",
+      "merge_needed": false
+    },
+    {
+      "source": "lukhas/memory/retention",
+      "target": "memory/retention",
+      "action": "git mv lukhas/memory/retention memory/retention",
+      "merge_needed": false
+    },
+    {
+      "source": "lukhas/rl/engine/policy_networks",
+      "target": "rl/engine/policy_networks",
+      "action": "git mv lukhas/rl/engine/policy_networks rl/engine/policy_networks",
+      "merge_needed": false
+    }
+  ],
+  "merges": [
+    {
+      "source": "lukhas/consciousness/guardian_integration",
+      "target": "consciousness/guardian_integration",
+      "action": "# MERGE: lukhas/consciousness/guardian_integration -> consciousness/guardian_integration (exists)",
+      "merge_needed": true
+    },
+    {
+      "source": "lukhas/core",
+      "target": "core",
+      "action": "# MERGE: lukhas/core -> core (exists)",
+      "merge_needed": true
+    },
+    {
+      "source": "lukhas/core/common",
+      "target": "core/common",
+      "action": "# MERGE: lukhas/core/common -> core/common (exists)",
+      "merge_needed": true
+    },
+    {
+      "source": "lukhas/governance",
+      "target": "governance",
+      "action": "# MERGE: lukhas/governance -> governance (exists)",
+      "merge_needed": true
+    },
+    {
+      "source": "lukhas/governance/ethics",
+      "target": "governance/ethics",
+      "action": "# MERGE: lukhas/governance/ethics -> governance/ethics (exists)",
+      "merge_needed": true
+    },
+    {
+      "source": "lukhas/memory",
+      "target": "memory",
+      "action": "# MERGE: lukhas/memory -> memory (exists)",
+      "merge_needed": true
+    },
+    {
+      "source": "lukhas/memory/scheduled_folding",
+      "target": "memory/scheduled_folding",
+      "action": "# MERGE: lukhas/memory/scheduled_folding -> memory/scheduled_folding (exists)",
+      "merge_needed": true
+    },
+    {
+      "source": "lukhas/observability",
+      "target": "observability",
+      "action": "# MERGE: lukhas/observability -> observability (exists)",
+      "merge_needed": true
+    },
+    {
+      "source": "lukhas/observability/advanced_metrics",
+      "target": "observability/advanced_metrics",
+      "action": "# MERGE: lukhas/observability/advanced_metrics -> observability/advanced_metrics (exists)",
+      "merge_needed": true
+    },
+    {
+      "source": "lukhas/orchestration/multi_ai_router",
+      "target": "orchestration/multi_ai_router",
+      "action": "# MERGE: lukhas/orchestration/multi_ai_router -> orchestration/multi_ai_router (exists)",
+      "merge_needed": true
+    },
+    {
+      "source": "lukhas/orchestration/signals",
+      "target": "orchestration/signals",
+      "action": "# MERGE: lukhas/orchestration/signals -> orchestration/signals (exists)",
+      "merge_needed": true
+    }
+  ]
+}

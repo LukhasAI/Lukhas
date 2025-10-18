@@ -191,7 +191,7 @@ class AdaptiveUXEngine:
                 "guidance_level": 0.8,
             },
             InterfaceMode.STANDARD: {
-                "components": ["input", "output", "lukhas.tools", "help"],
+                "components": ["input", "output", "tools", "help"],
                 "complexity": 0.5,
                 "guidance_level": 0.5,
             },
@@ -199,7 +199,7 @@ class AdaptiveUXEngine:
                 "components": [
                     "input",
                     "output",
-                    "lukhas.tools",
+                    "tools",
                     "analytics",
                     "customization",
                 ],

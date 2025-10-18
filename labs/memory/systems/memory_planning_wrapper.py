@@ -9,7 +9,7 @@ Provides integration layer for memory planning components
 import logging
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 try:
     from .memory_planning import AllocationPool, LiveRange, LiveRanges

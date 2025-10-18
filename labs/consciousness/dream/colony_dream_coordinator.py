@@ -55,7 +55,7 @@ from typing import Any, Optional
 
 # Import colony and orchestration systems
 try:
-    from lukhas.orchestration.colony_orchestrator import (
+    from orchestration.colony_orchestrator import (
         ColonyOrchestrator,
         ColonyPriority,
         ColonyTask,
@@ -80,7 +80,7 @@ except ImportError as e:
         CREATIVITY = "creativity"
         ETHICS = "ethics"
         ORACLE = "oracle"
-        MEMORY = "lukhas.memory"
+        MEMORY = "memory"
 
     class ColonyPriority(Enum):
         HIGH = 1
@@ -89,7 +89,7 @@ except ImportError as e:
 
 # Import swarm systems
 try:
-    from lukhas.core.swarm import SwarmHub
+    from core.swarm import SwarmHub
 
     SWARM_SYSTEM_AVAILABLE = True
 except ImportError as e:
@@ -109,7 +109,7 @@ except ImportError as e:
 
 # Import event bus
 try:
-    from lukhas.orchestration.symbolic_kernel_bus import get_global_event_bus
+    from orchestration.symbolic_kernel_bus import get_global_event_bus
 
     EVENT_BUS_AVAILABLE = True
 except ImportError as e:

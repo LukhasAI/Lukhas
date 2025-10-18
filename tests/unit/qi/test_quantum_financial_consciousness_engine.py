@@ -1,6 +1,6 @@
 import pytest
 
-from lukhas.core.quantum_financial.quantum_financial_consciousness_engine import (
+from core.quantum_financial.quantum_financial_consciousness_engine import (
     QuantumFinancialConsciousnessEngine,
 )
 from flags.ff import Flags

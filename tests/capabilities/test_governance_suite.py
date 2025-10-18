@@ -6,8 +6,8 @@ Phase 5 Governance & Memory Synchronization capability regression suite.
 End-to-end tests for policy denial/allow, promotion success, sync safety.
 
 Tests integration across:
-- Policy-gated replay (lukhas.core.policy_guard)
-- Memory fold synchronization (lukhas.memory.sync)
+- Policy-gated replay (core.policy_guard)
+- Memory fold synchronization (memory.sync)
 - Cross-lane promotion gates
 - Governance regression patterns
 """
@@ -16,12 +16,12 @@ import time
 
 import pytest
 
-from lukhas.core.policy_guard import PolicyGuard, PolicyResult
-from lukhas.memory.sync import MemorySynchronizer, SyncBudgetConfig, SyncResult
+from core.policy_guard import PolicyGuard, PolicyResult
+from memory.sync import MemorySynchronizer, SyncBudgetConfig, SyncResult
 
 # Skip these tests if required dependencies are missing
 try:
-    from lukhas.core.consciousness_stream import ConsciousnessStream
+    from core.consciousness_stream import ConsciousnessStream
     from storage.events import Event, EventStore
     DEPS_AVAILABLE = True
 except ImportError:

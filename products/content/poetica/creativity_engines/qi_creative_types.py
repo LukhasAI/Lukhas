@@ -71,7 +71,7 @@ except ImportError:  # pragma: no cover - optional dependency
             self.operations.append(("append", _args, _kwargs))
 
 try:
-    from lukhas.qi.engines.creativity.creative_q_expression import CreativeQuantumLikeState
+    from qi.engines.creativity.creative_q_expression import CreativeQuantumLikeState
 except Exception:  # pragma: no cover - fallback for sandboxed envs
     @dataclass
     class CreativeQuantumLikeState:  # type: ignore[override]

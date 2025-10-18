@@ -77,10 +77,10 @@ def test_single_domain_content():
 
     generator = AutomatedContentGenerator()
 
-    # Test lukhas.ai content generation
-    result = generator.generate_homepage_content("lukhas.ai")
+    # Test ai content generation
+    result = generator.generate_homepage_content("ai")
 
-    print("\n✅ Generated content for lukhas.ai:")
+    print("\n✅ Generated content for ai:")
     print(f"   - Content ID: {result['content_id']}")
     print(f"   - Word count: {result['word_count']}")
     print(f"   - Stars: {result['constellation_stars']}")
@@ -104,7 +104,7 @@ def test_multiple_domains():
     generator = AutomatedContentGenerator()
 
     # Test a selection of domains
-    test_domains = ["lukhas.ai", "lukhas.com", "lukhas.app", "lukhas.dev"]
+    test_domains = ["ai", "com", "app", "dev"]
 
     results = {}
     for domain in test_domains:
@@ -129,7 +129,7 @@ def test_style_guide_integration():
     generator = AutomatedContentGenerator()
 
     # Test style guides for different domains
-    domains_to_test = ["lukhas.ai", "lukhas.eu", "lukhas.lab", "lukhas.store"]
+    domains_to_test = ["ai", "eu", "lab", "store"]
 
     for domain in domains_to_test:
         style_guide = generator.platform.get_domain_style_guide(domain)
@@ -147,7 +147,7 @@ def test_constellation_navigation():
     generator = AutomatedContentGenerator()
 
     # Test navigation for different domains
-    for domain in ["lukhas.ai", "lukhas.dev", "lukhas.xyz"]:
+    for domain in ["ai", "dev", "xyz"]:
         related = generator._get_related_domains(domain)
         print(f"\n🧭 {domain} navigation:")
         print(f"   - Stars: {generator.platform.domain_mapping[domain]}")

@@ -24,7 +24,7 @@ Description: Quantum module for advanced Cognitive functionality
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 Licensed under the LUKHAS Enterprise License.
 
-For documentation and support: https://lukhas.ai/docs
+For documentation and support: https://ai/docs
 """
 
 
@@ -42,7 +42,7 @@ from typing import Any, Optional
 
 from bio.systems.orchestration.bio_orchestrator import BioOrchestrator
 from dream.quantum_dream_adapter import DreamQuantumConfig, QuantumDreamAdapter
-from lukhas.core.unified_integration import UnifiedIntegration
+from core.unified_integration import UnifiedIntegration
 from qi.awareness_system import AwarenessQuantumConfig, QuantumAwarenessSystem
 from qi.dast_orchestrator import DASTQuantumConfig, QuantumDASTOrchestrator
 
@@ -251,7 +251,7 @@ class UnifiedQuantumSystem:
 ║ REFERENCES:
 ║   - Docs: docs/quantum/unified-system-architecture.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=quantum-unified
-║   - Wiki: wiki.lukhas.ai/quantum-orchestration
+║   - Wiki: wiki.ai/quantum-orchestration
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

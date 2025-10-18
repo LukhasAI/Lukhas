@@ -21,16 +21,16 @@ from typing import Any, Optional
 
 # Import production security modules
 try:
-    from lukhas.governance.ethics.constitutional_ai import (
+    from governance.ethics.constitutional_ai import (
         ConstitutionalFramework,
         SafetyLevel,
     )
-    from lukhas.governance.identity.auth_backend.audit_logger import (
+    from governance.identity.auth_backend.audit_logger import (
         AuditEventType,
         AuditLogger,
         AuditSeverity,
     )
-    from lukhas.governance.security.access_control import (
+    from governance.security.access_control import (
         AccessControlEngine,
     )
 
@@ -38,7 +38,7 @@ try:
 except ImportError:
     PRODUCTION_MODULES_AVAILABLE = False
 
-from lukhas.core.common.logger import get_logger
+from core.common.logger import get_logger
 
 logger = get_logger(__name__)
 

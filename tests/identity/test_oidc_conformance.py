@@ -57,7 +57,7 @@ class OIDCConformanceTestSuite:
         )
 
         config = {
-            'issuer': 'https://lukhas.ai',
+            'issuer': 'https://ai',
             'private_key_pem': private_pem,
             'token_lifetime': 3600,
             'code_lifetime': 600,
@@ -123,7 +123,7 @@ class TestOIDCDiscovery(OIDCConformanceTestSuite):
             assert field in doc, f"Missing required field: {field}"
 
         # Validate specific values
-        assert doc['issuer'] == 'https://lukhas.ai'
+        assert doc['issuer'] == 'https://ai'
         assert 'code' in doc['response_types_supported']
         assert 'public' in doc['subject_types_supported']
         assert 'RS256' in doc['id_token_signing_alg_values_supported']
@@ -450,7 +450,7 @@ class TestTokenEndpointSecurity(OIDCConformanceTestSuite):
         token_data = {
             'sub': 'test_user',
             'aud': test_client.client_id,
-            'iss': 'https://lukhas.ai',
+            'iss': 'https://ai',
             'iat': int(time.time()),
             'exp': int(time.time()) + 3600,
             'scope': 'openid profile email'
@@ -790,7 +790,7 @@ class TestSecurityHardening(OIDCConformanceTestSuite):
         past_token_data = {
             'sub': 'test_user',
             'aud': test_client.client_id,
-            'iss': 'https://lukhas.ai',
+            'iss': 'https://ai',
             'iat': current_time - 120,  # 2 minutes ago
             'exp': current_time + 3600,
             'scope': 'openid profile'

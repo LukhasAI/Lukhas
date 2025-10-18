@@ -8,7 +8,7 @@ import logging
 from datetime import timezone
 
 from consciousness.dream.core.dream_engine import DreamEngine
-from lukhas.core.interfaces.dependency_injection import register_service
+from core.interfaces.dependency_injection import register_service
 
 logger = logging.getLogger(__name__)
 

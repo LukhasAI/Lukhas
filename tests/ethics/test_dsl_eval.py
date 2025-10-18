@@ -16,7 +16,7 @@ import time
 
 import pytest
 
-from lukhas.core.ethics.logic.dsl_lite import (
+from core.ethics.logic.dsl_lite import (
     DSLError,
     and_op,
     canonical_domain,
@@ -39,7 +39,7 @@ from lukhas.core.ethics.logic.dsl_lite import (
     parse_bytes,
     parse_seconds,
 )
-from lukhas.core.ethics.logic.ethics_engine import EthicsAction, EthicsEngine, EthicsRule, Priority, RuleSet
+from core.ethics.logic.ethics_engine import EthicsAction, EthicsEngine, EthicsRule, Priority, RuleSet
 
 
 class TestDSLPredicates:
@@ -683,7 +683,7 @@ class TestProductionHardening:
 
     def test_reason_codes_taxonomy(self):
         """Test reason code taxonomy."""
-        from lukhas.core.ethics.logic.ethics_engine import ReasonCode
+        from core.ethics.logic.ethics_engine import ReasonCode
 
         # Test mapping from rule names to codes
         assert ReasonCode.from_rule_name("block_harmful_actions") == ReasonCode.HARMFUL_ACTION
@@ -810,8 +810,8 @@ class TestProductionHardening:
 
         # Test param_bytes_lte predicate compilation
         rule = compile_rule('param_bytes_lte(params.memory, "1GB")')
-        plan = {"action": "compute", "params": {"lukhas.memory": "512MB"}}
+        plan = {"action": "compute", "params": {"memory": "512MB"}}
         assert rule(plan) == True
 
-        plan = {"action": "compute", "params": {"lukhas.memory": "2GB"}}
+        plan = {"action": "compute", "params": {"memory": "2GB"}}
         assert rule(plan) == False

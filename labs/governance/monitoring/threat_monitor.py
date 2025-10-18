@@ -717,7 +717,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                             "active_threat_count": len(self.active_threats),
                             "threat_types": [t.threat_type for t in self.active_threats],
                             "governance_threats": len(
-                                [t for t in self.active_threats if t.threat_type.startswith("lukhas.governance")]
+                                [t for t in self.active_threats if t.threat_type.startswith("governance")]
                             ),
                             "constellation_impacts": [t.constellation_impact for t in self.active_threats],
                         },
@@ -825,7 +825,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
 
         # Update enhanced statistics
         self.detection_stats["total_threats"] += 1
-        if threat_type.startswith("lukhas.governance"):
+        if threat_type.startswith("governance"):
             self.detection_stats["governance_interventions"] += 1
         if threat_type == "ethics_violation":
             self.detection_stats["ethics_violations_prevented"] += 1
@@ -1297,7 +1297,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
             active_by_severity[level.name] = len([t for t in self.active_threats if t.severity == level])
 
         # Categorize threats by type
-        governance_threats = len([t for t in self.active_threats if t.threat_type.startswith("lukhas.governance")])
+        governance_threats = len([t for t in self.active_threats if t.threat_type.startswith("governance")])
         ethics_threats = len([t for t in self.active_threats if t.threat_type == "ethics_violation"])
         constellation_threats = len([t for t in self.active_threats if t.threat_type == "constellation_desync"])
 
@@ -1357,7 +1357,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                 "velocity": latest_entropy["velocity"] if latest_entropy else 0.0,
                 "stability": (latest_entropy.get("stability", 0.0) if latest_entropy else 0.0),
             },
-            "lukhas.memory": {
+            "memory": {
                 "fragmentation": (latest_memory["fragmentation"] if latest_memory else 0.0),
                 "coherence": latest_memory["coherence"] if latest_memory else 1.0,
                 "fold_integrity": (latest_memory.get("fold_integrity", 1.0) if latest_memory else 1.0),
@@ -1373,7 +1373,7 @@ class EnhancedThreatMonitor(GlyphIntegrationMixin):
                 "throughput": (latest_performance.get("throughput", 100.0) if latest_performance else 100.0),
                 "sla_compliance": (latest_performance.get("sla_compliance", 1.0) if latest_performance else 1.0),
             },
-            "lukhas.governance": {
+            "governance": {
                 "health": latest_governance["health"] if latest_governance else 1.0,
                 "ethics_compliance": (latest_governance["ethics_compliance"] if latest_governance else 1.0),
                 "policy_alignment": (latest_governance["policy_alignment"] if latest_governance else 1.0),
@@ -1431,9 +1431,9 @@ if __name__ == "__main__":
                     f"   Active threats: {summary['active_threats']} (Gov: {summary['governance_threats']}, Ethics: {summary['ethics_threats']})"
                 )
                 print(f"   Consciousness: {metrics['consciousness']['stability']:.2f}")
-                print(f"   Governance Health: {metrics['lukhas.governance']['health']:.2f}")
+                print(f"   Governance Health: {metrics['governance']['health']:.2f}")
                 print(f"   Constellation Sync: {metrics['constellation_framework']['synchronization']:.2f}")
-                print(f"   Ethics Compliance: {metrics['lukhas.governance']['ethics_compliance']:.2f}")
+                print(f"   Ethics Compliance: {metrics['governance']['ethics_compliance']:.2f}")
 
                 if summary["active_threats"] > 0:
                     for threat in summary["recent_threats"]:

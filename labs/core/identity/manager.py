@@ -34,7 +34,7 @@ from typing import Any, Dict
 
 # Guardian system integration for ethical identity management
 try:
-    from lukhas.governance.guardian_system import GuardianSystem
+    from governance.guardian_system import GuardianSystem
     GUARDIAN_AVAILABLE = True
 except ImportError:
     GUARDIAN_AVAILABLE = False

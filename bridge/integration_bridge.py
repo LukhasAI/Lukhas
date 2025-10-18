@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 # Modified: 2024-07-27
 # Version: 1.1
 # License: Proprietary - LUKHΛS AI Use Only
-# Contact: support@lukhas.ai
+# Contact: support@ai
 # Description: This module defines the IntegrationBridge and PluginModuleAdapter,
 #              which are crucial for bridging the LUKHΛS plugin system with its
 #              core modular framework. It enables seamless discovery, loading,
@@ -43,8 +43,8 @@ try:
     # Try candidate lane first
     from bridge.plugin_base import LucasPlugin, LucasPluginManifest
     from bridge.plugin_loader import PluginLoader
-    from lukhas.core.registry import core_registry
-    from lukhas.core.utils.base_module import BaseLucasModule
+    from core.registry import core_registry
+    from core.utils.base_module import BaseLucasModule
 
     LUKHAS_FRAMEWORK_COMPONENTS_AVAILABLE = True
     log.info("LUKHΛS framework components imported successfully from candidate lane.")
@@ -53,8 +53,8 @@ except ImportError:
         # Fallback to production lane
         from bridge.plugin_base import LucasPlugin, LucasPluginManifest
         from bridge.plugin_loader import PluginLoader
-        from lukhas.core.registry import core_registry
-        from lukhas.core.utils.base_module import BaseLucasModule
+        from core.registry import core_registry
+        from core.utils.base_module import BaseLucasModule
 
         LUKHAS_FRAMEWORK_COMPONENTS_AVAILABLE = True
         log.info("LUKHΛS framework components imported successfully from production lane.")
@@ -66,11 +66,11 @@ except ImportError:
 
             # Try to import core components from common locations
             try:
-                from lukhas.core.registry import core_registry
-                from lukhas.core.utils.base_module import BaseLucasModule
+                from core.registry import core_registry
+                from core.utils.base_module import BaseLucasModule
             except ImportError:
-                from lukhas.core.registry import core_registry
-                from lukhas.core.utils.base_module import BaseLucasModule
+                from core.registry import core_registry
+                from core.utils.base_module import BaseLucasModule
 
             LUKHAS_FRAMEWORK_COMPONENTS_AVAILABLE = True
             log.info("LUKHΛS framework components imported successfully via relative imports.")
@@ -736,6 +736,6 @@ log.info("Global IntegrationBridge instance created and available as 'integratio
 # ACCESSED_BY: ['SystemOrchestrator', 'CoreServiceManager', 'PluginAwareModules'] # Conceptual
 # MODIFIED_BY: ['FRAMEWORK_ARCHITECTS', 'INTEGRATION_SPECIALISTS', 'Jules_AI_Agent'] # Conceptual
 # Tier Access: Varies by method (Refer to ΛTIER_CONFIG block and @lukhas_tier_required decorators)
-# Related Components: ['plugin_base.py', 'plugin_loader.py', 'lukhas.core.registry.core_registry']
+# Related Components: ['plugin_base.py', 'plugin_loader.py', 'core.registry.core_registry']
 # CreationDate: 2023-09-15 (Approx.) | LastModifiedDate: 2024-07-27 | Version: 1.1
 # --- End Standard Footer ---

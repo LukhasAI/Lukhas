@@ -87,7 +87,7 @@ app = FastAPI(
     },
     servers=[
         {"url": "http://localhost:8000", "description": "Local development"},
-        {"url": "https://api.lukhas.ai", "description": "Production"},
+        {"url": "https://api.ai", "description": "Production"},
     ],
 )
 
@@ -133,7 +133,7 @@ def voice_core_available() -> bool:
         # introducing a named unused symbol that linters flag (F401).
         import importlib
 
-        importlib.import_module("lukhas.bridge.voice")  # probe import only; no side effects
+        importlib.import_module("bridge.voice")  # probe import only; no side effects
 
         return True
     except Exception:

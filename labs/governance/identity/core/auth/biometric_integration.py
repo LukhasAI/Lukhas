@@ -608,7 +608,7 @@ class BiometricIntegrationManager:
 ║ REFERENCES:
 ║   - Docs: docs/identity/biometric_authentication.md
 ║   - Issues: github.com/lukhas-ai/identity/issues?label=biometric
-║   - Wiki: wiki.lukhas.ai/identity/biometric-integration
+║   - Wiki: wiki.ai/identity/biometric-integration
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

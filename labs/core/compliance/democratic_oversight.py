@@ -422,7 +422,7 @@ class DemocraticOversightEngine:
 
         return {
             "online_consultation_platform": {
-                "url": "https://ai-consultation.lukhas.ai",
+                "url": "https://ai-consultation.ai",
                 "features": ["document_review", "comment_submission", "voting", "discussion_forums"],
                 "accessibility": "wcag_2.1_aa_compliant",
                 "languages": ["en", "fr", "de", "es", "zh", "ja", "ar"],

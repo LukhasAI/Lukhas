@@ -32,9 +32,9 @@ logger = logging.getLogger(__name__)
 ║ 4. Dream-inspired voice modulations during reflective states
 ║
 ║ DEPENDENCIES:
-║   - lukhas.core.personality.creative_expressions
-║   - lukhas.core.personality.personality_refiner
-║   - lukhas.core.orchestration.emotional_oscillator
+║   - core.personality.creative_expressions
+║   - core.personality.personality_refiner
+║   - core.orchestration.emotional_oscillator
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
@@ -43,8 +43,8 @@ import random
 from datetime import datetime
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
-from lukhas.core.personality.creative_expressions import NeuroHaikuGenerator
+from core.common import get_logger
+from core.personality.creative_expressions import NeuroHaikuGenerator
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -63,7 +63,7 @@ except ImportError:
     logger.warning("NeuroHaikuGenerator not available. Some creative features will be disabled.")
 
 try:
-    from lukhas.orchestration.brain.personality.personality_refiner import (
+    from orchestration.brain.personality.personality_refiner import (
         PersonalityRefiner,
     )
 
@@ -73,7 +73,7 @@ except ImportError:
     logger.warning("PersonalityRefiner not available. Adaptive personality features will be disabled.")
 
 try:
-    from lukhas.orchestration.brain.orchestration.emotional_oscillator import (
+    from orchestration.brain.orchestration.emotional_oscillator import (
         EmotionalOscillator,
     )
 
@@ -425,7 +425,7 @@ class VoicePersonalityIntegrator:
 ║ REFERENCES:
 ║   - Docs: docs/consciousness/voice_personality.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=voice-personality
-║   - Wiki: internal.lukhas.ai/wiki/voice-synthesis
+║   - Wiki: internal.ai/wiki/voice-synthesis
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

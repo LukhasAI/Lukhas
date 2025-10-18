@@ -444,7 +444,7 @@ class TestTokenGeneratorCRC32:
         return TokenGenerator(
             secret_provider=secret_provider,
             ttl_seconds=3600,
-            issuer="test.lukhas.ai"
+            issuer="test.ai"
         )
 
     def test_crc32_calculation(self):

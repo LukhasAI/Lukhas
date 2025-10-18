@@ -4,6 +4,6 @@ Maps to Constellation.Triad during migration.
 """
 from __future__ import annotations
 
-from lukhas.constellation.triad import Consciousness, Guardian, Identity
+from constellation.triad import Consciousness, Guardian, Identity
 
 __all__ = ["Identity", "Consciousness", "Guardian"]

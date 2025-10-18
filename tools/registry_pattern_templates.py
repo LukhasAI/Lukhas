@@ -12,7 +12,7 @@ from typing import Any, Protocol
 
 # ============================================================================
 # TEMPLATE 1: Core Decision Engine Registry
-# Replaces: static imports from lukhas.core.* in lukhas/core/core_wrapper.py
+# Replaces: static imports from core.* in lukhas/core/core_wrapper.py
 # ============================================================================
 
 
@@ -83,7 +83,7 @@ def decide(policy_input: dict[str, Any], *, engine: str | None = None, mode: str
 
 # ============================================================================
 # TEMPLATE 2: Guardian System Registry
-# Replaces: static imports from lukhas.governance.* in lukhas/governance/guardian/guardian_impl.py
+# Replaces: static imports from governance.* in lukhas/governance/guardian/guardian_impl.py
 # ============================================================================
 
 

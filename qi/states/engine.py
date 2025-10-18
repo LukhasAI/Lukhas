@@ -26,7 +26,7 @@ The Symbolic Collapse Engine handles the compression and consolidation of
 memory nodes while preserving semantic integrity and causal relationships.
 This is critical for managing memory complexity and preventing runaway growth.
 
-For more information, visit: https://lukhas.ai
+For more information, visit: https://ai
 """
 
 
@@ -37,7 +37,7 @@ For more information, visit: https://lukhas.ai
 
 __version__ = "2.0.0"
 __author__ = "LUKHAS Development Team"
-__email__ = "dev@lukhas.ai"
+__email__ = "dev@ai"
 __status__ = "Production"
 
 import hashlib
@@ -58,7 +58,7 @@ except ImportError:
 
 # Import collapse tracker for integration
 try:
-    from lukhas.core.monitoring.collapse_tracker import get_global_tracker
+    from core.monitoring.collapse_tracker import get_global_tracker
 except ImportError:
     get_global_tracker = None
     logger.warning("Collapse tracker not available")

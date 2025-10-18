@@ -121,7 +121,7 @@ class MATRIZTracingContractValidator:
         span.set_attribute("correlation_id", correlation_id)
 
         # Set standard MATRIZ attributes
-        span.set_attribute("service.name", "lukhas.matriz")
+        span.set_attribute("service.name", "matriz")
         span.set_attribute("service.version", "1.0.0")
         span.set_attribute("operation.type", operation)
         span.set_attribute("component", "matriz")
@@ -155,7 +155,7 @@ class MATRIZTracingContractValidator:
 
         # Guardian spans should also have correlation_id attribute
         span.set_attribute("correlation_id", correlation_id)
-        span.set_attribute("service.name", "lukhas.guardian")
+        span.set_attribute("service.name", "guardian")
         span.set_attribute("decision.type", decision_type)
         span.set_attribute("component", "guardian")
 
@@ -289,14 +289,14 @@ class MATRIZTracingContractValidator:
             if OTEL_AVAILABLE:
                 # Set baggage
                 set_baggage("correlation_id", correlation_id)
-                set_baggage("service", "lukhas.matriz")
+                set_baggage("service", "matriz")
 
                 # Get baggage (simulates cross-service propagation)
                 baggage_correlation = get_baggage("correlation_id")
                 baggage_service = get_baggage("service")
 
                 return (baggage_correlation == correlation_id and
-                       baggage_service == "lukhas.matriz")
+                       baggage_service == "matriz")
             else:
                 # Mock implementation for testing
                 return True

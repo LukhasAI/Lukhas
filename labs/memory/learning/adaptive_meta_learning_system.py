@@ -34,7 +34,7 @@ import datetime
 
 import numpy as np
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 logger = get_logger(__name__)
 

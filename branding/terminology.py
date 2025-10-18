@@ -1,6 +1,6 @@
 """
 Terminology normalization module
-Compatibility shim for imports expecting lukhas.branding.terminology
+Compatibility shim for imports expecting branding.terminology
 """
 
 # Import from package __init__

@@ -28,7 +28,7 @@ import structlog
 
 # Import from tier_system if available, otherwise create placeholder
 try:
-    from lukhas.memory.systems.tier_system import (
+    from memory.systems.tier_system import (
         PermissionScope,
         TierLevel,
         lukhas_tier_required as _tier_required_impl,

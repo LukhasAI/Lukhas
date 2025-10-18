@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 from datetime import datetime
 from typing import Any
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 # Configure module logger
 logger = get_logger(__name__)

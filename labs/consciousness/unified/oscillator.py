@@ -39,7 +39,7 @@ class AbstractReasoningBrainOscillator:
         self.target_brain_frequencies = {
             "dreams": 0.1,  # Hz - Slow wave sleep
             "emotional": 6.0,  # Hz - Theta waves
-            "lukhas.memory": 10.0,  # Hz - Alpha waves
+            "memory": 10.0,  # Hz - Alpha waves
             "learning": 40.0,  # Hz - Gamma waves
         }
 
@@ -161,7 +161,7 @@ class AbstractReasoningBrainOscillator:
                 "duration": 3.0,
             },
             "analogy_mapping": {
-                "primary_brain": "lukhas.memory",
+                "primary_brain": "memory",
                 "coordination_mode": "pattern_matching",
                 "synchronization_strength": 0.8,  # Strong sync for memory
                 "duration": 4.0,

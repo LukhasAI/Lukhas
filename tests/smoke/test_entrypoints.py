@@ -63,7 +63,7 @@ def test_identity_api_imports():
 
         # Try lukhas identity first
         try:
-            identity_spec = importlib.util.find_spec("lukhas.identity")
+            identity_spec = importlib.util.find_spec("identity")
             if identity_spec is not None:
                 from lukhas import identity
                 assert identity is not None
@@ -112,9 +112,9 @@ def test_memory_api_imports():
             assert memory_spec is not None
 
         # Check for lukhas memory if it exists
-        lukhas_memory_spec = importlib.util.find_spec("lukhas.memory")
+        lukhas_memory_spec = importlib.util.find_spec("memory")
         if lukhas_memory_spec is not None:
-            import lukhas.memory
+            import memory
 
     except ImportError as e:
         pytest.fail(f"Memory API import failed: {e}")

@@ -8,7 +8,7 @@ import pytest
 def test_memory_wrapper_import():
     """Test MemoryWrapper imports and basic init."""
     try:
-        from lukhas.memory import MemoryWrapper
+        from memory import MemoryWrapper
 
         # Test creation with default config
         wrapper = MemoryWrapper()
@@ -23,7 +23,7 @@ def test_memory_wrapper_import():
 def test_fold_system_import():
     """Test fold system imports."""
     try:
-        from lukhas.memory import fold_system
+        from memory import fold_system
 
         # Check key functions and classes
         assert hasattr(fold_system, "FoldManager")
@@ -36,7 +36,7 @@ def test_fold_system_import():
 def test_memory_config():
     """Test memory configuration."""
     try:
-        from lukhas.memory.config import MemoryConfig
+        from memory.config import MemoryConfig
 
         # Test default config creation
         config = MemoryConfig()
@@ -55,9 +55,9 @@ def test_fold_manager_metrics_hooks():
         pytest.skip("Fold system not available")
 
     with (
-        patch("lukhas.memory.fold_system.observe_fold_count") as mock_count,
-        patch("lukhas.memory.fold_system.observe_recall_latency") as mock_latency,
-        patch("lukhas.memory.fold_system.increment_cascade_events") as mock_cascade,
+        patch("memory.fold_system.observe_fold_count") as mock_count,
+        patch("memory.fold_system.observe_recall_latency") as mock_latency,
+        patch("memory.fold_system.increment_cascade_events") as mock_cascade,
     ):
         manager = FoldManager()
 

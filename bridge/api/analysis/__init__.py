@@ -1,7 +1,7 @@
 """Bridge shim for `bridge.api.analysis` with explicit fallback symbols."""
 from __future__ import annotations
 
-from lukhas._bridgeutils import bridge
+from _bridgeutils import bridge
 
 _mod: object | None = None
 _exports: dict[str, object] = {}
@@ -9,7 +9,7 @@ _exports: dict[str, object] = {}
 try:
     _mod, _exports, __all__ = bridge(
         candidates=(
-            "lukhas_website.lukhas.bridge.api.analysis",
+            "lukhas_website.bridge.api.analysis",
             "candidate.bridge.api.analysis",
         ),
         names=("analysis_routes",),

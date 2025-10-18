@@ -36,7 +36,7 @@ class GovernanceMatrizAdapter:
             },
             "timestamps": {"created_ts": int(time.time() * 1000)},
             "provenance": {
-                "producer": "lukhas.governance",
+                "producer": "governance",
                 "capabilities": [
                     "governance:ethics",
                     "governance:drift",

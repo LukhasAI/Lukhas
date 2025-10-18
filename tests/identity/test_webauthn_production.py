@@ -816,9 +816,9 @@ class TestWebAuthnIntegration:
         assert manager1 is manager2
 
         # Should have correct default configuration
-        assert manager1.rp_id == "lukhas.ai"
+        assert manager1.rp_id == "ai"
         assert manager1.rp_name == "LUKHAS AI"
-        assert manager1.origin == "https://lukhas.ai"
+        assert manager1.origin == "https://ai"
 
 
 if __name__ == "__main__":

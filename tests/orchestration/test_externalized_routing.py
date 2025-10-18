@@ -27,11 +27,11 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from lukhas.orchestration.context_preservation import CompressionLevel, ContextPreservationEngine, ContextType
-from lukhas.orchestration.externalized_orchestrator import ExternalizedOrchestrator, OrchestrationRequest, RequestType
-from lukhas.orchestration.health_monitor import HealthMonitor, HealthStatus, ProviderHealth
-from lukhas.orchestration.routing_config import RoutingConfigurationManager, RoutingRule, RoutingStrategy
-from lukhas.orchestration.routing_strategies import (
+from orchestration.context_preservation import CompressionLevel, ContextPreservationEngine, ContextType
+from orchestration.externalized_orchestrator import ExternalizedOrchestrator, OrchestrationRequest, RequestType
+from orchestration.health_monitor import HealthMonitor, HealthStatus, ProviderHealth
+from orchestration.routing_config import RoutingConfigurationManager, RoutingRule, RoutingStrategy
+from orchestration.routing_strategies import (
     CircuitBreaker,
     CircuitBreakerState,
     HealthBasedStrategy,
@@ -313,7 +313,7 @@ class TestHealthMonitoring:
     @pytest.mark.asyncio
     async def test_health_check_execution(self, health_monitor):
         """Test health check execution"""
-        with patch('lukhas.orchestration.providers.create_provider_client') as mock_client_factory:
+        with patch('orchestration.providers.create_provider_client') as mock_client_factory:
             # Mock client response
             mock_client = AsyncMock()
             mock_response = MagicMock()
@@ -493,10 +493,10 @@ class TestExternalizedOrchestrator:
     @pytest.fixture
     async def orchestrator(self):
         """Create test orchestrator with mocked components"""
-        with patch('lukhas.orchestration.externalized_orchestrator.get_routing_config_manager'), \
-             patch('lukhas.orchestration.externalized_orchestrator.get_health_monitor'), \
-             patch('lukhas.orchestration.externalized_orchestrator.get_context_preservation_engine'), \
-             patch('lukhas.orchestration.externalized_orchestrator.create_provider_client'):
+        with patch('orchestration.externalized_orchestrator.get_routing_config_manager'), \
+             patch('orchestration.externalized_orchestrator.get_health_monitor'), \
+             patch('orchestration.externalized_orchestrator.get_context_preservation_engine'), \
+             patch('orchestration.externalized_orchestrator.create_provider_client'):
 
             orchestrator = ExternalizedOrchestrator()
 
@@ -524,7 +524,7 @@ class TestExternalizedOrchestrator:
         orchestrator.config_manager.get_rule_for_request = MagicMock(return_value=mock_rule)
 
         # Mock routing result
-        from lukhas.orchestration.routing_strategies import RoutingResult
+        from orchestration.routing_strategies import RoutingResult
         mock_routing_result = RoutingResult(
             provider="openai",
             strategy_used=RoutingStrategy.HEALTH_BASED,

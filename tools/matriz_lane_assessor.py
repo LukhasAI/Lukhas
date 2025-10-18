@@ -90,7 +90,7 @@ class LaneAssessor:
             'has_experimental': 'experimental' in name_lower or 'exp' in name_lower,
             'has_test': 'test' in name_lower,
             'has_deprecated': 'deprecated' in name_lower or 'legacy' in name_lower,
-            'has_governance': 'lukhas.governance' in name_lower,
+            'has_governance': 'governance' in name_lower,
             'has_identity': 'identity' in name_lower,
             'has_api': 'api' in name_lower,
             'has_bridge': 'bridge' in name_lower
@@ -169,11 +169,11 @@ class LaneAssessor:
         score = 0
 
         # Core infrastructure modules
-        if any(keyword in module_name.lower() for keyword in ['core', 'identity', 'lukhas.governance']):
+        if any(keyword in module_name.lower() for keyword in ['core', 'identity', 'governance']):
             score += 3
 
         # Critical system components
-        if any(keyword in module_name.lower() for keyword in ['matriz', 'consciousness', 'lukhas.memory']):
+        if any(keyword in module_name.lower() for keyword in ['matriz', 'consciousness', 'memory']):
             score += 2
 
         # Bridge and API modules (high connectivity)

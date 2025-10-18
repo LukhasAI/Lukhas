@@ -61,7 +61,7 @@ def load_dream_memories_from_log(
     log_date: Optional[datetime] = None,
     specific_log_file: Optional[Path] = None,
 ) -> list[dict[str, Any]]:
-    """Loads recent dream memory entries from lukhas.core.common dream log file(s)."""
+    """Loads recent dream memory entries from core.common dream log file(s)."""
     log.debug(
         "Loading dream memories for reflection.",
         load_limit=limit,

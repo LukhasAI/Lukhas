@@ -9,7 +9,7 @@ Auto-generated connector that integrates isolated components
 import time
 from typing import Any
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 logger = get_logger(__name__)
 

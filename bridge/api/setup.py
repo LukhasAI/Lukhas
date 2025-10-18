@@ -14,7 +14,7 @@ setup(
     version="1.0.0",
     description="Commercial API for dream generation and analysis",
     author="LUKHAS AI",
-    author_email="api@lukhas.ai",
+    author_email="api@ai",
     packages=find_packages(),
     install_requires=["asyncio", "dataclasses", "typing"],
     extras_require={"advanced": ["numpy", "torch"]},

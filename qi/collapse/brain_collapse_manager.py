@@ -20,14 +20,14 @@ from typing import Any, Optional
 
 import structlog
 
-from lukhas.consciousness.awareness.symbolic_trace_logger import SymbolicTraceLogger
-from lukhas.memory.systems.memory_collapse_verifier import MemoryCollapseVerifier
-from lukhas.orchestration.brain.collapse_chain_integrity import (
+from consciousness.awareness.symbolic_trace_logger import SymbolicTraceLogger
+from memory.systems.memory_collapse_verifier import MemoryCollapseVerifier
+from orchestration.brain.collapse_chain_integrity import (
     CollapseChainIntegrity,
 )
-from lukhas.orchestration.brain.integrity_probe import IntegrityProbe
-from lukhas.orchestration.brain.mesh.collapse_mesh import CollapseMesh
-from lukhas.orchestration.brain.unified_collapse_system import CollapseBridge
+from orchestration.brain.integrity_probe import IntegrityProbe
+from orchestration.brain.mesh.collapse_mesh import CollapseMesh
+from orchestration.brain.unified_collapse_system import CollapseBridge
 
 # TAG:qim
 # TAG:qi_states

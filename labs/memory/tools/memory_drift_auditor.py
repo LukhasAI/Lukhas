@@ -56,7 +56,7 @@ logger = logging.getLogger("ΛTRACE.memory.audit")
 
 # LUKHAS Imports
 try:
-    from lukhas.memory.folds.fold_engine import MemoryFold
+    from memory.folds.fold_engine import MemoryFold
 except ImportError as e:
     print(f"Warning: Could not import LUKHAS modules: {e}")
     MemoryFold = None
@@ -952,7 +952,7 @@ class MemoryDriftAuditor:
         # Semantic markers (simplified)
         semantic_keywords = [
             "identity",
-            "lukhas.memory",
+            "memory",
             "emotion",
             "thought",
             "experience",

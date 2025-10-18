@@ -3,7 +3,7 @@ from typing import Any
 
 import numpy as np
 
-from lukhas.core.colonies.base_colony import BaseColony
+from core.colonies.base_colony import BaseColony
 from emotion.models import EmotionalState, EmotionVector
 
 # TAG:memory

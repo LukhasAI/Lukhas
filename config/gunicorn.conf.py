@@ -122,7 +122,7 @@ def application(environ, start_response):
     """
     try:
         # Import the actual LUKHAS AI application
-        from lukhas.main import create_app
+        from main import create_app
 
         app = create_app()
         return app(environ, start_response)

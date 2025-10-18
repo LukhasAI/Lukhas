@@ -24,9 +24,9 @@ import pytest
 
 # Import memory system components
 try:
-    from lukhas.core.memory.fold_system import FoldSystem
-    from lukhas.core.memory.recall_system import RecallSystem
-    from lukhas.observability.prometheus_metrics import LUKHASMetrics
+    from core.memory.fold_system import FoldSystem
+    from core.memory.recall_system import RecallSystem
+    from observability.prometheus_metrics import LUKHASMetrics
     MEMORY_SYSTEMS_AVAILABLE = True
 except ImportError:
     MEMORY_SYSTEMS_AVAILABLE = False

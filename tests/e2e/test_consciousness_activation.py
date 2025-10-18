@@ -32,26 +32,26 @@ import pytest
 
 # Import consciousness activation components
 try:
-    from lukhas.consciousness.activation_orchestrator import (
+    from consciousness.activation_orchestrator import (
         ActivationConfig,
         ConsciousnessActivationOrchestrator,
         ConsciousnessActivationPhase,
         activate_lukhas_consciousness,
         get_activation_orchestrator,
     )
-    from lukhas.consciousness.constellation_integration import (
+    from consciousness.constellation_integration import (
         ConstellationFrameworkIntegrator,
         TrinityFramework,
         get_constellation_integrator,
         initialize_constellation_consciousness,
     )
-    from lukhas.consciousness.registry import (
+    from consciousness.registry import (
         ComponentStatus,
         ComponentType,
         ConsciousnessComponentRegistry,
         get_consciousness_registry,
     )
-    from lukhas.memory.consciousness_memory_integration import (
+    from memory.consciousness_memory_integration import (
         ConsciousnessMemoryIntegrator,
         EmotionalContext,
         MemoryFoldType,
@@ -601,11 +601,11 @@ def test_consciousness_module_imports():
     # Test basic imports work
     import importlib
 
-    activation_orchestrator = importlib.import_module("lukhas.consciousness.activation_orchestrator")
-    registry = importlib.import_module("lukhas.consciousness.registry")
-    constellation_integration = importlib.import_module("lukhas.consciousness.constellation_integration")
+    activation_orchestrator = importlib.import_module("consciousness.activation_orchestrator")
+    registry = importlib.import_module("consciousness.registry")
+    constellation_integration = importlib.import_module("consciousness.constellation_integration")
     consciousness_memory_integration = importlib.import_module(
-        "lukhas.memory.consciousness_memory_integration"
+        "memory.consciousness_memory_integration"
     )
 
     assert registry is not None

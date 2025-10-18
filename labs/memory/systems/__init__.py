@@ -5,12 +5,12 @@ Unified memory system components for LUKHAS AI
 import streamlit as st
 
 try:
-    from lukhas.core.common import get_logger
+    from core.common import get_logger
 
     logger = get_logger(__name__)
 except ImportError:
     try:
-        from lukhas.core.common import get_logger
+        from core.common import get_logger
 
         logger = get_logger(__name__)
     except ImportError:

@@ -22,7 +22,7 @@ from typing import (
 from flask import Flask, jsonify, request
 
 # Import service registry to get learning service without circular dependency
-from lukhas.orchestration.service_registry import ServiceNames, get_service
+from orchestration.service_registry import ServiceNames, get_service
 
 # Initialize logger for ΛTRACE using structlog
 # Assumes structlog is configured in a higher-level __init__.py (e.g., core/__init__.py)
@@ -75,9 +75,9 @@ try:
     from creativity.creativity_service import CreativityService
 
     from ethics.ethics_service import EthicsService
-    from lukhas.consciousness.consciousness_service import ConsciousnessService
-    from lukhas.governance.identity.interface import IdentityClient  # Needs to be a defined interface
-    from lukhas.memory.memory_service import MemoryService
+    from consciousness.consciousness_service import ConsciousnessService
+    from governance.identity.interface import IdentityClient  # Needs to be a defined interface
+    from memory.memory_service import MemoryService
 
     # Learning service is now obtained through the service registry
     from qi.qi_service import QIService

@@ -8,7 +8,7 @@ Symbiotic Swarm using the Mermaid.js format.
 import random
 import time
 
-from lukhas.core.swarm import SwarmHub
+from core.swarm import SwarmHub
 
 
 class SwarmVisualizer:

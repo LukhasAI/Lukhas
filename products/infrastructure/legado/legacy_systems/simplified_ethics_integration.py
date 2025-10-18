@@ -15,7 +15,7 @@ from typing import Any, Optional
 from ethics.meta_ethics_governor import MetaEthicsGovernor
 from ethics.seedra.seedra_core import SEEDRACore
 from ethics.self_reflective_debugger import EnhancedSelfReflectiveDebugger
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 logger = get_logger(__name__)
 

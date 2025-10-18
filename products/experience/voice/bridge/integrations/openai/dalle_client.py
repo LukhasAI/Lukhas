@@ -16,8 +16,8 @@ from typing import Any, Optional
 
 import aiohttp
 
-from lukhas.core.common import get_logger
-from lukhas.core.common.config import settings
+from core.common import get_logger
+from core.common.config import settings
 
 logger = get_logger(__name__)
 

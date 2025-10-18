@@ -28,7 +28,7 @@ class QIBioOscillator:
     Mock implementation of quantum bio-oscillator for voice processing
 
     Note: Created as temporary mock per CLAUDE.local.md guidelines.
-    Real implementation should be sourced from lukhas.core.common AI team.
+    Real implementation should be sourced from core.common AI team.
     """
 
     def __init__(

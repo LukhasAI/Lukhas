@@ -588,6 +588,6 @@ if __name__ == "__main__":
 # MAINTENANCE: Consider `asyncio.to_thread` for I/O. Add platform checks or
 #              alternatives for `fcntl` if Windows compatibility is needed.
 #              Implement strategies for managing large memory files if they grow indefinitely.
-# CONTACT: LUKHAS DEVELOPMENT TEAM (dev@lukhas.ai)
+# CONTACT: LUKHAS DEVELOPMENT TEAM (dev@ai)
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════

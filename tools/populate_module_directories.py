@@ -266,7 +266,7 @@ class ModuleDirectoryPopulator:
             config["features"]["consciousness_integration"] = True
             config["features"]["awareness_monitoring"] = True
 
-        if "lukhas.memory" in tags or "fold-architecture" in tags:
+        if "memory" in tags or "fold-architecture" in tags:
             config["features"]["fold_architecture"] = True
             config["features"]["cascade_prevention"] = True
             config["runtime"]["memory_limit_mb"] = 1024
@@ -1037,9 +1037,9 @@ Target coverage: 85%+
         # Get module symbol
         symbol_map = {
             'consciousness': '🧠',
-            'lukhas.memory': '📜',
+            'memory': '📜',
             'identity': '⚛️',
-            'lukhas.governance': '⚖️',
+            'governance': '⚖️',
             'brain': '🧠',
             'api': '🌐',
             'orchestration': '🎼'
@@ -1155,8 +1155,8 @@ Based on LUKHAS consciousness design system:
                 }
             }
 
-        if "lukhas.memory" in tags:
-            schema["properties"]["lukhas.memory"] = {
+        if "memory" in tags:
+            schema["properties"]["memory"] = {
                 "type": "object",
                 "properties": {
                     "fold_count": {"type": "integer", "minimum": 0},

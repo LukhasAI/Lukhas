@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.core.reliability.circuit_breaker",
-    "path": "lukhas/core/reliability/circuit_breaker",
+    "path": "core/reliability/circuit_breaker",
     "type": "package",
     "lane": "lukhas"
   },
@@ -14,7 +14,7 @@
     "cognitive_function": ""
   },
   "constellation_alignment": {
-    "primary_star": "🔬 Horizon (Vision)",
+    "primary_star": "\ud83d\udd2c Horizon (Vision)",
     "star_aliases": [],
     "trinity_aspects": []
   },

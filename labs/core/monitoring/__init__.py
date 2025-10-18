@@ -19,7 +19,7 @@ Core monitoring module providing unified drift detection and system health
 monitoring capabilities. Exports the UnifiedDriftMonitor system and related
 components for comprehensive Cognitive system monitoring.
 
-For more information, visit: https://lukhas.ai
+For more information, visit: https://ai
 """
 import streamlit as st
 
@@ -29,7 +29,7 @@ import streamlit as st
 
 __version__ = "1.0.0"
 __author__ = "LUKHAS Development Team"
-__email__ = "dev@lukhas.ai"
+__email__ = "dev@ai"
 __status__ = "Production"
 
 from .drift_monitor import (

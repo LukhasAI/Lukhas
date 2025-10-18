@@ -62,7 +62,7 @@ def test_pqc_signer_enabled_functions_raise_error(monkeypatch):
     mock_matriz_client.PQCClient = object()  # Just need the attribute to exist
     sys.modules["matriz_client"] = mock_matriz_client
 
-    from lukhas.qi.crypto import pqc_signer
+    from qi.crypto import pqc_signer
 
     with pytest.raises(NotImplementedError, match="MATRIZ client integration is not fully implemented yet."):
         pqc_signer.sign_message(b"test")

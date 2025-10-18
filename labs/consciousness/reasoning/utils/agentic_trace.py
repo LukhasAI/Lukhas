@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 # ΛCOMMIT_WINDOW: pre-O3-sweep
 # ΛPROVED_BY: Human Overseer (Gonzalo)
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 # #ΛTRACE_NODE: Initialize logger for agentic tracing.
 logger = get_logger(__name__)

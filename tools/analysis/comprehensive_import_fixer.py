@@ -49,18 +49,18 @@ class ImportErrorFixer:
         # Common fix patterns
         self.import_fixes = {
             # Core module fixes
-            "core.common": "from lukhas.core.common import",
-            "lukhas.memory.core": "from lukhas.memory.core import",
-            "consciousness.unified": "from lukhas.consciousness.unified import",
-            "lukhas.governance.guardian_system": "from lukhas.governance.guardian_system import",
-            "qi.algorithms": "from lukhas.qi.algorithms import",
-            "orchestration.brain": "from lukhas.orchestration.brain import",
+            "core.common": "from core.common import",
+            "memory.core": "from memory.core import",
+            "consciousness.unified": "from consciousness.unified import",
+            "governance.guardian_system": "from governance.guardian_system import",
+            "qi.algorithms": "from qi.algorithms import",
+            "orchestration.brain": "from orchestration.brain import",
             # Interface fixes
             "core.interfaces": "from core.interfaces import",
             "core.interfaces.dependency_injection": "from core.interfaces.dependency_injection import",
             # Common replacements
             "lukhas_core": "core",
-            "lukhas.core": "core",
+            "core": "core",
             "LUKHAS.core": "core",
             "common.logging": "core.common.logger",
             "common.config": "core.common.config",
@@ -249,9 +249,9 @@ class ImportErrorFixer:
         """Check if module should be a local LUKHAS module"""
         local_prefixes = [
             "core",
-            "lukhas.memory",
+            "memory",
             "consciousness",
-            "lukhas.governance",
+            "governance",
             "quantum",
             "orchestration",
             "creativity",
@@ -394,24 +394,24 @@ class ImportErrorFixer:
 
         common_fixes = [
             # Core imports
-            ("from lukhas.core.common import", "from lukhas.core.common import"),
-            ("from lukhas.core.common import", "from lukhas.core.common import"),
+            ("from core.common import", "from core.common import"),
+            ("from core.common import", "from core.common import"),
             ("from core.common.logger import", "from core.common.logger import"),
             ("from core.common.config import", "from core.common.config import"),
             # Memory imports
-            ("from lukhas.memory.core import", "from lukhas.memory.core import"),
+            ("from memory.core import", "from memory.core import"),
             (
-                "from lukhas.memory.core.unified_memory_orchestrator import",
-                "from lukhas.memory.core.unified_memory_orchestrator import",
+                "from memory.core.unified_memory_orchestrator import",
+                "from memory.core.unified_memory_orchestrator import",
             ),
             # Consciousness imports
             (
-                "from lukhas.consciousness.unified import",
-                "from lukhas.consciousness.unified import",
+                "from consciousness.unified import",
+                "from consciousness.unified import",
             ),
             (
-                "from lukhas.consciousness.unified.auto_consciousness import",
-                "from lukhas.consciousness.unified.auto_consciousness import",
+                "from consciousness.unified.auto_consciousness import",
+                "from consciousness.unified.auto_consciousness import",
             ),
             # Interface imports
             ("from core.interfaces import", "from core.interfaces import"),

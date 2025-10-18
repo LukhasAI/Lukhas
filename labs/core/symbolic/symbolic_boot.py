@@ -39,7 +39,7 @@ class SymbolicBootstrap:
         required_paths = [
             "agents",
             "orchestration",
-            "lukhas.memory",
+            "memory",
             "creativity",
             "dream",
         ]
@@ -67,7 +67,7 @@ class SymbolicBootstrap:
                 "status": "loaded",
                 "path": "orchestration/",
             }
-            modules["lukhas.memory"] = {"status": "loaded", "path": "memory/"}
+            modules["memory"] = {"status": "loaded", "path": "memory/"}
             modules["creativity"] = {"status": "loaded", "path": "creativity/"}
             modules["dream"] = {"status": "loaded", "path": "dream/"}
 

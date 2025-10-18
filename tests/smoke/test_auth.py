@@ -9,8 +9,8 @@ Validates:
 """
 import pytest
 from fastapi.testclient import TestClient
-from lukhas.adapters.openai.api import get_app
-from lukhas.adapters.openai.auth import TokenClaims, verify_token_with_policy, require_bearer
+from adapters.openai.api import get_app
+from adapters.openai.auth import TokenClaims, verify_token_with_policy, require_bearer
 from fastapi import HTTPException
 
 from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
@@ -124,7 +124,7 @@ def test_insufficient_scope_returns_403():
     # This tests the scope validation logic
     # In a real scenario, we'd have protected endpoints requiring specific scopes
 
-    from lukhas.adapters.openai.auth import require_bearer
+    from adapters.openai.auth import require_bearer
     from fastapi import Header
 
     # Test that require_bearer with required_scopes validates correctly

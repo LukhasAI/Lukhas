@@ -7,8 +7,8 @@ import yaml
 import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
-from lukhas.core.reliability.ratelimit import QuotaConfig, RateLimiter
-from lukhas.core.reliability.ratelimit_backends import LimiterBackend
+from core.reliability.ratelimit import QuotaConfig, RateLimiter
+from core.reliability.ratelimit_backends import LimiterBackend
 
 # A simple in-memory backend for predictable testing that handles multiple keys
 class InMemoryLimiterForTesting(LimiterBackend):

@@ -5,7 +5,7 @@ Prometheus + OTEL exporters with opt-in, safe defaults.
 Prometheus is fully optional; OTEL is noop if not configured.
 
 Usage:
-  from lukhas.core.metrics_exporters import enable_runtime_exporters
+  from core.metrics_exporters import enable_runtime_exporters
   enable_runtime_exporters()  # Call once at app boot
 """
 from __future__ import annotations

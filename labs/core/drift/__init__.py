@@ -1,7 +1,7 @@
 """Bridge for `candidate.core.drift`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.candidate.core.drift
+  1) lukhas_website.candidate.core.drift
   2) candidate.candidate.core.drift
   3) core.drift
 
@@ -22,7 +22,7 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.candidate.core.drift",
+    "lukhas_website.candidate.core.drift",
     "labs.candidate.core.drift",
     "core.drift",
 )

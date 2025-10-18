@@ -43,7 +43,7 @@ logger = logging.getLogger(__name__)
 
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -233,7 +233,7 @@ class VoiceEmotionalModulator:
 ║ REFERENCES:
 ║   - Docs: docs/core/voice_systems/emotional_modulation.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=voice-emotion
-║   - Wiki: wiki.lukhas.ai/voice/emotional-modulation
+║   - Wiki: wiki.ai/voice/emotional-modulation
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

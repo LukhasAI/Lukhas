@@ -35,11 +35,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel, Field
 
-from lukhas.observability.matriz_decorators import instrument
-from lukhas.orchestration.externalized_orchestrator import get_externalized_orchestrator
-from lukhas.orchestration.health_monitor import get_health_monitor
-from lukhas.orchestration.routing_config import get_routing_config_manager
-from lukhas.orchestration.routing_strategies import RoutingContext, get_routing_engine
+from observability.matriz_decorators import instrument
+from orchestration.externalized_orchestrator import get_externalized_orchestrator
+from orchestration.health_monitor import get_health_monitor
+from orchestration.routing_config import get_routing_config_manager
+from orchestration.routing_strategies import RoutingContext, get_routing_engine
 
 logger = logging.getLogger(__name__)
 

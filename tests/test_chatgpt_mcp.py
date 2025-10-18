@@ -24,7 +24,7 @@ def test_chatgpt_mcp_requirements():
         "params": {
             "protocolVersion": "2025-06-18",
             "clientInfo": {"name": "dbg", "version": "1.0"},
-            "capabilities": {"lukhas.tools": {}}
+            "capabilities": {"tools": {}}
         }
     }
 
@@ -59,7 +59,7 @@ def test_chatgpt_mcp_requirements():
         response = requests.post(base_url, headers=headers, json=tools_payload, timeout=5)
         if response.status_code == 200:
             result = response.json().get('result', {})
-            tools = result.get('lukhas.tools', [])
+            tools = result.get('tools', [])
             tool_names = [tool.get('name') for tool in tools]
 
             if 'search' in tool_names and 'fetch' in tool_names:

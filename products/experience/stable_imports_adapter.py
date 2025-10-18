@@ -8,8 +8,8 @@ This ensures T4 architecture compliance by using registry-based discovery.
 
 import logging
 
-from lukhas.core.interfaces import CoreInterface
-from lukhas.core.registry import get_registered, register
+from core.interfaces import CoreInterface
+from core.registry import get_registered, register
 
 
 # Exception classes that replace candidate.core.common.exceptions

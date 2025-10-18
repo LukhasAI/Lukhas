@@ -191,7 +191,7 @@ class DuplicateAnalyzer:
             )
 
         # 3. Guardian client initialization
-        guardian_imports = list(self.duplicate_imports.get("lukhas.governance", []))
+        guardian_imports = list(self.duplicate_imports.get("governance", []))
         if len(guardian_imports) > 5:
             opportunities.append(
                 {
@@ -316,8 +316,8 @@ def main():
         "api",
         "consciousness",
         "core",
-        "lukhas.governance",
-        "lukhas.memory",
+        "governance",
+        "memory",
         "orchestration",
         "reasoning",
         "identity",

@@ -1,6 +1,6 @@
 # owner: Jules-08
 # tier: tier3
-# module_uid: lukhas.core.distributed_tracing
+# module_uid: core.distributed_tracing
 # criticality: P1
 
 import time
@@ -418,17 +418,17 @@ class TestAIAgentTracer:
             pass
 
         span_data = ai_tracer.collector.completed_traces[0]["spans"][0]
-        assert span_data["operation_name"] == "lukhas.memory.retrieve"
-        assert span_data["tags"]["lukhas.memory.agent_id"] == "agent-003"
-        assert span_data["tags"]["lukhas.memory.size"] == 1024
+        assert span_data["operation_name"] == "memory.retrieve"
+        assert span_data["tags"]["memory.agent_id"] == "agent-003"
+        assert span_data["tags"]["memory.size"] == 1024
 
 
 # Because `import os` is missing in the source file, we have to patch the built-in
 # functions that os uses, which is very brittle.
-@patch("lukhas.core.distributed_tracing.open", new_callable=MagicMock)
-@patch("lukhas.core.distributed_tracing.os.path.exists")
-@patch("lukhas.core.distributed_tracing.os.makedirs")
-@patch("lukhas.core.distributed_tracing.os.listdir")
+@patch("core.distributed_tracing.open", new_callable=MagicMock)
+@patch("core.distributed_tracing.os.path.exists")
+@patch("core.distributed_tracing.os.makedirs")
+@patch("core.distributed_tracing.os.listdir")
 @pytest.mark.tier3
 @pytest.mark.tracing
 class TestStateSnapshotterAndEventReplayer:

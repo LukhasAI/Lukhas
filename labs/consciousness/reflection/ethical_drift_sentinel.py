@@ -157,7 +157,7 @@ class EthicalState:
             "coherence": 0.25,
             "emotion": 0.20,
             "contradiction": 0.20,
-            "lukhas.memory": 0.15,
+            "memory": 0.15,
             "drift": 0.15,
             "entropy": 0.05,
         }
@@ -167,7 +167,7 @@ class EthicalState:
             "coherence": 1.0 - self.coherence_score,
             "emotion": 1.0 - self.emotional_stability,
             "contradiction": self.contradiction_level,
-            "lukhas.memory": 1.0 - self.memory_phase_alignment,
+            "memory": 1.0 - self.memory_phase_alignment,
             "drift": min(abs(self.drift_velocity), 1.0),
             "entropy": self.glyph_entropy,
         }

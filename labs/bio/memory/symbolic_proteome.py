@@ -56,8 +56,8 @@ logger = logging.getLogger(__name__)
 
 # Import LUKHAS components
 try:
-    from lukhas.core.symbolism.tags import TagScope as LukhaskTagScope
-    from lukhas.memory.fold_in_out.memory_fold_system import SymbolicTag as LukhasSymbolicTag
+    from core.symbolism.tags import TagScope as LukhaskTagScope
+    from memory.fold_in_out.memory_fold_system import SymbolicTag as LukhasSymbolicTag
     
     # Create compatibility aliases
     TagScope = LukhaskTagScope

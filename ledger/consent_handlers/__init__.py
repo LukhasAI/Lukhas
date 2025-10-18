@@ -1,7 +1,7 @@
 """Bridge for `ledger.consent_handlers`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.ledger.consent_handlers
+  1) lukhas_website.ledger.consent_handlers
   2) candidate.ledger.consent_handlers
   3) ledger.consent_handlers
 
@@ -22,7 +22,7 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.ledger.consent_handlers",
+    "lukhas_website.ledger.consent_handlers",
     "candidate.ledger.consent_handlers",
     "ledger.consent_handlers",
 )

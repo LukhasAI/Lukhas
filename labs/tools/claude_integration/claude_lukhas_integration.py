@@ -37,10 +37,10 @@ class ClaudeLUKHASIntegration:
         # Core LUKHAS modules
         module_paths = {
             "consciousness": base_path / "consciousness",
-            "lukhas.memory": base_path / "lukhas.memory",
+            "memory": base_path / "memory",
             "quantum": base_path / "quantum",
             "identity": base_path / "identity",
-            "lukhas.governance": base_path / "lukhas.governance",
+            "governance": base_path / "governance",
             "dream": base_path / "dream",
             "emotion": base_path / "emotion",
             "bio": base_path / "bio",
@@ -148,10 +148,10 @@ class ClaudeLUKHASIntegration:
 
         module_keywords = {
             "consciousness": ["aware", "conscious", "self", "reflection"],
-            "lukhas.memory": ["lukhas.memory", "fold", "storage", "recall"],
+            "memory": ["memory", "fold", "storage", "recall"],
             "quantum": ["quantum", "parallel", "coherence", "superposition"],
             "identity": ["identity", "auth", "access", "tier"],
-            "lukhas.governance": ["guardian", "ethics", "policy", "validation"],
+            "governance": ["guardian", "ethics", "policy", "validation"],
             "dream": ["dream", "creative", "explore", "innovate"],
             "emotion": ["emotion", "feeling", "mood", "affect"],
             "bio": ["bio", "biological", "adaptation", "evolution"],
@@ -349,7 +349,7 @@ class ClaudeLUKHASIntegration:
                     "ethical",
                     "emotional",
                     "quantum",
-                    "lukhas.memory",
+                    "memory",
                 ]
             ):
                 alignment += 0.2

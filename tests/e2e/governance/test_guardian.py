@@ -1,7 +1,7 @@
 import unittest
 
-from lukhas.governance.guardian.core import EthicalSeverity, GovernanceAction
-from lukhas.governance.guardian.guardian_impl import GuardianSystemImpl
+from governance.guardian.core import EthicalSeverity, GovernanceAction
+from governance.guardian.guardian_impl import GuardianSystemImpl
 
 
 class TestGuardianSystemImplementation:

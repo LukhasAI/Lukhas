@@ -69,25 +69,25 @@ class AdaptiveAGISystem:
             from learning.meta_learning import MetaLearningSystem
             from voice.speech_processor import SpeechProcessor
 
-            from lukhas.core.common.interfaces.ui.adaptive.adaptive_interface_generator import (
+            from core.common.interfaces.ui.adaptive.adaptive_interface_generator import (
                 AdaptiveInterfaceGenerator,
             )
-            from lukhas.core.common.interfaces.ui.multimodal.image_generator import (
+            from core.common.interfaces.ui.multimodal.image_generator import (
                 AdaptiveImageGenerator,
             )
 
             # Utils and config
-            from lukhas.core.orchestration.brain.config.settings import load_settings
-            from lukhas.core.orchestration.brain.neuro_symbolic.neuro_symbolic_engine import (
+            from core.orchestration.brain.config.settings import load_settings
+            from core.orchestration.brain.neuro_symbolic.neuro_symbolic_engine import (
                 NeuroSymbolicEngine,
             )
-            from lukhas.governance.identity.core.id_service.identity_manager import (
+            from governance.identity.core.id_service.identity_manager import (
                 IdentityManager,
             )
 
             # Backend components
-            from lukhas.memory.node import Node
-            from lukhas.orchestration.brain.privacy_manager import PrivacyManager
+            from memory.node import Node
+            from orchestration.brain.privacy_manager import PrivacyManager
 
             self.SpeechProcessor = SpeechProcessor
             self.AdaptiveImageGenerator = AdaptiveImageGenerator
@@ -461,7 +461,7 @@ if __name__ == "__main__":
 ║ REFERENCES:
 ║   - Docs: docs/orchestration/main_node.md
 ║   - Issues: github.com/lukhas-ai/lukhas/issues?label=orchestration
-║   - Wiki: https://lukhas.ai/wiki/Orchestration-Main-Node
+║   - Wiki: https://ai/wiki/Orchestration-Main-Node
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

@@ -1,7 +1,7 @@
 """Bridge for `aka_qualia.monitoring_dashboard`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.aka_qualia.monitoring_dashboard
+  1) lukhas_website.aka_qualia.monitoring_dashboard
   2) candidate.aka_qualia.monitoring_dashboard
   3) aka_qualia.monitoring_dashboard
 
@@ -22,7 +22,7 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.aka_qualia.monitoring_dashboard",
+    "lukhas_website.aka_qualia.monitoring_dashboard",
     "candidate.aka_qualia.monitoring_dashboard",
     "aka_qualia.monitoring_dashboard",
 )

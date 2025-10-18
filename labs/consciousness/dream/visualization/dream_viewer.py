@@ -12,7 +12,7 @@ quantum integration, and bio-inspired architecture.
 
 Module for dream viewer functionality
 
-For more information, visit: https://lukhas.ai
+For more information, visit: https://ai
 """
 
 

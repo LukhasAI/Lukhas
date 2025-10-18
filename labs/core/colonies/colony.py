@@ -10,14 +10,14 @@ import uuid
 from dataclasses import dataclass, field
 from typing import Any, Optional
 
-from lukhas.orchestration.signals.homeostasis import HomeostasisController
+from orchestration.signals.homeostasis import HomeostasisController
 
 # Import our signal system
-from lukhas.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
 # Import base colony
 try:
-    from lukhas.core.colonies.base_colony import BaseColony
+    from core.colonies.base_colony import BaseColony
 except ImportError:
     # Simplified base colony for now
 

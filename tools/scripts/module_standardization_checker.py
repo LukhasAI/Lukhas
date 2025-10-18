@@ -42,7 +42,7 @@ REQUIRED_STRUCTURE = {
 # Core modules to check (from standardization plan)
 CORE_MODULES = [
     "core",
-    "lukhas.memory",
+    "memory",
     "consciousness",
     "dream",
     "quantum",
@@ -53,7 +53,7 @@ CORE_MODULES = [
     "bio",
     "symbolic",
     "ethics",
-    "lukhas.governance",
+    "governance",
     "learning",
     "creativity",
     "voice",
@@ -236,7 +236,7 @@ class ModuleStandardizationChecker:
 
         # Determine priority actions
         # Priority 1: Core modules with low scores
-        for module in ["core", "lukhas.memory", "consciousness", "dream", "quantum"]:
+        for module in ["core", "memory", "consciousness", "dream", "quantum"]:
             if module in self.results and self.results[module].get("score", 0) < 80:
                 report["priority_actions"].append(
                     {

@@ -6,7 +6,7 @@ Optimizes resource allocation across innovation engines.
 import logging
 from typing import Any
 
-from lukhas.core.interfaces import CoreInterface
+from core.interfaces import CoreInterface
 
 logger = logging.getLogger(__name__)
 
@@ -27,7 +27,7 @@ class ResourceAllocationOptimizer(CoreInterface):
         # Initialize resource pool
         self.resource_pool = {
             "compute": 1000,  # Compute units
-            "lukhas.memory": 1000,  # Memory units
+            "memory": 1000,  # Memory units
             "researchers": 100,  # Human resources
             "budget": 100e6,  # $100M budget
         }

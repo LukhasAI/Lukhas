@@ -8,7 +8,7 @@ from types import ModuleType
 __all__: list[str] = []
 
 _CANDIDATES = (
-    "lukhas_website.lukhas.candidate.consciousness.types",
+    "lukhas_website.candidate.consciousness.types",
     "labs.candidate.consciousness.types",
     "consciousness.types",
 )

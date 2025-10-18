@@ -48,10 +48,10 @@ try:
 except ImportError:
     BOTO3_AVAILABLE = False
 
-from lukhas.core.common.logger import get_logger
-from lukhas.memory.backends.base import VectorDocument
-from lukhas.memory.lifecycle import AbstractArchivalBackend, ArchivalTier
-from lukhas.observability.service_metrics import get_metrics_collector
+from core.common.logger import get_logger
+from memory.backends.base import VectorDocument
+from memory.lifecycle import AbstractArchivalBackend, ArchivalTier
+from observability.service_metrics import get_metrics_collector
 
 logger = get_logger(__name__)
 metrics = get_metrics_collector()

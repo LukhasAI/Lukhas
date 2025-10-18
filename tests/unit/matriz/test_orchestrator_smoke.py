@@ -9,7 +9,7 @@ def test_orchestrator_importable():
     """Test if orchestrator modules can be imported."""
     try:
         # Try importing main orchestrator components
-        from lukhas.orchestration.brain.primary_hub import PrimaryBrainHub
+        from orchestration.brain.primary_hub import PrimaryBrainHub
 
         assert PrimaryBrainHub is not None
 
@@ -22,7 +22,7 @@ def test_orchestrator_importable():
 def test_orchestrator_instantiation():
     """Test basic orchestrator instantiation (happy path)."""
     try:
-        from lukhas.orchestration.brain.primary_hub import PrimaryBrainHub
+        from orchestration.brain.primary_hub import PrimaryBrainHub
 
         # Basic instantiation test
         hub = PrimaryBrainHub()
@@ -45,12 +45,12 @@ def test_matriz_module_structure():
     try:
         import orchestration
 
-        assert lukhas.orchestration is not None  # noqa: F821  # TODO: lukhas
+        assert orchestration is not None  # noqa: F821  # TODO: lukhas
 
         # Check if brain module exists
-        import lukhas.orchestration.brain
+        import orchestration.brain
 
-        assert lukhas.orchestration.brain is not None
+        assert orchestration.brain is not None
 
     except ImportError:
         pytest.skip("MATRIZ orchestration modules not available")

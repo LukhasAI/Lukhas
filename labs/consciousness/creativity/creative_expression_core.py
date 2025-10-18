@@ -123,5 +123,5 @@ class NeuroHaikuGenerator:
 # Last Updated: 2025-06-05 09:37:28
 
 # TECHNICAL IMPLEMENTATION: Neural network architectures with adaptive learning, Artificial intelligence with advanced cognitive modeling, Bioinformatics processing for pattern recognition
-# LUKHAS Systems 2025 www.lukhas.ai 2025
-# lukhas Systems 2025 www.lukhas.ai 2025
+# LUKHAS Systems 2025 www.ai 2025
+# lukhas Systems 2025 www.ai 2025

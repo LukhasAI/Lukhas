@@ -34,13 +34,13 @@ sys.path.append(brain_path)
 
 # Import the advanced reasoning systems
 try:
-    from lukhas.orchestration.brain.abstract_reasoning.bio_quantum_engine import (
+    from orchestration.brain.abstract_reasoning.bio_quantum_engine import (
         BioQuantumSymbolicReasoner,
     )
-    from lukhas.orchestration.brain.abstract_reasoning.confidence_calibrator import (
+    from orchestration.brain.abstract_reasoning.confidence_calibrator import (
         AdvancedConfidenceCalibrator,
     )
-    from lukhas.orchestration.brain.MultiBrainSymphony import (
+    from orchestration.brain.MultiBrainSymphony import (
         MultiBrainSymphonyOrchestrator,
     )
 
@@ -289,7 +289,7 @@ class ΛBotAdvancedReasoningOrchestrator:
         brain_insights = {
             "dreams": await self._extract_dreams_insights(reasoning_result),
             "emotional": await self._extract_emotional_insights(reasoning_result),
-            "lukhas.memory": await self._extract_memory_insights(reasoning_result),
+            "memory": await self._extract_memory_insights(reasoning_result),
             "learning": await self._extract_learning_insights(reasoning_result),
         }
 
@@ -404,7 +404,7 @@ class ΛBotAdvancedReasoningOrchestrator:
         if brain_insights.get("emotional", {}).get("elegance_assessment", 0) < 0.7:
             recommendations.append("Improve code elegance and readability")
 
-        if brain_insights.get("lukhas.memory", {}).get("pattern_confidence", 0) < 0.8:
+        if brain_insights.get("memory", {}).get("pattern_confidence", 0) < 0.8:
             recommendations.append("Review against established security patterns")
 
         # Add reasoning-specific recommendations
@@ -662,7 +662,7 @@ class ΛBotAdvancedReasoningOrchestrator:
             "brain_systems": {
                 "dreams": self.dreams_brain is not None,
                 "emotional": self.emotional_brain is not None,
-                "lukhas.memory": self.memory_brain is not None,
+                "memory": self.memory_brain is not None,
                 "learning": self.learning_brain is not None,
             },
             "qi_reasoner": self.qi_reasoner is not None,

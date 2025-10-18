@@ -5,8 +5,8 @@ Constellation Framework: ⚛️🧠🛡️
 import logging
 from typing import Any
 
-from lukhas.core.container.service_container import ServiceLifetime, injectable
-from lukhas.core.interfaces.services import IQuantumService
+from core.container.service_container import ServiceLifetime, injectable
+from core.interfaces.services import IQuantumService
 
 logger = logging.getLogger(__name__)
 
@@ -91,7 +91,7 @@ class QIServiceAdapter(IQuantumService):
 
 def register_quantum_service(container) -> None:
     """Register quantum service with container"""
-    from lukhas.core.interfaces.services import IQuantumService
+    from core.interfaces.services import IQuantumService
 
     container.register(IQuantumService, QIServiceAdapter, ServiceLifetime.SINGLETON)
     logger.info("QIM Quantum Service registered ⚛️")

@@ -9,7 +9,7 @@ import nacl.encoding
 import pytest
 from nacl.signing import SigningKey
 
-from lukhas.governance.identity.auth_backend.authentication_server import (
+from governance.identity.auth_backend.authentication_server import (
     AuthenticationServer,
     DataSubjectRight,
 )

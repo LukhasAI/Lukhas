@@ -43,22 +43,22 @@ except ImportError as e:
 # Import mapping for backward compatibility
 IMPORT_MAPPINGS = {
     # Auth module mappings
-    "identity.auth.cultural_profile_manager": "lukhas.governance.identity.auth.cultural_profile_manager",
-    "identity.auth.entropy_synchronizer": "lukhas.governance.identity.auth.entropy_synchronizer",
-    "identity.auth.cognitive_sync_adapter": "lukhas.governance.identity.auth.cognitive_sync_adapter",
-    "identity.auth.qrg_generators": "lukhas.governance.identity.auth.qrg_generators",
+    "identity.auth.cultural_profile_manager": "governance.identity.auth.cultural_profile_manager",
+    "identity.auth.entropy_synchronizer": "governance.identity.auth.entropy_synchronizer",
+    "identity.auth.cognitive_sync_adapter": "governance.identity.auth.cognitive_sync_adapter",
+    "identity.auth.qrg_generators": "governance.identity.auth.qrg_generators",
     # Core module mappings
-    "identity.core.events": "lukhas.governance.identity.core.events",
-    "identity.core.colonies": "lukhas.governance.identity.core.colonies",
-    "identity.core.tier": "lukhas.governance.identity.core.tier",
-    "identity.core.health": "lukhas.governance.identity.core.health",
-    "identity.core.glyph": "lukhas.governance.identity.core.glyph",
-    "identity.core.tagging": "lukhas.governance.identity.core.tagging",
-    "identity.core.swarm": "lukhas.governance.identity.core.swarm",
+    "identity.core.events": "governance.identity.core.events",
+    "identity.core.colonies": "governance.identity.core.colonies",
+    "identity.core.tier": "governance.identity.core.tier",
+    "identity.core.health": "governance.identity.core.health",
+    "identity.core.glyph": "governance.identity.core.glyph",
+    "identity.core.tagging": "governance.identity.core.tagging",
+    "identity.core.swarm": "governance.identity.core.swarm",
     # Mobile module mappings
-    "identity.mobile.qr_code_animator": "lukhas.governance.identity.mobile.qr_code_animator",
+    "identity.mobile.qr_code_animator": "governance.identity.mobile.qr_code_animator",
     # Interface mapping
-    "identity.interface": "lukhas.governance.identity.interface",
+    "identity.interface": "governance.identity.interface",
 }
 
 

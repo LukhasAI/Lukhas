@@ -1,10 +1,10 @@
 """Bridge: core.clock (time abstraction)."""
 from __future__ import annotations
 
-from lukhas._bridgeutils import bridge_from_candidates
+from _bridgeutils import bridge_from_candidates
 
 _CANDIDATES = (
-    "lukhas_website.lukhas.core.clock",
+    "lukhas_website.core.clock",
     "labs.core.clock",
     "core.clock",
 )

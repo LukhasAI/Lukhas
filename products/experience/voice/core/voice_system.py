@@ -18,13 +18,13 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Callable, Optional
 
-from lukhas.consciousness.awareness.awareness_engine import AwarenessEngine
-from lukhas.core.common.glyph import GLYPHSymbol, create_glyph
-from lukhas.core.common.logger import get_logger
+from consciousness.awareness.awareness_engine import AwarenessEngine
+from core.common.glyph import GLYPHSymbol, create_glyph
+from core.common.logger import get_logger
 from emotion.emotion_hub import EmotionHub
-from lukhas.governance.guardian import GuardianValidator
-from lukhas.memory.service import MemoryService
-from lukhas.voice.voice_modulator import (
+from governance.guardian import GuardianValidator
+from memory.service import MemoryService
+from voice.voice_modulator import (
     VoiceModulationMode,
     VoiceModulator,
     VoiceParameters,

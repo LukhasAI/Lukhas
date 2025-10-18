@@ -48,7 +48,7 @@ import numpy as np
 import structlog
 
 # Import drift monitoring integration
-from lukhas.core.monitoring.drift_monitor import DriftDimension, UnifiedDriftMonitor
+from core.monitoring.drift_monitor import DriftDimension, UnifiedDriftMonitor
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -68,7 +68,7 @@ class CollapsePhase(Enum):
 class CollapseType(Enum):
     """Types of symbolic collapse patterns"""
 
-    MEMORY = "lukhas.memory"  # Memory fold collapse
+    MEMORY = "memory"  # Memory fold collapse
     SYMBOLIC = "symbolic"  # GLYPH/symbol coherence loss
     EMOTIONAL = "emotional"  # Emotional regulation failure
     COGNITIVE = "cognitive"  # Reasoning chain breakdown
@@ -183,7 +183,7 @@ class CollapseEntropyTracker:
     def _init_drift_integration(self):
         """Initialize integration with unified drift monitor."""
         try:
-            from lukhas.core.monitoring import create_drift_monitor
+            from core.monitoring import create_drift_monitor
 
             self.drift_monitor = create_drift_monitor()
             logger.info("Drift monitor integration initialized", tag="ΛCOLLAPSE")
@@ -919,7 +919,7 @@ if __name__ == "__main__":
 ║ REFERENCES:
 ║   - Docs: docs/core/symbolic/collapse/collapse_entropy_tracker.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=collapse-entropy
-║   - Wiki: wiki.lukhas.ai/core/symbolic-collapse
+║   - Wiki: wiki.ai/core/symbolic-collapse
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

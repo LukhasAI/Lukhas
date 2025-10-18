@@ -29,14 +29,14 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 try:
     from governance.guardian_system import GuardianSystem
-    from lukhas.consciousness import (
-        AwarenessEngine,  # noqa: F401  # TODO: lukhas.consciousness.Awareness...
+    from consciousness import (
+        AwarenessEngine,  # noqa: F401  # TODO: consciousness.Awareness...
         ConsciousnessState,
         ConsciousnessStream,
         CreativeTask,
         CreativityEngine,
     )
-    from lukhas.consciousness.types import DEFAULT_CREATIVITY_CONFIG
+    from consciousness.types import DEFAULT_CREATIVITY_CONFIG
 except ImportError as e:
     print(f"Warning: Could not import LUKHAS modules: {e}")
     print("Running in simulation mode for audit validation")

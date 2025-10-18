@@ -188,9 +188,9 @@ def generate_module_readme(module_path: Path) -> str:
         readme_lines.append("")
         tag_descriptions = {
             'consciousness': 'Consciousness processing and awareness systems',
-            'lukhas.memory': 'Memory management and storage systems',
+            'memory': 'Memory management and storage systems',
             'identity': 'Identity and authentication systems',
-            'lukhas.governance': 'Governance and policy enforcement',
+            'governance': 'Governance and policy enforcement',
             'orchestration': 'System orchestration and coordination',
             'webauthn': 'WebAuthn and passwordless authentication',
             'fold-architecture': 'Fold-based memory architecture',
@@ -232,7 +232,7 @@ def main():
 
     # Priority modules for README generation
     priority_modules = [
-        'brain', 'consciousness', 'lukhas.memory', 'identity', 'lukhas.governance',
+        'brain', 'consciousness', 'memory', 'identity', 'governance',
         'matriz', 'core', 'api', 'bridge', 'orchestration'
     ]
 

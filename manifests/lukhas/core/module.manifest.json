@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.core",
-    "path": "lukhas/core",
+    "path": "core",
     "type": "package",
     "lane": "lukhas"
   },

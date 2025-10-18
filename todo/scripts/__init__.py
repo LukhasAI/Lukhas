@@ -23,7 +23,7 @@ def _bind(module_name: str) -> bool:
 
 
 for candidate in (
-    "lukhas.tools.todo.scripts",
+    "tools.todo.scripts",
     "candidate.tools.todo.scripts",
     "todo.scripts",
 ):

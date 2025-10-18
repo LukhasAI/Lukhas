@@ -19,7 +19,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Dict, List, Optional
 
-from lukhas.observability.matriz_instrumentation import (
+from observability.matriz_instrumentation import (
     cognitive_pipeline_span,
     initialize_cognitive_instrumentation,
     instrument_cognitive_stage,

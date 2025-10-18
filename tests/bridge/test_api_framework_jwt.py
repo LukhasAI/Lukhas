@@ -20,7 +20,7 @@ def valid_jwt_payload():
         "tier": "free",
         "exp": int((datetime.utcnow() + timedelta(hours=1)).timestamp()),
         "iat": int(datetime.utcnow().timestamp()),
-        "iss": "lukhas.ai"
+        "iss": "ai"
     }
 
 

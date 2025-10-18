@@ -21,7 +21,7 @@ Provides semantic meaning and symbolic representation for dream processing.
 
 import random
 
-from lukhas.core.utils.__init__ import symbolic_message
+from core.utils.__init__ import symbolic_message
 
 
 # Dream Phase Symbols

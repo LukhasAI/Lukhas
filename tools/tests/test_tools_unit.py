@@ -26,7 +26,7 @@ class TestToolsModule(unittest.TestCase):
     def setUp(self):
         """Set up test fixtures."""
         self.test_config = {
-            "module_name": "lukhas.tools",
+            "module_name": "tools",
             "test_mode": True
         }
 

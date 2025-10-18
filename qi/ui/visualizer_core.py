@@ -19,7 +19,7 @@ quantum integration, and bio-inspired architecture.
 
 Module for visualizer core functionality
 
-For more information, visit: https://lukhas.ai
+For more information, visit: https://ai
 """
 # 📄 MODULE: visualizer.py
 # 🔎 PURPOSE: Convert flashbacks into visual prompts for OpenAI DALL·E or other generators

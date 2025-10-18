@@ -118,7 +118,7 @@ class ModuleUsageAnalyzer:
             possible_files.append(str(py_file))
 
         # Try with common prefixes
-        for prefix in ["lukhas", "lukhas", "core", "bridge", "lukhas.governance"]:
+        for prefix in ["lukhas", "lukhas", "core", "bridge", "governance"]:
             prefixed_import = f"{prefix}.{import_name}"
             parts = prefixed_import.split(".")
 
@@ -226,9 +226,9 @@ class ModuleUsageAnalyzer:
         modules = [
             "core",
             "bridge",
-            "lukhas.governance",
+            "governance",
             "consciousness",
-            "lukhas.memory",
+            "memory",
             "orchestration",
             "identity",
             "emotion",

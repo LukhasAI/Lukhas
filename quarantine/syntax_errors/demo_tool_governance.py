@@ -18,12 +18,12 @@ import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 
-from lukhas.openai.tooling import (
+from openai.tooling import (
     build_tools_from_allowlist,
     get_all_tools,
     get_tool_names,
 )
-from lukhas.orchestration.signals.homeostasis import ModulationParams
+from orchestration.signals.homeostasis import ModulationParams
 
 # Add project root to path
 project_root = Path(__file__).parent
@@ -216,7 +216,7 @@ def main():
     print("✅ Production-ready OpenAI function calling integration")
 
     print("\n🚀 Ready for deployment!")
-    print("   1. Start API server: uvicorn lukhas.api.app:app --reload")
+    print("   1. Start API server: uvicorn api.app:app --reload")
     print("   2. Test with OpenAI API key in environment")
     print("   3. All tool usage will be governed and auditable")
 

@@ -6,7 +6,7 @@ import pytest
 def test_qi_wrapper_import():
     """Test QI wrapper imports and basic initialization."""
     try:
-        from lukhas.qi.qi_wrapper import QIWrapper
+        from qi.qi_wrapper import QIWrapper
 
         # Test basic instantiation
         wrapper = QIWrapper()
@@ -23,7 +23,7 @@ def test_qi_wrapper_import():
 def test_qi_wrapper_initialization():
     """Test QI wrapper initialization."""
     try:
-        from lukhas.qi.qi_wrapper import QIWrapper
+        from qi.qi_wrapper import QIWrapper
 
         wrapper = QIWrapper()
 
@@ -38,7 +38,7 @@ def test_qi_wrapper_initialization():
 def test_qi_wrapper_processing():
     """Test constitutional safety processing."""
     try:
-        from lukhas.qi.qi_wrapper import QIWrapper
+        from qi.qi_wrapper import QIWrapper
 
         wrapper = QIWrapper()
 
@@ -54,7 +54,7 @@ def test_qi_wrapper_processing():
 def test_qi_wrapper_safety_processing():
     """Test constitutional safety processing with different inputs."""
     try:
-        from lukhas.qi.qi_wrapper import QIWrapper
+        from qi.qi_wrapper import QIWrapper
 
         wrapper = QIWrapper()
 
@@ -74,7 +74,7 @@ def test_qi_wrapper_safety_processing():
 def test_qi_wrapper_initialization_state():
     """Test initialization and state tracking."""
     try:
-        from lukhas.qi.qi_wrapper import QIWrapper
+        from qi.qi_wrapper import QIWrapper
 
         wrapper = QIWrapper()
 
@@ -93,7 +93,7 @@ def test_qi_wrapper_initialization_state():
 def test_qi_wrapper_error_handling():
     """Test error handling in QI wrapper."""
     try:
-        from lukhas.qi.qi_wrapper import QIWrapper
+        from qi.qi_wrapper import QIWrapper
 
         wrapper = QIWrapper()
 

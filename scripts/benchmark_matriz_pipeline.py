@@ -23,7 +23,7 @@ from typing import Any, Dict, List
 # Add LUKHAS to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from lukhas.core.matriz.optimized_orchestrator import OptimizedAsyncOrchestrator
+from core.matriz.optimized_orchestrator import OptimizedAsyncOrchestrator
 from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator
 from matriz.nodes.fact_node import FactNode
 from matriz.nodes.math_node import MathNode

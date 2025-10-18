@@ -6,7 +6,7 @@
 # Modified: 2024-07-27
 # Version: 1.1
 # License: Proprietary - LUKHΛS AI Use Only
-# Contact: support@lukhas.ai
+# Contact: support@ai
 # Description: Enhanced Core Integrator Module for LUKHΛS AI.
 #              Manages interaction between core system components,
 #              incorporating quantum-biological features and security.
@@ -45,14 +45,14 @@ try:
     # ΛNOTE: Attempting to import core components. Placeholders used if imports fail.
     #        These imports suggest a dependency on a 'CORE' package structure.
     from bio.core import BioOrchestrator  # type: ignore
-    from lukhas.core.bio_systems.qi_layer import QIBioOscillator
-    from lukhas.core.security.access_control import (
+    from core.bio_systems.qi_layer import QIBioOscillator
+    from core.security.access_control import (
         AccessController,  # type: ignore
         AccessTier,
     )
-    from lukhas.core.security.compliance import ComplianceMonitor  # type: ignore
-    from lukhas.core.security.qi_auth import QIAuthenticator  # type: ignore
-    from lukhas.core.unified_integration import UnifiedIntegration  # type: ignore
+    from core.security.compliance import ComplianceMonitor  # type: ignore
+    from core.security.qi_auth import QIAuthenticator  # type: ignore
+    from core.unified_integration import UnifiedIntegration  # type: ignore
 
     CORE_COMPONENTS_LOADED_FLAG_ECI = True
     log.debug("LUKHΛS CORE components for EnhancedCoreIntegrator imported successfully.")

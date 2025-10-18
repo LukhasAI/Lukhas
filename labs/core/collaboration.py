@@ -7,7 +7,7 @@ that define how the Symbiotic Swarm accomplishes complex tasks.
 """
 
 
-from lukhas.core.coordination import ContractNetInitiator, ContractNetParticipant
+from core.coordination import ContractNetInitiator, ContractNetParticipant
 
 
 class ReactiveDataPipeline:

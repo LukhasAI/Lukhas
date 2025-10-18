@@ -38,23 +38,23 @@ from consciousness.states.symbolic_drift_tracker import (
 )
 
 # Core LUKHAS imports
-from lukhas.core.common import GLYPHToken, get_logger
-from lukhas.core.common.exceptions import LukhasError, ValidationError
-from lukhas.core.interfaces import CoreInterface
-from lukhas.core.interfaces.dependency_injection import get_service, register_service
-from lukhas.core.monitoring.drift_monitor import (
+from core.common import GLYPHToken, get_logger
+from core.common.exceptions import LukhasError, ValidationError
+from core.interfaces import CoreInterface
+from core.interfaces.dependency_injection import get_service, register_service
+from core.monitoring.drift_monitor import (
     DriftType,
     InterventionType,
     UnifiedDriftMonitor,
 )
 
 # Import existing drift and integrity systems
-from lukhas.memory.integrity.collapse_hash import (
+from memory.integrity.collapse_hash import (
     Checkpoint,
     CollapseHash,
     HashAlgorithm,
 )
-from lukhas.memory.temporal.drift_dashboard import DriftDashboard
+from memory.temporal.drift_dashboard import DriftDashboard
 from vivox.emotional_regulation.vivox_ern_core import (
     RegulationStrategy,
     VIVOXEmotionalRegulationNetwork as VivoxERN,

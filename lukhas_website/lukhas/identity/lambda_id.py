@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 from typing import Any
 
-from lukhas.observability.matriz_decorators import instrument
+from observability.matriz_decorators import instrument
 
 # Feature flag for WebAuthn
 WEBAUTHN_ACTIVE = os.environ.get("WEBAUTHN_ACTIVE", "false").lower() == "true"

@@ -57,7 +57,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -363,7 +363,7 @@ def evolve_memory_globally(
 ║ REFERENCES:
 ║   - Docs: docs/memory/evolution-architecture.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=memory-evolution
-║   - Wiki: wiki.lukhas.ai/memory-evolution
+║   - Wiki: wiki.ai/memory-evolution
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

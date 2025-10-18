@@ -126,10 +126,10 @@ class AggressiveConsolidator:
             module_keywords = {
                 "CORE": ["glyph", "symbolic", "neural", "engine", "processor"],
                 "CONSCIOUSNESS": ["awareness", "conscious", "reflection", "decision"],
-                "MEMORY": ["lukhas.memory", "fold", "recall", "temporal", "storage"],
+                "MEMORY": ["memory", "fold", "recall", "temporal", "storage"],
                 "QIM": ["quantum", "superposition", "entangle", "wave", "collapse"],
                 "EMOTION": ["emotion", "feeling", "mood", "affect", "empathy"],
-                "GOVERNANCE": ["lukhas.governance", "guardian", "ethics", "policy", "safety"],
+                "GOVERNANCE": ["governance", "guardian", "ethics", "policy", "safety"],
                 "BRIDGE": ["api", "bridge", "external", "interface", "connect"],
             }
 

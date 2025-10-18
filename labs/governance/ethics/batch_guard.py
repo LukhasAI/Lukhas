@@ -17,7 +17,7 @@ import json
 from dataclasses import dataclass
 from enum import Enum
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 
 class EthicsLevel(Enum):

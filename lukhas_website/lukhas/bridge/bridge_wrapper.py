@@ -14,8 +14,8 @@ import os
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from lukhas.observability.matriz_decorators import instrument
-from lukhas.observability.matriz_emit import emit
+from observability.matriz_decorators import instrument
+from observability.matriz_emit import emit
 
 logger = logging.getLogger(__name__)
 

@@ -2,8 +2,8 @@
 
 from typing import Optional
 
-from lukhas.core.colonies.base_colony import BaseColony
-from lukhas.core.symbolism.tags import TagPermission, TagScope
+from core.colonies.base_colony import BaseColony
+from core.symbolism.tags import TagPermission, TagScope
 
 
 class DNASimulator:

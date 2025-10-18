@@ -321,7 +321,7 @@ class ObservabilitySystem:
                 duration="5m",
                 severity=SeverityLevel.WARNING,
                 ml_enabled=True,
-                metadata={"component": "lukhas.memory"},
+                metadata={"component": "memory"},
             ),
             AlertRule(
                 name="consciousness_drift",

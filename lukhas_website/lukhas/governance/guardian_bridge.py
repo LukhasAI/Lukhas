@@ -16,7 +16,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from lukhas.governance.guardian.guardian_wrapper import detect_drift
+from governance.guardian.guardian_wrapper import detect_drift
 
 
 class GuardianSystem:

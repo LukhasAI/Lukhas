@@ -484,11 +484,11 @@ class AIAgentTracer(DistributedTracer):
         @contextmanager
         def _trace():
             with self.trace_operation(operation_name) as context:
-                self.add_tag(context, "lukhas.memory.agent_id", agent_id)
-                self.add_tag(context, "lukhas.memory.operation", operation)
+                self.add_tag(context, "memory.agent_id", agent_id)
+                self.add_tag(context, "memory.operation", operation)
 
                 if memory_size is not None:
-                    self.add_tag(context, "lukhas.memory.size", memory_size)
+                    self.add_tag(context, "memory.size", memory_size)
 
                 yield context
 

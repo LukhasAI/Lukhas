@@ -15,7 +15,7 @@ import datetime
 import logging
 from typing import Optional
 
-from .lukhas.memory.enhanced_memory_manager import (
+from .memory.enhanced_memory_manager import (
     EnhancedMemoryManager,
     MemoryPriority,
     MemoryType,

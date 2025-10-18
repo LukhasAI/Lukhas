@@ -18,8 +18,8 @@ from typing import Any, Optional
 import numpy as np
 
 from bio.core.symbolic_fallback_systems import get_fallback_manager
-from lukhas.core.colonies.base_colony import BaseColony
-from lukhas.core.symbolism.tags import TagPermission, TagScope
+from core.colonies.base_colony import BaseColony
+from core.symbolism.tags import TagPermission, TagScope
 
 logger = logging.getLogger("ΛTRACE.bio.preprocessing", timezone)
 

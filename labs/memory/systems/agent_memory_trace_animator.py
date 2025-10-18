@@ -697,6 +697,6 @@ if __name__ == "__main__":
 # MAINTENANCE: Implement stubbed HTML generation methods.
 #   Refine JavaScript for better performance and features if needed.
 #   Expand MemoryTraceType and AnimationType enums as new visualizations are developed.
-# CONTACT: LUKHAS DEVELOPMENT TEAM (dev@lukhas.ai)
+# CONTACT: LUKHAS DEVELOPMENT TEAM (dev@ai)
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ===========================================================================

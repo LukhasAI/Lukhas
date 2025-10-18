@@ -9,7 +9,7 @@ import logging
 from datetime import datetime
 from typing import Any, Callable, Optional
 
-from lukhas.core.event_bus import EventBus, get_global_event_bus
+from core.event_bus import EventBus, get_global_event_bus
 
 from .identity_event_types import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
 from datetime import timezone

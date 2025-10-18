@@ -25,16 +25,16 @@ from typing import Any, Optional
 from identity.deployment_package import DemoOrchestrator, TestOrchestrator
 from identity.lukhus_ultimate_test_suite import UltimateTestOrchestrator
 from identity.qrg_test_suite import TestQRGCore
-from lukhas.core.bridges.identity_core_bridge import IdentityCoreBridge
-from lukhas.core.common import get_logger
-from lukhas.governance.identity.auth_backend.trust_scorer import LukhasTrustScorer
-from lukhas.governance.identity.core.auth.biometric_integration import (
+from core.bridges.identity_core_bridge import IdentityCoreBridge
+from core.common import get_logger
+from governance.identity.auth_backend.trust_scorer import LukhasTrustScorer
+from governance.identity.core.auth.biometric_integration import (
     BiometricIntegrationManager,
 )
-from lukhas.governance.identity.core.qrs_manager import QRSManager
-from lukhas.governance.identity.core.sent.consent_manager import LambdaConsentManager
-from lukhas.governance.identity.core.swarm.tier_aware_swarm_hub import TierAwareSwarmHub
-from lukhas.governance.identity.interface import ConsentManager
+from governance.identity.core.qrs_manager import QRSManager
+from governance.identity.core.sent.consent_manager import LambdaConsentManager
+from governance.identity.core.swarm.tier_aware_swarm_hub import TierAwareSwarmHub
+from governance.identity.interface import ConsentManager
 
 # Agent 1 Task 3: Add enterprise authentication imports
 try:
@@ -87,7 +87,7 @@ except ImportError as e:
 
 # Agent 1 Task 8: Add attention monitor imports
 try:
-    from lukhas.governance.identity.auth_utils.attention_monitor import (
+    from governance.identity.auth_utils.attention_monitor import (
         AttentionMetrics,
         AttentionMonitor,
         AttentionState,
@@ -127,7 +127,7 @@ except ImportError as e:
 
 # Agent 1 Task 9: Add grid size calculator imports
 try:
-    from lukhas.governance.identity.auth_utils.grid_size_calculator import (
+    from governance.identity.auth_utils.grid_size_calculator import (
         GridCalculationResult,
         GridConstraints,
         GridPattern,
@@ -173,7 +173,7 @@ except ImportError as e:
 
 # Agent 1 Task 12: Add persona engine imports
 try:
-    from lukhas.core.identity.persona_engine import (
+    from core.identity.persona_engine import (
         PersonaEngine,
         create_and_initialize_identity_component,
         create_identity_component,
@@ -211,7 +211,7 @@ except ImportError as e:
 
 # Task 3B: Add connectivity imports
 try:
-    from lukhas.core.core_hub import get_core_hub
+    from core.core_hub import get_core_hub
 except ImportError:
     get_core_hub = None
     logging.warning("CoreHub not available")
@@ -239,7 +239,7 @@ except ImportError as e:
 
 # Brain Identity Integration
 try:
-    from lukhas.governance.identity.core.brain_identity_integration import (
+    from governance.identity.core.brain_identity_integration import (
         create_brain_identity_integration,
     )
 
@@ -816,7 +816,7 @@ class IdentityHub:
             monitor = self.get_service("attention_monitor")
             if monitor:
                 # Convert dict to InputEvent if needed
-                from lukhas.governance.identity.auth_utils.attention_monitor import (
+                from governance.identity.auth_utils.attention_monitor import (
                     InputEvent,
                     InputModality,
                 )
@@ -1047,7 +1047,7 @@ class IdentityHub:
                     "initialized": persona_engine.is_initialized,
                     "supported_categories": [
                         "consciousness",
-                        "lukhas.governance",
+                        "governance",
                         "voice",
                         "identity",
                         "quantum",

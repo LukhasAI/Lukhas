@@ -32,7 +32,7 @@ except ImportError:
     logging.warning("librosa not available - audio processing disabled")
 
 # Import LUKHAS components
-from lukhas.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 from symbolic.exchange.universal_exchange import UniversalSymbolExchange
 from symbolic.personal.symbol_dictionary import PersonalSymbolDictionary
 

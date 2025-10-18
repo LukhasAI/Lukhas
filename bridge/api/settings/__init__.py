@@ -1,4 +1,4 @@
-"""Stable bridge for API settings surfaces used across lukhas.main."""
+"""Stable bridge for API settings surfaces used across main."""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -15,7 +15,7 @@ __all__ = [
 ]
 
 _CANDIDATES = (
-    "lukhas_website.lukhas.api.settings",
+    "lukhas_website.api.settings",
     "candidate.api.settings",
     "core.settings",
     "config.settings",

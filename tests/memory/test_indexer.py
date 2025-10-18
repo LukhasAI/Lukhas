@@ -4,8 +4,8 @@ from unittest.mock import Mock
 
 import pytest
 
-from lukhas.memory.backends.pgvector_store import VectorDoc
-from lukhas.memory.indexer import Embeddings, Indexer, _fingerprint
+from memory.backends.pgvector_store import VectorDoc
+from memory.indexer import Embeddings, Indexer, _fingerprint
 
 
 def test_fingerprint():

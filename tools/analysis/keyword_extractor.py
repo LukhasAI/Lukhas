@@ -21,7 +21,7 @@ class KeywordExtractor:
                 r"\b(bio|neural|neuro|brain|cognitive|awareness|consciousness|cell|gene|protein|organism|evolution|adaptation|biosignature|qi.*bio|biometric|neural.*network|cortex|synapse|dendrite|axon|neurotransmitter)\b",
                 re.IGNORECASE,
             ),
-            "lukhas.memory": re.compile(
+            "memory": re.compile(
                 r"\b(memory|memorization|recall|remember|episodic|semantic|working.*memory|cache|storage|persist|trace|rem|hippocampus|encoding|retrieval|consolidation|forgetting|memorize)\b",
                 re.IGNORECASE,
             ),
@@ -45,7 +45,7 @@ class KeywordExtractor:
                 r"\b(emotion|emotional|feeling|mood|sentiment|affect|empathy|compassion|joy|sadness|anger|fear|surprise|disgust|arousal|valence|resonance)\b",
                 re.IGNORECASE,
             ),
-            "lukhas.governance": re.compile(
+            "governance": re.compile(
                 r"\b(governance|policy|rule|regulation|compliance|ethics|ethical|moral|accountability|responsibility|audit|monitor|oversight|guideline)\b",
                 re.IGNORECASE,
             ),
@@ -95,7 +95,7 @@ class KeywordExtractor:
             ".pytest_cache",
             "htmlcov",
             ".DS_Store",
-            "lukhas.egg-info",
+            "egg-info",
         }
 
     def extract_from_file(self, file_path):
@@ -197,4 +197,4 @@ if __name__ == "__main__":
     print(f"\n✅ Extraction complete! Found {len(keywords)} domains")
     print("🔧 Use these results to enhance core_mapper.py")
 
-# Λ Systems 2025 www.lukhas.ai
+# Λ Systems 2025 www.ai

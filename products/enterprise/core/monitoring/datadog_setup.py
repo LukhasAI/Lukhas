@@ -129,7 +129,7 @@ class LUKHASDatadogSetup:
                 body = MetricsPayload(
                     [
                         Series(
-                            metric="lukhas.test.connection",
+                            metric="test.connection",
                             type="gauge",
                             points=[Point([datetime.now(timezone.utc).timestamp(), 1])],
                             tags=[
@@ -145,7 +145,7 @@ class LUKHASDatadogSetup:
 
                 if response["status"] == "ok":
                     print("✅ Successfully connected to Datadog!")
-                    print("   Test metric sent: lukhas.test.connection")
+                    print("   Test metric sent: test.connection")
                     return True
                 else:
                     print(f"❌ Connection test failed: {response}")
@@ -188,12 +188,12 @@ class LUKHASDatadogSetup:
                                 show_legend=True,
                                 requests=[
                                     TimeseriesWidgetRequest(
-                                        q="avg:lukhas.api.latency.p95{service:lukhas-ai}",
+                                        q="avg:api.latency.p95{service:lukhas-ai}",
                                         display_type="line",
                                         style={"palette": "dog_classic"},
                                     ),
                                     TimeseriesWidgetRequest(
-                                        q="avg:lukhas.api.latency.p99{service:lukhas-ai}",
+                                        q="avg:api.latency.p99{service:lukhas-ai}",
                                         display_type="line",
                                         style={"palette": "orange"},
                                     ),
@@ -207,7 +207,7 @@ class LUKHASDatadogSetup:
                                 show_legend=True,
                                 requests=[
                                     TimeseriesWidgetRequest(
-                                        q="avg:lukhas.memory.cascade_prevention_rate{service:lukhas-ai}",
+                                        q="avg:memory.cascade_prevention_rate{service:lukhas-ai}",
                                         display_type="bars",
                                         style={"palette": "green"},
                                     )
@@ -221,7 +221,7 @@ class LUKHASDatadogSetup:
                                 show_legend=True,
                                 requests=[
                                     TimeseriesWidgetRequest(
-                                        q="avg:lukhas.guardian.drift_score{service:lukhas-ai}",
+                                        q="avg:guardian.drift_score{service:lukhas-ai}",
                                         display_type="line",
                                         style={"palette": "warm"},
                                     )
@@ -235,7 +235,7 @@ class LUKHASDatadogSetup:
                                 show_legend=True,
                                 requests=[
                                     TimeseriesWidgetRequest(
-                                        q="avg:lukhas.consciousness.coherence{service:lukhas-ai}",
+                                        q="avg:consciousness.coherence{service:lukhas-ai}",
                                         display_type="area",
                                         style={"palette": "cool"},
                                     )
@@ -263,25 +263,25 @@ class LUKHASDatadogSetup:
         alerts = [
             {
                 "name": "LUKHAS API Latency High (P95 > 50ms)",
-                "query": "avg(last_5m):avg:lukhas.api.latency.p95{service:lukhas-ai} > 50",
+                "query": "avg(last_5m):avg:api.latency.p95{service:lukhas-ai} > 50",
                 "message": "⚠️ API P95 latency exceeds 50ms target! Current: {{value}ms @slack-lukhas-alerts",
                 "thresholds": {"critical": 50, "warning": 40},
             },
             {
                 "name": "LUKHAS Memory Cascade Prevention Below Target",
-                "query": "avg(last_5m):avg:lukhas.memory.cascade_prevention_rate{service:lukhas-ai} < 0.997",
+                "query": "avg(last_5m):avg:memory.cascade_prevention_rate{service:lukhas-ai} < 0.997",
                 "message": "🧠 Memory cascade prevention rate below 99.7% target! Current: {{value} @slack-lukhas-alerts",
                 "thresholds": {"critical": 0.997, "warning": 0.999},
             },
             {
                 "name": "LUKHAS Guardian Drift Threshold Exceeded",
-                "query": "avg(last_5m):avg:lukhas.guardian.drift_score{service:lukhas-ai} > 0.15",
+                "query": "avg(last_5m):avg:guardian.drift_score{service:lukhas-ai} > 0.15",
                 "message": "🛡️ Guardian drift score exceeds 0.15 threshold! Current: {{value} @slack-lukhas-alerts",
                 "thresholds": {"critical": 0.15, "warning": 0.10},
             },
             {
                 "name": "LUKHAS System Uptime Below SLA",
-                "query": "avg(last_5m):avg:lukhas.system.uptime{service:lukhas-ai} < 0.9999",
+                "query": "avg(last_5m):avg:system.uptime{service:lukhas-ai} < 0.9999",
                 "message": "🔴 System uptime below 99.99% SLA! Current: {{value} @slack-lukhas-alerts",
                 "thresholds": {"critical": 0.9999, "warning": 0.99995},
             },
@@ -334,27 +334,27 @@ class LUKHASDatadogSetup:
 
         metrics = {
             # Trinity Framework Core Metrics
-            "lukhas.api.latency.p95": "API P95 latency in milliseconds",
-            "lukhas.api.latency.p99": "API P99 latency in milliseconds",
-            "lukhas.api.requests": "Number of API requests",
-            "lukhas.api.errors": "Number of API errors",
+            "api.latency.p95": "API P95 latency in milliseconds",
+            "api.latency.p99": "API P99 latency in milliseconds",
+            "api.requests": "Number of API requests",
+            "api.errors": "Number of API errors",
             # Memory System Metrics
-            "lukhas.memory.cascade_prevention_rate": "Memory cascade prevention success rate",
-            "lukhas.memory.fold_count": "Number of active memory folds",
-            "lukhas.memory.operation_time": "Memory operation time in ms",
+            "memory.cascade_prevention_rate": "Memory cascade prevention success rate",
+            "memory.fold_count": "Number of active memory folds",
+            "memory.operation_time": "Memory operation time in ms",
             # Guardian System Metrics
-            "lukhas.guardian.drift_score": "Guardian ethical drift score",
-            "lukhas.guardian.violations": "Number of guardian violations",
-            "lukhas.guardian.interventions": "Number of guardian interventions",
+            "guardian.drift_score": "Guardian ethical drift score",
+            "guardian.violations": "Number of guardian violations",
+            "guardian.interventions": "Number of guardian interventions",
             # Consciousness System Metrics
-            "lukhas.consciousness.coherence": "Consciousness coherence level",
-            "lukhas.consciousness.awareness_level": "System awareness level",
-            "lukhas.consciousness.processing_time": "Consciousness processing time",
+            "consciousness.coherence": "Consciousness coherence level",
+            "consciousness.awareness_level": "System awareness level",
+            "consciousness.processing_time": "Consciousness processing time",
             # System Health Metrics
-            "lukhas.system.uptime": "System uptime percentage",
-            "lukhas.system.cpu_usage": "CPU usage percentage",
-            "lukhas.system.memory_usage": "Memory usage percentage",
-            "lukhas.system.active_users": "Number of active users",
+            "system.uptime": "System uptime percentage",
+            "system.cpu_usage": "CPU usage percentage",
+            "system.memory_usage": "Memory usage percentage",
+            "system.active_users": "Number of active users",
         }
 
         print("Custom metrics configured:")

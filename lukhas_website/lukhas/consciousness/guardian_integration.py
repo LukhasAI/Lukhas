@@ -32,16 +32,16 @@ from .types import AwarenessSnapshot, ConsciousnessState, CreativitySnapshot, Re
 
 # Import Guardian components
 try:
-    from lukhas.governance.ethics.ethics_engine import EthicalDecision, EthicsEngine
-    from lukhas.governance.guardian.core import (
+    from governance.ethics.ethics_engine import EthicalDecision, EthicsEngine
+    from governance.guardian.core import (
         DriftResult,
         EthicalDecision,
         EthicalSeverity,
-        GovernanceAction,  # noqa: F401  # TODO: lukhas.governance.guardian.cor...
+        GovernanceAction,  # noqa: F401  # TODO: governance.guardian.cor...
         SafetyResult,
     )
-    from lukhas.governance.guardian.guardian_impl import GuardianSystemImpl
-    from lukhas.governance.guardian_system import (
+    from governance.guardian.guardian_impl import GuardianSystemImpl
+    from governance.guardian_system import (
         ActorType,
         DecisionStatus,
         EnforcementMode,
@@ -53,7 +53,7 @@ try:
         GuardianSubject,
         GuardianSystem,
         RuntimeEnvironment,
-        create_simple_decision,  # noqa: F401  # TODO: lukhas.governance.guardian_sys...
+        create_simple_decision,  # noqa: F401  # TODO: governance.guardian_sys...
     )
     GUARDIAN_AVAILABLE = True
 except ImportError:
@@ -61,7 +61,7 @@ except ImportError:
 
 # Import observability
 try:
-    from lukhas.observability.prometheus_metrics import get_lukhas_metrics
+    from observability.prometheus_metrics import get_lukhas_metrics
     OBSERVABILITY_AVAILABLE = True
 except ImportError:
     OBSERVABILITY_AVAILABLE = False

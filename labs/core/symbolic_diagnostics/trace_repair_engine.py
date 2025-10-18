@@ -74,7 +74,7 @@ class TraceRepairEngine:
 ║ REFERENCES:
 ║   - Docs: docs/core/symbolic_diagnostics/trace_repair.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=trace-repair
-║   - Wiki: wiki.lukhas.ai/diagnostics/trace-repair-engine
+║   - Wiki: wiki.ai/diagnostics/trace-repair-engine
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

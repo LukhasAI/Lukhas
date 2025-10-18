@@ -1,7 +1,7 @@
 """Bridge for `cognitive_core.reasoning.deep_inference_engine`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.cognitive_core.reasoning.deep_inference_engine
+  1) lukhas_website.cognitive_core.reasoning.deep_inference_engine
   2) candidate.cognitive_core.reasoning.deep_inference_engine
   3) cognitive_core.reasoning.deep_inference_engine
 
@@ -22,7 +22,7 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.cognitive_core.reasoning.deep_inference_engine",
+    "lukhas_website.cognitive_core.reasoning.deep_inference_engine",
     "candidate.cognitive_core.reasoning.deep_inference_engine",
     "cognitive_core.reasoning.deep_inference_engine",
 )

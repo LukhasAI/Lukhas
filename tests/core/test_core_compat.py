@@ -2,7 +2,7 @@
 Core Compatibility Alias Tests
 
 Tests for the robust legacy 'core' import alias system.
-Ensures all import styles work and resolve to lukhas.core correctly.
+Ensures all import styles work and resolve to core correctly.
 """
 
 import importlib
@@ -48,7 +48,7 @@ class TestCoreCompatAlias:
             assert any("Legacy 'core' import in use" in str(warning.message) for warning in w)
 
     def test_alias_functionality(self):
-        """Test that alias provides access to lukhas.core functionality."""
+        """Test that alias provides access to core functionality."""
         # Clean up
         for module_name in list(sys.modules.keys()):
             if module_name == "core" or module_name.startswith("core."):
@@ -59,7 +59,7 @@ class TestCoreCompatAlias:
         # Import and test functionality
         import core
 
-        # Should be able to access lukhas.core attributes
+        # Should be able to access core attributes
         assert hasattr(core, "__doc__")
         assert core.__doc__ is not None
 

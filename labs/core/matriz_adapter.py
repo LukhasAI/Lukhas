@@ -37,7 +37,7 @@ class CoreMatrizAdapter:
             },
             "timestamps": {"created_ts": int(time.time() * 1000)},
             "provenance": {
-                "producer": "lukhas.core",
+                "producer": "core",
                 "capabilities": ["core:orchestrate", "core:glyph", "core:symbolic"],
                 "tenant": "system",
                 "trace_id": f"LT-CORE-{int(time.time())}",

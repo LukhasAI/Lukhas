@@ -19,7 +19,7 @@ from unittest.mock import patch
 
 import pytest
 
-from lukhas.core.orchestration.plan_verifier import PlanVerifier, VerificationContext, get_plan_verifier
+from core.orchestration.plan_verifier import PlanVerifier, VerificationContext, get_plan_verifier
 
 
 class TestPlanVerifierDeterminism:
@@ -234,7 +234,7 @@ class TestGuardianCanaryEnforcement:
 
         outcome = verifier.verify(memory_violation_plan, ctx)
         assert not outcome.allow
-        assert any('lukhas.memory' in reason for reason in outcome.reasons)
+        assert any('memory' in reason for reason in outcome.reasons)
 
         # Test batch size limit
         batch_violation_plan = {

@@ -378,8 +378,8 @@ class TestWebAuthnOIDCIntegration:
         """Create WebAuthn-OIDC integration instance"""
         config = {
             'fail_closed': True,
-            'issuer': 'https://lukhas.ai',
-            'rp_id': 'lukhas.ai',
+            'issuer': 'https://ai',
+            'rp_id': 'ai',
             'token_generation_target_ms': 100,
             'authentication_target_ms': 250
         }

@@ -19,8 +19,8 @@ import pytest
 try:
     from core.interfaces import ICognitiveNode
     from core.registry import get_plugin_registry
-    from lukhas.core.matriz.async_orchestrator import AsyncOrchestrator
-    from lukhas.observability.prometheus_metrics import LUKHASMetrics
+    from core.matriz.async_orchestrator import AsyncOrchestrator
+    from observability.prometheus_metrics import LUKHASMetrics
     ORCHESTRATOR_AVAILABLE = True
 except ImportError:
     # Fallback for testing without full orchestrator

@@ -17,8 +17,8 @@ import pytest
 from hypothesis import HealthCheck, given, settings, strategies as st
 
 # Import LUKHAS consciousness components
-from lukhas.consciousness.reflection_engine import ReflectionConfig, ReflectionEngine
-from lukhas.consciousness.types import AwarenessSnapshot, ConsciousnessState, ReflectionReport
+from consciousness.reflection_engine import ReflectionConfig, ReflectionEngine
+from consciousness.types import AwarenessSnapshot, ConsciousnessState, ReflectionReport
 
 
 class TestReflectionEngineCore:
@@ -248,7 +248,7 @@ class TestReflectionEngineCore:
         """Test error handling and fail-safe mechanisms."""
 
         # Create engine with mocked dependencies that will fail
-        with patch('lukhas.consciousness.reflection_engine.tracer') as mock_tracer:
+        with patch('consciousness.reflection_engine.tracer') as mock_tracer:
             mock_span = Mock()
             mock_span.record_exception = Mock()
             mock_span.set_status = Mock()
@@ -627,7 +627,7 @@ class TestReflectionEngineIntegration:
         """Test Prometheus metrics integration when enabled"""
         config = ReflectionConfig(metrics_collection_enabled=True)
 
-        with patch('lukhas.consciousness.reflection_engine.get_lukhas_metrics') as mock_metrics:
+        with patch('consciousness.reflection_engine.get_lukhas_metrics') as mock_metrics:
             mock_metrics_instance = Mock()
             mock_metrics_instance.lane = "test"
             mock_metrics.return_value = mock_metrics_instance

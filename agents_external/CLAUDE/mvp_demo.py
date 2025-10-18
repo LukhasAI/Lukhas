@@ -37,7 +37,7 @@ class LukhasMinimalMVP:
         # Agent 7: Secrets (simplified for demo)
         self.secrets = {
             "kms_enabled": True,
-            "vault_url": "vault.lukhas.internal",
+            "vault_url": "vault.internal",
             "rotation_days": 90,
         }
 
@@ -122,7 +122,7 @@ class LukhasMinimalMVP:
         print("📝 Step 1: User Registration")
         print("-" * 40)
 
-        user = self.identity_service.register_user(email="demo@lukhas.ai", display_name="Demo User")
+        user = self.identity_service.register_user(email="demo@ai", display_name="Demo User")
 
         print(f"✅ User registered with ΛID: {user['lid']}")
         print(f"⚡ Performance: {user['performance_ms']:.2f}ms")
@@ -312,7 +312,7 @@ class TestMVPIntegration:
     def test_identity_performance(self):
         """Test Agent 1: Identity service meets <100ms target"""
         mvp = LukhasMinimalMVP()
-        user = mvp.identity_service.register_user("test@lukhas.ai", "Test User")
+        user = mvp.identity_service.register_user("test@ai", "Test User")
         assert user['performance_ms'] < 100
         assert user['meets_target'] == True
 

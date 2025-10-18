@@ -172,7 +172,7 @@ class VIVOXMemoryBridge:
         return MigrationReport(results=migration_results)
 
     async def _get_all_lukhas_memories(self) -> list[dict[str, Any]]:
-        """Get all memories from lukhas.core.common system"""
+        """Get all memories from core.common system"""
         # This would interface with actual LUKHAS memory system
         # For now, return empty list as placeholder
         return []

@@ -24,7 +24,7 @@ Provides semantic meaning and symbolic representation for dream processing.
 # Dream Phase Symbols
 
 
-from lukhas.core.utils.__init__ import symbolic_message
+from core.utils.__init__ import symbolic_message
 
 DREAM_PHASE_SYMBOLS = {
     "initiation": "🌅 Gentle Awakening",
@@ -254,7 +254,7 @@ def get_dream_symbol(category: str, item: str) -> str:
         "type": DREAM_TYPE_SYMBOLS,
         "state": DREAM_STATE_SYMBOLS,
         "pattern": PATTERN_SYMBOLS,
-        "lukhas.memory": MEMORY_SYMBOLS,
+        "memory": MEMORY_SYMBOLS,
         "insight": INSIGHT_SYMBOLS,
         "emotion": EMOTIONAL_SYMBOLS,
         "creative": CREATIVE_SYMBOLS,

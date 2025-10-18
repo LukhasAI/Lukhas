@@ -34,7 +34,7 @@ Description: Quantum module for advanced Cognitive functionality
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 Licensed under the LUKHAS Enterprise License.
 
-For documentation and support: https://lukhas.ai/docs
+For documentation and support: https://ai/docs
 """
 
 __module_name__ = "Quantum Safe Blockchain"
@@ -136,7 +136,7 @@ class QISafeAuditBlockchain:
 ║ REFERENCES:
 ║   - Docs: docs/quantum/blockchain_audit_system.md
 ║   - Issues: github.com/lukhas-ai/quantum/issues?label=blockchain
-║   - Wiki: wiki.lukhas.ai/quantum/quantum-safe-blockchain
+║   - Wiki: wiki.ai/quantum/quantum-safe-blockchain
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

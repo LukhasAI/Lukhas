@@ -3,7 +3,7 @@ from typing import Any
 
 from voice.synthesis import VoiceSynthesis
 
-from lukhas.core.swarm import (
+from core.swarm import (
     AgentColony as SymbioticSwarm,  # reuse simple colony
     SwarmAgent,
 )

@@ -3,8 +3,8 @@
 LUKHAS Consciousness System Validation with Correct Import Paths
 =================    print('🎉 CORRECTED IMPORT PATHS:')
     print('=' * 30)
-    print('✅ MemoryWrapper: from lukhas.memory.memory_wrapper import MemoryWrapper')
-    print('✅ SymbolicContext: from lukhas.core.symbolic.context import SymbolicContext')
+    print('✅ MemoryWrapper: from memory.memory_wrapper import MemoryWrapper')
+    print('✅ SymbolicContext: from core.symbolic.context import SymbolicContext')
     print('   (Fixed: dependency-free standalone version)')
 
     return results========================================
@@ -49,7 +49,7 @@ def validate_consciousness_system():
     # Test MemoryWrapper - WORKING
     try:
         print("✅ Memory wrapper: Operational")
-        print("   📍 Path: lukhas.memory.memory_wrapper.MemoryWrapper")
+        print("   📍 Path: memory.memory_wrapper.MemoryWrapper")
         results["memory_wrapper"] = True
     except Exception as e:
         print(f"⚠️ Memory wrapper: {e}")
@@ -57,7 +57,7 @@ def validate_consciousness_system():
 
     # Test Symbolic Context - FIXED!
     try:
-        from lukhas.core.symbolic.context import SymbolicContext
+        from core.symbolic.context import SymbolicContext
 
         print("✅ Symbolic context: Operational (FIXED!)")
         print("   📍 Path: candidate.core.symbolic.context.SymbolicContext")
@@ -74,8 +74,8 @@ def validate_consciousness_system():
     component_paths = [
         ("Glyph System", "candidate.core.glyph"),
         ("Identity Manager", "candidate.core.identity.manager"),
-        ("Constellation Framework", "lukhas.core"),
-        ("Actor System", "lukhas.core.actor_system"),
+        ("Constellation Framework", "core"),
+        ("Actor System", "core.actor_system"),
     ]
 
     for name, path in component_paths:
@@ -113,8 +113,8 @@ def validate_consciousness_system():
 
     print("\n🎉 CORRECTED IMPORT PATHS:")
     print("=" * 30)
-    print("✅ MemoryWrapper: from lukhas.memory.memory_wrapper import MemoryWrapper")
-    print("✅ SymbolicContext: from lukhas.core.symbolic.context import SymbolicContext")
+    print("✅ MemoryWrapper: from memory.memory_wrapper import MemoryWrapper")
+    print("✅ SymbolicContext: from core.symbolic.context import SymbolicContext")
     print("   (Fixed: dependency-free standalone version)")
 
     return results

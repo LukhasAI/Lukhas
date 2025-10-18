@@ -11,14 +11,14 @@ from analysis_tools.audit_decision_embedding_engine import DecisionAuditEngine
 
 from ethics.core.shared_ethics_engine import SharedEthicsEngine
 from ethics.seedra.seedra_core import SEEDRACore
-from lukhas.orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
+from orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
 from products.communication.abas_candidate.core.abas_engine import ABASEngine  # ΛTAG: abas_core_integration
 
 logger = logging.getLogger(__name__)
 
 # Import quantum specialist
 try:
-    from lukhas.core.neural_architectures.abas.abas_quantum_specialist_wrapper import (
+    from core.neural_architectures.abas.abas_quantum_specialist_wrapper import (
         get_abas_quantum_specialist,
     )
 
@@ -164,7 +164,7 @@ class ABASIntegrationHub:
     async def _send_bias_alert(self, alert_data: dict[str, Any]):
         """Send bias alert to TrioOrchestrator"""
         # Create bias alert message
-        from lukhas.orchestration.golden_trio.trio_orchestrator import (
+        from orchestration.golden_trio.trio_orchestrator import (
             MessagePriority,
             SystemType,
         )

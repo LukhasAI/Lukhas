@@ -27,8 +27,8 @@ def generate_analysis_summary():
     print("\n2. 🏘️ COLONY SYSTEMS STATUS:")
     print("   ✅ ReasoningColony working (1/8 colony modules)")
     print("   ❌ Missing core dependencies:")
-    print("      • lukhas.core.actor_system")
-    print("      • lukhas.core.colonies")
+    print("      • core.actor_system")
+    print("      • core.colonies")
     print("      • bio.bio_utilities")
     print("      • candidate.bridge.openai_core_service")
     print("   📊 Status: NEEDS DEPENDENCY SETUP")
@@ -48,7 +48,7 @@ def generate_analysis_summary():
     print("\n4. 🌙 DREAM SYSTEMS STATUS:")
     print("   ✅ 2/3 dream modules working (66.7%)")
     print("   ✅ Working: symbolic dream_vocabulary, branding dream_vocabulary")
-    print("   ❌ Missing: lukhas.memory.emotional for dreamseed_upgrade")
+    print("   ❌ Missing: memory.emotional for dreamseed_upgrade")
     print("   📊 Status: MOSTLY FUNCTIONAL")
 
     # Bio-Symbolic Systems
@@ -97,8 +97,8 @@ def generate_analysis_summary():
     print("\n🏆 HIGH PRIORITY:")
     print("   1. Fix structlog circular import (affects 4+ modules)")
     print("   2. Implement bio.core.symbolic_bio_symbolic infrastructure")
-    print("   3. Create missing lukhas.core.actor_system")
-    print("   4. Add lukhas.memory.emotional for dream systems")
+    print("   3. Create missing core.actor_system")
+    print("   4. Add memory.emotional for dream systems")
 
     print("\n🎯 MEDIUM PRIORITY:")
     print("   5. Implement QI sub-modules (bio_integration, processing, coordination)")

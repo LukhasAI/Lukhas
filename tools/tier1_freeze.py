@@ -13,12 +13,12 @@ from pathlib import Path
 import yaml
 
 TIER1_MODULES = [
-    "lukhas.memory",
-    "lukhas.consciousness",
-    "lukhas.orchestration",
-    "lukhas.api",
-    "lukhas.identity",
-    "lukhas.governance",
+    "memory",
+    "consciousness",
+    "orchestration",
+    "api",
+    "identity",
+    "governance",
 ]
 
 
@@ -124,12 +124,12 @@ def add_generator_guard():
     guard_code = '''
 # TIER-1 FREEZE GUARD - Added 2025-09-10
 TIER1_MODULES = [
-    "lukhas.memory",
-    "lukhas.consciousness",
-    "lukhas.orchestration",
-    "lukhas.api",
-    "lukhas.identity",
-    "lukhas.governance"
+    "memory",
+    "consciousness",
+    "orchestration",
+    "api",
+    "identity",
+    "governance"
 ]
 
 def check_generation_freeze(module_name):

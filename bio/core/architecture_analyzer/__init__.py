@@ -1,7 +1,7 @@
 """Bridge for `bio.core.architecture_analyzer`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.bio.core.architecture_analyzer
+  1) lukhas_website.bio.core.architecture_analyzer
   2) candidate.bio.core.architecture_analyzer
   3) bio.core.architecture_analyzer
 
@@ -22,7 +22,7 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.bio.core.architecture_analyzer",
+    "lukhas_website.bio.core.architecture_analyzer",
     "candidate.bio.core.architecture_analyzer",
     "bio.core.architecture_analyzer",
 )

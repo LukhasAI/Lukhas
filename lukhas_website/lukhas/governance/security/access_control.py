@@ -15,7 +15,7 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, List, Optional
 
-from lukhas.core.common.logger import get_logger
+from core.common.logger import get_logger
 
 logger = get_logger(__name__)
 
@@ -206,7 +206,7 @@ class AccessControlEngine:
         system_admin = User(
             user_id="system_admin",
             username="system",
-            email="system@lukhas.ai",
+            email="system@ai",
             current_tier=AccessTier.T5_SYSTEM,
             max_tier=AccessTier.T5_SYSTEM,
             roles={"system_admin", "constitutional_guardian"},

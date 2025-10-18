@@ -1,6 +1,6 @@
 # owner: Jules-07
 # tier: tier3
-# module_uid: lukhas.bio.core.bio_symbolic
+# module_uid: bio.core.bio_symbolic
 # criticality: P1
 
 import pytest

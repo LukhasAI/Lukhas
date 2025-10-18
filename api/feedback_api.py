@@ -20,7 +20,7 @@ from feedback.user_feedback_system import (
     FeedbackType,
     UserFeedbackSystem,
 )
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -202,7 +202,7 @@ async def _setup_mock_services():
     """Setup mock services for demo"""
     from unittest.mock import AsyncMock, Mock
 
-    from lukhas.core.interfaces.dependency_injection import register_service
+    from core.interfaces.dependency_injection import register_service
 
     # Mock natural language interface
     mock_nl = Mock()

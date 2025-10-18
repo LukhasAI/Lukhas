@@ -168,9 +168,9 @@ class EnhancedWebAuthnService:
 
     def __init__(
         self,
-        rp_id: str = "lukhas.ai",
+        rp_id: str = "ai",
         rp_name: str = "LUKHAS AI Identity System",
-        origin: str = "https://lukhas.ai",
+        origin: str = "https://ai",
         guardian_system: Optional[GuardianSystem] = None
     ):
         """Initialize enhanced WebAuthn service."""
@@ -727,9 +727,9 @@ class EnhancedWebAuthnService:
 
 # Factory function for dependency injection
 def create_enhanced_webauthn_service(
-    rp_id: str = "lukhas.ai",
+    rp_id: str = "ai",
     rp_name: str = "LUKHAS AI Identity System",
-    origin: str = "https://lukhas.ai",
+    origin: str = "https://ai",
     guardian_system: Optional[GuardianSystem] = None
 ) -> EnhancedWebAuthnService:
     """Create enhanced WebAuthn service with configuration."""

@@ -13,7 +13,7 @@ from typing import Any, Optional, Protocol, Type, runtime_checkable
 
 from dotenv import load_dotenv
 
-from lukhas.core.registry import discover_entry_points, resolve
+from core.registry import discover_entry_points, resolve
 
 # Load environment variables from .env file
 load_dotenv()
@@ -34,7 +34,7 @@ def _get_llm_wrapper_classes() -> dict[str, Type[LLMWrapperProtocol]]:
 
     # Attempt to discover through entry points first
     try:
-        discover_entry_points(group="lukhas.llm_wrappers")
+        discover_entry_points(group="llm_wrappers")
         wrappers = {}
         for name in ["anthropic", "gemini", "perplexity", "openai"]:
             wrapper_class = resolve(f"llm_wrapper_{name}")

@@ -58,7 +58,7 @@ def build_matada_nodes(seed: Dict[str, Any], rollouts: List[Dict[str, Any]], tra
                 "plan": ["Formulate hypothesis","Design minimal verification","Define success metrics"],
             },
             "provenance": {
-                "generator": "lukhas.consciousness.simulation",
+                "generator": "consciousness.simulation",
                 "inputs": {"ctx_keys": r.get("ctx", [])},
             },
         })

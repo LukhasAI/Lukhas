@@ -22,7 +22,7 @@ Purpose: Mobile-optimized UI rendering with touch gesture support
 from dataclasses import dataclass
 from enum import Enum
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 logger = get_logger(__name__)
 

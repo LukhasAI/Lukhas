@@ -6,7 +6,7 @@ when memory systems are available. Validates graceful degradation.
 """
 import pytest
 from starlette.testclient import TestClient
-from lukhas.adapters.openai.api import get_app, MEMORY_AVAILABLE
+from adapters.openai.api import get_app, MEMORY_AVAILABLE
 
 # Skip entire module if memory systems not available
 pytestmark = pytest.mark.skipif(

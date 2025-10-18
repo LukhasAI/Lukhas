@@ -42,8 +42,8 @@ from memory.systems.dream_memory_fold import DreamMemoryFold, DreamSnapshot
 
 # Consciousness systems
 try:
-    from lukhas.consciousness.awareness.awareness_engine import AwarenessEngine
-    from lukhas.consciousness.core_consciousness.lambda_mirror import LambdaMirror
+    from consciousness.awareness.awareness_engine import AwarenessEngine
+    from consciousness.core_consciousness.lambda_mirror import LambdaMirror
 
     lambda_mirror_available = True
 except ImportError:
@@ -51,7 +51,7 @@ except ImportError:
 
 # Bio-simulation
 try:
-    from lukhas.core.bio_systems.bio_simulation_controller import (
+    from core.bio_systems.bio_simulation_controller import (
         BioSimulationController)
 
     bio_sim_available = True
@@ -100,7 +100,7 @@ except ImportError:
 
 # Orchestration
 try:
-    from lukhas.orchestration.orchestrator_core import OrchestrationCore
+    from orchestration.orchestrator_core import OrchestrationCore
 
     orchestration_available = True
 except ImportError:

@@ -97,23 +97,23 @@ class MissingComponentHunter:
             },
             "memory_helix": {
                 "patterns": [
-                    r"lukhas.memory.*helix",
-                    r"lukhas.memory.*spiral",
+                    r"memory.*helix",
+                    r"memory.*spiral",
                     r"helix.*memory",
                     r"spiral.*memory",
                     r"MemoryHelix",
-                    r"lukhas.memory.*structure",
-                    r"lukhas.memory.*geometry",
-                    r"lukhas.memory.*pattern",
+                    r"memory.*structure",
+                    r"memory.*geometry",
+                    r"memory.*pattern",
                     r"twisted.*memory",
                     r"helical.*memory",
                 ],
                 "file_patterns": [
-                    r"lukhas.memory.*helix.*\\.py",
+                    r"memory.*helix.*\\.py",
                     r"helix.*\.py",
                     r"spiral.*\.py",
                     r".*helix.*\.py",
-                    r"lukhas.memory.*structure.*\\.py",
+                    r"memory.*structure.*\\.py",
                 ],
             },
             "voice_profiling": {
@@ -401,4 +401,4 @@ def main():
 if __name__ == "__main__":
     main()
 
-# Λ Systems 2025 www.lukhas.ai
+# Λ Systems 2025 www.ai

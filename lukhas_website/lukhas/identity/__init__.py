@@ -47,7 +47,7 @@ try:
 
     # Prefer namespaced package lookups; do not mutate sys.path here.
     IDENTITY_CORE_AVAILABLE = (
-        importlib.util.find_spec("lukhas.identity.identity_core") is not None
+        importlib.util.find_spec("identity.identity_core") is not None
         or importlib.util.find_spec("identity.identity_core") is not None
         or importlib.util.find_spec("identity_core") is not None
     )
@@ -59,9 +59,9 @@ try:
     import importlib.util
 
     AUTHENTICATION_AVAILABLE = (
-        importlib.util.find_spec("lukhas.identity.auth_integration") is not None
-        and importlib.util.find_spec("lukhas.identity.qrg") is not None
-        and importlib.util.find_spec("lukhas.identity.wallet") is not None
+        importlib.util.find_spec("identity.auth_integration") is not None
+        and importlib.util.find_spec("identity.qrg") is not None
+        and importlib.util.find_spec("identity.wallet") is not None
     )
 
 except Exception:

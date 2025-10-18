@@ -8,7 +8,7 @@ T4 defaults:
 - Pure typing + ABCs (runtime_checkable where useful)
 
 Usage (example):
-    from lukhas.core.interfaces import CognitiveNodeBase
+    from core.interfaces import CognitiveNodeBase
 
     class EchoNode(CognitiveNodeBase):
         name = "echo"

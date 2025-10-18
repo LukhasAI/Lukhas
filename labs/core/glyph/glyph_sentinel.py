@@ -26,7 +26,7 @@ symbolic integrity management, providing decay detection, retention policy
 enforcement, integrity monitoring, and automated maintenance operations for
 the GLYPH subsystem.
 
-For more information, visit: https://lukhas.ai
+For more information, visit: https://ai
 """
 from datetime import timezone
 
@@ -36,7 +36,7 @@ from datetime import timezone
 
 __version__ = "1.0.0"
 __author__ = "LUKHAS Development Team"
-__email__ = "dev@lukhas.ai"
+__email__ = "dev@ai"
 __status__ = "Production"
 
 import logging

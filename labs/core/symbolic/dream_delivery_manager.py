@@ -17,7 +17,7 @@ import logging
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from lukhas.core.interfaces.voice.voice_emotional.context_aware_modular_voice import VoiceModulator
+from core.interfaces.voice.voice_emotional.context_aware_modular_voice import VoiceModulator
 
 # Voice components
 from .voice_parameter import VoiceParameter
@@ -54,7 +54,7 @@ except ImportError:
 from ethics.ethics_guard import LegalComplianceAssistant
 
 # Memory & emotion components
-from lukhas.memory.adapters.creativity_adapter import EmotionalModulator
+from memory.adapters.creativity_adapter import EmotionalModulator
 
 # from ..emotional_resonance import EmotionalOscillator
 

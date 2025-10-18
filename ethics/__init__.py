@@ -6,14 +6,14 @@ Provides ethical evaluation, safety monitoring, and constraint validation
 # Import real implementations from governance
 try:
     # Try candidate path first (where the actual implementations are)
-    from lukhas.governance.ethics.ethics_engine import EthicsEngine
-    from lukhas.governance.ethics.meg_bridge import MegBridge, MEGPolicyBridge
-    from lukhas.governance.ethics.safety_checker import SafetyChecker
+    from governance.ethics.ethics_engine import EthicsEngine
+    from governance.ethics.meg_bridge import MegBridge, MEGPolicyBridge
+    from governance.ethics.safety_checker import SafetyChecker
 
     # Try lukhas governance for additional components
     try:
-        from lukhas.governance.ethics.core import create_meg_bridge, ethics_engine, safety_checks
-        from lukhas.governance.policy.base import Decision, RiskLevel
+        from governance.ethics.core import create_meg_bridge, ethics_engine, safety_checks
+        from governance.policy.base import Decision, RiskLevel
     except ImportError:
         # Create fallback functions for missing lukhas components
         def create_meg_bridge():
@@ -37,13 +37,13 @@ try:
 
     # Try to import PolicyEngines separately - prefer rehabilitated policy_engine
     try:
-        from lukhas.governance.ethics.policy_engine import PolicyEngines
+        from governance.ethics.policy_engine import PolicyEngines
 
         policy_engines = PolicyEngines()
         print("✅ Using rehabilitated ethics policy engine")
     except ImportError:
         try:
-            from lukhas.governance.ethics.policy_engines import PolicyEngines
+            from governance.ethics.policy_engines import PolicyEngines
 
             policy_engines = PolicyEngines()
             print("⚠️ Using alternative policy engines")
@@ -60,7 +60,7 @@ try:
             print("⚠️ Using fallback policy engines")
 
 except ImportError as e:
-    print(f"Warning: Failed to import from lukhas.governance.ethics: {e}")
+    print(f"Warning: Failed to import from governance.ethics: {e}")
 
     # Create fallback implementations
     class MegBridge:

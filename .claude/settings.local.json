@@ -134,7 +134,8 @@
       "Bash(echo \"❌ $dir NOT at root - unique to lukhas/\")",
       "Bash(jq -r '.remove_candidates[] | select(.path | startswith(\"\"\"\"lukhas/\"\"\"\") and (test(\"\"\"\"/\"\"\"\") | not)) | .path' docs/audits/lukhas_shim_audit.json)",
       "Bash(jq -r '.remove_candidates[].path' docs/audits/lukhas_shim_audit.json)",
-      "Bash(xargs -I{} git rm -r {})"
+      "Bash(xargs -I{} git rm -r {})",
+      "Bash(jq -r '.keep_candidates[] | \"\"\"\"\\(.path) (\\(.total_size) bytes)\"\"\"\"' docs/audits/lukhas_shim_audit.json)"
     ],
     "defaultMode": "bypassPermissions"
   }

@@ -9,7 +9,7 @@ import pytest
 
 # ΛTAG: lane_guard_enforcement_test
 ROOT = Path(__file__).resolve().parents[2]
-SCRIPT = ROOT / "lukhas.tools" / "ci" / "lane_guard.sh"
+SCRIPT = ROOT / "tools" / "ci" / "lane_guard.sh"
 
 
 @pytest.mark.skipif(shutil.which("importlinter") is None, reason="importlinter not installed")

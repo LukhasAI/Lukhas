@@ -43,12 +43,12 @@ __author__ = "LUKHAS AI Development Team"
 __copyright__ = "Copyright 2025, LUKHAS AI Research"
 __license__ = "LUKHAS Core License - Refer to LICENSE.md"
 __version__ = "1.1.0"
-__email__ = "dev@lukhas.ai"
+__email__ = "dev@ai"
 __status__ = "Development"
 __subsystem__ = "Memoria_Core_Subsystem"  # Clarified subsystem name
 
 """
-This package, `lukhas.memory.core_memory.memoria`, comprises the LUKHAS Memoria Subsystem.
+This package, `memory.core_memory.memoria`, comprises the LUKHAS Memoria Subsystem.
 It is responsible for advanced memory processing functionalities including:
 - Symbolic dream generation and logging.
 - Reflection processes on stored memories and dream data.

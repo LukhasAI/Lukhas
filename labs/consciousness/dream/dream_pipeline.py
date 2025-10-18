@@ -40,7 +40,7 @@ from .dream_engine.lukhas_oracle_dream import OracleDreamGenerator
 from .dream_generator import generate_dream
 from .openai_dream_integration import OpenAIDreamIntegration
 
-# Try to import lukhas.memory and emotion systems
+# Try to import memory and emotion systems
 try:
     from consciousness.reflection.unified_memory_manager import EnhancedMemoryManager
 

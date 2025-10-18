@@ -15,11 +15,11 @@ class HybridComponentAnalyzer:
     def __init__(self):
         self.module_dirs = [
             "consciousness",
-            "lukhas.memory",
+            "memory",
             "emotion",
             "quantum",
             "bio",
-            "lukhas.governance",
+            "governance",
             "orchestration",
             "bridge",
             "identity",
@@ -94,7 +94,7 @@ class HybridComponentAnalyzer:
                                 "feeling",
                                 "sentiment",
                             ],
-                            "lukhas.memory": ["lukhas.memory", "fold", "recall", "store", "retrieve"],
+                            "memory": ["memory", "fold", "recall", "store", "retrieve"],
                             "consciousness": [
                                 "conscious",
                                 "aware",
@@ -109,7 +109,7 @@ class HybridComponentAnalyzer:
                             ],
                             "colony": ["colony", "swarm", "collective", "distributed"],
                             "tag": ["tag", "glyph", "symbol", "label", "hormone"],
-                            "ethics": ["ethic", "moral", "guardian", "lukhas.governance"],
+                            "ethics": ["ethic", "moral", "guardian", "governance"],
                         }
 
                         for concept, keywords in concepts.items():
@@ -135,7 +135,7 @@ class HybridComponentAnalyzer:
         print("Running Scenario 1: Emotional Memory Processing...")
         self.scenario_results["emotional_memory"] = self.analyze_scenario(
             trigger_modules=["emotion"],
-            target_concepts=["lukhas.memory", "fold", "affect"],
+            target_concepts=["memory", "fold", "affect"],
             description="Processing emotional memories",
         )
 
@@ -143,7 +143,7 @@ class HybridComponentAnalyzer:
         print("Running Scenario 2: Conscious Decision Making...")
         self.scenario_results["conscious_decision"] = self.analyze_scenario(
             trigger_modules=["consciousness"],
-            target_concepts=["decision", "choice", "ethic", "lukhas.memory"],
+            target_concepts=["decision", "choice", "ethic", "memory"],
             description="Making conscious ethical decisions",
         )
 
@@ -151,14 +151,14 @@ class HybridComponentAnalyzer:
         print("Running Scenario 3: Quantum Pattern Recognition...")
         self.scenario_results["qi_pattern"] = self.analyze_scenario(
             trigger_modules=["quantum"],
-            target_concepts=["pattern", "recognition", "lukhas.memory", "conscious"],
+            target_concepts=["pattern", "recognition", "memory", "conscious"],
             description="Quantum-enhanced pattern recognition",
         )
 
         # Scenario 4: Stress Response
         print("Running Scenario 4: System Stress Response...")
         self.scenario_results["stress_response"] = self.analyze_scenario(
-            trigger_modules=["lukhas.governance", "guardian"],
+            trigger_modules=["governance", "guardian"],
             target_concepts=["stress", "emergency", "fallback", "protect"],
             description="System under stress or attack",
         )
@@ -300,34 +300,34 @@ class HybridComponentAnalyzer:
             "normal_hierarchy": [
                 "core",
                 "consciousness",
-                "lukhas.memory",
+                "memory",
                 "quantum",
                 "emotion",
-                "lukhas.governance",
+                "governance",
                 "bridge",
             ],
             "stress_responses": {
                 "ethical_conflict": {
                     "trigger": "High ethical uncertainty",
-                    "new_hierarchy": ["lukhas.governance", "core", "consciousness", "quantum"],
+                    "new_hierarchy": ["governance", "core", "consciousness", "quantum"],
                     "suppressed": ["emotion", "creativity"],
                     "enhanced": ["ethics", "reasoning"],
                 },
                 "memory_overload": {
                     "trigger": "Memory capacity exceeded",
-                    "new_hierarchy": ["lukhas.memory", "quantum", "core"],
+                    "new_hierarchy": ["memory", "quantum", "core"],
                     "suppressed": ["creativity", "bridge"],
                     "enhanced": ["compression", "fold_system"],
                 },
                 "external_attack": {
                     "trigger": "Security threat detected",
-                    "new_hierarchy": ["lukhas.governance", "identity", "core"],
+                    "new_hierarchy": ["governance", "identity", "core"],
                     "suppressed": ["bridge", "creativity"],
                     "enhanced": ["guardian", "firewall"],
                 },
                 "emotional_trauma": {
                     "trigger": "Severe emotional distress",
-                    "new_hierarchy": ["emotion", "lukhas.memory", "lukhas.governance"],
+                    "new_hierarchy": ["emotion", "memory", "governance"],
                     "suppressed": ["quantum", "reasoning"],
                     "enhanced": ["mood_regulation", "trauma_vault"],
                 },

@@ -18,7 +18,7 @@ UnifiedOpenAIClient: Optional[Any] = None
 
 # Use fallback imports
 try:
-    from lukhas.core.common import get_logger
+    from core.common import get_logger
 
     logger = get_logger(__name__, "BRIDGE")
 except ImportError:

@@ -11,7 +11,7 @@ import logging
 from datetime import datetime
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 try:
     from .advanced_trauma_repair import TraumaRepairSystem, TraumaSignature, TraumaType

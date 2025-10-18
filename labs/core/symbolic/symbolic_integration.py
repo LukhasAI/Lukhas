@@ -89,7 +89,7 @@ DRIFT_POINTS = [
 ║ REFERENCES:
 ║   - Docs: docs/memory/symbolic-integration.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=symbolic-integration
-║   - Wiki: wiki.lukhas.ai/symbolic-memory-architecture
+║   - Wiki: wiki.ai/symbolic-memory-architecture
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

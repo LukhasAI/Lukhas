@@ -230,7 +230,7 @@ class ConfigLoader:
             path = orchestration.settings.get("ai_router_path")
             if isinstance(path, str) and path:
                 return path
-        return "lukhas.orchestration.multi_ai_router"
+        return "orchestration.multi_ai_router"
 
     @property
     def python_path(self) -> str:

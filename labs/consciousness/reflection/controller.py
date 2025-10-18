@@ -84,8 +84,8 @@ from typing import Any, Callable, Optional
 
 import numpy as np
 
-from lukhas.governance.identity.auth_backend.audit_logger import AuditLogger
-from lukhas.orchestration.brain.privacy_manager import PrivacyManager
+from governance.identity.auth_backend.audit_logger import AuditLogger
+from orchestration.brain.privacy_manager import PrivacyManager
 
 # 🛡️ Compliance and Security Imports
 
@@ -97,7 +97,7 @@ try:
     from .emotion.emotion_engine import EmotionEngine
     from .identity.identity_manager import IdentityManager
     from .integration.system_coordinator import SystemCoordinator
-    from .lukhas.memory.enhanced_memory_manager import EnhancedMemoryManager
+    from .memory.enhanced_memory_manager import EnhancedMemoryManager
     from .neural_architectures.neural_integrator import (
         NeuralContext,
         NeuralIntegrator,
@@ -406,7 +406,7 @@ class CognitiveController:
             # Register components with system coordinator
             await self.system_coordinator.register_component("consciousness", self.consciousness_integrator)
             await self.system_coordinator.register_component("neural", self.neural_integrator)
-            await self.system_coordinator.register_component("lukhas.memory", self.memory_manager)
+            await self.system_coordinator.register_component("memory", self.memory_manager)
             await self.system_coordinator.register_component("persona", self.persona_manager)
 
             # Start processing threads
@@ -965,7 +965,7 @@ class CognitiveController:
 
         # Collect data from all components
         if self.memory_manager:
-            user_data["lukhas.memory"] = await self.memory_manager.get_user_data(user_id)
+            user_data["memory"] = await self.memory_manager.get_user_data(user_id)
         if self.persona_manager:
             user_data["persona"] = await self.persona_manager.get_user_data(user_id)
         if self.identity_manager:
@@ -994,7 +994,7 @@ class CognitiveController:
 
         # Erase data from all components
         if self.memory_manager:
-            erasure_results["lukhas.memory"] = await self.memory_manager.erase_user_data(user_id)
+            erasure_results["memory"] = await self.memory_manager.erase_user_data(user_id)
         if self.persona_manager:
             erasure_results["persona"] = await self.persona_manager.erase_user_data(user_id)
         if self.identity_manager:

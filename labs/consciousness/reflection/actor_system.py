@@ -37,7 +37,7 @@ from dataclasses import asdict, dataclass
 from enum import Enum
 from typing import Any, Callable, Optional, Union
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 from .p2p_communication import P2PNode
 
@@ -741,7 +741,7 @@ async def demo_actor_system():
     # Create AI agents
     agent1_ref = await system.create_actor(AIAgentActor, "reasoning-agent-001", capabilities=["reasoning", "analysis"])
 
-    agent2_ref = await system.create_actor(AIAgentActor, "memory-agent-001", capabilities=["lukhas.memory", "storage"])
+    agent2_ref = await system.create_actor(AIAgentActor, "memory-agent-001", capabilities=["memory", "storage"])
 
     # Test interaction
     correlation_id = str(uuid.uuid4())
@@ -764,7 +764,7 @@ async def demo_actor_system():
     print("Agent 1 status:", status)
 
     # Agent collaboration
-    collab_response = await agent2_ref.ask("collaborate", {"type": "request_assistance", "capability": "lukhas.memory"})
+    collab_response = await agent2_ref.ask("collaborate", {"type": "request_assistance", "capability": "memory"})
     print("Collaboration response:", collab_response)
 
     # System stats

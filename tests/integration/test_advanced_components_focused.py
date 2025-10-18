@@ -33,7 +33,7 @@ class TestActorSystemAdvanced:
     def test_multi_agent_collaboration(self):
         """Test multiple AI agents collaborating on a complex task."""
         try:
-            from lukhas.core.actor_system import ActorSystem, AIAgentActor
+            from core.actor_system import ActorSystem, AIAgentActor
 
             system = ActorSystem()
 
@@ -111,7 +111,7 @@ class TestActorSystemAdvanced:
     def test_agent_capability_management(self):
         """Test dynamic capability addition and specialization."""
         try:
-            from lukhas.core.actor_system import AIAgentActor
+            from core.actor_system import AIAgentActor
 
             # Create general-purpose agent
             agent = AIAgentActor("adaptive_agent", ["basic_processing"])
@@ -156,7 +156,7 @@ class TestActorSystemAdvanced:
     def test_actor_system_scaling(self):
         """Test actor system performance with multiple agents."""
         try:
-            from lukhas.core.actor_system import ActorSystem, AIAgentActor
+            from core.actor_system import ActorSystem, AIAgentActor
 
             system = ActorSystem()
 

@@ -17,7 +17,7 @@ def test_fetch_tool():
         "method": "tools/call",
         "params": {
             "name": "fetch",
-            "arguments": {"url": "https://lukhas.ai/docs/test"}
+            "arguments": {"url": "https://ai/docs/test"}
         }
     }
 

@@ -245,7 +245,7 @@ def emit_guardian_action_with_exemplar(
 
     try:
         # Import here to avoid circular dependency
-        from lukhas.core.ethics.safety_tags import GUARDIAN_ACTIONS_EXEMPLARS, METRICS_AVAILABLE
+        from core.ethics.safety_tags import GUARDIAN_ACTIONS_EXEMPLARS, METRICS_AVAILABLE
 
         if not METRICS_AVAILABLE:
             return
@@ -292,7 +292,7 @@ def emit_confidence_metrics(
         lane: A/B test lane
     """
     try:
-        from lukhas.core.ethics.safety_tags import METRICS_AVAILABLE, SAFETY_TAGS_CONFIDENCE
+        from core.ethics.safety_tags import METRICS_AVAILABLE, SAFETY_TAGS_CONFIDENCE
 
         if not METRICS_AVAILABLE:
             return

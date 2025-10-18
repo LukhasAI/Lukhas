@@ -16,12 +16,12 @@ from typing import Any, Optional
 import numpy as np
 
 # Import colony infrastructure
-from lukhas.core.colonies.base_colony import BaseColony, ConsensusResult
-from lukhas.core.enhanced_swarm import AgentCapability, AgentState, EnhancedSwarmAgent as SwarmAgent
+from core.colonies.base_colony import BaseColony, ConsensusResult
+from core.enhanced_swarm import AgentCapability, AgentState, EnhancedSwarmAgent as SwarmAgent
 
 # Import identity events
 try:
-    from lukhas.governance.identity.core.events import (
+    from governance.identity.core.events import (
         IdentityEventPublisher,
         IdentityEventType,
         VerificationResult,
@@ -277,7 +277,7 @@ class BiometricVerificationColony(BaseColony):
         await super().initialize()
 
         # Get event publisher
-        from lukhas.governance.identity.core.events import get_identity_event_publisher
+        from governance.identity.core.events import get_identity_event_publisher
 
         self.event_publisher = await get_identity_event_publisher()
 

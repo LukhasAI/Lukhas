@@ -211,7 +211,7 @@ def get_nested_value(data: dict, path: str, delimiter: str = ".", default: Any =
 # LOGGING: ΛTRACE_ENABLED (structlog for module initialization and function operations)
 # AUTHENTICATION: N/A
 # HOW TO USE:
-#   from lukhas.core.helpers import sanitize_string_for_logging, get_utc_timestamp
+#   from core.helpers import sanitize_string_for_logging, get_utc_timestamp
 #   clean_log_message = sanitize_string_for_logging(user_input)
 #   current_time_utc = get_utc_timestamp()
 # INTEGRATION NOTES: These helpers are general-purpose. For domain-specific utilities,

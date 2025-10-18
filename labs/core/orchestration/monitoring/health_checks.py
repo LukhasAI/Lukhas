@@ -494,7 +494,7 @@ def create_orchestrator_health_checks(health_checker: HealthChecker) -> None:
 
     # Register health checks
     try:
-        health_checker.register_check("lukhas.memory", memory_check, interval_seconds=30, critical=True)
+        health_checker.register_check("memory", memory_check, interval_seconds=30, critical=True)
         health_checker.register_check("cpu", cpu_check, interval_seconds=30, critical=False)
         health_checker.register_check("disk", disk_check, interval_seconds=60, critical=True)
     except ImportError:

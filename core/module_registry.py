@@ -47,8 +47,8 @@ MODULE_NAME = "module_registry"
 
 # Import tier system components
 try:
-    from lukhas.governance.identity.core.lambd_id_service import TierLevel
-    from lukhas.governance.identity.interface import IdentityClient
+    from governance.identity.core.lambd_id_service import TierLevel
+    from governance.identity.interface import IdentityClient
 
     TIER_SYSTEM_AVAILABLE = True
 except ImportError as e:
@@ -92,7 +92,7 @@ class ModuleRegistry:
     # Module tier requirements mapping
     MODULE_TIER_REQUIREMENTS = {
         # Core modules
-        "lukhas.memory": TierLevel.VISITOR,  # Tier 1
+        "memory": TierLevel.VISITOR,  # Tier 1
         "consciousness": TierLevel.VISITOR,  # Tier 1
         "reasoning": TierLevel.VISITOR,  # Tier 1
         "emotion": TierLevel.VISITOR,  # Tier 1
@@ -104,7 +104,7 @@ class ModuleRegistry:
         "quantum": TierLevel.TRUSTED,  # Tier 3
         "orchestration": TierLevel.TRUSTED,  # Tier 3
         # System modules
-        "lukhas.governance": TierLevel.INNER_CIRCLE,  # Tier 4
+        "governance": TierLevel.INNER_CIRCLE,  # Tier 4
         "system_config": TierLevel.ROOT_DEV,  # Tier 5
     }
 
@@ -364,7 +364,7 @@ class ModuleRegistry:
                 ],
                 "min_tier": TierLevel.VISITOR,
             },
-            "lukhas.memory": {
+            "memory": {
                 "type": "storage",
                 "priority": "medium",
                 "capabilities": [
@@ -530,7 +530,7 @@ MODULE_SIGNATURE = {
 ║ REFERENCES:
 ║   - Docs: docs/core/module_registry.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=module-registry
-║   - Wiki: wiki.lukhas.ai/core/module-registry
+║   - Wiki: wiki.ai/core/module-registry
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

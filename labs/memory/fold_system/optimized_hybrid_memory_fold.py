@@ -637,7 +637,7 @@ def create_optimized_hybrid_memory_fold_with_lazy_loading(
     # Create structural conscience if requested
     if enable_conscience:
         try:
-            from lukhas.memory.structural_conscience import create_structural_conscience
+            from memory.structural_conscience import create_structural_conscience
 
             conscience = create_structural_conscience()
             kwargs["structural_conscience"] = conscience
@@ -700,7 +700,7 @@ def create_optimized_hybrid_memory_fold(
     # Create structural conscience if requested
     if enable_conscience:
         try:
-            from lukhas.memory.structural_conscience import create_structural_conscience
+            from memory.structural_conscience import create_structural_conscience
 
             conscience = create_structural_conscience()
             kwargs["structural_conscience"] = conscience

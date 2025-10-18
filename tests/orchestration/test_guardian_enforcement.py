@@ -9,8 +9,8 @@ Validates default-on enforcement behavior for canary traffic when
 
 import pytest
 
-from lukhas.core.ethics.guardian_drift_bands import GuardianBand, GuardianBandResult
-from lukhas.core.orchestration.plan_verifier import PlanVerifier, VerificationContext
+from core.ethics.guardian_drift_bands import GuardianBand, GuardianBandResult
+from core.orchestration.plan_verifier import PlanVerifier, VerificationContext
 
 
 @pytest.mark.guardian

@@ -68,7 +68,7 @@ import numpy as np
 from ..compression.symbolic_delta import (
     AdvancedSymbolicDeltaCompressor,
 )
-from ..lukhas.governance.ethical_drift_governor import EthicalDriftGovernor
+from ..governance.ethical_drift_governor import EthicalDriftGovernor
 
 # LUKHAS Core Imports
 from .emotional_memory import EmotionalMemory

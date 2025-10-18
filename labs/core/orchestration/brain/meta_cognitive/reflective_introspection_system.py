@@ -547,7 +547,7 @@ class ReflectiveIntrospectionSystem:
 
         # Check for missing components
         cognitive_enhancements = processing_result.get("cognitive_enhancements", {})
-        expected_components = ["compliance", "ethics", "lukhas.memory", "prediction"]
+        expected_components = ["compliance", "ethics", "memory", "prediction"]
 
         for component in expected_components:
             if component not in cognitive_enhancements:

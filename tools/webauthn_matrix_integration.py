@@ -163,7 +163,7 @@ class WebAuthnMatrixIntegration:
 
         # Check for critical modules that should always require WebAuthn
         module_path = str(contract_path.relative_to(ROOT))
-        critical_patterns = ["identity", "lukhas.governance", "security", "consciousness", "core"]
+        critical_patterns = ["identity", "governance", "security", "consciousness", "core"]
         is_critical = any(pattern in module_path for pattern in critical_patterns)
 
         if is_critical and not webauthn_required:
@@ -221,7 +221,7 @@ class WebAuthnMatrixIntegration:
         critical_modules = []
         for analysis in analyses:
             module_path = str(analysis.path.relative_to(ROOT))
-            critical_patterns = ["identity", "lukhas.governance", "security", "consciousness", "core"]
+            critical_patterns = ["identity", "governance", "security", "consciousness", "core"]
             if any(pattern in module_path for pattern in critical_patterns):
                 critical_modules.append({
                     "module": analysis.module,
@@ -261,7 +261,7 @@ class WebAuthnMatrixIntegration:
         for analysis in analyses:
             if not analysis.webauthn_required:
                 module_path = str(analysis.path.relative_to(ROOT))
-                critical_patterns = ["identity", "lukhas.governance", "security", "consciousness"]
+                critical_patterns = ["identity", "governance", "security", "consciousness"]
                 if any(pattern in module_path for pattern in critical_patterns):
                     recommendations.append({
                         "type": "security",
@@ -296,7 +296,7 @@ class WebAuthnMatrixIntegration:
 
                 # Critical modules should have WebAuthn
                 module_path = str(analysis.path.relative_to(ROOT))
-                critical_patterns = ["identity", "lukhas.governance", "security", "consciousness"]
+                critical_patterns = ["identity", "governance", "security", "consciousness"]
                 if any(pattern in module_path for pattern in critical_patterns):
                     should_enable = True
 

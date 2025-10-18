@@ -14,7 +14,7 @@ from enum import Enum
 from typing import Any, Optional
 
 from bio.bio_utilities import simulate_colony_self_repair
-from lukhas.core.actor_system import Actor, ActorMessage, ActorRef
+from core.actor_system import Actor, ActorMessage, ActorRef
 
 logger = logging.getLogger(__name__)
 

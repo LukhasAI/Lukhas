@@ -117,7 +117,7 @@ symbolic_registry = SymbolicRegistry()
 ║ REFERENCES:
 ║   - Docs: docs/common/symbolic-system.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=symbolic
-║   - Wiki: wiki.lukhas.ai/symbolic-references
+║   - Wiki: wiki.ai/symbolic-references
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

@@ -64,7 +64,7 @@ class VocabularyEngine:
         # LUKHAS consciousness vocabulary
         self.consciousness_terms = {
             'identity': ['anchors', 'permissions', 'traces', 'boundaries', 'rhythm', 'coherence'],
-            'lukhas.memory': ['folds', 'echoes', 'drift', 'anchors', 'erosion', 'recall'],
+            'memory': ['folds', 'echoes', 'drift', 'anchors', 'erosion', 'recall'],
             'vision': ['aperture', 'focus', 'peripheral_field', 'drift_gaze', 'signal_to_shape'],
             'bio': ['adaptation', 'resilience', 'symbiosis', 'evolution', 'emergence'],
             'quantum': ['superposition', 'entanglement', 'uncertainty', 'measurement', 'coherence'],
@@ -75,7 +75,7 @@ class VocabularyEngine:
         # Constellation Framework symbols
         self.constellation_symbols = {
             'identity': '⚛️',
-            'lukhas.memory': '✦',
+            'memory': '✦',
             'vision': '🔬',
             'bio': '🌱',
             'dream': '🌙',
@@ -247,7 +247,7 @@ class ThreeLayerToneSystem:
             capabilities.append('processing engines')
         if any('auth' in ep.lower() for ep in entrypoints):
             capabilities.append('authentication services')
-        if any('lukhas.memory' in ep.lower() or 'fold' in ep.lower() for ep in entrypoints):
+        if any('memory' in ep.lower() or 'fold' in ep.lower() for ep in entrypoints):
             capabilities.append('memory management')
 
         if not capabilities:
@@ -261,13 +261,13 @@ class ThreeLayerToneSystem:
 
         if 'authentication' in tags or 'identity' in tags:
             benefits.append("ensuring secure, passwordless access to your digital resources")
-        if 'lukhas.memory' in tags or 'fold-architecture' in tags:
+        if 'memory' in tags or 'fold-architecture' in tags:
             benefits.append("providing intelligent memory that adapts and learns from your interactions")
         if 'consciousness' in tags:
             benefits.append("creating technology that respects and enhances human consciousness")
         if 'orchestration' in tags:
             benefits.append("coordinating complex operations with elegant simplicity")
-        if 'lukhas.governance' in tags:
+        if 'governance' in tags:
             benefits.append("maintaining ethical boundaries and constitutional AI principles")
 
         if not benefits:
@@ -379,9 +379,9 @@ def generate_enhanced_readme(module_path: Path, vocab_engine: VocabularyEngine, 
     # Map module to constellation role
     constellation_roles = {
         'identity': '⚛️ **Anchor Star** — Ensuring continuity and coherence',
-        'lukhas.memory': '✦ **Path Tracer** — Tracing the paths of past light',
+        'memory': '✦ **Path Tracer** — Tracing the paths of past light',
         'consciousness': '🧠 **Awareness Hub** — Central consciousness coordination',
-        'lukhas.governance': '⚖️ **Ethics Guardian** — Ensuring accountability and dignity',
+        'governance': '⚖️ **Ethics Guardian** — Ensuring accountability and dignity',
         'brain': '🧠 **Cognitive Center** — Intelligence coordination and monitoring',
         'core': '⚛️ **Foundation Star** — Core system coordination'
     }
@@ -423,7 +423,7 @@ def main():
 
     # Priority modules for enhanced README generation
     priority_modules = [
-        'brain', 'consciousness', 'lukhas.memory', 'identity', 'lukhas.governance',
+        'brain', 'consciousness', 'memory', 'identity', 'governance',
         'matriz', 'core', 'api', 'bridge', 'orchestration'
     ]
 

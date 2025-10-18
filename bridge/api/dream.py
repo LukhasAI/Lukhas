@@ -27,7 +27,7 @@ from dream.dashboard.dream_metrics_view import metrics_view
 from dream.dream_engine.lukhas_oracle_dream import generate_dream
 
 try:
-    from lukhas.consciousness.reflection.unified_memory_manager import MemoryFoldSystem
+    from consciousness.reflection.unified_memory_manager import MemoryFoldSystem
 except ImportError:
     MemoryFoldSystem = None
 

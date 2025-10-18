@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-MODULE_PATH = Path(__file__).resolve().parents[4] / "lukhas.tools" / "ci" / "check_unused_imports_todo.py"
+MODULE_PATH = Path(__file__).resolve().parents[4] / "tools" / "ci" / "check_unused_imports_todo.py"
 SPEC = importlib.util.spec_from_file_location("check_unused_imports_todo", MODULE_PATH)
 assert SPEC and SPEC.loader  # ΛTAG: module_loading_guard
 check_unused_imports = importlib.util.module_from_spec(SPEC)

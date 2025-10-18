@@ -3,8 +3,8 @@ import logging
 logger = logging.getLogger(__name__)
 from typing import Optional
 
-from lukhas.dna.interfaces import HelixMemory
-from lukhas.migration.legacy_store import LegacyStore
+from dna.interfaces import HelixMemory
+from migration.legacy_store import LegacyStore
 
 
 def read_memory(*, legacy: LegacyStore, dna: HelixMemory, key: str) -> Optional[dict]:

@@ -14,8 +14,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
-from lukhas.core.config.env_validator import validate_environment
-from lukhas.core.module_manager import ModulePriority, ModuleStatus, get_module_manager
+from core.config.env_validator import validate_environment
+from core.module_manager import ModulePriority, ModuleStatus, get_module_manager
 
 # Add project root to path
 project_root = Path(__file__).parent.parent
@@ -178,7 +178,7 @@ class LUKHASSystem:
                 "environment": self._check_environment_health(),
                 "configuration": bool(self.config),
                 "filesystem": self._check_filesystem_health(),
-                "lukhas.memory": self._check_memory_health(),
+                "memory": self._check_memory_health(),
             }
         )
 
@@ -224,7 +224,7 @@ class LUKHASSystem:
             try:
                 import asyncio
 
-                from lukhas.orchestration.signals import get_signal_bus
+                from orchestration.signals import get_signal_bus
 
                 # Create event loop if needed
                 try:
@@ -242,7 +242,7 @@ class LUKHASSystem:
         identity_module = self.module_manager.get_module("identity_system")
         if identity_module:
             try:
-                from lukhas.governance.identity.interface import IdentityClient
+                from governance.identity.interface import IdentityClient
 
                 IdentityClient()
                 self.logger.info("Identity system initialized")

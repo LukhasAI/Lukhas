@@ -6,23 +6,23 @@ unified platform for consciousness evolution through ethical advertising.
 """
 from typing import Any
 
-from lukhas.core.collective.collective_ad_mind import CollectiveAdMind
-from lukhas.core.consciousness.oracle.oracle import ConsciousnessOracle
-from lukhas.core.consciousness_ascension.consciousness_ascension_catalyst_engine import (
+from core.collective.collective_ad_mind import CollectiveAdMind
+from core.consciousness.oracle.oracle import ConsciousnessOracle
+from core.consciousness_ascension.consciousness_ascension_catalyst_engine import (
     ConsciousnessAscensionCatalystEngine,
 )
-from lukhas.core.multiverse_creative.multiverse_creative_engine import (
+from core.multiverse_creative.multiverse_creative_engine import (
     MultiverseCreativeEngine,
 )
-from lukhas.core.planetary_consciousness.planetary_consciousness_network import (
+from core.planetary_consciousness.planetary_consciousness_network import (
     PlanetaryConsciousnessNetwork,
 )
-from lukhas.core.qi_biometrics.qi_biometrics_engine import QiBiometricsEngine
-from lukhas.core.qi_empathy.qi_empathy_engine import QiEmpathyEngine
-from lukhas.core.qi_financial.qi_financial_consciousness_engine import (
+from core.qi_biometrics.qi_biometrics_engine import QiBiometricsEngine
+from core.qi_empathy.qi_empathy_engine import QiEmpathyEngine
+from core.qi_financial.qi_financial_consciousness_engine import (
     QiFinancialConsciousnessEngine,
 )
-from lukhas.core.reality_synthesis.reality_synthesis_qi_engine import (
+from core.reality_synthesis.reality_synthesis_qi_engine import (
     RealitySynthesisQiEngine,
 )
 

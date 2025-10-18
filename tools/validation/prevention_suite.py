@@ -32,8 +32,8 @@ logger = logging.getLogger(__name__)
 ROOT = Path(__file__).resolve().parents[2]
 
 # Import validation components
-sys.path.insert(0, str(ROOT / "lukhas.tools" / "automation"))
-sys.path.insert(0, str(ROOT / "lukhas.tools" / "monitoring"))
+sys.path.insert(0, str(ROOT / "tools" / "automation"))
+sys.path.insert(0, str(ROOT / "tools" / "monitoring"))
 
 try:
     from precommit_fstring_validator import PrecommitFStringValidator
@@ -265,7 +265,7 @@ class TestExample:
 
         try:
             # Test auth_integration import
-            from lukhas.governance.identity import auth_integration
+            from governance.identity import auth_integration
 
             has_identity_client = getattr(auth_integration, "IdentityClient", None)
             if has_identity_client is not None:

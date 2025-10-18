@@ -96,16 +96,16 @@ class DependencyAnalyzer:
             "creativity",
             "emotion",
             "ethics",
-            "lukhas.governance",
+            "governance",
             "identity",
-            "lukhas.memory",
+            "memory",
             "orchestration",
             "quantum",
             "reasoning",
             "recovery",
             "security",
             "tests",
-            "lukhas.tools",
+            "tools",
             "unified",
             "vivox",
         }
@@ -163,7 +163,7 @@ class DependencyAnalyzer:
             impact["affected_modules"].update(cycle)
 
             # High risk if cycle involves core modules
-            core_modules = {"core", "orchestration", "lukhas.governance", "lukhas.memory"}
+            core_modules = {"core", "orchestration", "governance", "memory"}
             if any(any(core in module for core in core_modules) for module in cycle):
                 impact["high_risk_cycles"].append(cycle)
 
@@ -238,7 +238,7 @@ class DependencyAnalyzer:
     def _calculate_severity(self, cycle: list[str]) -> str:
         """Calculate severity of circular dependency"""
         # High severity for core modules
-        core_modules = {"core", "orchestration", "lukhas.governance", "lukhas.memory"}
+        core_modules = {"core", "orchestration", "governance", "memory"}
         if any(any(core in module for core in core_modules) for module in cycle):
             return "high"
 
@@ -325,7 +325,7 @@ Interface module to break circular dependencies between:
 
 from abc import ABC, abstractmethod
 from typing import Dict, Any, Optional
-from lukhas.core.common import GLYPHToken
+from core.common import GLYPHToken
 
 class {interface_name.replace("_interface", "").title()}Interface(ABC):
     """Abstract interface for {interface_name.replace("_interface", "")} modules"""

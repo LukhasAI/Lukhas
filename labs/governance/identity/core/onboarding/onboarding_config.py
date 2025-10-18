@@ -746,7 +746,7 @@ default_config_manager = OnboardingConfigManager()
 ║ REFERENCES:
 ║   - Docs: docs/identity/onboarding_configuration.md
 ║   - Issues: github.com/lukhas-ai/lukhas/issues?label=onboarding-config
-║   - Wiki: https://internal.lukhas.ai/wiki/Onboarding_Configuration
+║   - Wiki: https://internal.ai/wiki/Onboarding_Configuration
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

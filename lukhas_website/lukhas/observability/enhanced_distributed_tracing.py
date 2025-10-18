@@ -56,50 +56,50 @@ class LUKHASSemanticConventions:
     """Semantic conventions for LUKHAS distributed tracing"""
 
     # Component attributes
-    LUKHAS_COMPONENT = "lukhas.component"
-    LUKHAS_COMPONENT_VERSION = "lukhas.component.version"
-    LUKHAS_OPERATION = "lukhas.operation"
-    LUKHAS_OPERATION_TYPE = "lukhas.operation.type"
+    LUKHAS_COMPONENT = "component"
+    LUKHAS_COMPONENT_VERSION = "component.version"
+    LUKHAS_OPERATION = "operation"
+    LUKHAS_OPERATION_TYPE = "operation.type"
 
     # Evidence collection attributes
-    LUKHAS_EVIDENCE_ID = "lukhas.evidence.id"
-    LUKHAS_EVIDENCE_TYPE = "lukhas.evidence.type"
-    LUKHAS_EVIDENCE_SIZE = "lukhas.evidence.size"
-    LUKHAS_EVIDENCE_INTEGRITY = "lukhas.evidence.integrity"
+    LUKHAS_EVIDENCE_ID = "evidence.id"
+    LUKHAS_EVIDENCE_TYPE = "evidence.type"
+    LUKHAS_EVIDENCE_SIZE = "evidence.size"
+    LUKHAS_EVIDENCE_INTEGRITY = "evidence.integrity"
 
     # Performance attributes
-    LUKHAS_PERFORMANCE_BASELINE = "lukhas.performance.baseline"
-    LUKHAS_PERFORMANCE_CURRENT = "lukhas.performance.current"
-    LUKHAS_PERFORMANCE_DEGRADATION = "lukhas.performance.degradation"
-    LUKHAS_PERFORMANCE_REGRESSION_ID = "lukhas.performance.regression_id"
+    LUKHAS_PERFORMANCE_BASELINE = "performance.baseline"
+    LUKHAS_PERFORMANCE_CURRENT = "performance.current"
+    LUKHAS_PERFORMANCE_DEGRADATION = "performance.degradation"
+    LUKHAS_PERFORMANCE_REGRESSION_ID = "performance.regression_id"
 
     # Compliance attributes
-    LUKHAS_COMPLIANCE_REGIME = "lukhas.compliance.regime"
-    LUKHAS_COMPLIANCE_SCORE = "lukhas.compliance.score"
-    LUKHAS_COMPLIANCE_VIOLATION = "lukhas.compliance.violation"
+    LUKHAS_COMPLIANCE_REGIME = "compliance.regime"
+    LUKHAS_COMPLIANCE_SCORE = "compliance.score"
+    LUKHAS_COMPLIANCE_VIOLATION = "compliance.violation"
 
     # Memory system attributes
-    LUKHAS_MEMORY_OPERATION = "lukhas.memory.operation"
-    LUKHAS_MEMORY_ITEM_COUNT = "lukhas.memory.item_count"
-    LUKHAS_MEMORY_SIZE_BYTES = "lukhas.memory.size_bytes"
-    LUKHAS_MEMORY_COMPRESSION_RATIO = "lukhas.memory.compression_ratio"
+    LUKHAS_MEMORY_OPERATION = "memory.operation"
+    LUKHAS_MEMORY_ITEM_COUNT = "memory.item_count"
+    LUKHAS_MEMORY_SIZE_BYTES = "memory.size_bytes"
+    LUKHAS_MEMORY_COMPRESSION_RATIO = "memory.compression_ratio"
 
     # Identity system attributes
-    LUKHAS_IDENTITY_USER_ID = "lukhas.identity.user_id"
-    LUKHAS_IDENTITY_SESSION_ID = "lukhas.identity.session_id"
-    LUKHAS_IDENTITY_AUTH_TIER = "lukhas.identity.auth_tier"
-    LUKHAS_IDENTITY_TOKEN_ID = "lukhas.identity.token_id"
+    LUKHAS_IDENTITY_USER_ID = "identity.user_id"
+    LUKHAS_IDENTITY_SESSION_ID = "identity.session_id"
+    LUKHAS_IDENTITY_AUTH_TIER = "identity.auth_tier"
+    LUKHAS_IDENTITY_TOKEN_ID = "identity.token_id"
 
     # Orchestrator attributes
-    LUKHAS_ORCHESTRATOR_PIPELINE_ID = "lukhas.orchestrator.pipeline_id"
-    LUKHAS_ORCHESTRATOR_STAGE = "lukhas.orchestrator.stage"
-    LUKHAS_ORCHESTRATOR_WITHIN_BUDGET = "lukhas.orchestrator.within_budget"
+    LUKHAS_ORCHESTRATOR_PIPELINE_ID = "orchestrator.pipeline_id"
+    LUKHAS_ORCHESTRATOR_STAGE = "orchestrator.stage"
+    LUKHAS_ORCHESTRATOR_WITHIN_BUDGET = "orchestrator.within_budget"
 
     # Alerting attributes
-    LUKHAS_ALERT_ID = "lukhas.alert.id"
-    LUKHAS_ALERT_RULE_ID = "lukhas.alert.rule_id"
-    LUKHAS_ALERT_SEVERITY = "lukhas.alert.severity"
-    LUKHAS_ALERT_ESCALATION_LEVEL = "lukhas.alert.escalation_level"
+    LUKHAS_ALERT_ID = "alert.id"
+    LUKHAS_ALERT_RULE_ID = "alert.rule_id"
+    LUKHAS_ALERT_SEVERITY = "alert.severity"
+    LUKHAS_ALERT_ESCALATION_LEVEL = "alert.escalation_level"
 
 
 @dataclass
@@ -213,8 +213,8 @@ class EnhancedLUKHASTracer:
             "service.version": self.config.service_version,
             "service.namespace": "lukhas",
             "deployment.environment": os.getenv("LUKHAS_ENV", "development"),
-            "lukhas.phase": "5",  # Phase 5 implementation
-            "lukhas.features": "enhanced_observability,evidence_collection,compliance_dashboard",
+            "phase": "5",  # Phase 5 implementation
+            "features": "enhanced_observability,evidence_collection,compliance_dashboard",
         })
 
     def _setup_propagation(self):
@@ -340,7 +340,7 @@ class EnhancedLUKHASTracer:
 
         baggage_items = {}
         if correlation_id:
-            baggage_items["lukhas.correlation_id"] = correlation_id
+            baggage_items["correlation_id"] = correlation_id
 
         return self.trace_operation(
             operation_name=operation_name,
@@ -361,7 +361,7 @@ class EnhancedLUKHASTracer:
     ):
         """Context manager for tracing performance operations"""
         attributes = {
-            "lukhas.metric.name": metric_name,
+            "metric.name": metric_name,
             LUKHASSemanticConventions.LUKHAS_PERFORMANCE_CURRENT: current_value,
         }
 

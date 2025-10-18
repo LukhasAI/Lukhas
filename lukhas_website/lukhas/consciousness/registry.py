@@ -36,7 +36,7 @@ from typing import Any, Callable, Optional, TypeVar
 
 try:
     from async_manager import TaskPriority, get_consciousness_manager
-    from lukhas.core.common.config import get_config
+    from core.common.config import get_config
 except ImportError:
     # Graceful fallback for development
     def get_consciousness_manager():

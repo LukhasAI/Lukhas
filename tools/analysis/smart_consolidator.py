@@ -16,11 +16,11 @@ class SmartConsolidator:
     def __init__(self):
         self.sgi_core_modules = {
             "consciousness": "Self-awareness and decision making",
-            "lukhas.memory": "DNA-like helix with emotional vectors",
+            "memory": "DNA-like helix with emotional vectors",
             "dream": "Quantum-state parallel scenario learning",
             "emotion": "Recognition linked to feeling and memory",
             "quantum": "Multi-parallel processing core",
-            "lukhas.governance": "Guardian and ethical oversight",
+            "governance": "Guardian and ethical oversight",
             "identity": "Quantum-resistant authentication",
         }
 

@@ -47,21 +47,21 @@ class LaneIsolationManager:
         self.lanes = {
             'production': LaneConfig(
                 name='production',
-                allowed_plugin_groups=['lukhas.constellation_components', 'lukhas.monitoring'],
+                allowed_plugin_groups=['constellation_components', 'monitoring'],
                 security_level='strict',
                 resource_limits={'memory_mb': 100, 'cpu_percent': 10},
                 plugin_prefix='prod'
             ),
             'development': LaneConfig(
                 name='development',
-                allowed_plugin_groups=['lukhas.constellation_components', 'lukhas.cognitive_nodes', 'lukhas.adapters'],
+                allowed_plugin_groups=['constellation_components', 'cognitive_nodes', 'adapters'],
                 security_level='moderate',
                 resource_limits={'memory_mb': 500, 'cpu_percent': 50},
                 plugin_prefix='dev'
             ),
             'experimental': LaneConfig(
                 name='experimental',
-                allowed_plugin_groups=['lukhas.cognitive_nodes', 'lukhas.adapters'],
+                allowed_plugin_groups=['cognitive_nodes', 'adapters'],
                 security_level='permissive',
                 resource_limits={'memory_mb': 1000, 'cpu_percent': 80},
                 plugin_prefix='exp'
@@ -115,10 +115,10 @@ class LaneIsolationManager:
 
         # Map group to type
         group_type_map = {
-            'lukhas.constellation_components': 'constellation',
-            'lukhas.cognitive_nodes': 'node',
-            'lukhas.adapters': 'adapter',
-            'lukhas.monitoring': 'monitor'
+            'constellation_components': 'constellation',
+            'cognitive_nodes': 'node',
+            'adapters': 'adapter',
+            'monitoring': 'monitor'
         }
 
         plugin_type = group_type_map.get(plugin_group, 'unknown')
@@ -148,7 +148,7 @@ class TestLaneIsolationEnforcement:
         # Register monitoring plugin (allowed in production)
         monitoring_key = self.isolation_manager.get_lane_specific_registry_key(
             'system_monitor',
-            'lukhas.monitoring',
+            'monitoring',
             'production'
         )
 
@@ -163,7 +163,7 @@ class TestLaneIsolationEnforcement:
 
         dev_key = self.isolation_manager.get_lane_specific_registry_key(
             'debug_adapter',
-            'lukhas.adapters',
+            'adapters',
             'development'
         )
 
@@ -187,19 +187,19 @@ class TestLaneIsolationEnforcement:
 
         # Register in production lane
         prod_key = self.isolation_manager.get_lane_specific_registry_key(
-            'secure_plugin', 'lukhas.monitoring', 'production'
+            'secure_plugin', 'monitoring', 'production'
         )
         register(prod_key, production_plugin)
 
         # Register in development lane
         dev_key = self.isolation_manager.get_lane_specific_registry_key(
-            'debug_plugin', 'lukhas.adapters', 'development'
+            'debug_plugin', 'adapters', 'development'
         )
         register(dev_key, development_plugin)
 
         # Register in experimental lane
         exp_key = self.isolation_manager.get_lane_specific_registry_key(
-            'alpha_plugin', 'lukhas.cognitive_nodes', 'experimental'
+            'alpha_plugin', 'cognitive_nodes', 'experimental'
         )
         register(exp_key, experimental_plugin)
 
@@ -227,10 +227,10 @@ class TestLaneIsolationEnforcement:
         """Test that plugin discovery respects lane boundaries"""
 
         test_plugins = {
-            'lukhas.monitoring': ['system_monitor', 'performance_tracker'],
-            'lukhas.constellation_components': ['core_processor', 'memory_manager'],
-            'lukhas.cognitive_nodes': ['reasoning_node', 'learning_node'],
-            'lukhas.adapters': ['database_adapter', 'api_adapter']
+            'monitoring': ['system_monitor', 'performance_tracker'],
+            'constellation_components': ['core_processor', 'memory_manager'],
+            'cognitive_nodes': ['reasoning_node', 'learning_node'],
+            'adapters': ['database_adapter', 'api_adapter']
         }
 
         for lane_name in ['production', 'development', 'experimental']:
@@ -239,7 +239,7 @@ class TestLaneIsolationEnforcement:
             self.isolation_manager.set_current_lane(lane_name)
             lane_config = self.isolation_manager.get_lane_config(lane_name)
 
-            with patch('lukhas.core.registry.entry_points') as mock_entry_points:
+            with patch('core.registry.entry_points') as mock_entry_points:
                 # Create mock entry points for all plugin groups
                 all_entry_points = []
 
@@ -260,7 +260,7 @@ class TestLaneIsolationEnforcement:
                 mock_entry_points.side_effect = mock_entry_points_func
 
                 # Mock the discovery process to respect lane isolation
-                with patch('lukhas.core.registry._register_kind') as mock_register_kind:
+                with patch('core.registry._register_kind') as mock_register_kind:
                     def lane_aware_register(group, name, obj):
                         # Only register if plugin is allowed in current lane
                         if self.isolation_manager.is_plugin_allowed_in_lane(group, lane_name):
@@ -275,7 +275,7 @@ class TestLaneIsolationEnforcement:
                     with patch.dict(os.environ, {'LUKHAS_PLUGIN_DISCOVERY': 'auto'}):
                         # Simulate lane-aware discovery
                         for group in test_plugins.keys():
-                            with patch('lukhas.core.registry.entry_points', return_value=mock_entry_points_func(group)):
+                            with patch('core.registry.entry_points', return_value=mock_entry_points_func(group)):
                                 discover_entry_points()
 
                 # Verify only allowed plugins were registered for this lane
@@ -307,13 +307,13 @@ class TestLaneIsolationEnforcement:
         # This is a simplified extraction - in real implementation
         # we'd need to track the mapping between keys and groups
         if 'monitor' in key:
-            return 'lukhas.monitoring'
+            return 'monitoring'
         elif 'constellation' in key:
-            return 'lukhas.constellation_components'
+            return 'constellation_components'
         elif 'node' in key:
-            return 'lukhas.cognitive_nodes'
+            return 'cognitive_nodes'
         elif 'adapter' in key:
-            return 'lukhas.adapters'
+            return 'adapters'
         return 'unknown'
 
     def test_lane_boundary_enforcement_during_registration(self):
@@ -321,20 +321,20 @@ class TestLaneIsolationEnforcement:
 
         test_cases = [
             # (lane, plugin_group, plugin_name, should_succeed)
-            ('production', 'lukhas.monitoring', 'system_monitor', True),
-            ('production', 'lukhas.constellation_components', 'core_processor', True),
-            ('production', 'lukhas.cognitive_nodes', 'reasoning_node', False),  # Not allowed in prod
-            ('production', 'lukhas.adapters', 'database_adapter', False),  # Not allowed in prod
+            ('production', 'monitoring', 'system_monitor', True),
+            ('production', 'constellation_components', 'core_processor', True),
+            ('production', 'cognitive_nodes', 'reasoning_node', False),  # Not allowed in prod
+            ('production', 'adapters', 'database_adapter', False),  # Not allowed in prod
 
-            ('development', 'lukhas.monitoring', 'debug_monitor', False),  # Not allowed in dev
-            ('development', 'lukhas.constellation_components', 'test_processor', True),
-            ('development', 'lukhas.cognitive_nodes', 'learning_node', True),
-            ('development', 'lukhas.adapters', 'test_adapter', True),
+            ('development', 'monitoring', 'debug_monitor', False),  # Not allowed in dev
+            ('development', 'constellation_components', 'test_processor', True),
+            ('development', 'cognitive_nodes', 'learning_node', True),
+            ('development', 'adapters', 'test_adapter', True),
 
-            ('experimental', 'lukhas.monitoring', 'experimental_monitor', False),  # Not allowed in exp
-            ('experimental', 'lukhas.constellation_components', 'alpha_processor', False),  # Not allowed in exp
-            ('experimental', 'lukhas.cognitive_nodes', 'experimental_node', True),
-            ('experimental', 'lukhas.adapters', 'experimental_adapter', True),
+            ('experimental', 'monitoring', 'experimental_monitor', False),  # Not allowed in exp
+            ('experimental', 'constellation_components', 'alpha_processor', False),  # Not allowed in exp
+            ('experimental', 'cognitive_nodes', 'experimental_node', True),
+            ('experimental', 'adapters', 'experimental_adapter', True),
         ]
 
         for lane, plugin_group, plugin_name, should_succeed in test_cases:
@@ -549,7 +549,7 @@ class TestLaneIsolationEnforcement:
 
                 # Test enforcement (simplified - checks plugin name patterns)
                 allowed = self.isolation_manager.enforce_lane_isolation(
-                    plugin_name, 'lukhas.constellation_components', lane_name
+                    plugin_name, 'constellation_components', lane_name
                 )
 
                 if lane_config.security_level == 'strict':
@@ -579,7 +579,7 @@ class TestLaneIsolationEnforcement:
         # Register plugin in production lane
         self.isolation_manager.set_current_lane('production')
         prod_key = self.isolation_manager.get_lane_specific_registry_key(
-            'critical_plugin', 'lukhas.monitoring', 'production'
+            'critical_plugin', 'monitoring', 'production'
         )
         prod_plugin = {'name': 'critical_plugin', 'lane': 'production', 'sensitive_data': True}
         register(prod_key, prod_plugin)
@@ -587,7 +587,7 @@ class TestLaneIsolationEnforcement:
         # Attempt to register same plugin in development lane
         self.isolation_manager.set_current_lane('development')
         dev_key = self.isolation_manager.get_lane_specific_registry_key(
-            'critical_plugin', 'lukhas.adapters', 'development'
+            'critical_plugin', 'adapters', 'development'
         )
         dev_plugin = {'name': 'critical_plugin', 'lane': 'development', 'debug_mode': True}
         register(dev_key, dev_plugin)

@@ -47,7 +47,7 @@ with warnings.catch_warnings():
     warnings.simplefilter("ignore")
     import requests
 
-from lukhas.branding.terminology import normalize_output
+from branding.terminology import normalize_output
 
 from .env_loader import get_api_key
 
@@ -142,7 +142,7 @@ class PerplexityWrapper:
 ║ REFERENCES:
 ║   - Docs: docs/bridge/llm-wrappers/perplexity.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=perplexity-wrapper
-║   - Wiki: wiki.lukhas.ai/perplexity-integration
+║   - Wiki: wiki.ai/perplexity-integration
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

@@ -20,8 +20,8 @@ logger = logging.getLogger(__name__)
 # Use of this source code is governed by a LUKHAS AI license
 # that can be found in the LICENSE file.
 #
-# Contact: contact@lukhas.ai
-# Website: https://lukhas.ai
+# Contact: contact@ai
+# Website: https://ai
 #
 """
 # ΛNOTE: This module implements a sophisticated Ethical Reasoning and Value Alignment System,

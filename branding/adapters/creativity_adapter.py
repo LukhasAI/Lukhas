@@ -11,8 +11,8 @@ from typing import Any
 sys.path.append(str(Path(__file__).parent.parent.parent / "consciousness"))
 
 try:
-    from lukhas.consciousness.creativity.creative_engine import CreativeEngine
-    from lukhas.consciousness.creativity.personality.voice.voice_personality import (
+    from consciousness.creativity.creative_engine import CreativeEngine
+    from consciousness.creativity.personality.voice.voice_personality import (
         VoicePersonality,
     )
 except ImportError:

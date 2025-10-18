@@ -10,7 +10,7 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from lukhas.core.registry import _instantiate_plugin, register, resolve
+from core.registry import _instantiate_plugin, register, resolve
 
 
 class DemoNode:
@@ -96,7 +96,7 @@ def demo_compatibility_features():
     print("=" * 40)
 
     # Show alias support
-    from lukhas.core.registry import ALIASES
+    from core.registry import ALIASES
     print("Legacy group aliases:")
     for legacy, modern in ALIASES.items():
         print(f"  {legacy} → {modern}")

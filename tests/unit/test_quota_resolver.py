@@ -11,7 +11,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-from lukhas.core.reliability.quota_resolver import QuotaResolver, Quota
+from core.reliability.quota_resolver import QuotaResolver, Quota
 
 
 class TestQuotaResolver:

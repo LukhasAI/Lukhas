@@ -1,11 +1,11 @@
 """
-Interfaces for lukhas.identity
+Interfaces for identity
 ==============================
 
 This module provides abstract base classes and data classes that define the
 interfaces for the identity module.
 
-Other modules, such as `lukhas.governance`, should import from this module
+Other modules, such as `governance`, should import from this module
 to avoid circular dependencies.
 """
 

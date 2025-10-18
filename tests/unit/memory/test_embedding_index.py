@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from lukhas.memory.embedding_index import EmbeddingIndex
+from memory.embedding_index import EmbeddingIndex
 
 # ΛTAG: memory_embedding_index_test
 

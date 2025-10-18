@@ -18,7 +18,7 @@ os.makedirs(LEDGER_DIR, exist_ok=True)
 # Optional fan-out
 WEBHOOK_URL = os.environ.get("CONSENT_WEBHOOK_URL")  # e.g., https://audit.yourapp/consent
 KAFKA_BROKERS = os.environ.get("CONSENT_KAFKA_BROKERS")  # e.g., localhost:9092
-KAFKA_TOPIC = os.environ.get("CONSENT_KAFKA_TOPIC")  # e.g., lukhas.consent.events
+KAFKA_TOPIC = os.environ.get("CONSENT_KAFKA_TOPIC")  # e.g., consent.events
 
 # Reuse Merkle + ed25519 attestation from provenance
 _HAS_ATTEST = True

@@ -30,7 +30,7 @@ def import_with_fallback(primary_path: str, fallback_paths: list, item_name: str
     # First try registry lookup for candidate components
     if primary_path.startswith("candidate."):
         try:
-            from lukhas.core.registry import resolve
+            from core.registry import resolve
             registry_key = f"colony:{item_name.lower()}"
             result = resolve(registry_key)
             logger.debug(f"Successfully resolved {item_name} from registry key {registry_key}")
@@ -75,13 +75,13 @@ class ConsensusResult:
 
 BaseColony = None
 
-# Try to import from real lukhas.core implementation first
+# Try to import from real core implementation first
 try:
-    from lukhas.core.colonies.base_colony import BaseColony
+    from core.colonies.base_colony import BaseColony
 
-    logger.info("✅ Using lukhas.core.colonies.base_colony.BaseColony (REAL)")
+    logger.info("✅ Using core.colonies.base_colony.BaseColony (REAL)")
 except ImportError:
-    # Fall back to stub implementation if lukhas.core not available
+    # Fall back to stub implementation if core not available
     BaseColony = None
 
 if BaseColony is None:
@@ -142,7 +142,7 @@ def list_available_colonies() -> list[str]:
     return list(colony_types.keys())
 
 
-# Import real implementations from lukhas.core
+# Import real implementations from core
 try:
     from ..distributed_tracing import create_ai_tracer
     from ..efficient_communication import (
@@ -154,9 +154,9 @@ try:
     from ..supervisor_agent import SupervisorAgent, get_supervisor_agent
     from ..symbolism import TagScope
 
-    logger.info("Successfully imported real implementations from lukhas.core")
+    logger.info("Successfully imported real implementations from core")
 except ImportError as e:
-    logger.warning(f"Failed to import from lukhas.core, creating stubs: {e}")
+    logger.warning(f"Failed to import from core, creating stubs: {e}")
 
     # Create placeholder classes for missing dependencies
     class SupervisorAgent:

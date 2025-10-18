@@ -6,8 +6,8 @@ from importlib import import_module
 
 _BACKENDS = (
     "labs.candidate.governance.guardian.guardian_impl",
-    "lukhas_website.lukhas.governance.guardian.guardian_impl",
-    "lukhas.governance.guardian.guardian_impl",
+    "lukhas_website.governance.guardian.guardian_impl",
+    "governance.guardian.guardian_impl",
 )
 
 for _candidate in _BACKENDS:

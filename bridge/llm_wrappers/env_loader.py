@@ -156,7 +156,7 @@ load_lukhas_env()
 ║ REFERENCES:
 ║   - Docs: docs/bridge/llm-wrappers/configuration.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=env-config
-║   - Wiki: wiki.lukhas.ai/api-key-management
+║   - Wiki: wiki.ai/api-key-management
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

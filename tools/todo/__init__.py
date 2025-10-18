@@ -1,4 +1,4 @@
-"""Alias to lukhas.tools.todo if available."""
+"""Alias to tools.todo if available."""
 
 from __future__ import annotations
 

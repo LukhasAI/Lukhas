@@ -413,9 +413,9 @@ class SymbolicKernelBus:
         This establishes the default event routing for LUKHΛS.
         """
         # Memory fold events
-        self.subscribe("lukhas.memory.fold.init", self._handle_memory_fold_init)
-        self.subscribe("lukhas.memory.fold.close", self._handle_memory_fold_close)
-        self.subscribe("lukhas.memory.cascade.detected", self._handle_memory_cascade)
+        self.subscribe("memory.fold.init", self._handle_memory_fold_init)
+        self.subscribe("memory.fold.close", self._handle_memory_fold_close)
+        self.subscribe("memory.cascade.detected", self._handle_memory_cascade)
 
         # Agent drift detection
         self.subscribe("agent.drift.detected", self._handle_agent_drift)
@@ -489,7 +489,7 @@ class SymbolicKernelBus:
 
         # Emit cascade event to propagate
         self.emit(
-            "lukhas.memory.fold.ready",
+            "memory.fold.ready",
             {"fold_id": fold_id, "parent_event": event.event_id},
             source="kernel.memory",
             effects=[SymbolicEffect.MEMORY_CASCADE],
@@ -506,7 +506,7 @@ class SymbolicKernelBus:
 
         # Trigger persistence
         self.emit(
-            "lukhas.memory.persist.request",
+            "memory.persist.request",
             {"fold_id": fold_id, "timestamp": time.time()},
             source="kernel.memory",
             effects=[SymbolicEffect.MEMORY_PERSIST, SymbolicEffect.LOG_TRACE],
@@ -627,7 +627,7 @@ class SymbolicKernelBus:
 
         # Create dream memory fold
         self.emit(
-            "lukhas.memory.fold.create",
+            "memory.fold.create",
             {"fold_type": "dream", "dream_id": dream_id},
             source="kernel.dreams",
             effects=[SymbolicEffect.MEMORY_FOLD, SymbolicEffect.DREAM_TRIGGER],

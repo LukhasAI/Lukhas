@@ -30,7 +30,7 @@ class TestSupervisorAgent:
     def test_supervisor_initialization(self) -> bool:
         """Test supervisor agent creation and configuration"""
         try:
-            from lukhas.core.supervisor_agent import SupervisorAgent
+            from core.supervisor_agent import SupervisorAgent
 
             print("    🏗️ Testing supervisor initialization...")
 
@@ -68,7 +68,7 @@ class TestSupervisorAgent:
     def test_task_escalation_workflow(self) -> bool:
         """Test complete task escalation workflow"""
         try:
-            from lukhas.core.supervisor_agent import SupervisorAgent
+            from core.supervisor_agent import SupervisorAgent
 
             print("    ⬆️ Testing task escalation workflow...")
 
@@ -126,7 +126,7 @@ class TestSupervisorAgent:
     def test_escalation_tracking(self) -> bool:
         """Test escalation tracking and history management"""
         try:
-            from lukhas.core.supervisor_agent import SupervisorAgent
+            from core.supervisor_agent import SupervisorAgent
 
             print("    📊 Testing escalation tracking...")
 
@@ -217,7 +217,7 @@ class TestGLYPHCommunication:
     def test_glyph_token_creation(self) -> bool:
         """Test GLYPH token creation and basic functionality"""
         try:
-            from lukhas.core.common.glyph import GLYPHPriority, GLYPHSymbol, GLYPHToken, create_glyph
+            from core.common.glyph import GLYPHPriority, GLYPHSymbol, GLYPHToken, create_glyph
 
             print("    🎫 Testing GLYPH token creation...")
 
@@ -264,7 +264,7 @@ class TestGLYPHCommunication:
     def test_glyph_serialization(self) -> bool:
         """Test GLYPH token serialization and deserialization"""
         try:
-            from lukhas.core.common.glyph import GLYPHContext, GLYPHSymbol, GLYPHToken, create_glyph
+            from core.common.glyph import GLYPHContext, GLYPHSymbol, GLYPHToken, create_glyph
 
             print("    📦 Testing GLYPH serialization...")
 
@@ -322,7 +322,7 @@ class TestGLYPHCommunication:
     def test_glyph_communication_patterns(self) -> bool:
         """Test GLYPH communication patterns and workflows"""
         try:
-            from lukhas.core.common.glyph import (
+            from core.common.glyph import (
                 GLYPHRouter,
                 GLYPHSymbol,
                 GLYPHToken,

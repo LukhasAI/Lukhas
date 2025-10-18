@@ -41,7 +41,7 @@ class IsolatedFilesAssessor:
             "bio",
             "emotion",
             "dream",
-            "lukhas.memory",
+            "memory",
             "identity",
             "symbolic",
         ]

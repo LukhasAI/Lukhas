@@ -440,7 +440,7 @@ class ReflectiveIntrospectionSystem:
 ║ REFERENCES:
 ║   - Docs: docs/consciousness/cognitive/reflective_introspection.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=introspection
-║   - Wiki: internal.lukhas.ai/wiki/metacognition
+║   - Wiki: internal.ai/wiki/metacognition
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

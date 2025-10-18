@@ -33,9 +33,9 @@ from typing import Any, Optional
 
 # Import core memory systems with fallbacks
 try:
-    from lukhas.core.common.glyph_processor import GlyphProcessor
-    from lukhas.memory.folds.unified_memory_core import unified_memory_core_instance
-    from lukhas.memory.systems.memory_fold_system import MemoryFoldSystem
+    from core.common.glyph_processor import GlyphProcessor
+    from memory.folds.unified_memory_core import unified_memory_core_instance
+    from memory.systems.memory_fold_system import MemoryFoldSystem
 except ImportError:
     unified_memory_core_instance = None
     MemoryFoldSystem = None

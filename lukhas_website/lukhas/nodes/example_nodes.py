@@ -7,7 +7,7 @@ import asyncio
 import time
 from typing import Any, Mapping
 
-from lukhas.core.interfaces import CognitiveNodeBase
+from core.interfaces import CognitiveNodeBase
 
 
 class IntentNode(CognitiveNodeBase):

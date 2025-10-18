@@ -56,7 +56,7 @@ import pandas as pd
 try:
     from ..config import LucasConfig  # Assuming this class exists and has get_default
     from ..identity import AccessController  # Assuming this class exists
-    from ..lukhas.memory import AnalyticsMemory  # Assuming this class exists
+    from ..memory import AnalyticsMemory  # Assuming this class exists
     from ..symbolic_ai import SymbolicProcessor
 
     logger.info("Successfully imported core dependencies for LucasAnalyzeEngine.")
@@ -1179,7 +1179,7 @@ class LucasAnalyzeEngine:
 #          type detection, insight generation, etc.), cache operations, errors, and performance.
 # AUTHENTICATION: Uses `AccessController` for basic permission checks (#AIDENTITY).
 # HOW TO USE:
-#   from lukhas.core.lukhas_analyze.engine import LucasAnalyzeEngine, AnalysisRequest, AnalysisType
+#   from core.lukhas_analyze.engine import LucasAnalyzeEngine, AnalysisRequest, AnalysisType
 #   engine = LucasAnalyzeEngine()
 #   analysis_data = pd.DataFrame(...) # or path to file
 #   result = await engine.analyze(analysis_data, question="What are the sales trends?")

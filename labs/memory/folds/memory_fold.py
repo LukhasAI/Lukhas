@@ -1513,7 +1513,7 @@ ADVANCED USAGE:
 ║ REFERENCES:
 ║   - Docs: docs/memory/memory_fold_architecture.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=memory-fold
-║   - Wiki: internal.lukhas.ai/wiki/memory-fold-system
+║   - Wiki: internal.ai/wiki/memory-fold-system
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

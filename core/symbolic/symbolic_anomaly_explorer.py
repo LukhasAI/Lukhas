@@ -227,7 +227,7 @@ class SymbolicAnomalyExplorer:
         self.drift_tracker = None
         if drift_integration:
             try:
-                from lukhas.core.symbolic.drift.symbolic_drift_tracker import SymbolicDriftTracker
+                from core.symbolic.drift.symbolic_drift_tracker import SymbolicDriftTracker
 
                 self.drift_tracker = SymbolicDriftTracker()
                 logger.info("Drift tracker integration enabled")

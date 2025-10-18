@@ -24,7 +24,7 @@ Feature Flags:
 - QI_DRY_RUN: Enable simulation mode (default: true)
 
 Usage:
-    from lukhas.qi import get_qi_wrapper
+    from qi import get_qi_wrapper
 
     qi = get_qi_wrapper()
     qi.initialize()

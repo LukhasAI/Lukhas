@@ -1,7 +1,7 @@
 """Bridge for `core.collective.routing`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.core.collective.routing
+  1) lukhas_website.core.collective.routing
   2) candidate.core.collective.routing
   3) core.collective.routing
 
@@ -22,7 +22,7 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.core.collective.routing",
+    "lukhas_website.core.collective.routing",
     "labs.core.collective.routing",
     "core.collective.routing",
 )

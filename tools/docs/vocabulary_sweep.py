@@ -97,7 +97,7 @@ TERMINOLOGY_RULES = [
     ),
     TerminologyRule(
         old_term="lukhas_core",
-        new_term="lukhas.core",
+        new_term="core",
         category="naming",
         pattern=r'\blukhas_core\b',
         contexts=[".py"]

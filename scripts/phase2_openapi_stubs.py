@@ -127,11 +127,11 @@ def generate_openapi_stub(api_name: str, api_def: Dict[str, Any]) -> Dict[str, A
             "version": "1.0.0",
             "contact": {
                 "name": "LUKHAS AI Platform",
-                "url": "https://lukhas.ai",
+                "url": "https://ai",
             },
         },
         "servers": [
-            {"url": "https://api.lukhas.ai", "description": "Production"},
+            {"url": "https://api.ai", "description": "Production"},
             {"url": "http://localhost:8000", "description": "Development"},
         ],
         "paths": paths,

@@ -19,7 +19,7 @@ quantum integration, and bio-inspired architecture.
 
 Module for dream seed functionality
 
-For more information, visit: https://lukhas.ai
+For more information, visit: https://ai
 """
 from typing import Optional
 

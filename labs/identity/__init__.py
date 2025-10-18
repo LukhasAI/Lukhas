@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 
 # Core identity system imports with fallbacks
 try:
-    from lukhas.governance.identity import (
+    from governance.identity import (
         IdentityClient,
         get_identity_client,
         verify_tier_access,
@@ -61,7 +61,7 @@ except ImportError as e:
 
 # OAuth2/OIDC Provider
 try:
-    from lukhas.governance.identity.core.auth.oauth2_oidc_provider import (
+    from governance.identity.core.auth.oauth2_oidc_provider import (
         OAuth2OIDCProvider,
         OAuthClient,
     )
@@ -92,7 +92,7 @@ except ImportError as e:
 
 # WebAuthn/FIDO2 Support
 try:
-    from lukhas.governance.identity.core.auth.webauthn_manager import (
+    from governance.identity.core.auth.webauthn_manager import (
         PasskeyAuthentication,
         PasskeyRegistration,
         WebAuthnManager,
@@ -128,10 +128,10 @@ except ImportError as e:
 
 # λID Core Identity System
 try:
-    from lukhas.governance.identity.core.id_service.entropy_engine import (
+    from governance.identity.core.id_service.entropy_engine import (
         EntropyEngine,
     )
-    from lukhas.governance.identity.core.id_service.lambd_id_generator import (
+    from governance.identity.core.id_service.lambd_id_generator import (
         LambdIDGenerator,
         LambdIDValidator,
     )
@@ -165,7 +165,7 @@ except ImportError as e:
 
 # Tier Management
 try:
-    from lukhas.governance.identity.core.tier.tier_manager import (
+    from governance.identity.core.tier.tier_manager import (
         TierManager,
         TierValidator,
     )
@@ -193,7 +193,7 @@ except ImportError as e:
 
 # Namespace Management
 try:
-    from lukhas.governance.identity.core.namespace_manager import (
+    from governance.identity.core.namespace_manager import (
         IdentityNamespace,
         NamespaceManager,
     )
@@ -381,7 +381,7 @@ def generate_lambda_id(user_id: str, tier: str = "T1") -> str:
     if default_system.lambda_id_generator:
         try:
             # Convert tier string to TierLevel enum
-            from lukhas.governance.identity.core.id_service.lambd_id_generator import (
+            from governance.identity.core.id_service.lambd_id_generator import (
                 TierLevel,
             )
 

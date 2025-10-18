@@ -33,7 +33,7 @@ import unittest
 
 from qrg_integration import LukhusQRGIntegrator, QRGType
 
-from lukhas.qi.steganographic_demo import (
+from qi.steganographic_demo import (
     GlyphStyle,
     QIQRInfluencer,
     SteganographicGlyphGenerator,

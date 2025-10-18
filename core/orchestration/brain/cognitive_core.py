@@ -27,8 +27,8 @@ if brain_dir not in sys.path:
     sys.path.insert(0, brain_dir)
 
 try:
-    from lukhas.orchestration.brain.core.capability_levels import AGICapabilityLevel
-    from lukhas.orchestration.brain.core.response_types import AGIResponse
+    from orchestration.brain.core.capability_levels import AGICapabilityLevel
+    from orchestration.brain.core.response_types import AGIResponse
 except ImportError:
     # Fallback to basic classes if modules don't exist
     from enum import Enum
@@ -88,7 +88,7 @@ except ImportError:
 
 
 try:
-    from lukhas.orchestration.agents.MetaCognitiveOrchestrator import MetaCognitiveOrchestrator
+    from orchestration.agents.MetaCognitiveOrchestrator import MetaCognitiveOrchestrator
 except ImportError:
 
     class MetaCognitiveOrchestrator:
@@ -545,7 +545,7 @@ class CognitiveEngine:
                     "reasoning": openai_enhancement.get("reasoning_data", {}),
                     "consciousness": openai_enhancement.get("consciousness_data", {}),
                     "ethics": openai_enhancement.get("ethics_data", {}),
-                    "lukhas.memory": openai_enhancement.get("memory_data", {}),
+                    "memory": openai_enhancement.get("memory_data", {}),
                     "integration_success": openai_enhancement.get(
                         "integration_success", False
                     ),

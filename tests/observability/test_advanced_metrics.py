@@ -17,7 +17,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from lukhas.observability.advanced_metrics import (
+from observability.advanced_metrics import (
     AdvancedMetricsSystem,
     AnomalyType,
     MetricAnomaly,
@@ -41,7 +41,7 @@ def mock_prometheus_metrics():
 @pytest.fixture
 def advanced_metrics_system(mock_prometheus_metrics):
     """Create advanced metrics system for testing"""
-    with patch('lukhas.observability.advanced_metrics.get_lukhas_metrics', return_value=mock_prometheus_metrics):
+    with patch('observability.advanced_metrics.get_lukhas_metrics', return_value=mock_prometheus_metrics):
         system = AdvancedMetricsSystem(
             enable_anomaly_detection=True,
             enable_ml_features=True,
@@ -382,7 +382,7 @@ class TestIntegrationFunctions:
 
     def test_initialize_advanced_metrics(self, mock_prometheus_metrics):
         """Test advanced metrics initialization"""
-        with patch('lukhas.observability.advanced_metrics.get_lukhas_metrics', return_value=mock_prometheus_metrics):
+        with patch('observability.advanced_metrics.get_lukhas_metrics', return_value=mock_prometheus_metrics):
             system = initialize_advanced_metrics(
                 enable_anomaly_detection=True,
                 enable_ml_features=False,
@@ -395,7 +395,7 @@ class TestIntegrationFunctions:
     @pytest.mark.asyncio
     async def test_convenience_functions(self, advanced_metrics_system):
         """Test convenience functions"""
-        with patch('lukhas.observability.advanced_metrics.get_advanced_metrics', return_value=advanced_metrics_system):
+        with patch('observability.advanced_metrics.get_advanced_metrics', return_value=advanced_metrics_system):
             # Test record_metric function
             await record_metric("test_metric", 100.5, labels={"test": "value"})
 

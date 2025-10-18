@@ -386,7 +386,7 @@ class StructuredLogger:
 
     def __init__(self):
         """Initialize structured logger."""
-        self.logger = structlog.get_logger("lukhas.identity")
+        self.logger = structlog.get_logger("identity")
 
     def log_authentication_attempt(
         self,

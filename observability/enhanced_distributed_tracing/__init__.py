@@ -1,7 +1,7 @@
 """Bridge for `observability.enhanced_distributed_tracing`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.observability.enhanced_distributed_tracing
+  1) lukhas_website.observability.enhanced_distributed_tracing
   2) candidate.observability.enhanced_distributed_tracing
   3) observability.enhanced_distributed_tracing
 
@@ -22,7 +22,7 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.observability.enhanced_distributed_tracing",
+    "lukhas_website.observability.enhanced_distributed_tracing",
     "candidate.observability.enhanced_distributed_tracing",
     "observability.enhanced_distributed_tracing",
 )

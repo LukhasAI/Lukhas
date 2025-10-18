@@ -9,7 +9,7 @@ flag misalignment before consolidation writes land in long‑term memory.
 
 Usage
 -----
-from lukhas.memory.structural_conscience import StructuralConscience, StructuralReport
+from memory.structural_conscience import StructuralConscience, StructuralReport
 report = StructuralConscience().validate_memory_structure(fold)
 print(report.ok, report.issues)
 """

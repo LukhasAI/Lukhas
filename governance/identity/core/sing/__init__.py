@@ -6,7 +6,7 @@ from importlib import import_module
 
 for _candidate in (
     "lukhas_website.governance.identity.core.sing",
-    "lukhas.governance.identity.core.sing",
+    "governance.identity.core.sing",
     "candidate.governance.identity.core.sing",
 ):
     try:

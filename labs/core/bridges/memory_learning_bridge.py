@@ -41,7 +41,7 @@ class MemoryLearningBridge:
             # Get system hubs
             from learning.learning_hub import get_learning_hub
 
-            from lukhas.consciousness.reflection.memory_hub import get_memory_hub
+            from consciousness.reflection.memory_hub import get_memory_hub
 
             self.memory_hub = get_memory_hub()
             self.learning_hub = get_learning_hub()
@@ -133,7 +133,7 @@ class MemoryLearningBridge:
     def transform_data_memory_to_learning(self, data: dict[str, Any]) -> dict[str, Any]:
         """Transform data format from Memory to Learning"""
         return {
-            "source_system": "lukhas.memory",
+            "source_system": "memory",
             "target_system": "learning",
             "data": data,
             "learning_context": True,
@@ -145,7 +145,7 @@ class MemoryLearningBridge:
         """Transform data format from Learning to Memory"""
         return {
             "source_system": "learning",
-            "target_system": "lukhas.memory",
+            "target_system": "memory",
             "data": data,
             "memory_context": True,
             "timestamp": self._get_timestamp(),

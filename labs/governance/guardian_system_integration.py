@@ -41,7 +41,7 @@ from typing import Any, Callable, Optional
 
 # Guardian System Components
 try:
-    from lukhas.governance.consent_ledger.ledger_v1 import (
+    from governance.consent_ledger.ledger_v1 import (
         ConsentLedgerV1,
         PolicyVerdict,
     )
@@ -51,7 +51,7 @@ except ImportError:
     logging.warning("ConsentLedgerV1 not available - using fallback")
 
 try:
-    from lukhas.governance.guardian.drift_detector import (
+    from governance.guardian.drift_detector import (
         AdvancedDriftDetector,
         DriftSeverity,
         DriftType,
@@ -63,7 +63,7 @@ except ImportError:
     logging.warning("AdvancedDriftDetector not available - using fallback")
 
 try:
-    from lukhas.governance.identity.core.sent.policy_engine import (
+    from governance.identity.core.sent.policy_engine import (
         ComprehensiveEthicsPolicyEngine,
         EthicalFramework,
         PolicyAction,
@@ -75,7 +75,7 @@ except ImportError:
     logging.warning("ComprehensiveEthicsPolicyEngine not available - using fallback")
 
 try:
-    from lukhas.governance.security.audit_system import (
+    from governance.security.audit_system import (
         AuditCategory,
         AuditEventType,
         AuditLevel,
@@ -90,7 +90,7 @@ except ImportError:
 
 # Core system integrations
 try:
-    from lukhas.core.glyph import GlyphEngine
+    from core.glyph import GlyphEngine
 except ImportError:
     GlyphEngine = None
     logging.warning("GlyphEngine not available - Constellation integration limited")
@@ -471,7 +471,7 @@ class GuardianSystemIntegration:
             # Constellation Framework validation
             constellation_validation = await self._validate_constellation_framework(request, response)
             response.identity_validated = constellation_validation["identity"]
-            response.memory_validated = constellation_validation["lukhas.memory"]
+            response.memory_validated = constellation_validation["memory"]
             response.vision_validated = constellation_validation["vision"]
             response.bio_validated = constellation_validation["bio"]
             response.dream_validated = constellation_validation["dream"]
@@ -633,7 +633,7 @@ class GuardianSystemIntegration:
 
         constellation_validation = {
             "identity": False,  # ✨ Identity - Anchor star
-            "lukhas.memory": False,  # 🌟 Memory - Tracing paths of past light
+            "memory": False,  # 🌟 Memory - Tracing paths of past light
             "vision": False,  # ⭐ Vision - Orientation toward horizon
             "bio": False,  # 🔥 Bio - Resilience and adaptation
             "dream": False,  # 💎 Dream - Symbolic drift
@@ -651,7 +651,7 @@ class GuardianSystemIntegration:
 
             # 🌟 Memory validation - Tracing paths of past light
             # Memory validation through consent history and audit trails
-            constellation_validation["lukhas.memory"] = bool(
+            constellation_validation["memory"] = bool(
                 response.audit_result and response.audit_result.get("status") == "completed"
             )
 
@@ -827,7 +827,7 @@ class GuardianSystemIntegration:
             constellation_issues = []
             star_names = [
                 "identity",
-                "lukhas.memory",
+                "memory",
                 "vision",
                 "bio",
                 "dream",
@@ -879,7 +879,7 @@ class GuardianSystemIntegration:
                     "validation_time_ms": response.validation_time_ms,
                     "constellation_validation": {
                         "identity": response.identity_validated,
-                        "lukhas.memory": response.memory_validated,
+                        "memory": response.memory_validated,
                         "vision": response.vision_validated,
                         "bio": response.bio_validated,
                         "dream": response.dream_validated,

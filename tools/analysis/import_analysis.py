@@ -299,7 +299,7 @@ def main():
     external_missing = []
 
     for module in report["missing_modules"]:
-        if module.startswith(("lukhas", "core", "lukhas.memory", "orchestration", "consciousness")):
+        if module.startswith(("lukhas", "core", "memory", "orchestration", "consciousness")):
             local_missing.append(module)
         else:
             external_missing.append(module)

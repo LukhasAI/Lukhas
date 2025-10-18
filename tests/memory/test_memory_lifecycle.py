@@ -12,8 +12,8 @@ from unittest.mock import patch
 import numpy as np
 import pytest
 
-from lukhas.memory.backends.base import AbstractVectorStore, VectorDocument
-from lukhas.memory.lifecycle import (
+from memory.backends.base import AbstractVectorStore, VectorDocument
+from memory.lifecycle import (
     AbstractArchivalBackend,
     AbstractTombstoneStore,
     ArchivalTier,
@@ -78,7 +78,7 @@ class MockVectorStore(AbstractVectorStore):
         pass
 
     async def get_stats(self):
-        from lukhas.memory.backends.base import StorageStats
+        from memory.backends.base import StorageStats
         return StorageStats(
             total_documents=len(self.documents),
             total_size_bytes=0,

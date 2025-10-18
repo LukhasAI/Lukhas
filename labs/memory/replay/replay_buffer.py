@@ -59,8 +59,8 @@ import numpy as np
 
 # Import LUKHAS components
 try:
-    from lukhas.memory.hippocampal.hippocampal_buffer import EpisodicMemory
-    from lukhas.memory.neocortical.neocortical_network import SemanticMemory
+    from memory.hippocampal.hippocampal_buffer import EpisodicMemory
+    from memory.neocortical.neocortical_network import SemanticMemory
 
     LUKHAS_AVAILABLE = True
 except ImportError as e:

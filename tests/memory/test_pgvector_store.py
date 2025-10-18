@@ -2,7 +2,7 @@
 
 import pytest
 
-from lukhas.memory.backends.pgvector_store import PgVectorStore, VectorDoc
+from memory.backends.pgvector_store import PgVectorStore, VectorDoc
 
 
 class MockPgClient:

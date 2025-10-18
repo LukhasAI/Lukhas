@@ -1,4 +1,4 @@
-from lukhas.orchestration.kernel_bus import KernelBus
+from orchestration.kernel_bus import KernelBus
 
 
 def test_kernel_bus_emit_and_status_dry_run():

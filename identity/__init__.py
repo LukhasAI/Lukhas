@@ -284,7 +284,7 @@ def _add_bridge_submodules():
         current_module = sys.modules[__name__]
 
         # Import bridge components
-        from lukhas.governance.identity import IdentitySubmoduleBridge
+        from governance.identity import IdentitySubmoduleBridge
 
         # Add common submodules as bridge objects
         if not hasattr(current_module, "auth"):

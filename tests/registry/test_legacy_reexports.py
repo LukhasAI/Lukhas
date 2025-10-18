@@ -8,7 +8,7 @@ import pytest
 
 
 def test_package_exports_legacy_helpers(monkeypatch):
-    """`from lukhas.core.registry import register` should expose legacy helpers."""
+    """`from core.registry import register` should expose legacy helpers."""
     import core.registry as pkg
 
     # Snapshot registry state for clean-up
@@ -36,8 +36,8 @@ def test_package_exports_legacy_helpers(monkeypatch):
 
 def test_module_and_package_share_registry():
     """Importing via module path keeps state consistent with package imports."""
-    pkg = importlib.import_module("lukhas.core.registry")
-    legacy_module = importlib.import_module("lukhas.core._registry_legacy")
+    pkg = importlib.import_module("core.registry")
+    legacy_module = importlib.import_module("core._registry_legacy")
 
     unique_kind = "test:module_share"
     sentinel = object()
@@ -57,10 +57,10 @@ def ensure_reload():
     import sys
 
     for name in [
-        "lukhas.core.registry",
-        "lukhas.core._registry_legacy",
+        "core.registry",
+        "core._registry_legacy",
     ]:
         if name in sys.modules:
             del sys.modules[name]
-    importlib.import_module("lukhas.core.registry")
+    importlib.import_module("core.registry")
     yield

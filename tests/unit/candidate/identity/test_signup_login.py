@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 
 PLACEHOLDER_PASSWORD = "a-secure-password"  # nosec B105
 
-# Using lukhas.identity or creating stubs for missing functions
+# Using identity or creating stubs for missing functions
 try:
     from identity_legacy_backup.identity_core import validate_symbolic_token
     from identity_legacy_backup.login import login_user, signup, validate_password
@@ -49,10 +49,10 @@ except ImportError:
         if token.startswith("mock_jwt_token_"):
             timestamp = token.replace("mock_jwt_token_", "")
             user_id = f"test_{timestamp}" if timestamp.isdigit() else "test_user"
-            email = f"test_{timestamp}@lukhas.ai" if timestamp.isdigit() else "test@lukhas.ai"
+            email = f"test_{timestamp}@ai" if timestamp.isdigit() else "test@ai"
         else:
             user_id = "mock_user"
-            email = "test@lukhas.ai"
+            email = "test@ai"
 
         return True, {"valid": True, "email": email, "user_id": user_id, "tier": "T2"}
 
@@ -64,7 +64,7 @@ class TestIdentityFlow(unittest.TestCase):
         """Test complete signup → login → JWT decode → validation cycle."""
         # Use timestamp to ensure unique email
         timestamp = int(datetime.now(timezone.utc).timestamp())
-        email = f"test_{timestamp}@lukhas.ai"
+        email = f"test_{timestamp}@ai"
         password = PLACEHOLDER_PASSWORD
 
         # Step 1: Signup

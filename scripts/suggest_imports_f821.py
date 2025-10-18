@@ -86,7 +86,7 @@ def nearest_manifest(pyfile: Path) -> dict:
 def import_path_for(pyfile: Path, repo_root: Path, root_pkg: str) -> Optional[str]:
     """
     Convert filesystem path to import path. E.g.
-      /repo/lukhas/foo/bar.py -> lukhas.foo.bar
+      /repo/lukhas/foo/bar.py -> foo.bar
     Returns None for files outside the root package.
     """
     try:

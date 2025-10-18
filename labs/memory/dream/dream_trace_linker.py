@@ -78,7 +78,7 @@ class GlyphType(Enum):
     RELATIONSHIP = "relationship"  # Interpersonal dynamics
     FEAR = "fear"  # Anxiety and threats
     DESIRE = "desire"  # Aspirations and wants
-    MEMORY = "lukhas.memory"  # Past experiences
+    MEMORY = "memory"  # Past experiences
     FUTURE = "future"  # Projected scenarios
     ABSTRACT = "abstract"  # Conceptual representations
 

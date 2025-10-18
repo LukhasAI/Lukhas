@@ -25,7 +25,7 @@ from fastapi.testclient import TestClient
 
 # Import the API components
 try:
-    from lukhas.governance.guardian_system import GuardianSystem
+    from governance.guardian_system import GuardianSystem
     from identity.biometrics import create_mock_biometric_provider
     from identity.security_hardening import create_security_hardening_manager
     from identity.tiers import SecurityPolicy, create_tiered_authenticator
@@ -78,7 +78,7 @@ class TestAuthenticationEndpoints:
     def test_t2_password_authentication_success(self, client):
         """Test T2 password authentication with valid credentials."""
         # Mock password verification
-        with patch('lukhas.identity.tiers.TieredAuthenticator._verify_password', return_value=True):
+        with patch('identity.tiers.TieredAuthenticator._verify_password', return_value=True):
             # Arrange
             request_data = {
                 "tier": "T2",
@@ -143,8 +143,8 @@ class TestAuthenticationEndpoints:
     def test_tier_elevation_flow(self, client):
         """Test complete tier elevation flow."""
         # Mock all verification methods
-        with patch('lukhas.identity.tiers.TieredAuthenticator._verify_password', return_value=True), \
-             patch('lukhas.identity.tiers.TieredAuthenticator._verify_totp', return_value=True):
+        with patch('identity.tiers.TieredAuthenticator._verify_password', return_value=True), \
+             patch('identity.tiers.TieredAuthenticator._verify_totp', return_value=True):
 
             # Step 1: T2 authentication
             t2_request = {
@@ -172,7 +172,7 @@ class TestAuthenticationEndpoints:
 
     def test_session_elevation_endpoint(self, client):
         """Test session tier elevation endpoint."""
-        with patch('lukhas.identity.tiers.TieredAuthenticator._verify_password', return_value=True):
+        with patch('identity.tiers.TieredAuthenticator._verify_password', return_value=True):
             # Arrange
             request_data = {
                 "tier": "T2",
@@ -404,7 +404,7 @@ class TestErrorHandling:
     def test_internal_server_error_handling(self, client):
         """Test handling of internal server errors."""
         # Mock an internal error
-        with patch('lukhas.api.identity.authenticator', None):
+        with patch('api.identity.authenticator', None):
             # Act
             response = client.post("/identity/authenticate", json={"tier": "T1"})
 

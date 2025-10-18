@@ -41,10 +41,10 @@ except ImportError:  # pragma: no cover - fallback path when PyYAML missing.
 
 DEFAULT_MAP = {
     "candidate": "labs",
-    "tools": "lukhas.tools",
-    "governance": "lukhas.governance",
-    "memory": "lukhas.memory",
-    "ledger": "lukhas.ledger",
+    "tools": "tools",
+    "governance": "governance",
+    "memory": "memory",
+    "ledger": "ledger",
     "lucas": "lukhas",
     "Lucas": "lukhas",
     "LUCAS": "lukhas",

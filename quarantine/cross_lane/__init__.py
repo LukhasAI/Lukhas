@@ -1,7 +1,7 @@
 """
 LUKHAS Accepted Bio Package
 Re-exports bio engine, symbolic, awareness, and adapters under the
-`lukhas.accepted.bio` namespace so older imports continue to work.
+`accepted.bio` namespace so older imports continue to work.
 
 This package prefers the internal `bio` top-level package, then falls back
 to `candidate.bio` implementations when available.
@@ -18,7 +18,7 @@ try:
     import bio.awareness as _awareness_mod
     import bio.engine as _engine_mod
     import bio.symbolic as _symbolic_mod
-    logger.info("lukhas.accepted.bio: using top-level bio package")
+    logger.info("accepted.bio: using top-level bio package")
 except Exception:
     try:
         # Fall back to candidate implementations
@@ -26,9 +26,9 @@ except Exception:
         import bio.awareness as _awareness_mod
         import bio.core as _engine_mod
         import bio.symbolic as _symbolic_mod
-        logger.info("lukhas.accepted.bio: using candidate.bio implementations")
+        logger.info("accepted.bio: using candidate.bio implementations")
     except Exception as e:
-        logger.warning(f"lukhas.accepted.bio: could not wire bio implementations: {e}")
+        logger.warning(f"accepted.bio: could not wire bio implementations: {e}")
         _engine_mod = None
         _symbolic_mod = None
         _awareness_mod = None

@@ -6,7 +6,7 @@ Prioritizes innovations based on impact and feasibility.
 import logging
 from typing import Any
 
-from lukhas.core.interfaces import CoreInterface
+from core.interfaces import CoreInterface
 
 logger = logging.getLogger(__name__)
 

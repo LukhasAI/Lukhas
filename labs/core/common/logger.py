@@ -196,8 +196,8 @@ def get_module_logger(module_path: str) -> logging.Logger:
     parts = module_path.split(".")
     if parts and parts[0] in [
         "consciousness",
-        "lukhas.memory",
-        "lukhas.governance",
+        "memory",
+        "governance",
         "reasoning",
         "quantum",
         "bio",

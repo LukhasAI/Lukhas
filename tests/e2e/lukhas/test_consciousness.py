@@ -364,7 +364,7 @@ class TestConsciousnessIntegration:
     @pytest.mark.integration
     async def test_memory_system_integration(self):
         """Test integration with memory system."""
-        from lukhas.memory import dump_state
+        from memory import dump_state
 
         consciousness = ConsciousnessWrapper()
         await consciousness.activate()
@@ -385,4 +385,4 @@ class TestConsciousnessIntegration:
 
 
 if __name__ == "__main__":
-    pytest.main([__file__, "-v", "--cov=lukhas.consciousness", "--cov-report=term-missing"])
+    pytest.main([__file__, "-v", "--cov=consciousness", "--cov-report=term-missing"])

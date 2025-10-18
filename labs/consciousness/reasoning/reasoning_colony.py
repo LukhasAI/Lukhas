@@ -36,11 +36,11 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 # Import existing memory manager
 try:
-    from lukhas.memory import MemoryManager
+    from memory import MemoryManager
 except ImportError:
     # Fallback to basic memory storage
     class MemoryManager:

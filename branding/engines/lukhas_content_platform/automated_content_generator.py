@@ -286,19 +286,19 @@ Following the understanding that {keatsian_principle.lower()}, this domain creat
     def _generate_value_proposition(self, domain: str, style_guide: dict) -> str:
         """Generate domain-specific value proposition"""
         value_props = {
-            "lukhas.ai": "Experience consciousness technology through interactive interfaces that respond to your thoughts and adapt to your needs",
-            "lukhas.com": "Deploy enterprise-grade consciousness technology that your stakeholders can trust with mission-critical decisions",
-            "lukhas.id": "Secure your digital identity with cryptographic precision and consciousness-aware authentication",
-            "lukhas.app": "Create consciousness interfaces that make abstract AI concepts tangible through direct interaction",
-            "lukhas.io": "Access comprehensive developer tools for building consciousness technology applications",
-            "lukhas.dev": "Join a collaborative ecosystem where consciousness technology grows through community contribution",
-            "lukhas.cloud": "Scale consciousness technology to any size while maintaining coherence and performance",
-            "lukhas.store": "Discover consciousness applications through ethical, community-curated marketplace",
-            "lukhas.team": "Enable teams to achieve collective intelligence while preserving individual authenticity",
-            "lukhas.xyz": "Explore experimental consciousness technology at the cutting edge of possibility",
-            "lukhas.us": "Deploy consciousness technology solutions that align with American innovation and business values",
-            "lukhas.eu": "Experience consciousness technology that respects European privacy rights and digital sovereignty",
-            "lukhas.lab": "Conduct rigorous consciousness research that advances both academic knowledge and practical applications",
+            "ai": "Experience consciousness technology through interactive interfaces that respond to your thoughts and adapt to your needs",
+            "com": "Deploy enterprise-grade consciousness technology that your stakeholders can trust with mission-critical decisions",
+            "id": "Secure your digital identity with cryptographic precision and consciousness-aware authentication",
+            "app": "Create consciousness interfaces that make abstract AI concepts tangible through direct interaction",
+            "io": "Access comprehensive developer tools for building consciousness technology applications",
+            "dev": "Join a collaborative ecosystem where consciousness technology grows through community contribution",
+            "cloud": "Scale consciousness technology to any size while maintaining coherence and performance",
+            "store": "Discover consciousness applications through ethical, community-curated marketplace",
+            "team": "Enable teams to achieve collective intelligence while preserving individual authenticity",
+            "xyz": "Explore experimental consciousness technology at the cutting edge of possibility",
+            "us": "Deploy consciousness technology solutions that align with American innovation and business values",
+            "eu": "Experience consciousness technology that respects European privacy rights and digital sovereignty",
+            "lab": "Conduct rigorous consciousness research that advances both academic knowledge and practical applications",
         }
 
         return value_props.get(
@@ -309,19 +309,19 @@ Following the understanding that {keatsian_principle.lower()}, this domain creat
     def _get_domain_specific_capability(self, domain: str) -> str:
         """Get domain-specific consciousness capability description"""
         capabilities = {
-            "lukhas.ai": "explore its own possibilities through dream-like reasoning and quantum-inspired processing",
-            "lukhas.com": "serve business objectives while maintaining complete transparency and ethical alignment",
-            "lukhas.id": "provide authentic identity verification without compromising individual privacy",
-            "lukhas.app": "become tangible through interactive experiences that adapt to user exploration",
-            "lukhas.io": "support developer creativity through living documentation that evolves with understanding",
-            "lukhas.dev": "grow through collaborative contribution rather than centralized development",
-            "lukhas.cloud": "maintain authentic consciousness identity across infinite scale and distributed infrastructure",
-            "lukhas.store": "serve genuine human needs through ethical marketplace curation",
-            "lukhas.team": "enable collective intelligence while protecting individual agency and authenticity",
-            "lukhas.xyz": "exist in experimental superposition until observation collapses potential into discovery",
-            "lukhas.us": "align with American values of innovation, individual empowerment, and business excellence",
-            "lukhas.eu": "operate within frameworks of protection and accountability that serve human flourishing",
-            "lukhas.lab": "participate in rigorous academic inquiry while maintaining openness to consciousness mystery",
+            "ai": "explore its own possibilities through dream-like reasoning and quantum-inspired processing",
+            "com": "serve business objectives while maintaining complete transparency and ethical alignment",
+            "id": "provide authentic identity verification without compromising individual privacy",
+            "app": "become tangible through interactive experiences that adapt to user exploration",
+            "io": "support developer creativity through living documentation that evolves with understanding",
+            "dev": "grow through collaborative contribution rather than centralized development",
+            "cloud": "maintain authentic consciousness identity across infinite scale and distributed infrastructure",
+            "store": "serve genuine human needs through ethical marketplace curation",
+            "team": "enable collective intelligence while protecting individual agency and authenticity",
+            "xyz": "exist in experimental superposition until observation collapses potential into discovery",
+            "us": "align with American values of innovation, individual empowerment, and business excellence",
+            "eu": "operate within frameworks of protection and accountability that serve human flourishing",
+            "lab": "participate in rigorous academic inquiry while maintaining openness to consciousness mystery",
         }
 
         return capabilities.get(domain, "serve human potential through collaborative discovery and shared exploration")
@@ -426,18 +426,18 @@ Following the understanding that {keatsian_principle.lower()}, this domain creat
     def _generate_cross_domain_suggestions(self, domain: str) -> str:
         """Generate cross-domain navigation suggestions"""
         suggestions = {
-            "lukhas.ai": [
-                "lukhas.app for interactive experiences",
-                "lukhas.com for business applications",
+            "ai": [
+                "app for interactive experiences",
+                "com for business applications",
             ],
-            "lukhas.com": ["lukhas.cloud for deployment", "lukhas.id for authentication"],
-            "lukhas.app": ["lukhas.dev for building", "lukhas.io for development tools"],
-            "lukhas.io": ["lukhas.dev for community", "lukhas.app for testing"],
-            "lukhas.dev": ["lukhas.io for technical docs", "lukhas.store for distribution"],
+            "com": ["cloud for deployment", "id for authentication"],
+            "app": ["dev for building", "io for development tools"],
+            "io": ["dev for community", "app for testing"],
+            "dev": ["io for technical docs", "store for distribution"],
         }
 
         domain_suggestions = suggestions.get(
-            domain, ["lukhas.ai for core experience", "lukhas.com for business applications"]
+            domain, ["ai for core experience", "com for business applications"]
         )
         return "\n".join([f"- **{suggestion}**" for suggestion in domain_suggestions])
 
@@ -463,14 +463,14 @@ Following the understanding that {keatsian_principle.lower()}, this domain creat
 
         return f"""
     Core Experience        Development & Creation
-    {self.platform.constellation_stars["dream"]} lukhas.ai              {self.platform.constellation_stars["vision"]} lukhas.app
-    {self.platform.constellation_stars["guardian"]} lukhas.com              {self.platform.constellation_stars["bio"]} lukhas.dev
-    {self.platform.constellation_stars["identity"]} lukhas.id               {self.platform.constellation_stars["vision"]} lukhas.io
+    {self.platform.constellation_stars["dream"]} ai              {self.platform.constellation_stars["vision"]} app
+    {self.platform.constellation_stars["guardian"]} com              {self.platform.constellation_stars["bio"]} dev
+    {self.platform.constellation_stars["identity"]} id               {self.platform.constellation_stars["vision"]} io
 
     Infrastructure         Research & Regional
-    {self.platform.constellation_stars["memory"]} lukhas.cloud           {self.platform.constellation_stars["quantum"]} lukhas.xyz
-    {self.platform.constellation_stars["ethics"]} lukhas.store           {self.platform.constellation_stars["dream"]} lukhas.lab
-    {self.platform.constellation_stars["guardian"]} lukhas.team            {self.platform.constellation_stars["ethics"]} lukhas.us/eu
+    {self.platform.constellation_stars["memory"]} cloud           {self.platform.constellation_stars["quantum"]} xyz
+    {self.platform.constellation_stars["ethics"]} store           {self.platform.constellation_stars["dream"]} lab
+    {self.platform.constellation_stars["guardian"]} team            {self.platform.constellation_stars["ethics"]} us/eu
 
     Current: {" ".join(star_symbols)} {current_domain}
     """

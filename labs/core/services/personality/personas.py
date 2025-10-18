@@ -57,7 +57,7 @@ def load_persona(name: str):
 # /Users/grdm_admin/Downloads/oxn/symbolic_ai/personas/lukhas/lukhas_personas.py
 #
 # HOW TO USE:
-# from symbolic.personas.lukhas.lukhas_personas import load_persona
+# from symbolic.personas.lukhas_personas import load_persona
 # traits = load_persona("mentor")
 # print(traits)
 #

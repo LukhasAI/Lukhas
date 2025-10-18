@@ -711,7 +711,7 @@ jobs:
 
     - name: Commit fixes
       run: |
-        git config --local user.email "LUKHAS AI ΛBot@lukhas.ai"
+        git config --local user.email "LUKHAS AI ΛBot@ai"
         git config --local user.name "LUKHAS AI ΛBot Security Healer"
         git add -A
         if ! git diff --cached --quiet; then

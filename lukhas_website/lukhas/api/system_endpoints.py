@@ -17,13 +17,13 @@ from datetime import datetime
 from typing import Any, Dict
 
 try:
-    from lukhas.core.registry import get_plugin_registry
+    from core.registry import get_plugin_registry
     REGISTRY_AVAILABLE = True
 except ImportError:
     REGISTRY_AVAILABLE = False
 
 try:
-    from lukhas.core.import_router import ModuleRouter
+    from core.import_router import ModuleRouter
     ROUTER_AVAILABLE = True
 except ImportError:
     ROUTER_AVAILABLE = False
@@ -224,7 +224,7 @@ def _check_router_health() -> Dict[str, Any]:
     try:
         router = ModuleRouter()
         # Test basic functionality
-        known_module = "lukhas.core.registry"
+        known_module = "core.registry"
         resolved = router.resolve_module_path(known_module)
 
         return {

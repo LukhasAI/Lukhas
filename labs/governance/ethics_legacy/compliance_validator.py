@@ -23,7 +23,7 @@ import asyncio
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 
 class ComplianceValidator:
@@ -75,7 +75,7 @@ class ComplianceValidator:
             return {
                 "status": "success",
                 "component": self.__class__.__name__,
-                "category": "lukhas.governance",
+                "category": "governance",
                 "result": result,
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             }
@@ -99,7 +99,7 @@ class ComplianceValidator:
 
         if category == "consciousness":
             return await self._process_consciousness(data)
-        elif category == "lukhas.governance":
+        elif category == "governance":
             return await self._process_governance(data)
         elif category == "voice":
             return await self._process_voice(data)
@@ -158,7 +158,7 @@ class ComplianceValidator:
         """Get component status"""
         return {
             "component": self.__class__.__name__,
-            "category": "lukhas.governance",
+            "category": "governance",
             "status": self.status,
             "initialized": self.is_initialized,
             "timestamp": datetime.now(timezone.utc).isoformat(),

@@ -8,7 +8,7 @@ import os
 
 import pytest
 
-from lukhas.core.drift import LANE_CFG, DriftMonitor, _cosine
+from core.drift import LANE_CFG, DriftMonitor, _cosine
 
 
 def test_cosine_similarity():

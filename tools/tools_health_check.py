@@ -29,7 +29,7 @@ class ToolsHealthChecker:
         self.verbose = verbose
         self.fix_issues = fix_issues
         self.project_root = Path(__file__).resolve().parents[1]
-        self.tools_dir = self.project_root / "lukhas.tools"
+        self.tools_dir = self.project_root / "tools"
 
         # Health check results
         self.results: Dict[str, Dict[str, any]] = {}
@@ -206,12 +206,12 @@ class ToolsHealthChecker:
 
         # Test imports
         import_tests = [
-            ("lukhas.tools.testing.test_infrastructure_monitor", "TestInfrastructureMonitor"),
-            ("lukhas.tools.testing.coverage_metrics_system", "CoverageMetricsSystem"),
-            ("lukhas.tools.monitoring.production_alerting_system", "ProductionAlertingSystem"),
-            ("lukhas.tools.monitoring.t4_monitoring_integration", "T4MonitoringIntegration"),
-            ("lukhas.tools.monitoring.monitoring_dashboard", "MonitoringDashboard"),
-            ("lukhas.tools.devops.automated_deployment_pipeline", "AutomatedDeploymentPipeline")
+            ("tools.testing.test_infrastructure_monitor", "TestInfrastructureMonitor"),
+            ("tools.testing.coverage_metrics_system", "CoverageMetricsSystem"),
+            ("tools.monitoring.production_alerting_system", "ProductionAlertingSystem"),
+            ("tools.monitoring.t4_monitoring_integration", "T4MonitoringIntegration"),
+            ("tools.monitoring.monitoring_dashboard", "MonitoringDashboard"),
+            ("tools.devops.automated_deployment_pipeline", "AutomatedDeploymentPipeline")
         ]
 
         for module_name, class_name in import_tests:

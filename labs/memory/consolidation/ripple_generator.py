@@ -57,8 +57,8 @@ import numpy as np
 
 # Import LUKHAS components
 try:
-    from lukhas.memory.consolidation.consolidation_orchestrator import SleepStage
-    from lukhas.memory.hippocampal.hippocampal_buffer import EpisodicMemory
+    from memory.consolidation.consolidation_orchestrator import SleepStage
+    from memory.hippocampal.hippocampal_buffer import EpisodicMemory
 
     LUKHAS_AVAILABLE = True
 except ImportError as e:

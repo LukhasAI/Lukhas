@@ -22,11 +22,11 @@ from feedback.user_feedback_system import (
     FeedbackType,
     UserFeedbackSystem,
 )
-from lukhas.consciousness.interfaces.natural_language_interface import (
+from consciousness.interfaces.natural_language_interface import (
     ConversationManager,
     NaturalLanguageConsciousnessInterface,
 )
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -188,7 +188,7 @@ async def _setup_services():
     """Setup services and integrations"""
     from unittest.mock import AsyncMock, Mock
 
-    from lukhas.core.interfaces.dependency_injection import register_service
+    from core.interfaces.dependency_injection import register_service
 
     # Enhanced mock consciousness service
     mock_consciousness = Mock()

@@ -35,7 +35,7 @@ def test_consciousness_exports():
 def test_consciousness_state_uses_utc():
     """Ensure ConsciousnessState timestamps are timezone-aware in UTC."""
     try:
-        from lukhas.consciousness.consciousness_wrapper import ConsciousnessState
+        from consciousness.consciousness_wrapper import ConsciousnessState
 
         state = ConsciousnessState()
         assert state.last_update.tzinfo == timezone.utc  # ΛTAG: utc

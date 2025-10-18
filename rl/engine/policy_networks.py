@@ -35,7 +35,7 @@ except ImportError:
     Normal = None
     np = None
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 try:
     from .consciousness_environment import ConsciousnessState, MatrizNode  # type: ignore
@@ -291,7 +291,7 @@ class PolicyNetwork:
         """Get reference to existing consciousness module"""
         try:
             if module_path == "governance.guardian.v1":
-                from lukhas.governance.guardian.guardian_system import GuardianSystem
+                from governance.guardian.guardian_system import GuardianSystem
 
                 return GuardianSystem()
             elif module_path == "policy.registry.v1":

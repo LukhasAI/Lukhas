@@ -52,8 +52,8 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Any
 
-from lukhas.consciousness.reflection.memory_hub import MemoryHub
-from lukhas.core.integration.hub_registry import HubRegistry
+from consciousness.reflection.memory_hub import MemoryHub
+from core.integration.hub_registry import HubRegistry
 from symbolic.symbolic_hub import SymbolicHub
 
 # ΛTRACE injection point
@@ -162,7 +162,7 @@ if __name__ == "__main__":
 ║ REFERENCES:
 ║   - Docs: docs/bridge/symbolic-memory-mapper.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=memory-mapper
-║   - Wiki: wiki.lukhas.ai/memory-translation
+║   - Wiki: wiki.ai/memory-translation
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

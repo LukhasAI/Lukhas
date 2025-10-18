@@ -37,7 +37,7 @@ try:
     )
 
     # Governance
-    from .lukhas.governance.matriz_consciousness_governance import consciousness_governance_system
+    from .governance.matriz_consciousness_governance import consciousness_governance_system
 
     # Identity
     from .identity.matriz_consciousness_identity import consciousness_identity_manager

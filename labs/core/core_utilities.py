@@ -16,10 +16,10 @@ from typing import Any
 import psutil
 import structlog
 
-from lukhas.core.swarm import AgentColony
-from lukhas.core.symbolic_diagnostics.trace_repair_engine import TraceRepairEngine
-from lukhas.core.tiered_state_management import StateType, TieredStateManager
-from lukhas.memory.core_memory.memory_collapse_verifier import MemoryCollapseVerifier
+from core.swarm import AgentColony
+from core.symbolic_diagnostics.trace_repair_engine import TraceRepairEngine
+from core.tiered_state_management import StateType, TieredStateManager
+from memory.core_memory.memory_collapse_verifier import MemoryCollapseVerifier
 
 
 def echo_behavior(actor, message):

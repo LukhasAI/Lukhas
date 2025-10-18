@@ -13,7 +13,7 @@ from typing import Any, Optional
 class LIDClient:
     """Client for ΛID access control and identity management"""
 
-    def __init__(self, endpoint: str = "https://lid.lukhas.ai/api/v1"):
+    def __init__(self, endpoint: str = "https://lid.ai/api/v1"):
         self.endpoint = endpoint
         self.current_user = None
 

@@ -116,7 +116,7 @@ class EmotionHub:
         """Create a basic emotional memory instance"""
         try:
             # Try to create proper emotional memory
-            from lukhas.memory.emotional_memory import EmotionalMemory
+            from memory.emotional_memory import EmotionalMemory
 
             return EmotionalMemory()
         except ImportError:

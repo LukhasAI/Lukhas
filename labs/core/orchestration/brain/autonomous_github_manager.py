@@ -28,8 +28,8 @@ from typing import Any, Optional
 import requests
 
 # Import ΛBot components
-from lukhas.core.budget.token_controller import APICallContext, CallUrgency, TokenBudgetController
-from lukhas.core.common.config import settings
+from core.budget.token_controller import APICallContext, CallUrgency, TokenBudgetController
+from core.common.config import settings
 
 
 class NotificationPriority(Enum):

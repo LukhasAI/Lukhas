@@ -33,7 +33,7 @@ def test_branding_bridge_get_context():
         assert isinstance(context, dict)
 
         # Test with specific domain
-        context = bridge.get_brand_context(domain="lukhas.ai")
+        context = bridge.get_brand_context(domain="ai")
         assert isinstance(context, dict)
 
     except ImportError:

@@ -35,7 +35,7 @@ nav_content = """nav:
   - Reference:
       - API Overview: reference/index.md
       - Core Modules: reference/core.md
-      - Lukhas Modules: reference/lukhas.md
+      - Lukhas Modules: reference/md
       - Candidate Modules: reference/candidate.md
       - Configuration: reference/configuration.md
       - Claude Integration: reference/claude-integration.md

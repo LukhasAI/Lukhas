@@ -25,10 +25,10 @@ from typing import Any, Optional
 
 # LUKHAS Branding Integration
 from branding_bridge import BrandContext, get_bridge, initialize_branding
-from lukhas.core.common import GLYPHSymbol, GLYPHToken, get_logger
-from lukhas.core.common.exceptions import LukhasError
-from lukhas.core.interfaces import CoreInterface
-from lukhas.core.interfaces.dependency_injection import get_service, register_service
+from core.common import GLYPHSymbol, GLYPHToken, get_logger
+from core.common.exceptions import LukhasError
+from core.interfaces import CoreInterface
+from core.interfaces.dependency_injection import get_service, register_service
 
 logger = get_logger(__name__)
 
@@ -963,7 +963,7 @@ class NaturalLanguageConsciousnessInterface(CoreInterface):
             },
             "connected_services": {
                 "consciousness": self.consciousness_service is not None,
-                "lukhas.memory": self.memory_service is not None,
+                "memory": self.memory_service is not None,
                 "emotion": self.emotion_service is not None,
                 "dream": self.dream_engine is not None,
                 "reality": self.reality_simulator is not None,
@@ -1046,7 +1046,7 @@ async def demo_natural_language_interface():
         }
     )
 
-    from lukhas.core.interfaces.dependency_injection import register_service
+    from core.interfaces.dependency_injection import register_service
 
     register_service("consciousness_service", mock_consciousness)
 

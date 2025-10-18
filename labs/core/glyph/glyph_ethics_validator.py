@@ -26,7 +26,7 @@ for GLYPH subsystem operations, ensuring creation, mutation, fusion, and:
 decay operations comply with ethical guidelines, safety boundaries, and
 symbolic integrity protection.
 
-For more information, visit: https://lukhas.ai
+For more information, visit: https://ai
 """
 
 # ΛTRACE: Glyph Ethics Validator initialization
@@ -35,7 +35,7 @@ For more information, visit: https://lukhas.ai
 
 __version__ = "1.0.0"
 __author__ = "LUKHAS Development Team"
-__email__ = "dev@lukhas.ai"
+__email__ = "dev@ai"
 __status__ = "Production"
 
 import logging

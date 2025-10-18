@@ -7,18 +7,18 @@ import yaml
 
 cfg = yaml.safe_load(pathlib.Path("lukhas-mcp/config.yaml").read_text())
 required_tools = {
-  "lukhas.manifests.validate",
-  "lukhas.manifests.lock",
-  "lukhas.registry.build",
-  "lukhas.docs.registry.refresh",
-  "lukhas.docs.frontmatter.guard",
-  "lukhas.conveyor.plan",
-  "lukhas.conveyor.execute",
-  "lukhas.sim.schedule",
-  "lukhas.sim.collect",
-  "lukhas.audit.export",
+  "manifests.validate",
+  "manifests.lock",
+  "registry.build",
+  "docs.registry.refresh",
+  "docs.frontmatter.guard",
+  "conveyor.plan",
+  "conveyor.execute",
+  "sim.schedule",
+  "sim.collect",
+  "audit.export",
 }
-names = {t["name"] for t in cfg.get("lukhas.tools", [])}
+names = {t["name"] for t in cfg.get("tools", [])}
 missing = sorted(list(required_tools - names))
 if missing:
     print("❌ MCP config missing tools:", json.dumps(missing, indent=2))

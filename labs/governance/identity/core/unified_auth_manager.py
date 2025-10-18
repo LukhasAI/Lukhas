@@ -35,8 +35,8 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional, Union
 
-from lukhas.governance.identity.lambda_id_auth import AuthCredentials, AuthTier, LambdaIDSystem
-from lukhas.governance.security.secret_manager import get_secret_manager
+from governance.identity.lambda_id_auth import AuthCredentials, AuthTier, LambdaIDSystem
+from governance.security.secret_manager import get_secret_manager
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 
@@ -619,7 +619,7 @@ class RevolutionaryAuthManager:
             if tier == AuthTier.T1:
                 # T1 requires email/password with stored hash/salt
                 primary_auth = {
-                    "email": context.credentials.get("email", "test@lukhas.ai"),
+                    "email": context.credentials.get("email", "test@ai"),
                     "password": context.credentials.get("password", "secure123"),
                     "stored_hash": "mock_blake2b_hash_for_testing",  # Mock for testing
                     "stored_salt": "mock_salt_for_testing",

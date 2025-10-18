@@ -36,32 +36,32 @@ def generate_spans_fixture(module: str) -> Dict[str, Any]:
 
     # Module-specific span configurations
     span_configs = {
-        "lukhas.memory": [
+        "memory": [
             {
-                "name": "lukhas.memory.recall",
+                "name": "memory.recall",
                 "attrs": {
                     "code.function": "recall",
-                    "lukhas.module": "lukhas.memory",
-                    "lukhas.k": 10,
-                    "lukhas.query_length": 256
+                    "module": "memory",
+                    "k": 10,
+                    "query_length": 256
                 },
                 "duration_ms": 1000
             },
             {
-                "name": "lukhas.memory.store",
+                "name": "memory.store",
                 "attrs": {
                     "code.function": "store",
-                    "lukhas.module": "lukhas.memory",
-                    "lukhas.content_size": 1024
+                    "module": "memory",
+                    "content_size": 1024
                 },
                 "duration_ms": 500
             },
             {
-                "name": "lukhas.memory.fold",
+                "name": "memory.fold",
                 "attrs": {
                     "code.function": "fold",
-                    "lukhas.module": "lukhas.memory",
-                    "lukhas.fold_count": 3
+                    "module": "memory",
+                    "fold_count": 3
                 },
                 "duration_ms": 100
             }
@@ -71,7 +71,7 @@ def generate_spans_fixture(module: str) -> Dict[str, Any]:
                 "name": "identity.authenticate",
                 "attrs": {
                     "code.function": "authenticate",
-                    "lukhas.module": "identity",
+                    "module": "identity",
                     "auth.method": "webauthn",
                     "user.tier": "T3"
                 },
@@ -81,7 +81,7 @@ def generate_spans_fixture(module: str) -> Dict[str, Any]:
                 "name": "identity.authorize",
                 "attrs": {
                     "code.function": "authorize",
-                    "lukhas.module": "identity",
+                    "module": "identity",
                     "resource.type": "api",
                     "permission.scope": "read"
                 },
@@ -93,7 +93,7 @@ def generate_spans_fixture(module: str) -> Dict[str, Any]:
                 "name": "consciousness.process",
                 "attrs": {
                     "code.function": "process",
-                    "lukhas.module": "consciousness",
+                    "module": "consciousness",
                     "awareness.level": 0.85,
                     "emergence.pattern": "coherent"
                 },
@@ -103,7 +103,7 @@ def generate_spans_fixture(module: str) -> Dict[str, Any]:
                 "name": "consciousness.dream",
                 "attrs": {
                     "code.function": "dream",
-                    "lukhas.module": "consciousness",
+                    "module": "consciousness",
                     "dream.state": "REM",
                     "symbol.count": 42
                 },
@@ -118,7 +118,7 @@ def generate_spans_fixture(module: str) -> Dict[str, Any]:
             "name": f"{module}.process",
             "attrs": {
                 "code.function": "process",
-                "lukhas.module": module
+                "module": module
             },
             "duration_ms": 1000
         }
@@ -162,9 +162,9 @@ def generate_metrics_fixture(module: str) -> Dict[str, Any]:
 
     # Module-specific metric configurations
     metric_configs = {
-        "lukhas.memory": [
+        "memory": [
             {
-                "name": "lukhas.memory.latency",
+                "name": "memory.latency",
                 "description": "end-to-end latency for memory operations",
                 "unit": "s",
                 "type": "histogram",
@@ -179,7 +179,7 @@ def generate_metrics_fixture(module: str) -> Dict[str, Any]:
                 ]
             },
             {
-                "name": "lukhas.memory.recall.results",
+                "name": "memory.recall.results",
                 "description": "number of recall results returned",
                 "unit": "1",
                 "type": "gauge",
@@ -188,7 +188,7 @@ def generate_metrics_fixture(module: str) -> Dict[str, Any]:
                 ]
             },
             {
-                "name": "lukhas.memory.cascade.prevented",
+                "name": "memory.cascade.prevented",
                 "description": "count of cascades prevented",
                 "unit": "1",
                 "type": "counter",
@@ -199,7 +199,7 @@ def generate_metrics_fixture(module: str) -> Dict[str, Any]:
         ],
         "identity": [
             {
-                "name": "lukhas.identity.auth.latency",
+                "name": "identity.auth.latency",
                 "description": "authentication latency",
                 "unit": "s",
                 "type": "histogram",
@@ -214,7 +214,7 @@ def generate_metrics_fixture(module: str) -> Dict[str, Any]:
                 ]
             },
             {
-                "name": "lukhas.identity.sessions.active",
+                "name": "identity.sessions.active",
                 "description": "active user sessions",
                 "unit": "1",
                 "type": "gauge",
@@ -225,7 +225,7 @@ def generate_metrics_fixture(module: str) -> Dict[str, Any]:
         ],
         "consciousness": [
             {
-                "name": "lukhas.consciousness.awareness.level",
+                "name": "consciousness.awareness.level",
                 "description": "current awareness level",
                 "unit": "1",
                 "type": "gauge",
@@ -234,7 +234,7 @@ def generate_metrics_fixture(module: str) -> Dict[str, Any]:
                 ]
             },
             {
-                "name": "lukhas.consciousness.dreams.generated",
+                "name": "consciousness.dreams.generated",
                 "description": "dreams generated count",
                 "unit": "1",
                 "type": "counter",

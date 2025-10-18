@@ -35,7 +35,7 @@ logger = logging.getLogger(__name__)
 
 import structlog
 
-from lukhas.core.symbolic.drift.symbolic_drift_tracker import (
+from core.symbolic.drift.symbolic_drift_tracker import (
     SymbolicDriftTracker as CoreSymbolicDriftTracker,
 )
 

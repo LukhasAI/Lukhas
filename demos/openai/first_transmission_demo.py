@@ -11,7 +11,7 @@ from pathlib import Path
 
 import yaml
 
-from lukhas.governance.identity.gateway.stargate_activation import StargateActivator
+from governance.identity.gateway.stargate_activation import StargateActivator
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))

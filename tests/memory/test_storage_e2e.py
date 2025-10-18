@@ -2,9 +2,9 @@ import time
 
 import pytest
 
-from lukhas.memory.backends.pgvector_store import PgVectorStore
-from lukhas.memory.indexer import Indexer
-from lukhas.memory.memory_orchestrator import MemoryOrchestrator
+from memory.backends.pgvector_store import PgVectorStore
+from memory.indexer import Indexer
+from memory.memory_orchestrator import MemoryOrchestrator
 
 
 class DummyConn: ...  # TODO: mock/fixture

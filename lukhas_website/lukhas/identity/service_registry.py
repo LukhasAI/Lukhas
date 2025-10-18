@@ -8,7 +8,7 @@ Provides T4 architecture compliant service discovery and initialization.
 import logging
 from typing import Any, Dict, Optional
 
-from lukhas.core.registry import register, resolve
+from core.registry import register, resolve
 
 from .facades.authentication_facade import AuthenticationFacade
 from .services.authenticator_service import ApiKeyAuthenticator, PasswordAuthenticator

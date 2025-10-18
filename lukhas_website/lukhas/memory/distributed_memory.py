@@ -15,8 +15,8 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Callable, Dict, Optional, Set
 
-from lukhas.memory.consciousness_memory_integration import ConsciousnessMemoryIntegrator
-from lukhas.memory.fold_system import MemoryFold
+from memory.consciousness_memory_integration import ConsciousnessMemoryIntegrator
+from memory.fold_system import MemoryFold
 
 logger = logging.getLogger(__name__)
 

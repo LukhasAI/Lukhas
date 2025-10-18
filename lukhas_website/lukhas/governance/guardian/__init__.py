@@ -21,7 +21,7 @@ import os
 import streamlit as st
 
 # Re-export core types
-from lukhas.governance.guardian.core import (
+from governance.guardian.core import (
     DriftResult,
     EthicalDecision,
     EthicalSeverity,
@@ -30,7 +30,7 @@ from lukhas.governance.guardian.core import (
 )
 
 # Main interface functions
-from lukhas.governance.guardian.guardian_wrapper import (
+from governance.guardian.guardian_wrapper import (
     check_safety,
     detect_drift,
     evaluate_ethics,
@@ -44,7 +44,7 @@ GUARDIAN_ACTIVE = os.environ.get("GUARDIAN_ACTIVE", "false").lower() == "true"
 _guardian_system = None
 if GUARDIAN_ACTIVE:
     try:
-        from lukhas.governance.guardian.guardian_impl import GuardianSystemImpl
+        from governance.guardian.guardian_impl import GuardianSystemImpl
 
         _guardian_system = GuardianSystemImpl()
     except ImportError:
@@ -52,7 +52,7 @@ if GUARDIAN_ACTIVE:
 
 # Legacy compatibility bridge
 try:
-    from lukhas.governance.guardian_bridge import GuardianSystem
+    from governance.guardian_bridge import GuardianSystem
 except ImportError:
     # Create minimal fallback if bridge is not available
     class GuardianSystem:

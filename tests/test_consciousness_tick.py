@@ -8,7 +8,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from lukhas.core.consciousness_ticker import ConsciousnessTicker
+from core.consciousness_ticker import ConsciousnessTicker
 
 
 def test_ticker_initialization():
@@ -103,9 +103,9 @@ def test_start_stop():
 
 def test_prometheus_metrics_available():
     """Test Prometheus metrics when available"""
-    with patch('lukhas.core.consciousness_ticker.PROM', True):
-        with patch('lukhas.core.consciousness_ticker.TICK') as mock_tick:
-            with patch('lukhas.core.consciousness_ticker.TICKS_DROPPED') as mock_dropped:
+    with patch('core.consciousness_ticker.PROM', True):
+        with patch('core.consciousness_ticker.TICK') as mock_tick:
+            with patch('core.consciousness_ticker.TICKS_DROPPED') as mock_dropped:
                 ct = ConsciousnessTicker(fps=30, cap=4)
 
                 # Trigger normal tick
@@ -123,7 +123,7 @@ def test_prometheus_metrics_available():
 
 def test_prometheus_metrics_unavailable():
     """Test graceful handling when Prometheus is unavailable"""
-    with patch('lukhas.core.consciousness_ticker.PROM', False):
+    with patch('core.consciousness_ticker.PROM', False):
         ct = ConsciousnessTicker(fps=30, cap=10)
 
         # Should not raise exceptions even without Prometheus
@@ -137,7 +137,7 @@ def test_prometheus_metrics_unavailable():
 
 def test_exception_handling():
     """Test that exceptions in tick handling are properly managed"""
-    with patch('lukhas.core.consciousness_ticker.SUB_EXC') as mock_exc:
+    with patch('core.consciousness_ticker.SUB_EXC') as mock_exc:
         ct = ConsciousnessTicker(fps=30, cap=10)
 
         # Mock buffer.push to raise an exception
@@ -152,8 +152,8 @@ def test_exception_handling():
 
 def test_lane_environment_variable():
     """Test that LUKHAS_LANE environment variable is used"""
-    with patch('lukhas.core.consciousness_ticker.LANE', 'test_lane'):
-        with patch('lukhas.core.consciousness_ticker.TICK') as mock_tick:
+    with patch('core.consciousness_ticker.LANE', 'test_lane'):
+        with patch('core.consciousness_ticker.TICK') as mock_tick:
             ct = ConsciousnessTicker(fps=30, cap=10)
             ct._on_tick(1)
 

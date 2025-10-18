@@ -25,7 +25,7 @@
     "moduleName": {
       "type": "string",
       "pattern": "^[a-z][a-z0-9_]*(?:\\.[a-z0-9_]+)*$",
-      "description": "Canonical module name, e.g., lukhas.core"
+      "description": "Canonical module name, e.g., core"
     },
     "lane": {
       "type": "string",

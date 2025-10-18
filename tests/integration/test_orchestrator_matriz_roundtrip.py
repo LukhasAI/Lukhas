@@ -30,13 +30,13 @@ from unittest.mock import Mock, patch
 import pytest
 
 from identity.tiers import IdentityTier, TierValidator
-from lukhas.consciousness.matriz_thought_loop import MATRIZProcessingContext, MATRIZThoughtLoop
-from lukhas.consciousness.types import ConsciousnessState
-from lukhas.governance.guardian_serializer import GuardianEnvelopeSerializer
+from consciousness.matriz_thought_loop import MATRIZProcessingContext, MATRIZThoughtLoop
+from consciousness.types import ConsciousnessState
+from governance.guardian_serializer import GuardianEnvelopeSerializer
 from identity.auth_service import LUKHASIdentityService
 
 # Import LUKHAS components
-from lukhas.orchestration.multi_ai_router import ConsensusType, RoutingRequest
+from orchestration.multi_ai_router import ConsensusType, RoutingRequest
 
 logger = logging.getLogger(__name__)
 
@@ -133,7 +133,7 @@ class CrossStackIntegrationTester:
         """Create mock JWT claims for testing."""
         return {
             'sub': 'user_123',
-            'iss': 'lukhas.ai',
+            'iss': 'ai',
             'aud': 'lukhas-api',
             'exp': int(time.time()) + 3600,
             'iat': int(time.time()),

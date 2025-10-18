@@ -28,7 +28,7 @@ from hypothesis.strategies import text
 
 # Import the components under test
 try:
-    from lukhas.governance.guardian_system import GuardianSystem
+    from governance.guardian_system import GuardianSystem
     from identity.biometrics import BiometricAttestation, BiometricModality, MockBiometricProvider
     from identity.security_hardening import SecurityHardeningManager
     from identity.tiers import (
@@ -622,7 +622,7 @@ class TestSecurityHardening:
         threat_level, indicators = await security_manager.analyze_request(
             ip_address="127.0.0.1",
             user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-            headers={"Host": "lukhas.ai", "Accept": "text/html"}
+            headers={"Host": "ai", "Accept": "text/html"}
         )
 
         # Assert - Should be low threat
@@ -632,7 +632,7 @@ class TestSecurityHardening:
         threat_level_sus, indicators_sus = await security_manager.analyze_request(
             ip_address="127.0.0.1",
             user_agent="sqlmap/1.0",  # Suspicious user agent
-            headers={"X-Scanner": "test", "Host": "lukhas.ai"}  # Suspicious header
+            headers={"X-Scanner": "test", "Host": "ai"}  # Suspicious header
         )
 
         # Assert - Should be higher threat
@@ -646,7 +646,7 @@ class TestSecurityHardening:
         action, report = await security_manager.comprehensive_security_check(
             ip_address="127.0.0.1",
             user_agent="Mozilla/5.0 (legitimate browser)",
-            headers={"Host": "lukhas.ai"},
+            headers={"Host": "ai"},
             user_id="test_user",
             endpoint="/identity/authenticate"
         )

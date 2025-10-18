@@ -20,11 +20,11 @@ from consciousness.reflection.openai_core_service import (  # noqa: F401 # TODO[
     OpenAIRequest,
     OpenAIResponse,
 )
-from lukhas.orchestration.signals.homeostasis import HomeostasisController
-from lukhas.orchestration.signals.modulator import PromptModulator
+from orchestration.signals.homeostasis import HomeostasisController
+from orchestration.signals.modulator import PromptModulator
 
 # Import modulation components
-from lukhas.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
 logger = logging.getLogger(__name__)
 

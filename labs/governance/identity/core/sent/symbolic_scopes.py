@@ -23,7 +23,7 @@ class SymbolicScopesManager:
         self.config = config
         self.scope_symbols = {
             "replay": "🔄",
-            "lukhas.memory": "🧠",
+            "memory": "🧠",
             "biometric": "👁️",
             "location": "📍",
             "audio": "🎵",

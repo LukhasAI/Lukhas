@@ -7,7 +7,7 @@ import logging
 import uuid
 from typing import Any, Optional
 
-from lukhas.core.interfaces import CoreInterface
+from core.interfaces import CoreInterface
 
 logger = logging.getLogger(__name__)
 

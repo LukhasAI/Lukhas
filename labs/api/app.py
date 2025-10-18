@@ -19,7 +19,7 @@ app = FastAPI(
 title="LUKHΛS  API",
 version="1.0.0",
 description="Governed tool loop, auditability, feedback LUT, and safety modes.",
-contact={"name": "LUKHAS", "url": "https://lukhas.ai"},
+contact={"name": "LUKHAS", "url": "https://ai"},
 license_info={"name": "Proprietary"},
 )
 

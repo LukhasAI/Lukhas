@@ -250,7 +250,7 @@ class TokenGenerator:
         secret_provider: SecretProvider,
         kid: Optional[str] = None,
         ttl_seconds: int = 3600,
-        issuer: str = "lukhas.ai"
+        issuer: str = "ai"
     ):
         """
         Initialize token generator.

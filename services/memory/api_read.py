@@ -26,8 +26,8 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Dict, List, Optional, Set, Tuple
 
-from lukhas.memory.consciousness_memory_integration import ConsciousnessMemoryIntegrator, MemoryFoldType
-from lukhas.memory.fold_system import MemoryFold
+from memory.consciousness_memory_integration import ConsciousnessMemoryIntegrator, MemoryFoldType
+from memory.fold_system import MemoryFold
 
 from .adapters.vector_store_base import VectorStoreAdapter
 from .backpressure import BackpressureManager

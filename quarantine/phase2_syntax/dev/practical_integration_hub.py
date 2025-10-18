@@ -45,7 +45,7 @@ class PracticalIntegrationHub:
     def _initialize_core_components(self):
         """Initialize core system components"""
         try:
-            from lukhas.core.core_hub import CoreHub
+            from core.core_hub import CoreHub
 
             self.core_hub = CoreHub()
             self.available_components["core_hub"] = self.core_hub
@@ -58,7 +58,7 @@ class PracticalIntegrationHub:
     def _initialize_consciousness_components(self):
         """Initialize consciousness system components"""
         try:
-            from lukhas.consciousness.reflection.consciousness_hub import (
+            from consciousness.reflection.consciousness_hub import (
                 ConsciousnessHub,
             )
 

@@ -21,7 +21,7 @@ IMPORT_RE = re.compile(
 def build_mapping(threshold=3):
     if not LEDGER.exists():
         raise SystemExit("ledger missing; run tests to populate.")
-    votes = defaultdict(Counter)  # lukhas.mod -> canonical -> count
+    votes = defaultdict(Counter)  # mod -> canonical -> count
     for line in LEDGER.read_text().splitlines():
         if not line.strip():
             continue

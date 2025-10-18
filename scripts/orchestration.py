@@ -1,14 +1,14 @@
 """
 Top-level orchestration module for LUKHAS AI
 
-This module provides a top-level import for lukhas.orchestration
+This module provides a top-level import for orchestration
 to ensure compatibility with existing import patterns.
 """
 
-# Import specific components from lukhas.orchestration
+# Import specific components from orchestration
 try:
-    from lukhas.orchestration import context_bus, kernel_bus
-    from lukhas.orchestration.context_bus import build_context
+    from orchestration import context_bus, kernel_bus
+    from orchestration.context_bus import build_context
 
     # Maintain backward compatibility
     __all__ = [
@@ -17,5 +17,5 @@ try:
         "context_bus",
     ]
 except ImportError:
-    # Fallback if lukhas.orchestration is not available
+    # Fallback if orchestration is not available
     __all__ = []

@@ -34,7 +34,7 @@ logger = logging.getLogger(__name__)
 
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 from .meg_guard import meg
 

@@ -4,9 +4,9 @@ Registry endpoint for OpenAI function-calling tools with governance.
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 
-from lukhas.openai.tooling import get_all_tools, get_tool_names
+from openai.tooling import get_all_tools, get_tool_names
 
-router = APIRouter(prefix="/tools", tags=["lukhas.tools"])
+router = APIRouter(prefix="/tools", tags=["tools"])
 
 
 @router.get("/registry")
@@ -14,11 +14,11 @@ def get_tools_registry():
     """Get the complete tools registry with schemas"""
     return JSONResponse(
         content={
-            "lukhas.tools": get_all_tools(),
+            "tools": get_all_tools(),
             "available_tools": get_tool_names(),
             "registry_info": {
                 "version": "1.0",
-                "lukhas.governance": "LUKHAS Guardian System",
+                "governance": "LUKHAS Guardian System",
                 "safety_mode": "tool_allowlist_required",
             },
         }
@@ -54,6 +54,6 @@ def get_tool_schema(tool_name: str):
         content={
             "tool_name": tool_name,
             "schema": tools_registry[tool_name],
-            "lukhas.governance": "Requires inclusion in tool_allowlist",
+            "governance": "Requires inclusion in tool_allowlist",
         }
     )

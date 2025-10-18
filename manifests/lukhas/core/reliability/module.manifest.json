@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.core.reliability",
-    "path": "lukhas/core/reliability",
+    "path": "core/reliability",
     "type": "package",
     "lane": "lukhas"
   },

@@ -51,7 +51,7 @@ from abc import ABC, abstractmethod
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -274,7 +274,7 @@ def search(query: str, limit: int = 10) -> list[MemoryEntry]:
 ║ REFERENCES:
 ║   - Docs: docs/memory/basic_memory.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=memory
-║   - Wiki: wiki.lukhas.ai/memory-architecture
+║   - Wiki: wiki.ai/memory-architecture
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

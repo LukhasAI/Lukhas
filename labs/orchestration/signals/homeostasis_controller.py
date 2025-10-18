@@ -15,7 +15,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Callable, Optional
 
-from lukhas.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
 logger = logging.getLogger(__name__)
 
@@ -234,7 +234,7 @@ class HomeostasisController:
 
         elif event_type == "resource":
             self.metrics.cpu_usage = event_data.get("cpu", self.metrics.cpu_usage)
-            self.metrics.memory_usage = event_data.get("lukhas.memory", self.metrics.memory_usage)
+            self.metrics.memory_usage = event_data.get("memory", self.metrics.memory_usage)
 
         elif event_type == "drift":
             self.metrics.drift_score = event_data.get("score", self.metrics.drift_score)
@@ -558,7 +558,7 @@ class HomeostasisController:
             "state": self.state.value,
             "metrics": {
                 "cpu": self.metrics.cpu_usage,
-                "lukhas.memory": self.metrics.memory_usage,
+                "memory": self.metrics.memory_usage,
                 "request_rate": self.metrics.request_rate,
                 "error_rate": self.metrics.error_rate,
                 "drift": self.metrics.drift_score,
@@ -615,7 +615,7 @@ class HomeostasisController:
             "recent_emissions": len(self.emission_history),
             "metrics": {
                 "cpu": self.metrics.cpu_usage,
-                "lukhas.memory": self.metrics.memory_usage,
+                "memory": self.metrics.memory_usage,
                 "request_rate": self.metrics.request_rate,
                 "error_rate": self.metrics.error_rate,
                 "response_time": self.metrics.response_time_ms,
@@ -665,7 +665,7 @@ if __name__ == "__main__":
         print(f"Normal request -> {len(signals)} signals emitted")
 
         # High load
-        signals = controller.process_event("resource", {"cpu": 0.85, "lukhas.memory": 0.75}, "monitor")
+        signals = controller.process_event("resource", {"cpu": 0.85, "memory": 0.75}, "monitor")
         print(f"High load -> {len(signals)} signals emitted")
 
         # Drift detected

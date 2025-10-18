@@ -25,7 +25,7 @@ from system_bridge import (
     SymbolicIdentity,
 )
 
-from lukhas.qi.entropy import EntropyProfile, TrueQuantumRandomness
+from qi.entropy import EntropyProfile, TrueQuantumRandomness
 
 # Add current directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent))

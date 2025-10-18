@@ -47,10 +47,10 @@ class ModuleMigrator:
         # Check what this module imports
         other_modules = [
             "core",
-            "lukhas.memory",
+            "memory",
             "consciousness",
             "orchestration",
-            "lukhas.governance",
+            "governance",
             "identity",
             "bridge",
             "emotion",
@@ -141,7 +141,7 @@ class ModuleMigrator:
         return True
 
     def update_imports(self, module_path: Path, module_name: str):
-        """Update imports from 'module' to 'lukhas.module'"""
+        """Update imports from 'module' to 'module'"""
         count = 0
 
         # Update imports in all Python files in the repo

@@ -54,9 +54,9 @@ except ImportError:
 
 
 try:
-    from lukhas.core.unified.bio_signals import QIBioOscillator
-    from lukhas.core.unified.integration import UnifiedIntegration
-    from lukhas.core.unified.orchestration import BioOrchestrator
+    from core.unified.bio_signals import QIBioOscillator
+    from core.unified.integration import UnifiedIntegration
+    from core.unified.orchestration import BioOrchestrator
 except ImportError:
     # Create placeholders if the modules don't exist
     class BioOrchestrator:
@@ -324,7 +324,7 @@ class EnhancedDreamEngine:
     async def _handle_process_memory(self, content: dict[str, Any]) -> None:
         """Handle process memory request"""
         try:
-            memory = content.get("lukhas.memory")
+            memory = content.get("memory")
             if not memory:
                 logger.error("No memory provided")
                 return
@@ -565,7 +565,7 @@ __all__ = [
 ║ REFERENCES:
 ║   - Docs: docs/LAMBDA_MIRROR_META_LEARNING_INTEGRATION.md
 ║   - Issues: github.com/lukhas-ai/creativity/issues?label=dream-systems
-║   - Wiki: internal.lukhas.ai/wiki/dream-engine
+║   - Wiki: internal.ai/wiki/dream-engine
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

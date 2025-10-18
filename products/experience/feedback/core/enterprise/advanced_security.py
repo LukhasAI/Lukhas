@@ -23,7 +23,7 @@ import numpy as np
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
-from lukhas.core.interfaces import CoreInterface
+from core.interfaces import CoreInterface
 
 # Use relative import for local modules and standard logging
 from ..user_feedback_system import FeedbackItem

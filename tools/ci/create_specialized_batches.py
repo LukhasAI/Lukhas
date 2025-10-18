@@ -30,7 +30,7 @@ class SpecializedBatchCreator:
             "jules12": {
                 "domain": "CRITICAL-CONSCIOUSNESS-CORE",
                 "focus": "Consciousness system critical paths, AkaQualia core issues",
-                "capabilities": ["consciousness", "akaqualia", "awareness", "lukhas.memory", "states"],
+                "capabilities": ["consciousness", "akaqualia", "awareness", "memory", "states"],
                 "batch_size": 35,
                 "priority": ["critical"],
                 "risk_level": "critical",
@@ -91,7 +91,7 @@ class SpecializedBatchCreator:
             if any(keyword in todo_text for keyword in ["import", "f821", "undefined", "core", "init"]):
                 score += 8
         elif agent_spec["domain"] == "CRITICAL-CONSCIOUSNESS-CORE":
-            if any(keyword in todo_text for keyword in ["consciousness", "aka", "qualia", "lukhas.memory", "dream"]):
+            if any(keyword in todo_text for keyword in ["consciousness", "aka", "qualia", "memory", "dream"]):
                 score += 8
         elif agent_spec["domain"] == "CRITICAL-IDENTITY-AUTH":
             if any(keyword in todo_text for keyword in ["identity", "auth", "lambda", "webauthn", "oauth"]):

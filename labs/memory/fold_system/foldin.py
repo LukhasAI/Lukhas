@@ -40,7 +40,7 @@ from typing import Any, Optional, Union
 import msgpack
 import zstandard as zstd
 
-from lukhas.core.common import LukhasError
+from core.common import LukhasError
 
 # LKF-Pack v1 magic bytes
 MAGIC = b"LKF\x01"

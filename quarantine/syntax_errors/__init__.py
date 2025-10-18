@@ -68,7 +68,7 @@ def scan_consciousness_security() -> dict[str, Any]:
 
         # Check for symbolic drift
         try:
-            from lukhas.memory import MEMORY_AVAILABLE
+            from memory import MEMORY_AVAILABLE
 
             if not MEMORY_AVAILABLE:
                 threats_detected.append(

@@ -16,11 +16,11 @@ from pathlib import Path
 project_root = Path(__file__).parent
 sys.path.insert(0, str(project_root))
 
-from lukhas.memory.backends.pgvector_store import PgVectorStore, VectorDoc
-from lukhas.memory.indexer import Indexer
-from lukhas.memory.lifecycle import Lifecycle, RetentionPolicy
-from lukhas.memory.memory_orchestrator import MemoryOrchestrator
-from lukhas.memory.observability import MemoryTracer
+from memory.backends.pgvector_store import PgVectorStore, VectorDoc
+from memory.indexer import Indexer
+from memory.lifecycle import Lifecycle, RetentionPolicy
+from memory.memory_orchestrator import MemoryOrchestrator
+from memory.observability import MemoryTracer
 
 
 class TestPgClient:

@@ -643,7 +643,7 @@ class ReflectionLayer:
         # Generate memory synthesis content
         templates = self.symbolic_vocabulary["memory_integration"]
         template = random.choice(templates)
-        symbolic_element = self._generate_symbolic_element(mood, "lukhas.memory")
+        symbolic_element = self._generate_symbolic_element(mood, "memory")
         content = template.format(symbolic_element)
 
         reflection = ReflectiveStatement(
@@ -1054,19 +1054,19 @@ class ReflectionLayer:
                 "drift": ["flowing rivers", "gentle breezes", "crystal clarity"],
                 "emotion": ["warm sunlight", "peaceful meadows", "serene lakes"],
                 "ethics": ["golden scales", "pure intentions", "righteous paths"],
-                "lukhas.memory": ["precious gems", "sacred texts", "starlit wisdom"],
+                "memory": ["precious gems", "sacred texts", "starlit wisdom"],
             },
             SymbolicMood.CONTEMPLATIVE: {
                 "drift": ["winding paths", "misty horizons", "deep waters"],
                 "emotion": ["quiet forests", "thoughtful silence", "gentle questions"],
                 "ethics": ["balanced stones", "careful steps", "measured choices"],
-                "lukhas.memory": ["ancient libraries", "weathered maps", "old photographs"],
+                "memory": ["ancient libraries", "weathered maps", "old photographs"],
             },
             SymbolicMood.CONCERNED: {
                 "drift": ["shifting sands", "restless winds", "clouded mirrors"],
                 "emotion": ["gathering storms", "uneasy shadows", "trembling ground"],
                 "ethics": ["tilted scales", "narrow bridges", "uncertain terrain"],
-                "lukhas.memory": ["fading echoes", "blurred images", "scattered pages"],
+                "memory": ["fading echoes", "blurred images", "scattered pages"],
             },
             SymbolicMood.DISSONANT: {
                 "drift": [
@@ -1080,19 +1080,19 @@ class ReflectionLayer:
                     "crumbling foundations",
                     "conflicted hearts",
                 ],
-                "lukhas.memory": ["shattered mirrors", "tangled threads", "dissonant chords"],
+                "memory": ["shattered mirrors", "tangled threads", "dissonant chords"],
             },
             SymbolicMood.REGRETFUL: {
                 "drift": ["withered branches", "faded footprints", "lost directions"],
                 "emotion": ["heavy hearts", "tear-stained glass", "silent sorrows"],
                 "ethics": ["fallen leaves", "broken promises", "wounded integrity"],
-                "lukhas.memory": ["burnt letters", "empty frames", "silent echoes"],
+                "memory": ["burnt letters", "empty frames", "silent echoes"],
             },
             SymbolicMood.HOPEFUL: {
                 "drift": ["new dawns", "sprouting seeds", "clearing skies"],
                 "emotion": ["rising suns", "blooming flowers", "healing hearts"],
                 "ethics": ["growing light", "strengthening bonds", "renewed purpose"],
-                "lukhas.memory": ["planted seeds", "growing trees", "bright tomorrows"],
+                "memory": ["planted seeds", "growing trees", "bright tomorrows"],
             },
             SymbolicMood.TRANSCENDENT: {
                 "drift": ["cosmic alignments", "perfect harmonies", "eternal patterns"],
@@ -1102,7 +1102,7 @@ class ReflectionLayer:
                     "divine understanding",
                 ],
                 "ethics": ["pure light", "perfect justice", "cosmic balance"],
-                "lukhas.memory": [
+                "memory": [
                     "timeless wisdom",
                     "eternal truth",
                     "infinite understanding",
@@ -1201,7 +1201,7 @@ class ReflectionLayer:
         """Get actual drift score from UnifiedDriftMonitor or fallback"""
         try:
             # Try to import and use the actual drift monitor
-            from lukhas.core.monitoring.drift_monitor import UnifiedDriftMonitor
+            from core.monitoring.drift_monitor import UnifiedDriftMonitor
 
             # Create a temporary monitor to get drift metrics
             # In production, this would use a shared instance
@@ -1390,7 +1390,7 @@ class ReflectionLayer:
         """Initialize the actual voice handler for reflection vocalization"""
         try:
             # Try to import and initialize the actual VoiceHandler
-            from lukhas.core.user_interface_manager.voice_handler import VoiceHandler
+            from core.user_interface_manager.voice_handler import VoiceHandler
 
             voice_config = {
                 "reflection_mode": True,
@@ -1406,7 +1406,7 @@ class ReflectionLayer:
             self.logger.warning("VoiceHandler not available - falling back to voice renderer")
             # Fallback to voice renderer
             try:
-                from lukhas.core.interfaces.logic.voice.voice_renderer import (
+                from core.interfaces.logic.voice.voice_renderer import (
                     render_voice,
                 )
 
@@ -1694,7 +1694,7 @@ if __name__ == "__main__":
 #          and interactions with (placeholder) infrastructure. Standalone config for __main__.
 # AUTHENTICATION: Not applicable at this component level.
 # HOW TO USE:
-#   from lukhas.core.Adaptative_AGI.GUARDIAN.reflection_layer import create_reflection_layer
+#   from core.Adaptative_AGI.GUARDIAN.reflection_layer import create_reflection_layer
 #   reflection_svc = create_reflection_layer(config)
 #   reflection_svc.process_reflection_cycle(trigger_data)
 # INTEGRATION NOTES: Critical dependencies on LUKHAS core infrastructure (spine, bio_core, etc.)

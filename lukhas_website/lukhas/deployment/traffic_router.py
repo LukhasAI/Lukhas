@@ -19,8 +19,8 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Dict, List, Optional, Set, Tuple
 
-from lukhas.core.logging import get_logger
-from lukhas.observability.metrics import get_metrics_collector
+from core.logging import get_logger
+from observability.metrics import get_metrics_collector
 
 logger = get_logger(__name__)
 metrics = get_metrics_collector()

@@ -374,7 +374,7 @@ class DriveAdapter(ServiceAdapter):
                     mime_type=mime_type,
                     created_at=datetime.now(timezone.utc) - timedelta(days=i),
                     modified_at=datetime.now(timezone.utc) - timedelta(hours=i),
-                    owner="gonzo@lukhas.com",
+                    owner="gonzo@com",
                     parent_id=parent_id or "root",
                     shared_with_me=i % 3 == 0,
                     shared_publicly=i % 5 == 0,
@@ -382,7 +382,7 @@ class DriveAdapter(ServiceAdapter):
                     is_folder=is_folder,
                     permissions=(
                         [
-                            {"type": "user", "role": "owner", "email": "gonzo@lukhas.com"},
+                            {"type": "user", "role": "owner", "email": "gonzo@com"},
                             {"type": "user", "role": "reader", "email": "alice@example.com"},
                         ]
                         if i % 3 == 0
@@ -412,14 +412,14 @@ class DriveAdapter(ServiceAdapter):
             mime_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
             created_at=datetime.now(timezone.utc) - timedelta(days=5),
             modified_at=datetime.now(timezone.utc) - timedelta(hours=2),
-            owner="gonzo@lukhas.com",
+            owner="gonzo@com",
             parent_id="folder_projects",
             shared_with_me=False,
             shared_publicly=False,
             folder_path="/My Drive/Projects/",
             is_folder=False,
             permissions=[
-                {"type": "user", "role": "owner", "email": "gonzo@lukhas.com"},
+                {"type": "user", "role": "owner", "email": "gonzo@com"},
                 {"type": "user", "role": "writer", "email": "alice@example.com"},
                 {"type": "user", "role": "commenter", "email": "bob@company.com"},
             ],

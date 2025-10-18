@@ -283,7 +283,7 @@ class DependencyHasher:
                             "security",
                             "database",
                             "monitoring",
-                            "lukhas.tools",
+                            "tools",
                             "cloud",
                             "documentation",
                             "utilities",

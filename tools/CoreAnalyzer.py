@@ -27,7 +27,7 @@ class CoreAnalyzer:
                 "adaptive",
                 "cognitive",
             ],
-            "memory_system": ["lukhas.memory", "memoria", "fold", "dreams", "consciousness"],
+            "memory_system": ["memory", "memoria", "fold", "dreams", "consciousness"],
             "architecture": ["mapper", "nodes", "orchestrator", "brain", "enhancement"],
             "functions": [
                 "web_formatter",
@@ -170,9 +170,9 @@ class CoreAnalyzer:
 
         # Legitimate lukhas components
         legitimate_indicators = [
-            any(kw in file_lower for kw in ["lukhas.memory", "memoria", "fold", "dreams", "mapper", "nodes"]),
-            any(kw in path_lower for kw in ["lukhas.memory", "dreams", "brain", "cognitive", "intelligence"]),
-            any(kw in content_lower for kw in ["lukhas.memory", "dreams", "cognitive", "intelligence"]),
+            any(kw in file_lower for kw in ["memory", "memoria", "fold", "dreams", "mapper", "nodes"]),
+            any(kw in path_lower for kw in ["memory", "dreams", "brain", "cognitive", "intelligence"]),
+            any(kw in content_lower for kw in ["memory", "dreams", "cognitive", "intelligence"]),
             "guardian" in file_lower or "guardian" in path_lower,
             "enhancement" in file_lower or "enhancement" in path_lower,
         ]
@@ -332,4 +332,4 @@ def main():
 if __name__ == "__main__":
     main()
 
-# Λ Systems 2025 www.lukhas.ai
+# Λ Systems 2025 www.ai

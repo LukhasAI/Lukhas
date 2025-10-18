@@ -310,7 +310,7 @@ class TestInputValidationSecurity:
         """Test path traversal protection."""
         # Test directories for path traversal risks
         test_dirs = [
-            Path(__file__).parent.parent / "lukhas.tools",
+            Path(__file__).parent.parent / "tools",
             Path(__file__).parent.parent / "labs",
         ]
 
@@ -378,7 +378,7 @@ class TestT4AgentCoordinationSecurity:
         """Test that acceptance gate properly validates security."""
         # Create a temporary file with security violations
         test_code = """
-import lukhas.insecure_module
+import insecure_module
 from quarantine.old import UnsafeClass
 password = "hardcoded123!"
 api_key = "REDACTED_API_KEY_FOR_SECURITY_TEST"

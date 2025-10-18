@@ -39,7 +39,7 @@ class ConsciousnessQIBridge:
         """Establish connection between Consciousness and Quantum systems"""
         try:
             # Get system hubs
-            from lukhas.consciousness.reflection.consciousness_hub import (
+            from consciousness.reflection.consciousness_hub import (
                 get_consciousness_hub,
             )
             from qi.qi_hub import get_quantum_hub

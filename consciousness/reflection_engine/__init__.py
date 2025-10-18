@@ -8,8 +8,8 @@ from typing import List
 __all__: List[str] = []
 
 for _candidate in (
-    "lukhas_website.lukhas.consciousness.reflection_engine",
-    "lukhas.consciousness.reflection_engine",
+    "lukhas_website.consciousness.reflection_engine",
+    "consciousness.reflection_engine",
     "candidate.consciousness.reflection_engine",
 ):
     try:

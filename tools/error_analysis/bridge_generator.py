@@ -9,7 +9,7 @@ Usage:
     python tools/error_analysis/bridge_generator.py --batch <module_list_file>
 
 Examples:
-    python tools/error_analysis/bridge_generator.py lukhas.consciousness.meta_assessor
+    python tools/error_analysis/bridge_generator.py consciousness.meta_assessor
     python tools/error_analysis/bridge_generator.py --batch missing_modules.txt
 """
 import argparse
@@ -87,7 +87,7 @@ class BridgeGenerator:
         """Generate a bridge module for the given module name."""
         # Determine paths
         if module_name.startswith('lukhas.'):
-            # lukhas.x.y.z → lukhas/x/y/z
+            # x.y.z → lukhas/x/y/z
             rel_path = module_name.replace('.', '/')
             root_module = module_name[len('lukhas.'):]
         elif module_name.startswith('labs.'):

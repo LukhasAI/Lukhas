@@ -4,8 +4,8 @@ from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 
-from lukhas.memory.indexer import Indexer
-from lukhas.memory.memory_orchestrator import MemoryOrchestrator
+from memory.indexer import Indexer
+from memory.memory_orchestrator import MemoryOrchestrator
 
 
 @pytest.fixture

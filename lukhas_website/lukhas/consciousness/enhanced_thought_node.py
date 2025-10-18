@@ -33,7 +33,7 @@ from .enhanced_thought_engine import EnhancedThoughtEngine, ThoughtComplexity, T
 
 # Import MATRIZ base classes
 try:
-    from lukhas.core.matrix.nodes.base import BaseMatrixNode
+    from core.matrix.nodes.base import BaseMatrixNode
     from MATRIZ.core.node_interface import NodeState
     MATRIZ_AVAILABLE = True
 except ImportError:

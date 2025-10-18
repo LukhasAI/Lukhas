@@ -1,10 +1,10 @@
 # owner: Jules-04
 # tier: tier2
-# module_uid: lukhas.governance.ethics.constitutional_ai
+# module_uid: governance.ethics.constitutional_ai
 # criticality: P1
 import pytest
 
-from lukhas.governance.ethics.constitutional_ai import (
+from governance.ethics.constitutional_ai import (
     ConstitutionalFramework,
     ConstitutionalPrinciple,
     SafetyLevel,

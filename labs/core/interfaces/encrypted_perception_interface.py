@@ -11,7 +11,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-from lukhas.core.common import GLYPHToken
+from core.common import GLYPHToken
 
 
 class EthicalSignificance(Enum):

@@ -152,7 +152,7 @@ class ModuleManifestValidator:
             return errors
 
         for dep in dependencies:
-            # Validate dependency format (should be lukhas.modulename)
+            # Validate dependency format (should be modulename)
             if not dep.startswith('lukhas.'):
                 errors.append(f"Invalid dependency format: {dep} (should start with 'lukhas.')")
                 continue

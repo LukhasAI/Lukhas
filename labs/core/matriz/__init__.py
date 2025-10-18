@@ -8,7 +8,7 @@ def _try(n: str):
     try: return import_module(n)
     except Exception: return None
 
-for n in ("lukhas_website.lukhas.core.matriz", "core.matriz"):
+for n in ("lukhas_website.core.matriz", "core.matriz"):
     m = _try(n)
     if m:
         _SRC = m

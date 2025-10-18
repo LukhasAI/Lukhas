@@ -609,7 +609,7 @@ if __name__ == "__main__":
 ║ REFERENCES:
 ║   - Docs: docs/identity/onboarding_cli.md
 ║   - Issues: github.com/lukhas-ai/lukhas/issues?label=onboarding-cli
-║   - Wiki: https://internal.lukhas.ai/wiki/Onboarding_CLI
+║   - Wiki: https://internal.ai/wiki/Onboarding_CLI
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

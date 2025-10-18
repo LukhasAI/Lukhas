@@ -53,27 +53,27 @@ class EcosystemReinforcer:
         # Import mappings from reorganization
         import_mappings = {
             "from api import": "from bridge.api_legacy import",
-            "from architectures import": "from lukhas.core.architectures import",
-            "from bio import": "from lukhas.qi.bio_legacy import",
-            "from creativity import": "from lukhas.consciousness.creativity import",
-            "from dream import": "from lukhas.consciousness.dream import",
-            "from ethics import": "from lukhas.governance.ethics_legacy import",
-            "from identity import": "from lukhas.governance.identity import",
-            "from learning import": "from lukhas.memory.learning import",
-            "from orchestration import": "from lukhas.core.orchestration import",
-            "from reasoning import": "from lukhas.consciousness.reasoning import",
-            "from symbolic import": "from lukhas.core.symbolic_core import",
+            "from architectures import": "from core.architectures import",
+            "from bio import": "from qi.bio_legacy import",
+            "from creativity import": "from consciousness.creativity import",
+            "from dream import": "from consciousness.dream import",
+            "from ethics import": "from governance.ethics_legacy import",
+            "from identity import": "from governance.identity import",
+            "from learning import": "from memory.learning import",
+            "from orchestration import": "from core.orchestration import",
+            "from reasoning import": "from consciousness.reasoning import",
+            "from symbolic import": "from core.symbolic_core import",
             "from voice import": "from bridge.voice import",
             "import api": "import bridge.api_legacy as api",
             "import architectures": "import core.architectures as architectures",
-            "import bio": "import lukhas.qi.bio_legacy as bio",
-            "import creativity": "import lukhas.consciousness.creativity as creativity",
-            "import dream": "import lukhas.consciousness.dream as dream",
-            "import ethics": "import lukhas.governance.ethics_legacy as ethics",
-            "import identity": "import lukhas.governance.identity as identity",
-            "import learning": "import lukhas.memory.learning as learning",
-            "import lukhas.orchestration": "import core.orchestration as orchestration",
-            "import reasoning": "import lukhas.consciousness.reasoning as reasoning",
+            "import bio": "import qi.bio_legacy as bio",
+            "import creativity": "import consciousness.creativity as creativity",
+            "import dream": "import consciousness.dream as dream",
+            "import ethics": "import governance.ethics_legacy as ethics",
+            "import identity": "import governance.identity as identity",
+            "import learning": "import memory.learning as learning",
+            "import orchestration": "import core.orchestration as orchestration",
+            "import reasoning": "import consciousness.reasoning as reasoning",
             "import symbolic": "import core.symbolic_core as symbolic",
             "import voice": "import bridge.voice as voice",
         }
@@ -468,7 +468,7 @@ def colony_propagate(func: Callable) -> Callable:
         # Propagate through colony if enabled
         if kwargs.get('propagate', True):
             try:
-                from lukhas.core.colonies.base_colony import propagate_signal
+                from core.colonies.base_colony import propagate_signal
                 await propagate_signal({
                     'source': func.__module__,
                     'function': func.__name__,

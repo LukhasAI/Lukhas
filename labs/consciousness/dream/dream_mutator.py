@@ -12,7 +12,7 @@ quantum integration, and bio-inspired architecture.
 
 Module for dream mutator functionality
 
-For more information, visit: https://lukhas.ai
+For more information, visit: https://ai
 """
 
 # 📄 MODULE: dream_mutator.py

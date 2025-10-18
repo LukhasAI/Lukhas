@@ -46,7 +46,7 @@ class MockCognitiveNode(CognitiveNodeBase):
 def mock_resolve(key: str):
     """Mock registry resolver."""
     node_map = {
-        "node:memory": MockCognitiveNode("lukhas.memory", 0.1),
+        "node:memory": MockCognitiveNode("memory", 0.1),
         "node:attention": MockCognitiveNode("attention", 0.15),
         "node:thought": MockCognitiveNode("thought", 0.2),
         "node:risk": MockCognitiveNode("risk", 0.05),

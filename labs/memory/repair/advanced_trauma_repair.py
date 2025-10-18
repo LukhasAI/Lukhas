@@ -58,8 +58,8 @@ from uuid import uuid4
 
 # Import LUKHAS components
 try:
-    from lukhas.core.symbolism.tags import TagScope
-    from lukhas.memory.integrity.collapse_hash import IntegrityStatus
+    from core.symbolism.tags import TagScope
+    from memory.integrity.collapse_hash import IntegrityStatus
 
     from ..proteome.symbolic_proteome import PostTranslationalModification
     # OrthogonalPersistence will be stubbed locally

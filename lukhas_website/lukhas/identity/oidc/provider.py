@@ -158,7 +158,7 @@ class OIDCProvider:
     """OpenID Connect 1.0 Provider with LUKHAS integration."""
 
     def __init__(self,
-                 issuer: str = "https://auth.lukhas.ai",
+                 issuer: str = "https://auth.ai",
                  client_registry: Optional[ClientRegistry] = None,
                  token_manager: Optional[OIDCTokenManager] = None,
                  discovery_provider: Optional[DiscoveryProvider] = None,
@@ -531,7 +531,7 @@ class OIDCProvider:
                         })
 
                     if claims.scope and "email" in claims.scope:
-                        userinfo["email"] = f"user-{claims.sub}@lukhas.ai"
+                        userinfo["email"] = f"user-{claims.sub}@ai"
 
                     # Add LUKHAS-specific claims
                     if claims.lukhas_tier:

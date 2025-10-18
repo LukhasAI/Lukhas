@@ -13,7 +13,7 @@ from unittest.mock import patch
 
 import pytest
 
-from lukhas.governance.guardian_system import GuardianSystem
+from governance.guardian_system import GuardianSystem
 
 
 class TestGuardianDefaults:

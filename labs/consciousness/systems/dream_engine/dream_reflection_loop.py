@@ -51,7 +51,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 try:
     from dream.dashboard import DreamMetricsDB
@@ -89,7 +89,7 @@ except ImportError:
 
 # Import dream memory fold for snapshot introspection
 try:
-    from lukhas.memory.systems.dream_memory_fold import get_global_dream_memory_fold
+    from memory.systems.dream_memory_fold import get_global_dream_memory_fold
 
     dream_memory_fold_available = True
 except ImportError:
@@ -1052,7 +1052,7 @@ def create_dream_reflection_loop(**kwargs):
 ║ REFERENCES:
 ║   - Docs: docs/consciousness/dream-reflection-architecture.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=dream-engine
-║   - Wiki: wiki.lukhas.ai/dream-reflection-loop
+║   - Wiki: wiki.ai/dream-reflection-loop
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

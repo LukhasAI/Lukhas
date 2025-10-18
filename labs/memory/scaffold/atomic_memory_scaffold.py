@@ -57,7 +57,7 @@ from uuid import uuid4
 
 # Import LUKHAS components
 try:
-    from lukhas.core.symbolism.tags import TagPermission, TagScope
+    from core.symbolism.tags import TagPermission, TagScope
 
     LUKHAS_AVAILABLE = True
 except ImportError as e:

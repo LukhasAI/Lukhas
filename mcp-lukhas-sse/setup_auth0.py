@@ -32,7 +32,7 @@ def setup_auth0_config():
         return False
 
     # Get API identifier
-    api_identifier = input("🔗 API Identifier (e.g., https://api.lukhas.ai): ").strip()
+    api_identifier = input("🔗 API Identifier (e.g., https://api.ai): ").strip()
     if not api_identifier:
         print("❌ API identifier is required!")
         return False

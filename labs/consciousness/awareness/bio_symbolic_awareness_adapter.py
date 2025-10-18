@@ -21,7 +21,7 @@ from collections import deque
 from datetime import datetime
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 try:
     import numpy as np
@@ -163,7 +163,7 @@ class BioSymbolicAwarenessAdapter:
         # Resource allocation pools
         self.resource_pools = {
             "attention": 1.0,  # Available attention
-            "lukhas.memory": 1.0,  # Memory capacity
+            "memory": 1.0,  # Memory capacity
             "processing": 1.0,  # Processing power
             "security": 1.0,  # Security resources
         }
@@ -477,7 +477,7 @@ class BioSymbolicAwarenessAdapter:
         # Allocate based on needs
         allocated = min(
             float(self.resource_pools["attention"]) * attention_need,
-            float(self.resource_pools["lukhas.memory"]) * memory_need,
+            float(self.resource_pools["memory"]) * memory_need,
             float(self.resource_pools["processing"]) * processing_need,
             float(self.resource_pools["security"]) * security_need,
         )

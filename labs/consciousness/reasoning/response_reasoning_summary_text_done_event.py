@@ -21,8 +21,8 @@ logger = logging.getLogger(__name__)
 # Use of this source code is governed by a LUKHAS AI license
 # that can be found in the LICENSE file.
 #
-# Contact: contact@lukhas.ai
-# Website: https://lukhas.ai
+# Contact: contact@ai
+# Website: https://ai
 #
 """
 # ΛNOTE: This module defines the `ResponseReasoningSummaryTextDoneEvent` data model.
@@ -44,12 +44,12 @@ from typing_extensions import Literal
 
 # Initialize ΛTRACE logger for this module
 # AIMPORT_TODO: Verify the location of `_models.BaseModel`.
-# ΛAUTO_GEN_PATH: This relative import `from lukhas.core.models import BaseModel` is likely from auto-generation.
+# ΛAUTO_GEN_PATH: This relative import `from core.models import BaseModel` is likely from auto-generation.
 # See reasoning/README_reasoning_trace.md -> Auto-Gen Import Note
 # If `_models.BaseModel` is part of a core LUKHAS framework library, an absolute import
 # (e.g., `from core_framework.core.models import BaseModel`) would be more robust.
 # ΛCAUTION: Fragile import path can lead to runtime errors and maintenance issues.
-from lukhas.core.models import BaseModel
+from core.models import BaseModel
 
 logger.info(
     "ΛTRACE: Initializing response_reasoning_summary_text_done_event.py module (Data Model Definition).",

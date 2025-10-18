@@ -6,7 +6,7 @@ Ensures data sovereignty and jurisdictional compliance.
 import logging
 from typing import Any
 
-from lukhas.core.interfaces import CoreInterface
+from core.interfaces import CoreInterface
 
 logger = logging.getLogger(__name__)
 

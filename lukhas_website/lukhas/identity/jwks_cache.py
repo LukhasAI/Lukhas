@@ -477,6 +477,6 @@ def _generate_cache_key(issuer_url: str) -> str:
 
 
 # FastAPI dependency for JWKS caching
-async def get_cached_jwks_dependency(issuer_url: str = "https://lukhas.ai") -> Dict[str, Any]:
+async def get_cached_jwks_dependency(issuer_url: str = "https://ai") -> Dict[str, Any]:
     """FastAPI dependency for cached JWKS"""
     return await cached_get_jwks(issuer_url)

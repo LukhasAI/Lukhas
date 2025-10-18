@@ -15,10 +15,10 @@ from typing import Dict
 
 import pytest
 
-from lukhas.core.matriz.async_orchestrator import AsyncOrchestrator
-from lukhas.core.matriz.pipeline_stage import PipelineStage
-from lukhas.observability.opentelemetry_tracing import LUKHASTracer
-from lukhas.observability.prometheus_metrics import LUKHASMetrics
+from core.matriz.async_orchestrator import AsyncOrchestrator
+from core.matriz.pipeline_stage import PipelineStage
+from observability.opentelemetry_tracing import LUKHASTracer
+from observability.prometheus_metrics import LUKHASMetrics
 
 
 class MockPlugin:

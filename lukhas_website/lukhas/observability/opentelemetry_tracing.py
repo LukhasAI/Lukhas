@@ -246,7 +246,7 @@ class LUKHASTracer:
             # Set service attributes
             span.set_attribute("service.name", self.service_name)
             span.set_attribute("service.version", self.service_version)
-            span.set_attribute("lukhas.operation", operation_name)
+            span.set_attribute("operation", operation_name)
 
             # Set custom attributes
             if attributes:
@@ -279,12 +279,12 @@ class LUKHASTracer:
             success: Whether operation succeeded
         """
         attributes = {
-            "lukhas.memory.operation": operation_type,
-            "lukhas.memory.success": success,
+            "memory.operation": operation_type,
+            "memory.success": success,
         }
 
         if item_count is not None:
-            attributes["lukhas.memory.item_count"] = item_count
+            attributes["memory.item_count"] = item_count
 
         with self.trace_operation(f"memory_{operation_type}", attributes):
             # Record metrics
@@ -319,14 +319,14 @@ class LUKHASTracer:
             error: Error message if failed
         """
         attributes = {
-            "lukhas.matriz.stage": stage_name,
-            "lukhas.matriz.success": success,
-            "lukhas.matriz.timeout": timeout,
-            "lukhas.matriz.duration_ms": duration_ms,
+            "matriz.stage": stage_name,
+            "matriz.success": success,
+            "matriz.timeout": timeout,
+            "matriz.duration_ms": duration_ms,
         }
 
         if error:
-            attributes["lukhas.matriz.error"] = error
+            attributes["matriz.error"] = error
 
         with self.trace_operation(f"matriz_stage_{stage_name}", attributes):
             # Record metrics
@@ -359,15 +359,15 @@ class LUKHASTracer:
             user_query: User's query (optional, for correlation)
         """
         attributes = {
-            "lukhas.matriz.pipeline.duration_ms": total_duration_ms,
-            "lukhas.matriz.pipeline.stages_completed": stages_completed,
-            "lukhas.matriz.pipeline.stages_failed": stages_failed,
-            "lukhas.matriz.pipeline.within_budget": within_budget,
+            "matriz.pipeline.duration_ms": total_duration_ms,
+            "matriz.pipeline.stages_completed": stages_completed,
+            "matriz.pipeline.stages_failed": stages_failed,
+            "matriz.pipeline.within_budget": within_budget,
         }
 
         if user_query:
             # Hash or truncate for privacy
-            attributes["lukhas.matriz.query_hash"] = str(hash(user_query))
+            attributes["matriz.query_hash"] = str(hash(user_query))
 
         with self.trace_operation("matriz_pipeline", attributes):
             # Record metrics
@@ -399,18 +399,18 @@ class LUKHASTracer:
             error: Error message if failed
         """
         attributes = {
-            "lukhas.plugin.operation": operation_type,
-            "lukhas.plugin.success": success,
+            "plugin.operation": operation_type,
+            "plugin.success": success,
         }
 
         if plugin_name:
-            attributes["lukhas.plugin.name"] = plugin_name
+            attributes["plugin.name"] = plugin_name
 
         if plugin_count is not None:
-            attributes["lukhas.plugin.count"] = plugin_count
+            attributes["plugin.count"] = plugin_count
 
         if error:
-            attributes["lukhas.plugin.error"] = error
+            attributes["plugin.error"] = error
 
         with self.trace_operation(f"plugin_{operation_type}", attributes):
             # Record metrics
@@ -443,15 +443,15 @@ class LUKHASTracer:
             success: Whether operation succeeded
         """
         attributes = {
-            "lukhas.fold.operation": operation_type,
-            "lukhas.fold.success": success,
+            "fold.operation": operation_type,
+            "fold.success": success,
         }
 
         if fold_count is not None:
-            attributes["lukhas.fold.count"] = fold_count
+            attributes["fold.count"] = fold_count
 
         if compression_ratio is not None:
-            attributes["lukhas.fold.compression_ratio"] = compression_ratio
+            attributes["fold.compression_ratio"] = compression_ratio
 
         with self.trace_operation(f"fold_{operation_type}", attributes):
             # Record metrics
@@ -487,7 +487,7 @@ def trace_function(
             # Extract self attributes for class methods
             func_attributes = attributes or {}
             if args and hasattr(args[0], '__class__'):
-                func_attributes["lukhas.class"] = args[0].__class__.__name__
+                func_attributes["class"] = args[0].__class__.__name__
 
             with tracer.trace_operation(op_name, func_attributes):
                 return func(*args, **kwargs)
@@ -570,7 +570,7 @@ def trace_memory_recall(item_count: int):
     try:
         with tracer.trace_operation(
             "memory_recall",
-            {"lukhas.memory.item_count": item_count}
+            {"memory.item_count": item_count}
         ):
             yield
         # Record successful operation

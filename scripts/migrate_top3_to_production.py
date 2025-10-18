@@ -94,9 +94,9 @@ def update_module_paths(file_path: Path):
     # Update common hardcoded paths
     replacements = [
         ("/Users/agi_dev/Downloads/Consolidation-Repo/logs/", "logs/"),
-        ("from lukhas.memory.", "from lukhas.acceptance.accepted.memory."),
-        ("from core.", "from lukhas.acceptance.accepted.core."),
-        ("from lukhas.governance.", "from lukhas.acceptance.accepted.governance."),
+        ("from memory.", "from acceptance.accepted.memory."),
+        ("from core.", "from acceptance.accepted.core."),
+        ("from governance.", "from acceptance.accepted.governance."),
     ]
 
     for old, new in replacements:
@@ -140,12 +140,12 @@ def migrate_module(migration: dict):
     if "imports" in migration:
         # Single file shim
         new_import = str(migration["target"].relative_to(ACCEPTED_BASE)).replace("/", ".").replace(".py", "")
-        new_import = f"lukhas.acceptance.accepted.{new_import}"
+        new_import = f"acceptance.accepted.{new_import}"
         create_compatibility_shim(migration["source"], new_import, migration["imports"])
     elif migration.get("is_directory") and "main_imports" in migration:
         # Directory shim - create __init__.py
         shim_path = migration["source"] / "__init__.py"
-        new_base = f"lukhas.acceptance.accepted.{migration['target'].relative_to(ACCEPTED_BASE)}"
+        new_base = f"acceptance.accepted.{migration['target'].relative_to(ACCEPTED_BASE)}"
         new_base = new_base.replace("/", ".")
 
         shim_content = f'''"""

@@ -16,7 +16,7 @@ from creativity.core import CreativityEngine
 from learning.learning_gateway import LearningRequest, get_learning_gateway
 
 from dream.engine import DreamEngine  # Will be renamed to dream.synthesizer
-from lukhas.memory.core import MemoryCore
+from memory.core import MemoryCore
 
 
 @dataclass

@@ -430,7 +430,7 @@ class CollapseTracker:
             # Low entropy, stable system
             symbols = ["glyph_001"] * 50 + ["glyph_002"] * 40 + ["glyph_003"] * 10
             component_scores = {
-                "lukhas.memory": 0.2,
+                "memory": 0.2,
                 "reasoning": 0.15,
                 "emotion": 0.25,
                 "consciousness": 0.18,
@@ -440,7 +440,7 @@ class CollapseTracker:
             # Medium entropy, increasing drift
             symbols = [f"glyph_{i:03d}" for i in range(20)] * 5
             component_scores = {
-                "lukhas.memory": 0.45,
+                "memory": 0.45,
                 "reasoning": 0.38,
                 "emotion": 0.52,
                 "consciousness": 0.41,
@@ -450,7 +450,7 @@ class CollapseTracker:
             # High entropy, system collapse
             symbols = [f"glyph_{random.randint(0, 100):03d}" for _ in range(100)]
             component_scores = {
-                "lukhas.memory": 0.85,
+                "memory": 0.85,
                 "reasoning": 0.78,
                 "emotion": 0.92,
                 "consciousness": 0.88,
@@ -497,7 +497,7 @@ def get_global_tracker() -> CollapseTracker:
 ║ REFERENCES:
 ║   - Docs: docs/COLLAPSE_DIAGNOSTICS.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=collapse-tracking
-║   - Wiki: internal.lukhas.ai/wiki/collapse-detection
+║   - Wiki: internal.ai/wiki/collapse-detection
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

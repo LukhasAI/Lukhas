@@ -16,7 +16,7 @@ import os
 from datetime import datetime, timezone
 
 # from edge_tts import Communicate  # TODO: Install or implement edge_tts
-from lukhas.core.compliance.tier_manager import get_user_tier
+from core.compliance.tier_manager import get_user_tier
 
 DEFAULT_VOICE = "en-US-AriaNeural"
 LOG_PATH = "symbolic_output_log.jsonl"

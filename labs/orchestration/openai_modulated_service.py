@@ -23,7 +23,7 @@ except ImportError:
     openai = None
 
 try:
-    from lukhas.core.orchestration.core_modules.symbolic_signal_router import (
+    from core.orchestration.core_modules.symbolic_signal_router import (
         SignalType,
         SymbolicSignal,
         route_signal,
@@ -45,7 +45,7 @@ except ImportError:  # pragma: no cover - fallback for minimal test envs
         return None
 
 try:
-    from lukhas.orchestration.context_bus import ContextBusOrchestrator
+    from orchestration.context_bus import ContextBusOrchestrator
 except ImportError:  # pragma: no cover - minimal stub
     class ContextBusOrchestrator:  # type: ignore[override]
         async def emit(self, *_args: Any, **_kwargs: Any) -> None:

@@ -33,7 +33,7 @@ logger = logging.getLogger(__name__)
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -44,11 +44,11 @@ MODULE_NAME = "affect_stagnation_detector"
 
 # LUKHAS imports with compatibility fallback
 try:
-    from lukhas.memory.emotional import EmotionalMemory
+    from memory.emotional import EmotionalMemory
 except ImportError:
     # Fallback to memory module if emotion module not available
     try:
-        from lukhas.memory.emotional import EmotionalMemory
+        from memory.emotional import EmotionalMemory
     except ImportError:
         # Create a minimal placeholder if neither exists
         class EmotionalMemory:
@@ -128,7 +128,7 @@ class AffectStagnationDetector:
 ║ REFERENCES:
 ║   - Docs: docs/emotion/stagnation_detection.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=emotion
-║   - Wiki: internal.lukhas.ai/wiki/emotional-health
+║   - Wiki: internal.ai/wiki/emotional-health
 ║
 ║ REVISION HISTORY:
 ║   - 2025-07-24: Updated stagnation symbol to standard hourglass format

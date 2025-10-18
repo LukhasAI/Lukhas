@@ -25,7 +25,7 @@ import pytest
 
 # Import test targets
 try:
-    from lukhas.core.ethics.guardian_drift_bands import (
+    from core.ethics.guardian_drift_bands import (
         BandTransition,
         BandTrigger,
         GuardianBand,
@@ -34,7 +34,7 @@ try:
         GuardianThresholds,
         create_guardian_drift_bands,
     )
-    from lukhas.core.ethics.logic.ethics_engine import EthicsAction, EthicsEngine, EthicsResult
+    from core.ethics.logic.ethics_engine import EthicsAction, EthicsEngine, EthicsResult
     GUARDIAN_AVAILABLE = True
 except ImportError:
     GUARDIAN_AVAILABLE = False

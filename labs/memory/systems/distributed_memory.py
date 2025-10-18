@@ -13,11 +13,11 @@ from typing import Any, Optional
 
 import numpy as np
 
-from lukhas.core.colonies.memory_colony import MemoryColony
-from lukhas.core.common import get_logger
-from lukhas.core.event_sourcing import EventStore
-from lukhas.core.swarm import SwarmHub
-from lukhas.memory.distributed_state_manager import DistributedStateManager, StateType
+from core.colonies.memory_colony import MemoryColony
+from core.common import get_logger
+from core.event_sourcing import EventStore
+from core.swarm import SwarmHub
+from memory.distributed_state_manager import DistributedStateManager, StateType
 
 logger = get_logger(__name__)
 
@@ -190,7 +190,7 @@ class DistributedMemorySystem:
         # Store in colony
         storage_task = {
             "type": "store_memory",
-            "lukhas.memory": memory.to_dict(),
+            "memory": memory.to_dict(),
             "replication_factor": self._get_replication_factor(importance),
         }
 
@@ -239,8 +239,8 @@ class DistributedMemorySystem:
 
         result = await colony.execute_task(f"retrieve-{memory_id}", retrieval_task)
 
-        if result.get("status") == "completed" and result.get("lukhas.memory"):
-            memory = self._dict_to_memory(result["lukhas.memory"])
+        if result.get("status") == "completed" and result.get("memory"):
+            memory = self._dict_to_memory(result["memory"])
 
             # Update access count and last accessed
             memory.access_count += 1

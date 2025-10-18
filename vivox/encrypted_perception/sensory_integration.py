@@ -14,7 +14,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 from .anomaly_detection import AnomalyDetector
 from .vector_encryption import PerceptualEncryptor

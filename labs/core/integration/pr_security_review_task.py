@@ -29,7 +29,7 @@ from lambdabot_autonomous_fixer import ΛBotAutonomousVulnerabilityFixer
 from security_pr_analyzer import PRAnalyzer, SecurityIssue, SecurityScanner
 
 # Import required components
-from lukhas.core.budget.token_controller import TokenBudgetController
+from core.budget.token_controller import TokenBudgetController
 
 # Configure logging
 logging.basicConfig(

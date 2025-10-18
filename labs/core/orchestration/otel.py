@@ -9,7 +9,7 @@ from contextlib import contextmanager
 
 try:
     from opentelemetry import trace  # type: ignore
-    _TRACER = trace.get_tracer("lukhas.matriz")
+    _TRACER = trace.get_tracer("matriz")
 except Exception:  # pragma: no cover
     _TRACER = None
 

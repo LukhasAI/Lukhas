@@ -32,7 +32,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
-from lukhas.core.common import LukhasError, get_logger
+from core.common import LukhasError, get_logger
 
 # Configure module logger
 logger = get_logger(__name__)

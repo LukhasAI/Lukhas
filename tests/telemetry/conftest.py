@@ -253,15 +253,15 @@ def span_validator():
         def validate_authz_span(span: CapturedSpan, expected_attrs: Dict[str, Any] = None) -> bool:
             """Validate an authorization span has required attributes."""
             required_attrs = [
-                "lukhas.subject",
-                "lukhas.tier",
-                "lukhas.tier_num",
-                "lukhas.scopes",
-                "lukhas.module",
-                "lukhas.action",
-                "lukhas.decision",
-                "lukhas.reason",
-                "lukhas.decision_time_ms"
+                "subject",
+                "tier",
+                "tier_num",
+                "scopes",
+                "module",
+                "action",
+                "decision",
+                "reason",
+                "decision_time_ms"
             ]
 
             # Check required attributes exist

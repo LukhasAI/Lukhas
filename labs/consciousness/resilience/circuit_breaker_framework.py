@@ -387,7 +387,7 @@ class ConsciousnessCircuitBreaker(ABC):
         if "coherence" in str(exception).lower():
             return FailureReason.COHERENCE_LOST
 
-        if "resource" in str(exception).lower() or "lukhas.memory" in str(exception).lower():
+        if "resource" in str(exception).lower() or "memory" in str(exception).lower():
             return FailureReason.RESOURCE_EXHAUSTED
 
         return FailureReason.THRESHOLD_EXCEEDED

@@ -13,7 +13,7 @@ from typing import Any, Optional
 
 # Import TraceMemoryLogger from candidate lane with fallback
 try:
-    from lukhas.core.orchestration.brain.trace_memory_logger import TraceMemoryLogger
+    from core.orchestration.brain.trace_memory_logger import TraceMemoryLogger
 except ImportError:
     TraceMemoryLogger = None
 

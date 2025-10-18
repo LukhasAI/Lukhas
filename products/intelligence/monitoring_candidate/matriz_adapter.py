@@ -37,7 +37,7 @@ class MonitoringMatrizAdapter:
             },
             "timestamps": {"created_ts": int(time.time() * 1000)},
             "provenance": {
-                "producer": "lukhas.monitoring",
+                "producer": "monitoring",
                 "capabilities": [
                     "monitoring:metrics",
                     "monitoring:drift",

@@ -6,14 +6,14 @@ Connects all agent interfaces, APIs, and external communication points.
 import logging
 
 # API interfaces
-from lukhas.core.api.api_server import APIServer
-from lukhas.core.api.endpoints import EndpointsManager
-from lukhas.core.api.external_api_handler import ExternalAPIHandler
+from core.api.api_server import APIServer
+from core.api.endpoints import EndpointsManager
+from core.api.external_api_handler import ExternalAPIHandler
 
 # Agent interfaces
-from lukhas.core.interfaces.as_agent.core.agent_handoff import AgentHandoff
-from lukhas.core.interfaces.as_agent.core.gatekeeper import Gatekeeper
-from lukhas.core.interfaces.as_agent.sys.dast.dast_logger import DASTLogger
+from core.interfaces.as_agent.core.agent_handoff import AgentHandoff
+from core.interfaces.as_agent.core.gatekeeper import Gatekeeper
+from core.interfaces.as_agent.sys.dast.dast_logger import DASTLogger
 
 logger = logging.getLogger(__name__)
 

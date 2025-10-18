@@ -13,7 +13,7 @@ def test_memory_functionality():
     print("-" * 35)
 
     try:
-        from lukhas.memory import MEMORY_AVAILABLE, access_memory, create_fold, dump_state
+        from memory import MEMORY_AVAILABLE, access_memory, create_fold, dump_state
 
         print(f"   Memory Available: {MEMORY_AVAILABLE}")
 
@@ -69,7 +69,7 @@ def test_governance_functionality():
     print("-" * 30)
 
     try:
-        import lukhas.governance
+        import governance
 
         # Test governance components
         attrs = [attr for attr in dir(governance) if not attr.startswith("_")]
@@ -122,7 +122,7 @@ def test_lukhas_namespace_issues():
     print("\n🔍 LUKHAS NAMESPACE TEST:")
     print("-" * 25)
 
-    lukhas_modules = ["lukhas.memory", "lukhas.consciousness", "lukhas.api", "lukhas.core", "lukhas.identity"]
+    lukhas_modules = ["memory", "consciousness", "api", "core", "identity"]
     results = {}
 
     for module in lukhas_modules:
@@ -190,9 +190,9 @@ def main():
     test_results = {}
 
     # Core systems
-    test_results["lukhas.memory"] = test_memory_functionality()
+    test_results["memory"] = test_memory_functionality()
     test_results["agents"] = test_agent_functionality()
-    test_results["lukhas.governance"] = test_governance_functionality()
+    test_results["governance"] = test_governance_functionality()
 
     # Missing consciousness modules
     consciousness_results = test_missing_consciousness_modules()

@@ -1,10 +1,10 @@
 """Bridge: orchestration.providers (OpenAI/Anthropic/etc.)."""
 from __future__ import annotations
 
-from lukhas._bridgeutils import bridge_from_candidates
+from _bridgeutils import bridge_from_candidates
 
 _CANDIDATES = (
-  "lukhas_website.lukhas.orchestration.providers",
+  "lukhas_website.orchestration.providers",
   "candidate.orchestration.providers",
   "orchestration.providers",
 )

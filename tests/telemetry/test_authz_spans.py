@@ -17,7 +17,7 @@ from pathlib import Path
 import pytest
 
 # Add tools directory to path for importing authorization middleware
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "lukhas.tools"))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / "tools"))
 
 from matrix_authz_middleware import AuthzRequest, MatrixAuthzMiddleware
 
@@ -86,23 +86,23 @@ async def test_authz_span_attributes_allow(telemetry_capture, test_subjects, spa
     attrs = span.attributes
 
     # Check required authorization context attributes
-    assert "lukhas.subject" in attrs, "Missing lukhas.subject attribute"
-    assert "lukhas.tier" in attrs, "Missing lukhas.tier attribute"
-    assert "lukhas.tier_num" in attrs, "Missing lukhas.tier_num attribute"
-    assert "lukhas.scopes" in attrs, "Missing lukhas.scopes attribute"
-    assert "lukhas.module" in attrs, "Missing lukhas.module attribute"
-    assert "lukhas.action" in attrs, "Missing lukhas.action attribute"
-    assert "lukhas.decision" in attrs, "Missing lukhas.decision attribute"
-    assert "lukhas.reason" in attrs, "Missing lukhas.reason attribute"
-    assert "lukhas.decision_time_ms" in attrs, "Missing lukhas.decision_time_ms attribute"
+    assert "subject" in attrs, "Missing subject attribute"
+    assert "tier" in attrs, "Missing tier attribute"
+    assert "tier_num" in attrs, "Missing tier_num attribute"
+    assert "scopes" in attrs, "Missing scopes attribute"
+    assert "module" in attrs, "Missing module attribute"
+    assert "action" in attrs, "Missing action attribute"
+    assert "decision" in attrs, "Missing decision attribute"
+    assert "reason" in attrs, "Missing reason attribute"
+    assert "decision_time_ms" in attrs, "Missing decision_time_ms attribute"
 
     # Verify attribute values
-    assert attrs["lukhas.subject"] == trusted_subject["subject"]
-    assert attrs["lukhas.tier"] == trusted_subject["tier"]
-    assert attrs["lukhas.tier_num"] == trusted_subject["tier_num"]
-    assert attrs["lukhas.module"] == "memoria"
-    assert attrs["lukhas.action"] == "recall"
-    assert attrs["lukhas.decision"] == "allow", f"Expected decision=allow, got {attrs['lukhas.decision']}"
+    assert attrs["subject"] == trusted_subject["subject"]
+    assert attrs["tier"] == trusted_subject["tier"]
+    assert attrs["tier_num"] == trusted_subject["tier_num"]
+    assert attrs["module"] == "memoria"
+    assert attrs["action"] == "recall"
+    assert attrs["decision"] == "allow", f"Expected decision=allow, got {attrs['decision']}"
 
     # Verify span structure
     assert span_validator.validate_span_structure(span), "Span structure validation failed"
@@ -141,16 +141,16 @@ async def test_authz_span_attributes_deny(telemetry_capture, test_subjects, span
     attrs = span.attributes
 
     # Verify core attributes
-    assert attrs["lukhas.subject"] == guest_subject["subject"]
-    assert attrs["lukhas.tier"] == guest_subject["tier"]
-    assert attrs["lukhas.tier_num"] == guest_subject["tier_num"]
-    assert attrs["lukhas.module"] == "memoria"
-    assert attrs["lukhas.action"] == "recall"
-    assert attrs["lukhas.decision"] == "deny", f"Expected decision=deny, got {attrs['lukhas.decision']}"
+    assert attrs["subject"] == guest_subject["subject"]
+    assert attrs["tier"] == guest_subject["tier"]
+    assert attrs["tier_num"] == guest_subject["tier_num"]
+    assert attrs["module"] == "memoria"
+    assert attrs["action"] == "recall"
+    assert attrs["decision"] == "deny", f"Expected decision=deny, got {attrs['decision']}"
 
     # Verify deny reason is provided
-    assert "lukhas.reason" in attrs
-    reason = attrs["lukhas.reason"]
+    assert "reason" in attrs
+    reason = attrs["reason"]
     assert "not authorized" in reason.lower() or "denied" in reason.lower(), f"Expected denial reason, got: {reason}"
 
     # Verify span status indicates error for denied authorization
@@ -204,11 +204,11 @@ async def test_authz_span_mfa_stepup(telemetry_capture, test_subjects):
 
     # Verify MFA attribute is captured
     for span in authz_spans:
-        assert "lukhas.mfa_used" in span.attributes, "Missing lukhas.mfa_used attribute"
+        assert "mfa_used" in span.attributes, "Missing mfa_used attribute"
 
     # Find the specific spans
-    no_mfa_spans = [s for s in authz_spans if s.attributes.get("lukhas.mfa_used") is False]
-    mfa_spans = [s for s in authz_spans if s.attributes.get("lukhas.mfa_used") is True]
+    no_mfa_spans = [s for s in authz_spans if s.attributes.get("mfa_used") is False]
+    mfa_spans = [s for s in authz_spans if s.attributes.get("mfa_used") is True]
 
     assert len(no_mfa_spans) >= 1, "No span found for no-MFA scenario"
     assert len(mfa_spans) >= 1, "No span found for MFA scenario"
@@ -217,8 +217,8 @@ async def test_authz_span_mfa_stepup(telemetry_capture, test_subjects):
     no_mfa_span = no_mfa_spans[0]
     mfa_span = mfa_spans[0]
 
-    assert no_mfa_span.attributes["lukhas.decision"] == "deny", "Expected deny without MFA"
-    assert mfa_span.attributes["lukhas.decision"] == "allow", "Expected allow with MFA"
+    assert no_mfa_span.attributes["decision"] == "deny", "Expected deny without MFA"
+    assert mfa_span.attributes["decision"] == "allow", "Expected allow with MFA"
 
 
 @pytest.mark.telemetry
@@ -253,9 +253,9 @@ async def test_authz_span_service_account(telemetry_capture, test_subjects):
     attrs = span.attributes
 
     # Verify service account is properly identified
-    assert attrs["lukhas.subject"] == "lukhas:svc:orchestrator"
-    assert attrs["lukhas.tier"] == "root_dev"
-    assert attrs["lukhas.decision"] == "allow", "Service account should be allowed"
+    assert attrs["subject"] == "lukhas:svc:orchestrator"
+    assert attrs["tier"] == "root_dev"
+    assert attrs["decision"] == "allow", "Service account should be allowed"
 
 
 @pytest.mark.telemetry
@@ -289,8 +289,8 @@ async def test_authz_span_performance_tracking(telemetry_capture, test_subjects)
     attrs = span.attributes
 
     # Verify decision time is tracked
-    assert "lukhas.decision_time_ms" in attrs, "Missing decision_time_ms attribute"
-    decision_time = attrs["lukhas.decision_time_ms"]
+    assert "decision_time_ms" in attrs, "Missing decision_time_ms attribute"
+    decision_time = attrs["decision_time_ms"]
     assert isinstance(decision_time, (int, float)), "Decision time should be numeric"
     assert decision_time >= 0, "Decision time should be non-negative"
 
@@ -330,10 +330,10 @@ async def test_authz_span_error_handling(telemetry_capture, test_subjects):
 
     # Verify error is reflected in span
     assert span.status == "ERROR", f"Expected ERROR status for invalid token, got {span.status}"
-    assert span.attributes["lukhas.decision"] == "deny", "Expected deny for invalid token"
+    assert span.attributes["decision"] == "deny", "Expected deny for invalid token"
 
     # Verify error reason is captured
-    reason = span.attributes.get("lukhas.reason", "")
+    reason = span.attributes.get("reason", "")
     assert "token" in reason.lower() or "invalid" in reason.lower(), f"Expected token error reason, got: {reason}"
 
 
@@ -346,10 +346,10 @@ def test_authz_span_compatibility_with_existing_tests(telemetry_capture):
     sample_span = CapturedSpan(
         name="authz.check",
         attributes={
-            "lukhas.subject": "lukhas:user:test",
-            "lukhas.module": "memoria",
-            "lukhas.decision": "allow",
-            "lukhas.reason": "Policy checks passed"
+            "subject": "lukhas:user:test",
+            "module": "memoria",
+            "decision": "allow",
+            "reason": "Policy checks passed"
         },
         status="OK",
         status_message=None,
@@ -372,7 +372,7 @@ def test_authz_span_compatibility_with_existing_tests(telemetry_capture):
 
         span_data = data["spans"][0]
         assert span_data["name"] == "authz.check", "Span name should be preserved"
-        assert "lukhas.subject" in span_data["attributes"], "Attributes should be preserved"
+        assert "subject" in span_data["attributes"], "Attributes should be preserved"
 
 
 if __name__ == "__main__":

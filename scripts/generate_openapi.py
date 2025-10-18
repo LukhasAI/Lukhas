@@ -25,7 +25,7 @@ def main():
         sys.path.insert(0, str(repo_root))
 
     # Import FastAPI app factory
-    from lukhas.adapters.openai.api import get_app
+    from adapters.openai.api import get_app
 
     app = get_app()
     spec = app.openapi()
@@ -42,7 +42,7 @@ def main():
 
     # Add server URLs
     spec["servers"] = [
-        {"url": "https://api.lukhas.ai", "description": "Production"},
+        {"url": "https://api.ai", "description": "Production"},
         {"url": "http://localhost:8000", "description": "Local Development"},
     ]
 

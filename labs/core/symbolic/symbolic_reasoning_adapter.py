@@ -200,7 +200,7 @@ if __name__ == "__main__":
 ║ REFERENCES:
 ║   - Docs: docs/bridge/symbolic-reasoning-adapter.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=reasoning-adapter
-║   - Wiki: wiki.lukhas.ai/reasoning-bridge
+║   - Wiki: wiki.ai/reasoning-bridge
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

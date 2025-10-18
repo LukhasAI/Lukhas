@@ -13,8 +13,8 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
 try:
-    from lukhas.core.symbolic_tokens import SymbolicToken
-    from lukhas.memory.folding.advanced_folding import MemoryFold
+    from core.symbolic_tokens import SymbolicToken
+    from memory.folding.advanced_folding import MemoryFold
 
     MEMORY_AVAILABLE = True
 except ImportError:
@@ -28,7 +28,7 @@ class ClaudeContextMemory:
     def __init__(self):
         # Use environment variable or default to project-relative path
         base_path = os.getenv("LUKHAS_ROOT", str(Path(__file__).parent.parent.parent.parent))
-        self.memory_dir = Path(base_path) / "lukhas.memory" / "claude_contexts"
+        self.memory_dir = Path(base_path) / "memory" / "claude_contexts"
         self.memory_dir.mkdir(parents=True, exist_ok=True)
 
     def create_memory_fold(self, context_data):

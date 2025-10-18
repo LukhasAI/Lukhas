@@ -28,7 +28,7 @@ from typing import Any, Callable, Optional, Union
 
 import structlog
 
-from lukhas.core.identity_integration import TierMappingConfig, get_identity_client
+from core.identity_integration import TierMappingConfig, get_identity_client
 
 logger = structlog.get_logger(__name__)
 
@@ -160,7 +160,7 @@ class EmotionalTierAdapter(TierSystemAdapter):
         # Get user's lambda tier
         user_tier = "LAMBDA_TIER_1"  # Default
         try:
-            from lukhas.governance.identity.core.user_tier_mapping import get_user_tier
+            from governance.identity.core.user_tier_mapping import get_user_tier
 
             user_tier = get_user_tier(user_id)
         except BaseException:

@@ -13,7 +13,7 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 # TAG:consciousness
 # TAG:states
@@ -328,7 +328,7 @@ LUKHAS_MODEL_TYPES = {
     "cognitive": "Core reasoning and decision making",
     "adaptation": "System adaptation to user behavior",
     "security": "Security and privacy preferences",
-    "lukhas.memory": "Memory organization and retrieval",
+    "memory": "Memory organization and retrieval",
     "dream": "Dream processing and narrative generation",
 }
 

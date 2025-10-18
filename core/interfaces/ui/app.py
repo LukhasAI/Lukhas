@@ -17,7 +17,7 @@ Integration Date: 2025-05-31T07:55:30.341806
 
 import streamlit as st  # Streamlit available - UI enabled
 
-from lukhas.core.dashboard_settings import get_paired_apps
+from core.dashboard_settings import get_paired_apps
 
 st.set_page_config(page_title="LUKHAS Agent Dashboard", layout="wide")
 st.title("🧠 LUKHAS - AGENT")
@@ -39,7 +39,7 @@ if paired_apps:
 
 if lukhas_plugin_enabled:
     try:
-        from lukhas.core.lukhas_overview_log import log_event
+        from core.lukhas_overview_log import log_event
 
         st.sidebar.success("🧠 LUKHAS symbolic brain is active.")
         log_event(
@@ -58,7 +58,7 @@ if lukhas_plugin_enabled:
 st.markdown("##  🧱 Symbolic Widget Preview")
 
 try:
-    from lukhas.core.lukhas_widget_engine import create_symbolic_widget
+    from core.lukhas_widget_engine import create_symbolic_widget
 except ImportError:
     st.warning("⚠️ lukhas_widget_engine not found.")
 else:
@@ -109,7 +109,7 @@ else:
 
         # Agent Handoff Preview (if vendor supported)
         try:
-            from lukhas.core.lukhas_agent_handoff import agent_handoff
+            from core.lukhas_agent_handoff import agent_handoff
 
             handoff = agent_handoff(widget.get("vendor", ""))
             if handoff["status"] == "ready":

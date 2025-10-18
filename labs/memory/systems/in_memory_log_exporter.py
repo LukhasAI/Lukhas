@@ -21,7 +21,7 @@ try:
     from opentelemetry.sdk._logs import LogData
     from opentelemetry.sdk._logs.export import LogExporter, LogExportResult
 except ImportError:
-    from lukhas.core.common import get_logger
+    from core.common import get_logger
 
     _log_otel_fallback = get_logger(__name__)
     _log_otel_fallback.warning("OpenTelemetry SDK Log components not found. InMemoryLogExporter placeholders in use.")

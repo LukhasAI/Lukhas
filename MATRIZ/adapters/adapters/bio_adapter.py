@@ -1,4 +1,4 @@
-from lukhas.core.trace import mk_crumb
+from core.trace import mk_crumb
 from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
 
 

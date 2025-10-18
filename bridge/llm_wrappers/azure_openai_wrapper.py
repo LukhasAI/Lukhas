@@ -40,7 +40,7 @@
 """
 import logging
 
-from lukhas.branding.terminology import normalize_output
+from branding.terminology import normalize_output
 
 # Module imports
 from .env_loader import get_azure_openai_config
@@ -148,7 +148,7 @@ class AzureOpenaiWrapper:
 ║ REFERENCES:
 ║   - Docs: docs/bridge/llm-wrappers/azure-openai.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=azure-wrapper
-║   - Wiki: wiki.lukhas.ai/azure-openai-integration
+║   - Wiki: wiki.ai/azure-openai-integration
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

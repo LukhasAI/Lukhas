@@ -60,9 +60,9 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
-from lukhas.core.cluster_sharding import ShardManager
-from lukhas.core.common import get_logger
-from lukhas.core.event_sourcing import Event, EventStore, get_global_event_store
+from core.cluster_sharding import ShardManager
+from core.common import get_logger
+from core.event_sourcing import Event, EventStore, get_global_event_store
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)

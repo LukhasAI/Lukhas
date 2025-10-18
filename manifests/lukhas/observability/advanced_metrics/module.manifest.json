@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.observability.advanced_metrics",
-    "path": "lukhas/observability/advanced_metrics",
+    "path": "observability/advanced_metrics",
     "type": "package",
     "lane": "lukhas"
   },

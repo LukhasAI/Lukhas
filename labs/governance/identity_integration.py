@@ -7,7 +7,7 @@ Identity Integration - Connects auth and identity to governance
 
 from typing import Any
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -51,7 +51,7 @@ identity_governance = IdentityGovernance()
 
 # Import identity components
 try:
-    from lukhas.governance.identity.auth.cognitive_sync_adapter import CognitiveSyncAdapter
+    from governance.identity.auth.cognitive_sync_adapter import CognitiveSyncAdapter
 
     identity_governance.register_auth_provider("cognitive_sync", CognitiveSyncAdapter())
 except ImportError:

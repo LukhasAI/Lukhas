@@ -67,13 +67,13 @@ from dashboard.core.fallback_system import DashboardFallbackSystem
 
 from bio.core.symbolic_fallback_systems import BioSymbolicFallbackManager, FallbackLevel
 from ethics.compliance_validator import ComplianceValidator
-from lukhas.core.colonies.base_colony import BaseColony
-from lukhas.core.colonies.ethics_swarm_colony import EthicalDecisionRequest, EthicalDecisionType, EthicsSwarmColony
-from lukhas.core.colonies.governance_colony_enhanced import GovernanceColony
-from lukhas.core.quantized_thought_cycles import QuantizedThoughtProcessor
+from core.colonies.base_colony import BaseColony
+from core.colonies.ethics_swarm_colony import EthicalDecisionRequest, EthicalDecisionType, EthicsSwarmColony
+from core.colonies.governance_colony_enhanced import GovernanceColony
+from core.quantized_thought_cycles import QuantizedThoughtProcessor
 
 # Import existing components
-from lukhas.memory.systems.memory_safety_features import MemorySafetySystem
+from memory.systems.memory_safety_features import MemorySafetySystem
 
 logger = logging.getLogger("ΛTRACE.integrated_safety")
 
@@ -403,8 +403,8 @@ class IntegratedSafetySystem:
         self.colonies = {
             "safety": SafetyColony("safety_primary"),
             "ethics": EthicsSwarmColony("ethics_swarm"),
-            "lukhas.governance": GovernanceColony("lukhas.governance"),
-            "lukhas.memory": None,  # To be initialized with memory colony
+            "governance": GovernanceColony("governance"),
+            "memory": None,  # To be initialized with memory colony
             "reasoning": None,  # To be initialized with reasoning colony
         }
 
@@ -463,7 +463,7 @@ class IntegratedSafetySystem:
 
         # 1. Memory safety check
         memory_task = asyncio.create_task(self._validate_memory_safety(action, context))
-        validation_tasks.append(("lukhas.memory", memory_task))
+        validation_tasks.append(("memory", memory_task))
 
         # 2. Safety colony validation
         safety_task = asyncio.create_task(self.colonies["safety"].validate_output(action))
@@ -488,7 +488,7 @@ class IntegratedSafetySystem:
 
         # Calculate overall scores
         safety_score = results.get("safety", (False, 0.0))[1]
-        memory_score = results.get("lukhas.memory", (False, 0.0))[1]
+        memory_score = results.get("memory", (False, 0.0))[1]
         ethics_score = results.get("ethics", {}).get("score", 0.0)
         compliance_score = results.get("compliance", {}).get("score", 0.0)
 
@@ -500,7 +500,7 @@ class IntegratedSafetySystem:
         is_safe = all(
             [
                 results.get("safety", (False, 0))[0],
-                results.get("lukhas.memory", (False, 0))[0],
+                results.get("memory", (False, 0))[0],
                 results.get("ethics", {}).get("approved", False),
                 results.get("compliance", {}).get("compliant", False),
             ]
@@ -510,8 +510,8 @@ class IntegratedSafetySystem:
         violations = []
         if not results.get("safety", (True, 0))[0]:
             violations.append({"type": "safety", "details": "Failed safety validation"})
-        if not results.get("lukhas.memory", (True, 0))[0]:
-            violations.append({"type": "lukhas.memory", "details": "Failed memory validation"})
+        if not results.get("memory", (True, 0))[0]:
+            violations.append({"type": "memory", "details": "Failed memory validation"})
         if not results.get("ethics", {}).get("approved", True):
             violations.extend(results.get("ethics", {}).get("violations", []))
         if not results.get("compliance", {}).get("compliant", True):
@@ -661,7 +661,7 @@ class IntegratedSafetySystem:
             recommendations.append("Consider activating fallback mode")
 
         # Memory recommendations
-        if any(v["type"] == "lukhas.memory" for v in violations):
+        if any(v["type"] == "memory" for v in violations):
             recommendations.append("Verify reality anchors and update if needed")
             recommendations.append("Check for semantic drift in related memories")
 
@@ -754,7 +754,7 @@ class IntegratedSafetySystem:
             SafetyLevel.HIGH: {
                 "action": "coordinated_response",
                 "resources": "significant",
-                "colonies_involved": ["safety", "ethics", "lukhas.governance"],
+                "colonies_involved": ["safety", "ethics", "governance"],
             },
             SafetyLevel.CRITICAL: {
                 "action": "emergency_protocol",
@@ -890,7 +890,7 @@ class IntegratedSafetySystem:
 
         # Get drift from memory safety
         memory_drift_report = self.memory_safety.get_safety_report()
-        drift_scores["lukhas.memory"] = memory_drift_report["drift_analysis"]["average_drift"]
+        drift_scores["memory"] = memory_drift_report["drift_analysis"]["average_drift"]
 
         # Get drift from ethics colony if available
         if self.colonies.get("ethics"):

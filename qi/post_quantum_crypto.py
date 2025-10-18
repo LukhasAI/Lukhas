@@ -345,7 +345,7 @@ class PostQuantumCryptoEngine:
 ║ REFERENCES:
 ║   - Docs: docs/quantum/post_quantum_cryptography.md
 ║   - Issues: github.com/lukhas-ai/quantum/issues?label=pqc
-║   - Wiki: wiki.lukhas.ai/quantum/post-quantum-crypto
+║   - Wiki: wiki.ai/quantum/post-quantum-crypto
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

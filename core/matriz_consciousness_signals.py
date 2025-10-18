@@ -216,7 +216,7 @@ class ConsciousnessSignal:
             capabilities.extend(["bio:oscillation", "bio:coherence", "bio:adaptation"])
 
         provenance = {
-            "producer": f"lukhas.consciousness.{self.producer_module}",
+            "producer": f"consciousness.{self.producer_module}",
             "capabilities": capabilities,
             "tenant": "consciousness_network",
             "trace_id": f"CS-{self.consciousness_id}-{int(time.time())}",

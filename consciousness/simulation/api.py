@@ -12,7 +12,7 @@ from .rollout import run_rollouts
 from .scheduler import SimulationScheduler
 from .summarizer import build_dream_result, build_matada_nodes
 
-log = logging.getLogger("lukhas.consciousness.simulation")
+log = logging.getLogger("consciousness.simulation")
 
 class DreamSeed(TypedDict):
     goal: str

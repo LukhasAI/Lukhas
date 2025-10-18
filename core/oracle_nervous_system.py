@@ -207,7 +207,7 @@ class OracleNervousSystem:
     async def _initialize_oracle_colony(self):
         """Initialize the Oracle Colony integration."""
         try:
-            from lukhas.core.colonies.oracle_colony import get_oracle_colony
+            from core.colonies.oracle_colony import get_oracle_colony
 
             self.oracle_colony = await get_oracle_colony()
             self.providers["oracle_colony"] = self.oracle_colony
@@ -450,7 +450,7 @@ class OracleNervousSystem:
         if not self.oracle_colony:
             raise RuntimeError("Oracle Colony not available")
 
-        from lukhas.core.colonies.oracle_colony import OracleQuery
+        from core.colonies.oracle_colony import OracleQuery
 
         query = OracleQuery(
             query_type="prophecy",
@@ -546,7 +546,7 @@ class OracleNervousSystem:
                 {
                     "event_type": "oracle_prediction_available",
                     "target_colonies": [
-                        "lukhas.memory",
+                        "memory",
                         "consciousness",
                         "reasoning",
                     ],
@@ -563,7 +563,7 @@ class OracleNervousSystem:
                 {
                     "event_type": "oracle_dream_generated",
                     "target_colonies": [
-                        "lukhas.memory",
+                        "memory",
                         "creativity",
                         "consciousness",
                     ],

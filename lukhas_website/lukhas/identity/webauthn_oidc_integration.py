@@ -134,7 +134,7 @@ class WebAuthnOIDCIntegration:
         self.webauthn_security = WebAuthnSecurityHardening(self.config)
         self.oidc_security = OIDCSecurityHardening(self.config)
         self.discovery_provider = DiscoveryProvider(
-            self.config.get('issuer', 'https://lukhas.ai'),
+            self.config.get('issuer', 'https://ai'),
             self.config
         )
 
@@ -367,7 +367,7 @@ class WebAuthnOIDCIntegration:
             access_token_claims = {
                 'sub': session.lambda_id,
                 'aud': session.client_id,
-                'iss': self.config.get('issuer', 'https://lukhas.ai'),
+                'iss': self.config.get('issuer', 'https://ai'),
                 'iat': current_time,
                 'exp': current_time + token_lifetime,
                 'scope': ' '.join(session.scope),
@@ -444,7 +444,7 @@ class WebAuthnOIDCIntegration:
         return {
             'challenge': base64.urlsafe_b64encode(challenge).decode().rstrip('='),
             'timeout': 60000,
-            'rpId': self.config.get('rp_id', 'lukhas.ai'),
+            'rpId': self.config.get('rp_id', 'ai'),
             'allowCredentials': [],  # Allow any registered credential
             'userVerification': 'required',
             'extensions': {

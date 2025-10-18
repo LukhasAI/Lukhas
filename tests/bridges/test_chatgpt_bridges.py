@@ -18,8 +18,8 @@ import pytest
     "bridge_path",
     [
         "branding",
-        "lukhas.consciousness.matriz_thought_loop",
-        "lukhas.cognitive_core.reasoning.contradiction_integrator",
+        "consciousness.matriz_thought_loop",
+        "cognitive_core.reasoning.contradiction_integrator",
     ],
 )
 def test_bridge_imports_successfully(bridge_path: str) -> None:
@@ -32,8 +32,8 @@ def test_bridge_imports_successfully(bridge_path: str) -> None:
     "bridge_path",
     [
         "branding",
-        "lukhas.consciousness.matriz_thought_loop",
-        "lukhas.cognitive_core.reasoning.contradiction_integrator",
+        "consciousness.matriz_thought_loop",
+        "cognitive_core.reasoning.contradiction_integrator",
     ],
 )
 def test_bridge_has_all(bridge_path: str) -> None:
@@ -47,7 +47,7 @@ def test_bridge_has_all(bridge_path: str) -> None:
     ("bridge_path", "expected_symbols"),
     [
         ("branding", ["SYSTEM_NAME", "APPROVED_TERMS"]),
-        ("lukhas.consciousness.matriz_thought_loop", []),  # May be empty if backend not found
+        ("consciousness.matriz_thought_loop", []),  # May be empty if backend not found
     ],
 )
 def test_bridge_exports_expected_symbols(bridge_path: str, expected_symbols: list[str]) -> None:
@@ -63,7 +63,7 @@ def test_bridge_exports_expected_symbols(bridge_path: str, expected_symbols: lis
 
 def test_bridge_from_candidates_utility() -> None:
     """bridge_from_candidates() utility function works correctly."""
-    from lukhas._bridgeutils import bridge_from_candidates
+    from _bridgeutils import bridge_from_candidates
 
     # Test with non-existent modules (should return empty)
     __all__, exports = bridge_from_candidates("nonexistent.module1", "nonexistent.module2")
@@ -100,15 +100,15 @@ def test_bridge_does_not_pollute_sys_modules() -> None:
     initial_modules = set(sys.modules.keys())
 
     # Import a bridge
-    import lukhas.consciousness.matriz_thought_loop  # noqa: F401
+    import consciousness.matriz_thought_loop  # noqa: F401
 
     after_modules = set(sys.modules.keys())
     new_modules = after_modules - initial_modules
 
     # Should only add the bridge module itself and its dependencies
     expected = {
-        "lukhas.consciousness.matriz_thought_loop",
-        "lukhas._bridgeutils",
+        "consciousness.matriz_thought_loop",
+        "_bridgeutils",
     }
 
     # Allow backend modules to be loaded too

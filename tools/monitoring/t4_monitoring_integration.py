@@ -109,7 +109,7 @@ class T4MonitoringIntegration:
             try:
                 memory_metrics = await self.t4_observability.collect_memory_metrics(None)
                 if memory_metrics:
-                    metrics["lukhas.memory"] = memory_metrics
+                    metrics["memory"] = memory_metrics
             except Exception as e:
                 logger.debug(f"Memory metrics unavailable: {e}")
 
@@ -139,7 +139,7 @@ class T4MonitoringIntegration:
                 base_metrics.error_rate = max(base_metrics.error_rate, drift_score * 2)
 
         # Check for memory fold metrics
-        memory = enhanced_data.get("lukhas.memory", {})
+        memory = enhanced_data.get("memory", {})
         if memory:
             active_folds = memory.get("active_folds", 0)
             if isinstance(active_folds, int) and active_folds > 100:
@@ -165,14 +165,14 @@ class T4MonitoringIntegration:
             # Submit key metrics to T4 stack
             if self.t4_observability.datadog_enabled:
                 # Submit to Datadog
-                self.t4_observability.submit_metric("gauge", "lukhas.system.cpu_percent", metrics.cpu_percent)
-                self.t4_observability.submit_metric("gauge", "lukhas.system.memory_percent", metrics.memory_percent)
-                self.t4_observability.submit_metric("gauge", "lukhas.system.disk_usage_percent", metrics.disk_usage_percent)
-                self.t4_observability.submit_metric("gauge", "lukhas.testing.success_rate", metrics.test_success_rate)
-                self.t4_observability.submit_metric("gauge", "lukhas.testing.coverage_percentage", metrics.coverage_percentage)
-                self.t4_observability.submit_metric("gauge", "lukhas.performance.response_time_p95", metrics.response_time_p95)
-                self.t4_observability.submit_metric("gauge", "lukhas.system.error_rate", metrics.error_rate)
-                self.t4_observability.submit_metric("gauge", "lukhas.system.active_connections", metrics.active_connections)
+                self.t4_observability.submit_metric("gauge", "system.cpu_percent", metrics.cpu_percent)
+                self.t4_observability.submit_metric("gauge", "system.memory_percent", metrics.memory_percent)
+                self.t4_observability.submit_metric("gauge", "system.disk_usage_percent", metrics.disk_usage_percent)
+                self.t4_observability.submit_metric("gauge", "testing.success_rate", metrics.test_success_rate)
+                self.t4_observability.submit_metric("gauge", "testing.coverage_percentage", metrics.coverage_percentage)
+                self.t4_observability.submit_metric("gauge", "performance.response_time_p95", metrics.response_time_p95)
+                self.t4_observability.submit_metric("gauge", "system.error_rate", metrics.error_rate)
+                self.t4_observability.submit_metric("gauge", "system.active_connections", metrics.active_connections)
 
                 logger.debug("Metrics submitted to T4 Datadog")
 

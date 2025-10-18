@@ -72,7 +72,7 @@ except ImportError:
         return MockBrainCore("emotional")
 
     def MemoryBrainCore():
-        return MockBrainCore("lukhas.memory")
+        return MockBrainCore("memory")
 
     def LearningBrainCore():
         return MockBrainCore("learning")
@@ -239,7 +239,7 @@ class BrainSymphony:
         return {
             "phase": "analogy_mapping",
             "analogies": holographic_analogies,
-            "brain_source": "lukhas.memory",
+            "brain_source": "memory",
             "frequency": self.config.memory_frequency,
             "holographic_enhanced": True,
         }
@@ -430,7 +430,7 @@ class BioQuantumSymbolicReasoner:
             ),
             ReasoningPhase(
                 name="analogy_mapping",
-                brain_target="lukhas.memory",
+                brain_target="memory",
                 frequency=10.0,
                 duration=4.0,
                 qi_inspired_gates=["cnot", "interference"],
@@ -849,7 +849,7 @@ class OscillationSynchronizer:
         brain_frequencies = {
             "dreams": brain_symphony.config.dreams_frequency,
             "emotional": brain_symphony.config.emotional_frequency,
-            "lukhas.memory": brain_symphony.config.memory_frequency,
+            "memory": brain_symphony.config.memory_frequency,
             "learning": brain_symphony.config.learning_frequency,
         }
 

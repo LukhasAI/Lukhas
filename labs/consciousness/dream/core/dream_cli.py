@@ -16,7 +16,7 @@ import argparse
 import logging
 import subprocess
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 # Configure logging
 logger = get_logger(__name__)

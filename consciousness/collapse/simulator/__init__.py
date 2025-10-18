@@ -6,7 +6,7 @@ from importlib import import_module
 __all__ = ["CollapseConfig", "run_simulator", "simulate_once"]
 
 _CANDIDATES = (
-    "lukhas_website.lukhas.consciousness.collapse.simulator",
+    "lukhas_website.consciousness.collapse.simulator",
     "candidate.consciousness.collapse.simulator",
     "consciousness.collapse.simulator_impl",
     "tools.collapse_simulator",

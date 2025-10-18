@@ -12,7 +12,7 @@ import logging
 import time
 from typing import Any, Dict
 
-from lukhas.orchestration.signals import DiagnosticSignalType, SignalType, SymbolicSignal
+from orchestration.signals import DiagnosticSignalType, SignalType, SymbolicSignal
 
 logger = logging.getLogger(__name__)
 

@@ -43,7 +43,7 @@ def is_allowed(user_context, message):
 ──────────────────────────────────────────────────────────────────────────────────────
 EXECUTION:
     - Import with:
-        from lukhas.core.modules.nias.consent_filter import is_allowed
+        from core.modules.nias.consent_filter import is_allowed
 
 USED BY:
     - nias_core.py

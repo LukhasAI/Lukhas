@@ -129,7 +129,7 @@ class MatrixValidator:
 
             # Check WebAuthn for critical modules
             module_name = contract.get("module", "")
-            critical_patterns = ["identity", "auth", "security", "lukhas.governance", "wallet", "passkey"]
+            critical_patterns = ["identity", "auth", "security", "governance", "wallet", "passkey"]
             is_critical = any(pattern in module_name.lower() for pattern in critical_patterns)
 
             if is_critical and not identity_info["webauthn_required"]:
@@ -260,7 +260,7 @@ class MatrixValidator:
 
             # Check if critical module
             module_name_full = f"lukhas.{module_name}"
-            critical_patterns = ["identity", "auth", "security", "lukhas.governance"]
+            critical_patterns = ["identity", "auth", "security", "governance"]
             if any(pattern in module_name_full.lower() for pattern in critical_patterns):
                 summary["critical_modules"] += 1
 

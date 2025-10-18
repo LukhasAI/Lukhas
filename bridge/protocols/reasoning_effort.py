@@ -23,8 +23,8 @@ from __future__ import annotations
 # Use of this source code is governed by a LUKHAS AI license
 # that can be found in the LICENSE file.
 #
-# Contact: contact@lukhas.ai
-# Website: https://lukhas.ai
+# Contact: contact@ai
+# Website: https://ai
 #
 """
 # ΛNOTE: This module defines the symbolic type `ReasoningEffort`, standardizing how

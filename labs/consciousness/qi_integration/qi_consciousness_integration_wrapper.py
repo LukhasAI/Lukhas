@@ -7,7 +7,7 @@ import uuid
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 try:
     from .qi_consciousness_integration import MODULE_NAME, MODULE_VERSION, QICreativeConsciousness

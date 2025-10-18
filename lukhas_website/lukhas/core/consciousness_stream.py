@@ -29,8 +29,8 @@ except ImportError:
     GUARDIAN_AVAILABLE = False
     logging.warning("Guardian system not available for consciousness validation")
 
-from lukhas.core.clock import Ticker
-from lukhas.core.ring import DecimatingRing
+from core.clock import Ticker
+from core.ring import DecimatingRing
 from matriz.node_contract import GLYPH, MatrizMessage
 from matriz.router import SymbolicMeshRouter
 from storage.events import Event, EventStore

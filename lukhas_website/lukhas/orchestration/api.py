@@ -19,9 +19,9 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from opentelemetry import trace
 from pydantic import BaseModel, Field
 
-from lukhas.governance.guardian import get_guardian
+from governance.guardian import get_guardian
 from identity.auth_service import verify_token
-from lukhas.observability import counter, histogram
+from observability import counter, histogram
 
 from .multi_ai_router import AIProvider, ConsensusType, RoutingRequest, get_multi_ai_router
 
@@ -318,7 +318,7 @@ async def enable_model(
             model.available = True
 
             # Update metrics
-            from lukhas.orchestration.multi_ai_router import model_availability
+            from orchestration.multi_ai_router import model_availability
             model_availability.labels(
                 provider=model.provider.value,
                 model=model.model_id
@@ -369,7 +369,7 @@ async def disable_model(
             model.available = False
 
             # Update metrics
-            from lukhas.orchestration.multi_ai_router import model_availability
+            from orchestration.multi_ai_router import model_availability
             model_availability.labels(
                 provider=model.provider.value,
                 model=model.model_id

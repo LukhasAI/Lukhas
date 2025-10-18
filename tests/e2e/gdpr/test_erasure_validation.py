@@ -204,7 +204,7 @@ class MockDataStore:
             footprint.memory_folds.append(fold_id)
             cursor.execute(
                 "INSERT INTO memory_fold (id, user_id, fold_data, embedding, created_at, accessed_at) VALUES (?, ?, ?, ?, ?, ?)",
-                (fold_id, user_id, json.dumps({"lukhas.memory": f"test_memory_{i}"}), b"fake_embedding", timestamp, timestamp),
+                (fold_id, user_id, json.dumps({"memory": f"test_memory_{i}"}), b"fake_embedding", timestamp, timestamp),
             )
 
         # Insert consent entries

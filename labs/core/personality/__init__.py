@@ -61,7 +61,7 @@ MODULE_NAME = "personality"
 ║ REFERENCES:
 ║   - Docs: docs/core/personality/package_structure.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=personality
-║   - Wiki: wiki.lukhas.ai/personality/package-init
+║   - Wiki: wiki.ai/personality/package-init
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

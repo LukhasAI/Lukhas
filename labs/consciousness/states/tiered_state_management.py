@@ -37,7 +37,7 @@ from enum import Enum
 from threading import RLock
 from typing import Any, Callable, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 # Import dependencies
 try:

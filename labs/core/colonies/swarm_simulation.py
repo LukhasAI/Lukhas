@@ -13,11 +13,11 @@ import asyncio
 import random
 from dataclasses import dataclass, field
 
-from lukhas.core.efficient_communication import (
+from core.efficient_communication import (
     EfficientCommunicationFabric,
     MessagePriority,
 )
-from lukhas.core.symbolism.tags import TagScope
+from core.symbolism.tags import TagScope
 
 
 @dataclass

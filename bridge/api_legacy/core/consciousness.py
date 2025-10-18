@@ -21,7 +21,7 @@ from pydantic import BaseModel, Field
 
 try:
     from bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
-    from lukhas.consciousness.reflection.unified_memory_manager import MemoryFoldSystem
+    from consciousness.reflection.unified_memory_manager import MemoryFoldSystem
 except ImportError:
     MemoryFoldSystem = None
     UnifiedOpenAIClient = None

@@ -13,7 +13,7 @@ import logging
 from pathlib import Path
 from typing import Any
 
-from lukhas.interfaces.identity import AuthenticationIntegration as AuthenticationIntegrationInterface
+from interfaces.identity import AuthenticationIntegration as AuthenticationIntegrationInterface
 
 # Add paths for dynamic imports
 LUKHAS_ROOT = Path(__file__).parent.parent.parent

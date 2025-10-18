@@ -631,7 +631,7 @@ class AuthGlyphRegistry:
             # Create message GLYPH
             if target_module == "consciousness":
                 module_symbol = "🧠"
-            elif target_module == "lukhas.memory":
+            elif target_module == "memory":
                 module_symbol = "🧠📚"
             elif target_module == "guardian":
                 module_symbol = "🛡️"

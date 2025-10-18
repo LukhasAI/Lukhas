@@ -40,7 +40,7 @@ async def legacy_register(request: Request):
             "new_endpoint": "/identity/register",
             "method": "POST",
             "deprecated": True,
-            "migration_guide": "https://docs.lukhas.ai/identity/migration",
+            "migration_guide": "https://docs.ai/identity/migration",
         },
         headers={
             "Location": "/identity/register",
@@ -67,7 +67,7 @@ async def legacy_login(request: Request):
             "new_endpoint": "/identity/login",
             "method": "POST",
             "deprecated": True,
-            "migration_guide": "https://docs.lukhas.ai/identity/migration",
+            "migration_guide": "https://docs.ai/identity/migration",
         },
         headers={
             "Location": "/identity/login",
@@ -137,6 +137,6 @@ async def legacy_auth_info():
             "/api/v2/auth/logout": "/identity/logout",
             "/api/v2/auth/token/verify": "/identity/verify",
         },
-        "documentation": "https://docs.lukhas.ai/identity",
+        "documentation": "https://docs.ai/identity",
         "identity_system": "/identity",
     }

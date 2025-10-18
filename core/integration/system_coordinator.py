@@ -52,18 +52,18 @@ try:
     from personas.persona_manager import PersonaManager
     from voice.processor import VoiceProcessor
 
-    from lukhas.consciousness.core_consciousness.consciousness_integrator import (
+    from consciousness.core_consciousness.consciousness_integrator import (
         ConsciousnessEvent,
         ConsciousnessIntegrator,
         IntegrationPriority,
     )
-    from lukhas.core.identity.identity_manager import IdentityManager
-    from lukhas.core.neural_architectures.neural_integrator import (
+    from core.identity.identity_manager import IdentityManager
+    from core.neural_architectures.neural_integrator import (
         NeuralContext,
         NeuralIntegrator,
         NeuralMode,
     )
-    from lukhas.memory.enhanced_memory_manager import EnhancedMemoryManager
+    from memory.enhanced_memory_manager import EnhancedMemoryManager
 except ImportError as e:
     logging.warning(f"Some core components not available: {e}")
 
@@ -212,7 +212,7 @@ class SystemCoordinator:
 
         try:
             # Initialize consciousness integrator
-            from lukhas.consciousness.core_consciousness.consciousness_integrator import (
+            from consciousness.core_consciousness.consciousness_integrator import (
                 ConsciousnessIntegrator,
             )
 
@@ -221,7 +221,7 @@ class SystemCoordinator:
             logger.info("Consciousness integrator initialized")
 
             # Initialize neural integrator
-            from lukhas.core.neural_architectures.neural_integrator import (
+            from core.neural_architectures.neural_integrator import (
                 NeuralIntegrator,
             )
 
@@ -230,10 +230,10 @@ class SystemCoordinator:
             logger.info("Neural integrator initialized")
 
             # Initialize memory manager
-            from lukhas.memory.enhanced_memory_manager import EnhancedMemoryManager
+            from memory.enhanced_memory_manager import EnhancedMemoryManager
 
             self.memory_manager = EnhancedMemoryManager()
-            self.active_components["lukhas.memory"] = True
+            self.active_components["memory"] = True
             logger.info("Memory manager initialized")
 
             # Initialize voice processor (commented out for now)
@@ -608,7 +608,7 @@ class SystemCoordinator:
                 return await self.consciousness_integrator.get_consciousness_status()
             elif component_name == "neural" and self.neural_integrator:
                 return await self.neural_integrator.get_neural_status()
-            elif component_name == "lukhas.memory" and self.memory_manager:
+            elif component_name == "memory" and self.memory_manager:
                 return {
                     "status": "active",
                     "memory_count": len(self.memory_manager.memories),
@@ -643,7 +643,7 @@ class SystemCoordinator:
                 status = await self.neural_integrator.get_neural_status()
                 return {"healthy": True, "status": status}
             elif (
-                (component_name == "lukhas.memory" and self.memory_manager)
+                (component_name == "memory" and self.memory_manager)
                 or (component_name == "voice" and self.voice_processor)
                 or (component_name == "personality" and self.persona_manager)
             ):
@@ -746,9 +746,9 @@ class SystemCoordinator:
         elif component_name == "neural":
             self.neural_integrator = component
             self.active_components["neural"] = True
-        elif component_name == "lukhas.memory":
+        elif component_name == "memory":
             self.memory_manager = component
-            self.active_components["lukhas.memory"] = True
+            self.active_components["memory"] = True
         elif component_name == "persona":
             self.persona_manager = component
             self.active_components["personality"] = True

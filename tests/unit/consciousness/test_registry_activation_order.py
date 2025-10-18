@@ -1,4 +1,4 @@
-from lukhas.consciousness.registry import ComponentType, ConsciousnessComponentRegistry
+from consciousness.registry import ComponentType, ConsciousnessComponentRegistry
 
 
 def _register_component(

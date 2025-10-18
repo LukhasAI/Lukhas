@@ -27,7 +27,7 @@ try:
 except ImportError:
     np = None
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 from ..engine.consciousness_environment import MatrizNode
 
@@ -90,7 +90,7 @@ class ConsciousnessBuffer:
         """Get reference to existing consciousness module (no duplication)"""
         try:
             if module_path == "memory.fold.v1":
-                from lukhas.memory.temporal.compliance_hooks import ComplianceHooks
+                from memory.temporal.compliance_hooks import ComplianceHooks
 
                 return ComplianceHooks()
             elif module_path == "memory.core.v1":

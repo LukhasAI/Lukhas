@@ -2,7 +2,7 @@ import asyncio
 from typing import Any, Callable, Optional
 
 from bridge.message_bus import MessageBus
-from lukhas.core.colonies.base_colony import BaseColony
+from core.colonies.base_colony import BaseColony
 
 
 class InterColonyBridge:

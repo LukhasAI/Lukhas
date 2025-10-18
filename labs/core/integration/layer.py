@@ -59,7 +59,7 @@ class IntegrationLayer:
             logger.info("Using fallback integration")
             return {
                 "status": "integrated_fallback",
-                "systems": systems or ["lukhas.memory", "consciousness", "reasoning"],
+                "systems": systems or ["memory", "consciousness", "reasoning"],
                 "coordinator": "fallback",
             }
 

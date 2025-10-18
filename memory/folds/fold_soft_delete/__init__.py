@@ -1,10 +1,10 @@
 """Bridge: memory.folds.fold_soft_delete."""
 from __future__ import annotations
 
-from lukhas._bridgeutils import bridge_from_candidates
+from _bridgeutils import bridge_from_candidates
 
 _CANDIDATES = (
-    "lukhas_website.lukhas.memory.folds.fold_soft_delete",
+    "lukhas_website.memory.folds.fold_soft_delete",
     "candidate.memory.folds.fold_soft_delete",
     "memory.folds.fold_soft_delete",
 )

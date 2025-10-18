@@ -23,7 +23,7 @@ import structlog
 from fromfromfromcandidate.core.common import get_logger
 
 # Module imports
-from lukhas.core.common import (GuardianRejectionError, LukhasError,
+from core.common import (GuardianRejectionError, LukhasError,
                                    MemoryDriftError)
 
 # Configure module logger

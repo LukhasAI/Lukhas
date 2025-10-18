@@ -22,8 +22,8 @@ from typing import Any, Optional
 
 # Core LUKHAS agent implementations
 try:
-    from lukhas.core.actor_system import AIAgentActor
-    from lukhas.core.supervisor_agent import SupervisorAgent, get_supervisor_agent
+    from core.actor_system import AIAgentActor
+    from core.supervisor_agent import SupervisorAgent, get_supervisor_agent
 
     _core_agents_available = True
 except ImportError as e:
@@ -33,7 +33,7 @@ except ImportError as e:
 # Agent interfaces and orchestration
 _agent_interfaces_available = False
 with contextlib.suppress(ImportError):
-    from lukhas.core.orchestration.interfaces.agent_interface import (
+    from core.orchestration.interfaces.agent_interface import (
         AgentCapability,
         AgentContext,
         AgentInterface,
@@ -48,7 +48,7 @@ with contextlib.suppress(ImportError):
 # Collaborative agent system
 _collaborative_agents_available = False
 with contextlib.suppress(ImportError):
-    from lukhas.core.orchestration.brain.collaborative_ai_agent_system import (
+    from core.orchestration.brain.collaborative_ai_agent_system import (
         AgentCapabilities,
         AgentTier,
         LukhasAIAgent,
@@ -60,7 +60,7 @@ with contextlib.suppress(ImportError):
 # Intelligence bridge
 _intelligence_bridge_available = False
 with contextlib.suppress(ImportError):
-    from lukhas.orchestration.agent_orchestrator.intelligence_bridge import (
+    from orchestration.agent_orchestrator.intelligence_bridge import (
         AgentIntelligenceBridge,
         AgentType,
         IntelligenceRequestType,

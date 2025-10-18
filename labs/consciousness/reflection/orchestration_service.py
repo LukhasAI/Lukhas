@@ -43,9 +43,9 @@ All operations respect user consent, tier access, and LUKHAS identity requiremen
 """
 # === CONSOLIDATED IMPORTS ===
 # from AID.core.lambda_identity import IdentitySystem  # TODO: Install or implement AID
-# from lukhas.core.common.CORE.dream.dream_processor import DreamEngine  # TODO: Install or implement CORE
-# from lukhas.core.common.CORE.emotion.emotional_resonance import EmotionalResonanceEngine  # TODO: Install or implement CORE
-# from lukhas.core.common.CORE.voice.voice_engine import VoiceEngine  # TODO: Install or implement CORE
+# from core.common.CORE.dream.dream_processor import DreamEngine  # TODO: Install or implement CORE
+# from core.common.CORE.emotion.emotional_resonance import EmotionalResonanceEngine  # TODO: Install or implement CORE
+# from core.common.CORE.voice.voice_engine import VoiceEngine  # TODO: Install or implement CORE
 # from MODULES_GOLDEN.bio.core import BioModule
 # from MODULES_GOLDEN.common.base_module import SymbolicLogger
 # from MODULES_GOLDEN.core.registry import core_registry
@@ -70,7 +70,7 @@ from systems.voice_synthesis import *
 
 from integrations.elevenlabs import *
 from integrations.openai import *
-from lukhas.governance.identity.interface import IdentityClient
+from governance.identity.interface import IdentityClient
 
 # === PRIMARY ORCHESTRATION SERVICE CONTENT ===
 
@@ -94,7 +94,7 @@ except ImportError:
 # Import performance orchestrator - COMPLETED #8 integration with Constellation Framework
 performance_orchestrator_available = True
 try:
-    from lukhas.core.performance.performance_orchestrator import (
+    from core.performance.performance_orchestrator import (
         PerformanceOrchestrator,
     )
 except ImportError:
@@ -102,7 +102,7 @@ except ImportError:
     print("⚠️ Performance orchestrator not available - performance features disabled")
 
 try:
-    from lukhas.governance.identity.interface import IdentityClient
+    from governance.identity.interface import IdentityClient
 except ImportError:
     # Fallback for development
     class IdentityClient:
@@ -186,7 +186,7 @@ class OrchestrationService:
         self.active_workflows = {}
         self.module_status = {
             "ethics": {"status": "available", "load": 0.0},
-            "lukhas.memory": {"status": "available", "load": 0.0},
+            "memory": {"status": "available", "load": 0.0},
             "creativity": {"status": "available", "load": 0.0},
             "consciousness": {"status": "available", "load": 0.0},
             "learning": {"status": "available", "load": 0.0},
@@ -1056,7 +1056,7 @@ class OrchestrationService:
                 amount = resource_amounts.get(module, 1.0)
                 allocated_resources[module] = {
                     "cpu": f"{amount * 100}%",
-                    "lukhas.memory": f"{amount * 1024}MB",
+                    "memory": f"{amount * 1024}MB",
                     "allocated": True,
                 }
                 # Update module load
@@ -1066,7 +1066,7 @@ class OrchestrationService:
             elif management_action == "deallocate":
                 allocated_resources[module] = {
                     "cpu": "0%",
-                    "lukhas.memory": "0MB",
+                    "memory": "0MB",
                     "allocated": False,
                 }
                 # Reset module load
@@ -1076,7 +1076,7 @@ class OrchestrationService:
             elif management_action == "optimize":
                 allocated_resources[module] = {
                     "cpu": "optimized",
-                    "lukhas.memory": "optimized",
+                    "memory": "optimized",
                     "allocated": True,
                     "optimization_applied": True,
                 }
@@ -1729,7 +1729,7 @@ class OrchestrationService:
         # Consciousness-specific health metrics
         consciousness_modules = [
             "consciousness",
-            "lukhas.memory",
+            "memory",
             "creativity",
             "reasoning",
             "emotion",
@@ -1774,7 +1774,7 @@ class OrchestrationService:
         target_frequency = 40.0  # 40Hz gamma waves
         consciousness_modules = [
             "consciousness",
-            "lukhas.memory",
+            "memory",
             "creativity",
             "reasoning",
             "emotion",
@@ -1823,7 +1823,7 @@ class OrchestrationService:
             "quantum",
             "reasoning",
             "creativity",
-            "lukhas.memory",
+            "memory",
         ]
 
         coherence_status = {}
@@ -1928,7 +1928,7 @@ class OrchestrationService:
         consciousness_workflows = len([w for w in self.active_workflows.values() if "consciousness" in str(w)])
         bio_workflows = len([w for w in self.active_workflows.values() if "bio" in str(w)])
         quantum_workflows = len([w for w in self.active_workflows.values() if "quantum" in str(w)])
-        memory_workflows = len([w for w in self.active_workflows.values() if "lukhas.memory" in str(w)])
+        memory_workflows = len([w for w in self.active_workflows.values() if "memory" in str(w)])
 
         # Calculate consciousness-specific impact scores
         consciousness_impact = min(100, consciousness_workflows * 20)  # Higher impact for consciousness workflows
@@ -2216,7 +2216,7 @@ if __name__ == "__main__":
         coordination_result = orchestration.coordinate_modules(
             test_user,
             {
-                "modules": ["ethics", "lukhas.memory", "creativity"],
+                "modules": ["ethics", "memory", "creativity"],
                 "actions": [
                     {"type": "assess", "target": "user_action"},
                     {"type": "store", "target": "assessment_result"},
@@ -2261,7 +2261,7 @@ if __name__ == "__main__":
             message_result = await orchestration.send_inter_module_message(
                 test_user,
                 "orchestration",
-                "lukhas.memory",
+                "memory",
                 "command",
                 {"action": "store", "data": "Constellation Framework coordination result"},
             )

@@ -52,12 +52,12 @@ def _get_microcheck_metrics():
 
 # Optional imports for full functionality (not needed for drift-only mode)
 try:
-    from lukhas.core.symbolic_diagnostics.trace_repair_engine import TraceRepairEngine
+    from core.symbolic_diagnostics.trace_repair_engine import TraceRepairEngine
 except ImportError:
     TraceRepairEngine = None
 
 try:
-    from lukhas.memory.core_memory.memory_collapse_verifier import MemoryCollapseVerifier
+    from memory.core_memory.memory_collapse_verifier import MemoryCollapseVerifier
 except ImportError:
     MemoryCollapseVerifier = None
 

@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 from dataclasses import dataclass
 from typing import Any
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 from .base import Decision, PolicyRegistry, RiskLevel
 from .examples import GPT4Config, GPT4Policy, ThreeLawsPolicy

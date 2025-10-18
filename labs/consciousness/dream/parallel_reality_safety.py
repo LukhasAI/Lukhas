@@ -21,9 +21,9 @@ from typing import Any, Optional
 
 import numpy as np
 
-from lukhas.core.common import get_logger
-from lukhas.core.common.exceptions import LukhasError, ValidationError
-from lukhas.core.interfaces import CoreInterface
+from core.common import get_logger
+from core.common.exceptions import LukhasError, ValidationError
+from core.interfaces import CoreInterface
 
 logger = get_logger(__name__)
 
@@ -160,7 +160,7 @@ class ParallelRealitySafetyFramework(CoreInterface):
             logger.info(f"Initializing Parallel Reality Safety Framework (Level: {self.safety_level.value})")
 
             # Get services; tolerate missing ones in test contexts by registering simple stubs
-            from lukhas.core.interfaces.dependency_injection import (
+            from core.interfaces.dependency_injection import (
                 get_service,
                 register_service,
             )

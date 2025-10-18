@@ -28,7 +28,7 @@ CONSOLIDATION_MAP = {
         "description": "Meta-configuration and settings",
     },
     "trace": {
-        "target": "lukhas.governance",
+        "target": "governance",
         "subdirectory": "audit_trails",
         "description": "System audit trails and tracing",
     },
@@ -154,8 +154,8 @@ def update_imports(base_path: Path = Path(".")):
         "import red_team": "import security.red_team",
         "from meta": "from config.meta",
         "import meta": "import config.meta",
-        "from trace": "from lukhas.governance.audit_trails",
-        "import trace": "import lukhas.governance.audit_trails",
+        "from trace": "from governance.audit_trails",
+        "import trace": "import governance.audit_trails",
     }
 
     # Find Python files

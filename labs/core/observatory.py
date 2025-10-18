@@ -9,7 +9,7 @@ without risking the integrity of the live system.
 """
 from typing import Any, Optional
 
-from lukhas.consciousness.reflection.unified_memory_manager import (
+from consciousness.reflection.unified_memory_manager import (
     EnhancedMemoryManager as MemoryManager,
 )
 

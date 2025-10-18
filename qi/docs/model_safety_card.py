@@ -124,7 +124,7 @@ def generate_card(
             "High-stakes medical/financial advice without a qualified human in the loop.",
             "Surveillance or privacy-invasive profiling without explicit consent and legal basis.",
         ],
-        contact="security@lukhas.example",
+        contact="security@example",
     )
     return asdict(card)
 

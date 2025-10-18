@@ -153,7 +153,7 @@ class WebAuthnPasskey:
 
         return {
             "challenge": challenge,
-            "rp": {"name": "LUKHAS AI", "id": "lukhas.ai"},
+            "rp": {"name": "LUKHAS AI", "id": "ai"},
             "user": {
                 "id": base64.urlsafe_b64encode(lid.encode()).decode(),
                 "name": lid,
@@ -185,7 +185,7 @@ class WebAuthnPasskey:
             "challenge": challenge,
             "timeout": 60000,
             "userVerification": "required",
-            "rpId": "lukhas.ai",
+            "rpId": "ai",
         }
 
     def verify_response(self, lid: str, response: dict) -> bool:
@@ -298,7 +298,7 @@ if __name__ == "__main__":
 
     # Register user
     print("🔑 Registering user...")
-    result = service.register_user("demo@lukhas.ai", "Demo User")
+    result = service.register_user("demo@ai", "Demo User")
     print(f"ΛID: {result['lid']}")
     print(f"Performance: {result['performance_ms']:.2f}ms")
     print(f"Meets <100ms target: {result['meets_target']}")

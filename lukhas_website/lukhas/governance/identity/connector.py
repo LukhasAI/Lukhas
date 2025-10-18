@@ -31,10 +31,10 @@ def _try_import_governance_components():
         # SECURITY FIX: Map to production-ready lukhas modules only
         # No more imports from unstable candidate/ modules in production code
         component_map = {
-            "ConstitutionalFramework": "lukhas.governance.ethics.constitutional_ai",
-            "SafetyMonitor": "lukhas.governance.ethics.constitutional_ai",
-            "AuditLogger": "lukhas.governance.identity.auth_backend.audit_logger",
-            "AccessControlEngine": "lukhas.governance.security.access_control",
+            "ConstitutionalFramework": "governance.ethics.constitutional_ai",
+            "SafetyMonitor": "governance.ethics.constitutional_ai",
+            "AuditLogger": "governance.identity.auth_backend.audit_logger",
+            "AccessControlEngine": "governance.security.access_control",
         }
 
         for component_name, module_path in component_map.items():
@@ -166,7 +166,7 @@ class IdentityConnector:
                     import importlib
 
                     # SECURITY FIX: Use production lukhas modules only
-                    access_control_module = importlib.import_module("lukhas.governance.security.access_control")
+                    access_control_module = importlib.import_module("governance.security.access_control")
                     self.AccessTier = access_control_module.AccessTier
                     PermissionManager = access_control_module.PermissionManager
                     self.permission_manager = PermissionManager()
@@ -198,7 +198,7 @@ class IdentityConnector:
                     import importlib
 
                     # SECURITY FIX: Use production lukhas modules only
-                    access_control_module = importlib.import_module("lukhas.governance.security.access_control")
+                    access_control_module = importlib.import_module("governance.security.access_control")
                     User = access_control_module.User
                     AccessTier = self.AccessTier  # Use the one we loaded in __init__
                 except (ImportError, AttributeError):
@@ -208,7 +208,7 @@ class IdentityConnector:
                 system_admin = User(
                     user_id="system_admin",
                     username="system",
-                    email="system@lukhas.ai",
+                    email="system@ai",
                     current_tier=AccessTier.T5_SYSTEM,
                     max_tier=AccessTier.T5_SYSTEM,
                     roles={"system_admin"},
@@ -233,7 +233,7 @@ class IdentityConnector:
                     import importlib
 
                     # SECURITY FIX: Use production lukhas modules only
-                    access_control_module = importlib.import_module("lukhas.governance.security.access_control")
+                    access_control_module = importlib.import_module("governance.security.access_control")
                     AccessDecision = access_control_module.AccessDecision
                 except (ImportError, AttributeError):
                     # Fallback if production module not available

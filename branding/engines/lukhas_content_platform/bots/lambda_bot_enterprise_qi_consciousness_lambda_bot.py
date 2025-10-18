@@ -27,7 +27,7 @@ except Exception:
 
 # Import workspace components
 try:
-    from lukhas.qi.consciousness_integration import (  # noqa: F401  # TODO: lukhas.qi.consciousness_integr...
+    from qi.consciousness_integration import (  # noqa: F401  # TODO: qi.consciousness_integr...
         QIConsciousnessProcessor,
         QIState,
     )

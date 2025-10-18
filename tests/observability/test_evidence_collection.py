@@ -17,7 +17,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from lukhas.observability.evidence_collection import (
+from observability.evidence_collection import (
     ComplianceRegime,
     EvidenceCollectionEngine,
     EvidenceType,
@@ -383,7 +383,7 @@ class TestIntegrationFunctions:
     async def test_convenience_collect_function(self, evidence_engine):
         """Test convenience collect_evidence function"""
         # Mock the global engine
-        with patch('lukhas.observability.evidence_collection.get_evidence_engine', return_value=evidence_engine):
+        with patch('observability.evidence_collection.get_evidence_engine', return_value=evidence_engine):
             evidence_id = await collect_evidence(
                 evidence_type=EvidenceType.USER_INTERACTION,
                 source_component="test_component",

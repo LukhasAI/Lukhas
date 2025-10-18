@@ -10,7 +10,7 @@ Provides the DreamBridge interface required by consciousness_hub
 from datetime import datetime
 from typing import Any
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 from .dream_bridge import DreamConsciousnessBridge
 

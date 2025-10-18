@@ -52,7 +52,7 @@ class IdentityGuard:
 
     def _is_sensitive_module(self, file_path: Path) -> bool:
         """Check if file is in a sensitive module requiring tier protection."""
-        sensitive_dirs = ["consciousness", "quantum", "dream", "emotion", "lukhas.governance"]
+        sensitive_dirs = ["consciousness", "quantum", "dream", "emotion", "governance"]
         return any(sens_dir in str(file_path) for sens_dir in sensitive_dirs)
 
     def _check_api_protection(self, content: str, file_path: Path) -> list[str]:
@@ -112,7 +112,7 @@ class IdentityGuard:
             "dream": "T3",
             "emotion": "T3",
             "quantum": "T4",
-            "lukhas.governance": "T5",
+            "governance": "T5",
         }
 
         required_tier = None

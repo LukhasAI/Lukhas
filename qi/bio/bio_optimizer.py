@@ -35,7 +35,7 @@ Description: Quantum module for advanced Cognitive functionality
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 Licensed under the LUKHAS Enterprise License.
 
-For documentation and support: https://lukhas.ai/docs
+For documentation and support: https://ai/docs
 """
 
 __module_name__ = "Quantum Bio Optimization Adapter"
@@ -60,11 +60,11 @@ log = structlog.get_logger(__name__)
 
 # --- LUKHAS Core Module Imports ---
 # AIMPORT_TODO: Verify these import paths against the actual LUKHAS project structure.
-#               If `lukhas.core` and `core` are distinct top-level packages, this could lead to conflicts.
-#               Assuming `lukhas.core` is the canonical path for these components.
+#               If `core` and `core` are distinct top-level packages, this could lead to conflicts.
+#               Assuming `core` is the canonical path for these components.
 #               The import `from qi.qi_bio_coordinator import QIBioCoordinator`
 # is particularly suspicious if other core modules are under
-# `lukhas.core`.
+# `core`.
 LUKHAS_CORE_COMPONENTS_AVAILABLE = False
 BioOrchestrator = Any  # Placeholder
 QIBioOscillator = Any  # Placeholder
@@ -79,7 +79,7 @@ try:
     from bio.symbolic.architectures import BioSymbolicOrchestrator as BioOrchestrator
 
     # type: ignore
-    from lukhas.core.bio_systems.qi_layer import (  # type: ignore
+    from core.bio_systems.qi_layer import (  # type: ignore
         QIBioOscillator,
         QIConfig,
         QILikeState,
@@ -87,7 +87,7 @@ try:
     from qi.qi_awareness_system import QIAwarenessSystem  # type: ignore
 
     # AIMPORT_TODO: Review this path for QIBioCoordinator. If it's part
-    # of lukhas.core, update path.
+    # of core, update path.
     from qi.qi_bio_coordinator import QIBioCoordinator  # type: ignore
     from qi.qi_dream_adapter import QIDreamAdapter  # type: ignore
     from qi.qi_unified_system import (

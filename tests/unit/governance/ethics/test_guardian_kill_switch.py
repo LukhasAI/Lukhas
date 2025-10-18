@@ -2,7 +2,7 @@
 
 import pytest
 
-from lukhas.governance.ethics.ethics_engine import (
+from governance.ethics.ethics_engine import (
     GUARDIAN_EMERGENCY_DISABLE_FILE,
     ConstitutionalFramework,
     EthicsEngine,

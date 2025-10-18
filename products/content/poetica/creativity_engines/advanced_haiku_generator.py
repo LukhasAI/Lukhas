@@ -58,7 +58,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 # Import LUKHAS AI branding system through centralized bridge
 try:
@@ -91,9 +91,9 @@ else:
 # Add parent directory to path for imports
 sys.path.append(str(Path(__file__).parent.parent))
 
-# Try to import lukhas.consciousness integration
+# Try to import consciousness integration
 try:
-    from lukhas.consciousness.core_consciousness.qi_consciousness_integration import (
+    from consciousness.core_consciousness.qi_consciousness_integration import (
         QICreativeConsciousness,
     )
 

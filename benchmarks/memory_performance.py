@@ -19,8 +19,8 @@ import uuid
 import pytest
 
 try:
-    from lukhas.memory.adaptive_memory import AdaptiveMemory
-    from lukhas.memory.fold_system import FoldManager
+    from memory.adaptive_memory import AdaptiveMemory
+    from memory.fold_system import FoldManager
     LUKHAS_AVAILABLE = True
 except ImportError:
     LUKHAS_AVAILABLE = False

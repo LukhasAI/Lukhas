@@ -42,7 +42,7 @@ def validate_imports():
 
     try:
         # Test authorization middleware
-        sys.path.insert(0, str(REPO_ROOT / "lukhas.tools"))
+        sys.path.insert(0, str(REPO_ROOT / "tools"))
         from matrix_authz_middleware import AuthzRequest, MatrixAuthzMiddleware
         print("  ✅ Authorization middleware import successful")
     except ImportError as e:
@@ -63,9 +63,9 @@ def validate_fixtures():
         test_span = CapturedSpan(
             name='authz.check',
             attributes={
-                'lukhas.subject': 'lukhas:user:test',
-                'lukhas.tier': 'trusted',
-                'lukhas.decision': 'allow'
+                'subject': 'lukhas:user:test',
+                'tier': 'trusted',
+                'decision': 'allow'
             },
             status='OK',
             status_message=None,
@@ -98,7 +98,7 @@ def validate_authorization_middleware():
     print("\n🔍 Validating authorization middleware...")
 
     try:
-        sys.path.insert(0, str(REPO_ROOT / "lukhas.tools"))
+        sys.path.insert(0, str(REPO_ROOT / "tools"))
         from matrix_authz_middleware import AuthzRequest, MatrixAuthzMiddleware
 
         # Test middleware instantiation
@@ -130,7 +130,7 @@ def validate_matrix_contract():
     print("\n🔍 Validating Matrix contracts...")
 
     try:
-        contract_path = REPO_ROOT / "lukhas.memory" / "matrix_memoria.json"
+        contract_path = REPO_ROOT / "memory" / "matrix_memoria.json"
         if contract_path.exists():
             import json
             with open(contract_path) as f:

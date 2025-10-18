@@ -72,14 +72,14 @@ from uuid import uuid4
 import structlog
 
 # Initialize structured logger
-logger = structlog.get_logger("lukhas.cognitive_mesh", timezone)
+logger = structlog.get_logger("cognitive_mesh", timezone)
 
 
 class NodeType(Enum):
     """Types of cognitive nodes in the mesh"""
 
     REASONING = "reasoning"  # Symbolic and logical reasoning
-    MEMORY = "lukhas.memory"  # HDS and memory management
+    MEMORY = "memory"  # HDS and memory management
     CREATIVE = "creative"  # Dream and creative processing
     ETHICS = "ethics"  # MEG and ethical evaluation
     INTEGRATION = "integration"  # Cross-domain coordination

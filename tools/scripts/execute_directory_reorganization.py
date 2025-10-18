@@ -158,9 +158,9 @@ from dream import something
 from reasoning import something
 
 # NEW
-from lukhas.consciousness.creativity import something
-from lukhas.consciousness.dream import something
-from lukhas.consciousness.reasoning import something
+from consciousness.creativity import something
+from consciousness.dream import something
+from consciousness.reasoning import something
 ```
 
 ### From root to other modules:
@@ -175,10 +175,10 @@ from voice import something
 
 # NEW
 from bridge.api_legacy import something
-from lukhas.qi.bio_legacy import something
-from lukhas.governance.ethics_legacy import something
-from lukhas.governance.identity import something
-from lukhas.memory.learning import something
+from qi.bio_legacy import something
+from governance.ethics_legacy import something
+from governance.identity import something
+from memory.learning import something
 from bridge.voice import something
 ```
 

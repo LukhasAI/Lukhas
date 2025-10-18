@@ -18,8 +18,8 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional, Protocol
 
-from lukhas.consciousness.systems.state import ConsciousnessState
-from lukhas.core.common.logger import get_logger
+from consciousness.systems.state import ConsciousnessState
+from core.common.logger import get_logger
 
 # Feature flag configuration
 REFLECTION_ENABLED = os.getenv("CONSC_REFLECTION_ENABLED", "1").lower() in ("1", "true", "on")

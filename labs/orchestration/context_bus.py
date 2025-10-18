@@ -26,10 +26,10 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../"))
 from bridge.adapters.drive_adapter import DriveAdapter, DriveContextIntegration
 from bridge.adapters.dropbox_adapter import DropboxAdapter, DropboxContextIntegration
 from bridge.adapters.gmail_adapter import GmailAdapter, GmailContextIntegration
-from lukhas.core.identity.lambda_id_core import LukhasIdentityService
+from core.identity.lambda_id_core import LukhasIdentityService
 
 # Import Agent 2's consent and policy
-from lukhas.governance.consent_ledger.ledger_v1 import (
+from governance.consent_ledger.ledger_v1 import (
     ConsentLedgerV1,
     PolicyEngine,
     PolicyVerdict,

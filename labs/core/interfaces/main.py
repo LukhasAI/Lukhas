@@ -19,7 +19,7 @@ from datetime import datetime
 
 import pyfiglet
 
-from lukhas.core.interfaces.voice.edge_voice import speak
+from core.interfaces.voice.edge_voice import speak
 
 LOG_PATH = "core/logging/symbolic_output_log.jsonl"
 

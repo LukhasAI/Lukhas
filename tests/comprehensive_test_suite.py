@@ -256,13 +256,13 @@ class ComprehensiveTestOrchestrator:
             "tests/memory/test_scheduled_folding.py"
         ]
 
-        results = {"phase": "lukhas.memory", "details": []}
+        results = {"phase": "memory", "details": []}
 
         for test_path in memory_paths:
             full_path = self.project_root / test_path
             if full_path.exists():
                 print(f"  Running: {test_path}")
-                result = self._execute_pytest(full_path, markers="lukhas.memory")
+                result = self._execute_pytest(full_path, markers="memory")
                 results["details"].append(result)
 
         return results

@@ -15,18 +15,18 @@ import pytest
 
 # Test imports with graceful fallback
 try:
-    from lukhas.core.consciousness.matriz_consciousness_state import (
+    from core.consciousness.matriz_consciousness_state import (
         ConsciousnessState,
         ConsciousnessType,
         EvolutionaryStage,
         consciousness_state_manager,
         create_consciousness_state,
     )
-    from lukhas.core.governance.matriz_consciousness_governance import consciousness_governance_system
-    from lukhas.core.identity.matriz_consciousness_identity import consciousness_identity_manager
-    from lukhas.core.matriz_integrated_demonstration import run_matriz_demonstration
-    from lukhas.core.orchestration.matriz_consciousness_coordinator import consciousness_coordinator
-    from lukhas.core.symbolic_core.matriz_symbolic_consciousness import symbolic_consciousness_processor
+    from core.governance.matriz_consciousness_governance import consciousness_governance_system
+    from core.identity.matriz_consciousness_identity import consciousness_identity_manager
+    from core.matriz_integrated_demonstration import run_matriz_demonstration
+    from core.orchestration.matriz_consciousness_coordinator import consciousness_coordinator
+    from core.symbolic_core.matriz_symbolic_consciousness import symbolic_consciousness_processor
 
     COMPONENTS_AVAILABLE = True
 except ImportError as e:

@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.orchestration.multi_ai_router",
-    "path": "lukhas/orchestration/multi_ai_router",
+    "path": "orchestration/multi_ai_router",
     "type": "package",
     "lane": "lukhas"
   },

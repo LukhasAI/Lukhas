@@ -6,7 +6,7 @@ This module provides placeholder classes for specialized colonies, such as
 the ReasoningColony, MemoryColony, and CreativityColony.
 """
 
-from lukhas.core.swarm import AgentColony
+from core.swarm import AgentColony
 
 
 class ReasoningColony(AgentColony):

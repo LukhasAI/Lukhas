@@ -1,5 +1,5 @@
-from lukhas.core.reliability.backoff import jittered_exponential
-from lukhas.core.reliability.ratelimit import rate_limit_error
+from core.reliability.backoff import jittered_exponential
+from core.reliability.ratelimit import rate_limit_error
 
 def test_jittered_exponential_ranges():
     # attempt=3 => base_window * 2**3 +/- jitter

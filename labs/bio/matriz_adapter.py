@@ -36,7 +36,7 @@ class BioMatrizAdapter:
             },
             "timestamps": {"created_ts": int(time.time() * 1000)},
             "provenance": {
-                "producer": "lukhas.bio",
+                "producer": "bio",
                 "capabilities": ["bio:oscillate", "bio:quantum", "bio:adapt"],
                 "tenant": "system",
                 "trace_id": f"LT-BIO-{int(time.time())}",

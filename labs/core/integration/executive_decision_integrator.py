@@ -61,10 +61,10 @@ try:
     )
 
     from dream.hyperspace_dream_simulator import HyperspaceDreamSimulator
-    from lukhas.memory.privacy_preserving_memory_vault import (
+    from memory.privacy_preserving_memory_vault import (
         PrivacyPreservingMemoryVault,
     )
-    from lukhas.orchestration.human_in_the_loop_orchestrator import (
+    from orchestration.human_in_the_loop_orchestrator import (
         HumanInTheLoopOrchestrator,
     )
     from reasoning.causal_program_inducer import CausalProgramInducer
@@ -82,8 +82,8 @@ except ImportError as e:
 try:
     from ethics.meta_ethics_governor import MetaEthicsGovernor
     from ethics.self_reflective_debugger import SelfReflectiveDebugger
-    from lukhas.core.integration.dynamic_modality_broker import DynamicModalityBroker
-    from lukhas.memory.emotional import EmotionalMemory
+    from core.integration.dynamic_modality_broker import DynamicModalityBroker
+    from memory.emotional import EmotionalMemory
     from reasoning.reasoning_engine import SymbolicEngine
 
     LUKHAS_CORE_AVAILABLE = True
@@ -1843,7 +1843,7 @@ class CEOAttitudeIntegrationHub:
 ║ REFERENCES:
 ║   - Docs: docs/core/ceo_attitude_integration.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=ceo-attitude
-║   - Wiki: https://wiki.lukhas.ai/core/ceo-attitude-hub
+║   - Wiki: https://wiki.ai/core/ceo-attitude-hub
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

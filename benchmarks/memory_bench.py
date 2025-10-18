@@ -7,8 +7,8 @@ import time
 from dataclasses import dataclass
 from typing import Any, Dict, Iterable, List
 
-from lukhas.memory.adaptive_memory import AdaptiveMemorySystem, MemoryType
-from lukhas.memory.fold_system import FoldManager
+from memory.adaptive_memory import AdaptiveMemorySystem, MemoryType
+from memory.fold_system import FoldManager
 
 # ΛTAG: performance_benchmark
 

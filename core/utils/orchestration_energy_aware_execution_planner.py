@@ -62,7 +62,7 @@ import structlog
 
 # Import Lukhas bio-symbolic components
 try:
-    from lukhas.core.symbolic_core.bio.bio_symbolic import ProtonGradient
+    from core.symbolic_core.bio.bio_symbolic import ProtonGradient
 except ImportError as e:
     structlog.get_logger().warning(f"Missing dependencies: {e}")
 

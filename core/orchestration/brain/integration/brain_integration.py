@@ -55,7 +55,7 @@ except ImportError:
 
 # Import core components with fallbacks
 try:
-    from lukhas.orchestration.brain.spine.fold_engine import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination
+    from orchestration.brain.spine.fold_engine import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination
         AGIMemory,
         MemoryFold,
         MemoryPriority,
@@ -80,7 +80,7 @@ except ImportError:
     VoiceIntegrator = None
 
 try:
-    from lukhas.consciousness.core_consciousness.dream_engine.dream_reflection_loop import (
+    from consciousness.core_consciousness.dream_engine.dream_reflection_loop import (
         DreamReflectionLoop,
     )
 except ImportError:
@@ -270,7 +270,7 @@ class EnhancedMemorySystem:
             memory["access_count"] += 1
             return {
                 "status": "success",
-                "lukhas.memory": memory,
+                "memory": memory,
                 "retrieval_type": "direct"
             }
 
@@ -354,7 +354,7 @@ class EnhancedMemorySystem:
         content_str = str(memory["content"]).lower()
         if "creative" in content_str:
             associations.append("creativity_network")
-        if "lukhas.memory" in content_str:
+        if "memory" in content_str:
             associations.append("meta_memory_network")
         if "learning" in content_str:
             associations.append("learning_network")
@@ -489,8 +489,8 @@ class EnhancedBrainIntegration:
         specialized_processing = symphony_result.get("specialized_processing", {})
 
         # Memory brain integration
-        if "lukhas.memory" in specialized_processing:
-            memory_result = specialized_processing["lukhas.memory"]
+        if "memory" in specialized_processing:
+            memory_result = specialized_processing["memory"]
             if memory_result.get("status") != "failed":
                 # Store symphony insights as memories
                 insights = symphony_result.get("synthesized_insights", [])

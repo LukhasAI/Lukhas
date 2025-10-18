@@ -777,4 +777,4 @@ def main():
 if __name__ == "__main__":
     main()
 
-# Λ Systems 2025 www.lukhas.ai
+# Λ Systems 2025 www.ai

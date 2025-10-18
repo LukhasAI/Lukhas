@@ -1352,7 +1352,7 @@ def _cli(argv: list[str]) -> int:
     if not orphan.exists():
         print(f"[error] orphan module not found: {orphan}", file=sys.stderr)
         return 2
-    if not lukhas.exists():
+    if not exists():
         print(f"[error] LUKHΛS repo not found: {lukhas}", file=sys.stderr)
         return 2
 

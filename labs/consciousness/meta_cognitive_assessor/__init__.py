@@ -1,7 +1,7 @@
 """Bridge for `candidate.consciousness.meta_cognitive_assessor`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.candidate.consciousness.meta_cognitive_assessor
+  1) lukhas_website.candidate.consciousness.meta_cognitive_assessor
   2) candidate.candidate.consciousness.meta_cognitive_assessor
   3) consciousness.meta_cognitive_assessor
 
@@ -22,7 +22,7 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.candidate.consciousness.meta_cognitive_assessor",
+    "lukhas_website.candidate.consciousness.meta_cognitive_assessor",
     "labs.candidate.consciousness.meta_cognitive_assessor",
     "consciousness.meta_cognitive_assessor",
 )

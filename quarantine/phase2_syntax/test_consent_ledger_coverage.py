@@ -6,7 +6,7 @@ import pytest
 def test_consent_ledger_api_import():
     """Test consent ledger API imports."""
     try:
-        from lukhas.governance.consent_ledger import record_consent
+        from governance.consent_ledger import record_consent
 
         # Test function exists
         assert callable(record_consent)
@@ -23,7 +23,7 @@ def test_consent_ledger_api_import():
 def test_consent_ledger_null_provider():
     """Test null consent provider."""
     try:
-        from lukhas.governance.consent_ledger.providers.null_provider import NullConsentProvider
+        from governance.consent_ledger.providers.null_provider import NullConsentProvider
 
         provider = NullConsentProvider()
         assert provider is not None
@@ -41,7 +41,7 @@ def test_consent_ledger_null_provider():
 def test_consent_ledger_registry():
     """Test consent ledger registry."""
     try:
-        from lukhas.governance.consent_ledger.registry import get_provider
+        from governance.consent_ledger.registry import get_provider
 
         # Test getting provider
         provider = get_provider(enabled=False)
@@ -58,7 +58,7 @@ def test_consent_ledger_registry():
 def test_consent_ledger_with_metadata():
     """Test consent recording with metadata."""
     try:
-        from lukhas.governance.consent_ledger import record_consent
+        from governance.consent_ledger import record_consent
 
         # Test with metadata
         metadata = {"source": "test_suite", "timestamp": "2024-01-01T00:00:00Z", "additional_info": "coverage_test"}
@@ -78,7 +78,7 @@ def test_consent_ledger_with_metadata():
 def test_consent_ledger_error_handling():
     """Test consent ledger error handling."""
     try:
-        from lukhas.governance.consent_ledger import record_consent
+        from governance.consent_ledger import record_consent
 
         # Test with None values
         result = record_consent(None, "test_scope")
@@ -98,7 +98,7 @@ def test_consent_ledger_feature_flag():
     try:
         import os
 
-        from lukhas.governance.consent_ledger import record_consent
+        from governance.consent_ledger import record_consent
 
         # Test with feature disabled (default)
         result = record_consent("test_user", "test_scope")

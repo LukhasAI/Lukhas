@@ -28,7 +28,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../../orchestration"))
 
 # Import LUKHAS AI modules - Constellation Framework Integration
 try:
-    from lukhas.governance.consent_ledger.ledger_v1 import (
+    from governance.consent_ledger.ledger_v1 import (
         ConsentLedgerV1,
         PolicyVerdict,
     )
@@ -44,25 +44,25 @@ except ImportError:
 
 try:
     # 🧠 Consciousness integration
-    from lukhas.orchestration.symbolic_kernel_bus import SymbolicKernelBus
+    from orchestration.symbolic_kernel_bus import SymbolicKernelBus
 except ImportError:
     SymbolicKernelBus = None
 
 try:
     # 🛡️ Guardian system integration
-    from lukhas.governance.guardian_system import GuardianSystem
+    from governance.guardian_system import GuardianSystem
 except ImportError:
     GuardianSystem = None
 
 try:
     # Memory integration for adapter state persistence
-    from lukhas.memory.service import MemoryService
+    from memory.service import MemoryService
 except ImportError:
     MemoryService = None
 
 try:
     # Guardian system integration - import Guardian class
-    from lukhas.governance.guardian_system import GuardianSystem as GuardianSystemClass
+    from governance.guardian_system import GuardianSystem as GuardianSystemClass
 except ImportError:
     GuardianSystemClass = None
 

@@ -35,7 +35,7 @@ def test_memory_latency_gates_workflow_exists():
     # Find memory/latency related test steps
     memory_steps = [
         step for step in steps
-        if "lukhas.memory" in step.get("name", "").lower()
+        if "memory" in step.get("name", "").lower()
     ]
     latency_steps = [
         step for step in steps

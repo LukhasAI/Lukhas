@@ -17,7 +17,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-from lukhas.governance.safety.constitutional_ai_safety import ConstitutionalAGISafety
+from governance.safety.constitutional_ai_safety import ConstitutionalAGISafety
 
 
 @dataclass

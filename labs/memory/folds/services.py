@@ -53,7 +53,7 @@ class MemoryService:
         Store a memory with injected dependencies.
         """
         # Verify access through identity service
-        if identity and not await identity.verify_access(agent_id, "lukhas.memory.write"):
+        if identity and not await identity.verify_access(agent_id, "memory.write"):
             raise PermissionError(f"Agent {agent_id} lacks memory write access")
 
         # Create memory entry
@@ -78,7 +78,7 @@ class MemoryService:
 
         # Log if identity service available
         if identity:
-            await identity.log_audit(agent_id, "lukhas.memory.store", {"memory_id": memory_id})
+            await identity.log_audit(agent_id, "memory.store", {"memory_id": memory_id})
 
         return {
             "memory_id": memory_id,
@@ -110,7 +110,7 @@ class MemoryService:
         self._ensure_services()
 
         # Check access
-        if self._identity and not await self._identity.verify_access(agent_id, "lukhas.memory.read"):
+        if self._identity and not await self._identity.verify_access(agent_id, "memory.read"):
             raise PermissionError(f"Agent {agent_id} lacks memory read access")
 
         if agent_id not in self._storage:
@@ -238,7 +238,7 @@ def create_memory_service():
 
     # Could initialize with actual memory backend here
     try:
-        from lukhas.memory.core import MemoryCore
+        from memory.core import MemoryCore
 
         service.core = MemoryCore()
     except ImportError:
@@ -252,5 +252,5 @@ def create_memory_service():
 register_factory(
     "memory_service",
     create_memory_service,
-    {"module": "lukhas.memory", "provides": ["storage", "retrieval", "consolidation"]},
+    {"module": "memory", "provides": ["storage", "retrieval", "consolidation"]},
 )

@@ -59,15 +59,15 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 # Import LUKHAS AI branding system through centralized bridge
 try:
     from branding_bridge import (
         BrandContext,
-        generate_branded_content,  # noqa: F401  # TODO: lukhas.branding_bridge.generat...
+        generate_branded_content,  # noqa: F401  # TODO: branding_bridge.generat...
         get_brand_voice,
-        get_constellation_context,  # noqa: F401  # TODO: lukhas.branding_bridge.get_con...
+        get_constellation_context,  # noqa: F401  # TODO: branding_bridge.get_con...
         normalize_output_text,
         validate_output,
     )
@@ -322,7 +322,7 @@ class AdvancedHaikuGenerator:
                 "earth",
                 "thought",
                 "dream",
-                "lukhas.memory",
+                "memory",
                 "time",
                 "space",
                 "void",
@@ -599,7 +599,7 @@ class AdvancedHaikuGenerator:
         # Enhanced MATRIZ-aware replacements with broader detection
         matriz_mappings = {
             # Core MATRIZ components
-            "lukhas.memory": "Memory",
+            "memory": "Memory",
             "memories": "Memory",
             "remember": "Memory",
             "attention": "Attention",

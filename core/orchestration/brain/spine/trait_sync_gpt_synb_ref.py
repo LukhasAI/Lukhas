@@ -14,7 +14,7 @@ from pathlib import Path
 
 import openai
 
-from lukhas.orchestration.brain.spine.trait_manager import load_traits
+from orchestration.brain.spine.trait_manager import load_traits
 
 # CONFIG
 NODE_ID = "lukhas_london"
@@ -124,7 +124,7 @@ def run():
 if __name__ == "__main__":
     run()
 try:
-    from symbolic.personas.lukhas.lukhas_meta_sync import run as meta_sync_run
+    from symbolic.personas.lukhas_meta_sync import run as meta_sync_run
 
     meta_sync_run()
 except ImportError:

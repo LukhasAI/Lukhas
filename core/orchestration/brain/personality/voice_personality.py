@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 
 # Import personality components
 try:
-    from lukhas.core.personality.creative_expressions import NeuroHaikuGenerator
+    from core.personality.creative_expressions import NeuroHaikuGenerator
 
     HAIKU_AVAILABLE = True
 except ImportError:
@@ -36,7 +36,7 @@ except ImportError:
     logger.warning("NeuroHaikuGenerator not available. Some creative features will be disabled.")
 
 try:
-    from lukhas.orchestration.brain.personality.personality_refiner import (
+    from orchestration.brain.personality.personality_refiner import (
         PersonalityRefiner,
     )
 
@@ -46,7 +46,7 @@ except ImportError:
     logger.warning("PersonalityRefiner not available. Adaptive personality features will be disabled.")
 
 try:
-    from lukhas.orchestration.brain.orchestration.emotional_oscillator import (
+    from orchestration.brain.orchestration.emotional_oscillator import (
         EmotionalOscillator,
     )
 

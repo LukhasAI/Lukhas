@@ -80,10 +80,10 @@ class AdaptiveDashboard:
             def noop(*args, **kwargs):
                 return None
             return noop
-from lukhas.core.colonies.ethics_swarm_colony import get_ethics_swarm_colony
-from lukhas.core.monitoring.drift_monitor import UnifiedDriftMonitor
-from lukhas.core.oracle_nervous_system import get_oracle_nervous_system
-from lukhas.memory.systems.healix_memory_core import HealixMemoryCore
+from core.colonies.ethics_swarm_colony import get_ethics_swarm_colony
+from core.monitoring.drift_monitor import UnifiedDriftMonitor
+from core.oracle_nervous_system import get_oracle_nervous_system
+from memory.systems.healix_memory_core import HealixMemoryCore
 from system.common.event_bus import EventBus
 
 logger = logging.getLogger("ΛTRACE.universal_adaptive_dashboard", timezone)

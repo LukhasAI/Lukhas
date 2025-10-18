@@ -49,9 +49,9 @@
 import json
 from datetime import datetime, timezone
 
-from lukhas.core.bio_systems.stability_anchor import StabilityAnchor
-from lukhas.core.bio_systems.stress_signal import StressSignal
-from lukhas.core.bio_systems.symbolic_entropy import entropy_state_snapshot
+from core.bio_systems.stability_anchor import StabilityAnchor
+from core.bio_systems.stress_signal import StressSignal
+from core.bio_systems.symbolic_entropy import entropy_state_snapshot
 
 
 # LUKHAS_TAG: hormonal_feedback
@@ -129,7 +129,7 @@ class TrustBinder:
 ║ REFERENCES:
 ║   - Docs: docs/bio_systems/trust_binder_guide.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=trust-binder
-║   - Wiki: internal.lukhas.ai/wiki/social-hormones
+║   - Wiki: internal.ai/wiki/social-hormones
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

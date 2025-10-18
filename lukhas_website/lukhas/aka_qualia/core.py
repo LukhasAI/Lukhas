@@ -41,7 +41,7 @@ from aka_qualia.router_client import (
 from aka_qualia.teq_hook import TEQGuardian
 from aka_qualia.util import compute_drift_phi, extract_affect_energy
 from aka_qualia.vivox_integration import VivoxAkaQualiaIntegration
-from lukhas.metrics import get_metrics_collector
+from metrics import get_metrics_collector
 
 
 # Task 7: Integrity micro-check integration
@@ -50,7 +50,7 @@ def _make_integrity_probe():
     if os.environ.get("LUKHAS_EXPERIMENTAL") != "1":
         return None
     try:
-        from lukhas.qi.states.integrity_probe import IntegrityProbe
+        from qi.states.integrity_probe import IntegrityProbe
         return IntegrityProbe(None, None, None)
     except Exception as e:
         logger.warning(f"AkaQualia: Integrity probe init failed: {e}")

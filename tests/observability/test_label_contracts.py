@@ -22,8 +22,8 @@ Test Coverage:
 
 from unittest.mock import patch
 
-from lukhas.governance.schema_registry import LUKHASLane
-from lukhas.observability.service_metrics import MetricType, ServiceMetricsCollector, ServiceType
+from governance.schema_registry import LUKHASLane
+from observability.service_metrics import MetricType, ServiceMetricsCollector, ServiceType
 
 
 class TestMetricsLabelContracts:
@@ -71,17 +71,17 @@ class TestMetricsLabelContracts:
     def test_service_type_mapping(self):
         """Test service labels are handled correctly in record_metric."""
         service_mappings = {
-            ServiceType.MEMORY: "lukhas.memory",
+            ServiceType.MEMORY: "memory",
             ServiceType.REGISTRY: "registry",
             ServiceType.IDENTITY: "identity",
             ServiceType.CONSCIOUSNESS: "consciousness",
-            ServiceType.GOVERNANCE: "lukhas.governance",
+            ServiceType.GOVERNANCE: "governance",
             ServiceType.ORCHESTRATION: "orchestration",
-            ServiceType.LEDGER: "lukhas.ledger"
+            ServiceType.LEDGER: "ledger"
         }
 
         for service_type, expected_label in service_mappings.items():
-            with patch('lukhas.observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+            with patch('observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
                 self.metrics.record_metric(
                     "test_metric",
                     1.0,
@@ -95,7 +95,7 @@ class TestMetricsLabelContracts:
                 assert metric_key in self.metrics.metrics
                 assert self.metrics.metrics[metric_key].service == service_type
 
-    @patch('lukhas.observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric')
+    @patch('observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric')
     def test_record_metric_applies_labels(self, mock_update):
         """Test record_metric applies standardized labels."""
         self.metrics.record_metric(
@@ -121,7 +121,7 @@ class TestMetricsLabelContracts:
     def test_burn_rate_metric_compatibility(self):
         """Test metrics are compatible with burn-rate SLO alerts."""
         # Test memory service latency metric
-        with patch('lukhas.observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+        with patch('observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
             self.metrics.record_metric(
                 name="lukhas_memory_operation_duration_seconds",
                 value=0.095,  # 95ms - within 100ms SLO
@@ -219,7 +219,7 @@ class TestMemoryLifecycleLabelContracts:
         lifecycle_operations = ["archive", "gdpr_deletion", "cleanup"]
 
         for operation in lifecycle_operations:
-            with patch('lukhas.observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+            with patch('observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
                 # Test duration metric
                 self.metrics.record_metric(
                     name="lukhas_memory_lifecycle_seconds",
@@ -262,7 +262,7 @@ class TestMemoryLifecycleLabelContracts:
         error_operations = ["archive", "gdpr_deletion"]
 
         for operation in error_operations:
-            with patch('lukhas.observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+            with patch('observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
                 # Test error counter
                 self.metrics.record_metric(
                     name="lukhas_memory_lifecycle_errors_total",
@@ -285,7 +285,7 @@ class TestMemoryLifecycleLabelContracts:
 
     def test_forbidden_correlation_id_in_labels(self):
         """Test that correlation_id is NEVER used as a Prometheus label."""
-        with patch('lukhas.observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+        with patch('observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
             # Attempt to record metric with correlation_id in labels (should be filtered out)
             self.metrics.record_metric(
                 name="lukhas_memory_lifecycle_seconds",
@@ -310,7 +310,7 @@ class TestMemoryLifecycleLabelContracts:
 
     def test_memory_upsert_latency_labels(self):
         """Test memory upsert operations have correct labels."""
-        with patch('lukhas.observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+        with patch('observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
             self.metrics.record_metric(
                 name="lukhas_memory_upsert_seconds",
                 value=0.085,  # 85ms - within 100ms SLO
@@ -334,7 +334,7 @@ class TestMemoryLifecycleLabelContracts:
         canonical_lanes = ["labs", "lukhas", "MATRIZ", "integration", "production", "canary", "experimental"]
 
         for lane_value in canonical_lanes:
-            with patch('lukhas.observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+            with patch('observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
                 self.metrics.record_metric(
                     name="lukhas_memory_lifecycle_operations_total",
                     value=1,
@@ -361,7 +361,7 @@ class TestSLOBurnRateMetrics:
 
     def test_memory_slo_metric_format(self):
         """Test memory service SLO metrics match alerting rules."""
-        with patch('lukhas.observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+        with patch('observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
             # Record latency metric matching burn-rate alert query
             self.metrics.record_metric(
                 name="lukhas_memory_operation_duration_seconds",
@@ -383,7 +383,7 @@ class TestSLOBurnRateMetrics:
 
     def test_orchestrator_routing_slo_format(self):
         """Test orchestrator routing SLO metrics format."""
-        with patch('lukhas.observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+        with patch('observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
             self.metrics.record_metric(
                 name="lukhas_orchestrator_routing_duration_seconds",
                 value=0.245,  # 245ms - within 250ms SLO
@@ -400,7 +400,7 @@ class TestSLOBurnRateMetrics:
 
     def test_identity_auth_slo_format(self):
         """Test identity authentication SLO metrics format."""
-        with patch('lukhas.observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+        with patch('observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
             self.metrics.record_metric(
                 name="lukhas_identity_auth_duration_seconds",
                 value=0.199,  # 199ms - within 250ms SLO
@@ -417,7 +417,7 @@ class TestSLOBurnRateMetrics:
 
     def test_guardian_decision_slo_format(self):
         """Test guardian decision SLO metrics format."""
-        with patch('lukhas.observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+        with patch('observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
             self.metrics.record_metric(
                 name="lukhas_guardian_decision_duration_seconds",
                 value=0.089,  # 89ms - within 100ms SLO
@@ -442,7 +442,7 @@ class TestCorrelationTrackingMetrics:
 
     def test_correlation_tracking_counter_format(self):
         """Test correlation tracking counters match alert queries."""
-        with patch('lukhas.observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+        with patch('observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
             # Record requests without correlation_id
             self.metrics.record_metric(
                 name="lukhas_requests_without_correlation_id",
@@ -460,7 +460,7 @@ class TestCorrelationTrackingMetrics:
 
     def test_total_requests_counter_format(self):
         """Test total requests counter format for correlation ratio."""
-        with patch('lukhas.observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
+        with patch('observability.service_metrics.ServiceMetricsCollector._update_prometheus_metric'):
             self.metrics.record_metric(
                 name="lukhas_requests_total",
                 value=1,

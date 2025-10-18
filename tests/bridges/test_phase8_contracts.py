@@ -18,13 +18,13 @@ def test_orchestration_openai_modulated_service_stub():
 
 
 def test_governance_guardian_system_enhanced():
-    "lukhas.governance.guardian_system bridge works with safe_guard + deprecate."
-    import lukhas.governance.guardian_system
+    "governance.guardian_system bridge works with safe_guard + deprecate."
+    import governance.guardian_system
     assert hasattr(governance.guardian_system, "__all__")
 
 
 def test_tools_performance_monitor_getlogger_compat():
-    "lukhas.tools.performance_monitor provides getLogger with compat shim."
+    "tools.performance_monitor provides getLogger with compat shim."
     import tools.performance_monitor as pm
     assert hasattr(pm, "__all__")
     # Check if getLogger available (may or may not be exported)
@@ -37,7 +37,7 @@ def test_tools_performance_monitor_getlogger_compat():
 
 
 def test_lukhas_cognitive_core_contradiction_integrator():
-    """lukhas.cognitive_core.reasoning.contradiction_integrator bridge works."""
+    """cognitive_core.reasoning.contradiction_integrator bridge works."""
     import cognitive_core.reasoning.contradiction_integrator as ci
     assert hasattr(ci, "__all__")
     # Check if ContradictionIntegrator available
@@ -51,9 +51,9 @@ def test_lukhas_cognitive_core_contradiction_integrator():
     [
         "bridge.api.identity",
         "orchestration.providers.openai_modulated_service",
-        "lukhas.governance.guardian_system",
-        "lukhas.tools.performance_monitor",
-        "lukhas.cognitive_core.reasoning.contradiction_integrator",
+        "governance.guardian_system",
+        "tools.performance_monitor",
+        "cognitive_core.reasoning.contradiction_integrator",
     ],
 )
 def test_phase8_bridge_has_all(module_path):

@@ -41,8 +41,8 @@ def auth_components():
     import labs  # ensure base package is registered
     import core
     import core.interfaces
-    import lukhas.core.interfaces.api
-    import lukhas.core.interfaces.api.v1
+    import core.interfaces.api
+    import core.interfaces.api.v1
 
     core_common_stub = sys.modules.setdefault("labs.core.common", types.ModuleType("labs.core.common"))
 

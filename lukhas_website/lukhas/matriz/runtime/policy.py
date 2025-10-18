@@ -49,7 +49,7 @@ class PolicyEngine:
 
     def _initialize_safety_guard(self) -> Any | None:
         try:
-            from lukhas.qi.qi_wrapper import ConstitutionalSafetyGuard
+            from qi.qi_wrapper import ConstitutionalSafetyGuard
         except Exception as exc:  # pragma: no cover - optional dependency
             logger.debug("ConstitutionalSafetyGuard unavailable: %s", exc)
             return None

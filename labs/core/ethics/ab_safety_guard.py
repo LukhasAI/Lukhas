@@ -422,7 +422,7 @@ def should_enforce_for_lane(lane: str, plan: Dict[str, Any]) -> bool:
 # Example usage integration:
 """
 # In guardian evaluation:
-from lukhas.core.ethics.ab_safety_guard import get_safety_guard
+from core.ethics.ab_safety_guard import get_safety_guard
 
 def evaluate_plan_with_ab_safety(plan, lane="candidate"):
     safety_guard = get_safety_guard()

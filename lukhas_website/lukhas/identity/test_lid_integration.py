@@ -99,7 +99,7 @@ class LiDTokenSystemTest:
             self.token_generator = TokenGenerator(
                 secret_provider=self.secret_provider,
                 ttl_seconds=3600,
-                issuer="lukhas.ai"
+                issuer="ai"
             )
 
             # Create Guardian validator mock for testing
@@ -294,7 +294,7 @@ class LiDTokenSystemTest:
             test_user = self.auth_service.create_user(
                 username="testuser",
                 password="TestPassword123!",
-                email="test@lukhas.ai",
+                email="test@ai",
                 permissions=["read", "write", "test"]
             )
 

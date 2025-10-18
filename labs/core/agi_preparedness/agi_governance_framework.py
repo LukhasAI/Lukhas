@@ -456,7 +456,7 @@ class AGIGovernanceFramework:
                 person_id="gov_board_chair_001",
                 name="Cognitive AI Governance Board Chair",
                 oversight_tier=OversightTier.GOVERNANCE_BOARD,
-                expertise_areas=["lukhas.governance", "policy", "strategic_planning", "ai_safety"],
+                expertise_areas=["governance", "policy", "strategic_planning", "ai_safety"],
                 certifications=["Executive Leadership", "AI Governance"],
                 years_experience=25,
                 decision_authority=list(DecisionType),  # All decision types

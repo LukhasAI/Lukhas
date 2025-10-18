@@ -199,7 +199,7 @@ class JWTManager:
     """High-level JWT operations manager."""
 
     def __init__(self,
-                 issuer: str = "https://auth.lukhas.ai",
+                 issuer: str = "https://auth.ai",
                  algorithm: JWTAlgorithm = JWTAlgorithm.RS256,
                  default_expiry: int = 3600):
         """
@@ -447,7 +447,7 @@ def get_jwt_manager() -> JWTManager:
     """Get the default JWT manager instance."""
     global _jwt_manager
     if _jwt_manager is None:
-        issuer = os.getenv("LUKHAS_JWT_ISSUER", "https://auth.lukhas.ai")
+        issuer = os.getenv("LUKHAS_JWT_ISSUER", "https://auth.ai")
         algorithm_name = os.getenv("LUKHAS_JWT_ALGORITHM", "RS256")
         algorithm = JWTAlgorithm(algorithm_name)
         _jwt_manager = JWTManager(issuer=issuer, algorithm=algorithm)

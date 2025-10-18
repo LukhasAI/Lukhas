@@ -21,7 +21,7 @@ from typing import Any, Dict, List
 
 # Repository structure
 ROOT = Path(__file__).resolve().parents[1]
-TIER_PERMISSIONS = ROOT / "labs" / "lukhas.governance" / "identity" / "config" / "tier_permissions.json"
+TIER_PERMISSIONS = ROOT / "labs" / "governance" / "identity" / "config" / "tier_permissions.json"
 MATRIX_CONTRACTS = ROOT / "lukhas"
 
 # ΛiD tier system (canonical)

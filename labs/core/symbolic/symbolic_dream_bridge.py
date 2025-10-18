@@ -219,7 +219,7 @@ if __name__ == "__main__":
 ║ REFERENCES:
 ║   - Docs: docs/bridge/symbolic_dream_bridge.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=dream-bridge
-║   - Wiki: internal.lukhas.ai/wiki/oneiric-systems
+║   - Wiki: internal.ai/wiki/oneiric-systems
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

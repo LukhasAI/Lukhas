@@ -59,7 +59,7 @@ class EnvValidator:
             name="DATABASE_URL",
             var_type=EnvVarType.URL,
             required=False,
-            default="sqlite:///lukhas.db",
+            default="sqlite:///db",
             description="Database connection string",
         ),
         EnvVarConfig(

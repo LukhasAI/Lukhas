@@ -39,7 +39,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -70,7 +70,7 @@ class AuditCategory(Enum):
     AI_ETHICS = "ai_ethics"
     CONSTITUTIONAL = "constitutional"
     CONSTELLATION = "constellation"
-    GOVERNANCE = "lukhas.governance"
+    GOVERNANCE = "governance"
     USER_ACTION = "user_action"
     SYSTEM_EVENT = "system_event"
     ERROR = "error"

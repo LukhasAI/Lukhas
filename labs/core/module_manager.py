@@ -83,7 +83,7 @@ class ModuleManager:
         self.register_module(
             ModuleConfig(
                 name="identity_system",
-                import_path="lukhas.governance.identity.interface",
+                import_path="governance.identity.interface",
                 priority=ModulePriority.HIGH,
                 fallback_class=self._create_identity_fallback(),
                 dependencies=[],
@@ -121,7 +121,7 @@ class ModuleManager:
         self.register_module(
             ModuleConfig(
                 name="memory_systems",
-                import_path="lukhas.memory.systems",
+                import_path="memory.systems",
                 priority=ModulePriority.HIGH,
                 fallback_class=self._create_memory_fallback(),
                 dependencies=["qi_mind"],

@@ -800,7 +800,7 @@ class OIDCProvider:
         # Add email information if email scope
         if "email" in scope:
             userinfo.update({
-                "email": f"{lambda_id}@lukhas.ai",
+                "email": f"{lambda_id}@ai",
                 "email_verified": True
             })
 

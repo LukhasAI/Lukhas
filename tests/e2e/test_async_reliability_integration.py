@@ -18,7 +18,7 @@ from async_manager import (
     get_guardian_manager,
     shutdown_all_managers,
 )
-from lukhas.async_utils import (
+from async_utils import (
     await_with_timeout,
     consciousness_context,
     gather_with_error_handling,

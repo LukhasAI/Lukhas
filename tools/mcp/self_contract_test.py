@@ -4,12 +4,12 @@ import pathlib
 import sys
 
 required = {
- "lukhas.manifests.validate","lukhas.manifests.lock","lukhas.registry.build","lukhas.registry.diff",
- "lukhas.docs.registry.refresh","lukhas.docs.frontmatter.guard",
- "lukhas.conveyor.plan","lukhas.conveyor.execute","lukhas.sim.schedule","lukhas.sim.collect","lukhas.audit.export"
+ "manifests.validate","manifests.lock","registry.build","registry.diff",
+ "docs.registry.refresh","docs.frontmatter.guard",
+ "conveyor.plan","conveyor.execute","sim.schedule","sim.collect","audit.export"
 }
 cat = json.loads(pathlib.Path("mcp-servers/lukhas-devtools-mcp/tooling/catalog.json").read_text())
-names = {f"lukhas.{t['name']}" for t in cat["lukhas.tools"]}
+names = {f"lukhas.{t['name']}" for t in cat["tools"]}
 missing = sorted(required - names)
 if missing:
     print("❌ Missing tools:", missing); sys.exit(1)

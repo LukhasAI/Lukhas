@@ -16,7 +16,7 @@ import pytest
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from lukhas.observability.prometheus_metrics import (
+from observability.prometheus_metrics import (
     PROMETHEUS_AVAILABLE,
     LUKHASMetrics,
     MetricsConfig,
@@ -65,7 +65,7 @@ class TestMetricsConfig:
 class TestLUKHASMetricsWithoutPrometheus:
     """Test LUKHAS metrics when Prometheus client is not available"""
 
-    @patch('lukhas.observability.prometheus_metrics.PROMETHEUS_AVAILABLE', False)
+    @patch('observability.prometheus_metrics.PROMETHEUS_AVAILABLE', False)
     def test_metrics_initialization_without_prometheus(self):
         """Test metrics initialization when Prometheus is not available"""
         metrics = LUKHASMetrics()
@@ -73,7 +73,7 @@ class TestLUKHASMetricsWithoutPrometheus:
         assert not metrics.enabled
         assert metrics.config.enabled is True  # Config says enabled, but no client
 
-    @patch('lukhas.observability.prometheus_metrics.PROMETHEUS_AVAILABLE', False)
+    @patch('observability.prometheus_metrics.PROMETHEUS_AVAILABLE', False)
     def test_mock_operations_without_prometheus(self):
         """Test that operations work when Prometheus is not available"""
         metrics = LUKHASMetrics()
@@ -122,7 +122,7 @@ class TestLUKHASMetricsWithPrometheus:
         metrics.record_request("/api/error", "GET", "500", 0.05)
 
         # Record errors
-        metrics.record_error("lukhas.memory", "OutOfMemoryError")
+        metrics.record_error("memory", "OutOfMemoryError")
         metrics.record_error("matriz", "TimeoutError")
 
         # Update uptime
@@ -187,7 +187,7 @@ class TestLUKHASMetricsWithPrometheus:
         # Record plugin stats
         metrics.record_plugin_stats({
             "cognitive": {"active": 15, "failed": 2},
-            "lukhas.memory": {"active": 8, "failed": 0},
+            "memory": {"active": 8, "failed": 0},
             "orchestration": {"active": 5, "failed": 1},
         })
 
@@ -259,7 +259,7 @@ class TestLUKHASMetricsWithPrometheus:
         metrics = LUKHASMetrics(config)
 
         # Mock the start_http_server function to avoid actually starting server
-        with patch('lukhas.observability.prometheus_metrics.start_http_server') as mock_start:
+        with patch('observability.prometheus_metrics.start_http_server') as mock_start:
             mock_start.return_value = None
             result = metrics.start_http_server(port=0)  # Use port 0 to avoid conflicts
             assert result is True
@@ -366,7 +366,7 @@ class TestMetricsIntegration:
         # Update plugin stats
         metrics.record_plugin_stats({
             "cognitive": {"active": 12, "failed": 1},
-            "lukhas.memory": {"active": 6, "failed": 0},
+            "memory": {"active": 6, "failed": 0},
             "orchestration": {"active": 4, "failed": 0},
         })
 
@@ -376,7 +376,7 @@ class TestMetricsIntegration:
         metrics = get_lukhas_metrics() or LUKHASMetrics(config)
 
         # System errors
-        metrics.record_error("lukhas.memory", "OutOfMemoryError")
+        metrics.record_error("memory", "OutOfMemoryError")
         metrics.record_error("matriz", "TimeoutError")
         metrics.record_error("plugins", "ImportError")
 

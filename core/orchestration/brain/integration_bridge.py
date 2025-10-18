@@ -3,11 +3,11 @@
 Unified access to all cognitive and reasoning systems
 """
 
-from lukhas.orchestration.brain.lukhas_brain import LUKHASBrain
-from lukhas.orchestration.brain.neuro_symbolic.neuro_symbolic_engine import (
+from orchestration.brain.lukhas_brain import LUKHASBrain
+from orchestration.brain.neuro_symbolic.neuro_symbolic_engine import (
     NeuroSymbolicEngine,
 )
-from lukhas.orchestration.meta_cognitive_orchestrator import (
+from orchestration.meta_cognitive_orchestrator import (
     MetaCognitiveOrchestrator,
 )
 

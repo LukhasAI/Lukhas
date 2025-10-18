@@ -21,7 +21,7 @@ from pydantic import BaseModel, Field
 # from memory import MemoryCore
 # from memory.drift_tracker import DriftMetrics
 # Current import
-from lukhas.memory.core import HybridMemoryFold
+from memory.core import HybridMemoryFold
 
 
 # Pydantic models for API
@@ -120,7 +120,7 @@ class CollapseRequest(BaseModel):
 
 
 # Router setup
-router = APIRouter(prefix="/memory", tags=["lukhas.memory"])
+router = APIRouter(prefix="/memory", tags=["memory"])
 
 # In-memory storage for demo (replace with actual implementation)
 memory_systems: dict[str, HybridMemoryFold] = {}

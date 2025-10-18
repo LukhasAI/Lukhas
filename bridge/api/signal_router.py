@@ -69,7 +69,7 @@ SignalRouter = route_signal
 ║ REFERENCES:
 ║   - Docs: docs/orchestration/signal_router.md
 ║   - Issues: github.com/lukhas-ai/lukhas/issues?label=orchestration
-║   - Wiki: https://lukhas.ai/wiki/Orchestration-Signal-Routing
+║   - Wiki: https://ai/wiki/Orchestration-Signal-Routing
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

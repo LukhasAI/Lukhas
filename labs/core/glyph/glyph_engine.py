@@ -91,7 +91,7 @@ class EnhancedGlyphEngine:
                 emotion_vector = EmotionVector()
 
         # Determine GLYPH type based on concept
-        if any(word in concept.lower() for word in ["remember", "lukhas.memory", "recall"]):
+        if any(word in concept.lower() for word in ["remember", "memory", "recall"]):
             glyph = self.factory.create_memory_glyph(concept, emotion_vector)
         elif any(word in concept.lower() for word in ["feel", "emotion", "mood"]):
             glyph = self.factory.create_emotion_glyph(emotion_vector or EmotionVector(intensity=0.5))
@@ -163,7 +163,7 @@ class EnhancedGlyphEngine:
                 {SymbolModality.CONSCIOUSNESS, SymbolModality.EMOTIONAL},
                 {SymbolDomain.COGNITIVE, SymbolDomain.EMOTIONAL},
             ),
-            "lukhas.memory": (
+            "memory": (
                 {SymbolModality.TEMPORAL, SymbolModality.CAUSAL},
                 {SymbolDomain.MEMORY},
             ),
@@ -173,7 +173,7 @@ class EnhancedGlyphEngine:
                 {SymbolModality.VISUAL, SymbolModality.EMOTIONAL},
                 {SymbolDomain.CREATIVE, SymbolDomain.EMOTIONAL},
             ),
-            "lukhas.governance": ({SymbolModality.TEXT}, {SymbolDomain.ETHICAL}),
+            "governance": ({SymbolModality.TEXT}, {SymbolDomain.ETHICAL}),
         }
 
         if target_module in module_preferences:

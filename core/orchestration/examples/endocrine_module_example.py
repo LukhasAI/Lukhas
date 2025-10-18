@@ -199,7 +199,7 @@ async def example_usage():
     Example of how to use the endocrine-aware module with the orchestrator.
     """
     from bio.simulation_controller import BioSimulationController
-    from lukhas.orchestration.endocrine_orchestrator import (
+    from orchestration.endocrine_orchestrator import (
         EndocrineOrchestrator,
         EndocrineOrchestratorConfig,
     )

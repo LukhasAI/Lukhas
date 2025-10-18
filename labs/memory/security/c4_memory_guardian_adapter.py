@@ -66,10 +66,10 @@ except ImportError:
 
 try:
     # Import existing memory systems if available
-    from lukhas.memory.core.unified_memory_orchestrator import (
+    from memory.core.unified_memory_orchestrator import (
         UnifiedMemoryOrchestrator,
     )
-    from lukhas.memory.fold_system.hybrid_memory_fold import HybridMemoryFold
+    from memory.fold_system.hybrid_memory_fold import HybridMemoryFold
 
     MEMORY_SYSTEMS_AVAILABLE = True
 except ImportError:

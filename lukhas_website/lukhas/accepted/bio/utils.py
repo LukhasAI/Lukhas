@@ -1,5 +1,5 @@
 """
-Bio utilities module - compatibility layer for lukhas.accepted.bio.utils
+Bio utilities module - compatibility layer for accepted.bio.utils
 
 Provides bio utilities and fallback implementations.
 """

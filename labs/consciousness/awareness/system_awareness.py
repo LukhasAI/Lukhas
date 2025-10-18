@@ -51,7 +51,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 from ..bio_core.bio_symbolic import CardiolipinEncoder, CristaFilter, ProtonGradient, QIAttentionGate
 
@@ -432,7 +432,7 @@ class SystemAwareness:
 ║ REFERENCES:
 ║   - Docs: docs/consciousness/awareness/system_awareness.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=system-awareness
-║   - Wiki: internal.lukhas.ai/wiki/quantum-biological-consciousness
+║   - Wiki: internal.ai/wiki/quantum-biological-consciousness
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

@@ -1,13 +1,13 @@
 """Pre-freeze bridge surface for `bridge.api` expected by tests."""
 from __future__ import annotations
 
-from lukhas._bridgeutils import bridge
+from _bridgeutils import bridge
 
 _mod: object | None = None
 _exports: dict[str, object] = {}
 
 _CANDIDATES = (
-    "lukhas_website.lukhas.bridge.api",
+    "lukhas_website.bridge.api",
     "candidate.bridge.api",
     "bridge.api_impl",
 )

@@ -1,10 +1,10 @@
 """Bridge: core.consciousness_stream -> canonical implementations."""
 from __future__ import annotations
 
-from lukhas._bridgeutils import bridge_from_candidates
+from _bridgeutils import bridge_from_candidates
 
 _CANDIDATES = (
-    "lukhas_website.lukhas.core.consciousness_stream",
+    "lukhas_website.core.consciousness_stream",
     "labs.core.consciousness_stream",
 )
 

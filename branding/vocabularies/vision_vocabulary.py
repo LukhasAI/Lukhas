@@ -15,7 +15,7 @@ image interpretation, and visual communication.
 from dataclasses import dataclass
 from typing import Any
 
-from lukhas.core.symbolic import VisualSymbol
+from core.symbolic import VisualSymbol
 from symbolic.vocabularies.vision_vocabulary import VisionSymbolicVocabulary
 
 from ..core import AnalysisType, VisionProvider

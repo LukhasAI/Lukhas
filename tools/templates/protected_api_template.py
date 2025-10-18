@@ -37,7 +37,7 @@ except ImportError:
     class AuthContext:
         def __init__(self):
             self.user_id = "template_user"
-            self.email = "test@lukhas.ai"
+            self.email = "test@ai"
             self.tier = "T2"
             self.lambda_id = "λ-template-123"
             self.permissions: Dict[str, bool] = {

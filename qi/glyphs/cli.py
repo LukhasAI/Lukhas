@@ -258,7 +258,7 @@ def info_command(args):
     print("  • Offline - Using JWKS public keys")
     print("  • Online  - With revocation checking")
     print()
-    print("For more information: https://docs.lukhas.ai/glyph")
+    print("For more information: https://docs.ai/glyph")
 
     return 0
 

@@ -38,7 +38,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 from .federated_integration import FederatedLearningIntegration, FederationStrategy
 

@@ -14,7 +14,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 from .vivox_ern_core import RegulationResponse, RegulationStrategy
 

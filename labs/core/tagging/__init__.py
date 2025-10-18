@@ -1,7 +1,7 @@
 """Bridge for `candidate.core.tagging`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.candidate.core.tagging
+  1) lukhas_website.candidate.core.tagging
   2) candidate.candidate.core.tagging
   3) core.tagging
 
@@ -23,7 +23,7 @@ def _try(module_name: str):
 
 
 _CANDIDATES = (
-    "lukhas_website.lukhas.candidate.core.tagging",
+    "lukhas_website.candidate.core.tagging",
     "labs.candidate.core.tagging",
     "core.tagging",
 )

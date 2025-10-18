@@ -107,10 +107,10 @@ from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
 from ethics.meta_ethics_governor import EthicalDecision, get_meg
-from lukhas.core.integration.governance.__init__ import get_srd, instrument_reasoning
+from core.integration.governance.__init__ import get_srd, instrument_reasoning
 
 # Lukhas Core Integration
-from lukhas.memory.emotional import EmotionalMemory, EmotionVector
+from memory.emotional import EmotionalMemory, EmotionVector
 
 logger = logging.getLogger(__name__)
 
@@ -1532,7 +1532,7 @@ async def retrieve_private_memory(memory_id: str, use_differential_privacy: bool
 ║ REFERENCES:
 ║   - Docs: docs/memory/privacy_preserving_memory_vault.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=privacy-memory
-║   - Wiki: internal.lukhas.ai/wiki/ppmv
+║   - Wiki: internal.ai/wiki/ppmv
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

@@ -308,6 +308,6 @@ class BioSymbolicMemory:
 #   Define clear interfaces between the memory stores.
 #   Develop sophisticated algorithms for importance scoring, decay, pattern extraction,
 #   and related memory retrieval.
-# CONTACT: LUKHAS DEVELOPMENT TEAM (dev@lukhas.ai)
+# CONTACT: LUKHAS DEVELOPMENT TEAM (dev@ai)
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════

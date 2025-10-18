@@ -506,7 +506,7 @@ def test_trinity_symbol_formatting():
         "identity": "⚛️",
         "consciousness": "🧠",
         "guardian": "🛡️",
-        "lukhas.memory": "✦",
+        "memory": "✦",
         "vision": "🔬",
         "bio": "🌱",
         "dream": "🌙",

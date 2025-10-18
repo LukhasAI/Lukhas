@@ -21,7 +21,7 @@ class ResourceType:
     """Resource type enumeration"""
 
     CPU = "cpu"
-    MEMORY = "lukhas.memory"
+    MEMORY = "memory"
     STORAGE = "storage"
     NETWORK = "network"
     COGNITIVE_LOAD = "cognitive_load"

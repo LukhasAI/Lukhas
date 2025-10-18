@@ -13,8 +13,8 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Callable, Dict, List, Optional, Set, Tuple
 
-from lukhas.consciousness.types import AwarenessSnapshot, ConsciousnessState, DreamTrace, ReflectionReport
-from lukhas.memory.consciousness_memory_integration import (
+from consciousness.types import AwarenessSnapshot, ConsciousnessState, DreamTrace, ReflectionReport
+from memory.consciousness_memory_integration import (
     ConsciousnessMemoryIntegrator,
     EmotionalContext,
     MemoryFold,

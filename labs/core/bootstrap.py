@@ -7,19 +7,19 @@ import logging
 from datetime import datetime
 from typing import Any, Optional
 
-from lukhas.orchestration.brain.unified_cognitive_orchestrator import UnifiedCognitiveOrchestrator
-from lukhas.core.adapters.module_service_adapter import register_service_adapters
-from lukhas.core.adapters.seven_agent_adapter import register_seven_agent_services
-from lukhas.core.container.service_container import ServiceContainer, get_container
-from lukhas.core.events.contracts import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+from orchestration.brain.unified_cognitive_orchestrator import UnifiedCognitiveOrchestrator
+from core.adapters.module_service_adapter import register_service_adapters
+from core.adapters.seven_agent_adapter import register_seven_agent_services
+from core.container.service_container import ServiceContainer, get_container
+from core.events.contracts import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 from datetime import timezone
     ConsciousnessStateChanged,
     DreamGenerated,
     MemoryFoldCreated,
     QIStateCreated,
 )
-from lukhas.core.events.typed_event_bus import EventBusService, get_typed_event_bus
-from lukhas.core.interfaces.services import (
+from core.events.typed_event_bus import EventBusService, get_typed_event_bus
+from core.interfaces.services import (
     IBridgeService,
     IConsciousnessService,
     IDreamService,

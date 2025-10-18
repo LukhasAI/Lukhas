@@ -30,9 +30,9 @@ try:
     from ai_orchestration.mcp_operational_support import LUKHASMCPOperationalSupport, MCPServerContext, SupportIncident
 
     # from branding.constellation.triad_validator import ConstellationFrameworkValidator  # TODO: Implement or remove
-    from lukhas.consciousness.awareness_engine import ConsciousnessAwarenessEngine
-    from lukhas.governance.guardian_system.guardian_validator import GuardianValidator
-    from lukhas.memory.fold_system import MemoryFoldSystem
+    from consciousness.awareness_engine import ConsciousnessAwarenessEngine
+    from governance.guardian_system.guardian_validator import GuardianValidator
+    from memory.fold_system import MemoryFoldSystem
 except ImportError as e:
     logging.warning(f"Could not import LUKHAS modules: {e}")
 

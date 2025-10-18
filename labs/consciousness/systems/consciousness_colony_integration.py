@@ -11,11 +11,11 @@ import numpy as np
 
 from consciousness.systems.engine import LUKHASConsciousnessEngine
 from bridge.shared_state import SharedStateManager
-from lukhas.core.colonies.creativity_colony import CreativityColony
-from lukhas.core.colonies.memory_colony import MemoryColony
-from lukhas.core.colonies.reasoning_colony import ReasoningColony
-from lukhas.core.common import get_logger
-from lukhas.core.swarm import SwarmHub
+from core.colonies.creativity_colony import CreativityColony
+from core.colonies.memory_colony import MemoryColony
+from core.colonies.reasoning_colony import ReasoningColony
+from core.common import get_logger
+from core.swarm import SwarmHub
 
 logger = get_logger(__name__)
 
@@ -54,7 +54,7 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
         # Colony processing metrics
         self.colony_metrics = {
             "reasoning": {"tasks": 0, "success_rate": 1.0},
-            "lukhas.memory": {"tasks": 0, "success_rate": 1.0},
+            "memory": {"tasks": 0, "success_rate": 1.0},
             "creativity": {"tasks": 0, "success_rate": 1.0},
         }
 
@@ -214,7 +214,7 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
         integration_results = []
 
         for step in plan.get("steps", []):
-            if step["colony"] == "lukhas.memory":
+            if step["colony"] == "memory":
                 result = await self.memory_colony.execute_task(f"{task_id}-step-{step['id']}", step["task"])
             elif step["colony"] == "creativity":
                 result = await self.creativity_colony.execute_task(f"{task_id}-step-{step['id']}", step["task"])
@@ -298,7 +298,7 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
         """Update colony processing metrics."""
         colony_map = {
             "reflection": "reasoning",
-            "integration": "lukhas.memory",
+            "integration": "memory",
             "awareness": "creativity",
         }
 
@@ -347,9 +347,9 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
                     "active": (self.reasoning_colony.active if hasattr(self.reasoning_colony, "active") else False),
                     "metrics": self.colony_metrics["reasoning"],
                 },
-                "lukhas.memory": {
+                "memory": {
                     "active": (self.memory_colony.active if hasattr(self.memory_colony, "active") else False),
-                    "metrics": self.colony_metrics["lukhas.memory"],
+                    "metrics": self.colony_metrics["memory"],
                 },
                 "creativity": {
                     "active": (self.creativity_colony.active if hasattr(self.creativity_colony, "active") else False),
@@ -398,7 +398,7 @@ class DistributedConsciousnessEngine(LUKHASConsciousnessEngine):
             {
                 "experience": experience,
                 "reflection": reflection_result,
-                "colonies_used": ["reasoning", "lukhas.memory", "creativity"],
+                "colonies_used": ["reasoning", "memory", "creativity"],
             },
         )
 
@@ -436,7 +436,7 @@ async def demo_distributed_consciousness():
         integration_data = {
             "sources": [
                 {"type": "sensory", "data": "visual_input"},
-                {"type": "lukhas.memory", "data": "past_experience"},
+                {"type": "memory", "data": "past_experience"},
                 {"type": "symbolic", "data": "abstract_concept"},
             ],
             "target": "unified_understanding",

@@ -55,13 +55,13 @@ from typing import Any, Optional
 from uuid import uuid4
 
 # Add logging
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 logger = get_logger(__name__)
 
 # Import LUKHAS components
 try:
-    from lukhas.core.symbolism.tags import TagScope
+    from core.symbolism.tags import TagScope
 
     LUKHAS_AVAILABLE = True
 except ImportError as e:
@@ -182,7 +182,7 @@ class MerkleTree:
         leaf = MerkleNode(
             node_id=memory_id,
             data_hash=data_hash,
-            metadata={"type": "lukhas.memory", "size": len(serialized)},
+            metadata={"type": "memory", "size": len(serialized)},
         )
 
         self.leaves.append(leaf)

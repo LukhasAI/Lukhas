@@ -29,13 +29,13 @@ DESCRIPTION:
 
 import logging
 
-from lukhas.core.common import get_logger
-from lukhas.core.interfaces.as_agent.sys.nias.narration_controller import (
+from core.common import get_logger
+from core.interfaces.as_agent.sys.nias.narration_controller import (
     fetch_narration_entries,
     filter_narration_queue,
     load_user_settings,
 )
-from lukhas.core.modules.nias.__init__ import narrate_dreams
+from core.modules.nias.__init__ import narrate_dreams
 
 # Configure logging
 logger = get_logger(__name__)

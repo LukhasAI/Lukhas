@@ -6,7 +6,7 @@ latency tracking, and cardinality controls.
 """
 import pytest
 
-from lukhas.observability.guardian_metrics import (
+from observability.guardian_metrics import (
     _cap_reason,
     _normalize_route,
     record_decision,

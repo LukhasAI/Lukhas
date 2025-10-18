@@ -95,7 +95,7 @@ def replay_recent_dreams(limit=5, filter_by_tag=None, only_replay_candidates=Fal
 """
 ──────────────────────────────────────────────────────────────────────────────────────
 USAGE:
-    from lukhas.core.modules.nias.dream_replay import replay_recent_dreams
+    from core.modules.nias.dream_replay import replay_recent_dreams
 
     replay_recent_dreams(limit=5, only_replay_candidates=True)
     replay_recent_dreams(limit=10, sort_by_emotion="calm")

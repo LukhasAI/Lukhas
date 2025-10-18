@@ -37,7 +37,7 @@ class UnifiedPatternRecognition:
 
     def _initialize_optimizers(self):
         """Initialize optimization components"""
-        from lukhas.core.symbolic_core.bio.crista_optimizer import CristaOptimizer
+        from core.symbolic_core.bio.crista_optimizer import CristaOptimizer
 
         self.topology_optimizer = CristaOptimizer(self)
 

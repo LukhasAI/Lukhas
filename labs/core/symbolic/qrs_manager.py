@@ -626,7 +626,7 @@ class QRSManager:
 ║ REFERENCES:
 ║   - Docs: docs/identity/qrs_manager.md
 ║   - Issues: github.com/lukhas-ai/lukhas/issues?label=qrs-manager
-║   - Wiki: https://internal.lukhas.ai/wiki/QRS_Manager
+║   - Wiki: https://internal.ai/wiki/QRS_Manager
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

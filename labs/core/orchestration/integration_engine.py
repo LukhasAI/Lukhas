@@ -160,7 +160,7 @@ class LukhasIntegrationEngine:
 
         if category == "consciousness":
             return await self._process_consciousness(data)
-        elif category == "lukhas.governance":
+        elif category == "governance":
             return await self._process_governance(data)
         elif category == "voice":
             return await self._process_voice(data)
@@ -428,7 +428,7 @@ if __name__ == "__main__":
 ║ REFERENCES:
 ║   - Docs: docs/orchestration/integration_engine.md
 ║   - Issues: github.com/lukhas-ai/lukhas/issues?label=orchestration
-║   - Wiki: https://lukhas.ai/wiki/Orchestration-Integration-Engine
+║   - Wiki: https://ai/wiki/Orchestration-Integration-Engine
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

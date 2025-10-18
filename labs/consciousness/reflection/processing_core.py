@@ -31,7 +31,7 @@ Description: Core quantum-inspired processing engine with bio-inspired neuroplas
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 Licensed under the LUKHAS Enterprise License.
 
-For documentation and support: https://lukhas.ai/docs
+For documentation and support: https://ai/docs
 """
 
 __module_name__ = "Quantum Processing Core"
@@ -44,7 +44,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 from qi.bio.awareness.advanced_quantum_bio import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
 from datetime import timezone
     MitochondrialQIBridge,

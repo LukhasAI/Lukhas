@@ -140,7 +140,7 @@ class BaseHealthMonitor:
 ║ REFERENCES:
 ║   - Docs: docs/common/health-monitoring.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=health
-║   - Wiki: wiki.lukhas.ai/health-monitoring
+║   - Wiki: wiki.ai/health-monitoring
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

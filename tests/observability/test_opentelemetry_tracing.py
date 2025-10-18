@@ -14,7 +14,7 @@ import pytest
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from lukhas.observability.opentelemetry_tracing import (
+from observability.opentelemetry_tracing import (
     OTEL_AVAILABLE,
     LUKHASTracer,
     get_lukhas_tracer,
@@ -29,7 +29,7 @@ from lukhas.observability.opentelemetry_tracing import (
 class TestLUKHASTracerWithoutOTel:
     """Test LUKHAS tracer behavior when OpenTelemetry is not available"""
 
-    @patch('lukhas.observability.opentelemetry_tracing.OTEL_AVAILABLE', False)
+    @patch('observability.opentelemetry_tracing.OTEL_AVAILABLE', False)
     def test_tracer_initialization_without_otel(self):
         """Test tracer initialization when OpenTelemetry is not available"""
         tracer = LUKHASTracer("test-service")
@@ -38,7 +38,7 @@ class TestLUKHASTracerWithoutOTel:
         assert tracer.service_name == "test-service"
         assert tracer.service_version == "1.0.0"
 
-    @patch('lukhas.observability.opentelemetry_tracing.OTEL_AVAILABLE', False)
+    @patch('observability.opentelemetry_tracing.OTEL_AVAILABLE', False)
     def test_mock_operations_without_otel(self):
         """Test that mock operations work when OpenTelemetry is not available"""
         tracer = LUKHASTracer("test-service")
@@ -88,7 +88,7 @@ class TestLUKHASTracerWithOTel:
         """Test the trace_operation context manager"""
         tracer = LUKHASTracer("test-service", enable_auto_instrumentation=False)
 
-        attributes = {"test.component": "lukhas.memory", "test.value": 42}
+        attributes = {"test.component": "memory", "test.value": 42}
 
         with tracer.trace_operation("test_operation", attributes) as span:
             # Should not raise exceptions

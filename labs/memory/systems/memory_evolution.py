@@ -49,23 +49,23 @@ from typing import Optional
 
 import numpy as np
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 # Lukhas core imports
 try:
-    from lukhas.core.docututor.memory_evolution.bio_oscillator import (
+    from core.docututor.memory_evolution.bio_oscillator import (
         BioOscillatorAdapter,
     )
-    from lukhas.core.docututor.memory_evolution.document_analyzer import (
+    from core.docututor.memory_evolution.document_analyzer import (
         DocumentStructureAnalyzer,
     )
-    from lukhas.core.docututor.memory_evolution.knowledge_adaptation import (
+    from core.docututor.memory_evolution.knowledge_adaptation import (
         KnowledgeAdaptation,
     )
-    from lukhas.core.docututor.memory_evolution.usage_learning import (
+    from core.docututor.memory_evolution.usage_learning import (
         UsageBasedLearning,
     )
-    from lukhas.core.docututor.memory_evolution.version_control import (
+    from core.docututor.memory_evolution.version_control import (
         DocumentVersionControl,
     )
 except ImportError as e:
@@ -448,7 +448,7 @@ class MemoryEvolution:
 ║ REFERENCES:
 ║   - Docs: docs/memory/memory_evolution_system.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=memory-evolution
-║   - Wiki: internal.lukhas.ai/wiki/memory-evolution
+║   - Wiki: internal.ai/wiki/memory-evolution
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

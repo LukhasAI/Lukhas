@@ -1,7 +1,7 @@
 """Bridge for `security.secure_random`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.security.secure_random
+  1) lukhas_website.security.secure_random
   2) candidate.security.secure_random
   3) security.secure_random
 
@@ -22,7 +22,7 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.security.secure_random",
+    "lukhas_website.security.secure_random",
     "candidate.security.secure_random",
     "security.secure_random",
 )

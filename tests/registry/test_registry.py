@@ -3,6 +3,6 @@ from core.registry import register, resolve
 
 
 def test_registry_roundtrip():
-    register("lukhas.memory", object())
-    got = resolve("lukhas.memory")
+    register("memory", object())
+    got = resolve("memory")
     assert got is not None

@@ -9,7 +9,7 @@ import pytest
 def test_consent_ledger_impl_basic_structure():
     """Test consent ledger implementation basic structure (targeting 1,250 lines)."""
     try:
-        from lukhas.governance.consent_ledger_impl import ConsentLedgerImpl
+        from governance.consent_ledger_impl import ConsentLedgerImpl
 
         # Test class structure and instantiation
         assert issubclass(ConsentLedgerImpl, object)
@@ -38,7 +38,7 @@ def test_consent_ledger_impl_basic_structure():
 def test_consent_granting_comprehensive():
     """Test comprehensive consent granting scenarios."""
     try:
-        from lukhas.governance.consent_ledger_impl import ConsentLedgerImpl
+        from governance.consent_ledger_impl import ConsentLedgerImpl
 
         ledger = ConsentLedgerImpl()
 
@@ -92,7 +92,7 @@ def test_consent_granting_comprehensive():
 def test_consent_revocation_and_gdpr():
     """Test consent revocation and GDPR compliance (Article 7, Right to Withdraw)."""
     try:
-        from lukhas.governance.consent_ledger_impl import ConsentLedgerImpl
+        from governance.consent_ledger_impl import ConsentLedgerImpl
 
         ledger = ConsentLedgerImpl()
 
@@ -145,7 +145,7 @@ def test_consent_revocation_and_gdpr():
 def test_consent_checking_and_validation():
     """Test consent checking and validation logic."""
     try:
-        from lukhas.governance.consent_ledger_impl import ConsentLedgerImpl
+        from governance.consent_ledger_impl import ConsentLedgerImpl
 
         ledger = ConsentLedgerImpl()
 
@@ -197,7 +197,7 @@ def test_consent_checking_and_validation():
 def test_consent_audit_and_compliance():
     """Test consent audit trails and compliance reporting."""
     try:
-        from lukhas.governance.consent_ledger_impl import ConsentLedgerImpl
+        from governance.consent_ledger_impl import ConsentLedgerImpl
 
         ledger = ConsentLedgerImpl()
 
@@ -255,7 +255,7 @@ def test_consent_audit_and_compliance():
 def test_consent_ledger_edge_cases():
     """Test consent ledger edge cases and error handling."""
     try:
-        from lukhas.governance.consent_ledger_impl import ConsentLedgerImpl
+        from governance.consent_ledger_impl import ConsentLedgerImpl
 
         ledger = ConsentLedgerImpl()
 
@@ -300,7 +300,7 @@ def test_consent_ledger_edge_cases():
 def test_consent_ledger_integration_patterns():
     """Test consent ledger integration with other LUKHAS systems."""
     try:
-        from lukhas.governance.consent_ledger_impl import ConsentLedgerImpl
+        from governance.consent_ledger_impl import ConsentLedgerImpl
 
         ledger = ConsentLedgerImpl()
 

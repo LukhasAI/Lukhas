@@ -51,7 +51,7 @@ REAL_IDENTITY_AVAILABLE = False
 def _try_import_candidate_components():
     """Dynamically load candidate components via registry if available"""
     try:
-        from lukhas.core.registry import resolve
+        from core.registry import resolve
 
         components = {}
 
@@ -311,7 +311,7 @@ class AuthenticationService:
                 self.token_generator = TokenGenerator(
                     secret_provider=self.secret_provider,
                     ttl_seconds=self.session_timeout,
-                    issuer="lukhas.ai"
+                    issuer="ai"
                 )
 
                 # Initialize Guardian validator hook
@@ -350,7 +350,7 @@ class AuthenticationService:
             """Guardian validation function for ethical token assessment"""
             try:
                 # Import Guardian validation function if available
-                from lukhas.governance.guardian.guardian_impl import validate_action
+                from governance.guardian.guardian_impl import validate_action
 
                 # Create Guardian action for token validation
                 action = {

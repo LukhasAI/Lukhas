@@ -23,9 +23,9 @@ import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core inf
 from consciousness.qi import (
     qi,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
 )
-from lukhas.core.container.service_container import ServiceContainer
-from lukhas.core.interfaces import CoreInterface
-from lukhas.core.symbolic_engine import SymbolicEffect, SymbolicEvent
+from core.container.service_container import ServiceContainer
+from core.interfaces import CoreInterface
+from core.symbolic_engine import SymbolicEffect, SymbolicEvent
 
 logger = logging.getLogger(__name__)
 
@@ -92,14 +92,14 @@ class AutonomousInnovationOrchestrator(CoreInterface):
         try:
             self.kernel_bus = container.get_service("symbolic_kernel_bus")
         except:
-            from lukhas.orchestration.symbolic_kernel_bus import SymbolicKernelBus
+            from orchestration.symbolic_kernel_bus import SymbolicKernelBus
 
             self.kernel_bus = SymbolicKernelBus()
 
         try:
             self.guardian = container.get_service("guardian_system")
         except:
-            from lukhas.governance.guardian_system import GuardianSystem
+            from governance.guardian_system import GuardianSystem
 
             self.guardian = GuardianSystem()
 
@@ -588,7 +588,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
     def _get_quantum_consciousness_engine(self) -> Optional[Any]:
         """Get quantum consciousness engine if available"""
         try:
-            from lukhas.consciousness.qi_consciousness_integration import (
+            from consciousness.qi_consciousness_integration import (
                 QIConsciousnessIntegration,
             )
 
@@ -607,7 +607,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
     def _get_consciousness_expansion_engine(self) -> Optional[Any]:
         """Get consciousness expansion engine"""
         try:
-            from lukhas.consciousness.expansion.consciousness_expansion_engine import (
+            from consciousness.expansion.consciousness_expansion_engine import (
                 ConsciousnessExpansionEngine,
             )
 
@@ -629,7 +629,7 @@ class AutonomousInnovationOrchestrator(CoreInterface):
     def _get_breakthrough_detector_v2(self) -> Optional[Any]:
         """Get breakthrough detector v2"""
         try:
-            from lukhas.core.consciousness.innovation.breakthrough_detector_v2 import (
+            from core.consciousness.innovation.breakthrough_detector_v2 import (
                 BreakthroughDetectorV2,
             )
 

@@ -14,7 +14,7 @@ from uuid import uuid4
 
 import pytest
 
-from lukhas.memory.sync import MemorySynchronizer, SyncBudgetConfig, SyncResult, create_memory_synchronizer
+from memory.sync import MemorySynchronizer, SyncBudgetConfig, SyncResult, create_memory_synchronizer
 
 
 class TestMemorySynchronizer:

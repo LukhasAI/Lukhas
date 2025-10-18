@@ -5,7 +5,7 @@ from __future__ import annotations
 from importlib import import_module
 
 _CANDIDATES = (
-    "lukhas_website.lukhas.core.interfaces.api.v1.common.auth",
+    "lukhas_website.core.interfaces.api.v1.common.auth",
     "labs.core.interfaces.api.v1.common.auth",
 )
 

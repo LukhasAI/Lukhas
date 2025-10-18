@@ -8,9 +8,9 @@ from types import ModuleType
 __all__: list[str] = []
 
 _CANDIDATES = (
-    "lukhas_website.lukhas.candidate.nodes",
+    "lukhas_website.candidate.nodes",
     "labs.candidate.nodes",
-    "lukhas.nodes",
+    "nodes",
 )
 
 _backend: ModuleType | None = None

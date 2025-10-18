@@ -62,17 +62,17 @@ def _map_lukhas(fullname: str) -> Optional[str]:
     """
     # Core mapping table
     table = {
-        "lukhas.governance.schema_registry": "governance.schema_registry",
-        "lukhas.bio.utils": "bio.utils",
-        "lukhas.bio": "bio",
-        "lukhas.consciousness.matriz_thought_loop": "consciousness.matriz_thought_loop",
-        "lukhas.cognitive_core.reasoning.contradiction_integrator": "candidate.cognitive_core.reasoning.contradiction_integrator",
-        "lukhas.observability.advanced_metrics": "observability.advanced_metrics",
-        "lukhas.consciousness.enhanced_thought_engine": "consciousness.enhanced_thought_engine",
-        "lukhas.consciousness.types": "consciousness.types",
-        "lukhas.memory.backends": "memory.backends",
-        "lukhas.aka_qualia": "aka_qualia",
-        "lukhas.aka_qualia.core": "aka_qualia.core",
+        "governance.schema_registry": "governance.schema_registry",
+        "bio.utils": "bio.utils",
+        "bio": "bio",
+        "consciousness.matriz_thought_loop": "consciousness.matriz_thought_loop",
+        "cognitive_core.reasoning.contradiction_integrator": "candidate.cognitive_core.reasoning.contradiction_integrator",
+        "observability.advanced_metrics": "observability.advanced_metrics",
+        "consciousness.enhanced_thought_engine": "consciousness.enhanced_thought_engine",
+        "consciousness.types": "consciousness.types",
+        "memory.backends": "memory.backends",
+        "aka_qualia": "aka_qualia",
+        "aka_qualia.core": "aka_qualia.core",
     }
     return table.get(fullname)
 

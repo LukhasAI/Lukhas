@@ -34,8 +34,8 @@ import pytest
 # LUKHAS cognitive imports
 from cognitive_core.reasoning.contradiction_integrator import ContradictionIntegrator
 from cognitive_core.reasoning.deep_inference_engine import DeepInferenceEngine, InferenceType
-from lukhas.consciousness.enhanced_thought_engine import EnhancedThoughtEngine, ThoughtComplexity
-from lukhas.consciousness.meta_cognitive_assessor import MetaCognitiveAssessor
+from consciousness.enhanced_thought_engine import EnhancedThoughtEngine, ThoughtComplexity
+from consciousness.meta_cognitive_assessor import MetaCognitiveAssessor
 
 # Test framework imports
 from tests.cognitive.property_based.test_reasoning_edge_cases import PropertyBasedTestFramework
@@ -929,7 +929,7 @@ class ComprehensiveCoverageFramework:
                 except asyncio.TimeoutError:
                     return {'success': True, 'outcome': 'error_handled_gracefully'}
 
-            elif error_type == "lukhas.memory":
+            elif error_type == "memory":
                 # Simulate memory pressure
                 large_data = 'x' * 1000000  # 1MB string
                 result = await self.cognitive_components['thought_engine'].synthesize_thought(

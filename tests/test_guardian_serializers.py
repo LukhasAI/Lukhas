@@ -37,18 +37,18 @@ from typing import Any, Dict
 import pytest
 
 # Import the Guardian serialization system
-from lukhas.governance.guardian_serializers import (
+from governance.guardian_serializers import (
     GuardianSerializer,
     deserialize_guardian,
     get_system_health,
     serialize_guardian,
     validate_guardian,
 )
-from lukhas.governance.performance_optimizer import OptimizationLevel, get_performance_optimizer
-from lukhas.governance.schema_migration import CompatibilityType, check_schema_compatibility, migrate_guardian_data
-from lukhas.governance.schema_registry import SchemaRegistry
-from lukhas.governance.serialization_engine import CompressionType, SerializationEngine, SerializationFormat
-from lukhas.governance.validation_framework import ValidationFramework, ValidationTier
+from governance.performance_optimizer import OptimizationLevel, get_performance_optimizer
+from governance.schema_migration import CompatibilityType, check_schema_compatibility, migrate_guardian_data
+from governance.schema_registry import SchemaRegistry
+from governance.serialization_engine import CompressionType, SerializationEngine, SerializationFormat
+from governance.validation_framework import ValidationFramework, ValidationTier
 
 
 class TestGuardianSchemaRegistry:

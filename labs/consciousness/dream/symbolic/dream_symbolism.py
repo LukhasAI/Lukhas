@@ -82,7 +82,7 @@ class DreamSymbolismProcessor:
                 "layer": SymbolicLayer.ARCHETYPAL,
                 "resonance": SymbolicResonance.STRONG,
                 "meanings": ["crystallized experience", "faceted memory", "multidimensional recall"],
-                "associations": ["lukhas.memory", "preservation", "clarity"]
+                "associations": ["memory", "preservation", "clarity"]
             },
             "🌈": {
                 "name": "Spectrum Bridge",

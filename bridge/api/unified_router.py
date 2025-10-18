@@ -15,7 +15,7 @@ from typing import Any
 
 from fastapi import APIRouter, HTTPException
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 from memory import memory_manager
 
 # Import LUKHAS AI branding system for API responses
@@ -24,8 +24,8 @@ try:
         BrandContext,
         get_brand_voice,
         get_system_signature,
-        normalize_output_text,  # noqa: F401  # TODO: lukhas.branding_bridge.normali...
-        validate_output,  # noqa: F401  # TODO: lukhas.branding_bridge.validat...
+        normalize_output_text,  # noqa: F401  # TODO: branding_bridge.normali...
+        validate_output,  # noqa: F401  # TODO: branding_bridge.validat...
     )
 
     BRANDING_AVAILABLE = True

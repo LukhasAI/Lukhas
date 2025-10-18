@@ -21,9 +21,9 @@ from typing import Any, Dict, List, Optional
 
 import numpy as np
 
-from lukhas.core.logging import get_logger
-from lukhas.memory.backends.base import VectorDocument
-from lukhas.observability.metrics import get_metrics_collector
+from core.logging import get_logger
+from memory.backends.base import VectorDocument
+from observability.metrics import get_metrics_collector
 
 logger = get_logger(__name__)
 metrics = get_metrics_collector()

@@ -300,7 +300,7 @@ class LUKHASSecuritySBOMGenerator:
                     "description": "Production-ready consciousness-aware AI platform",
                     "supplier": {
                         "name": "LUKHAS AI",
-                        "url": ["https://lukhas.ai"]
+                        "url": ["https://ai"]
                     },
                     "licenses": [
                         {

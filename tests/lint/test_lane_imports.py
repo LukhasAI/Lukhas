@@ -48,29 +48,29 @@ class LaneImportLinter:
         # Forbidden cross-lane imports
         self.forbidden_imports = {
             "MATRIZ": {
-                "lukhas.consciousness",
-                "lukhas.governance",
-                "lukhas.identity",
-                "lukhas.orchestration",
-                "lukhas.memory",
-                "lukhas.observability"
+                "consciousness",
+                "governance",
+                "identity",
+                "orchestration",
+                "memory",
+                "observability"
             },
             "lukhas": {
                 "MATRIZ"
             },
             "labs": {
-                "lukhas.governance.guardian_serializers",
-                "lukhas.identity.webauthn_production",
-                "lukhas.observability.prometheus_metrics"
+                "governance.guardian_serializers",
+                "identity.webauthn_production",
+                "observability.prometheus_metrics"
             }
         }
 
         # Approved integration points (PINNED SURFACES - T4/0.01%)
         self.approved_integrations = {
-            "lukhas.consciousness.matriz_thought_loop",
-            "lukhas.observability.matriz_instrumentation",
-            "lukhas.observability.matriz_decorators",
-            "lukhas.memory.matriz_adapter"
+            "consciousness.matriz_thought_loop",
+            "observability.matriz_instrumentation",
+            "observability.matriz_decorators",
+            "memory.matriz_adapter"
         }
 
         # Additional forbidden patterns (internal/private modules)
@@ -84,11 +84,11 @@ class LaneImportLinter:
                 "MATRIZ.processing.internal"
             },
             "labs": {
-                "lukhas.governance.guardian_serializers.production",
-                "lukhas.identity.webauthn_production.core",
-                "lukhas.observability.prometheus_metrics.production",
-                "lukhas.orchestration.production_workflows",
-                "lukhas.memory.production_stores"
+                "governance.guardian_serializers.production",
+                "identity.webauthn_production.core",
+                "observability.prometheus_metrics.production",
+                "orchestration.production_workflows",
+                "memory.production_stores"
             }
         }
 
@@ -213,7 +213,7 @@ class LaneImportLinter:
 
     def run_import_linter_tool(self) -> Tuple[bool, str]:
         """Run import-linter tool with configuration."""
-        config_path = self.project_root / "config" / "lukhas.tools" / "importlinter.cfg"
+        config_path = self.project_root / "config" / "tools" / "importlinter.cfg"
 
         if not config_path.exists():
             return False, f"Import-linter config not found: {config_path}"

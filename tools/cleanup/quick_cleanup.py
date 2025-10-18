@@ -34,7 +34,7 @@ def find_duplicate_modules() -> dict:
     # Common duplicate patterns
     module_patterns = [
         ("identity", ["identity", "governance/identity", "identity_enhanced"]),
-        ("lukhas.memory", ["lukhas.memory", "consciousness/memory", "memory/systems"]),
+        ("memory", ["memory", "consciousness/memory", "memory/systems"]),
         ("emotion", ["emotion", "consciousness/emotion", "bio/emotion"]),
         ("dream", ["dream", "consciousness/dream", "creativity/dream"]),
         ("quantum", ["quantum", "qim", "qi_computing"]),
@@ -59,17 +59,17 @@ def cleanup_imports() -> int:
 
     # Common import fixes
     replacements = [
-        ("from identity.interface", "from lukhas.governance.identity.interface"),
-        ("from identity.core", "from lukhas.governance.identity.core"),
-        ("from identity.auth", "from lukhas.governance.identity.auth"),
-        ("import identity.", "import lukhas.governance.identity."),
+        ("from identity.interface", "from governance.identity.interface"),
+        ("from identity.core", "from governance.identity.core"),
+        ("from identity.auth", "from governance.identity.auth"),
+        ("import identity.", "import governance.identity."),
     ]
 
     # Only fix in main modules, not backups
     main_modules = [
         "core",
         "consciousness",
-        "lukhas.governance",
+        "governance",
         "orchestration",
         "bridge",
         "api",

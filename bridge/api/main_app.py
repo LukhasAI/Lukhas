@@ -42,8 +42,8 @@ except ImportError:
 # LUKHAS imports
 try:
     from bridge.api.documentation import (
-        export_openapi_spec,  # noqa: F401  # TODO: lukhas.bridge.api.documentatio...
-        generate_api_documentation,  # noqa: F401  # TODO: lukhas.bridge.api.documentatio...
+        export_openapi_spec,  # noqa: F401  # TODO: bridge.api.documentatio...
+        generate_api_documentation,  # noqa: F401  # TODO: bridge.api.documentatio...
     )
     from bridge.api.onboarding import router as onboarding_router
     from bridge.api.orchestration_endpoints import app as orchestration_app
@@ -215,7 +215,7 @@ if FASTAPI_AVAILABLE:
                 "error": "Internal server error",
                 "error_id": error_id,
                 "message": "An unexpected error occurred. Please try again later.",
-                "support": "Contact support@lukhas.ai with error ID for assistance",
+                "support": "Contact support@ai with error ID for assistance",
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             },
         )
@@ -360,7 +360,7 @@ if FASTAPI_AVAILABLE:
     async def get_system_plugins():
         """Get current plugin registry status for operational monitoring"""
         try:
-            from lukhas.core.registry import _DISCOVERY_FLAG, _REG
+            from core.registry import _DISCOVERY_FLAG, _REG
 
             # Count plugins by category
             plugin_counts = {}

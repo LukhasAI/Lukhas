@@ -20,7 +20,7 @@ quantum integration, and bio-inspired architecture.
 
 Module for dream generator functionality with OpenAI integration
 
-For more information, visit: https://lukhas.ai
+For more information, visit: https://ai
 """
 # dream_generator.py
 import asyncio

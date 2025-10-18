@@ -868,7 +868,7 @@ if __name__ == "__main__":
         ai_act_compliance=True,
         ai_risk_level=AIRiskLevel.LIMITED_RISK,
         data_retention_days=365,
-        dpo_contact="dpo@lukhas.eu",
+        dpo_contact="dpo@eu",
     )
 
     eu_engine = EUAwarenessEngine(eu_config)

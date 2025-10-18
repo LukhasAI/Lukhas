@@ -99,7 +99,7 @@ def get_system_status():
         "Dream": f"{DREAM_PHASE_SYMBOLS.get('deep_symbolic', '🌌 Processing')}",
         "Identity": f"{get_symbol('identity', 'identity_verification')} Verified",
         "Emotion": f"{get_symbol('emotion', '😌', '😌')} Calm",
-        "Memory": f"{get_symbol('lukhas.memory', 'consolidation', '🗂️')} Storing",
+        "Memory": f"{get_symbol('memory', 'consolidation', '🗂️')} Storing",
     }
 
     return "\n".join([f"{k}: {v}" for k, v in status.items()])

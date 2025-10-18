@@ -15,13 +15,13 @@ from typing import Any, Optional
 import numpy as np
 
 # Import colony infrastructure
-from lukhas.core.colonies.base_colony import BaseColony, ConsensusResult
-from lukhas.core.enhanced_swarm import AgentCapability, AgentMemory, AgentState, EnhancedSwarmAgent as SwarmAgent
+from core.colonies.base_colony import BaseColony, ConsensusResult
+from core.enhanced_swarm import AgentCapability, AgentMemory, AgentState, EnhancedSwarmAgent as SwarmAgent
 
 # Import identity events
 # Import identity events
 try:
-    from lukhas.governance.identity.core.events import (
+    from governance.identity.core.events import (
         IdentityEventPublisher,
         IdentityEventType,
         VerificationResult,
@@ -32,7 +32,7 @@ except ImportError:
     VerificationResult = None
 
 try:
-    from lukhas.governance.identity.core.integrations.consciousness_bridge import (
+    from governance.identity.core.integrations.consciousness_bridge import (
         ConsciousnessBridge,
     )
 except ImportError:
@@ -40,7 +40,7 @@ except ImportError:
 
 # Import consciousness components
 try:
-    from lukhas.governance.identity.core.visualization.consciousness_mapper import (
+    from governance.identity.core.visualization.consciousness_mapper import (
         BiometricData,
         CognitiveMetrics,
         ConsciousnessState,
@@ -574,7 +574,7 @@ class ConsciousnessVerificationColony(BaseColony):
         await super().initialize()
 
         # Get event publisher
-        from lukhas.governance.identity.core.events import get_identity_event_publisher
+        from governance.identity.core.events import get_identity_event_publisher
 
         self.event_publisher = await get_identity_event_publisher()
 

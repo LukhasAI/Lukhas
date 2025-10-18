@@ -1,10 +1,10 @@
 """Bridge: aka_qualia  canonical surface for qualia research components."""
 from __future__ import annotations
 
-from lukhas._bridgeutils import bridge_from_candidates, safe_guard
+from _bridgeutils import bridge_from_candidates, safe_guard
 
 __all__, _exp = bridge_from_candidates(
-    "lukhas_website.lukhas.aka_qualia",
+    "lukhas_website.aka_qualia",
     "candidate.aka_qualia",
     "aka_qualia",
 )

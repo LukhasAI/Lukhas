@@ -15,7 +15,7 @@ FILENAME: ethics_guardian.py
 MODULE: orchestration.monitoring.sub_agents.ethics_guardian
 DESCRIPTION: Ethics Guardian sub-agent for ethical alignment and moral
              decision-making within the LUKHAS Guardian System.
-DEPENDENCIES: typing, datetime, structlog, lukhas.ethics.guardian
+DEPENDENCIES: typing, datetime, structlog, ethics.guardian
 LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 ═══════════════════════════════════════════════════════════════════════════
 """
@@ -264,7 +264,7 @@ class EthicsGuardian:
 # FUNCTIONS: assess_ethical_violation, propose_realignment, get_operation_summary
 # CLASSES: EthicsGuardian
 # DECORATORS: None
-# DEPENDENCIES: typing, datetime, structlog, lukhas.ethics.guardian
+# DEPENDENCIES: typing, datetime, structlog, ethics.guardian
 # INTERFACES: Public methods for ethical assessment and realignment
 # ERROR HANDLING: Fallback mode when main guardian unavailable
 # LOGGING: ΛTRACE_ENABLED via structlog for all operations

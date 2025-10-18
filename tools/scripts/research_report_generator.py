@@ -47,7 +47,7 @@ def create_comprehensive_research_report():
             "purpose": "Academic Research & Publishing",
             "authors": ["LUKHAS AGI Research Team"],
             "institution": "LUKHAS Development Laboratory",
-            "contact": "research@lukhas.ai",
+            "contact": "research@ai",
             "keywords": [
                 "AGI",
                 "Symbolic AI",

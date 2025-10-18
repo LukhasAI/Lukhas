@@ -529,7 +529,7 @@ class ConsentService:
         # Create macaroon with caveats
         if MACAROONS_AVAILABLE:
             macaroon = Macaroon(
-                location="https://consent.lukhas.com",
+                location="https://consent.com",
                 identifier=f"grant:{grant_id}",
                 key=self.macaroon_key,
             )

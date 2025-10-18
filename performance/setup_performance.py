@@ -125,7 +125,7 @@ class PerformanceSetup:
                 pass
 
         # Optimize -specific imports
-        _modules = ["lukhas.flags", "governance.policy.base"]
+        _modules = ["flags", "governance.policy.base"]
 
         _imported = 0
         for module in _modules:

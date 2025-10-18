@@ -178,7 +178,7 @@ class OIDCProvider:
     Implements authorization, token, and userinfo endpoints
     """
 
-    def __init__(self, issuer: str = "https://lukhas.ai"):
+    def __init__(self, issuer: str = "https://ai"):
         # Input validation
         if not isinstance(issuer, str) or not issuer.startswith(("https://", "http://")):
             raise ΛIDError("Issuer must be a valid URL")
@@ -338,7 +338,7 @@ class WebAuthnPasskeyManager:
             return {
                 "publicKey": {
                     "challenge": challenge,
-                    "rp": {"name": "LUKHAS AI", "id": "lukhas.ai"},
+                    "rp": {"name": "LUKHAS AI", "id": "ai"},
                     "user": {
                         "id": base64.urlsafe_b64encode(lid.encode()).decode(),
                         "name": user_email,
@@ -400,7 +400,7 @@ class WebAuthnPasskeyManager:
                 "challenge": challenge,
                 "timeout": 60000,
                 "userVerification": "required",
-                "rpId": "lukhas.ai",
+                "rpId": "ai",
             }
         }
 
@@ -840,7 +840,7 @@ if __name__ == "__main__":
 
         # Test registration with comprehensive validation
         print("📝 Registering user with validation...")
-        result = service.register_user("test@lukhas.ai", "Test User")
+        result = service.register_user("test@ai", "Test User")
         print(f"✅ ΛID: {result['lid']}")
         print(f"⚡ Latency: {result['performance']['latency_ms']:.2f}ms")
         print(f"🎯 Meets <{MAX_AUTH_LATENCY_MS}ms: {result['performance']['meets_target']}")

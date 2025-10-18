@@ -25,8 +25,8 @@ from enum import Enum
 from typing import Any, Optional
 
 # Use stable module interfaces instead of candidate/ imports
-from lukhas.core.interfaces import CoreInterface
-from lukhas.core.registry import register, resolve
+from core.interfaces import CoreInterface
+from core.registry import register, resolve
 
 
 class LukhasError(Exception):
@@ -1066,7 +1066,7 @@ async def demo_interpretability_dashboard():
         }
     )
 
-    from lukhas.core.interfaces.dependency_injection import register_service
+    from core.interfaces.dependency_injection import register_service
 
     register_service("user_feedback_system", mock_feedback)
     register_service("consciousness_service", mock_consciousness)

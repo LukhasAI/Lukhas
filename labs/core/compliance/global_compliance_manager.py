@@ -636,7 +636,7 @@ class GlobalComplianceManager:
             "documentation": ai_system_data.get("documentation_complete", False) * 0.3,
             "risk_assessment": ai_system_data.get("risk_assessment_complete", False) * 0.3,
             "monitoring": ai_system_data.get("monitoring_systems", False) * 0.2,
-            "lukhas.governance": ai_system_data.get("governance_framework", False) * 0.2,
+            "governance": ai_system_data.get("governance_framework", False) * 0.2,
         }
 
         return sum(compliance_factors.values())

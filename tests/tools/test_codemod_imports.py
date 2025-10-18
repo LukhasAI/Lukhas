@@ -43,7 +43,7 @@ CASES = [
 
     ("importlib_lucas",
      "import importlib\nm = importlib.import_module('lucas.core')\n",
-     "import importlib\nm = importlib.import_module('lukhas.core')\n"),
+     "import importlib\nm = importlib.import_module('core')\n"),
 
     # String prefix preservation
     ("fstring_preserved",
@@ -94,7 +94,7 @@ def run_codemod(src: str, mapping: dict = None) -> str:
         mapping = {
             "candidate": "labs",
             "lucas": "lukhas",
-            "tools": "lukhas.tools",
+            "tools": "tools",
         }
 
     # Build command line

@@ -15,7 +15,7 @@ from typing import Any, Optional
 import numpy as np
 
 from emotion.affect_stagnation_detector import AffectStagnationDetector
-from lukhas.memory.emotional import EmotionalMemory
+from memory.emotional import EmotionalMemory
 
 log = logging.getLogger(__name__)
 

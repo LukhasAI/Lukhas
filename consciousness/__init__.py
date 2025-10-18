@@ -21,12 +21,12 @@ ConsciousnessAPI = None
 
 # Use the proper import router system for cross-lane resolution
 try:
-    from lukhas.core.import_router import import_class, import_with_fallback
+    from core.import_router import import_class, import_with_fallback
 
     # Use registry-based import with proper fallback chain
     consciousness_module = import_with_fallback(
-        "lukhas.consciousness",
-        ["candidate.consciousness", "lukhas.consciousness.consciousness_wrapper"]
+        "consciousness",
+        ["candidate.consciousness", "consciousness.consciousness_wrapper"]
     )
 
     if consciousness_module:
@@ -42,8 +42,8 @@ try:
             CONSCIOUSNESS_SOURCE = "registry_resolved"
         else:
             # Try class-based import as fallback
-            ConsciousnessCore = import_class("ConsciousnessCore", "lukhas.consciousness")
-            ConsciousnessAPI = import_class("ConsciousnessAPI", "lukhas.consciousness")
+            ConsciousnessCore = import_class("ConsciousnessCore", "consciousness")
+            ConsciousnessAPI = import_class("ConsciousnessAPI", "consciousness")
 
             if ConsciousnessCore and ConsciousnessAPI:
                 CONSCIOUSNESS_AVAILABLE = True
@@ -348,7 +348,7 @@ try:
     from candidate.consciousness import ConsciousnessStream  # noqa: F401
 except ImportError:
     try:
-        from lukhas.consciousness.consciousness_stream import ConsciousnessStream  # noqa: F401
+        from consciousness.consciousness_stream import ConsciousnessStream  # noqa: F401
     except Exception:
         class ConsciousnessStream:  # type: ignore
             """Fallback consciousness stream."""
@@ -368,7 +368,7 @@ try:
     from candidate.consciousness import ConsciousnessWrapper  # noqa: F401
 except ImportError:
     try:
-        from lukhas.consciousness.consciousness_wrapper import ConsciousnessWrapper  # noqa: F401
+        from consciousness.consciousness_wrapper import ConsciousnessWrapper  # noqa: F401
     except Exception:
         class ConsciousnessWrapper:  # type: ignore
             """Fallback consciousness wrapper."""
@@ -385,7 +385,7 @@ try:
     from candidate.consciousness import MetaCognitiveContext  # noqa: F401
 except ImportError:
     try:
-        from lukhas.consciousness.meta_cognitive_context import MetaCognitiveContext  # noqa: F401
+        from consciousness.meta_cognitive_context import MetaCognitiveContext  # noqa: F401
     except Exception:
         class MetaCognitiveContext(dict):  # type: ignore
             """Fallback meta cognitive context."""
@@ -439,7 +439,7 @@ try:
     from candidate.consciousness import DreamTrace  # noqa: F401
 except ImportError:
     try:
-        from lukhas.consciousness.dream.trace import DreamTrace  # noqa: F401
+        from consciousness.dream.trace import DreamTrace  # noqa: F401
     except Exception:
         class DreamTrace:  # type: ignore
             """Fallback dream trace recorder."""

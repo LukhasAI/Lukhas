@@ -51,19 +51,19 @@ from uuid import uuid4
 
 # Update imports for current LUKHAS structure
 try:
-    from lukhas.memory.interfaces.memory_interface import (
+    from memory.interfaces.memory_interface import (
         MemoryOperation,
         ValidationResult,
     )
 except ImportError:
     try:
-        from lukhas.memory.core.interfaces.memory_interface import (
+        from memory.core.interfaces.memory_interface import (
             MemoryOperation,
             ValidationResult,
         )
     except ImportError:
         # Final fallback for development
-        from lukhas.memory.interfaces.memory_interface import (
+        from memory.interfaces.memory_interface import (
             MemoryOperation,
             ValidationResult,
         )

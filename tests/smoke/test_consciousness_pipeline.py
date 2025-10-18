@@ -6,7 +6,7 @@ consciousness streams, and the complete Constellation Framework when available.
 """
 import pytest
 from starlette.testclient import TestClient
-from lukhas.adapters.openai.api import get_app, MATRIZ_AVAILABLE, MEMORY_AVAILABLE
+from adapters.openai.api import get_app, MATRIZ_AVAILABLE, MEMORY_AVAILABLE
 
 # Skip if core systems not available
 pytestmark = pytest.mark.skipif(

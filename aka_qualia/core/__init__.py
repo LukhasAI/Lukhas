@@ -1,10 +1,10 @@
 """Bridge: aka_qualia.core — core subpackage facade."""
 from __future__ import annotations
 
-from lukhas._bridgeutils import bridge_from_candidates, export_from, safe_guard
+from _bridgeutils import bridge_from_candidates, export_from, safe_guard
 
 __all__, _exp = bridge_from_candidates(
-    "lukhas_website.lukhas.aka_qualia.core",
+    "lukhas_website.aka_qualia.core",
     "candidate.aka_qualia.core",
     "aka_qualia.core",
 )

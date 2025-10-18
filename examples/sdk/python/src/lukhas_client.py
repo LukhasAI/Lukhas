@@ -92,7 +92,7 @@ class LukhasClient:
         if not self.api_key:
             raise ValueError("api_key must be provided or set via LUKHAS_API_KEY env var")
         
-        self.base_url = base_url or os.getenv("LUKHAS_BASE_URL", "https://api.lukhas.ai")
+        self.base_url = base_url or os.getenv("LUKHAS_BASE_URL", "https://api.ai")
         
         self.client = httpx.Client(
             base_url=self.base_url,
@@ -174,7 +174,7 @@ class AsyncLukhasClient:
         if not self.api_key:
             raise ValueError("api_key must be provided or set via LUKHAS_API_KEY env var")
         
-        self.base_url = base_url or os.getenv("LUKHAS_BASE_URL", "https://api.lukhas.ai")
+        self.base_url = base_url or os.getenv("LUKHAS_BASE_URL", "https://api.ai")
         
         self.client = httpx.AsyncClient(
             base_url=self.base_url,

@@ -29,7 +29,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 from .actor_system import ActorMessage, ActorRef
 from .mailbox import MailboxActor, MailboxType, MessagePriority

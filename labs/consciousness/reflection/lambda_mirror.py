@@ -43,10 +43,10 @@ import logging
 ║ Symbolic Tags: {ΛMIRROR}, {ΛREFLECTION}, {ΛALIGNMENT}, {ΛEMOTION}
 ║
 ║ Integration Points:
-║ • lukhas.memory - Experience extraction from memory folds
-║ • lukhas.dream - Dream session symbolic analysis
-║ • lukhas.emotion - Emotional state tracking
-║ • lukhas.ethics - Value alignment validation
+║ • memory - Experience extraction from memory folds
+║ • dream - Dream session symbolic analysis
+║ • emotion - Emotional state tracking
+║ • ethics - Value alignment validation
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
 
@@ -798,7 +798,7 @@ class LambdaMirror:
                         if line.strip():
                             try:
                                 data = json.loads(line)
-                                exp = self._create_experience_from_data(data, "lukhas.memory", str(file_path), line_num)
+                                exp = self._create_experience_from_data(data, "memory", str(file_path), line_num)
                                 if exp:
                                     experiences.append(exp)
                             except json.JSONDecodeError:
@@ -808,11 +808,11 @@ class LambdaMirror:
                     data = json.load(f)
                     if isinstance(data, list):
                         for i, item in enumerate(data):
-                            exp = self._create_experience_from_data(item, "lukhas.memory", str(file_path), i)
+                            exp = self._create_experience_from_data(item, "memory", str(file_path), i)
                             if exp:
                                 experiences.append(exp)
                     else:
-                        exp = self._create_experience_from_data(data, "lukhas.memory", str(file_path), 0)
+                        exp = self._create_experience_from_data(data, "memory", str(file_path), 0)
                         if exp:
                             experiences.append(exp)
         except Exception as e:
@@ -1884,7 +1884,7 @@ def main():
 
     parser.add_argument(
         "--memory-dir",
-        default="lukhas.memory",
+        default="memory",
         help="Memory directory path",
     )
 
@@ -2039,7 +2039,7 @@ if __name__ == "__main__":
 ║ REFERENCES:
 ║   - Docs: docs/consciousness/lambda_mirror.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=lambda-mirror
-║   - Wiki: wiki.lukhas.ai/consciousness/self-reflection
+║   - Wiki: wiki.ai/consciousness/self-reflection
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

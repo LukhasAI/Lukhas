@@ -198,7 +198,7 @@ Perfect for developers who want to add AI capabilities without the complexity.""
         layer_3 = f"""### 🎓 Technical Specifications
 
 ## API Overview
-- **Base URL**: `{api_spec.get("base_url", "https://api.lukhas.ai/v1")}`
+- **Base URL**: `{api_spec.get("base_url", "https://api.ai/v1")}`
 - **Authentication**: Bearer token
 - **Rate Limits**: {api_spec.get("rate_limit", "1000 requests/hour")}
 - **Response Format**: JSON

@@ -14,14 +14,14 @@ from fastapi.responses import JSONResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel, Field
 
-from lukhas.core.security.auth import get_auth_system
+from core.security.auth import get_auth_system
 
 # Import enhanced security
-from lukhas.core.security.security_integration import get_security_integration
+from core.security.security_integration import get_security_integration
 
 # Import core LUKHAS modules (with fallback for missing modules)
 try:
-    from lukhas.core.symbolic.symbolic_reasoning import SymbolicEngine
+    from core.symbolic.symbolic_reasoning import SymbolicEngine
 except ImportError:
 
     class SymbolicEngine:
@@ -33,7 +33,7 @@ except ImportError:
 
 
 try:
-    from lukhas.orchestration.brain.primary_hub import CoordinationManager
+    from orchestration.brain.primary_hub import CoordinationManager
 except ImportError:
 
     class CoordinationManager:
@@ -45,7 +45,7 @@ except ImportError:
 
 
 try:
-    from lukhas.consciousness.unified.auto_consciousness import UnifiedConsciousness
+    from consciousness.unified.auto_consciousness import UnifiedConsciousness
 except ImportError:
 
     class UnifiedConsciousness:
@@ -57,7 +57,7 @@ except ImportError:
 
 
 try:
-    from lukhas.memory.systems.memory_manager import MemoryManager
+    from memory.systems.memory_manager import MemoryManager
 except ImportError:
 
     class MemoryManager:
@@ -69,7 +69,7 @@ except ImportError:
 
 
 try:
-    from lukhas.governance.guardian_system import GuardianSystem
+    from governance.guardian_system import GuardianSystem
 except ImportError:
 
     class GuardianSystem:
@@ -338,7 +338,7 @@ class EnhancedAPISystem:
                 "services": {
                     "symbolic_engine": self.symbolic_engine is not None,
                     "consciousness": self.consciousness is not None,
-                    "lukhas.memory": self.memory is not None,
+                    "memory": self.memory is not None,
                     "guardian": self.guardian is not None,
                     "emotion": self.emotion is not None,
                     "dream": self.dream is not None,
@@ -492,7 +492,7 @@ class EnhancedAPISystem:
         ):
             """Check action proposal with Guardian system"""
             # Validate auth
-            is_valid, error = await self._validate_auth(auth.credentials, "lukhas.governance.check")
+            is_valid, error = await self._validate_auth(auth.credentials, "governance.check")
             if not is_valid:
                 raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=error)
 
@@ -512,7 +512,7 @@ class EnhancedAPISystem:
                 return LUKHASResponse(
                     request_id=request_id,
                     timestamp=datetime.now(timezone.utc),
-                    operation="lukhas.governance.check",
+                    operation="governance.check",
                     status="success",
                     result=result,
                     processing_time_ms=processing_time,
@@ -523,7 +523,7 @@ class EnhancedAPISystem:
                 return LUKHASResponse(
                     request_id=request_id,
                     timestamp=datetime.now(timezone.utc),
-                    operation="lukhas.governance.check",
+                    operation="governance.check",
                     status="error",
                     error={"message": str(e), "type": type(e).__name__},
                     processing_time_ms=0,
@@ -648,7 +648,7 @@ class EnhancedAPISystem:
 
             return {
                 "consciousness": (self.consciousness.get_capabilities() if self.consciousness else {}),
-                "lukhas.memory": (self.memory.get_capabilities() if self.memory else {}),
+                "memory": (self.memory.get_capabilities() if self.memory else {}),
                 "guardian": (self.guardian.get_capabilities() if self.guardian else {}),
                 "emotion": (self.emotion.get_capabilities() if self.emotion else {}),
                 "dream": self.dream.get_capabilities() if self.dream else {},
@@ -671,7 +671,7 @@ class EnhancedAPISystem:
                 "total_requests": self.request_counter,
                 "services": {
                     "consciousness": await self._get_service_metrics(self.consciousness),
-                    "lukhas.memory": await self._get_service_metrics(self.memory),
+                    "memory": await self._get_service_metrics(self.memory),
                     "guardian": await self._get_service_metrics(self.guardian),
                     "emotion": await self._get_service_metrics(self.emotion),
                     "dream": await self._get_service_metrics(self.dream),

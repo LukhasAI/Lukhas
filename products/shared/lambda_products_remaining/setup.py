@@ -27,7 +27,7 @@ setup(
     name="lukhas-lambda-products",
     version="2.0.0",
     author="LUKHAS AI Team",
-    author_email="dev@lukhas.ai",
+    author_email="dev@ai",
     description="Lambda Products Suite - Enterprise AI modules for symbolic intelligence",
     long_description=read_readme(),
     long_description_content_type="text/markdown",
@@ -77,7 +77,7 @@ setup(
     },
     # Entry points for plugin discovery
     entry_points={
-        "lukhas.plugins": [
+        "plugins": [
             # Core Lambda Products
             "nias = lambda_products.NIΛS.core.nias_plugin:NIASPlugin",
             "abas = lambda_products.ΛBAS.core.abas_plugin:ABASPlugin",
@@ -116,10 +116,10 @@ setup(
     ],
     # Project URLs
     project_urls={
-        "Documentation": "https://docs.lukhas.ai/lambda-products",
+        "Documentation": "https://docs.ai/lambda-products",
         "Bug Reports": "https://github.com/lukhas/lambda-products/issues",
         "Source": "https://github.com/lukhas/lambda-products",
-        "Enterprise": "https://lukhas.ai/enterprise",
+        "Enterprise": "https://ai/enterprise",
     },
     # Additional package data
     package_data={

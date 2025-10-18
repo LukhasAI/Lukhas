@@ -20,7 +20,7 @@ class QIMemoryBridge:
     async def connect(self) -> bool:
         """Establish connection between systems"""
         try:
-            from lukhas.consciousness.reflection.memory_hub import get_memory_hub
+            from consciousness.reflection.memory_hub import get_memory_hub
             from qi.qi_hub import get_quantum_hub
 
             self.qi_hub = get_quantum_hub()
@@ -77,14 +77,14 @@ class QIMemoryBridge:
         """Transform data format from Quantum to Memory"""
         return {
             "source_system": "quantum",
-            "target_system": "lukhas.memory",
+            "target_system": "memory",
             "data": data,
         }
 
     def transform_memory_to_quantum(self, data: dict[str, Any]) -> dict[str, Any]:
         """Transform data format from Memory to Quantum"""
         return {
-            "source_system": "lukhas.memory",
+            "source_system": "memory",
             "target_system": "quantum",
             "data": data,
         }

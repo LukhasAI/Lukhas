@@ -21,7 +21,7 @@ from typing import Any
 
 import structlog
 
-from lukhas.orchestration.brain.unified_collapse_system import BrainCollapseManager
+from orchestration.brain.unified_collapse_system import BrainCollapseManager
 
 # TAG:qim
 # TAG:qi_states

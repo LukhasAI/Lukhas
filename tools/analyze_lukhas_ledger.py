@@ -27,7 +27,7 @@ def main():
     alias_counts = Counter()
     target_counts = Counter()
     misses = Counter()
-    pairs = defaultdict(Counter)  # lukhas.mod -> {real.mod: count}
+    pairs = defaultdict(Counter)  # mod -> {real.mod: count}
 
     for ev in read_ledger():
         if ev.get("event") == "alias":

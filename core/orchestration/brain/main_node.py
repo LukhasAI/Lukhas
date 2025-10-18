@@ -39,7 +39,7 @@ try:
     from frontend.multimodal.image_generator import AdaptiveImageGenerator
 
     # Utils and config
-    from lukhas.core.orchestration.brain.config.settings import load_settings
+    from core.orchestration.brain.config.settings import load_settings
 
 except ImportError as e:
     logger.critical(f"Failed to import required components: {e}")

@@ -71,9 +71,9 @@ class WebAuthnManager:
 
     def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
-        self.rp_id = self.config.get("rp_id", "lukhas.ai")
+        self.rp_id = self.config.get("rp_id", "ai")
         self.rp_name = self.config.get("rp_name", "LUKHAS AI Identity System")
-        self.origin = self.config.get("origin", "https://lukhas.ai")
+        self.origin = self.config.get("origin", "https://ai")
 
         # Credential storage (in production, would use database)
         self.credentials: dict[str, list[WebAuthnCredential]] = {}

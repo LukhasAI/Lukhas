@@ -21,45 +21,45 @@ from typing import Any, Optional
 # LUKHAS Core Imports - Full Trinity Framework Integration
 try:
     # Core Trinity Framework
-    from lukhas.acceptance.accepted.bio.awareness import BioAwareness
+    from acceptance.accepted.bio.awareness import BioAwareness
 
     # Bio-Inspired Systems
-    from lukhas.acceptance.accepted.bio.oscillator import BioOscillator
-    from lukhas.acceptance.accepted.bio.quantum import QIBioProcessor
-    from lukhas.acceptance.accepted.bio.voice import VoiceResonance
-    from lukhas.acceptance.accepted.colonies.consciousness import ConsciousnessColony as ConsciousnessEngine
+    from acceptance.accepted.bio.oscillator import BioOscillator
+    from acceptance.accepted.bio.quantum import QIBioProcessor
+    from acceptance.accepted.bio.voice import VoiceResonance
+    from acceptance.accepted.colonies.consciousness import ConsciousnessColony as ConsciousnessEngine
 
     # Advanced Colonies
-    from lukhas.acceptance.accepted.colonies.creativity import CreativityColony
-    from lukhas.acceptance.accepted.colonies.orchestrator import ColonyOrchestrator
-    from lukhas.acceptance.accepted.colonies.reasoning import ReasoningColony
-    from lukhas.acceptance.accepted.core.glyph import GlyphEngine as GLYPHEngine
-    from lukhas.acceptance.accepted.core.telemetry import TelemetryEngine
+    from acceptance.accepted.colonies.creativity import CreativityColony
+    from acceptance.accepted.colonies.orchestrator import ColonyOrchestrator
+    from acceptance.accepted.colonies.reasoning import ReasoningColony
+    from acceptance.accepted.core.glyph import GlyphEngine as GLYPHEngine
+    from acceptance.accepted.core.telemetry import TelemetryEngine
 
     # DNA Helix Architecture for Patient Data
-    from lukhas.acceptance.accepted.dna.helix.dna_memory_architecture import (
+    from acceptance.accepted.dna.helix.dna_memory_architecture import (
         DNAMemoryArchitecture,
     )
-    from lukhas.acceptance.accepted.dna.helix.helix_vault import HelixVault
-    from lukhas.acceptance.accepted.governance.drift_governor import (
+    from acceptance.accepted.dna.helix.helix_vault import HelixVault
+    from acceptance.accepted.governance.drift_governor import (
         EthicalDriftGovernor as GuardianSystem,
     )
-    from lukhas.acceptance.accepted.memory.causal import CausalReasoner
-    from lukhas.acceptance.accepted.memory.consolidation import MemoryConsolidator
+    from acceptance.accepted.memory.causal import CausalReasoner
+    from acceptance.accepted.memory.consolidation import MemoryConsolidator
 
     # Enhanced Memory Systems
-    from lukhas.acceptance.accepted.memory.episodic import EpisodicMemory
-    from lukhas.acceptance.accepted.memory.fold import FoldManager
+    from acceptance.accepted.memory.episodic import EpisodicMemory
+    from acceptance.accepted.memory.fold import FoldManager
 
     # Monitoring & Telemetry
-    from lukhas.acceptance.accepted.monitoring.drift_tracker import DriftTracker
+    from acceptance.accepted.monitoring.drift_tracker import DriftTracker
 
     LUKHAS_AVAILABLE = True
     print("✅ LUKHAS full Trinity Framework available - All systems operational")
 
     # Identity system
     try:
-        from lukhas.acceptance.accepted.identity import IdentityManager as LIDCore
+        from acceptance.accepted.identity import IdentityManager as LIDCore
     except:
         # Create a mock if not available
         class LIDCore:
@@ -70,10 +70,10 @@ except ImportError:
     try:
         # Try alternative imports from root core
         from identity.lid_core import LIDCore
-        from lukhas.consciousness.awareness import ConsciousnessEngine
-        from lukhas.core.glyph import GLYPHEngine
-        from lukhas.governance.guardian_system import GuardianSystem
-        from lukhas.memory.fold_manager import FoldManager
+        from consciousness.awareness import ConsciousnessEngine
+        from core.glyph import GLYPHEngine
+        from governance.guardian_system import GuardianSystem
+        from memory.fold_manager import FoldManager
 
         LUKHAS_AVAILABLE = True
         print("✅ LUKHAS core available via legacy paths")
@@ -142,23 +142,23 @@ except ImportError:
 
 # Import transferred governance components
 try:
-    from lukhas.governance.ethics.enhanced_ethical_guardian import (
+    from governance.ethics.enhanced_ethical_guardian import (
         EnhancedEthicalGuardian,
     )
-    from lukhas.governance.healthcare.case_manager import CaseManager
-    from lukhas.governance.healthcare.clinical_decision_support import (
+    from governance.healthcare.case_manager import CaseManager
+    from governance.healthcare.clinical_decision_support import (
         ClinicalDecisionSupport,
     )
-    from lukhas.governance.monitoring.enhanced_threat_monitor import (
+    from governance.monitoring.enhanced_threat_monitor import (
         EnhancedThreatMonitor,
     )
-    from lukhas.governance.monitoring.guardian_dashboard import GuardianDashboard
-    from lukhas.governance.monitoring.guardian_sentinel import GuardianSentinel
-    from lukhas.governance.monitoring.threat_predictor import ThreatPredictor
-    from lukhas.governance.security.consent_manager import (
+    from governance.monitoring.guardian_dashboard import GuardianDashboard
+    from governance.monitoring.guardian_sentinel import GuardianSentinel
+    from governance.monitoring.threat_predictor import ThreatPredictor
+    from governance.security.consent_manager import (
         ConsentManager as EnhancedConsentManager,
     )
-    from lukhas.governance.security.privacy_guardian import PrivacyGuardian
+    from governance.security.privacy_guardian import PrivacyGuardian
 
     GOVERNANCE_AVAILABLE = True
 except ImportError:
@@ -853,7 +853,7 @@ class LambdaHealthcareGuardian:
             "Contact healthcare provider directly",
             "Use emergency services if urgent",
             "Try again in a few minutes",
-            "Contact support at support@lukhas.ai",
+            "Contact support at support@ai",
         ]
 
         return {

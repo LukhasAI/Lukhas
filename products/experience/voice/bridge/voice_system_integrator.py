@@ -16,7 +16,7 @@ from typing import Any, Optional
 # Import voice systems
 from voice.synthesis import VoiceSynthesis
 
-from lukhas.core.interfaces.voice.core.sayit import VoiceProfile, VoiceProfileManager
+from core.interfaces.voice.core.sayit import VoiceProfile, VoiceProfileManager
 
 
 class VoiceSystemIntegrator:

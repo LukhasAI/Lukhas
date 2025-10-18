@@ -3,7 +3,7 @@ import time
 import uuid
 from typing import Any, Optional
 
-from lukhas.observability.matriz_decorators import instrument
+from observability.matriz_decorators import instrument
 
 from .registry import get_provider
 

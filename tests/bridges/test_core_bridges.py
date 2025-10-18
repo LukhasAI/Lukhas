@@ -38,9 +38,9 @@ def test_policy_guard_bridge_exports():
 
 
 def test_policy_guard_single_source_of_truth():
-    """Verify PolicyGuard comes from lukhas_website.lukhas.core.policy_guard."""
+    """Verify PolicyGuard comes from lukhas_website.core.policy_guard."""
     from core.policy_guard import PolicyGuard as bridge_guard
-    from lukhas_website.lukhas.core.policy_guard import PolicyGuard as canonical_guard
+    from lukhas_website.core.policy_guard import PolicyGuard as canonical_guard
 
     # Should be same class
     assert bridge_guard is canonical_guard

@@ -24,7 +24,7 @@ from typing import Any, Dict, Tuple
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-from lukhas.observability.service_metrics import MetricType, ServiceType
+from observability.service_metrics import MetricType, ServiceType
 from tests.observability.test_matriz_metrics_contract import MATRIZMetricsContractValidator
 
 logging.basicConfig(level=logging.INFO)

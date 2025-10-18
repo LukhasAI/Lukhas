@@ -46,7 +46,7 @@ except ImportError as e:
     BIO_SYMBOLIC_AVAILABLE = False
 
 try:
-    from lukhas.qi.consciousness_lambda_bot import (
+    from qi.consciousness_lambda_bot import (
         QIConsciousnessMode,
         QIConsciousnessΛBot,
     )

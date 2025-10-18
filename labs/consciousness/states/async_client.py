@@ -111,7 +111,7 @@ from huggingface_hub.utils import build_hf_headers, get_session, hf_raise_for_st
 from huggingface_hub.utils._auth import get_token
 from huggingface_hub.utils._deprecation import _deprecate_method
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 from .._common import _async_yield_from, _import_aiohttp
 
@@ -1044,7 +1044,7 @@ class AsyncInferenceClient:
             "temperature": temperature,
             "tool_choice": tool_choice,
             "tool_prompt": tool_prompt,
-            "lukhas.tools": tools,
+            "tools": tools,
             "top_logprobs": top_logprobs,
             "top_p": top_p,
             "stream": stream,

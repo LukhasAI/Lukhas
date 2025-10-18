@@ -96,7 +96,7 @@ class WorkspaceGuardian:
             "setup.py",
         }
 
-        self.critical_directories = {".git", ".github", "lukhas.governance", "core"}
+        self.critical_directories = {".git", ".github", "governance", "core"}
 
         self.workspace_health_score = 1.0
         self.last_cleanup_check = datetime.now(timezone.utc)

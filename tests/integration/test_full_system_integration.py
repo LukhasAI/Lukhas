@@ -10,10 +10,10 @@ from unittest.mock import AsyncMock, Mock
 
 import pytest
 
-from lukhas.governance.audit_trail import AuditEventType, AuditLevel, AuditTrail, ComplianceFramework
+from governance.audit_trail import AuditEventType, AuditLevel, AuditTrail, ComplianceFramework
 from identity.tiers import TierSystem
-from lukhas.consciousness.consciousness_stream import ConsciousnessStream
-from lukhas.consciousness.memory_bridge import MemoryConsciousnessBridge
+from consciousness.consciousness_stream import ConsciousnessStream
+from consciousness.memory_bridge import MemoryConsciousnessBridge
 from identity.device_registry import DeviceRegistry
 from identity.jwt_utils import JWTManager
 
@@ -22,9 +22,9 @@ from identity.lambda_id import LambdaIDSystem
 from identity.observability import IdentityObservability
 from identity.oidc_provider import OIDCProvider
 from identity.session_manager import SessionManager
-from lukhas.memory.consciousness_memory_integration import ConsciousnessMemoryIntegrator
-from lukhas.memory.distributed_memory import DistributedMemoryOrchestrator
-from lukhas.memory.federation_coordinator import FederationCoordinator
+from memory.consciousness_memory_integration import ConsciousnessMemoryIntegrator
+from memory.distributed_memory import DistributedMemoryOrchestrator
+from memory.federation_coordinator import FederationCoordinator
 
 
 class IntegrationTestHarness:
@@ -55,7 +55,7 @@ class IntegrationTestHarness:
         )
         self.components['device_registry'] = DeviceRegistry(observability)
         self.components['oidc_provider'] = OIDCProvider(
-            issuer="https://test.lukhas.ai",
+            issuer="https://test.ai",
             jwt_manager=self.components['jwt_manager'],
             session_manager=self.components['session_manager'],
             tier_system=self.components['tier_system'],
@@ -242,7 +242,7 @@ class TestMemoryConsciousnessIntegration:
         consciousness_stream = integration_harness.components['consciousness_stream']
 
         # Create consciousness session
-        from lukhas.consciousness.types import ConsciousnessState
+        from consciousness.types import ConsciousnessState
 
         consciousness_state = ConsciousnessState(
             phase="AWARE",
@@ -282,7 +282,7 @@ class TestMemoryConsciousnessIntegration:
         memory_integrator = integration_harness.components['memory_integrator']
 
         # Create test memory fold
-        from lukhas.memory.consciousness_memory_integration import EmotionalContext, MemoryFoldType
+        from memory.consciousness_memory_integration import EmotionalContext, MemoryFoldType
 
         test_content = {
             "test_data": "integration_test",
@@ -489,7 +489,7 @@ class TestPerformanceIntegration:
         start_time = time.time()
         fold_ids = []
 
-        from lukhas.memory.consciousness_memory_integration import EmotionalContext, MemoryFoldType
+        from memory.consciousness_memory_integration import EmotionalContext, MemoryFoldType
 
         for i in range(100):
             fold_id = await memory_integrator.create_consciousness_memory_fold(

@@ -164,8 +164,8 @@ class ImportController:
 
     # Deprecated imports to warn about
     DEPRECATED_IMPORTS = {
-        'from lukhas.agi_services': 'Use candidate.bridge.orchestration instead',
-        'from lukhas.consciousness.legacy': 'Migrated to candidate.consciousness',
+        'from agi_services': 'Use candidate.bridge.orchestration instead',
+        'from consciousness.legacy': 'Migrated to candidate.consciousness',
         'from identity.old_lambda_id': 'Use candidate.identity.lambda_id',
     }
 
@@ -503,7 +503,7 @@ class ImportController:
         
         Args:
             source_file: Source file path
-            import_statement: Import statement string (e.g., "from lukhas.consciousness import Protocol")
+            import_statement: Import statement string (e.g., "from consciousness import Protocol")
         
         Returns:
             ImportViolation if violation found, None if valid

@@ -10,8 +10,8 @@ Usage:
 """
 from time import perf_counter
 
-from lukhas.core.clock import Ticker
-from lukhas.core.ring import Ring
+from core.clock import Ticker
+from core.ring import Ring
 
 try:
     from prometheus_client import Counter, Histogram

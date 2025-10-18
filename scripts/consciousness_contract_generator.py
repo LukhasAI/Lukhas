@@ -166,7 +166,7 @@ class ConsciousnessContractGenerator:
                 "created_date": "2025-09-20",
                 "last_updated": datetime.now().isoformat(),
                 "maintainer": "LUKHAS Consciousness Team",
-                "documentation_url": f"https://docs.lukhas.ai/consciousness/{component_id.replace('.', '/')}",
+                "documentation_url": f"https://docs.ai/consciousness/{component_id.replace('.', '/')}",
                 "test_coverage": 85.0  # Default estimate
             }
         }

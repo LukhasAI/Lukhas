@@ -17,7 +17,7 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from lukhas.observability.performance_regression import (
+from observability.performance_regression import (
     DetectionMethod,
     PerformanceBaseline,
     PerformanceRegression,
@@ -44,8 +44,8 @@ def mock_dependencies():
 @pytest.fixture
 async def regression_detector(mock_dependencies):
     """Create performance regression detector for testing"""
-    with patch('lukhas.observability.performance_regression.get_advanced_metrics', return_value=mock_dependencies['advanced_metrics']):
-        with patch('lukhas.observability.performance_regression.get_alerting_system', return_value=mock_dependencies['alerting_system']):
+    with patch('observability.performance_regression.get_advanced_metrics', return_value=mock_dependencies['advanced_metrics']):
+        with patch('observability.performance_regression.get_alerting_system', return_value=mock_dependencies['alerting_system']):
             detector = PerformanceRegressionDetector(
                 baseline_window_days=1,  # Short for testing
                 detection_sensitivity=0.8,
@@ -481,8 +481,8 @@ class TestIntegrationFunctions:
 
     def test_initialize_regression_detector(self, mock_dependencies):
         """Test regression detector initialization"""
-        with patch('lukhas.observability.performance_regression.get_advanced_metrics', return_value=mock_dependencies['advanced_metrics']):
-            with patch('lukhas.observability.performance_regression.get_alerting_system', return_value=mock_dependencies['alerting_system']):
+        with patch('observability.performance_regression.get_advanced_metrics', return_value=mock_dependencies['advanced_metrics']):
+            with patch('observability.performance_regression.get_alerting_system', return_value=mock_dependencies['alerting_system']):
                 detector = initialize_regression_detector(
                     baseline_window_days=7,
                     enable_ml_detection=False,
@@ -495,7 +495,7 @@ class TestIntegrationFunctions:
     @pytest.mark.asyncio
     async def test_convenience_functions(self, regression_detector):
         """Test convenience functions"""
-        with patch('lukhas.observability.performance_regression.get_regression_detector', return_value=regression_detector):
+        with patch('observability.performance_regression.get_regression_detector', return_value=regression_detector):
             # Test record_performance_data function
             await record_performance_data(
                 metric_name="convenience_test",

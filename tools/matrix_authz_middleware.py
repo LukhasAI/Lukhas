@@ -379,20 +379,20 @@ class MatrixAuthzMiddleware:
 
         # Update span attributes
         span.set_attributes({
-            "lukhas.subject": request.subject,
-            "lukhas.tier": request.tier,
-            "lukhas.tier_num": request.tier_num,
-            "lukhas.scopes": ",".join(request.scopes),
-            "lukhas.module": request.module,
-            "lukhas.action": request.action,
-            "lukhas.decision": "allow" if decision.allowed else "deny",
-            "lukhas.reason": decision.reason,
-            "lukhas.policy_sha": decision.policy_sha or "unknown",
-            "lukhas.contract_sha": decision.contract_sha or "unknown",
-            "lukhas.capability_id": request.capability_token[:16] + "...",
-            "lukhas.mfa_used": request.mfa_verified,
-            "lukhas.region": request.region or "unknown",
-            "lukhas.decision_time_ms": decision.decision_time_ms
+            "subject": request.subject,
+            "tier": request.tier,
+            "tier_num": request.tier_num,
+            "scopes": ",".join(request.scopes),
+            "module": request.module,
+            "action": request.action,
+            "decision": "allow" if decision.allowed else "deny",
+            "reason": decision.reason,
+            "policy_sha": decision.policy_sha or "unknown",
+            "contract_sha": decision.contract_sha or "unknown",
+            "capability_id": request.capability_token[:16] + "...",
+            "mfa_used": request.mfa_verified,
+            "region": request.region or "unknown",
+            "decision_time_ms": decision.decision_time_ms
         })
 
         # Set span status

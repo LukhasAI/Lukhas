@@ -26,7 +26,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -45,7 +45,7 @@ class CognitiveTask(Enum):
     """Types of cognitive tasks for load assessment"""
 
     ATTENTION = "attention"  # Focused attention tasks
-    MEMORY = "lukhas.memory"  # Working memory tasks
+    MEMORY = "memory"  # Working memory tasks
     PROCESSING = "processing"  # Information processing
     DECISION = "decision"  # Decision-making tasks
     MOTOR = "motor"  # Motor coordination

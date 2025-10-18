@@ -717,14 +717,14 @@ class ConsciousnessDataFlowManager:
         default_routes = [
             ConsciousnessRoute(
                 source_module="consciousness",
-                target_modules=["identity", "lukhas.governance", "orchestration"],
+                target_modules=["identity", "governance", "orchestration"],
                 signal_types=[SignalType.AWARENESS, SignalType.REFLECTION],
                 routing_strategy=RoutingStrategy.BROADCAST,
                 priority=5,
             ),
             ConsciousnessRoute(
                 source_module="identity",
-                target_modules=["consciousness", "lukhas.governance"],
+                target_modules=["consciousness", "governance"],
                 signal_types=[SignalType.EVOLUTION, SignalType.TRINITY_VALIDATION],
                 routing_strategy=RoutingStrategy.TARGETED,
                 priority=7,

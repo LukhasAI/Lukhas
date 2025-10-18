@@ -10,7 +10,7 @@ import asyncio
 import numpy as np
 import pytest
 
-from lukhas.memory.indexer import (
+from memory.indexer import (
     ContentExtractor,
     DocumentIndexer,
     OpenAIEmbeddingProvider,
@@ -320,7 +320,7 @@ class TestDocumentIndexer:
     @pytest.mark.asyncio
     async def test_content_analysis(self):
         """Test content analysis features"""
-        content = "This is a comprehensive test document. Contact support@lukhas.ai for help!"
+        content = "This is a comprehensive test document. Contact support@ai for help!"
 
         result = await self.indexer.index_document(
             document_id="analysis-test",
@@ -332,7 +332,7 @@ class TestDocumentIndexer:
         assert result.word_count > 0
         assert result.language == "en"
         assert len(result.extracted_entities) > 0
-        assert "support@lukhas.ai" in result.extracted_entities
+        assert "support@ai" in result.extracted_entities
 
     @pytest.mark.asyncio
     async def test_metadata_enrichment(self):

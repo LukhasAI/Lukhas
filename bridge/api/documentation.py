@@ -136,8 +136,8 @@ All endpoints include cost estimation and tracking:
 
         # Add servers
         spec["servers"] = [
-            {"url": "https://api.lukhas.ai/v1", "description": "Production API"},
-            {"url": "https://staging-api.lukhas.ai/v1", "description": "Staging API"},
+            {"url": "https://api.ai/v1", "description": "Production API"},
+            {"url": "https://staging-api.ai/v1", "description": "Staging API"},
             {"url": "http://localhost:8080", "description": "Local development"},
         ]
 
@@ -295,15 +295,15 @@ All endpoints include cost estimation and tracking:
                 "description": "Advanced multi-model AI orchestration with enterprise security",
                 "contact": {
                     "name": "LUKHAS AI Support",
-                    "email": "support@lukhas.ai",
-                    "url": "https://lukhas.ai/support",
+                    "email": "support@ai",
+                    "url": "https://ai/support",
                 },
                 "license": {
                     "name": "LUKHAS AI Proprietary License",
-                    "url": "https://lukhas.ai/license",
+                    "url": "https://ai/license",
                 },
             },
-            "servers": [{"url": "https://api.lukhas.ai/v1", "description": "Production API"}],
+            "servers": [{"url": "https://api.ai/v1", "description": "Production API"}],
             "paths": {},
             "components": {
                 "schemas": {},
@@ -351,7 +351,7 @@ console.log(response.content);
                     "language": "cURL",
                     "description": "Direct HTTP API calls",
                     "example": """
-curl -X POST https://api.lukhas.ai/v1/orchestrate \\
+curl -X POST https://api.ai/v1/orchestrate \\
   -H "Authorization: Bearer YOUR_API_KEY_HERE" \\
   -H "Content-Type: application/json" \\
   -d '{
@@ -373,7 +373,7 @@ curl -X POST https://api.lukhas.ai/v1/orchestrate \\
                     {
                         "step": 1,
                         "title": "Get API Key",
-                        "description": "Sign up at lukhas.ai and get your API key from the dashboard",
+                        "description": "Sign up at ai and get your API key from the dashboard",
                         "code": "# Your API key will look like:\n# lukhas-tier4-abc123def456...",
                     },
                     {
@@ -384,7 +384,7 @@ curl -X POST https://api.lukhas.ai/v1/orchestrate \\
 import requests
 
 response = requests.post(
-    "https://api.lukhas.ai/v1/orchestrate",
+    "https://api.ai/v1/orchestrate",
     headers={"Authorization": "Bearer your-api-key"},
     json={"prompt": "Hello, LUKHAS AI!"}
 )
@@ -397,7 +397,7 @@ print(response.json())
                         "description": "Try multi-model consensus and function calling",
                         "code": """
 response = requests.post(
-    "https://api.lukhas.ai/v1/orchestrate",
+    "https://api.ai/v1/orchestrate",
     headers={"Authorization": "Bearer your-api-key"},
     json={
         "prompt": "Compare renewable energy options",

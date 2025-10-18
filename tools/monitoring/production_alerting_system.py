@@ -328,8 +328,8 @@ class ProductionAlertingSystem:
                     "smtp_port": 587,
                     "username": "",
                     "password": "",
-                    "from_email": "alerts@lukhas.ai",
-                    "to_emails": ["admin@lukhas.ai"]
+                    "from_email": "alerts@ai",
+                    "to_emails": ["admin@ai"]
                 },
                 "slack": {
                     "enabled": False,

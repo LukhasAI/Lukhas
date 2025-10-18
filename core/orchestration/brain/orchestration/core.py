@@ -58,16 +58,16 @@ from typing import Any, Optional
 
 # Memory Manager - Use candidate/memory/basic.py as primary
 try:
-    from lukhas.memory.basic import MemoryManager
+    from memory.basic import MemoryManager
 except ImportError:
     try:
-        from lukhas.memory.systems.memory_learning.memory_manager import MemoryManager
+        from memory.systems.memory_learning.memory_manager import MemoryManager
     except ImportError:
         MemoryManager = None
 
 # Awareness Engine - Use candidate/consciousness/awareness/awareness_engine.py
 try:
-    from lukhas.consciousness.awareness.awareness_engine import (
+    from consciousness.awareness.awareness_engine import (
         AwarenessEngine as BioAwarenessSystem,
     )
 except ImportError:
@@ -75,16 +75,16 @@ except ImportError:
 
 # Dream Engine - Use candidate/consciousness/dream/engine/dream_engine.py
 try:
-    from lukhas.consciousness.dream.engine.dream_engine import DreamEngine
+    from consciousness.dream.engine.dream_engine import DreamEngine
 except ImportError:
     try:
-        from lukhas.consciousness.dream.core.dream_engine import DreamEngine
+        from consciousness.dream.core.dream_engine import DreamEngine
     except ImportError:
         DreamEngine = None
 
 # Ethics Guardian - Use candidate/governance/ethics/ethics_guardian.py
 try:
-    from lukhas.governance.ethics.ethics_guardian import EthicsGuardian as EthicsCore
+    from governance.ethics.ethics_guardian import EthicsGuardian as EthicsCore
 except ImportError:
     EthicsCore = None
 
@@ -97,14 +97,14 @@ except ImportError:
 # Bio Core - Use candidate.bio.core directly to avoid circular imports
 try:
     # Import from the module file directly
-    import bio.core  # noqa: F401  # TODO: lukhas.bio.core; consider usin...
+    import bio.core  # noqa: F401  # TODO: bio.core; consider usin...
 
     BioCore = candidate.bio.core.BioEngine  # noqa: F821  # TODO: candidate
 except (ImportError, AttributeError):
     BioCore = None
 
 # ModuleRegistry is implemented and available
-from lukhas.core.module_registry import ModuleRegistry
+from core.module_registry import ModuleRegistry
 
 logger = logging.getLogger(__name__)
 
@@ -189,13 +189,13 @@ class OrchestrationCore:
                 # Try with session_id and config
                 try:
                     self.memory_manager = MemoryManager(
-                        config=self.config.get("lukhas.memory", {}),
+                        config=self.config.get("memory", {}),
                         session_id=self.session_id,
                     )
                 except TypeError:
                     # Try with just config or basic initialization
                     try:
-                        self.memory_manager = MemoryManager(config=self.config.get("lukhas.memory", {}))
+                        self.memory_manager = MemoryManager(config=self.config.get("memory", {}))
                     except TypeError:
                         self.memory_manager = MemoryManager()
 
@@ -332,7 +332,7 @@ class OrchestrationCore:
     async def _register_core_modules(self):
         """Register all core modules with the module registry."""
         core_modules = {
-            "lukhas.memory": self.memory_manager,
+            "memory": self.memory_manager,
             "bio_core": self.bio_core,
             "awareness": self.awareness_system,
             "ethics": self.ethics_core,

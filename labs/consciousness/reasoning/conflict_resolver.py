@@ -31,7 +31,7 @@ class ConflictType(Enum):
     ETHICAL = "ethical"  # Ethics/values contradiction
     LOGICAL = "logical"  # Pure logical inconsistency
     EMOTIONAL = "emotional"  # Emotional state conflicts
-    MEMORY = "lukhas.memory"  # Memory/historical conflicts
+    MEMORY = "memory"  # Memory/historical conflicts
     LOOP = "loop"  # Recursive/circular reasoning
     DRIFT = "drift"  # Symbolic drift conflicts
     GLYPH = "glyph"  # GLYPH field contradictions
@@ -302,7 +302,7 @@ class SymbolicConflictResolver:
                     classification_scores[ConflictType.EMOTIONAL] += 0.2
 
                 # Memory classification
-                if fragment.source_module.startswith("lukhas.memory") or "lukhas.memory" in str(content).lower():
+                if fragment.source_module.startswith("memory") or "memory" in str(content).lower():
                     classification_scores[ConflictType.MEMORY] += 0.25
 
                 # Loop classification
@@ -651,7 +651,7 @@ class SymbolicConflictResolver:
         conflicts = []
 
         # Check for fragments from memory modules with conflicting information
-        memory_fragments = [f for f in fragments if f.source_module.startswith("lukhas.memory")]
+        memory_fragments = [f for f in fragments if f.source_module.startswith("memory")]
 
         for i, frag1 in enumerate(memory_fragments):
             for _j, frag2 in enumerate(memory_fragments[i + 1 :], i + 1):

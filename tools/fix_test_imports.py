@@ -56,7 +56,7 @@ def find_module_location(module_name):
     candidates = [
         module_name,  # consciousness.dream
         f"candidate.{module_name}",  # candidate.consciousness.dream
-        f"lukhas.{module_name}",  # lukhas.consciousness.dream (via hook)
+        f"lukhas.{module_name}",  # consciousness.dream (via hook)
     ]
 
     # Also try partial matches
@@ -142,7 +142,7 @@ def create_missing_init_files():
         'core/identity',
         'core/collective',
         'core/breakthrough',
-        'lukhas.memory',
+        'memory',
         'memory/fakes',
     ]
 

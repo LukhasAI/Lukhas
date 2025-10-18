@@ -47,7 +47,7 @@ import logging
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 # Configure module logger
 logger = get_logger(__name__)
@@ -603,7 +603,7 @@ if __name__ == "__main__":
 ║ REFERENCES:
 ║   - Docs: docs/memory/memory-service-api.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=memory-service
-║   - Wiki: wiki.lukhas.ai/memory-service-integration
+║   - Wiki: wiki.ai/memory-service-integration
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

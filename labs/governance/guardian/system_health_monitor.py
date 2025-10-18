@@ -31,7 +31,7 @@ from typing import Any, Optional
 import psutil
 
 # Add logging
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -235,7 +235,7 @@ class SystemHealthMonitor:
         # Constellation Framework components to monitor
         self.constellation_components = {
             "identity": ["auth_system", "user_context", "symbolic_self"],  # ⚛️
-            "consciousness": ["awareness", "lukhas.memory", "decision_engine"],  # 🧠
+            "consciousness": ["awareness", "memory", "decision_engine"],  # 🧠
             "guardian": ["ethics_engine", "drift_detector", "compliance"],  # 🛡️
         }
 
@@ -607,7 +607,7 @@ class SystemHealthMonitor:
         """Assess cascade risk for a metric."""
 
         # Memory metrics have higher cascade risk
-        if "lukhas.memory" in metric_type.lower():
+        if "memory" in metric_type.lower():
             if value > 95:
                 return CascadeRisk.IMMINENT
             elif value > 90:
@@ -912,7 +912,7 @@ class SystemHealthMonitor:
 
     def _calculate_consciousness_impact(self, component: str, metric_type: str, value: float) -> float:
         """Calculate impact on consciousness systems (🧠)."""
-        if "consciousness" in component or "lukhas.memory" in component or "awareness" in component:
+        if "consciousness" in component or "memory" in component or "awareness" in component:
             return value / 100.0
         return 0.0
 

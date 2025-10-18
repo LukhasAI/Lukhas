@@ -118,7 +118,7 @@ class AdvancedSymbolicDeltaCompressor:
             "critical": r"\b(critical|essential|vital|crucial|imperative)\b",
             "identity": r"\b(i am|myself|my identity|who i am|self)\b",
             "learning": r"\b(learn|understand|comprehend|realize|discover)\b",
-            "lukhas.memory": r"\b(remember|recall|forget|memorize|reminisce)\b",
+            "memory": r"\b(remember|recall|forget|memorize|reminisce)\b",
             "decision": r"\b(decide|choose|determine|select|opt)\b",
         }
 
@@ -789,7 +789,7 @@ def create_advanced_compressor(
 ║ REFERENCES:
 ║   - Docs: docs/memory/compression/symbolic_delta.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=compression
-║   - Wiki: wiki.lukhas.ai/symbolic-compression
+║   - Wiki: wiki.ai/symbolic-compression
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

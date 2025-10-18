@@ -1,7 +1,7 @@
 """Bridge for `ledger`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.ledger
+  1) lukhas_website.ledger
   2) candidate.ledger
   3) ledger
 
@@ -22,7 +22,7 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.ledger",
+    "lukhas_website.ledger",
     "candidate.ledger",
     "ledger",
 )

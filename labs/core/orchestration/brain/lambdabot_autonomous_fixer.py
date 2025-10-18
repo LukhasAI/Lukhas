@@ -34,7 +34,7 @@ import openai
 from github_vulnerability_manager import GitHubVulnerabilityManager, Vulnerability, VulnerabilitySeverity
 
 # Import ΛBot components
-from lukhas.core.budget.token_controller import APICallContext, CallUrgency, TokenBudgetController
+from core.budget.token_controller import APICallContext, CallUrgency, TokenBudgetController
 
 
 @dataclass

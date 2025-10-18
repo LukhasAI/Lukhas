@@ -184,7 +184,7 @@ class MemoryBrainSpecialist(SpecializedBrainCore):
         content_length = len(str(data))
         return {
             "association_strength": min(0.9, content_length / 200.0),
-            "memory_relevance": 0.8 if "lukhas.memory" in str(data).lower() else 0.6,
+            "memory_relevance": 0.8 if "memory" in str(data).lower() else 0.6,
             "consolidation_priority": ("high" if content_length > 100 else "medium"),
         }
 
@@ -286,7 +286,7 @@ class MultiBrainSymphonyOrchestrator:
         # Register brains in symphony
         self.specialized_brains = {
             "dreams": self.dreams_brain,
-            "lukhas.memory": self.memory_brain,
+            "memory": self.memory_brain,
             "learning": self.learning_brain,
         }
 
@@ -412,7 +412,7 @@ class MultiBrainSymphonyOrchestrator:
 
         # Process results from each brain
         successful_results = 0
-        brain_names = ["dreams", "lukhas.memory", "learning"]
+        brain_names = ["dreams", "memory", "learning"]
 
         for i, result in enumerate(brain_results):
             brain_name = brain_names[i] if i < len(brain_names) else f"brain_{i}"
@@ -430,7 +430,7 @@ class MultiBrainSymphonyOrchestrator:
                 # Extract insights for synthesis
                 if brain_name == "dreams" and "creative_insights" in result:
                     symphony_synthesis["synthesized_insights"].extend(result["creative_insights"])
-                elif brain_name == "lukhas.memory" and "associative_patterns" in result:
+                elif brain_name == "memory" and "associative_patterns" in result:
                     memory_relevance = result["associative_patterns"].get("memory_relevance", 0.5)
                     symphony_synthesis["synthesized_insights"].append(
                         f"Memory analysis shows {memory_relevance:.2f} relevance score"

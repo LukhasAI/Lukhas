@@ -44,7 +44,7 @@ class PostConsolidationAuditor:
             "bio": ["bio_core", "BIO_SYMBOLIC", "bio_symbolic", "bio", "oscillator"],
             "quantum": ["qi_core", "quantum", "qi_processing"],
             "brain": ["brain", "neural", "cognitive", "consciousness"],
-            "lukhas.memory": ["lukhas.memory", "memory_learning", "memory_systems"],
+            "memory": ["memory", "memory_learning", "memory_systems"],
             "voice": ["voice", "voice_systems", "speech", "audio"],
             "interface": ["interface", "ui", "web", "mobile", "video"],
             "integration": ["integration", "unified", "orchestrator"],
@@ -776,4 +776,4 @@ def main():
 if __name__ == "__main__":
     main()
 
-# Λ Systems 2025 www.lukhas.ai
+# Λ Systems 2025 www.ai

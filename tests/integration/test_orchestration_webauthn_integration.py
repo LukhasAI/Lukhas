@@ -15,7 +15,7 @@ from unittest.mock import Mock
 import pytest
 
 from identity.webauthn_production import AuthenticatorTier, get_webauthn_manager
-from lukhas.orchestration.multi_ai_router import AIProvider, ConsensusType, RoutingRequest, get_multi_ai_router
+from orchestration.multi_ai_router import AIProvider, ConsensusType, RoutingRequest, get_multi_ai_router
 
 
 @pytest.mark.integration
@@ -26,9 +26,9 @@ class TestOrchestrationWebAuthnIntegration:
         """Set up test fixtures"""
         self.multi_ai_router = get_multi_ai_router()
         self.webauthn_manager = get_webauthn_manager(
-            rp_id="test.lukhas.ai",
+            rp_id="test.ai",
             rp_name="Test LUKHAS",
-            origin="https://test.lukhas.ai"
+            origin="https://test.ai"
         )
 
         # Mock AI clients
@@ -452,7 +452,7 @@ class TestOrchestrationWebAuthnIntegration:
         # Test WebAuthn manager availability
         webauthn_manager = get_webauthn_manager()
         assert webauthn_manager is not None
-        assert webauthn_manager.rp_id == "lukhas.ai"
+        assert webauthn_manager.rp_id == "ai"
         assert webauthn_manager.credential_store is not None
 
         # Test Multi-AI router availability

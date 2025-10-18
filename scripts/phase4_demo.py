@@ -14,7 +14,7 @@ import asyncio
 import logging
 import time
 
-from lukhas.orchestration import (
+from orchestration import (
     ContextType,
     OrchestrationRequest,
     RequestType,

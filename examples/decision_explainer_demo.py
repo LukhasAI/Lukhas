@@ -8,8 +8,8 @@ import asyncio
 import os
 import sys
 
-from lukhas.core.endocrine import get_endocrine_system
-from lukhas.core.explainability import (
+from core.endocrine import get_endocrine_system
+from core.explainability import (
     ExplanationLevel,
     ExplanationType,
     explain_decision,
@@ -231,7 +231,7 @@ async def demonstrate_decision_explainability():
     for exp in all_explanations:
         all_tags.update(exp.relevant_tags)
 
-    from lukhas.core.tags import explain_tag
+    from core.tags import explain_tag
 
     for tag in sorted(all_tags)[:5]:
         print(f"\n{tag}:")

@@ -61,7 +61,7 @@ class EnergyComponent(Enum):
     """System components that consume energy"""
 
     CPU = "cpu"
-    MEMORY = "lukhas.memory"
+    MEMORY = "memory"
     NETWORK = "network"
     STORAGE = "storage"
     GPU = "gpu"

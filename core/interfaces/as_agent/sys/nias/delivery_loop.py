@@ -1,7 +1,7 @@
 from nias.core.nias_engine import NIASEngine
 
 from ethics.seedra.seedra_core import SEEDRACore
-from lukhas.orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
+from orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
 
 """
 Enhanced Core TypeScript - Integrated from Advanced Systems

@@ -30,14 +30,14 @@ from typing import Any, Dict, List
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 # Import LUKHAS components
-from lukhas.consciousness.guardian_integration import (
+from consciousness.guardian_integration import (
     ConsciousnessGuardianIntegration,
     GuardianValidationConfig,
     GuardianValidationType,
     ValidationResult,
     create_validation_context,
 )
-from lukhas.consciousness.types import ConsciousnessState
+from consciousness.types import ConsciousnessState
 
 
 class GuardianPerformanceValidator:
@@ -97,7 +97,7 @@ class GuardianPerformanceValidator:
                 drift_score = abs(int(baseline_hash[:8], 16) - int(current_hash[:8], 16)) / 0xFFFFFFFF
                 drift_score = min(drift_score, 1.0)
 
-                from lukhas.governance.guardian.core import DriftResult, EthicalSeverity
+                from governance.guardian.core import DriftResult, EthicalSeverity
                 return DriftResult(
                     drift_score=drift_score,
                     threshold_exceeded=drift_score > threshold,
@@ -123,7 +123,7 @@ class GuardianPerformanceValidator:
                         violations.append(f"Detected unsafe pattern: {pattern}")
                         safe = False
 
-                from lukhas.governance.guardian.core import EthicalSeverity, SafetyResult
+                from governance.guardian.core import EthicalSeverity, SafetyResult
                 return SafetyResult(
                     safe=safe,
                     risk_level=EthicalSeverity.HIGH if not safe else EthicalSeverity.LOW,

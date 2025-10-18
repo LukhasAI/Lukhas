@@ -9,7 +9,7 @@ import time
 from typing import Any, Optional
 
 try:
-    from lukhas.observability.matriz_decorators import matriz_record
+    from observability.matriz_decorators import matriz_record
 
     def emit_node(node_type):
         return matriz_record(node_type)

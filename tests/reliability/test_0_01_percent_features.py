@@ -12,7 +12,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from lukhas.core.reliability import (
+from core.reliability import (
     AdaptiveCircuitBreaker,
     AdaptiveTimeoutManager,
     BackoffConfig,
@@ -322,7 +322,7 @@ class TestIntegration:
     @pytest.mark.asyncio
     async def test_reliability_stack_integration(self):
         """Test that all reliability components work together."""
-        from lukhas.core.reliability import (
+        from core.reliability import (
             circuit_breaker,
             enhanced_error_handler,
             performance_monitor,
@@ -347,7 +347,7 @@ class TestIntegration:
 
     def test_health_status_aggregation(self):
         """Test that health status aggregation works correctly."""
-        from lukhas.core.reliability import get_reliability_health_status
+        from core.reliability import get_reliability_health_status
 
         health = get_reliability_health_status()
         assert "circuit_breakers" in health

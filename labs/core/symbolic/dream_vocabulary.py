@@ -265,7 +265,7 @@ def get_dream_symbol(category: str, item: str) -> str:
         "type": DREAM_TYPE_SYMBOLS,
         "state": DREAM_STATE_SYMBOLS,
         "pattern": PATTERN_SYMBOLS,
-        "lukhas.memory": MEMORY_SYMBOLS,
+        "memory": MEMORY_SYMBOLS,
         "insight": INSIGHT_SYMBOLS,
         "emotion": EMOTIONAL_SYMBOLS,
         "creative": CREATIVE_SYMBOLS,
@@ -297,7 +297,7 @@ def get_visual_hint(phase: str) -> str:
 ║ REFERENCES:
 ║   - Docs: docs/symbolic/vocabularies/dream_vocabulary.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=dream-vocabulary
-║   - Wiki: internal.lukhas.ai/wiki/dream-symbolic-system
+║   - Wiki: internal.ai/wiki/dream-symbolic-system
 ║
 ║ VOCABULARY STATUS:
 ║   - Total Symbols: 50+ dream-related symbols

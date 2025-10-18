@@ -27,7 +27,7 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 logger = get_logger(__name__)
 

@@ -1,7 +1,7 @@
 """Bridge for `cognitive_core.integration.cognitive_modulation_bridge`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.cognitive_core.integration.cognitive_modulation_bridge
+  1) lukhas_website.cognitive_core.integration.cognitive_modulation_bridge
   2) candidate.cognitive_core.integration.cognitive_modulation_bridge
   3) cognitive_core.integration.cognitive_modulation_bridge
 
@@ -22,7 +22,7 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.cognitive_core.integration.cognitive_modulation_bridge",
+    "lukhas_website.cognitive_core.integration.cognitive_modulation_bridge",
     "candidate.cognitive_core.integration.cognitive_modulation_bridge",
     "cognitive_core.integration.cognitive_modulation_bridge",
 )

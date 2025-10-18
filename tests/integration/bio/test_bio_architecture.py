@@ -77,7 +77,7 @@ class TestBioSymbolicArchitecture:
             {"type": "energy", "level": 0.6, "timestamp": "now"},   # POWER_BALANCED
         ]
 
-        with patch("lukhas.bio.core.bio_symbolic.bio_feedback_loop") as mock_feedback_loop:
+        with patch("bio.core.bio_symbolic.bio_feedback_loop") as mock_feedback_loop:
             result = orchestrator.orchestrate(inputs)
 
             # Check orchestration results
@@ -99,7 +99,7 @@ class TestBioSymbolicArchitecture:
         A simple test to ensure the bio-consciousness mapping is accessible and correct.
         This is implicitly tested in the orchestrator test, but an explicit check is good.
         """
-        from lukhas.consciousness.bio_integration import BIO_CONSCIOUSNESS_MAP, BioAwareConsciousnessState
+        from consciousness.bio_integration import BIO_CONSCIOUSNESS_MAP, BioAwareConsciousnessState
 
         # Check a few mappings
         assert BIO_CONSCIOUSNESS_MAP[SymbolicGlyph.POWER_CRITICAL] == BioAwareConsciousnessState.STRESSED_ADAPTATION

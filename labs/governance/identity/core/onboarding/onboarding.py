@@ -743,7 +743,7 @@ class EnhancedOnboardingManager:
 ║ REFERENCES:
 ║   - Docs: docs/identity/enhanced_onboarding.md
 ║   - Issues: github.com/lukhas-ai/lukhas/issues?label=onboarding
-║   - Wiki: https://internal.lukhas.ai/wiki/Enhanced_Onboarding
+║   - Wiki: https://internal.ai/wiki/Enhanced_Onboarding
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

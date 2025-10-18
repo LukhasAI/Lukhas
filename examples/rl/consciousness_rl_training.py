@@ -20,7 +20,7 @@ import torch
 # Add LUKHAS to path
 sys.path.append(str(Path(__file__).parent.parent))
 
-from lukhas.rl import (
+from rl import (
     ConsciousnessEnvironment,
     ConsciousnessReplayBuffer,
     MultiAgentConsciousnessTrainer,

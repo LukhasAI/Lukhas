@@ -67,7 +67,7 @@ except ImportError:
 try:
     import importlib.util
 
-    MEMORY_AVAILABLE = importlib.util.find_spec("lukhas.memory.memory_wrapper") is not None
+    MEMORY_AVAILABLE = importlib.util.find_spec("memory.memory_wrapper") is not None
 except ImportError:
     MEMORY_AVAILABLE = False
 

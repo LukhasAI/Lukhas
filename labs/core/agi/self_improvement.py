@@ -14,7 +14,7 @@ class ImprovementDomain(Enum):
 
     REASONING = "reasoning"
     CREATIVITY = "creativity"
-    MEMORY = "lukhas.memory"
+    MEMORY = "memory"
     PERCEPTION = "perception"
     COMMUNICATION = "communication"
     EFFICIENCY = "efficiency"

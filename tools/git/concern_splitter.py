@@ -214,7 +214,7 @@ class ConcernSplitter:
             elif "dashboard" in file_path or "monitor" in file_path:
                 return "dashboard"
             else:
-                return "lukhas.tools"
+                return "tools"
 
         return "misc"
 

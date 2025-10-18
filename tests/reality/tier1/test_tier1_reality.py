@@ -64,10 +64,10 @@ class TestMemoryFoldLifecycle:
 
         # Setup monitoring
         expected_signals = [
-            "lukhas.memory.fold.created",
-            "lukhas.memory.fold.accessed",
-            "lukhas.memory.consolidation.completed",
-            "lukhas.memory.cascade.prevented",
+            "memory.fold.created",
+            "memory.fold.accessed",
+            "memory.consolidation.completed",
+            "memory.cascade.prevented",
         ]
         reality_tester.setup_signal_monitoring(expected_signals)
 
@@ -83,7 +83,7 @@ class TestMemoryFoldLifecycle:
                 # Mock memory fold creation
                 fold_data = step["input"]
                 reality_tester.emit_signal(
-                    "lukhas.memory.fold.created",
+                    "memory.fold.created",
                     {
                         "fold_id": "fold_episodic_test_001",
                         "fold_type": fold_data["fold_type"],
@@ -99,11 +99,11 @@ class TestMemoryFoldLifecycle:
                 # Mock fold access
                 access_data = step["input"]
                 reality_tester.emit_signal(
-                    "lukhas.memory.fold.accessed",
+                    "memory.fold.accessed",
                     {
                         "fold_id": access_data["fold_id"],
                         "access_type": access_data["access_type"],
-                        "requester_module": "lukhas.consciousness",
+                        "requester_module": "consciousness",
                         "access_latency_ms": 35,  # Should be < 200ms per SLO
                         "timestamp": time.time() * 1000,
                     },
@@ -112,7 +112,7 @@ class TestMemoryFoldLifecycle:
             elif step["action"] == "trigger_consolidation":
                 # Mock consolidation
                 reality_tester.emit_signal(
-                    "lukhas.memory.consolidation.completed",
+                    "memory.consolidation.completed",
                     {
                         "session_id": "test_consolidation_001",
                         "folds_consolidated": 1,
@@ -125,7 +125,7 @@ class TestMemoryFoldLifecycle:
             elif step["action"] == "cascade_prevention_test":
                 # Mock cascade prevention
                 reality_tester.emit_signal(
-                    "lukhas.memory.cascade.prevented",
+                    "memory.cascade.prevented",
                     {
                         "fold_id": "fold_episodic_test_001",
                         "cascade_threat_level": 0.8,
@@ -149,11 +149,11 @@ class TestMemoryFoldLifecycle:
         contract["slos"]
 
         # Check cascade prevention (mocked as 100% success)
-        cascade_events = reality_tester.signal_registry["lukhas.memory.cascade.prevented"]
+        cascade_events = reality_tester.signal_registry["memory.cascade.prevented"]
         assert len(cascade_events) > 0, "No cascade prevention events recorded"
 
         # Check latency requirements
-        access_events = reality_tester.signal_registry["lukhas.memory.fold.accessed"]
+        access_events = reality_tester.signal_registry["memory.fold.accessed"]
         if access_events:
             avg_latency = sum(e["payload"]["access_latency_ms"] for e in access_events) / len(access_events)
             assert avg_latency <= 200, f"Average access latency {avg_latency}ms exceeds SLO"

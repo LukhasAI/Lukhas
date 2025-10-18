@@ -59,7 +59,7 @@ from pydantic import BaseModel, Field
 
 # Import core components
 try:
-    from lukhas.governance.identity.interface import (
+    from governance.identity.interface import (
         IdentityClient,
         check_consent,
         verify_access,
@@ -84,7 +84,7 @@ except ImportError:
     ZKP_AVAILABLE = False
 
 try:
-    from lukhas.core.event_bus import DreamEventType, get_global_event_bus
+    from core.event_bus import DreamEventType, get_global_event_bus
 
     EVENT_BUS_AVAILABLE = True
 except ImportError:

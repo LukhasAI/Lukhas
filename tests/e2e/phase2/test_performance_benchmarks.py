@@ -44,7 +44,7 @@ try:
     )
     from labs.orchestration.multi_model_orchestration import MultiModelOrchestrator
     from labs.tools.tool_executor import ToolExecutor
-    from lukhas.governance.guardian_system import GuardianSystem
+    from governance.guardian_system import GuardianSystem
     from identity.core import IdentitySystem
 except ImportError as e:
     pytest.skip(f"Performance testing modules not available: {e}", allow_module_level=True)
@@ -618,7 +618,7 @@ class TestSystemLoadPerformance:
         async def mixed_workload():
             import random
 
-            operation_type = random.choice(["auth", "guardian", "lukhas.memory", "orchestration"])
+            operation_type = random.choice(["auth", "guardian", "memory", "orchestration"])
 
             if operation_type == "auth":
                 await asyncio.sleep(0.05)  # Simulate 50ms auth
@@ -626,9 +626,9 @@ class TestSystemLoadPerformance:
             elif operation_type == "guardian":
                 await asyncio.sleep(0.1)  # Simulate 100ms guardian
                 return {"type": "guardian", "success": True}
-            elif operation_type == "lukhas.memory":
+            elif operation_type == "memory":
                 await asyncio.sleep(0.005)  # Simulate 5ms memory
-                return {"type": "lukhas.memory", "success": True}
+                return {"type": "memory", "success": True}
             else:
                 await asyncio.sleep(0.2)  # Simulate 200ms orchestration
                 return {"type": "orchestration", "success": True}

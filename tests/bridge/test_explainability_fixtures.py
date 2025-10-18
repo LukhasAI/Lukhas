@@ -51,7 +51,7 @@ def mock_decision_complex() -> Dict[str, Any]:
 def mock_meg_response() -> Dict[str, Any]:
     """Mock MEG (Memory-Emotion-Glyph) engine response."""
     return {
-        "lukhas.memory": {
+        "memory": {
             "context": "user_history",
             "relevance": 0.85,
             "items": ["previous_login", "profile_completion"]

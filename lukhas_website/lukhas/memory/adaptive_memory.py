@@ -22,7 +22,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Dict, List, Optional, Tuple
 
-from lukhas.memory.embedding_index import EmbeddingIndex
+from memory.embedding_index import EmbeddingIndex
 
 logger = logging.getLogger(__name__)
 

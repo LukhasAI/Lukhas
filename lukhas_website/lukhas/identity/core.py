@@ -9,7 +9,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any, Dict, Optional
 
-from lukhas.core.common.config import get_config, get_setting
+from core.common.config import get_config, get_setting
 
 logger = logging.getLogger(__name__)
 

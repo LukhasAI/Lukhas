@@ -3,7 +3,7 @@ LUKHAS Collaborative Agent System
 ================================
 
 Advanced multi-agent collaboration framework.
-Migrated from lukhas.core.orchestration.brain.collaborative_ai_agent_system
+Migrated from core.orchestration.brain.collaborative_ai_agent_system
 
 Includes:
 - LukhasAIAgent (base agent class)
@@ -19,7 +19,7 @@ import contextlib
 # Import collaborative agent system
 _available = False
 with contextlib.suppress(ImportError):
-    from lukhas.core.orchestration.brain.collaborative_ai_agent_system import (
+    from core.orchestration.brain.collaborative_ai_agent_system import (
         AgentCapabilities,
         AgentTier,
         ConsolidationPhase,

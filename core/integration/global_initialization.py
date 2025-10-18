@@ -62,7 +62,7 @@ class GlobalSystemInitializer:
                 "consciousness.consciousness_hub",
                 "initialize_consciousness_system",
             ),
-            ("lukhas.memory", "lukhas.memory.memory_hub", "initialize_memory_system"),
+            ("memory", "memory.memory_hub", "initialize_memory_system"),
             ("quantum", "qi.qi_hub", "initialize_quantum_system"),
         ]
 
@@ -190,7 +190,7 @@ class GlobalSystemInitializer:
     async def _cross_register_services(self):
         """Perform cross-hub service registration"""
         try:
-            from lukhas.core.integration.service_discovery import (
+            from core.integration.service_discovery import (
                 get_service_discovery,
             )
 
@@ -273,7 +273,7 @@ async def initialize_with_safety() -> dict[str, Any]:
 
     # Initialize safety first
     try:
-        from lukhas.core.safety.safety_hub import get_safety_hub
+        from core.safety.safety_hub import get_safety_hub
 
         safety_hub = get_safety_hub()
         (await safety_hub.initialize() if hasattr(safety_hub, "initialize") else None)

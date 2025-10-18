@@ -1,5 +1,5 @@
 """
-Swarm module for lukhas.core - compatibility layer
+Swarm module for core - compatibility layer
 
 This module provides backward compatibility for swarm-related imports
 by re-exporting classes from the colonies module.

@@ -61,7 +61,7 @@ class LUKHASDocumentationOrchestrator:
             },
             "commercial_platforms": {
                 "title": "Commercial Platforms",
-                "description": "Documentation for lukhas.dev, lukhas.store, lukhas.cloud",
+                "description": "Documentation for dev, store, cloud",
                 "files": [
                     "PLATFORM_OVERVIEW.md",
                     "DEPLOYMENT_GUIDE.md",
@@ -218,9 +218,9 @@ The LUKHAS (Learning Universal Knowledge Hub AI System) ecosystem represents a n
 ### Core Components
 
 #### 1. **Commercial Platforms**
-- **lukhas.dev** - Developer platform and documentation hub
-- **lukhas.store** - Plugin marketplace and distribution platform
-- **lukhas.cloud** - Cloud infrastructure and enterprise services
+- **dev** - Developer platform and documentation hub
+- **store** - Plugin marketplace and distribution platform
+- **cloud** - Cloud infrastructure and enterprise services
 
 #### 2. **Plugin System**
 - **Unified SDK** - Multi-platform development framework
@@ -319,7 +319,7 @@ The LUKHAS ecosystem follows a modular, plugin-based architecture designed for s
 ├─────────────────────────────────────────────────────────────┤
 │  Commercial Platforms                                       │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐        │
-│  │ lukhas.dev  │  │lukhas.store │  │lukhas.cloud │        │
+│  │ dev  │  │store │  │cloud │        │
 │  │   (Docs)    │  │(Marketplace)│  │(Enterprise) │        │
 │  └─────────────┘  └─────────────┘  └─────────────┘        │
 ├─────────────────────────────────────────────────────────────┤
@@ -349,20 +349,20 @@ The LUKHAS ecosystem follows a modular, plugin-based architecture designed for s
 
 ### 1. **Plugin Registration Flow**
 1. Developer creates plugin using LUKHAS SDK
-2. Plugin submitted to lukhas.store for review
+2. Plugin submitted to store for review
 3. Automated validation using testing framework
 4. Marketplace listing and revenue tracking setup
 5. Multi-platform deployment via platform bridge
 
 ### 2. **User Interaction Flow**
-1. User discovers plugins on lukhas.store
+1. User discovers plugins on store
 2. Plugin installation via platform-specific mechanism
 3. Bio-oscillator integration for optimal UX timing
 4. Real-time documentation updates via ΛEasyDoc
 5. Enterprise compliance tracking via LukhasDoc
 
 ### 3. **Revenue Flow**
-1. User subscription/purchase through lukhas.store
+1. User subscription/purchase through store
 2. 70/30 revenue split calculation
 3. Developer payment processing
 4. Usage analytics and reporting
@@ -370,19 +370,19 @@ The LUKHAS ecosystem follows a modular, plugin-based architecture designed for s
 
 ## 🏢 Commercial Platform Architecture
 
-### lukhas.dev (Developer Platform)
+### dev (Developer Platform)
 - **Documentation Hub**: Comprehensive API docs and guides
 - **SDK Downloads**: Multi-platform development tools
 - **Developer Portal**: Account management and analytics
 - **Community Features**: Forums, examples, tutorials
 
-### lukhas.store (Marketplace)
+### store (Marketplace)
 - **Plugin Discovery**: Categorized plugin browsing
 - **Purchase/Subscription**: Secure payment processing
 - **User Management**: Account and subscription handling
 - **Review System**: User feedback and ratings
 
-### lukhas.cloud (Enterprise Services)
+### cloud (Enterprise Services)
 - **Scalable Hosting**: Enterprise plugin deployment
 - **Compliance Services**: HIPAA, GDPR, SOC2 compliance
 - **Custom Integration**: Enterprise-specific customizations
@@ -459,7 +459,7 @@ The LUKHAS ecosystem follows a modular, plugin-based architecture designed for s
         elif filename == "GETTING_STARTED.md":
             js_config_section = """```javascript
 // Example: Health Advisor configuration
-lukhas.configure('health-advisor', {
+configure('health-advisor', {
     dataPrivacy: 'strict',  // HIPAA compliance
     bioOscillator: true,    // Enable natural rhythm awareness
     notifications: 'smart'  // Bio-oscillator optimized notifications
@@ -514,7 +514,7 @@ class MyAwesomePlugin(LucasPlugin):
 
     async def execute(self, context):
         # Your plugin logic here
-        return {{"status": "success", "message": "Hello from lukhas.core.common!"}
+        return {{"status": "success", "message": "Hello from core.common!"}
 ```
 
 ### 4. **Test Your Plugin**
@@ -533,7 +533,7 @@ lukhas-cli test --platforms web,desktop,mobile
 # Package your plugin
 lukhas-cli package
 
-# Submit to lukhas.store
+# Submit to store
 lukhas-cli deploy --target marketplace
 ```
 
@@ -541,7 +541,7 @@ lukhas-cli deploy --target marketplace
 
 ### 1. **Explore the Marketplace**
 
-Visit [lukhas.store](https://lukhas.store) to discover plugins:
+Visit [store](https://store) to discover plugins:
 
 - **Healthcare**: Health Advisor Plugin for wellness insights
 - **Productivity**: ΛEasyDoc for intelligent documentation
@@ -552,7 +552,7 @@ Visit [lukhas.store](https://lukhas.store) to discover plugins:
 #### Web Platform
 ```html
 <!-- Include LUKHAS web SDK -->
-<script src="https://cdn.lukhas.dev/sdk/v1.1.0/lukhas-web.js"></script>
+<script src="https://cdn.dev/sdk/v1.1.0/lukhas-web.js"></script>
 
 <script>
 // Initialize LUKHAS platform
@@ -566,7 +566,7 @@ const lukhas = new LUKHAS({{
 #### Desktop Application
 ```bash
 # Install LUKHAS desktop app
-curl -fsSL https://install.lukhas.dev | bash
+curl -fsSL https://install.dev | bash
 
 # Install plugins
 lukhas install health-advisor
@@ -588,7 +588,7 @@ Each plugin comes with intelligent configuration:
 
 ### 1. **Enterprise Setup**
 
-Contact our enterprise team at [enterprise@lukhas.com](mailto:enterprise@lukhas.com) for:
+Contact our enterprise team at [enterprise@com](mailto:enterprise@com) for:
 
 - **Custom Deployment**: Private cloud or on-premises installation
 - **Compliance Configuration**: HIPAA, GDPR, SOC2 setup
@@ -661,23 +661,23 @@ kubectl apply -f lukhas-cloud-config.yaml
 ### Examples
 - [Sample Plugins Repository](https://github.com/lukhas/sample-plugins)
 - [Integration Examples](https://github.com/lukhas/integration-examples)
-- [Template Gallery](https://lukhas.dev/templates)
+- [Template Gallery](https://dev/templates)
 
 ### Community
-- [Developer Forum](https://forum.lukhas.dev)
+- [Developer Forum](https://forum.dev)
 - [Discord Community](https://discord.gg/lukhas)
 - [Stack Overflow Tag](https://stackoverflow.com/questions/tagged/lukhas)
 
 ## 🆘 Support
 
 ### Community Support
-- **Documentation**: [docs.lukhas.dev](https://docs.lukhas.dev)
-- **Forum**: [forum.lukhas.dev](https://forum.lukhas.dev)
+- **Documentation**: [docs.dev](https://docs.dev)
+- **Forum**: [forum.dev](https://forum.dev)
 - **Discord**: [discord.gg/lukhas](https://discord.gg/lukhas)
 
 ### Professional Support
-- **Developer Support**: [support@lukhas.dev](mailto:support@lukhas.dev)
-- **Enterprise Support**: [enterprise@lukhas.com](mailto:enterprise@lukhas.com)
+- **Developer Support**: [support@dev](mailto:support@dev)
+- **Enterprise Support**: [enterprise@com](mailto:enterprise@com)
 - **Emergency Hotline**: Available for enterprise customers
 
 ## 🎯 Next Steps

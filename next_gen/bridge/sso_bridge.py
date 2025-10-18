@@ -588,7 +588,7 @@ if __name__ == "__main__":
     # Initiate flow
     auth_url, transaction_id = sso.initiate_sso_flow(
         provider_id="azure_ad",
-        redirect_uri="https://lukhas.ai/auth/callback",
+        redirect_uri="https://ai/auth/callback",
         requested_scopes=["openid", "profile", "email"],
     )
 

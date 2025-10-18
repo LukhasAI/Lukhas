@@ -6,7 +6,7 @@ import pytest
 def test_vivox_wrapper_import():
     """Test VIVOX wrapper imports and basic initialization."""
     try:
-        from lukhas.vivox.vivox_wrapper import VIVOXWrapper
+        from vivox.vivox_wrapper import VIVOXWrapper
 
         # Test basic instantiation
         wrapper = VIVOXWrapper()
@@ -24,7 +24,7 @@ def test_vivox_wrapper_import():
 def test_vivox_wrapper_system_processing():
     """Test VIVOX system processing."""
     try:
-        from lukhas.vivox.vivox_wrapper import VIVOXWrapper
+        from vivox.vivox_wrapper import VIVOXWrapper
 
         wrapper = VIVOXWrapper()
 
@@ -44,7 +44,7 @@ def test_vivox_wrapper_system_processing():
 def test_vivox_wrapper_state_management():
     """Test VIVOX state management."""
     try:
-        from lukhas.vivox.vivox_wrapper import VIVOXWrapper
+        from vivox.vivox_wrapper import VIVOXWrapper
 
         wrapper = VIVOXWrapper()
 
@@ -63,7 +63,7 @@ def test_vivox_wrapper_state_management():
 def test_vivox_wrapper_consciousness_layers():
     """Test consciousness layer activation."""
     try:
-        from lukhas.vivox.vivox_wrapper import VIVOXWrapper
+        from vivox.vivox_wrapper import VIVOXWrapper
 
         wrapper = VIVOXWrapper()
 
@@ -84,7 +84,7 @@ def test_vivox_wrapper_consciousness_layers():
 def test_vivox_wrapper_configuration():
     """Test VIVOX wrapper configuration."""
     try:
-        from lukhas.vivox.vivox_wrapper import VIVOXWrapper
+        from vivox.vivox_wrapper import VIVOXWrapper
 
         # Test with custom config
         wrapper = VIVOXWrapper(config={"mode": "dry_run", "vivox_enabled": False})
@@ -100,7 +100,7 @@ def test_vivox_wrapper_configuration():
 def test_vivox_wrapper_error_handling():
     """Test error handling in VIVOX wrapper."""
     try:
-        from lukhas.vivox.vivox_wrapper import VIVOXWrapper
+        from vivox.vivox_wrapper import VIVOXWrapper
 
         wrapper = VIVOXWrapper()
 

@@ -27,7 +27,7 @@ def test_enhanced_mcp_tools():
         response = requests.post(base_url, headers=headers, json=tools_payload, timeout=5)
         if response.status_code == 200:
             result = response.json().get('result', {})
-            tools = result.get('lukhas.tools', [])
+            tools = result.get('tools', [])
             tool_names = [tool.get('name') for tool in tools]
 
             required_tools = ['search', 'fetch', 'writeFile', 'createFile']

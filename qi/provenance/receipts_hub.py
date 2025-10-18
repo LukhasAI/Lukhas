@@ -24,7 +24,7 @@ _ORIG_OPEN = builtins.open
 # ---- sinks (optional) ----
 def _kafka():
     brokers = os.environ.get("RECEIPTS_KAFKA_BROKERS")
-    topic = os.environ.get("RECEIPTS_KAFKA_TOPIC", "lukhas.provenance.receipts")
+    topic = os.environ.get("RECEIPTS_KAFKA_TOPIC", "provenance.receipts")
     if not brokers:
         return None, None
     try:

@@ -9,8 +9,8 @@ import json
 import sys
 from pathlib import Path
 
-from lukhas.core.actor_system import get_global_actor_system
-from lukhas.core.mailbox import BackPressureStrategy, MailboxActor, MailboxType
+from core.actor_system import get_global_actor_system
+from core.mailbox import BackPressureStrategy, MailboxActor, MailboxType
 
 sys.path.append(str(Path(__file__).parent.parent.parent))
 

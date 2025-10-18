@@ -87,15 +87,15 @@ class ShimGenerator:
     def create_bio_shims(self):
         """Create shims for bio module consolidation"""
         bio_shims = {
-            "bio_core/__init__.py": "lukhas.accepted.bio",
-            "bio_orchestrator/__init__.py": "lukhas.accepted.bio.orchestrator",
-            "bio_symbolic/__init__.py": "lukhas.accepted.bio.symbolic",
-            "bio_optimization_adapter/__init__.py": "lukhas.accepted.bio.optimizer",
-            "bio_quantum_radar_integration/__init__.py": "lukhas.candidate.bio.quantum",
-            "bio_core/bio_symbolic/__init__.py": "lukhas.accepted.bio.symbolic",
-            "bio/bio_hub/__init__.py": "lukhas.accepted.bio.hub",
-            "bio/bio_engine/__init__.py": "lukhas.accepted.bio.engine",
-            "bio/bio_utilities/__init__.py": "lukhas.accepted.bio.utils",
+            "bio_core/__init__.py": "accepted.bio",
+            "bio_orchestrator/__init__.py": "accepted.bio.orchestrator",
+            "bio_symbolic/__init__.py": "accepted.bio.symbolic",
+            "bio_optimization_adapter/__init__.py": "accepted.bio.optimizer",
+            "bio_quantum_radar_integration/__init__.py": "candidate.bio.quantum",
+            "bio_core/bio_symbolic/__init__.py": "accepted.bio.symbolic",
+            "bio/bio_hub/__init__.py": "accepted.bio.hub",
+            "bio/bio_engine/__init__.py": "accepted.bio.engine",
+            "bio/bio_utilities/__init__.py": "accepted.bio.utils",
         }
 
         for old_path, new_module in bio_shims.items():
@@ -114,15 +114,15 @@ class ShimGenerator:
     def create_memory_shims(self):
         """Create shims for memory module consolidation"""
         memory_shims = {
-            "memory/fold_manager.py": "lukhas.accepted.memory.fold",
-            "memory/memory_consolidation.py": "lukhas.accepted.memory.consolidation",
-            "memory/episodic.py": "lukhas.accepted.memory.episodic",
-            "memory/causal.py": "lukhas.accepted.memory.causal",
-            "memory/hippocampal.py": "lukhas.accepted.memory.hippocampal",
-            "memory/compression.py": "lukhas.accepted.memory.compression",
-            "memory/dna_helix.py": "lukhas.accepted.memory.helix",
-            "memory/fold_system.py": "lukhas.accepted.memory.fold",
-            "memory/colonies.py": "lukhas.accepted.memory.colonies",
+            "memory/fold_manager.py": "accepted.memory.fold",
+            "memory/memory_consolidation.py": "accepted.memory.consolidation",
+            "memory/episodic.py": "accepted.memory.episodic",
+            "memory/causal.py": "accepted.memory.causal",
+            "memory/hippocampal.py": "accepted.memory.hippocampal",
+            "memory/compression.py": "accepted.memory.compression",
+            "memory/dna_helix.py": "accepted.memory.helix",
+            "memory/fold_system.py": "accepted.memory.fold",
+            "memory/colonies.py": "accepted.memory.colonies",
         }
 
         for old_path, new_module in memory_shims.items():
@@ -157,11 +157,11 @@ warnings.warn(
     def create_core_shims(self):
         """Create shims for core module migrations"""
         core_shims = {
-            "core/glyph.py": "lukhas.accepted.core.glyph",
-            "identity/core.py": "lukhas.accepted.identity",
-            "governance/guardian.py": "lukhas.accepted.governance.guardian",
-            "orchestration/brain.py": "lukhas.accepted.orchestrator.brain",
-            "bridge/adapter.py": "lukhas.accepted.adapters.base",
+            "core/glyph.py": "accepted.core.glyph",
+            "identity/core.py": "accepted.identity",
+            "governance/guardian.py": "accepted.governance.guardian",
+            "orchestration/brain.py": "accepted.orchestrator.brain",
+            "bridge/adapter.py": "accepted.adapters.base",
         }
 
         for old_path, new_module in core_shims.items():
@@ -180,9 +180,9 @@ warnings.warn(
     def create_candidate_shims(self):
         """Create shims for candidate modules"""
         candidate_shims = {
-            "universal_language/__init__.py": "lukhas.candidate.ul",
-            "vivox/__init__.py": "lukhas.candidate.vivox",
-            "qim/__init__.py": "lukhas.candidate.qim",
+            "universal_language/__init__.py": "candidate.ul",
+            "vivox/__init__.py": "candidate.vivox",
+            "qim/__init__.py": "candidate.qim",
         }
 
         for old_path, new_module in candidate_shims.items():

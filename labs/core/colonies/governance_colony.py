@@ -12,10 +12,10 @@ from typing import Any
 # Import EthicsEngine from ethics module (uses stub implementation)
 # Import SafetyChecker from ethics module (uses stub implementation)
 from ethics import EthicsEngine, SafetyChecker
-from lukhas.core.colonies.base_colony import BaseColony
-from lukhas.core.efficient_communication import MessagePriority
-from lukhas.core.swarm import SwarmAgent
-from lukhas.core.symbolism.tags import TagScope
+from core.colonies.base_colony import BaseColony
+from core.efficient_communication import MessagePriority
+from core.swarm import SwarmAgent
+from core.symbolism.tags import TagScope
 
 logger = logging.getLogger(__name__)
 
@@ -126,7 +126,7 @@ class GovernanceColony(BaseColony):
         super().__init__(
             colony_id,
             capabilities=[
-                "lukhas.governance",
+                "governance",
                 "ethics",
                 "safety",
                 "consensus",

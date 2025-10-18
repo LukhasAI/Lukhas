@@ -865,7 +865,7 @@ if __name__ == "__main__":
 ║ REFERENCES:
 ║   - Docs: docs/learning/adaptive_meta_learning.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=meta-learning
-║   - Wiki: internal.lukhas.ai/wiki/adaptive-learning
+║   - Wiki: internal.ai/wiki/adaptive-learning
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

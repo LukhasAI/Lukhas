@@ -57,7 +57,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
                         "Pulmonary Embolism",
                         "Aortic Dissection",
                     ],
-                    "lukhas.governance": {
+                    "governance": {
                         "human_verification_required": True,
                         "escalation_threshold": 0.8,
                         "symbolic_pattern": ["🚨", "💓", "🏥"],
@@ -75,7 +75,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
                         "Pneumonia",
                         "Pulmonary Edema",
                     ],
-                    "lukhas.governance": {
+                    "governance": {
                         "human_verification_required": True,
                         "escalation_threshold": 0.8,
                         "symbolic_pattern": ["🚨", "🫁", "🏥"],
@@ -140,7 +140,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
                 "risk_assessment": await self._assess_risk(symptoms, medical_history, patient_context),
                 "suggested_tests": await self._suggest_tests(symptoms, medical_history, patient_context),
                 "clinical_guidelines": await self._get_relevant_guidelines(symptoms),
-                "lukhas.governance": {
+                "governance": {
                     "confidence_level": 0.85,
                     "human_review_required": self._requires_human_review(symptoms),
                     "safety_validated": True,
@@ -154,8 +154,8 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
             # Check for emergency conditions requiring immediate escalation
             emergency_detected = await self._check_emergency_conditions(analysis)
             if emergency_detected:
-                analysis["lukhas.governance"]["emergency_escalation"] = True
-                analysis["lukhas.governance"]["immediate_action_required"] = True
+                analysis["governance"]["emergency_escalation"] = True
+                analysis["governance"]["immediate_action_required"] = True
                 analysis["symbolic_pattern"] = ["🚨", "⚡", "🏥"]
 
             # Log analysis in governance audit trail
@@ -199,7 +199,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
                     "suggested": analysis["differential_diagnosis"][:3],
                     "confidence": self._calculate_confidence(analysis),
                     "supporting_evidence": await self._get_evidence(analysis["differential_diagnosis"][:3]),
-                    "lukhas.governance": {
+                    "governance": {
                         "human_verification_required": True,
                         "confidence_threshold_met": self._calculate_confidence(analysis) > 0.7,
                         "evidence_quality": "peer_reviewed",
@@ -208,16 +208,16 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
                 "tests": {
                     "recommended": analysis["suggested_tests"],
                     "priority": self._prioritize_tests(analysis["suggested_tests"], case_data.get("symptoms", [])),
-                    "lukhas.governance": {
+                    "governance": {
                         "cost_effectiveness_validated": True,
                         "patient_safety_confirmed": True,
                     },
                 },
                 "treatment": await self._generate_treatment_plan(analysis, case_data, context),
                 "follow_up": await self._suggest_follow_up(analysis, case_data),
-                "lukhas.governance": {
+                "governance": {
                     "recommendation_timestamp": datetime.now(timezone.utc).isoformat(),
-                    "human_oversight_required": analysis["lukhas.governance"]["human_review_required"],
+                    "human_oversight_required": analysis["governance"]["human_review_required"],
                     "safety_validated": True,
                     "ethical_approved": True,
                     "regulatory_compliant": True,
@@ -228,7 +228,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
 
             # Validate recommendations against safety guidelines
             safety_validation = await self._validate_recommendation_safety(recommendations)
-            recommendations["lukhas.governance"]["safety_validation"] = safety_validation
+            recommendations["governance"]["safety_validation"] = safety_validation
 
             # Log recommendation generation
             await self._log_governance_action(
@@ -267,7 +267,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
                         "probability": 0.6,
                         "urgency": "immediate",
                         "evidence_level": "high",
-                        "lukhas.governance": {
+                        "governance": {
                             "requires_immediate_action": True,
                             "human_verification_mandatory": True,
                             "escalation_required": True,
@@ -278,7 +278,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
                         "probability": 0.3,
                         "urgency": "urgent",
                         "evidence_level": "medium",
-                        "lukhas.governance": {
+                        "governance": {
                             "requires_immediate_action": True,
                             "diagnostic_tests_required": ["CT_PA", "D_Dimer"],
                         },
@@ -310,7 +310,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
             "level": overall_risk,
             "factors": risk_factors,
             "score": 0.7 if overall_risk == "high" else 0.4,
-            "lukhas.governance": {
+            "governance": {
                 "risk_calculation_validated": True,
                 "escalation_threshold": 0.6,
                 "human_review_required": overall_risk == "high",
@@ -337,7 +337,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
                         "urgency": "immediate",
                         "evidence_level": "high",
                         "cost_effectiveness": "high",
-                        "lukhas.governance": {
+                        "governance": {
                             "mandatory": True,
                             "time_sensitive": True,
                             "regulatory_required": True,
@@ -348,7 +348,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
                         "urgency": "urgent",
                         "evidence_level": "high",
                         "cost_effectiveness": "high",
-                        "lukhas.governance": {
+                        "governance": {
                             "serial_testing_required": True,
                             "time_intervals": ["0h", "3h", "6h"],
                         },
@@ -368,7 +368,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
             # Check emergency guidelines
             if "chest pain" in symptom_lower and "chest_pain" in self.guidelines["emergency"]:
                 guideline = self.guidelines["emergency"]["chest_pain"].copy()
-                guideline["lukhas.governance"] = self.guideline_governance.copy()
+                guideline["governance"] = self.guideline_governance.copy()
                 guideline["symptom"] = symptom
                 relevant_guidelines.append(guideline)
 
@@ -380,10 +380,10 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
         base_confidence = 0.85
 
         # Adjust based on governance factors
-        if analysis.get("lukhas.governance", {}).get("safety_validated"):
+        if analysis.get("governance", {}).get("safety_validated"):
             base_confidence += 0.05
 
-        if analysis.get("lukhas.governance", {}).get("ethical_approved"):
+        if analysis.get("governance", {}).get("ethical_approved"):
             base_confidence += 0.05
 
         return min(1.0, base_confidence)
@@ -395,7 +395,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
             "sources": ["PubMed", "Cochrane", "Clinical Guidelines"],
             "evidence_quality": "high",
             "peer_reviewed": True,
-            "lukhas.governance": {
+            "governance": {
                 "source_validation": "completed",
                 "bias_assessment": "low_risk",
                 "evidence_grade": "A",
@@ -414,9 +414,9 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
             score += evidence_scores.get(test.get("evidence_level", "low"), 1)
 
             # Boost score for governance requirements
-            if test.get("lukhas.governance", {}).get("mandatory"):
+            if test.get("governance", {}).get("mandatory"):
                 score += 5
-            if test.get("lukhas.governance", {}).get("time_sensitive"):
+            if test.get("governance", {}).get("time_sensitive"):
                 score += 3
 
             return score
@@ -436,7 +436,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
             "medications": [],
             "non_pharmacological": [],
             "monitoring": [],
-            "lukhas.governance": {
+            "governance": {
                 "safety_validated": True,
                 "contraindications_checked": True,
                 "drug_interactions_validated": True,
@@ -451,7 +451,7 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
             "timeline": "48-72 hours",
             "monitoring_parameters": [],
             "escalation_criteria": [],
-            "lukhas.governance": {
+            "governance": {
                 "follow_up_mandatory": True,
                 "escalation_rules_defined": True,
             },
@@ -507,10 +507,10 @@ class ClinicalDecisionSupport(GlyphIntegrationMixin):
     def _get_escalation_rules(self, analysis: dict[str, Any]) -> dict[str, Any]:
         """Get escalation rules based on analysis"""
         return {
-            "immediate_escalation": analysis.get("lukhas.governance", {}).get("emergency_escalation", False),
-            "human_review_required": analysis.get("lukhas.governance", {}).get("human_review_required", False),
+            "immediate_escalation": analysis.get("governance", {}).get("emergency_escalation", False),
+            "human_review_required": analysis.get("governance", {}).get("human_review_required", False),
             "specialist_referral": False,  # TODO: Implement logic
-            "emergency_services": analysis.get("lukhas.governance", {}).get("emergency_escalation", False),
+            "emergency_services": analysis.get("governance", {}).get("emergency_escalation", False),
         }
 
     async def _validate_recommendation_safety(self, recommendations: dict[str, Any]) -> dict[str, Any]:

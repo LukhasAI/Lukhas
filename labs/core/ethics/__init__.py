@@ -194,7 +194,7 @@ def evaluate_ethics(payload: dict[str, Any], context: Optional[dict[str, Any]] =
 # LOGGING: ΛTRACE_ENABLED (structlog). Basic logging for function calls and results.
 # AUTHENTICATION: N/A (Ethical evaluation itself is a system function, auth may apply to callers).
 # HOW TO USE:
-#   from lukhas.core.ethics import evaluate_ethics, EthicalFramework
+#   from core.ethics import evaluate_ethics, EthicalFramework
 #   payload_to_check = {"action_description": "delete user data", "user_id": "xyz"}
 #   ethical_assessment = evaluate_ethics(payload_to_check)
 #   if ethical_assessment["action_advisability"] == "NOT_ADVISABLE_CRITICAL":

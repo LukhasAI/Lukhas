@@ -43,7 +43,7 @@ import random
 import structlog
 
 # Initialize structured logger
-logger = structlog.get_logger("lukhas.creative_expressions")
+logger = structlog.get_logger("creative_expressions")
 
 # Enhanced NeuroHaikuGenerator with federated learning integration
 
@@ -156,7 +156,7 @@ class NeuroHaikuGenerator:
 ║ REFERENCES:
 ║   - Docs: docs/core/personality/creative_expressions.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=creativity
-║   - Wiki: wiki.lukhas.ai/personality/creative-expression
+║   - Wiki: wiki.ai/personality/creative-expression
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

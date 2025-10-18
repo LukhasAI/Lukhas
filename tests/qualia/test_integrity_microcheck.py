@@ -193,7 +193,7 @@ def test_microcheck_detects_injected_inconsistency():
 def test_microcheck_telemetry():
     """Test that micro-check telemetry metrics are recorded."""
     from aka_qualia.core import AkaQualia
-    from lukhas.qi.states.integrity_probe import _get_microcheck_metrics
+    from qi.states.integrity_probe import _get_microcheck_metrics
 
     metrics = _get_microcheck_metrics()
     if not metrics:

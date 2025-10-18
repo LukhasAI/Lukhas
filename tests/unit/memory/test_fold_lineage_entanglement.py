@@ -4,30 +4,30 @@ import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-PACKAGE_DIR = REPO_ROOT / "lukhas.memory"
+PACKAGE_DIR = REPO_ROOT / "memory"
 
 import importlib.util  # noqa: E402
 
 package_spec = importlib.util.spec_from_file_location(
-    "lukhas.memory", PACKAGE_DIR / "__init__.py", submodule_search_locations=[str(PACKAGE_DIR)]
+    "memory", PACKAGE_DIR / "__init__.py", submodule_search_locations=[str(PACKAGE_DIR)]
 )
-memory_pkg = sys.modules.get("lukhas.memory")
+memory_pkg = sys.modules.get("memory")
 if memory_pkg is None:
     memory_pkg = importlib.util.module_from_spec(package_spec)
-    sys.modules["lukhas.memory"] = memory_pkg
+    sys.modules["memory"] = memory_pkg
     if package_spec.loader is not None:
         package_spec.loader.exec_module(memory_pkg)
 
 flt_spec = importlib.util.spec_from_file_location(
-    "lukhas.memory.fold_lineage_tracker", PACKAGE_DIR / "fold_lineage_tracker.py"
+    "memory.fold_lineage_tracker", PACKAGE_DIR / "fold_lineage_tracker.py"
 )
 flt_module = importlib.util.module_from_spec(flt_spec)
-sys.modules["lukhas.memory.fold_lineage_tracker"] = flt_module
+sys.modules["memory.fold_lineage_tracker"] = flt_module
 if flt_spec.loader is not None:
     flt_spec.loader.exec_module(flt_module)
 
 
-from lukhas.memory.fold_lineage_tracker import CausationType, FoldLineageTracker  # noqa: E402
+from memory.fold_lineage_tracker import CausationType, FoldLineageTracker  # noqa: E402
 
 
 # ΛTAG: fold_lineage

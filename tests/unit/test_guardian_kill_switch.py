@@ -10,7 +10,7 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from lukhas.governance.guardian_system import GuardianSystem
+from governance.guardian_system import GuardianSystem
 
 
 class TestGuardianKillSwitch(unittest.TestCase):

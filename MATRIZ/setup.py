@@ -11,7 +11,7 @@ setup(
     name="matriz",
     version="0.1.0",
     author="LUKHAS AI Systems",
-    author_email="contact@lukhas.ai",
+    author_email="contact@ai",
     description="Multimodal Adaptive Temporal Architecture for Dynamic Awareness",
     long_description=long_description,
     long_description_content_type="text/markdown",

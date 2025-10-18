@@ -7,10 +7,10 @@ Shows how to use the state variety and decision strictness enhancements
 import asyncio
 import os
 
-from lukhas.vivox.consciousness.state_variety_enhancement import (
+from vivox.consciousness.state_variety_enhancement import (
     create_enhanced_state_determination,
 )
-from lukhas.vivox.moral_alignment.decision_strictness_enhancement import (
+from vivox.moral_alignment.decision_strictness_enhancement import (
     create_strict_decision_maker,
 )
 from vivox import ActionProposal, create_vivox_system

@@ -239,7 +239,7 @@ class AutomatedDeploymentPipeline:
 
     def __init__(self, project_root: Path, config_path: Optional[Path] = None):
         self.project_root = project_root
-        self.config_path = config_path or project_root / "lukhas.tools" / "devops" / "deployment_config.json"
+        self.config_path = config_path or project_root / "tools" / "devops" / "deployment_config.json"
 
         # Load configuration
         self.environments = self._load_deployment_config()
@@ -253,7 +253,7 @@ class AutomatedDeploymentPipeline:
         self.deployment_history: List[DeploymentResult] = []
 
         # Create deployment directories
-        self.deployment_dir = project_root / "lukhas.tools" / "devops" / "deployments"
+        self.deployment_dir = project_root / "tools" / "devops" / "deployments"
         self.deployment_dir.mkdir(parents=True, exist_ok=True)
 
     def _load_deployment_config(self) -> Dict[str, DeploymentConfig]:
@@ -291,7 +291,7 @@ class AutomatedDeploymentPipeline:
             "production": DeploymentConfig(
                 environment="production",
                 target_branch="main",
-                health_check_url="http://production.lukhas.ai/health",
+                health_check_url="http://production.ai/health",
                 health_check_timeout=300,
                 rollback_enabled=True,
                 backup_enabled=True

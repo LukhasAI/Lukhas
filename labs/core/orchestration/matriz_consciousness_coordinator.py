@@ -298,7 +298,7 @@ class MatrizConsciousnessCoordinator:
             return ConsciousnessType.DECIDE
 
         # Memory and context modules
-        elif any(keyword in module_name_lower for keyword in ["lukhas.memory", "context", "history", "knowledge"]):
+        elif any(keyword in module_name_lower for keyword in ["memory", "context", "history", "knowledge"]):
             return ConsciousnessType.CONTEXT
 
         # Reflection and analysis modules

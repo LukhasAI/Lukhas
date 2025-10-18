@@ -30,7 +30,7 @@ except ImportError:
     F = None
     np = None
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 from .consciousness_environment import ConsciousnessState, MatrizNode
 

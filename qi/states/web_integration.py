@@ -43,7 +43,7 @@ Description: Quantum module for advanced Cognitive functionality
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 Licensed under the LUKHAS Enterprise License.
 
-For documentation and support: https://lukhas.ai/docs
+For documentation and support: https://ai/docs
 """
 
 __module_name__ = "Quantum Web Integration"
@@ -309,7 +309,7 @@ class QIWebAuthenticator:
             "csrf_token": session.csrf_token,
             "qi_nonce": session.qi_nonce,
             "expires_at": (session.session_start.timestamp() + 3600),  # 1 hour
-            "security_config": await self.security.get_quantum_web_config("lukhas.ai"),
+            "security_config": await self.security.get_quantum_web_config("ai"),
         }
 
 

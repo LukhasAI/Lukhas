@@ -6,8 +6,8 @@ from importlib import import_module
 
 for _candidate in (
     "labs.candidate.governance.guardian_serializer",
-    "lukhas_website.lukhas.governance.guardian_serializer",
-    "lukhas.governance.guardian_serializer",
+    "lukhas_website.governance.guardian_serializer",
+    "governance.guardian_serializer",
 ):
     try:
         _mod = import_module(_candidate)

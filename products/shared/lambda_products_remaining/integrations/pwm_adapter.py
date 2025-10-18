@@ -22,8 +22,8 @@ sys.path.insert(0, str(lukhas_path))
 
 # Import Lukhas  components
 try:
-    from lukhas.core.module_registry import ModuleInfo, ModuleRegistry, TierLevel
-    from lukhas.core.plugin_registry import Plugin, PluginRegistry, PluginType
+    from core.module_registry import ModuleInfo, ModuleRegistry, TierLevel
+    from core.plugin_registry import Plugin, PluginRegistry, PluginType
 
     LUKHAS_AVAILABLE = True
 except ImportError as e:

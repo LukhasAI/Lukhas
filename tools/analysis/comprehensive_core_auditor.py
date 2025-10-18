@@ -85,8 +85,8 @@ class ComprehensiveCoreAuditor:
                 "synapse",
                 "dendrite",
             ],
-            "lukhas.memory": [
-                "lukhas.memory",
+            "memory": [
+                "memory",
                 "memory_learning",
                 "memory_systems",
                 "storage",
@@ -216,7 +216,7 @@ class ComprehensiveCoreAuditor:
                 "helpers",
                 "common",
                 "shared",
-                "lukhas.tools",
+                "tools",
                 "functions",
                 "library",
             ],
@@ -826,4 +826,4 @@ def main():
 if __name__ == "__main__":
     main()
 
-# Λ Systems 2025 www.lukhas.ai
+# Λ Systems 2025 www.ai

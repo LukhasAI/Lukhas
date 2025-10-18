@@ -58,12 +58,12 @@ from fastapi.middleware.gzip import GZipMiddleware
 # Import our extreme performance optimizations
 try:
     from enterprise.performance.extreme_auth_optimization import get_extreme_optimizer
-    from lukhas.governance.identity.auth_backend.extreme_performance_audit_logger import (
+    from governance.identity.auth_backend.extreme_performance_audit_logger import (
         AuditEventType,
         AuditSeverity,
         get_extreme_audit_logger,
     )
-    from lukhas.governance.identity.extreme_performance_connector import (
+    from governance.identity.extreme_performance_connector import (
         get_extreme_identity_connector,
     )
 
@@ -174,7 +174,7 @@ class ExtremePerformanceServer:
             },
             servers=[
                 {"url": "http://localhost:8000", "description": "Local extreme performance"},
-                {"url": "https://api.lukhas.ai", "description": "Production extreme performance"},
+                {"url": "https://api.ai", "description": "Production extreme performance"},
             ],
             # Extreme performance settings
             docs_url="/docs" if env_get("ENVIRONMENT") != "production" else None,

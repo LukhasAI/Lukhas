@@ -83,7 +83,7 @@ def embed_in_png(png_bytes: bytes, seal: dict[str, Any], sig: dict[str, Any]) ->
 
     # Create iTXt chunk
     # Format: keyword\0compression_flag\0compression_method\0language\0translated_keyword\0text
-    keyword = b"lukhas.glyph"
+    keyword = b"glyph"
     compression_flag = b"\x00"  # No compression
     compression_method = b"\x00"
     language = b""
@@ -136,7 +136,7 @@ def extract_from_png(png_bytes: bytes) -> dict[str, Any] | None:
             parts = data.split(b"\x00", 5)
             if len(parts) >= 6:
                 keyword = parts[0]
-                if keyword == b"lukhas.glyph":
+                if keyword == b"glyph":
                     # Text is in the last part
                     text = parts[5].decode("utf-8")
                     try:

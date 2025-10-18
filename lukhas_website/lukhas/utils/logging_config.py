@@ -229,7 +229,7 @@ def get_log_config() -> dict[str, Any]:
                 "class": "logging.handlers.RotatingFileHandler",
                 "level": log_level,
                 "formatter": "json",
-                "filename": str(log_dir / "lukhas.log"),
+                "filename": str(log_dir / "log"),
                 "maxBytes": 10485760,  # 10MB
                 "backupCount": 5,
                 "filters": ["security_filter", "performance_filter", "triad_filter"],
@@ -275,27 +275,27 @@ def get_log_config() -> dict[str, Any]:
                 "level": log_level,
                 "propagate": False,
             },
-            "lukhas.governance": {
+            "governance": {
                 "handlers": ["console", "file", "audit_file"],
                 "level": log_level,
                 "propagate": False,
             },
-            "lukhas.consciousness": {
+            "consciousness": {
                 "handlers": ["console", "file", "audit_file"],
                 "level": log_level,
                 "propagate": False,
             },
-            "lukhas.identity": {
+            "identity": {
                 "handlers": ["console", "file", "audit_file"],
                 "level": log_level,
                 "propagate": False,
             },
-            "lukhas.bridge": {
+            "bridge": {
                 "handlers": ["console", "file"],
                 "level": log_level,
                 "propagate": False,
             },
-            "lukhas.memory": {
+            "memory": {
                 "handlers": ["console", "file"],
                 "level": log_level,
                 "propagate": False,

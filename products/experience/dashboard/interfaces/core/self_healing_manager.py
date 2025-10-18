@@ -57,9 +57,9 @@ from bio.core.symbolic_adaptive_threshold_colony import AdaptiveThresholdColony
 
 # Import existing LUKHAS adaptive systems
 from bio.core.symbolic_fallback_systems import BioSymbolicFallbackManager
-from lukhas.core.event_bus import EventBus
-from lukhas.core.monitoring.drift_monitor import UnifiedDriftMonitor
-from lukhas.memory.systems.healix_memory_core import HealixMemoryCore
+from core.event_bus import EventBus
+from core.monitoring.drift_monitor import UnifiedDriftMonitor
+from memory.systems.healix_memory_core import HealixMemoryCore
 
 logger = logging.getLogger("ΛTRACE.self_healing_manager")
 
@@ -771,7 +771,7 @@ class SelfHealingManager:
         # Implementation for coordination setup
 
     async def _load_healing_patterns(self):
-        """Load healing patterns from lukhas.memory."""
+        """Load healing patterns from memory."""
         # Implementation to load from Healix memory
 
 

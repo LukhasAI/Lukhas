@@ -204,7 +204,7 @@ def format_bio_log(operation: str, details: str = "") -> str:
 ║ REFERENCES:
 ║   - Docs: docs/symbolic/vocabularies/bio_vocabulary.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=bio-vocabulary
-║   - Wiki: internal.lukhas.ai/wiki/bio-symbolic-system
+║   - Wiki: internal.ai/wiki/bio-symbolic-system
 ║
 ║ VOCABULARY STATUS:
 ║   - Total Symbols: 40+ bio-related symbols

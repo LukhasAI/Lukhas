@@ -20,7 +20,7 @@ class TestCoreMemoryValidation:
     async def test_unified_memory_core_performance(self):
         """Test unified memory core performance and cascade prevention"""
         try:
-            from lukhas.memory.folds.unified_memory_core import (
+            from memory.folds.unified_memory_core import (
                 ConsolidatedUnifiedmemorycore,
             )
 
@@ -94,7 +94,7 @@ class TestCoreMemoryValidation:
     async def test_memory_cleaner_functionality(self):
         """Test memory cleaner comprehensive functionality"""
         try:
-            from lukhas.memory.causal.memory_cleaner import MemoryCleaner
+            from memory.causal.memory_cleaner import MemoryCleaner
 
             # Initialize with required parameters
             cleaner = MemoryCleaner(parent_id="test_parent", task_data={"test": True})
@@ -132,7 +132,7 @@ class TestCoreMemoryValidation:
     async def test_symbolic_delta_compression(self):
         """Test symbolic delta compression with scheduling"""
         try:
-            from lukhas.memory.systems.symbolic_delta_compression import (
+            from memory.systems.symbolic_delta_compression import (
                 SymbolicDeltaCompression,
             )
 
@@ -227,7 +227,7 @@ class TestCoreMemoryValidation:
         integration_found = False
 
         try:
-            from lukhas.memory.folds.unified_memory_core import (
+            from memory.folds.unified_memory_core import (
                 ConsolidatedUnifiedmemorycore,
             )
 

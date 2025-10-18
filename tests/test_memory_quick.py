@@ -12,7 +12,7 @@ from collections import deque
 
 import psutil
 
-from lukhas.memory.memory_event import MemoryEvent, MemoryEventFactory
+from memory.memory_event import MemoryEvent, MemoryEventFactory
 
 
 def test_memory_event_bounded_optimization():

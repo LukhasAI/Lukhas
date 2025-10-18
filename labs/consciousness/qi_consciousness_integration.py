@@ -107,7 +107,7 @@ try:
 
     CONSCIOUSNESS_AVAILABLE = True
     logger.info(
-        "ΛTRACE: ElevatedConsciousnessModule imported successfully from lukhas.core.consciousness.lukhasElevatedConsciousnessModule."
+        "ΛTRACE: ElevatedConsciousnessModule imported successfully from core.consciousness.lukhasElevatedConsciousnessModule."
     )
 except ImportError as e_con:
     logger.warning(
@@ -619,7 +619,7 @@ class QICreativeConsciousness:
         """Setup quantum entanglement with other modules"""
         entanglement_pairs = [
             ("consciousness.awareness", "qi.superposition"),
-            ("consciousness.reflection", "lukhas.memory.qi_fold"),
+            ("consciousness.reflection", "memory.qi_fold"),
             ("consciousness.dream", "creativity.imagination"),
         ]
 
@@ -813,7 +813,7 @@ if __name__ == "__main__":
 ║ REFERENCES:
 ║   - Docs: docs/consciousness/quantum-integration.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=quantum-consciousness
-║   - Wiki: wiki.lukhas.ai/quantum-consciousness-bridge
+║   - Wiki: wiki.ai/quantum-consciousness-bridge
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

@@ -1,7 +1,7 @@
 """Bridge for `core.collective.swarm`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.core.collective.swarm
+  1) lukhas_website.core.collective.swarm
   2) candidate.core.collective.swarm
   3) core.collective.swarm
 
@@ -22,7 +22,7 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.core.collective.swarm",
+    "lukhas_website.core.collective.swarm",
     "labs.core.collective.swarm",
     "core.collective.swarm",
 )

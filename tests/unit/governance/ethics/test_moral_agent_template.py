@@ -1,7 +1,7 @@
 """Tests for the MoralAgentTemplate."""
 
 # ΛTAG: moral_agent_template_test
-from lukhas.governance.ethics.moral_agent_template import MoralAgentTemplate
+from governance.ethics.moral_agent_template import MoralAgentTemplate
 
 
 def test_process_signal_help():

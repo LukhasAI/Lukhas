@@ -32,7 +32,7 @@ def validate_quantum_consciousness_integration():
 
     try:
         # Test quantum superposition consciousness
-        from lukhas.qi.qi_wrapper import get_qi_wrapper
+        from qi.qi_wrapper import get_qi_wrapper
 
         qi_wrapper = get_qi_wrapper()
         qi_wrapper.initialize()
@@ -134,7 +134,7 @@ def validate_hybrid_quantum_bio_processing():
         # Initialize both quantum and bio systems
         from bio.core.bio_symbolic import BioSymbolicOrchestrator
         from bio.oscillator import get_orchestrator
-        from lukhas.qi.qi_wrapper import get_qi_wrapper
+        from qi.qi_wrapper import get_qi_wrapper
 
         qi_wrapper = get_qi_wrapper()
         qi_wrapper.initialize()

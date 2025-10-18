@@ -33,7 +33,7 @@ from opentelemetry import trace
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
-from lukhas.observability import counter, histogram
+from observability import counter, histogram
 
 tracer = trace.get_tracer(__name__)
 logger = logging.getLogger(__name__)

@@ -1,10 +1,10 @@
 """Bridge: core.consciousness_ticker -> canonical implementations."""
 from __future__ import annotations
 
-from lukhas._bridgeutils import bridge_from_candidates
+from _bridgeutils import bridge_from_candidates
 
 _CANDIDATES = (
-    "lukhas_website.lukhas.core.consciousness_ticker",
+    "lukhas_website.core.consciousness_ticker",
     "labs.core.consciousness_ticker",
 )
 

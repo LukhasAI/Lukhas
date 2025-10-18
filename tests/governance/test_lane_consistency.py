@@ -17,7 +17,7 @@ from typing import List
 
 import pytest
 
-from lukhas.governance.schema_registry import LUKHASLane, get_lane_enum
+from governance.schema_registry import LUKHASLane, get_lane_enum
 
 
 class TestLaneConsistency:
@@ -37,7 +37,7 @@ class TestLaneConsistency:
 
     def test_guardian_schema_uses_canonical_lanes(self, canonical_lanes: List[str]):
         """Test that Guardian schema uses the canonical lane enum."""
-        schema_path = pathlib.Path(__file__).parent.parent.parent / "lukhas.governance" / "guardian_schema.json"
+        schema_path = pathlib.Path(__file__).parent.parent.parent / "governance" / "guardian_schema.json"
         schema = json.loads(schema_path.read_text())
 
         # Extract lane enum from Guardian schema
@@ -70,7 +70,7 @@ class TestLaneConsistency:
         # This test ensures components import from schema_registry rather than define local constants
 
         # Test that we can import the canonical function
-        from lukhas.governance.schema_registry import get_lane_enum as imported_enum
+        from governance.schema_registry import get_lane_enum as imported_enum
 
         # Verify the imported function returns the same values
         assert imported_enum() == canonical_lanes, "Import inconsistency in lane enum"
@@ -82,7 +82,7 @@ class TestLaneConsistency:
         try:
             # These imports will fail if components have hardcoded lanes
             # instead of using the registry
-            from lukhas.governance.schema_registry import LUKHASLane
+            from governance.schema_registry import LUKHASLane
 
             # Test that the enum is accessible and complete
             assert len(LUKHASLane) == 7, "LUKHASLane enum should have 7 values"
@@ -103,7 +103,7 @@ class TestLaneConsistency:
         canonical_set = set(get_lane_enum())
 
         # Any component importing this should get the same canonical set
-        from lukhas.governance.schema_registry import get_lane_enum as test_import
+        from governance.schema_registry import get_lane_enum as test_import
         imported_set = set(test_import())
 
         assert canonical_set == imported_set, "Lane enum import inconsistency detected"
@@ -155,7 +155,7 @@ class TestLaneEnumIntegration:
 
     def test_guardian_schema_lane_validation(self):
         """Test that Guardian schema validates lanes correctly."""
-        from lukhas.governance.schema_registry import LUKHASLane
+        from governance.schema_registry import LUKHASLane
 
         # Test that schema would accept all canonical lanes
         canonical_lanes = LUKHASLane.get_all_values()

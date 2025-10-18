@@ -5,7 +5,7 @@ Phase 5: Lane-aware replay policy checker with deterministic allow/deny logs.
 Provides policy-gated learning over Experience Replay system.
 
 Usage:
-    from lukhas.core.policy_guard import PolicyGuard, ReplayDecision
+    from core.policy_guard import PolicyGuard, ReplayDecision
 
     guard = PolicyGuard(lane="experimental")
     decision = guard.check_replay(event_kind="action", payload={"risk_level": 0.2})

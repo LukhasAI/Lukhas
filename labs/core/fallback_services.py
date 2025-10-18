@@ -80,7 +80,7 @@ class FallbackMemoryService:
         self.logger.warning("ΛTRACE: Using fallback memory retrieval.")
         return {
             "status": "fallback_memory_retrieve",
-            "lukhas.memory": {"content": "fallback_memory_content"},
+            "memory": {"content": "fallback_memory_content"},
             "args": args,
             "kwargs": kwargs,
         }

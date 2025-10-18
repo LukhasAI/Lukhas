@@ -12,7 +12,7 @@
 import logging
 from typing import Any, Optional
 
-from lukhas.memory.emotional import EmotionalMemory, EmotionVector
+from memory.emotional import EmotionalMemory, EmotionVector
 
 log = logging.getLogger(__name__)
 

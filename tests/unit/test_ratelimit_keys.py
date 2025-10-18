@@ -13,7 +13,7 @@ from typing import Optional
 
 import pytest
 
-from lukhas.core.reliability.ratelimit import RateLimiter
+from core.reliability.ratelimit import RateLimiter
 
 
 def _mock_request(

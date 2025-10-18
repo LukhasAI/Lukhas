@@ -118,7 +118,7 @@ def run():
     save_snapshot(result)
 
     try:
-        from lukhas.orchestration.brain.spine.trait_manager import (
+        from orchestration.brain.spine.trait_manager import (
             load_traits as traits_fn,
         )
         from symbolic.lukhas_voice import speak

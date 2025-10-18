@@ -239,7 +239,7 @@ class ExponentialLearningSystem:
 ║ REFERENCES:
 ║   - Docs: docs/learning/exponential-learning.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=exponential-learning
-║   - Wiki: wiki.lukhas.ai/learning-architectures
+║   - Wiki: wiki.ai/learning-architectures
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

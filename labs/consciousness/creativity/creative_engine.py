@@ -545,7 +545,7 @@ class EnterpriseNeuralHaikuGenerator:
         """Generate concept words for a specific line using neural guidance."""
         # This would integrate with the neural model to generate contextually
         # appropriate concepts
-        base_concepts = ["nature", "time", "emotion", "space", "lukhas.memory"]
+        base_concepts = ["nature", "time", "emotion", "space", "memory"]
 
         # Get cultural mappings if available
         if context.cultural_context:

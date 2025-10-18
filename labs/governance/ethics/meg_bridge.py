@@ -18,7 +18,7 @@ and the Meta-Ethics Governor for comprehensive ethical governance.
 
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 from ..policy.base import Decision as EthicsDecision, RiskLevel
 from .ethical_decision_maker import ComprehensiveEthicalDecision as EthicsEvaluation

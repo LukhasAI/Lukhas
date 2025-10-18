@@ -38,7 +38,7 @@ async def test_sampl_memory_system():
     print_test_header("SAMPL MEMORY SYSTEM", "Testing spreading activation and non-monotonic plasticity")
 
     try:
-        from lukhas.memory.fold_system.hybrid_memory_fold import SAMPLMemoryEngine
+        from memory.fold_system.hybrid_memory_fold import SAMPLMemoryEngine
 
         # Initialize system
         sampl = SAMPLMemoryEngine()
@@ -79,7 +79,7 @@ async def test_consciousness_engine():
         # Mock the consciousness engine since we had import issues
         class MockConsciousnessEngine:
             def __init__(self):
-                self.state_dimensions = ["awareness", "lukhas.memory", "reasoning", "emotion", "creativity", "identity"]
+                self.state_dimensions = ["awareness", "memory", "reasoning", "emotion", "creativity", "identity"]
                 self.ethical_principles = {
                     "transparency": 1.0,
                     "user_agency": 0.9,
@@ -310,7 +310,7 @@ async def test_collapse_governance_system():
     print_test_header("COLLAPSE GOVERNANCE SYSTEM", "Testing ethical decision-making and drift prevention")
 
     try:
-        from lukhas.consciousness.quantum.collapse_governance_system import CollapseGovernanceSystem
+        from consciousness.quantum.collapse_governance_system import CollapseGovernanceSystem
 
         # Initialize system
         governance = CollapseGovernanceSystem()

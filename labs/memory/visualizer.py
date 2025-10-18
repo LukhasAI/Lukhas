@@ -338,7 +338,7 @@ class Enhanced3DVisualizer:
 ║ REFERENCES:
 ║   - Docs: docs/memory/visualization-guide.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=memory-visualization
-║   - Wiki: wiki.lukhas.ai/memory-visualization
+║   - Wiki: wiki.ai/memory-visualization
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

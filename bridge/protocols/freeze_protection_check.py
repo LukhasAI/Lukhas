@@ -1,7 +1,7 @@
 import inspect
 import logging
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 # TAG:bridge
 # TAG:protocols

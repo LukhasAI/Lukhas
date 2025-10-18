@@ -9,7 +9,7 @@ from typing import Callable
 from identity.audit_logger import AuditLogger
 from identity.safety_monitor import SafetyMonitor
 from identity.tiered_access import TieredAccessControl
-from lukhas.orchestration.integration_hub import get_integration_hub
+from orchestration.integration_hub import get_integration_hub
 
 
 class IdentityConnector:
@@ -36,7 +36,7 @@ class IdentityConnector:
         """Setup authentication for cross-module communication"""
         auth_config = {
             "core": {"level": "full", "method": "certificate"},
-            "lukhas.memory": {"level": "read_write", "method": "token"},
+            "memory": {"level": "read_write", "method": "token"},
             "consciousness": {"level": "read", "method": "biometric"},
             "ethics": {"level": "audit", "method": "multi_factor"},
         }

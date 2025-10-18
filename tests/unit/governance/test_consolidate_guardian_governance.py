@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from lukhas.governance.oversight.consolidate_guardian_governance import (
+from governance.oversight.consolidate_guardian_governance import (
     consolidate_guardian_governance,
 )
 

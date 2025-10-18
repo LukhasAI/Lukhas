@@ -33,17 +33,17 @@ def _load_optional(module: str, attribute: Optional[str] = None) -> Optional[Any
 datadog_client_cls = _load_optional("datadog", "DogStatsd") or _load_optional("datadog", "DogStatsdClient")
 DATADOG_AVAILABLE = datadog_client_cls is not None
 
-ConstellationFramework = _load_optional("lukhas.constellation", "ConstellationFramework")
+ConstellationFramework = _load_optional("constellation", "ConstellationFramework")
 if ConstellationFramework is None:
     ConstellationFramework = _load_optional("candidate.constellation", "ConstellationFramework")
 
-ConsciousnessCore = _load_optional("lukhas.consciousness", "ConsciousnessCore") or _load_optional(
+ConsciousnessCore = _load_optional("consciousness", "ConsciousnessCore") or _load_optional(
     "candidate.consciousness", "ConsciousnessCore"
 )
-GuardianSystem = _load_optional("lukhas.guardian", "GuardianSystem") or _load_optional(
+GuardianSystem = _load_optional("guardian", "GuardianSystem") or _load_optional(
     "candidate.governance", "GuardianSystem"
 )
-MemoryFoldSystem = _load_optional("lukhas.memory", "MemoryFoldSystem") or _load_optional(
+MemoryFoldSystem = _load_optional("memory", "MemoryFoldSystem") or _load_optional(
     "candidate.memory", "MemoryFoldSystem"
 )
 
@@ -168,13 +168,13 @@ class ConstellationFrameworkBenchmark:
 
                 # Send metrics to Datadog
                 if self.datadog_client:
-                    self.datadog_client.histogram("lukhas.constellation.latency", request_time)
-                    self.datadog_client.increment("lukhas.constellation.requests.success")
+                    self.datadog_client.histogram("constellation.latency", request_time)
+                    self.datadog_client.increment("constellation.requests.success")
 
             except Exception as e:
                 error_count += 1
                 if self.datadog_client:
-                    self.datadog_client.increment("lukhas.constellation.requests.error")
+                    self.datadog_client.increment("constellation.requests.error")
                 logger.error(f"Request failed: {e}")
 
         # Generate concurrent load

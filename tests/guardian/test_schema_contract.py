@@ -32,7 +32,7 @@ class TestGuardianSchemaContract:
     @pytest.fixture
     def schema(self) -> Dict[str, Any]:
         """Load T4 Guardian schema."""
-        schema_path = pathlib.Path(__file__).parent.parent.parent / "lukhas.governance" / "guardian_schema.json"
+        schema_path = pathlib.Path(__file__).parent.parent.parent / "governance" / "guardian_schema.json"
         return json.loads(schema_path.read_text())
 
     @pytest.fixture
@@ -312,7 +312,7 @@ class TestSchemaSnapshotProtection:
     @pytest.fixture
     def schema(self) -> Dict[str, Any]:
         """Load current Guardian schema."""
-        schema_path = pathlib.Path(__file__).parent.parent.parent / "lukhas.governance" / "guardian_schema.json"
+        schema_path = pathlib.Path(__file__).parent.parent.parent / "governance" / "guardian_schema.json"
         return json.loads(schema_path.read_text())
 
     @pytest.fixture
@@ -323,7 +323,7 @@ class TestSchemaSnapshotProtection:
 
     def test_schema_hash_unchanged(self, schema: Dict[str, Any]):
         """Test that schema content hash matches locked baseline."""
-        schema_path = pathlib.Path(__file__).parent.parent.parent / "lukhas.governance" / "guardian_schema.json"
+        schema_path = pathlib.Path(__file__).parent.parent.parent / "governance" / "guardian_schema.json"
         schema_content = schema_path.read_bytes()
         actual_hash = hashlib.sha256(schema_content).hexdigest()
 
@@ -465,7 +465,7 @@ class TestSchemaSnapshotProtection:
 
     def test_generate_drift_report(self, schema: Dict[str, Any], schema_snapshot: Dict[str, Any]):
         """Generate comprehensive schema drift report for CI."""
-        schema_path = pathlib.Path(__file__).parent.parent.parent / "lukhas.governance" / "guardian_schema.json"
+        schema_path = pathlib.Path(__file__).parent.parent.parent / "governance" / "guardian_schema.json"
         schema_content = schema_path.read_bytes()
         current_hash = hashlib.sha256(schema_content).hexdigest()
 
@@ -522,7 +522,7 @@ class TestIntegrityValidation:
     @pytest.fixture
     def schema(self) -> Dict[str, Any]:
         """Load T4 Guardian schema."""
-        schema_path = pathlib.Path(__file__).parent.parent.parent / "lukhas.governance" / "guardian_schema.json"
+        schema_path = pathlib.Path(__file__).parent.parent.parent / "governance" / "guardian_schema.json"
         return json.loads(schema_path.read_text())
 
     @pytest.fixture
@@ -590,7 +590,7 @@ class TestIntegrityValidation:
             ],
             "approvals": [
                 {
-                    "approver": "admin@lukhas.ai",
+                    "approver": "admin@ai",
                     "timestamp": "2025-09-24T17:01:02Z",
                     "scope": "policy_exception",
                     "ticket": "JIRA-12345"
@@ -683,7 +683,7 @@ class TestFailClosedBehavior:
     @pytest.fixture
     def schema(self) -> Dict[str, Any]:
         """Load T4 Guardian schema."""
-        schema_path = pathlib.Path(__file__).parent.parent.parent / "lukhas.governance" / "guardian_schema.json"
+        schema_path = pathlib.Path(__file__).parent.parent.parent / "governance" / "guardian_schema.json"
         return json.loads(schema_path.read_text())
 
     @pytest.fixture
@@ -751,7 +751,7 @@ class TestFailClosedBehavior:
             ],
             "approvals": [
                 {
-                    "approver": "admin@lukhas.ai",
+                    "approver": "admin@ai",
                     "timestamp": "2025-09-24T17:01:02Z",
                     "scope": "policy_exception",
                     "ticket": "JIRA-12345"

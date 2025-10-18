@@ -12,8 +12,8 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
 
-from lukhas.core.endocrine import get_endocrine_system
-from lukhas.core.tags import get_tag_registry
+from core.endocrine import get_endocrine_system
+from core.tags import get_tag_registry
 
 logger = logging.getLogger(__name__)
 

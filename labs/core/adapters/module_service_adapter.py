@@ -9,9 +9,9 @@ from collections.abc import AsyncIterator
 from datetime import datetime
 from typing import Any, Optional
 
-from lukhas.core.container.service_container import ServiceLifetime, injectable
-from lukhas.core.events.contracts import MemoryFoldCreated, serialize_event
-from lukhas.core.interfaces.services import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
+from core.container.service_container import ServiceLifetime, injectable
+from core.events.contracts import MemoryFoldCreated, serialize_event
+from core.interfaces.services import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
 from datetime import timezone
     IBridgeService,
     IConsciousnessService,
@@ -38,7 +38,7 @@ class MemoryServiceAdapter(IMemoryService):
         if not self._initialized:
             try:
                 # Import existing memory components
-                from lukhas.memory.fold_system.memory_fold import (
+                from memory.fold_system.memory_fold import (
                     HybridMemoryFold as MemoryFoldSystem,
                 )
                 from memory import AGIMemory, MemoryFoldManager
@@ -87,7 +87,7 @@ class MemoryServiceAdapter(IMemoryService):
 
         # Emit event through existing event bus
         try:
-            from lukhas.orchestration.symbolic_kernel_bus import kernel_bus
+            from orchestration.symbolic_kernel_bus import kernel_bus
 
             EventBus()
             event = MemoryFoldCreated(
@@ -147,8 +147,8 @@ class ConsciousnessServiceAdapter(IConsciousnessService):
         if not self._initialized:
             try:
                 # Import existing consciousness components
-                from lukhas.consciousness.awareness import AwarenessModule
-                from lukhas.consciousness.unified.auto_consciousness import (
+                from consciousness.awareness import AwarenessModule
+                from consciousness.unified.auto_consciousness import (
                     UnifiedConsciousness,
                 )
 
@@ -243,7 +243,7 @@ class DreamServiceAdapter(IDreamService):
         """Lazy load dream components"""
         if not self._initialized:
             try:
-                from lukhas.consciousness.dream.core.dream_engine import DreamEngine
+                from consciousness.dream.core.dream_engine import DreamEngine
 
                 self._dream_engine = DreamEngine()
                 self._initialized = True
@@ -487,8 +487,8 @@ class GovernanceServiceAdapter(IGovernanceService):
         """Lazy load governance components"""
         if not self._initialized:
             try:
-                from lukhas.governance.guardian.guardian_system import GuardianSystem
-                from lukhas.governance.reflector.guardian_reflector import (
+                from governance.guardian.guardian_system import GuardianSystem
+                from governance.reflector.guardian_reflector import (
                     GuardianReflector,
                 )
 
@@ -646,7 +646,7 @@ class BridgeServiceAdapter(IBridgeService):
 
 def register_service_adapters():
     """Register all service adapters with the container"""
-    from lukhas.core.container.service_container import get_container
+    from core.container.service_container import get_container
 
     container = get_container()
 

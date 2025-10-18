@@ -124,7 +124,7 @@ def enhance_cognitive_core():
     """
     try:
         # Import the existing cognitive core
-        from lukhas.orchestration.brain.cognitive_core import CognitiveEngine
+        from orchestration.brain.cognitive_core import CognitiveEngine
 
         # Add Cognitive enhancement methods to the CognitiveEngine class
 

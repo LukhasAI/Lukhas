@@ -11,7 +11,7 @@ from __future__ import annotations
 import pytest
 from fastapi.testclient import TestClient
 
-from lukhas.adapters.openai.api import get_app
+from adapters.openai.api import get_app
 
 
 @pytest.fixture

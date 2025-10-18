@@ -1,7 +1,7 @@
 """Bridge for `rl.coordination.multi_agent_trainer`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.rl.coordination.multi_agent_trainer
+  1) lukhas_website.rl.coordination.multi_agent_trainer
   2) candidate.rl.coordination.multi_agent_trainer
   3) rl.coordination.multi_agent_trainer
 
@@ -22,7 +22,7 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.rl.coordination.multi_agent_trainer",
+    "lukhas_website.rl.coordination.multi_agent_trainer",
     "candidate.rl.coordination.multi_agent_trainer",
     "rl.coordination.multi_agent_trainer",
 )

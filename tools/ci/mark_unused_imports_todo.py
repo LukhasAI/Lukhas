@@ -188,7 +188,7 @@ Examples:
     parser.add_argument(
         "--paths",
         nargs="+",
-        default=["lukhas", "core", "api", "consciousness", "lukhas.memory", "identity", "MATRIZ"],
+        default=["lukhas", "core", "api", "consciousness", "memory", "identity", "MATRIZ"],
         help="Roots to scan (default: lukhas core api consciousness memory identity MATRIZ). Use --paths candidate for experimental code.",
     )
     parser.add_argument("--reason", default=None, help="Override reason text (default: smart contextual reasons)")

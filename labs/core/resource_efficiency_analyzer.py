@@ -38,7 +38,7 @@ class ResourceType(Enum):
     """Types of resources to monitor"""
 
     CPU = "cpu"
-    MEMORY = "lukhas.memory"
+    MEMORY = "memory"
     DISK_IO = "disk_io"
     NETWORK_IO = "network_io"
     ENERGY = "energy"  # Estimated based on CPU usage
@@ -370,7 +370,7 @@ class ResourceEfficiencyAnalyzer:
 
         # Memory trend
         memory_values = [s.memory_percent for s in snapshots]
-        trends["lukhas.memory"] = self._calculate_trend(ResourceType.MEMORY, memory_values, snapshots)
+        trends["memory"] = self._calculate_trend(ResourceType.MEMORY, memory_values, snapshots)
 
         # Thread trend
         thread_values = [float(s.thread_count) for s in snapshots]
@@ -474,7 +474,7 @@ class ResourceEfficiencyAnalyzer:
             )
 
         # Memory bottleneck
-        memory_trend = trends.get("lukhas.memory")
+        memory_trend = trends.get("memory")
         if memory_trend:
             if memory_trend.average_value > self.thresholds["memory_high"]:
                 bottlenecks.append(
@@ -600,7 +600,7 @@ class ResourceEfficiencyAnalyzer:
             )
 
         # Memory recommendations
-        memory_trend = trends.get("lukhas.memory")
+        memory_trend = trends.get("memory")
         if memory_trend and memory_trend.optimization_potential > 0.6:
             recommendations.append(
                 {

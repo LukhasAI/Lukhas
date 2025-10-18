@@ -28,7 +28,7 @@ Description: Bio-inspired quantum system integration layer connecting biological
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 Licensed under the LUKHAS Enterprise License.
 
-For documentation and support: https://lukhas.ai/docs
+For documentation and support: https://ai/docs
 """
 
 __module_name__ = "Quantum Bio-System Integration"
@@ -42,7 +42,7 @@ from typing import Any, Optional
 import numpy as np
 
 from bio.qi_layer import QIBioOscillator
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 # Use existing quantum engines - fixed import paths
 from qi.systems.qi_engine import Quantumoscillator as QIOscillator

@@ -5,7 +5,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 try:
-    from lukhas.memory.retention import RetentionAction, RetentionRule, RetentionSeverity
+    from memory.retention import RetentionAction, RetentionRule, RetentionSeverity
 except Exception:
     from enum import Enum
 
@@ -55,7 +55,7 @@ __all__ = [
 ]
 
 try:
-    from lukhas.memory.retention import AbstractArchivalBackend, ArchivalTier  # noqa: F401
+    from memory.retention import AbstractArchivalBackend, ArchivalTier  # noqa: F401
     __all__.extend(
         name
         for name in ("ArchivalTier", "AbstractArchivalBackend")
@@ -66,7 +66,7 @@ except Exception:
 
 
 try:
-    from lukhas.memory.tombstones import FileTombstoneStore, GDPRTombstone  # noqa: F401
+    from memory.tombstones import FileTombstoneStore, GDPRTombstone  # noqa: F401
 except Exception:
     class FileTombstoneStore:
         def __init__(self, *args, **kwargs):

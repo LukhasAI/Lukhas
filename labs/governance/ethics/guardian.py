@@ -94,7 +94,7 @@ class EnhancedLUKHASWorkspaceGuardian:
         self.critical_directories = {
             ".git",
             ".github",
-            "lukhas.governance",
+            "governance",
             "core",
             "ethics",
             "red_team",

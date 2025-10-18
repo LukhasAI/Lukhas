@@ -67,7 +67,7 @@ def manage_voice_handoff(user_query, context_state):
 ║ REFERENCES:
 ║   - Docs: docs/voice-orchestration-guide.md
 ║   - Issues: N/A
-║   - Wiki: internal.lukhas.ai/wiki/duet-conductor
+║   - Wiki: internal.ai/wiki/duet-conductor
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

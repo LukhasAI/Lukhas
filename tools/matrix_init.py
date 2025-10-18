@@ -54,12 +54,12 @@ def customize_contract_for_module(template: Dict[str, Any], module: str) -> Dict
                 {"metric": "identity.auth_success_rate", "op": ">=", "value": 0.999}
             ],
             "spans": [
-                {"name": "identity.authenticate", "attrs": ["code.function", "lukhas.module", "auth.method"]},
-                {"name": "identity.authorize", "attrs": ["code.function", "lukhas.module", "resource.type"]}
+                {"name": "identity.authenticate", "attrs": ["code.function", "module", "auth.method"]},
+                {"name": "identity.authorize", "attrs": ["code.function", "module", "resource.type"]}
             ],
             "metrics": [
-                {"name": "lukhas.identity.auth.latency", "unit": "s", "type": "histogram"},
-                {"name": "lukhas.identity.sessions.active", "unit": "1", "type": "gauge"}
+                {"name": "identity.auth.latency", "unit": "s", "type": "histogram"},
+                {"name": "identity.sessions.active", "unit": "1", "type": "gauge"}
             ]
         },
         "consciousness": {
@@ -80,12 +80,12 @@ def customize_contract_for_module(template: Dict[str, Any], module: str) -> Dict
                 {"metric": "consciousness.awareness_stability", "op": ">=", "value": 0.80}
             ],
             "spans": [
-                {"name": "consciousness.process", "attrs": ["code.function", "lukhas.module", "awareness.level"]},
-                {"name": "consciousness.dream", "attrs": ["code.function", "lukhas.module", "dream.state"]}
+                {"name": "consciousness.process", "attrs": ["code.function", "module", "awareness.level"]},
+                {"name": "consciousness.dream", "attrs": ["code.function", "module", "dream.state"]}
             ],
             "metrics": [
-                {"name": "lukhas.consciousness.awareness.level", "unit": "1", "type": "gauge"},
-                {"name": "lukhas.consciousness.dreams.generated", "unit": "1", "type": "counter"}
+                {"name": "consciousness.awareness.level", "unit": "1", "type": "gauge"},
+                {"name": "consciousness.dreams.generated", "unit": "1", "type": "counter"}
             ]
         }
     }
@@ -113,7 +113,7 @@ def customize_contract_for_module(template: Dict[str, Any], module: str) -> Dict
             {"metric": "attestation.rats_verified", "op": "==", "value": 1}
         ]
         contract["telemetry"]["spans"] = [
-            {"name": f"{module}.process", "attrs": ["code.function", "lukhas.module"]}
+            {"name": f"{module}.process", "attrs": ["code.function", "module"]}
         ]
         contract["telemetry"]["metrics"] = [
             {"name": f"lukhas.{module}.operations", "unit": "1", "type": "counter"}

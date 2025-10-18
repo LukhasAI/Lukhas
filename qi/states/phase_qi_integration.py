@@ -34,12 +34,12 @@ Description: Quantum module for advanced Cognitive functionality
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 Licensed under the LUKHAS Enterprise License.
 
-For documentation and support: https://lukhas.ai/docs
+For documentation and support: https://ai/docs
 """
 
-from lukhas.core.identity.identity_engine import QIIdentityEngine
-from lukhas.core.integration.governance.__init__ import QIEthicsEngine
-from lukhas.core.testing.plugin_test_framework import QITestOracle
+from core.identity.identity_engine import QIIdentityEngine
+from core.integration.governance.__init__ import QIEthicsEngine
+from core.testing.plugin_test_framework import QITestOracle
 from qi.qi_processing_core import BaseOscillator
 from reasoning.symbolic_reasoning import SymbolicEngine
 from tools.documentation.symbolic_knowledge_core.knowledge_graph import (

@@ -12,10 +12,10 @@ from datetime import datetime, timezone
 
 # Import bootstrap with fallback handling
 try:
-    from lukhas.core.bootstrap import get_bootstrap, initialize_lukhas, shutdown_lukhas
+    from core.bootstrap import get_bootstrap, initialize_lukhas, shutdown_lukhas
 except ImportError:
     try:
-        from lukhas.core.bootstrap import get_bootstrap, initialize_lukhas, shutdown_lukhas
+        from core.bootstrap import get_bootstrap, initialize_lukhas, shutdown_lukhas
     except ImportError:
         # Create fallback bootstrap functions
         def fallback_get_bootstrap():
@@ -77,7 +77,7 @@ class SystemHealthMonitor:
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-    handlers=[logging.FileHandler("lukhas.log"), logging.StreamHandler()],
+    handlers=[logging.FileHandler("log"), logging.StreamHandler()],
 )
 
 
@@ -320,13 +320,13 @@ async def async_main():
     lukhas = LUKHAS()
 
     # Start system
-    if await lukhas.start():
+    if await start():
         try:
             # Run interactive mode
-            await lukhas.run_interactive_mode()
+            await run_interactive_mode()
         finally:
             # Ensure proper shutdown
-            await lukhas.shutdown()
+            await shutdown()
     else:
         sys.exit(1)
 

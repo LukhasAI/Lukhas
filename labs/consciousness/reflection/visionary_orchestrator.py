@@ -68,9 +68,9 @@ import yaml
 try:
     from common.exceptions import SafetyViolationError
 
-    from lukhas.core.advanced_symbolic_loop import EnhancedCoreIntegrator
-    from lukhas.core.logging import get_lukhas_logger
-    from lukhas.core.memory.memory_manager import MemoryManager
+    from core.advanced_symbolic_loop import EnhancedCoreIntegrator
+    from core.logging import get_lukhas_logger
+    from core.memory.memory_manager import MemoryManager
 
     #     from system.CORE.voice.voice_engine import VoiceEngine  # TODO: Install or implement CORE
     #     from system.CORE.dream.dream_processor import DreamEngine  # TODO: Install or implement CORE

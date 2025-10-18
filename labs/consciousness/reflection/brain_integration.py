@@ -34,7 +34,7 @@ from enum import Enum
 from typing import Any, Optional
 
 # Configure logging
-logger = logging.getLogger("lukhas.brain")
+logger = logging.getLogger("brain")
 handler = logging.StreamHandler()
 formatter = logging.Formatter("%(asctime)s [%(levelname)s] %(name)s: %(message)s")
 handler.setFormatter(formatter)
@@ -87,7 +87,7 @@ try:
     MemoryManager = None
     MemoryAccessError = None
 except ImportError:
-    logger.warning("Could not import lukhas.memory manager. Access control will be limited.")
+    logger.warning("Could not import memory manager. Access control will be limited.")
     MemoryManager = None
 
 # Import additional components with error handling
@@ -553,7 +553,7 @@ class MemoryEmotionalIntegrator:
         # Return memory with emotional context
         return {
             "success": True,
-            "lukhas.memory": memory,
+            "memory": memory,
             "emotional_context": emotional_context,
             "timestamp": datetime.now(timezone.utc).isoformat()
         }
@@ -611,7 +611,7 @@ class MemoryEmotionalIntegrator:
                     "key": key,
                     "similarity": similarity,
                     "memory_emotion": primary_emotion,
-                    "lukhas.memory": memory_content,
+                    "memory": memory_content,
                     "importance": fold.importance_score
                 })
 
@@ -631,7 +631,7 @@ class MemoryEmotionalIntegrator:
                     "key": fold.get("hash", ""),
                     "similarity": 1.0,  # Direct match since we filtered by emotion
                     "memory_emotion": fold.get("emotion", target_emotion),
-                    "lukhas.memory": fold.get("context", ""),
+                    "memory": fold.get("context", ""),
                     "importance": fold.get("relevance_score", 0.5)
                 })
 
@@ -1023,7 +1023,7 @@ class LucasBrainIntegration:
         elif action == "get_stats":
             # Get system statistics
             stats = {
-                "lukhas.memory": self.memory_emotional.stats,
+                "memory": self.memory_emotional.stats,
                 "current_emotion": self.emotional_oscillator.get_current_state(),
                 "consolidation_running": self.consolidation_running
             }

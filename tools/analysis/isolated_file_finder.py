@@ -103,7 +103,7 @@ class IsolatedFileFinder:
         for file in self.isolated_files:
             # Determine category
             if "/tools/" in file:
-                categories["lukhas.tools"].append(file)
+                categories["tools"].append(file)
             elif "/docs/" in file:
                 categories["documentation"].append(file)
             elif "/examples/" in file or "/demo/" in file:
@@ -141,12 +141,12 @@ class IsolatedFileFinder:
                 }
             )
 
-        if categories["lukhas.tools"]:
+        if categories["tools"]:
             plan["recommendations"].append(
                 {
                     "action": "consolidate_tools",
-                    "description": f"Consolidate {len(categories['lukhas.tools'])} tool files into organized scripts",
-                    "files": categories["lukhas.tools"],
+                    "description": f"Consolidate {len(categories['tools'])} tool files into organized scripts",
+                    "files": categories["tools"],
                 }
             )
 

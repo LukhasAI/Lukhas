@@ -40,13 +40,13 @@ from typing import Any, Callable, Optional
 
 # Constellation Framework and LUKHAS integrations
 try:
-    from lukhas.core.glyph.glyph_engine import GlyphEngine
+    from core.glyph.glyph_engine import GlyphEngine
 except ImportError:
     # Fallback for testing/development
     GlyphEngine = None
 
 try:
-    from lukhas.governance.identity.core.id_service.lambd_id_validator import LambdIDValidator
+    from governance.identity.core.id_service.lambd_id_validator import LambdIDValidator
 except ImportError:
     # Fallback for testing/development
     LambdIDValidator = None

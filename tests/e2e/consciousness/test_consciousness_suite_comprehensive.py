@@ -51,7 +51,7 @@ class TestConsciousnessModuleIntegrity:
         try:
             # Test the modules we just fixed for syntax errors
             from labs.consciousness.reflection import brain_integration, core_integrator  # noqa: F401
-            from lukhas.consciousness.reasoning import id_reasoning_engine  # noqa: F401
+            from consciousness.reasoning import id_reasoning_engine  # noqa: F401
 
             logger.info("✅ All consciousness reasoning modules imported successfully")
             assert True

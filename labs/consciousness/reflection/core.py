@@ -38,7 +38,7 @@ except ImportError:
         SUPPORTED_DIMENSIONS = [512, 1024]
 
 try:
-    from lukhas.memory.structural_conscience import create_structural_conscience
+    from memory.structural_conscience import create_structural_conscience
 except ImportError:
     create_structural_conscience = None
 from hybrid_memory_fold import (
@@ -129,7 +129,7 @@ def create_optimized_hybrid_memory_fold_with_lazy_loading(
         )
     if enable_conscience:
         try:
-            from lukhas.memory.structural_conscience import create_structural_conscience
+            from memory.structural_conscience import create_structural_conscience
 
             conscience = create_structural_conscience()
             kwargs["structural_conscience"] = conscience
@@ -183,7 +183,7 @@ def create_optimized_hybrid_memory_fold(
         )
     if enable_conscience:
         try:
-            from lukhas.memory.structural_conscience import create_structural_conscience
+            from memory.structural_conscience import create_structural_conscience
 
             conscience = create_structural_conscience()
             kwargs["structural_conscience"] = conscience
@@ -1659,7 +1659,7 @@ class DistributedMemoryFold:
             for memory, score in local_results:
                 results.append(
                     {
-                        "lukhas.memory": memory,
+                        "memory": memory,
                         "score": score,
                         "source": "local",
                         "node_id": self.node_id,
@@ -1688,7 +1688,7 @@ class DistributedMemoryFold:
                 for memory_data in result:
                     distributed_memories.append(
                         {
-                            "lukhas.memory": memory_data,
+                            "memory": memory_data,
                             "score": 0.5,
                             "source": "distributed",
                             "node_id": memory_data.get("node_id", "unknown"),

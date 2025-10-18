@@ -22,7 +22,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 import pandas as pd
 
 try:  # pragma: no cover - optional integration
-    from lukhas.core.interfaces.voice.core.sayit import (
+    from core.interfaces.voice.core.sayit import (
         trace_tools,  # assuming trace_tools.py is importable
     )
 except Exception:  # noqa: BLE001 - fallback when integration not present

@@ -36,9 +36,9 @@ class SmartStreamline:
         core_modules = {
             "core": ["common", "glyph", "symbolic", "orchestration"],
             "consciousness": ["unified", "dream", "reflection", "interfaces"],
-            "lukhas.memory": ["folds", "systems", "core"],
+            "memory": ["folds", "systems", "core"],
             "orchestration": ["brain", "monitoring", "agents"],
-            "lukhas.governance": ["guardian", "ethics", "policies"],
+            "governance": ["guardian", "ethics", "policies"],
             "vivox": ["consciousness", "memory_expansion", "integration"],
         }
 
@@ -76,7 +76,7 @@ class SmartStreamline:
                             if module_parts[0] in [
                                 "core",
                                 "consciousness",
-                                "lukhas.memory",
+                                "memory",
                                 "orchestration",
                             ]:
                                 # This is a cross-module import - verify it exists
@@ -104,7 +104,7 @@ class SmartStreamline:
             "core.interfaces": "core.common.interfaces",
             "core.base": "core.common.base",
             "consciousness.base": "consciousness.unified.base",
-            "lukhas.memory.base": "lukhas.memory.core.base",
+            "memory.base": "memory.core.base",
             "orchestration.base": "orchestration.brain.base",
         }
 
@@ -130,12 +130,12 @@ class SmartStreamline:
         # Focus on safe consolidations
         safe_consolidations = {
             "get_logger": {
-                "target": "lukhas.common.utils",
+                "target": "common.utils",
                 "preserve_local": True,  # Keep local versions that might have custom config
             },
-            "load_config": {"target": "lukhas.common.utils", "preserve_local": False},
+            "load_config": {"target": "common.utils", "preserve_local": False},
             "SingletonMeta": {
-                "target": "lukhas.common.patterns",
+                "target": "common.patterns",
                 "preserve_local": False,
             },
         }
@@ -263,7 +263,7 @@ if __name__ == "__main__":
     main()
 '''
 
-        fixer_path = self.root_path / "lukhas.tools" / "scripts" / "fix_post_modularization_imports.py"
+        fixer_path = self.root_path / "tools" / "scripts" / "fix_post_modularization_imports.py"
         with open(fixer_path, "w") as f:
             f.write(fixer_content)
 

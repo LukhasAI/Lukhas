@@ -33,7 +33,7 @@ def test_trace_summary_contains_aggregated_data(bridge_logger):
     bridge_logger.log_bridge_event(
         TraceCategory.MEMORY_MAP,
         TraceLevel.INFO,
-        "lukhas.memory.mapper",
+        "memory.mapper",
         "mapping created",
     )
 

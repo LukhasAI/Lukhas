@@ -56,7 +56,7 @@ from typing import Any, Optional
 import aiohttp
 import numpy as np
 
-from lukhas.core.common.config import get_config
+from core.common.config import get_config
 
 
 class NodeState(Enum):
@@ -814,7 +814,7 @@ class DistributedMemoryFold:
             for memory, score in local_results:
                 results.append(
                     {
-                        "lukhas.memory": memory,
+                        "memory": memory,
                         "score": score,
                         "source": "local",
                         "node_id": self.node_id,
@@ -853,7 +853,7 @@ class DistributedMemoryFold:
                 for memory_data in result:
                     distributed_memories.append(
                         {
-                            "lukhas.memory": memory_data,
+                            "memory": memory_data,
                             "score": 0.5,  # Default score for distributed memories
                             "source": "distributed",
                             "node_id": memory_data.get("node_id", "unknown"),

@@ -12,7 +12,7 @@ Purpose:
 - Triggers dream redirection using stored symbolic snapshots
 """
 from dream.core.dream_snapshot import DreamSnapshotStore
-from lukhas.memory.emotional import EmotionalMemory
+from memory.emotional import EmotionalMemory
 
 
 class DreamFeedbackController:

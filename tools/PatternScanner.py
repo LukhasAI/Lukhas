@@ -58,7 +58,7 @@ class FunctionScanner:
             ],
             # Memory Systems
             "memory_helix": [
-                r"lukhas.memory.*helix",
+                r"memory.*helix",
                 r"helix",
                 r"spiral.*memory",
                 r"memory_chain",
@@ -73,7 +73,7 @@ class FunctionScanner:
             "emotional_memory": [
                 r"emotional.*memory",
                 r"trauma_lock",
-                r"lukhas.memory.*emotion",
+                r"memory.*emotion",
             ],
             # Dream & Cognitive Systems
             "dream_mutator": [
@@ -376,4 +376,4 @@ def main():
 if __name__ == "__main__":
     main()
 
-# Λ Systems 2025 www.lukhas.ai
+# Λ Systems 2025 www.ai

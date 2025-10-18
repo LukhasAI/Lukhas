@@ -24,7 +24,7 @@ DESCRIPTION:
 import json
 from pathlib import Path
 
-from lukhas.core.utils.symbolic_utils import (summarize_emotion_vector,
+from core.utils.symbolic_utils import (summarize_emotion_vector,
                                               tier_label)
 
 REPLAY_PATH = Path("core/logs/replay_queue.jsonl")

@@ -23,7 +23,7 @@ consolidates all drift monitoring capabilities across the LUKHAS Cognitive syste
 Integrates symbolic, ethical, emotional, and temporal drift analysis with
 unified scoring, cascade prevention, and ethics module interaction.
 
-For more information, visit: https://lukhas.ai
+For more information, visit: https://ai
 """
 
 # ΛTRACE: Unified drift monitoring engine initialization
@@ -32,7 +32,7 @@ For more information, visit: https://lukhas.ai
 
 __version__ = "1.0.0"
 __author__ = "LUKHAS Development Team"
-__email__ = "dev@lukhas.ai"
+__email__ = "dev@ai"
 __status__ = "Production"
 
 import asyncio
@@ -58,7 +58,7 @@ from ethics.sentinel.ethical_drift_sentinel import (
 )
 
 # Import core drift tracking implementation
-from lukhas.core.symbolic.drift.symbolic_drift_tracker import (
+from core.symbolic.drift.symbolic_drift_tracker import (
     DriftPhase,
     SymbolicDriftTracker,
 )

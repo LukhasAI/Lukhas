@@ -37,8 +37,8 @@ except ImportError:
 
 # Try to import lukhas_components (will be available when integrated)
 try:
-    from lukhas.consciousness import ConsciousnessEngine
-    from lukhas.guardian import GuardianSystem
+    from consciousness import ConsciousnessEngine
+    from guardian import GuardianSystem
     from identity import IdentityManager
 
     LUKHAS_AVAILABLE = True

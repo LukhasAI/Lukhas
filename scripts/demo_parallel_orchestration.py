@@ -12,8 +12,8 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from lukhas.core.interfaces import CognitiveNodeBase
-from lukhas.core.orchestration.async_orchestrator import AsyncOrchestrator
+from core.interfaces import CognitiveNodeBase
+from core.orchestration.async_orchestrator import AsyncOrchestrator
 
 
 class DemoCognitiveNode(CognitiveNodeBase):
@@ -43,7 +43,7 @@ class DemoCognitiveNode(CognitiveNodeBase):
 
 def setup_demo_registry():
     """Setup demo nodes for the orchestrator."""
-    from lukhas.core.registry import register
+    from core.registry import register
 
     # Register demo cognitive nodes with realistic latencies
     register("node:memory", DemoCognitiveNode("memory", 0.15))

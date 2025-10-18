@@ -15,11 +15,11 @@ from fastapi import Body, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-from lukhas.consciousness.interfaces.natural_language_interface import (
+from consciousness.interfaces.natural_language_interface import (
     ConversationManager,
     NaturalLanguageConsciousnessInterface,
 )
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -141,7 +141,7 @@ async def _setup_mock_services():
     """Setup mock services for demo - replace with real services in production"""
     from unittest.mock import AsyncMock, Mock
 
-    from lukhas.core.interfaces.dependency_injection import register_service
+    from core.interfaces.dependency_injection import register_service
 
     # Basic mock services for demo
     mock_consciousness = Mock()

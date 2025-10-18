@@ -19,7 +19,7 @@ import time
 import pytest
 from fastapi.testclient import TestClient
 
-from lukhas.adapters.openai.api import get_app
+from adapters.openai.api import get_app
 
 AUTH_HEADERS = {"Authorization": "Bearer sk-lukhas-test-1234567890abcdef"}
 

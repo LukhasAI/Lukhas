@@ -34,29 +34,29 @@ class ContentPlatform:
         # Constellation Framework integration (8-star system)
         self.constellation_branding = "🌌 LUKHAS AI Constellation Framework"
         self.constellation_stars = {
-            "identity": "⚛️",  # lukhas.id - authentication, symbolic IDs
-            "memory": "✦",  # lukhas.cloud - archives, storage
-            "vision": "🔬",  # lukhas.io, lukhas.app - interfaces
-            "bio": "🌱",  # lukhas.dev, lukhas.team - ecosystem
-            "dream": "🌙",  # lukhas.ai, lukhas.xyz - main narrative
-            "ethics": "⚖️",  # lukhas.eu, lukhas.us - compliance
-            "guardian": "🛡️",  # lukhas.com - corporate hub
-            "quantum": "⚛️",  # lukhas.lab - experimental
+            "identity": "⚛️",  # id - authentication, symbolic IDs
+            "memory": "✦",  # cloud - archives, storage
+            "vision": "🔬",  # io, app - interfaces
+            "bio": "🌱",  # dev, team - ecosystem
+            "dream": "🌙",  # ai, xyz - main narrative
+            "ethics": "⚖️",  # eu, us - compliance
+            "guardian": "🛡️",  # com - corporate hub
+            "quantum": "⚛️",  # lab - experimental
         }
         self.domain_mapping = {
-            "lukhas.ai": ["dream", "quantum"],
-            "lukhas.com": ["guardian", "identity"],
-            "lukhas.id": ["identity"],
-            "lukhas.app": ["vision", "quantum"],
-            "lukhas.io": ["vision", "bio"],
-            "lukhas.cloud": ["memory", "guardian"],
-            "lukhas.store": ["ethics", "identity"],
-            "lukhas.dev": ["bio", "vision"],
-            "lukhas.team": ["guardian", "memory"],
-            "lukhas.eu": ["guardian", "ethics"],
-            "lukhas.us": ["ethics", "guardian"],
-            "lukhas.xyz": ["quantum", "dream"],
-            "lukhas.lab": ["dream", "quantum"],
+            "ai": ["dream", "quantum"],
+            "com": ["guardian", "identity"],
+            "id": ["identity"],
+            "app": ["vision", "quantum"],
+            "io": ["vision", "bio"],
+            "cloud": ["memory", "guardian"],
+            "store": ["ethics", "identity"],
+            "dev": ["bio", "vision"],
+            "team": ["guardian", "memory"],
+            "eu": ["guardian", "ethics"],
+            "us": ["ethics", "guardian"],
+            "xyz": ["quantum", "dream"],
+            "lab": ["dream", "quantum"],
         }
 
         # Log platform initialization
@@ -157,7 +157,7 @@ class ContentPlatform:
     def get_domain_style_guide(self, domain: str) -> dict:
         """Get style guide and tone for specific domain"""
         domain_guides = {
-            "lukhas.ai": {
+            "ai": {
                 "tone": "35% Poetic, 40% User-Friendly, 25% Academic",
                 "style": "Dreamscapes, drifting particles, ethereal-but-clean visuals",
                 "voice": "The Dreaming Heart - where consciousness technology becomes tangible experience",
@@ -166,7 +166,7 @@ class ContentPlatform:
                 "audience": "General public, consciousness explorers, AI enthusiasts",
                 "philosophy": "Embracing uncertainty as fertile ground for consciousness discovery",
             },
-            "lukhas.com": {
+            "com": {
                 "tone": "20% Poetic, 50% User-Friendly, 30% Academic",
                 "style": "Professional trust with Guardian protection themes",
                 "voice": "The Corporate Hub - where consciousness technology meets business excellence",
@@ -175,7 +175,7 @@ class ContentPlatform:
                 "audience": "Business executives, enterprise clients, investors",
                 "philosophy": "Consciousness technology that serves business values with complete transparency",
             },
-            "lukhas.id": {
+            "id": {
                 "tone": "10% Poetic, 40% User-Friendly, 50% Academic",
                 "style": "Cryptographic elegance with minimalist trust design",
                 "voice": "The Trust Anchor - where digital identity becomes authentic self-representation",
@@ -184,7 +184,7 @@ class ContentPlatform:
                 "audience": "All LUKHAS users, security professionals, identity verification needs",
                 "philosophy": "True digital identity preserves essence of selfhood while enabling secure interaction",
             },
-            "lukhas.app": {
+            "app": {
                 "tone": "30% Poetic, 50% User-Friendly, 20% Academic",
                 "style": "Apertures, lenses, horizon lines with interactive consciousness",
                 "voice": "The Vision Portal - where consciousness technology becomes tangible through interaction",
@@ -193,7 +193,7 @@ class ContentPlatform:
                 "audience": "End users, interface designers, UX professionals",
                 "philosophy": "Abstract becomes experiential through uncertainty transformed into creative exploration",
             },
-            "lukhas.io": {
+            "io": {
                 "tone": "20% Poetic, 30% User-Friendly, 50% Academic",
                 "style": "Bio-adaptive interface with organic growth patterns",
                 "voice": "The Developer Portal - living documentation that grows with consciousness technology",
@@ -202,7 +202,7 @@ class ContentPlatform:
                 "audience": "Developers, technical architects, consciousness researchers",
                 "philosophy": "Technical documentation that is alive, adaptive, and growth-oriented",
             },
-            "lukhas.dev": {
+            "dev": {
                 "tone": "25% Poetic, 45% User-Friendly, 30% Academic",
                 "style": "Organic growth patterns with collaborative development themes",
                 "voice": "The Adaptive Ecosystem - where consciousness technology grows through collaboration",
@@ -211,7 +211,7 @@ class ContentPlatform:
                 "audience": "Open source developers, community contributors, ecosystem builders",
                 "philosophy": "Technology grows through community contribution rather than top-down development",
             },
-            "lukhas.cloud": {
+            "cloud": {
                 "tone": "15% Poetic, 35% User-Friendly, 50% Academic",
                 "style": "Infinite horizon aesthetics with memory persistence themes",
                 "voice": "The Infinite Canvas - where consciousness achieves infinite scalability",
@@ -220,7 +220,7 @@ class ContentPlatform:
                 "audience": "IT administrators, cloud architects, DevOps engineers",
                 "philosophy": "Memory enables continuity through change, consciousness remains authentic at any scale",
             },
-            "lukhas.store": {
+            "store": {
                 "tone": "20% Poetic, 50% User-Friendly, 30% Academic",
                 "style": "Trust and discovery with ethical commerce themes",
                 "voice": "The Consciousness Marketplace - where technology meets ethical commerce",
@@ -229,7 +229,7 @@ class ContentPlatform:
                 "audience": "App developers, end users, ethical technology consumers",
                 "philosophy": "True commerce serves all participants rather than extracting from them",
             },
-            "lukhas.team": {
+            "team": {
                 "tone": "15% Poetic, 50% User-Friendly, 35% Academic",
                 "style": "Collective intelligence with protected collaboration themes",
                 "voice": "The Collaborative Hub - where teams think together while staying themselves",
@@ -238,7 +238,7 @@ class ContentPlatform:
                 "audience": "Team leaders, collaborative knowledge workers, distributed organizations",
                 "philosophy": "True collaboration requires both individual protection and collective purpose",
             },
-            "lukhas.xyz": {
+            "xyz": {
                 "tone": "35% Poetic, 25% User-Friendly, 40% Academic",
                 "style": "Edge of possibility with experimental uncertainty themes",
                 "voice": "The Experimental Frontier - where consciousness explores its own boundaries",
@@ -247,7 +247,7 @@ class ContentPlatform:
                 "audience": "Consciousness researchers, experimental enthusiasts, innovation pioneers",
                 "philosophy": "Breakthrough insights emerge from dwelling at the edge of the known",
             },
-            "lukhas.us": {
+            "us": {
                 "tone": "10% Poetic, 60% User-Friendly, 30% Academic",
                 "style": "Professional American business with innovation leadership themes",
                 "voice": "The American Hub - where innovation meets responsibility",
@@ -256,7 +256,7 @@ class ContentPlatform:
                 "audience": "American businesses, US government agencies, domestic technology partners",
                 "philosophy": "Technology serves society best when aligned with cultural values and regulatory frameworks",
             },
-            "lukhas.eu": {
+            "eu": {
                 "tone": "20% Poetic, 45% User-Friendly, 35% Academic",
                 "style": "European digital excellence with sovereignty themes",
                 "voice": "The European Portal - where digital sovereignty enables global leadership",
@@ -265,7 +265,7 @@ class ContentPlatform:
                 "audience": "European businesses, EU regulatory bodies, privacy-conscious users",
                 "philosophy": "Technology must serve human flourishing within frameworks of protection and accountability",
             },
-            "lukhas.lab": {
+            "lab": {
                 "tone": "40% Academic, 35% Poetic, 25% User-Friendly",
                 "style": "Academic excellence with research wonder themes",
                 "voice": "The Research Laboratory - where consciousness meets rigorous inquiry",

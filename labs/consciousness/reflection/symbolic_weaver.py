@@ -61,7 +61,7 @@ except ImportError as e:
 class FragmentType(Enum):
     """Types of symbolic fragments that can be woven."""
 
-    MEMORY = "lukhas.memory"
+    MEMORY = "memory"
     DREAM = "dream"
     EMOTION = "emotion"
     DRIFT_LOG = "drift_log"
@@ -647,7 +647,7 @@ class SymbolicWeaver:
 
         if "dream_content" in data or "dream" in str(data.get("source", "")).lower():
             return FragmentType.DREAM
-        elif "lukhas.memory" in str(data.get("source", "")).lower() or "memoria" in data:
+        elif "memory" in str(data.get("source", "")).lower() or "memoria" in data:
             return FragmentType.MEMORY
         elif "emotion" in data or "emotional_state" in data:
             return FragmentType.EMOTION
@@ -700,7 +700,7 @@ class SymbolicWeaver:
             },
             {
                 "content": "Memory surfaces: childhood home, the smell of grandmother's kitchen, warmth and love surrounding me. But also sadness - the realization that this sacred space exists only in memory now. Nostalgia washes over me like gentle waves.",
-                "source": "lukhas.memory",
+                "source": "memory",
                 "timestamp": (datetime.now(timezone.utc) - timedelta(hours=6)).isoformat(),
                 "metadata": {"memory_type": "childhood", "emotional_intensity": 0.8},
             },
@@ -1630,7 +1630,7 @@ class SymbolicWeaver:
         # Thematic drift (low symbol/emotion continuity)
         thematic_drift = 1.0 - self._calculate_thematic_coherence(thread)
 
-        # Identity drift (deviation from lukhas.core.common values)
+        # Identity drift (deviation from core.common values)
         identity_drift = 1.0 - thread.identity_alignment
 
         # Emotional drift (erratic emotional changes)
@@ -2238,7 +2238,7 @@ if __name__ == "__main__":
 ║ REFERENCES:
 ║   - Docs: docs/narrative/symbolic_weaver.md
 ║   - Issues: github.com/lukhas-ai/lukhas/issues?label=narrative
-║   - Wiki: wiki.lukhas.ai/SymbolicWeaver
+║   - Wiki: wiki.ai/SymbolicWeaver
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

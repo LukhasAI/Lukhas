@@ -1,7 +1,7 @@
 import asyncio
 import unittest
 
-from lukhas.core.security.auth import EnhancedAuthenticationSystem
+from core.security.auth import EnhancedAuthenticationSystem
 
 
 class TestEnhancedAuthenticationSystem(unittest.TestCase):

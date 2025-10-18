@@ -74,7 +74,7 @@ class ConsciousnessMonitor:
     def check_memory_system() -> dict[str, Any]:
         """Check memory system health"""
         try:
-            from lukhas.memory import MEMORY_AVAILABLE, create_fold
+            from memory import MEMORY_AVAILABLE, create_fold
 
             # Test memory functionality
             test_fold = create_fold("monitor_test", ["system", "health"])

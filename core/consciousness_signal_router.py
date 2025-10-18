@@ -199,7 +199,7 @@ class ConsciousnessSignalRouter:
             RoutingRule(
                 rule_id="awareness_broadcast",
                 source_pattern=".*",
-                target_modules=["consciousness", "identity", "lukhas.governance"],
+                target_modules=["consciousness", "identity", "governance"],
                 signal_types=[ConsciousnessSignalType.AWARENESS],
                 priority=8,
                 filters=[SignalFilter.COHERENCE_THRESHOLD],
@@ -227,7 +227,7 @@ class ConsciousnessSignalRouter:
             RoutingRule(
                 rule_id="evolution_cascade_prevention",
                 source_pattern=".*",
-                target_modules=["consciousness", "lukhas.governance", "identity"],
+                target_modules=["consciousness", "governance", "identity"],
                 signal_types=[ConsciousnessSignalType.EVOLUTION],
                 priority=10,
                 filters=[SignalFilter.TRINITY_COMPLIANCE],
@@ -270,7 +270,7 @@ class ConsciousnessSignalRouter:
             RoutingRule(
                 rule_id="network_pulse_monitoring",
                 source_pattern=".*",
-                target_modules=["orchestration", "consciousness", "lukhas.governance"],
+                target_modules=["orchestration", "consciousness", "governance"],
                 signal_types=[ConsciousnessSignalType.NETWORK_PULSE],
                 priority=5,
                 filters=[SignalFilter.NONE],
@@ -284,7 +284,7 @@ class ConsciousnessSignalRouter:
             RoutingRule(
                 rule_id="constellation_sync_broadcast",
                 source_pattern=".*",
-                target_modules=["consciousness", "identity", "lukhas.governance", "orchestration"],
+                target_modules=["consciousness", "identity", "governance", "orchestration"],
                 signal_types=[ConsciousnessSignalType.TRINITY_SYNC],
                 priority=9,
                 filters=[SignalFilter.TRINITY_COMPLIANCE],
@@ -590,7 +590,7 @@ class ConsciousnessSignalRouter:
         """Adaptively determine target nodes based on network state"""
 
         # Get base target nodes
-        base_nodes = self._get_nodes_by_modules(["consciousness", "identity", "lukhas.governance"])
+        base_nodes = self._get_nodes_by_modules(["consciousness", "identity", "governance"])
 
         # Add specialized nodes based on signal characteristics
         if signal.bio_symbolic_data:

@@ -3,7 +3,7 @@
 import logging
 from typing import Any
 
-from lukhas.core.colonies.base_colony import BaseColony
+from core.colonies.base_colony import BaseColony
 
 logger = logging.getLogger(__name__)
 
@@ -12,7 +12,7 @@ class GovernanceColony(BaseColony):
     """Simple governance colony handling pre-approvals."""
 
     def __init__(self, colony_id: str):
-        super().__init__(colony_id, capabilities=["lukhas.governance", "ethics"])
+        super().__init__(colony_id, capabilities=["governance", "ethics"])
 
     async def pre_approve(self, task_id: str, task_data: dict[str, Any]) -> bool:
         logger.info(f"GovernanceColony pre-approving task {task_id}")

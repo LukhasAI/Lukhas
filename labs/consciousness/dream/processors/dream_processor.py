@@ -8,7 +8,7 @@ Licensed under the lukhas Core License - see LICENSE.md for details.
 """
 from typing import Any
 
-from lukhas.memory.systems.helix_dna import HelixMemory
+from memory.systems.helix_dna import HelixMemory
 
 
 class DreamProcessor:

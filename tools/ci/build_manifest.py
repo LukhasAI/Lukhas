@@ -150,12 +150,12 @@ class TodoManifestBuilder:
             return "Identity"
         elif any(
             keyword in path_lower or keyword in title_lower
-            for keyword in ["consciousness", "awareness", "dream", "lukhas.memory"]
+            for keyword in ["consciousness", "awareness", "dream", "memory"]
         ):
             return "Consciousness"
         elif any(
             keyword in path_lower or keyword in title_lower
-            for keyword in ["guardian", "ethics", "safety", "lukhas.governance"]
+            for keyword in ["guardian", "ethics", "safety", "governance"]
         ):
             return "Guardian"
         return "null"
@@ -163,7 +163,7 @@ class TodoManifestBuilder:
     def _assess_risk(self, file_path: str, title: str) -> str:
         """Assess risk level based on file path and content"""
         high_risk_patterns = ["quantum", "crypto", "security", "guardian", "safety"]
-        med_risk_patterns = ["consciousness", "identity", "lukhas.governance"]
+        med_risk_patterns = ["consciousness", "identity", "governance"]
 
         content = f"{file_path} {title}".lower()
 

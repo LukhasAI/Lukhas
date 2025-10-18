@@ -96,7 +96,7 @@ class IntelligentTestOrchestrator:
         # Risk weights for different file types
         self.risk_weights = {
             "consciousness": 1.0,  # Highest risk
-            "lukhas.memory": 0.9,
+            "memory": 0.9,
             "identity": 0.9,
             "security": 0.95,
             "oauth": 0.8,

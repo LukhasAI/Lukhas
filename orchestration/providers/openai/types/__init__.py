@@ -1,10 +1,10 @@
 """Bridge: orchestration.providers.openai.types (request/response models)."""
 from __future__ import annotations
 
-from lukhas._bridgeutils import bridge_from_candidates, safe_guard
+from _bridgeutils import bridge_from_candidates, safe_guard
 
 _CANDIDATES = (
-    "lukhas_website.lukhas.orchestration.providers.openai.types",
+    "lukhas_website.orchestration.providers.openai.types",
     "candidate.orchestration.providers.openai.types",
     "orchestration.providers.openai.types",
 )

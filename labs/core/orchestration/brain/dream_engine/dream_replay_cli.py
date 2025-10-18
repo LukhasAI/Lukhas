@@ -23,7 +23,7 @@ DESCRIPTION:
 """
 
 
-from lukhas.core.modules.nias.__init__ import replay_recent_dreams
+from core.modules.nias.__init__ import replay_recent_dreams
 
 
 def run_cli():

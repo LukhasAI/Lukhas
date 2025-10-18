@@ -367,7 +367,7 @@ def bio_feedback_loop(event: dict[str, Any]) -> None:
     """
 
     try:
-        from lukhas.consciousness.bio_integration import bio_feedback_loop as _consciousness_loop
+        from consciousness.bio_integration import bio_feedback_loop as _consciousness_loop
     except ImportError:
         logger.warning("Consciousness bio_feedback_loop unavailable; queuing event for deferred processing")
         _PENDING_FEEDBACK_EVENTS.append(event)

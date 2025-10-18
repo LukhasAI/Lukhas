@@ -53,8 +53,8 @@ except ImportError:
 # Memory system imports
 try:
     from labs.memory.fold_system import FoldManager, get_fold_manager
-    from lukhas.memory.scheduled_folding import ScheduledFoldingManager, get_folding_manager
-    from lukhas.memory.adaptive_memory import AdaptiveMemorySystem, MemoryType
+    from memory.scheduled_folding import ScheduledFoldingManager, get_folding_manager
+    from memory.adaptive_memory import AdaptiveMemorySystem, MemoryType
     MEMORY_SYSTEMS_AVAILABLE = True
 except ImportError:
     MEMORY_SYSTEMS_AVAILABLE = False

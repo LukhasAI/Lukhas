@@ -15,7 +15,7 @@ from typing import Dict
 ROOT = Path(__file__).resolve().parents[1]
 POLICIES_DIR = ROOT / "policies" / "matrix"
 CHECKSUM_FILE = ROOT / "artifacts" / "policy_bundle.sha256"
-TIER_PERMISSIONS = ROOT / "labs" / "lukhas.governance" / "identity" / "config" / "tier_permissions.json"
+TIER_PERMISSIONS = ROOT / "labs" / "governance" / "identity" / "config" / "tier_permissions.json"
 
 def compute_file_hash(file_path: Path) -> str:
     """Compute SHA256 hash of a file."""

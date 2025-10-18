@@ -310,7 +310,7 @@ CONSENT_LEVEL_SYMBOLS = {
 ║ REFERENCES:
 ║   - Docs: docs/symbolic/vocabularies/identity_vocabulary.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=identity-vocabulary
-║   - Wiki: internal.lukhas.ai/wiki/identity-symbolic-system
+║   - Wiki: internal.ai/wiki/identity-symbolic-system
 ║
 ║ VOCABULARY STATUS:
 ║   - Total Symbols: 30+ identity-related symbols

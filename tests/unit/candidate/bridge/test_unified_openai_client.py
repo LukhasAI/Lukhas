@@ -14,8 +14,8 @@ from bridge.llm_wrappers.unified_openai_client import (
 @pytest.fixture
 def mock_openai_clients():
     with (
-        patch("lukhas.bridge.llm_wrappers.unified_openai_client.OpenAI") as mock_sync_client,
-        patch("lukhas.bridge.llm_wrappers.unified_openai_client.AsyncOpenAI") as mock_async_client,
+        patch("bridge.llm_wrappers.unified_openai_client.OpenAI") as mock_sync_client,
+        patch("bridge.llm_wrappers.unified_openai_client.AsyncOpenAI") as mock_async_client,
     ):
         yield mock_sync_client, mock_async_client
 

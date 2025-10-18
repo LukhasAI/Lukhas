@@ -40,7 +40,7 @@
 """
 import logging
 
-from lukhas.branding.terminology import normalize_output
+from branding.terminology import normalize_output
 
 from .base import LLMWrapper
 
@@ -117,7 +117,7 @@ class GeminiWrapper(LLMWrapper):
 ║ REFERENCES:
 ║   - Docs: docs/bridge/llm-wrappers/gemini.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=gemini-wrapper
-║   - Wiki: wiki.lukhas.ai/gemini-integration
+║   - Wiki: wiki.ai/gemini-integration
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

@@ -260,7 +260,7 @@ class HarmonyEngine:
 ║ REFERENCES:
 ║   - Docs: docs/core/personality/creative_engine.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=personality
-║   - Wiki: wiki.lukhas.ai/personality/creative-systems
+║   - Wiki: wiki.ai/personality/creative-systems
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

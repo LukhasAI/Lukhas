@@ -229,6 +229,6 @@ class ExponentialLearningSystem:
 #   Develop sophisticated algorithms for pattern extraction, knowledge update, and consolidation
 #   that align with the "exponential learning" concept.
 #   Consider adding mechanisms for forgetting or attenuating old/irrelevant knowledge.
-# CONTACT: LUKHAS DEVELOPMENT TEAM (dev@lukhas.ai)
+# CONTACT: LUKHAS DEVELOPMENT TEAM (dev@ai)
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════

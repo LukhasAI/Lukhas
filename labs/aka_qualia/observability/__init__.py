@@ -6,7 +6,7 @@ from importlib import import_module
 
 for _candidate in (
     "labs.candidate.aka_qualia.observability",
-    "lukhas_website.lukhas.aka_qualia.observability",
+    "lukhas_website.aka_qualia.observability",
     "aka_qualia.observability",
 ):
     try:

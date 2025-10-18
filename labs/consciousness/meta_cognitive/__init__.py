@@ -46,7 +46,7 @@ logger.info("ΛTRACE: core.integration.meta_cognitive package initialized.", exp
 # LOGGING: ΛTRACE_ENABLED via structlog.
 # AUTHENTICATION: Not applicable.
 # HOW TO USE:
-#   from lukhas.core.integration.meta_cognitive import MetaCognitiveController # Example
+#   from core.integration.meta_cognitive import MetaCognitiveController # Example
 # INTEGRATION NOTES: Connects core cognitive functions with self-monitoring and
 #                    adaptive learning strategy systems.
 # MAINTENANCE: Update __all__ as components are added/refactored.

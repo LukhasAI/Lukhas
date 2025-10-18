@@ -39,9 +39,9 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional, Union
 
-# Try to import from lukhas.core.common if available
+# Try to import from core.common if available
 try:
-    from lukhas.core.common import get_logger
+    from core.common import get_logger
 
     logger = get_logger("ΛTRACE.bridge.openai_core", timezone)
 except ImportError:
@@ -668,7 +668,7 @@ class OpenAIMockProvider:
         # Module-specific mock responses
         module_responses = {
             "dream": "In this dream, you find yourself in a surreal landscape where thoughts become visible...",
-            "lukhas.memory": "The memory folds reveal patterns of interconnected experiences...",
+            "memory": "The memory folds reveal patterns of interconnected experiences...",
             "consciousness": "Awareness fluctuates between different states of perception...",
             "reasoning": "Analysis suggests multiple pathways to the solution...",
             "emotion": "The emotional resonance indicates a complex interplay of feelings...",

@@ -5,14 +5,14 @@ Enhanced memory manager for creativity and dream systems.
 Provides emotional modulation capabilities for memory processing.
 
 DEPRECATED: This module is deprecated and will be removed in v2.0.0.
-Please use lukhas.memory.EmotionalMemoryManager instead.
+Please use memory.EmotionalMemoryManager instead.
 """
 import warnings
 from typing import Any, Optional
 
 warnings.warn(
-    "lukhas.memory.systems.emotional_memory_manager is deprecated and will be removed in v2.0.0. "
-    "Please use lukhas.memory.EmotionalMemoryManager instead. "
+    "memory.systems.emotional_memory_manager is deprecated and will be removed in v2.0.0. "
+    "Please use memory.EmotionalMemoryManager instead. "
     "The new implementation provides enhanced emotional state tracking and memory-emotion integration.",
     DeprecationWarning,
     stacklevel=2,
@@ -89,7 +89,7 @@ class EmotionalModulator:
             Integrated memory-emotion data
         """
         integrated = {
-            "lukhas.memory": memory_data,
+            "memory": memory_data,
             "emotion": emotion_data,
             "integration_score": self._calculate_integration_score(memory_data, emotion_data),
             "enhanced_memory": self._enhance_memory_with_emotion(memory_data, emotion_data),

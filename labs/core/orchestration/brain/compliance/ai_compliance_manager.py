@@ -73,7 +73,7 @@ class AIComplianceManager:
                 "OECD_PRINCIPLES": True,
                 "required_assessments": [
                     "ethics",
-                    "lukhas.governance",
+                    "governance",
                     "human_oversight",
                 ],
             },

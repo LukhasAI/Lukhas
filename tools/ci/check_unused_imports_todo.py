@@ -122,7 +122,7 @@ Examples:
     parser.add_argument(
         "--paths",
         nargs="+",
-        default=["lukhas", "core", "api", "consciousness", "lukhas.memory", "identity", "MATRIZ"],
+        default=["lukhas", "core", "api", "consciousness", "memory", "identity", "MATRIZ"],
         help="Roots to validate (default: lukhas core api consciousness memory identity MATRIZ). 'candidate' is always skipped.",
     )
     parser.add_argument("--json-only", action="store_true", help="Output only JSON for CI/CD integration")

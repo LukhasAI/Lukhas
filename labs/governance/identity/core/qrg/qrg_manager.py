@@ -633,7 +633,7 @@ class LambdaIDQRGGenerator:
 ║ REFERENCES:
 ║   - Docs: docs/identity/qrg_manager.md
 ║   - Issues: github.com/lukhas-ai/lukhas/issues?label=qrg-manager
-║   - Wiki: https://internal.lukhas.ai/wiki/QRG_Manager
+║   - Wiki: https://internal.ai/wiki/QRG_Manager
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

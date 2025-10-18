@@ -17,10 +17,10 @@ from typing import Any
 
 import numpy as np
 
-from lukhas.core.common import get_logger
-from lukhas.core.container.service_container import ServiceContainer
-from lukhas.core.interfaces import CoreInterface
-from lukhas.core.symbolic_engine import SymbolicEffect, SymbolicEvent
+from core.common import get_logger
+from core.container.service_container import ServiceContainer
+from core.interfaces import CoreInterface
+from core.symbolic_engine import SymbolicEffect, SymbolicEvent
 
 logger = get_logger(__name__)
 
@@ -113,14 +113,14 @@ class BreakthroughDetectorV2(CoreInterface):
         try:
             self.kernel_bus = container.get_service("symbolic_kernel_bus")
         except:
-            from lukhas.orchestration.symbolic_kernel_bus import SymbolicKernelBus
+            from orchestration.symbolic_kernel_bus import SymbolicKernelBus
 
             self.kernel_bus = SymbolicKernelBus()
 
         try:
             self.guardian = container.get_service("guardian_system")
         except:
-            from lukhas.governance.guardian_system import GuardianSystem
+            from governance.guardian_system import GuardianSystem
 
             self.guardian = GuardianSystem()
 

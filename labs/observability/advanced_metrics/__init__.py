@@ -1,7 +1,7 @@
 """Bridge for `candidate.observability.advanced_metrics`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.candidate.observability.advanced_metrics
+  1) lukhas_website.candidate.observability.advanced_metrics
   2) candidate.candidate.observability.advanced_metrics
   3) observability.advanced_metrics
 
@@ -22,7 +22,7 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.candidate.observability.advanced_metrics",
+    "lukhas_website.candidate.observability.advanced_metrics",
     "labs.candidate.observability.advanced_metrics",
     "observability.advanced_metrics",
 )

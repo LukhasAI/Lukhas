@@ -58,18 +58,18 @@ from typing import Any, Optional
 
 # Import orchestration components
 try:
-    from lukhas.orchestration.bio_symbolic_orchestrator import (
+    from orchestration.bio_symbolic_orchestrator import (
         BioSymbolicMode,
         BioSymbolicOrchestrator,
         BioSymbolicTask,
     )
-    from lukhas.orchestration.colony_orchestrator import (
+    from orchestration.colony_orchestrator import (
         ColonyConfig,
         ColonyOrchestrator,
         ColonyTask,
         ColonyType,
     )
-    from lukhas.orchestration.swarm_orchestration_adapter import (
+    from orchestration.swarm_orchestration_adapter import (
         SwarmOperationType,
         SwarmOrchestrationAdapter,
     )
@@ -81,12 +81,12 @@ except ImportError as e:
 
 # Import brain and memory orchestration components with safety protocols
 try:
-    from lukhas.memory.consolidation.memory_colonies import memory_colonies_instance
-    from lukhas.memory.consolidation.memory_visualization import (
+    from memory.consolidation.memory_colonies import memory_colonies_instance
+    from memory.consolidation.memory_visualization import (
         memory_visualization_instance,
     )
-    from lukhas.memory.folds.unified_memory_core import unified_memory_core_instance
-    from lukhas.orchestration.brain.primary_hub import PrimaryBrainHub
+    from memory.folds.unified_memory_core import unified_memory_core_instance
+    from orchestration.brain.primary_hub import PrimaryBrainHub
 
     MEMORY_ORCHESTRATION_AVAILABLE = True
 except ImportError as e:
@@ -99,10 +99,10 @@ except ImportError as e:
 
 # Import energy and workflow components
 try:
-    from lukhas.core.utils.orchestration_energy_aware_execution_planner import (
+    from core.utils.orchestration_energy_aware_execution_planner import (
         EnergyAwareExecutionPlanner,
     )
-    from lukhas.orchestration.workflow_engine import WorkflowEngine
+    from orchestration.workflow_engine import WorkflowEngine
 
     WORKFLOW_COMPONENTS_AVAILABLE = True
 except ImportError as e:
@@ -116,7 +116,7 @@ class LukhasCyclePhase(Enum):
     """LUKHAS cognitive cycle phases with integrated memory orchestration"""
 
     DREAM = "dream"
-    MEMORY = "lukhas.memory"  # NOW INCLUDED - Integrated with safety protocols
+    MEMORY = "memory"  # NOW INCLUDED - Integrated with safety protocols
     REFLECTION = "reflection"
     DIRECTIVE = "directive"
     ACTION = "action"
@@ -1073,7 +1073,7 @@ class MasterOrchestrator:
                 "total_completions": self.metrics.lukhas_cycle_completions,
                 "included_phases": [
                     "dream",
-                    "lukhas.memory",
+                    "memory",
                     "reflection",
                     "directive",
                     "action",

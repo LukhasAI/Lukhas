@@ -39,9 +39,9 @@ from typing import Any, Optional
 
 try:
     from async_manager import TaskPriority, get_consciousness_manager
-    from lukhas.consciousness.constellation_integration import get_constellation_integrator
-    from lukhas.consciousness.registry import ComponentType, get_consciousness_registry
-    from lukhas.core.common.config import get_config
+    from consciousness.constellation_integration import get_constellation_integrator
+    from consciousness.registry import ComponentType, get_consciousness_registry
+    from core.common.config import get_config
 except ImportError:
     # Graceful fallback for development
     def get_consciousness_registry():
@@ -223,7 +223,7 @@ class ConsciousnessMemoryIntegrator:
                 "component_type": ComponentType.MEMORY_FOLD,
                 "name": "Memory Fold Processor",
                 "description": "Core memory fold processing with consciousness integration",
-                "module_path": "lukhas.memory.consciousness_memory_integration",
+                "module_path": "memory.consciousness_memory_integration",
                 "constellation_framework": "cross",
                 "activation_priority": 20,
                 "feature_flags": ["memory_fold_enabled"],

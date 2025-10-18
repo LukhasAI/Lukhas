@@ -202,7 +202,7 @@ class SLOMonitor:
 
     def _validate_telemetry_fixture(self, fixture_data: Dict) -> bool:
         """Validate that telemetry fixture has required semconv attributes."""
-        required_attrs = {"code.function", "lukhas.module", "otel.semconv.version"}
+        required_attrs = {"code.function", "module", "otel.semconv.version"}
 
         # Check spans
         spans = fixture_data.get("spans", [])

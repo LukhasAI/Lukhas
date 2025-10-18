@@ -36,7 +36,7 @@ Description: Quantum module for advanced Cognitive functionality
 Copyright (c) 2025 LUKHAS AI. All rights reserved.
 Licensed under the LUKHAS Enterprise License.
 
-For documentation and support: https://lukhas.ai/docs
+For documentation and support: https://ai/docs
 """
 
 __module_name__ = "Quantum Certificate Manager"
@@ -146,8 +146,8 @@ class QICertificateManager:
         self.qi_ca_endpoints: dict[str, str] = self.config.get(
             "qi_ca_endpoints",
             {
-                "primary_ca_simulation_url": "https://quantum-ca.lukhas.ai/api/v1/simulate",
-                "backup_ca_simulation_url": "https://backup-ca.lukhas.ai/api/v1/simulate",
+                "primary_ca_simulation_url": "https://quantum-ca.ai/api/v1/simulate",
+                "backup_ca_simulation_url": "https://backup-ca.ai/api/v1/simulate",
             },
         )
 
@@ -835,7 +835,7 @@ async def main_demo_runner():  # Renamed main to main_demo_runner
     expires_soon_date = datetime.now(timezone.utc) + timedelta(days=demo_config["renewal_threshold_days"] - 1)
     demo_cert_data = {
         "certificate_id": demo_cert_id,
-        "subject": "CN=demo.lukhas.ai",
+        "subject": "CN=demo.ai",
         "issuer": "LUKHAS Demo Quantum Root CA",
         "qi_algorithm": QIAlgorithm.CRYSTALS_DILITHIUM.value,
         "qi_public_key": base64.b64encode(os.urandom(32)).decode(),

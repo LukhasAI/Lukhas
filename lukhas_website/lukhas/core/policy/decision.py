@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from lukhas.observability.matriz_decorators import instrument
+from observability.matriz_decorators import instrument
 
 
 @instrument("DECISION", label="policy:hotpath", capability="policy:decide")

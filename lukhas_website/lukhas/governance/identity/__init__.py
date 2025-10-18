@@ -28,8 +28,8 @@ except ImportError as e:
 
 # Import auth_integration from the correct location
 try:
-    # Import from lukhas.interfaces.identity and alias it
-    from lukhas.interfaces import identity as auth_integration
+    # Import from interfaces.identity and alias it
+    from interfaces import identity as auth_integration
 except ImportError as e:
     logger.warning(f"auth_integration import failed: {e}")
 
@@ -41,7 +41,7 @@ except ImportError as e:
             self.logger = logging.getLogger(__name__)
 
         async def get_integration(self):
-            from lukhas.interfaces.identity import AuthenticationIntegration
+            from interfaces.identity import AuthenticationIntegration
 
             return AuthenticationIntegration()
 

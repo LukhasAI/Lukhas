@@ -375,7 +375,7 @@ class ModuleInfo:
 
     def create_migration_script(self):
         """Create a script to help migrate to new structure"""
-        migration_script_path = self.root_path / "lukhas.tools" / "scripts" / "migrate_to_common_utils.py"
+        migration_script_path = self.root_path / "tools" / "scripts" / "migrate_to_common_utils.py"
 
         migration_content = '''#!/usr/bin/env python3
 """

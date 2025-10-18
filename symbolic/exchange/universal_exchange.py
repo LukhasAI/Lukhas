@@ -19,7 +19,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-from lukhas.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
 # Import our components
 

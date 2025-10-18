@@ -6,15 +6,15 @@ Constellation Framework: ⚛️🧠🛡️
 import logging
 from typing import Any, Optional
 
-from lukhas.core.container.service_container import ServiceLifetime, injectable
-from lukhas.core.interfaces.services import (
+from core.container.service_container import ServiceLifetime, injectable
+from core.interfaces.services import (
     IBridgeService,
     IGovernanceService,
     IIdentityService,
 )
 
 try:
-    from lukhas.core.telemetry import AgentSpans, instrument
+    from core.telemetry import AgentSpans, instrument
 except ImportError:
     # Fallback if telemetry not available
     class AgentSpans:
@@ -67,8 +67,8 @@ class LambdaIdentityServiceAdapter(IIdentityService):
         """Lazy load ΛID identity module"""
         if not self._initialized:
             try:
-                from lukhas.core.identity.lambda_id_core import (
-                    IdentityNamespace,  # noqa: F401  # TODO: lukhas.core.identity.lambda_id...
+                from core.identity.lambda_id_core import (
+                    IdentityNamespace,  # noqa: F401  # TODO: core.identity.lambda_id...
                     LukhasIdentityService,
                     OIDCProvider,
                     WebAuthnManager,
@@ -172,9 +172,9 @@ class ConsentLedgerServiceAdapter(IGovernanceService):
         """Lazy load consent ledger module"""
         if not self._initialized:
             try:
-                from lukhas.governance.consent_ledger.ledger_v1 import (
+                from governance.consent_ledger.ledger_v1 import (
                     ConsentLedgerV1,
-                    ConsentRecord,  # noqa: F401  # TODO: lukhas.governance.consent_ledg...
+                    ConsentRecord,  # noqa: F401  # TODO: governance.consent_ledg...
                     PolicyEngine,
                 )
 
@@ -470,7 +470,7 @@ class ContextBusEnhancedAdapter:
         """Lazy load enhanced context bus"""
         if not self._initialized:
             try:
-                from lukhas.orchestration.context_bus_enhanced import (
+                from orchestration.context_bus_enhanced import (
                     ContextBusEnhanced,
                     MessageRouter,
                     PipelineManager,
@@ -501,7 +501,7 @@ class ContextBusEnhancedAdapter:
 
 def register_seven_agent_services(container=None):
     """Register all 7-agent services with the service container"""
-    from lukhas.core.container.service_container import get_container
+    from core.container.service_container import get_container
 
     container = container or get_container()
 
@@ -530,7 +530,7 @@ def register_seven_agent_services(container=None):
 
 # Auto-register on import
 try:
-    from lukhas.core.container.service_container import get_container
+    from core.container.service_container import get_container
 
     register_seven_agent_services(get_container())
 except ImportError:

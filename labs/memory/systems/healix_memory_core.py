@@ -24,7 +24,7 @@ from typing import Any, Optional  # Tuple unused
 import numpy as np
 import structlog
 
-from lukhas.core.core_utilities import QuorumOverride
+from core.core_utilities import QuorumOverride
 
 # Visualization library imports
 VIZ_LIBS_AVAILABLE = False
@@ -718,6 +718,6 @@ if __name__ == "__main__":
 # MAINTENANCE: Refine DNA encoding/decoding for robustness and efficiency.
 #   Develop more sophisticated drift calculation and epigenetic models.
 #   Implement actual visualization logic if matplotlib/seaborn are used.
-# CONTACT: LUKHAS DEVELOPMENT TEAM (dev@lukhas.ai)
+# CONTACT: LUKHAS DEVELOPMENT TEAM (dev@ai)
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════

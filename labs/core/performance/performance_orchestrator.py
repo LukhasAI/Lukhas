@@ -366,14 +366,14 @@ class PerformanceOrchestrator:
         return [
             "identity",
             "consciousness",
-            "lukhas.memory",
+            "memory",
             "creativity",
             "reasoning",
             "quantum",
             "bio",
             "emotion",
             "learning",
-            "lukhas.governance",
+            "governance",
             "guardian",
         ]
 
@@ -605,7 +605,7 @@ class PerformanceOrchestrator:
                 PerformanceAlert(
                     alert_id=f"alert_{int(time.time())}_cascade",
                     severity="critical",
-                    module="lukhas.memory",
+                    module="memory",
                     metric="cascade_prevention_rate",
                     current_value=cascade_rate,
                     threshold=self.cascade_prevention_target,

@@ -23,7 +23,7 @@ from enum import Enum, auto
 from typing import Any
 
 from ethics.seedra import get_seedra
-from lukhas.core.common import get_logger
+from core.common import get_logger
 from symbolic.core import Symbol, SymbolicDomain, SymbolicType, get_symbolic_vocabulary
 
 logger = get_logger(__name__)

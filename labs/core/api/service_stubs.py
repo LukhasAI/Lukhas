@@ -16,7 +16,7 @@ log = structlog.get_logger(__name__)
 
 # Import real implementations
 try:
-    from lukhas.core.glyph.glyph_engine import GlyphEngine as SymbolicEngine
+    from core.glyph.glyph_engine import GlyphEngine as SymbolicEngine
 except ImportError:
     # Fallback to stub if real implementation unavailable
     class SymbolicEngine:
@@ -754,8 +754,8 @@ class CoordinationManager:
         modules_used = []
         if "query" in str(task):
             modules_used.append("consciousness")
-        if "remember" in str(task) or "lukhas.memory" in str(task):
-            modules_used.append("lukhas.memory")
+        if "remember" in str(task) or "memory" in str(task):
+            modules_used.append("memory")
         if "ethic" in str(task) or "moral" in str(task):
             modules_used.append("guardian")
         if "feel" in str(task) or "emotion" in str(task):

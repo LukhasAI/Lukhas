@@ -18,8 +18,8 @@ from typing import Optional
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from bridge.local_llm_fixer import LocalLLMFixer
-from lukhas.core.agi.code_quality_healer import CodeQualityHealer
-from lukhas.orchestration.symbolic_kernel_bus import SymbolicEffect, SymbolicKernelBus
+from core.agi.code_quality_healer import CodeQualityHealer
+from orchestration.symbolic_kernel_bus import SymbolicEffect, SymbolicKernelBus
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)

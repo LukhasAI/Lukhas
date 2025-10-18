@@ -34,7 +34,7 @@ sys.path.insert(0, str(current_dir))
 
 try:
     # Import MemoryType from unified orchestrator
-    from lukhas.memory.core.unified_memory_orchestrator import MemoryType
+    from memory.core.unified_memory_orchestrator import MemoryType
 
     MEMORY_CORE_AVAILABLE = True
 except ImportError:

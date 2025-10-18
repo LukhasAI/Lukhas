@@ -22,7 +22,7 @@ from unittest.mock import patch
 import pytest
 
 # Add tools directory to path for importing authorization components
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "lukhas.tools"))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / "tools"))
 
 from matrix_authz_middleware import AuthzRequest, MatrixAuthzMiddleware
 from run_authz_tests import AuthzTestRunner
@@ -71,15 +71,15 @@ async def test_end_to_end_authorization_with_telemetry(telemetry_capture, authz_
         subject_data = test_subjects[scenario["subject_type"]]
         scenario_spans = [
             span for span in authz_spans
-            if span.attributes.get("lukhas.subject") == subject_data["subject"]
-            and span.attributes.get("lukhas.action") == scenario["action"]
+            if span.attributes.get("subject") == subject_data["subject"]
+            and span.attributes.get("action") == scenario["action"]
         ]
 
         assert len(scenario_spans) >= 1, f"No span found for scenario {scenario['name']}"
 
         span = scenario_spans[0]
         expected_decision = "allow" if scenario["expected_allowed"] else "deny"
-        assert span.attributes["lukhas.decision"] == expected_decision, (
+        assert span.attributes["decision"] == expected_decision, (
             f"Scenario {scenario['name']}: span decision mismatch"
         )
 
@@ -129,11 +129,11 @@ async def test_middleware_handler_integration_with_telemetry(telemetry_capture, 
     attrs = span.attributes
 
     # Verify middleware handler sets correct attributes
-    assert attrs["lukhas.subject"] == "lukhas:user:test_integration"
-    assert attrs["lukhas.tier"] == "trusted"
-    assert attrs["lukhas.module"] == "memoria"
-    assert attrs["lukhas.action"] == "recall"
-    assert attrs["lukhas.decision"] == "allow"
+    assert attrs["subject"] == "lukhas:user:test_integration"
+    assert attrs["tier"] == "trusted"
+    assert attrs["module"] == "memoria"
+    assert attrs["action"] == "recall"
+    assert attrs["decision"] == "allow"
 
 
 @pytest.mark.telemetry
@@ -169,8 +169,8 @@ async def test_shadow_mode_telemetry_emission(telemetry_capture, test_subjects):
     assert len(authz_spans) >= 1, "No spans emitted in shadow mode"
 
     span = authz_spans[0]
-    assert span.attributes["lukhas.decision"] == "deny"
-    assert span.attributes["lukhas.subject"] == guest_subject["subject"]
+    assert span.attributes["decision"] == "deny"
+    assert span.attributes["subject"] == guest_subject["subject"]
 
 
 @pytest.mark.telemetry
@@ -221,8 +221,8 @@ async def test_authorization_with_opa_policy_integration(telemetry_capture, test
     span = authz_spans[0]
     attrs = span.attributes
 
-    assert attrs["lukhas.policy_sha"] == "opa_live_12345"
-    assert attrs["lukhas.reason"] == "OPA policy evaluation"
+    assert attrs["policy_sha"] == "opa_live_12345"
+    assert attrs["reason"] == "OPA policy evaluation"
 
 
 @pytest.mark.telemetry
@@ -323,7 +323,7 @@ async def test_concurrent_authorization_telemetry(telemetry_capture, test_subjec
     assert len(authz_spans) >= 5, f"Expected at least 5 spans, got {len(authz_spans)}"
 
     # Verify each request has unique subject identifier
-    subjects = [span.attributes["lukhas.subject"] for span in authz_spans]
+    subjects = [span.attributes["subject"] for span in authz_spans]
     unique_subjects = set(subjects)
     assert len(unique_subjects) >= 5, "Concurrent requests should have unique subjects"
 
@@ -365,8 +365,8 @@ async def test_authorization_error_propagation_with_telemetry(telemetry_capture,
 
     span = authz_spans[0]
     assert span.status == "ERROR", "Span should have ERROR status"
-    assert span.attributes["lukhas.decision"] == "deny"
-    assert "error" in span.attributes["lukhas.reason"].lower()
+    assert span.attributes["decision"] == "deny"
+    assert "error" in span.attributes["reason"].lower()
 
 
 @pytest.mark.telemetry
@@ -422,9 +422,9 @@ def test_telemetry_span_export_format_compatibility(telemetry_capture, test_subj
             # Verify authz-specific attributes are preserved
             if exported_span["name"] == "authz.check":
                 attrs = exported_span["attributes"]
-                assert "lukhas.subject" in attrs
-                assert "lukhas.decision" in attrs
-                assert "lukhas.module" in attrs
+                assert "subject" in attrs
+                assert "decision" in attrs
+                assert "module" in attrs
 
 
 if __name__ == "__main__":

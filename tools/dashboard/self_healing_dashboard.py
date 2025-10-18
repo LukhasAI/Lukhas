@@ -39,12 +39,12 @@ logger = logging.getLogger(__name__)
 ROOT = Path(__file__).resolve().parents[2]
 
 # Import our automated fix components
-sys.path.insert(0, str(ROOT / "lukhas.tools" / "ai"))
-sys.path.insert(0, str(ROOT / "lukhas.tools" / "matriz"))
-sys.path.insert(0, str(ROOT / "lukhas.tools" / "prediction"))
-sys.path.insert(0, str(ROOT / "lukhas.tools" / "monitoring"))
-sys.path.insert(0, str(ROOT / "lukhas.tools" / "automation"))
-sys.path.insert(0, str(ROOT / "lukhas.tools" / "validation"))
+sys.path.insert(0, str(ROOT / "tools" / "ai"))
+sys.path.insert(0, str(ROOT / "tools" / "matriz"))
+sys.path.insert(0, str(ROOT / "tools" / "prediction"))
+sys.path.insert(0, str(ROOT / "tools" / "monitoring"))
+sys.path.insert(0, str(ROOT / "tools" / "automation"))
+sys.path.insert(0, str(ROOT / "tools" / "validation"))
 
 try:
     from diagnostic_monitor import DiagnosticMonitor

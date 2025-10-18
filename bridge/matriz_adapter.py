@@ -36,7 +36,7 @@ class BridgeMatrizAdapter:
             },
             "timestamps": {"created_ts": int(time.time() * 1000)},
             "provenance": {
-                "producer": "lukhas.bridge",
+                "producer": "bridge",
                 "capabilities": ["bridge:api", "bridge:llm", "bridge:orchestrate"],
                 "tenant": "system",
                 "trace_id": f"LT-BRDG-{int(time.time())}",

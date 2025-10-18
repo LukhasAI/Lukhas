@@ -4,7 +4,7 @@ tests/test_folds.py
 Unit tests for FoldGuard circuit breaker - memory cascade prevention.
 Validates fanout limits, depth overflow, budget overflow, and metrics.
 """
-from lukhas.memory.folds import FoldGuard
+from memory.folds import FoldGuard
 
 
 def test_fanout_permit_then_deny():

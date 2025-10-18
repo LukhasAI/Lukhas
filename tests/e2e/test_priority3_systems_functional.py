@@ -352,7 +352,7 @@ class TestToolsSystems:
 
     def test_tools_system_structure(self):
         """Validate tools system directory structure and core files"""
-        tools_path = LUKHAS_ROOT / "lukhas.tools"
+        tools_path = LUKHAS_ROOT / "tools"
         assert tools_path.exists(), "Tools system directory must exist"
 
         # Check for tool subdirectories
@@ -380,7 +380,7 @@ class TestToolsSystems:
         """Test analysis and audit tools"""
         try:
             # Check for analysis tools
-            analysis_paths = ["lukhas.tools.analysis", "lukhas.tools.audit", "lukhas.tools.validation"]
+            analysis_paths = ["tools.analysis", "tools.audit", "tools.validation"]
 
             analysis_modules = []
             for path in analysis_paths:
@@ -392,7 +392,7 @@ class TestToolsSystems:
 
             # Also check for direct analysis files
             analysis_files = []
-            tools_path = LUKHAS_ROOT / "lukhas.tools"
+            tools_path = LUKHAS_ROOT / "tools"
             if tools_path.exists():
                 for subdir in tools_path.iterdir():
                     if subdir.is_dir() and "analysis" in subdir.name.lower():
@@ -420,7 +420,7 @@ class TestToolsSystems:
             validation_concepts = ["validator", "compliance", "check", "verify"]
             validation_tools = []
 
-            tools_path = LUKHAS_ROOT / "lukhas.tools"
+            tools_path = LUKHAS_ROOT / "tools"
             if tools_path.exists():
                 for py_file in tools_path.rglob("*.py"):
                     file_name = py_file.name.lower()
@@ -454,7 +454,7 @@ class TestToolsSystems:
             utility_keywords = ["util", "helper", "tool", "script", "generator"]
             utility_tools = []
 
-            tools_path = LUKHAS_ROOT / "lukhas.tools"
+            tools_path = LUKHAS_ROOT / "tools"
             if tools_path.exists():
                 for py_file in tools_path.rglob("*.py"):
                     file_name = py_file.name.lower()
@@ -473,7 +473,7 @@ class TestToolsSystems:
                     # Basic import test
                     rel_path = tool.relative_to(LUKHAS_ROOT)
                     module_path = str(rel_path).replace("/", ".").replace(".py", "")
-                    if not module_path.startswith("lukhas.tools."):
+                    if not module_path.startswith("tools."):
                         continue  # Skip non-tools imports
                     module = importlib.import_module(module_path)
                     assert module is not None, f"Utility tool {tool.name} should be importable"
@@ -552,7 +552,7 @@ class TestCrossSystemIntegration:
             monitoring_tools_integration = False
 
             # Check tools directory for monitoring references
-            tools_path = LUKHAS_ROOT / "lukhas.tools"
+            tools_path = LUKHAS_ROOT / "tools"
             if tools_path.exists():
                 for py_file in tools_path.rglob("*.py"):
                     content = py_file.read_text(encoding="utf-8", errors="ignore").lower()

@@ -52,13 +52,13 @@ class TestAuditTrail:
         """Test adding critical violations to audit trail."""
         audit = AuditTrail()
 
-        audit.add_violation("test/file.py", "illegal_import", "from lukhas.module import Something", line_no=5)
+        audit.add_violation("test/file.py", "illegal_import", "from module import Something", line_no=5)
 
         assert len(audit.violations) == 1
         violation = audit.violations[0]
         assert violation["file"] == "test/file.py"
         assert violation["type"] == "illegal_import"
-        assert violation["details"] == "from lukhas.module import Something"
+        assert violation["details"] == "from module import Something"
         assert violation["line"] == 5
         assert violation["severity"] == "critical"
         assert audit.stats["banned_imports"] == 1
@@ -102,7 +102,7 @@ class TestAuditTrail:
         audit = AuditTrail()
 
         # Add test data
-        audit.add_violation("file1.py", "illegal_import", "import lukhas.test", 5)
+        audit.add_violation("file1.py", "illegal_import", "import test", 5)
         audit.add_facade("file2.py", 0.9, 20, 25)
         audit.stats["files_scanned"] = 10
         audit.stats["total_imports"] = 50
@@ -178,7 +178,7 @@ class TestImportScannerAST:
 
     def test_scan_regular_import_banned(self):
         """Test detection of banned regular imports."""
-        code = "import lukhas.module\nimport quarantine.test"
+        code = "import module\nimport quarantine.test"
         tree = ast.parse(code)
 
         scanner = ImportScannerAST("test.py")
@@ -191,7 +191,7 @@ class TestImportScannerAST:
         assert violation1["type"] == "illegal_import"
         assert violation1["module"] == "labs.module"
         assert violation1["line"] == 1
-        assert violation1["statement"] == "import lukhas.module"
+        assert violation1["statement"] == "import module"
 
         violation2 = scanner.violations[1]
         assert violation2["type"] == "illegal_import"
@@ -215,7 +215,7 @@ class TestImportScannerAST:
 
     def test_scan_from_import_banned(self):
         """Test detection of banned from-imports."""
-        code = "from lukhas.core import Module\nfrom archive.old import Legacy"
+        code = "from core import Module\nfrom archive.old import Legacy"
         tree = ast.parse(code)
 
         scanner = ImportScannerAST("test.py")
@@ -227,14 +227,14 @@ class TestImportScannerAST:
         assert violation1["type"] == "illegal_from_import"
         assert violation1["module"] == "labs.core"
         assert violation1["names"] == "Module"
-        assert violation1["statement"] == "from lukhas.core import Module"
+        assert violation1["statement"] == "from core import Module"
 
         violation2 = scanner.violations[1]
         assert violation2["module"] == "archive.old"
 
     def test_scan_from_import_multiple_names(self):
         """Test from-import with multiple names."""
-        code = "from lukhas.test import Module1, Module2, Module3"
+        code = "from test import Module1, Module2, Module3"
         tree = ast.parse(code)
 
         scanner = ImportScannerAST("test.py")
@@ -282,7 +282,7 @@ class TestImportScannerAST:
 
     def test_scan_nested_banned_imports(self):
         """Test detection of nested banned imports."""
-        code = "import lukhas.core.module\nfrom quarantine.old.legacy import Item"
+        code = "import core.module\nfrom quarantine.old.legacy import Item"
         tree = ast.parse(code)
 
         scanner = ImportScannerAST("test.py")
@@ -448,7 +448,7 @@ class TestFileScanComprehensive:
         ).strip()
 
         # Create test file in repository directory to avoid path issues
-        test_dir = Path(__file__).parent.parent.parent / "tests" / "lukhas.tools"
+        test_dir = Path(__file__).parent.parent.parent / "tests" / "tools"
         temp_path = test_dir / "temp_test_file.py"
 
         try:
@@ -473,7 +473,7 @@ class TestFileScanComprehensive:
         """Test file scanning with banned imports."""
         code = dedent(
             """
-            import lukhas.module
+            import module
             from quarantine.test import Item
             __import__('archive.legacy')
 
@@ -482,7 +482,7 @@ class TestFileScanComprehensive:
         ).strip()
 
         # Create test file in repository directory
-        test_dir = Path(__file__).parent.parent.parent / "tests" / "lukhas.tools"
+        test_dir = Path(__file__).parent.parent.parent / "tests" / "tools"
         temp_path = test_dir / "temp_violations_file.py"
 
         try:
@@ -514,7 +514,7 @@ class TestFileScanComprehensive:
         ).strip()
 
         # Create test file in repository directory
-        test_dir = Path(__file__).parent.parent.parent / "tests" / "lukhas.tools"
+        test_dir = Path(__file__).parent.parent.parent / "tests" / "tools"
         temp_path = test_dir / "temp_facade_file.py"
 
         try:
@@ -535,7 +535,7 @@ class TestFileScanComprehensive:
         invalid_code = "def invalid_syntax(\n  missing closing paren"
 
         # Create test file in repository directory
-        test_dir = Path(__file__).parent.parent.parent / "tests" / "lukhas.tools"
+        test_dir = Path(__file__).parent.parent.parent / "tests" / "tools"
         temp_path = test_dir / "temp_parse_error_file.py"
 
         try:
@@ -645,7 +645,7 @@ class TestAcceptanceGateIntegration:
         code = dedent(
             """
             import os
-            import lukhas.test
+            import test
             from quarantine.old import Item
 
             def simple(): pass
@@ -653,7 +653,7 @@ class TestAcceptanceGateIntegration:
         ).strip()
 
         # Create test file in repository directory
-        test_dir = Path(__file__).parent.parent.parent / "tests" / "lukhas.tools"
+        test_dir = Path(__file__).parent.parent.parent / "tests" / "tools"
         temp_path = test_dir / "temp_integration_file.py"
 
         try:
@@ -683,12 +683,12 @@ class TestSecurityValidation:
     def test_security_banned_import_detection(self):
         """Test comprehensive security validation of banned imports."""
         security_test_cases = [
-            ("import lukhas.core", True),
+            ("import core", True),
             ("from security import Auth", True),
-            ("import lukhas.core.sensitive.data", True),
+            ("import core.sensitive.data", True),
             ("__import__('quarantine.module')", True),
             ("importlib.import_module('archive.legacy')", True),
-            ("import lukhas.core", False),
+            ("import core", False),
             ("from pathlib import Path", False),
             ("import os", False),
         ]
@@ -706,7 +706,7 @@ class TestSecurityValidation:
         audit = AuditTrail()
 
         # Add various security violations
-        audit.add_violation("file1.py", "illegal_import", "import lukhas.core", 1)
+        audit.add_violation("file1.py", "illegal_import", "import core", 1)
         audit.add_violation("file2.py", "illegal_from_import", "from quarantine import Old", 5)
         audit.add_violation("file3.py", "illegal_dynamic_import", "__import__('archive.data')", 10)
 

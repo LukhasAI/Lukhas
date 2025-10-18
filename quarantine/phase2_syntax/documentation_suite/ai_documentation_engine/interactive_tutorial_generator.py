@@ -857,7 +857,7 @@ target = {
             # For LUKHAS ΛID authentication
             "lukhas_id": os.getenv("LUKHAS_ID", "λ1234567890abcdef"),
             "lukhas_secret": os.getenv("LUKHAS_SECRET", "your-lukhas-secret"),
-            "lukhas_endpoint": "https://api.lukhas.ai/auth/verify"
+            "lukhas_endpoint": "https://api.ai/auth/verify"
         }
     },
     # Additional security configuration

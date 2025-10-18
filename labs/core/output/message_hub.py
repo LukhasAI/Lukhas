@@ -84,7 +84,7 @@ with tabs[0]:
         index=["en", "es", "fr", "de", "pt", "it"].index(default_language),
     )
     if st.button("✉️ Generate Email"):
-        result = lukhas.generate_email_draft(topic=topic, recipient=recipient, language=language, tone=tone)
+        result = generate_email_draft(topic=topic, recipient=recipient, language=language, tone=tone)
         st.code(result)
         selected_type = "email"
 
@@ -103,7 +103,7 @@ with tabs[1]:
         ),
     )
     if st.button("📤 Generate Post"):
-        result = lukhas.generate_social_post(topic=topic, platform=platform, tone=tone)
+        result = generate_social_post(topic=topic, platform=platform, tone=tone)
         st.code(result)
         selected_type = "social_post"
 
@@ -114,7 +114,7 @@ with tabs[2]:
     emotion = st.selectbox("Emotion", ["friendly", "gentle", "reassuring", "uplifting"])
     purpose = st.selectbox("Purpose", ["check-in", "gratitude", "apology", "invite"])
     if st.button("📱 Generate Message"):
-        result = lukhas.generate_text_message(recipient=recipient, emotion=emotion, purpose=purpose)
+        result = generate_text_message(recipient=recipient, emotion=emotion, purpose=purpose)
         st.code(result)
         selected_type = "text_message"
 
@@ -132,7 +132,7 @@ with tabs[3]:
         ),
     )
     if st.button("♻️ Reword"):
-        result = lukhas.reword_draft(draft, style=style)
+        result = reword_draft(draft, style=style)
         st.code(result)
         selected_type = "reword_draft"
 

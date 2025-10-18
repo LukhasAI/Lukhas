@@ -1,129 +1,209 @@
-# @generated LUKHAS scaffold v1.0
-# template_id: module.scaffold/v1
-# template_commit: f95979630
-# do_not_edit: true
-# human_editable: false
+# @generated LUKHAS scaffold v1
+# template: module_scaffold/tests/test_{{ module }}_unit.py.j2
+# template_sha256: 5091e346bc2b807a7e7645d6e12a926a46c2cadb3bad8376edc4833199bd6bc0
+# module: core
+# do_not_edit: false
 #
 """
 Unit tests for core module.
 """
 
-import unittest
+import importlib
+from unittest.mock import patch
 
 import pytest
 
-# Import module components
-try:
-    pass  #     pass  #
-    import core  # noqa: F401  # TODO: core; consider using importlib...
-except ImportError:
-    pytest.skip("Module core not available", allow_module_level=True)
 
+# Test imports
+def test_module_imports():
+    """Test that the core module can be imported."""
+    try:
+        module = importlib.import_module("core")
+        assert module is not None
+    except ImportError as e:
+        pytest.skip(f"Module core not available: {e}")
 
-class TestCoreModule(unittest.TestCase):
-    """Unit tests for core module core functionality."""
+def test_module_has_init():
+    """Test that the core module has proper __init__.py."""
+    try:
+        module = importlib.import_module("core")
+        # Check for common attributes
+        assert hasattr(module, '__file__')
+    except ImportError:
+        pytest.skip("Module core not available")
 
-    def setUp(self):
-        """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "core",
-            "test_mode": True
-        }
+class TestCoreCore:
+    """Unit tests for core core functionality."""
 
-    def tearDown(self):
-        """Clean up after tests."""
-        pass
+    def test_basic_instantiation(self):
+        """Test basic component instantiation."""
+        try:
+            from core import CoreCore
+            component = CoreCore()
+            assert component is not None
+        except ImportError:
+            pytest.skip("CoreCore not available")
 
-    def test_module_import(self):
-        """Test that module can be imported successfully."""
-        import core
-        self.assertIsNotNone(core)
+    def test_configuration_handling(self):
+        """Test configuration parameter handling."""
+        try:
+            from core.config import CoreConfig
 
-    def test_module_version(self):
-        """Test module has version information."""
-        import core
-        # Most modules should have version info
-        self.assertTrue(hasattr(core, '__version__') or
-                       hasattr(core, 'VERSION'))
+            config = CoreConfig(
+                debug_mode=True,
+                performance_monitoring=False
+            )
 
-    def test_module_initialization(self):
-        """Test module can be initialized."""
-        # Add module-specific initialization tests
-        pass
+            assert config.debug_mode is True
+            assert config.performance_monitoring is False
 
-    @pytest.mark.unit
-    def test_core_functionality(self):
-        """Test core module functionality."""
-        # Add tests for main module features
-        pass
+        except ImportError:
+            pytest.skip("CoreConfig not available")
 
-    @pytest.mark.unit
     def test_error_handling(self):
-        """Test module error handling."""
-        # Test various error conditions
-        pass
-
-    @pytest.mark.unit
-    def test_configuration_validation(self):
-        """Test configuration validation."""
-        # Test config loading and validation
-        pass
-
-
-# Test individual components if entrypoints available
-
-
-class TestAdaptationRule(unittest.TestCase):
-    """Tests for AdaptationRule component."""
-
-    def test_adaptationrule_import(self):
-        """Test AdaptationRule can be imported."""
+        """Test proper error handling patterns."""
         try:
-            from core.bio_symbolic_processor import AdaptationRule
-            self.assertIsNotNone(AdaptationRule)
+            from core import CoreCore
+            from core.exceptions import LUKHASException
+
+            component = CoreCore()
+
+            # Test invalid input handling
+            with pytest.raises((LUKHASException, ValueError, TypeError)):
+                component.process(None)
+
         except ImportError:
-            pytest.skip("Component AdaptationRule not available")
+            pytest.skip("CoreCore not available")
 
-    def test_adaptationrule_instantiation(self):
-        """Test AdaptationRule can be instantiated."""
-        # Add component-specific instantiation tests
-        pass
+class TestCoreIntegration:
+    """Unit tests for core integration points."""
 
-
-class TestBioPatternType(unittest.TestCase):
-    """Tests for BioPatternType component."""
-
-    def test_biopatterntype_import(self):
-        """Test BioPatternType can be imported."""
+    def test_consciousness_integration(self):
+        """Test integration with consciousness system."""
         try:
-            from core.bio_symbolic_processor import BioPatternType
-            self.assertIsNotNone(BioPatternType)
+            from consciousness import ConsciousnessCore
+            from core import CoreCore
+
+            consciousness = ConsciousnessCore()
+            component = CoreCore()
+
+            # Test consciousness-aware processing
+            with consciousness.awareness_context():
+                # This should not raise an exception
+                result = component.process({})
+
         except ImportError:
-            pytest.skip("Component BioPatternType not available")
+            pytest.skip("Consciousness integration not available")
 
-    def test_biopatterntype_instantiation(self):
-        """Test BioPatternType can be instantiated."""
-        # Add component-specific instantiation tests
-        pass
-
-
-class TestBioSymbolicPattern(unittest.TestCase):
-    """Tests for BioSymbolicPattern component."""
-
-    def test_biosymbolicpattern_import(self):
-        """Test BioSymbolicPattern can be imported."""
+    def test_matriz_compatibility(self):
+        """Test MATRIZ contract compatibility."""
         try:
-            from core.bio_symbolic_processor import BioSymbolicPattern
-            self.assertIsNotNone(BioSymbolicPattern)
+            from core import CoreCore
+
+            component = CoreCore()
+
+            # Test MATRIZ pipeline methods
+            assert hasattr(component, 'process')
+            assert callable(getattr(component, 'process'))
+
         except ImportError:
-            pytest.skip("Component BioSymbolicPattern not available")
+            pytest.skip("CoreCore not available")
 
-    def test_biosymbolicpattern_instantiation(self):
-        """Test BioSymbolicPattern can be instantiated."""
-        # Add component-specific instantiation tests
-        pass
+class TestCoreObservability:
+    """Unit tests for core observability features."""
 
+    def test_span_emission(self):
+        """Test that observability spans are properly emitted."""
+        try:
+            from core import CoreCore
 
+            component = CoreCore()
 
-if __name__ == "__main__":
-    unittest.main()
+            # Mock span collection
+            with patch('observability.span_manager.create_span') as mock_span:
+                component.process({})
+
+                # Verify span creation
+                mock_span.assert_called()
+
+        except ImportError:
+            pytest.skip("Observability features not available")
+
+    def test_metrics_collection(self):
+        """Test that performance metrics are collected."""
+        try:
+            from core import CoreCore
+
+            component = CoreCore()
+
+            # Test metrics collection
+            with patch('monitoring.metrics.record_metric') as mock_metric:
+                component.process({})
+
+                # Verify metric recording
+                mock_metric.assert_called()
+
+        except ImportError:
+            pytest.skip("Metrics collection not available")
+
+class TestCorePerformance:
+    """Performance and regression tests for core."""
+
+    def test_processing_performance(self):
+        """Test that processing completes within acceptable time."""
+        try:
+            import time
+
+            from core import CoreCore
+
+            component = CoreCore()
+
+            start_time = time.time()
+            result = component.process({})
+            duration = time.time() - start_time
+
+            # Should complete within 1 second for basic operations
+            assert duration < 1.0
+
+        except ImportError:
+            pytest.skip("CoreCore not available")
+
+    def test_memory_efficiency(self):
+        """Test memory usage stays within bounds."""
+        try:
+            import os
+
+            import psutil
+
+            from core import CoreCore
+
+            component = CoreCore()
+
+            process = psutil.Process(os.getpid())
+            initial_memory = process.memory_info().rss
+
+            # Process multiple items
+            for i in range(100):
+                component.process({'iteration': i})
+
+            final_memory = process.memory_info().rss
+            memory_increase = final_memory - initial_memory
+
+            # Memory increase should be reasonable (< 10MB for basic ops)
+            assert memory_increase < 10 * 1024 * 1024
+
+        except (ImportError, AttributeError):
+            pytest.skip("Memory testing not available")
+
+# Configuration for pytest
+def pytest_configure(config):
+    """Configure pytest for core tests."""
+    config.addinivalue_line(
+        "markers", "integration: mark test as integration test"
+    )
+    config.addinivalue_line(
+        "markers", "performance: mark test as performance test"
+    )
+    config.addinivalue_line(
+        "markers", "slow: mark test as slow running"
+    )

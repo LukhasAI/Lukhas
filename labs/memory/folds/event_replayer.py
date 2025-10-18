@@ -20,8 +20,8 @@ with ``ETHICAL`` for auditing purposes.
 
 import json
 
-from lukhas.core.common import get_logger
-from lukhas.core.event_sourcing import AIAgentAggregate, Event, EventStore
+from core.common import get_logger
+from core.event_sourcing import AIAgentAggregate, Event, EventStore
 
 logger = get_logger(__name__)
 

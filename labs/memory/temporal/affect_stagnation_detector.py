@@ -39,7 +39,7 @@ logger = logging.getLogger(__name__)
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from lukhas.memory.emotional import EmotionalMemory
+from memory.emotional import EmotionalMemory
 
 # ΛTRACE: Initialize logger for stagnation detection
 
@@ -141,7 +141,7 @@ class AffectStagnationDetector:
 ║ REFERENCES:
 ║   - Emotional Memory: lukhas/memory/core_memory/emotional_memory.py
 ║   - Recovery Systems: docs/emotional-recovery-protocols.md
-║   - Wiki: internal.lukhas.ai/wiki/affect-stagnation-detection
+║   - Wiki: internal.ai/wiki/affect-stagnation-detection
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

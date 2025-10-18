@@ -5,7 +5,7 @@ __all__ = []
 def _try(n: str):
     try: return import_module(n)
     except Exception: return None
-for n in ("lukhas.bio.energy", "candidate.bio.energy", "lukhas_website.lukhas.bio.energy"):
+for n in ("bio.energy", "candidate.bio.energy", "lukhas_website.bio.energy"):
     m = _try(n)
     if m:
         for k in dir(m):

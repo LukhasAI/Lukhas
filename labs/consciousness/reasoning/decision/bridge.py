@@ -59,13 +59,13 @@ import numpy as np
 
 # Import Lukhas core components
 try:
-    from lukhas.core.integration.neuro_symbolic_fusion_layer import (
-        NeuroSymbolicFusionLayer,  # noqa: F401  # TODO: lukhas.core.integration.neuro_...
+    from core.integration.neuro_symbolic_fusion_layer import (
+        NeuroSymbolicFusionLayer,  # noqa: F401  # TODO: core.integration.neuro_...
     )
-    from lukhas.core.utils.orchestration_energy_aware_execution_planner import (
-        EnergyAwareExecutionPlanner,  # noqa: F401  # TODO: lukhas.core.utils.orchestratio...
+    from core.utils.orchestration_energy_aware_execution_planner import (
+        EnergyAwareExecutionPlanner,  # noqa: F401  # TODO: core.utils.orchestratio...
     )
-    from lukhas.memory.governance.ethical_drift_governor import (
+    from memory.governance.ethical_drift_governor import (
         EthicalDriftGovernor,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
     )
     from reasoning.symbolic_reasoning import (

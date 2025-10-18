@@ -25,7 +25,7 @@ from pathlib import Path
 
 # Import security utilities
 try:
-    from lukhas.core.interfaces.voice.core.sayit import (
+    from core.interfaces.voice.core.sayit import (
         SecurityError,
         get_env_var,
         safe_subprocess_run,

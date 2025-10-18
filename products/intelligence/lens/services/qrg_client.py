@@ -11,7 +11,7 @@ from typing import Any, Optional
 class QRGClient:
     """Client for interacting with the Quantum Relational Graph"""
 
-    def __init__(self, endpoint: str = "https://qrg.lukhas.ai/api/v1"):
+    def __init__(self, endpoint: str = "https://qrg.ai/api/v1"):
         self.endpoint = endpoint
         self.session_token = None
 

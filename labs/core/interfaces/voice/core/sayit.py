@@ -3,12 +3,12 @@
 
 import sys
 
-from symbolic.personas.lukhas.lukhas_voice import VOICES, speak
+from symbolic.personas.lukhas_voice import VOICES, speak
 
 
 def classify(text):
     text_lower = text.lower()
-    if any(kw in text_lower for kw in ["dream", "lukhas.memory", "beyond", "unseen", "imagine"]):
+    if any(kw in text_lower for kw in ["dream", "memory", "beyond", "unseen", "imagine"]):
         return "cove"
     elif any(kw in text_lower for kw in ["danger", "alert", "risk", "urgent", "violation"]):
         return "alert"

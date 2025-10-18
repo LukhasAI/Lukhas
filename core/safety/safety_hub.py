@@ -221,7 +221,7 @@ class SafetyHub:
     def _register_with_service_discovery(self):
         """Register services with global service discovery"""
         try:
-            from lukhas.core.integration.service_discovery import (
+            from core.integration.service_discovery import (
                 get_service_discovery,
             )
 

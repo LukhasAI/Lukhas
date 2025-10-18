@@ -77,9 +77,9 @@ def test_span_lifecycle_comprehensive():
                 "operation_name": "memory_fold_operation",
                 "trace_id": str(uuid4()),
                 "tags": {
-                    "lukhas.memory.fold_count": 1000,
-                    "lukhas.memory.cascade_prevention": True,
-                    "lukhas.memory.emotional_context": "high",
+                    "memory.fold_count": 1000,
+                    "memory.cascade_prevention": True,
+                    "memory.emotional_context": "high",
                 },
             },
         ]
@@ -387,7 +387,7 @@ def test_consciousness_aware_tracing():
                 "awareness_level": "high",
                 "triad_context": {
                     "identity": "active",
-                    "lukhas.memory": "accessible",
+                    "memory": "accessible",
                     "guardian": "monitoring",
                 },
             },

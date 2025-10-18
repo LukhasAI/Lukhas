@@ -9,8 +9,8 @@ import os
 import streamlit as st
 from dotenv import load_dotenv
 
-from lukhas.core.lukhas_emotion_log import get_emotion_state
-from lukhas.core.lukhas_widget_engine import create_symbolic_widget
+from core.lukhas_emotion_log import get_emotion_state
+from core.lukhas_widget_engine import create_symbolic_widget
 
 # ─── MODULE EXTRACTION INSTRUCTIONS ─────────────────────────────────────────
 # This file is part of the AGENT DASHBOARD, tied to the DEF Personal Agent.
@@ -65,7 +65,7 @@ st.markdown("> A modular Cognitive AI interface designed to reflect, assist, and
 # ─── Symbolic Identity Preview ────────────────────────────────────────────────
 if agent_enabled:
     try:
-        from lukhas.core.lukhas_self import who_am_i
+        from core.lukhas_self import who_am_i
 
         st.success("🧠 Agent Online: " + who_am_i())
     except Exception as e:

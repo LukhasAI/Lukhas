@@ -37,7 +37,7 @@ class EmotionMatrizAdapter:
             },
             "timestamps": {"created_ts": int(time.time() * 1000)},
             "provenance": {
-                "producer": "lukhas.emotion",
+                "producer": "emotion",
                 "capabilities": ["emotion:detect", "emotion:regulate", "emotion:vad"],
                 "tenant": "system",
                 "trace_id": f"LT-EMO-{int(time.time())}",

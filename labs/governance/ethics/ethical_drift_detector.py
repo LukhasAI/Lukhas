@@ -28,7 +28,7 @@ from typing import Any, Optional
 
 import yaml
 
-from lukhas.core.symbolic.symbolic_tracer import SymbolicTracer
+from core.symbolic.symbolic_tracer import SymbolicTracer
 
 # Add the necessary paths for imports
 sys.path.append(str(Path(__file__).parent.parent.parent))
@@ -139,7 +139,7 @@ def check_escalation_requirements(drift_score: float, config: dict) -> dict[str,
     """Advanced escalation level handling with multi-tier alerting."""
     escalation_level = config.get("escalation_level", "medium")
     config.get("escalation_flags", {})
-    governance = config.get("lukhas.governance", {})
+    governance = config.get("governance", {})
 
     escalation_result = {
         "escalation_triggered": False,
@@ -199,7 +199,7 @@ def enrich_trace_metadata(result: dict, trace_index: str, context_id: Optional[s
     """Add comprehensive timestamp, module origin, and context metadata."""
     enriched_metadata = {
         "timestamp": datetime.now(timezone.utc).isoformat(),
-        "agent": "lukhas.ethics.drift_detector",
+        "agent": "ethics.drift_detector",
         "context_id": context_id or trace_index,
         "trace_index": trace_index,
         "system_info": {

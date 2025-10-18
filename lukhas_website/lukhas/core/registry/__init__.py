@@ -3,7 +3,7 @@
 This package exposes the new plugin registry interface while preserving
 the legacy module-level helpers (``register``/``resolve``/``autoload``)
 that the wider codebase still depends on.  Without this shim, importing
-``lukhas.core.registry`` would surface only the plugin classes and break
+``core.registry`` would surface only the plugin classes and break
 the simpler runtime registry utilities.
 """
 
@@ -26,13 +26,13 @@ from .plugin_registry import (
 
 
 def _load_legacy_registry() -> Optional[ModuleType]:
-    """Load the legacy ``lukhas.core.registry`` module if it still exists."""
+    """Load the legacy ``core.registry`` module if it still exists."""
 
     legacy_path = Path(__file__).resolve().parent.parent / "registry.py"
     if not legacy_path.exists():  # pragma: no cover - legacy file might be removed later
         return None
 
-    module_name = "lukhas.core._registry_legacy"
+    module_name = "core._registry_legacy"
     if module_name in sys.modules:
         return sys.modules[module_name]
 

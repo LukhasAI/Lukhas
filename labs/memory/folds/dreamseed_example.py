@@ -392,7 +392,7 @@ if __name__ == "__main__":
 ║ REFERENCES:
 ║   - Docs: docs/memory/dreamseed-integration.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=dreamseed
-║   - Wiki: wiki.lukhas.ai/dreamseed-protocol
+║   - Wiki: wiki.ai/dreamseed-protocol
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

@@ -168,7 +168,7 @@ class BioInspiredAdapter:
 
     def _calculate_resource_need(self, resource_type: str, priority: str) -> float:
         """Calculate resource need based on type and priority"""
-        base_need = {"computation": 0.1, "lukhas.memory": 0.2, "attention": 0.3}.get(resource_type, 0.1)
+        base_need = {"computation": 0.1, "memory": 0.2, "attention": 0.3}.get(resource_type, 0.1)
 
         priority_multiplier = {"low": 0.5, "normal": 1.0, "high": 2.0}.get(priority, 1.0)
 

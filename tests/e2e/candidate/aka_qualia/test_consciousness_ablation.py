@@ -77,7 +77,7 @@ class ComponentAblationFramework:
             ablated_akaq = self._ablate_teq(ablation_type, degradation_factor, ablation_config)
         elif component == "router":
             ablated_akaq = self._ablate_router(ablation_type, degradation_factor, ablation_config)
-        elif component == "lukhas.memory":
+        elif component == "memory":
             ablated_akaq = self._ablate_memory(ablation_type, degradation_factor, ablation_config)
         elif component == "vivox":
             ablated_akaq = self._ablate_vivox(ablation_type, degradation_factor, ablation_config)
@@ -703,7 +703,7 @@ class TestConsciousnessAblation:
         """Test memory system ablation degrades gracefully"""
 
         # Disable memory completely
-        ablated_akaq = ablation_framework.ablate_component("lukhas.memory", "disable")
+        ablated_akaq = ablation_framework.ablate_component("memory", "disable")
         compliance = ablation_framework.validate_triad_compliance(ablated_akaq, test_signals)
 
         # Should work without memory (stateless mode)
@@ -711,7 +711,7 @@ class TestConsciousnessAblation:
         assert compliance["guardian_active"], "Guardian active without memory"
 
         # Test memory corruption
-        corrupted_akaq = ablation_framework.ablate_component("lukhas.memory", "corrupt", 0.3)
+        corrupted_akaq = ablation_framework.ablate_component("memory", "corrupt", 0.3)
         corrupted_compliance = ablation_framework.validate_triad_compliance(corrupted_akaq, test_signals)
 
         # Should handle memory corruption gracefully
@@ -743,7 +743,7 @@ class TestConsciousnessAblation:
         )
 
         # Test progressive ablation
-        components_to_ablate = ["router", "lukhas.memory", "vivox"]
+        components_to_ablate = ["router", "memory", "vivox"]
         current_akaq = ablation_framework.baseline
 
         for component in components_to_ablate:
@@ -810,7 +810,7 @@ class TestConsciousnessAblation:
         """Test comprehensive ablation report generation"""
 
         # Perform various ablations
-        components = ["pls", "teq", "router", "lukhas.memory", "vivox"]
+        components = ["pls", "teq", "router", "memory", "vivox"]
         ablation_types = ["disable", "degrade"]
 
         for component in components[:3]:  # Test subset for performance
@@ -846,7 +846,7 @@ class TestExtremeAblationScenarios:
         """Test resilience against cascading component failures"""
 
         # Simulate cascade: router failure -> memory failure -> monitoring failure
-        cascade_components = ["router", "lukhas.memory", "vivox"]
+        cascade_components = ["router", "memory", "vivox"]
 
         current_akaq = ablation_framework.baseline
         surviving_principles = {"identity": True, "consciousness": True, "guardian": True}

@@ -13,7 +13,7 @@ from old import *  # TODO: Specify imports
 
 Usage:
     # Old import (deprecated):
-    from lukhas.orchestration.brain.bio_symbolic.bio_orchestrator import BioOrchestrator
+    from orchestration.brain.bio_symbolic.bio_orchestrator import BioOrchestrator
 
     # New import:
     from bio.core import BioOrchestrator
@@ -23,16 +23,16 @@ Created: 2025-07-26
 import warnings
 
 # New module location
-NEW_MODULE = "lukhas.bio.systems.orchestration"
+NEW_MODULE = "bio.systems.orchestration"
 
 # Map old import paths to new location
 IMPORT_REDIRECTS = {
-    "lukhas.orchestration.brain.bio_symbolic.bio_orchestrator": NEW_MODULE,
-    "lukhas.orchestration_src.brain.bio_symbolic.bio_orchestrator": NEW_MODULE,
-    "lukhas.core.bio.bio_orchestrator": NEW_MODULE,
-    "lukhas.bio.symbolic.bio_orchestrator": NEW_MODULE,
-    "lukhas.voice.bio_core.oscillator.bio_orchestrator": NEW_MODULE,
-    "lukhas.orchestration.specialized.bio_orchestrator": NEW_MODULE + ".oscillator_orchestrator",
+    "orchestration.brain.bio_symbolic.bio_orchestrator": NEW_MODULE,
+    "orchestration_src.brain.bio_symbolic.bio_orchestrator": NEW_MODULE,
+    "core.bio.bio_orchestrator": NEW_MODULE,
+    "bio.symbolic.bio_orchestrator": NEW_MODULE,
+    "voice.bio_core.oscillator.bio_orchestrator": NEW_MODULE,
+    "orchestration.specialized.bio_orchestrator": NEW_MODULE + ".oscillator_orchestrator",
 }
 
 

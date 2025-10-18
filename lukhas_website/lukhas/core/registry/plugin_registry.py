@@ -15,8 +15,8 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Protocol, Type
 
-from lukhas.observability.opentelemetry_tracing import LUKHASTracer
-from lukhas.observability.prometheus_metrics import LUKHASMetrics
+from observability.opentelemetry_tracing import LUKHASTracer
+from observability.prometheus_metrics import LUKHASMetrics
 
 
 class LUKHASPlugin(Protocol):

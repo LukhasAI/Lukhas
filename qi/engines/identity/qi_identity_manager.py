@@ -64,7 +64,7 @@ except ImportError:
 # Import identity infrastructure
 try:
     from identity.interface import IdentityClient
-    from lukhas.core.identity_integration import get_identity_client
+    from core.identity_integration import get_identity_client
 
     IDENTITY_AVAILABLE = True
 except ImportError:

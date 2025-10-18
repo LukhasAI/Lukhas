@@ -25,9 +25,9 @@ from unittest.mock import patch
 
 import pytest
 
-from lukhas.consciousness.matriz_thought_loop import MATRIZThoughtLoop
-from lukhas.consciousness.meta_cognitive_assessor import CognitiveLoadLevel, MetaCognitiveAssessment
-from lukhas.consciousness.types import ConsciousnessState, ThoughtLoopContext, ThoughtLoopResult
+from consciousness.matriz_thought_loop import MATRIZThoughtLoop
+from consciousness.meta_cognitive_assessor import CognitiveLoadLevel, MetaCognitiveAssessment
+from consciousness.types import ConsciousnessState, ThoughtLoopContext, ThoughtLoopResult
 
 # Test configuration
 pytestmark = pytest.mark.asyncio

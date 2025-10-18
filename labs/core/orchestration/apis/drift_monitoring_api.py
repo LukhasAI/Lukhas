@@ -74,7 +74,7 @@ from uuid import uuid4
 import structlog
 
 # Initialize structured logger
-logger = structlog.get_logger("lukhas.drift_monitoring", timezone)
+logger = structlog.get_logger("drift_monitoring", timezone)
 
 
 class DriftType(Enum):
@@ -84,7 +84,7 @@ class DriftType(Enum):
     ACCURACY = "accuracy"  # Model accuracy degradation
     BEHAVIORAL = "behavioral"  # Behavioral pattern changes
     DISTRIBUTION = "distribution"  # Output distribution changes
-    MEMORY = "lukhas.memory"  # Memory access patterns
+    MEMORY = "memory"  # Memory access patterns
     REASONING = "reasoning"  # Reasoning quality changes
     ETHICAL = "ethical"  # Ethical decision consistency
     CREATIVE = "creative"  # Creative output quality

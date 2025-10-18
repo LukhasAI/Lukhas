@@ -26,7 +26,7 @@ of symbolic representations through entropy-driven mutation, semantic fusion,
 creative synthesis, and safety validation with complete lineage tracking for
 the GLYPH subsystem.
 
-For more information, visit: https://lukhas.ai
+For more information, visit: https://ai
 """
 from datetime import timezone
 
@@ -36,7 +36,7 @@ from datetime import timezone
 
 __version__ = "2.0.0"
 __author__ = "LUKHAS Development Team"
-__email__ = "dev@lukhas.ai"
+__email__ = "dev@ai"
 __status__ = "Production"
 
 import logging

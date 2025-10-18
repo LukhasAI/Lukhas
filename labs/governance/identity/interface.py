@@ -39,7 +39,7 @@ class TierValidator:
 
     def validate_tier(self, user_id: str, required_tier: str) -> bool:
         try:
-            from lukhas.governance.identity.core.user_tier_mapping import check_tier_access
+            from governance.identity.core.user_tier_mapping import check_tier_access
 
             return check_tier_access(user_id, required_tier)
         except ImportError:
@@ -79,7 +79,7 @@ class LambdIDValidator:
 def get_lambda_id_validator():
     """Lazy import of LambdaIDValidator to avoid circular imports"""
     try:
-        from lukhas.governance.identity.core.id_service.lambd_id_validator import (
+        from governance.identity.core.id_service.lambd_id_validator import (
             LambdaIDValidator as RealLambdIDValidator,
         )
 
@@ -92,7 +92,7 @@ def get_lambda_id_validator():
 def _get_consent_manager():
     """Lazy import of ConsentManager to avoid circular imports"""
     try:
-        from lukhas.governance.identity.core.sent.consent_manager import (
+        from governance.identity.core.sent.consent_manager import (
             LambdaConsentManager,
         )
 
@@ -105,7 +105,7 @@ def _get_consent_manager():
 def _get_tier_validator():
     """Lazy import of TierValidator to avoid circular imports"""
     try:
-        from lukhas.governance.identity.core.tier.tier_validator import TierValidator as RealTierValidator
+        from governance.identity.core.tier.tier_validator import TierValidator as RealTierValidator
 
         return RealTierValidator
     except ImportError:
@@ -116,7 +116,7 @@ def _get_tier_validator():
 def _get_activity_logger():
     """Lazy import of ActivityLogger to avoid circular imports"""
     try:
-        from lukhas.governance.identity.core.trace.activity_logger import (
+        from governance.identity.core.trace.activity_logger import (
             LambdaTraceLogger,
         )
 

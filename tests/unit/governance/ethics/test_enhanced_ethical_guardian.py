@@ -8,7 +8,7 @@ import json
 import pytest
 import yaml
 
-from lukhas.governance.ethics.enhanced_ethical_guardian import EnhancedEthicalGuardian
+from governance.ethics.enhanced_ethical_guardian import EnhancedEthicalGuardian
 
 
 @pytest.fixture

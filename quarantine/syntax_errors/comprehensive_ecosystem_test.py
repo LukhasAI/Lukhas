@@ -53,13 +53,13 @@ def main():
 
     # Core lukhas systems
     core_systems = [
-        ("lukhas.memory", "Fold-based memory system"),
-        ("lukhas.consciousness", "Core consciousness"),
-        ("lukhas.api", "API endpoints"),
-        ("lukhas.bridge", "Bridge systems"),
-        ("lukhas.agents", "Agent system (NEW)"),
-        ("lukhas.core", "Core systems"),
-        ("lukhas.identity", "Identity systems"),
+        ("memory", "Fold-based memory system"),
+        ("consciousness", "Core consciousness"),
+        ("api", "API endpoints"),
+        ("bridge", "Bridge systems"),
+        ("agents", "Agent system (NEW)"),
+        ("core", "Core systems"),
+        ("identity", "Identity systems"),
     ]
 
     for module, desc in core_systems:

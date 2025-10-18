@@ -39,9 +39,9 @@ class TestProductionMain(unittest.TestCase):
         self.assertEqual(system.system_health["status"], "operational")
         self.assertIn("branding", system.components)
         self.assertIn("consciousness", system.components)
-        self.assertIn("lukhas.memory", system.components)
+        self.assertIn("memory", system.components)
         self.assertIn("identity", system.components)
-        self.assertIn("lukhas.governance", system.components)
+        self.assertIn("governance", system.components)
         self.assertIn("creativity", system.components)
         self.assertIn("api_gateway", system.components)
 

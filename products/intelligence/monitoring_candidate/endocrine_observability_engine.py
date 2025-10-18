@@ -20,8 +20,8 @@ from typing import Any, Callable, Optional
 
 import structlog
 
-from lukhas.core.endocrine.hormone_system import get_endocrine_system
-from lukhas.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+from core.endocrine.hormone_system import get_endocrine_system
+from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
 logger = structlog.get_logger(__name__)
 
@@ -91,7 +91,7 @@ class EndocrineObservabilityEngine:
         # Allow optional bus for test contexts; try to obtain global bus if available.
         if signal_bus is None:
             try:
-                from lukhas.orchestration.signals.signal_bus import (
+                from orchestration.signals.signal_bus import (
                     get_signal_bus as _get_bus,
                 )
 
@@ -220,7 +220,7 @@ class EndocrineObservabilityEngine:
 
             # Connect to homeostasis controller
             try:
-                from lukhas.orchestration.signals.homeostasis_controller import (
+                from orchestration.signals.homeostasis_controller import (
                     HomeostasisController,
                 )
 

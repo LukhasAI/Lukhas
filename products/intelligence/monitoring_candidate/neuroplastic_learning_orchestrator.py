@@ -19,7 +19,7 @@ from typing import Any, Optional
 
 import structlog
 
-from lukhas.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
 # Flexible imports for direct-module execution and package usage
 # Endocrine engine types

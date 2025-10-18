@@ -30,8 +30,8 @@ except ImportError:
 
 import numpy as np
 
-from lukhas.core.common.logger import get_logger
-from lukhas.observability.service_metrics import get_metrics_collector
+from core.common.logger import get_logger
+from observability.service_metrics import get_metrics_collector
 
 from .base import (
     AbstractVectorStore,

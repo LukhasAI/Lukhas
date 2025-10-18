@@ -23,7 +23,7 @@ import mimetypes
 import os.path
 from typing import Final, NamedTuple
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 # from streamlit.runtime.media_file_storage import (  # TODO: Install or
 # implement streamlit

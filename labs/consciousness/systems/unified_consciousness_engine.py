@@ -34,7 +34,7 @@ from enum import Enum
 from typing import Any, Callable, Optional
 
 try:
-    from lukhas.core.common import get_logger
+    from core.common import get_logger
 except ImportError:
     def get_logger(name):
         import logging
@@ -70,7 +70,7 @@ class AwarenessLevel(Enum):
 class ConsciousnessModule(Enum):
     """Consciousness subsystem modules"""
     IDENTITY = "identity"        # ⚛️ Identity and self-awareness
-    MEMORY = "lukhas.memory"           # Memory and experience
+    MEMORY = "memory"           # Memory and experience
     REASONING = "reasoning"     # Logical reasoning and inference
     CREATIVITY = "creativity"   # Creative expression and ideation
     EMOTION = "emotion"         # Emotional processing
@@ -692,7 +692,7 @@ class UnifiedConsciousnessEngine:
         # Default processing based on event type
         if event.event_type.startswith("learning"):
             await self._handle_learning_event(event)
-        elif event.event_type.startswith("lukhas.memory"):
+        elif event.event_type.startswith("memory"):
             await self._handle_memory_event(event)
         elif event.event_type.startswith("reasoning"):
             await self._handle_reasoning_event(event)

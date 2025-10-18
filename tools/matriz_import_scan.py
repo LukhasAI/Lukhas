@@ -66,15 +66,15 @@ def find_python_files(root_path: pathlib.Path) -> List[pathlib.Path]:
     # Key directories to scan
     scan_dirs = [
         root_path / "lukhas",
-        root_path / "lukhas.memory",
+        root_path / "memory",
         root_path / "core",
         root_path / "bio",
         root_path / "branding",
         root_path / "labs",
-        root_path / "lukhas.governance",
+        root_path / "governance",
         root_path / "identity",
         root_path / "api",
-        root_path / "lukhas.tools",
+        root_path / "tools",
         root_path / "tests"
     ]
 
@@ -94,10 +94,10 @@ def detect_bad_root_imports(imports: List[Dict[str, Any]], file_path: str) -> Li
 
         # Bad patterns
         bad_patterns = [
-            'lukhas.lukhas.',
-            'lukhas.accepted.',
-            'lukhas.lukhas',
-            'lukhas.accepted'
+            'lukhas.',
+            'accepted.',
+            'lukhas',
+            'accepted'
         ]
 
         for pattern in bad_patterns:
@@ -121,7 +121,7 @@ def build_dependency_graph(imports_by_file: Dict[str, List[Dict[str, Any]]]) -> 
     for file_path, imports in imports_by_file.items():
         # Convert file path to module name
         if '/lukhas/' in file_path:
-            # Convert path like lukhas/module/submodule.py to lukhas.module.submodule
+            # Convert path like lukhas/module/submodule.py to module.submodule
             parts = file_path.split('/lukhas/')[-1]
             if parts.endswith('.py'):
                 parts = parts[:-3]

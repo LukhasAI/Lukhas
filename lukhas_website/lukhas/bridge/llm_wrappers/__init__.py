@@ -48,7 +48,7 @@ except ImportError as e:
 # Import other wrappers if they exist
 def _load_optional(wrapper_name: str, class_name: str) -> Optional[Any]:
     try:
-        module = importlib.import_module(f"lukhas.bridge.llm_wrappers.{wrapper_name}")
+        module = importlib.import_module(f"bridge.llm_wrappers.{wrapper_name}")
         return getattr(module, class_name)
     except ImportError:
         logger.debug("Optional wrapper %s not available", wrapper_name)

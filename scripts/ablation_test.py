@@ -14,8 +14,8 @@ for noisy in [
 ]:
     logging.getLogger(noisy).setLevel(logging.ERROR)
 
-from lukhas.memory.consolidation import ConsolidationMode, ConsolidationOrchestrator, InMemoryStore
-from lukhas.memory.structural_conscience import StructuralConscience
+from memory.consolidation import ConsolidationMode, ConsolidationOrchestrator, InMemoryStore
+from memory.structural_conscience import StructuralConscience
 
 
 class QuarantineDisabledOrchestrator(ConsolidationOrchestrator):
@@ -23,7 +23,7 @@ class QuarantineDisabledOrchestrator(ConsolidationOrchestrator):
 
     def _run_stage(self, stage):
         # Override to skip quarantine validation
-        from lukhas.memory.consolidation.consolidation_orchestrator import SleepStage
+        from memory.consolidation.consolidation_orchestrator import SleepStage
         if stage in (SleepStage.NREM_2, SleepStage.NREM_3):
             batch = self._select_batch()
             if not batch:

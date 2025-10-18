@@ -56,10 +56,10 @@ security_manager = create_security_hardening_manager()
 
 # Production domains for CORS
 PRODUCTION_DOMAINS = [
-    "https://lukhas.ai",
-    "https://app.lukhas.ai",
-    "https://identity.lukhas.ai",
-    "https://console.lukhas.ai"
+    "https://ai",
+    "https://app.ai",
+    "https://identity.ai",
+    "https://console.ai"
 ]
 
 # Create router with enhanced configuration
@@ -170,11 +170,11 @@ async def get_oidc_provider() -> OIDCProvider:
     class MockOIDCProvider:
         def get_discovery_document(self):
             return {
-                "issuer": "https://lukhas.ai",
-                "authorization_endpoint": "https://lukhas.ai/oauth2/authorize",
-                "token_endpoint": "https://lukhas.ai/oauth2/token",
-                "userinfo_endpoint": "https://lukhas.ai/oauth2/userinfo",
-                "jwks_uri": "https://lukhas.ai/.well-known/jwks.json"
+                "issuer": "https://ai",
+                "authorization_endpoint": "https://ai/oauth2/authorize",
+                "token_endpoint": "https://ai/oauth2/token",
+                "userinfo_endpoint": "https://ai/oauth2/userinfo",
+                "jwks_uri": "https://ai/.well-known/jwks.json"
             }
 
         def get_jwks(self):

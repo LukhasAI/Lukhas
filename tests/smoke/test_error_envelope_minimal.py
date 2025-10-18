@@ -9,7 +9,7 @@ from fastapi import HTTPException
 from fastapi.testclient import TestClient
 
 # Use the real app so we exercise the exception handlers registered in get_app().
-from lukhas.adapters.openai.api import get_app
+from adapters.openai.api import get_app
 
 HEX32 = re.compile(r"^[0-9a-f]{32}$")
 

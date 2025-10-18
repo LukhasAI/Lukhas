@@ -229,14 +229,14 @@ def update_validation_script():
     content = validation_path.read_text()
 
     # Fix import - add DistributedAIAgent import
-    if "DistributedAIAgent" in content and "from lukhas.core.integrated_system import" in content:
+    if "DistributedAIAgent" in content and "from core.integrated_system import" in content:
         # Import pattern already exists, make sure DistributedAIAgent is included
         import_pattern = r"from core\.core\.integrated_system import ([^\n]*)"
 
         def fix_import(match):
             imports = match.group(1)
             if "DistributedAIAgent" not in imports:
-                return f"from lukhas.core.integrated_system import {imports}, DistributedAIAgent"
+                return f"from core.integrated_system import {imports}, DistributedAIAgent"
             return match.group(0)
 
         content = re.sub(import_pattern, fix_import, content)

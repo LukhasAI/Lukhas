@@ -141,7 +141,7 @@ class BioConsolidator:
             # Track unique imports
             for imp in components["imports"]:
                 # Skip internal bio imports (will be consolidated)
-                if "bio" not in imp or "lukhas.accepted.bio" in imp:
+                if "bio" not in imp or "accepted.bio" in imp:
                     all_imports.add(imp)
 
             # Collect unique classes
@@ -250,7 +250,7 @@ from . import adapters
 
 # Optional quantum features (feature-flagged)
 try:
-    from . import lukhas.qi
+    from . import qi
 except ImportError:
     quantum = None
 
@@ -311,7 +311,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 def test_bio_imports():
     """Test that bio modules can be imported"""
-    from lukhas.accepted import bio
+    from accepted import bio
     assert bio is not None
     assert hasattr(bio, '__triad__')
 

@@ -1,11 +1,11 @@
 """Bridge: governance.guardian_system — guardian orchestration layer."""
 from __future__ import annotations
 
-from lukhas._bridgeutils import bridge_from_candidates, export_from, safe_guard
+from _bridgeutils import bridge_from_candidates, export_from, safe_guard
 
 # Primary: website → candidate → ab_safety_guard (where Guardian often lives)
 __all__, _exp = bridge_from_candidates(
-    "lukhas_website.lukhas.governance.guardian_system",
+    "lukhas_website.governance.guardian_system",
     "candidate.core.ethics.ab_safety_guard",
     "governance.guardian_system",
 )

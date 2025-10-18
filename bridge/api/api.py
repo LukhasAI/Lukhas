@@ -530,7 +530,7 @@ class LukhasUnifiedAPI:
         # Example CORS middleware configuration. Adjust origins for production.
         cors_origins_str = os.environ.get(
             "LUKHAS_API_CORS_ORIGINS",
-            "http://localhost:3000,https://*.lukhas.ai",
+            "http://localhost:3000,https://*.ai",
         )
         self.app.add_middleware(
             CORSMiddleware,
@@ -1432,7 +1432,7 @@ else:
 ║ REFERENCES:
 ║   - Docs: docs/identity/unified_api.md
 ║   - Issues: github.com/lukhas-ai/lukhas/issues?label=unified-api
-║   - Wiki: https://internal.lukhas.ai/wiki/Unified_API
+║   - Wiki: https://internal.ai/wiki/Unified_API
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

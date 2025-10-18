@@ -12,8 +12,8 @@ candidate → integration → production
 T4/0.01% Excellence: 100% evidence-based promotions with cryptographic validation
 
 Usage:
-    python scripts/matriz/promote.py --module lukhas.consciousness --from candidate --to integration --dry-run
-    python scripts/matriz/promote.py --module lukhas.memory --from integration --to production --sign --attest cosign.key
+    python scripts/matriz/promote.py --module consciousness --from candidate --to integration --dry-run
+    python scripts/matriz/promote.py --module memory --from integration --to production --sign --attest cosign.key
 """
 
 import argparse
@@ -421,7 +421,7 @@ class MATRIZPromotionManager:
 def main():
     parser = argparse.ArgumentParser(description="MATRIZ Lane Promotion Tool")
     parser.add_argument("--module", required=True,
-                       help="Module to promote (e.g., lukhas.consciousness)")
+                       help="Module to promote (e.g., consciousness)")
     parser.add_argument("--from", dest="source_lane", required=True,
                        choices=["candidate", "integration", "production"],
                        help="Source lane")

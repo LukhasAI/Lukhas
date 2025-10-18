@@ -178,17 +178,17 @@ class SafetyChecker:
     def _init_guardian(self):
         """Try to initialize Guardian system integration"""
         try:
-            from lukhas.governance.ethics.guardian_reflector import GuardianReflector
+            from governance.ethics.guardian_reflector import GuardianReflector
 
             return GuardianReflector(self.config)
         except ImportError:
             try:
-                from lukhas.governance.ethics.ethics_guardian import EthicsGuardian
+                from governance.ethics.ethics_guardian import EthicsGuardian
 
                 return EthicsGuardian(self.config)
             except ImportError:
                 try:
-                    from lukhas.governance.ethics.enhanced_ethical_guardian import (
+                    from governance.ethics.enhanced_ethical_guardian import (
                         EnhancedEthicalGuardian,
                     )
 

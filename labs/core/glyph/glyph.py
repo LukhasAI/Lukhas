@@ -26,7 +26,7 @@ processors. Glyphs encode emotional states, temporal context, semantic
 relationships, and causal linkages for memory indexing, drift detection,
 and symbolic reasoning throughout the LUKHAS Cognitive system.
 
-For more information, visit: https://lukhas.ai
+For more information, visit: https://ai
 """
 from datetime import timezone
 
@@ -36,7 +36,7 @@ from datetime import timezone
 
 __version__ = "1.0.0"
 __author__ = "LUKHAS Development Team"
-__email__ = "dev@lukhas.ai"
+__email__ = "dev@ai"
 __status__ = "Production"
 
 import hashlib
@@ -63,7 +63,7 @@ logger.info("Initializing LUKHAS Core Glyph Engine v1.0.0")
 class GlyphType(Enum):
     """Classification of glyph types for specialized processing."""
 
-    MEMORY = "lukhas.memory"  # Memory indexing and retrieval
+    MEMORY = "memory"  # Memory indexing and retrieval
     EMOTION = "emotion"  # Emotional state encoding
     ACTION = "action"  # Action logic carriers
     TEMPORAL = "temporal"  # Time-bound symbolic states
@@ -445,7 +445,7 @@ class Glyph:
         # Create glyph
         glyph = cls(
             id=data.get("id", str(uuid.uuid4())),
-            glyph_type=GlyphType(data.get("glyph_type", "lukhas.memory")),
+            glyph_type=GlyphType(data.get("glyph_type", "memory")),
             priority=GlyphPriority(data.get("priority", 5)),
             symbol=data.get("symbol", "?"),
             symbolic_hash=data.get("symbolic_hash", ""),

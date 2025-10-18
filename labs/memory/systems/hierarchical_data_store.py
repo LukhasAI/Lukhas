@@ -169,7 +169,7 @@ class HierarchicalDataStore:
 
         logger.info(
             "ΛHDS: Hierarchical Data Store initialized",
-            storage_path=str(storage_path) if storage_path else "lukhas.memory",
+            storage_path=str(storage_path) if storage_path else "memory",
             max_memory_mb=max_memory_mb,
         )
 

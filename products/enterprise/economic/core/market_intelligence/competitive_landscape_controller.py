@@ -9,7 +9,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Any
 
-from lukhas.core.interfaces import CoreInterface
+from core.interfaces import CoreInterface
 
 logger = logging.getLogger(__name__)
 

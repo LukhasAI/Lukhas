@@ -129,14 +129,14 @@ class ModuleImportCache:
     def _prewarm_imports(self):
         """Pre-warm frequently used imports for zero-latency access"""
         critical_imports = [
-            "lukhas.governance.ethics.constitutional_ai.ConstitutionalFramework",
-            "lukhas.governance.ethics.constitutional_ai.SafetyMonitor",
-            "lukhas.governance.identity.auth_backend.audit_logger.AuditLogger",
-            "lukhas.governance.security.access_control.AccessControlEngine",
-            "lukhas.governance.security.access_control.AccessTier",
-            "lukhas.governance.security.access_control.PermissionManager",
-            "lukhas.governance.security.access_control.User",
-            "lukhas.governance.security.access_control.AccessDecision",
+            "governance.ethics.constitutional_ai.ConstitutionalFramework",
+            "governance.ethics.constitutional_ai.SafetyMonitor",
+            "governance.identity.auth_backend.audit_logger.AuditLogger",
+            "governance.security.access_control.AccessControlEngine",
+            "governance.security.access_control.AccessTier",
+            "governance.security.access_control.PermissionManager",
+            "governance.security.access_control.User",
+            "governance.security.access_control.AccessDecision",
         ]
 
         for import_path in critical_imports:
@@ -603,7 +603,7 @@ class ExtremeAuthPerformanceOptimizer:
             # 1. OPTIMIZED COMPONENT LOADING (was 15-25ms, now <1ms)
             time.perf_counter()
             access_control = await self.get_optimized_component(
-                "lukhas.governance.security.access_control", "AccessControlEngine", metrics
+                "governance.security.access_control", "AccessControlEngine", metrics
             )
 
             if not access_control:
@@ -611,7 +611,7 @@ class ExtremeAuthPerformanceOptimizer:
                 try:
                     import importlib
 
-                    module = importlib.import_module("lukhas.governance.security.access_control")
+                    module = importlib.import_module("governance.security.access_control")
                     access_control = module.AccessControlEngine
                 except (ImportError, AttributeError):
                     return {"success": False, "error": "Authentication components not available"}

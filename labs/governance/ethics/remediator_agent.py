@@ -221,7 +221,7 @@ class RemediatorAgent:
         if any(keyword in issue_type for keyword in ["ethical", "moral", "bias", "fairness"]):
             return RemediationType.ETHICAL_VIOLATION
 
-        if any(keyword in issue_type for keyword in ["lukhas.memory", "fragmentation", "leak"]):
+        if any(keyword in issue_type for keyword in ["memory", "fragmentation", "leak"]):
             return RemediationType.MEMORY_FRAGMENTATION
 
         if any(keyword in issue_type for keyword in ["compliance", "regulatory", "gdpr"]):
@@ -237,7 +237,7 @@ class RemediatorAgent:
         memory_indicators = sum(
             1
             for indicator in indicators
-            if any(keyword in str(indicator).lower() for keyword in ["lukhas.memory", "fragment", "leak"])
+            if any(keyword in str(indicator).lower() for keyword in ["memory", "fragment", "leak"])
         )
 
         if ethical_indicators > 0 and memory_indicators > 0:
@@ -325,7 +325,7 @@ class RemediatorAgent:
 
     def _requires_memory_intervention(self, issue_data: dict[str, Any]) -> bool:
         """Determine if memory intervention is needed."""
-        memory_keywords = ["lukhas.memory", "fragmentation", "leak", "optimization", "cleanup"]
+        memory_keywords = ["memory", "fragmentation", "leak", "optimization", "cleanup"]
         issue_text = str(issue_data).lower()
         return any(keyword in issue_text for keyword in memory_keywords)
 

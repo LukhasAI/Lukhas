@@ -1,7 +1,7 @@
 from typing import Any, Optional
 
-from lukhas.colony.contracts import ConsensusResult
-from lukhas.dna.interfaces import DNAWriteReceipt, HelixMemory
+from colony.contracts import ConsensusResult
+from dna.interfaces import DNAWriteReceipt, HelixMemory
 from flags import is_enabled
 
 

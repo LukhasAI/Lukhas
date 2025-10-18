@@ -105,7 +105,7 @@ class AGISecuritySystem:
         # Security validators
         self.validators: dict[str, SecurityValidator] = {
             "input": InputValidator(),
-            "lukhas.memory": MemoryAccessValidator(),
+            "memory": MemoryAccessValidator(),
             "consciousness": ConsciousnessValidator(),
             "api": APIValidator(),
         }

@@ -179,13 +179,13 @@ class TargetedImportFixer:
 
         # Common fixes
         content = content.replace(
-            "from lukhas.core.common import get_logger",
-            "from lukhas.core.common import get_logger",
+            "from core.common import get_logger",
+            "from core.common import get_logger",
         )
 
         # Ensure proper imports
-        if "from lukhas.core.common import" not in content:
-            content = "from lukhas.core.common import get_logger\n" + content
+        if "from core.common import" not in content:
+            content = "from core.common import get_logger\n" + content
 
         with open(file_path, "w", encoding="utf-8") as f:
             f.write(content)

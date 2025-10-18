@@ -10,7 +10,7 @@ __all__: List[str] = []
 for _candidate in (
     "labs.candidate.core.consciousness_stream",
     "core.consciousness_stream",
-    "lukhas_website.lukhas.core.consciousness_stream",
+    "lukhas_website.core.consciousness_stream",
 ):
     try:
         _mod = import_module(_candidate)

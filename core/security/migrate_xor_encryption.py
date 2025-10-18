@@ -112,7 +112,7 @@ class XORMigration:
         return {
             "file": str(file_path),
             "patches": patches,
-            "imports_needed": ["from lukhas.core.security.enhanced_crypto import get_encryption_manager"],
+            "imports_needed": ["from core.security.enhanced_crypto import get_encryption_manager"],
         }
 
     def _generate_crypto_replacement(self, func_node: ast.FunctionDef) -> str:

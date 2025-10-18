@@ -1,7 +1,7 @@
 """Bridge for `candidate.matriz.runtime`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.candidate.matriz.runtime
+  1) lukhas_website.candidate.matriz.runtime
   2) candidate.candidate.matriz.runtime
   3) matriz.runtime
 
@@ -22,7 +22,7 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.candidate.matriz.runtime",
+    "lukhas_website.candidate.matriz.runtime",
     "labs.candidate.matriz.runtime",
     "matriz.runtime",
 )

@@ -35,7 +35,7 @@ class EngineType(Enum):
     """Types of intelligence engines"""
 
     CONSCIOUSNESS = "consciousness"
-    MEMORY = "lukhas.memory"
+    MEMORY = "memory"
     REASONING = "reasoning"
     LEARNING = "learning"
     CREATIVITY = "creativity"

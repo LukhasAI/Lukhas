@@ -268,7 +268,7 @@ class ResonantMemoryAccess:
         # Map content types to frequency bands
         if any(word in content_str for word in ["emotion", "feel", "love", "fear"]):
             return np.random.uniform(4, 8)  # Theta band (emotional)
-        elif any(word in content_str for word in ["remember", "lukhas.memory", "recall"]):
+        elif any(word in content_str for word in ["remember", "memory", "recall"]):
             return np.random.uniform(8, 12)  # Alpha band (memory)
         elif any(word in content_str for word in ["think", "analyze", "logic"]):
             return np.random.uniform(12, 30)  # Beta band (cognitive)
@@ -605,7 +605,7 @@ async def demonstrate_resonant_memory():
             "mem_2",
             {"content": "The sunset was beautiful yesterday", "visual": "colors"},
         ),
-        ("mem_3", {"content": "Remembering my childhood home", "lukhas.memory": "nostalgia"}),
+        ("mem_3", {"content": "Remembering my childhood home", "memory": "nostalgia"}),
         (
             "mem_4",
             {

@@ -9,12 +9,12 @@ import json
 import time
 from pathlib import Path
 
-from lukhas.dna.memory_inmem import (
+from dna.memory_inmem import (
     InMemoryHelix,
 )
 
 # replace with real DNA client when ready
-from lukhas.migration.legacy_jsonl import LegacyJSONL
+from migration.legacy_jsonl import LegacyJSONL
 
 CKPT_DIR = Path(".lukhas_migration")
 CKPT_DIR.mkdir(parents=True, exist_ok=True)

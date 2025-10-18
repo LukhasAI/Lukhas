@@ -81,7 +81,7 @@ from tools.dev.patch_utils import temporary_patch
 
 # LUKHAS Core Imports
 try:
-    from lukhas.core.symbolic.drift.symbolic_drift_tracker import (
+    from core.symbolic.drift.symbolic_drift_tracker import (
         SymbolicDriftTracker,
     )
 except ImportError:

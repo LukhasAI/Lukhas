@@ -35,7 +35,7 @@ from typing import Any, Optional
 
 # Import existing memory manager
 try:
-    from lukhas.memory import MemoryManager
+    from memory import MemoryManager
 except ImportError:
     # Fallback to basic memory storage
 

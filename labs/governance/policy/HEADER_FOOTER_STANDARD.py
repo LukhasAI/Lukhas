@@ -234,7 +234,7 @@ HEADER/FOOTER STANDARDIZATION GUIDELINES
 
 6. QUOTES
    - Choose meaningful quotes related to the module's purpose
-   - Can be from lukhas.core.common philosophy or general wisdom
+   - Can be from core.common philosophy or general wisdom
    - Keep professional and inspirational
 
 7. COMPLIANCE

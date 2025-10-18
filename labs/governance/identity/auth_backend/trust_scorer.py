@@ -11,7 +11,7 @@ import time
 from datetime import datetime, timedelta
 from typing import Any
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 
 class LukhasTrustScorer:

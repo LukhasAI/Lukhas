@@ -118,7 +118,7 @@ def create_monitoring_system_from_config(config_path: Optional[str] = None, prof
 
     Example:
         >>> from monitoring import create_monitoring_system_from_config, MonitoringProfile
-        >>> from lukhas.orchestration.signals.signal_bus import SignalBus
+        >>> from orchestration.signals.signal_bus import SignalBus
         >>>
         >>> signal_bus = SignalBus()
         >>> monitoring = create_monitoring_system_from_config(
@@ -127,7 +127,7 @@ def create_monitoring_system_from_config(config_path: Optional[str] = None, prof
         >>> await monitoring.initialize()
         >>> await monitoring.start_monitoring()
     """
-    from lukhas.orchestration.signals.signal_bus import SignalBus
+    from orchestration.signals.signal_bus import SignalBus
 
     # Load configuration
     config = load_monitoring_config(config_path, profile)
@@ -155,7 +155,7 @@ QUICK_START_EXAMPLE = """
 # Quick Start Example - Enhanced LUKHAS Monitoring
 
 from monitoring import start_complete_monitoring_system, MonitoringProfile
-from lukhas.orchestration.signals.signal_bus import SignalBus
+from orchestration.signals.signal_bus import SignalBus
 import asyncio
 
 async def main():

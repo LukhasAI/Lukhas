@@ -495,7 +495,7 @@ class EntropyCalculator:
 ║ REFERENCES:
 ║   - Docs: docs/identity/entropy_calculation.md
 ║   - Issues: github.com/lukhas-ai/lukhas/issues?label=entropy
-║   - Wiki: https://internal.lukhas.ai/wiki/Entropy_Calculator
+║   - Wiki: https://internal.ai/wiki/Entropy_Calculator
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

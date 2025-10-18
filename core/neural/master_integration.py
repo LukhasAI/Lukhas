@@ -32,24 +32,24 @@ class LUKHASNeuralNetwork:
 
             from emotion.neuroplastic_connector import EmotionConnector
             from bridge.neuroplastic_connector import BridgeConnector
-            from lukhas.consciousness.neuroplastic_connector import (
+            from consciousness.neuroplastic_connector import (
                 ConsciousnessConnector,
             )
 
             # Import bridges
-            from lukhas.core.neural_bridge import neural_bridge
-            from lukhas.core.neuroplastic_connector import CoreConnector
-            from lukhas.governance.neuroplastic_connector import GovernanceConnector
-            from lukhas.memory.neuroplastic_connector import MemoryConnector
+            from core.neural_bridge import neural_bridge
+            from core.neuroplastic_connector import CoreConnector
+            from governance.neuroplastic_connector import GovernanceConnector
+            from memory.neuroplastic_connector import MemoryConnector
 
             # Register all modules with neural bridge
             self.modules = {
                 "core": CoreConnector(),
                 "consciousness": ConsciousnessConnector(),
-                "lukhas.memory": MemoryConnector(),
+                "memory": MemoryConnector(),
                 "qim": QimConnector(),
                 "emotion": EmotionConnector(),
-                "lukhas.governance": GovernanceConnector(),
+                "governance": GovernanceConnector(),
                 "bridge": BridgeConnector(),
             }
 
@@ -69,13 +69,13 @@ class LUKHASNeuralNetwork:
 
     def _create_neural_pathways(self):
         """Create connections between modules"""
-        from lukhas.core.neural_bridge import neural_bridge
+        from core.neural_bridge import neural_bridge
 
         # Core pathways
-        neural_bridge.create_synapse("consciousness", "lukhas.memory")
+        neural_bridge.create_synapse("consciousness", "memory")
         neural_bridge.create_synapse("consciousness", "emotion")
-        neural_bridge.create_synapse("lukhas.memory", "emotion")
-        neural_bridge.create_synapse("lukhas.governance", "core")
+        neural_bridge.create_synapse("memory", "emotion")
+        neural_bridge.create_synapse("governance", "core")
         neural_bridge.create_synapse("bridge", "consciousness")
         neural_bridge.create_synapse("qim", "consciousness")
 
@@ -90,8 +90,8 @@ class LUKHASNeuralNetwork:
         results = {}
 
         # Always go through governance first
-        if "lukhas.governance" in self.modules:
-            gov_result = self.modules["lukhas.governance"].process(input_data)
+        if "governance" in self.modules:
+            gov_result = self.modules["governance"].process(input_data)
             if not gov_result.get("allowed", True):
                 return {
                     "error": "Governance check failed",

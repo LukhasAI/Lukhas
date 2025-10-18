@@ -48,7 +48,7 @@ def update_provenance(module_name):
 
 def main():
     """Update all remaining Tier-1 modules"""
-    modules = ["orchestration", "api", "identity", "lukhas.governance"]
+    modules = ["orchestration", "api", "identity", "governance"]
 
     for module in modules:
         update_provenance(module)

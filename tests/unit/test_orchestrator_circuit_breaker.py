@@ -12,7 +12,7 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from lukhas.core.reliability.circuit_breaker import get_circuit_health
+from core.reliability.circuit_breaker import get_circuit_health
 
 # pytest-asyncio is already configured globally
 from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator

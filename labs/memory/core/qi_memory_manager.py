@@ -56,7 +56,7 @@ MODULE_NAME = "memory_manager"
 # REDIRECT: Use production memory fold system instead of basic stub
 try:
     # Import from production memory fold system
-    from lukhas.memory.memory_fold import MemoryFoldConfig, MemoryFoldSystem
+    from memory.memory_fold import MemoryFoldConfig, MemoryFoldSystem
 
     # Alias for compatibility
     EnhancedMemoryFold = MemoryFoldSystem
@@ -500,7 +500,7 @@ class EnhancedMemoryManager:
 ║ REFERENCES:
 ║   - Docs: docs/memory/memory-manager.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=memory-manager
-║   - Wiki: wiki.lukhas.ai/memory-management-architecture
+║   - Wiki: wiki.ai/memory-management-architecture
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

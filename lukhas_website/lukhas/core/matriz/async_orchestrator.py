@@ -14,8 +14,8 @@ import time
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
 
-from lukhas.observability.opentelemetry_tracing import LUKHASTracer
-from lukhas.observability.prometheus_metrics import LUKHASMetrics
+from observability.opentelemetry_tracing import LUKHASTracer
+from observability.prometheus_metrics import LUKHASMetrics
 
 # Python 3.9 compatibility for asyncio.timeout
 from .asyncio_compat import wait_for_with_timeout

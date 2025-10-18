@@ -1,12 +1,64 @@
-"""
-STUB MODULE: governance.ethics
+"""Bridge package for governance.ethics."""
 
-Auto-generated stub to fix test collection (v0.03-prep baseline).
-Original module missing or never implemented.
+from __future__ import annotations
 
-Status: STUB - Needs actual implementation or dead import removal
-Created: 2025-10-06
-Tracking: docs/v0.03/KNOWN_ISSUES.md#missing-modules
-"""
+import importlib
+import os
+from types import ModuleType
+from typing import List
 
-# TODO: Implement or remove dead imports referencing this module
+__all__: List[str] = []
+__path__: List[str] = [os.path.dirname(__file__)]  # type: ignore[assignment]
+
+_BACKEND: ModuleType | None = None
+_CANDIDATES = [
+    "lukhas_website.governance.ethics",
+    "governance.ethics",
+    "labs.governance.ethics",
+]
+
+
+def _bind_backend() -> None:
+    global _BACKEND, __all__
+    for name in _CANDIDATES:
+        try:
+            backend = importlib.import_module(name)
+        except Exception:
+            continue
+        _BACKEND = backend
+        for attr in dir(backend):
+            if attr.startswith("_"):
+                continue
+            value = getattr(backend, attr)
+            globals()[attr] = value
+            if attr not in __all__:
+                __all__.append(attr)
+        break
+
+
+_bind_backend()
+
+
+def __getattr__(name: str):
+    if _BACKEND and hasattr(_BACKEND, name):
+        value = getattr(_BACKEND, name)
+        globals()[name] = value
+        if name not in __all__:
+            __all__.append(name)
+        return value
+    for module_name in (
+        "lukhas_website.governance.ethics",
+        "governance.ethics",
+        "labs.governance.ethics",
+    ):
+        try:
+            module = importlib.import_module(module_name)
+        except Exception:
+            continue
+        if hasattr(module, name):
+            value = getattr(module, name)
+            globals()[name] = value
+            if name not in __all__:
+                __all__.append(name)
+            return value
+    raise AttributeError(name)

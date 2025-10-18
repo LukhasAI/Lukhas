@@ -1,7 +1,7 @@
 """Bridge for `observability.compliance_dashboard`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.observability.compliance_dashboard
+  1) lukhas_website.observability.compliance_dashboard
   2) candidate.observability.compliance_dashboard
   3) observability.compliance_dashboard
 
@@ -22,7 +22,7 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.observability.compliance_dashboard",
+    "lukhas_website.observability.compliance_dashboard",
     "candidate.observability.compliance_dashboard",
     "observability.compliance_dashboard",
 )

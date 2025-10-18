@@ -19,11 +19,11 @@ from bridge.voice.systems.voice_synthesis import (
     ElevenLabsProvider,
     VoiceSynthesisProvider,
 )
-from lukhas.core.common.glyph import GLYPHSymbol, create_glyph
-from lukhas.core.common.logger import get_logger
-from lukhas.governance.guardian import GuardianValidator
-from lukhas.voice.audio_processing import LUKHASAudioProcessor, ProcessingQuality
-from lukhas.voice.voice_modulator import VoiceModulationMode, VoiceModulator
+from core.common.glyph import GLYPHSymbol, create_glyph
+from core.common.logger import get_logger
+from governance.guardian import GuardianValidator
+from voice.audio_processing import LUKHASAudioProcessor, ProcessingQuality
+from voice.voice_modulator import VoiceModulationMode, VoiceModulator
 
 logger = get_logger(__name__)
 

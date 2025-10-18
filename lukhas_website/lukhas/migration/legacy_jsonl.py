@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 from typing import Any, Optional
 
-from lukhas.migration.legacy_store import LegacyStore
+from migration.legacy_store import LegacyStore
 
 
 class LegacyJSONL(LegacyStore):

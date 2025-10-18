@@ -211,7 +211,7 @@ if __name__ == "__main__":
     configure_secure_logging()
 
     # Create security logger
-    sec_logger = get_security_logger("lukhas.security.test")
+    sec_logger = get_security_logger("security.test")
 
     # Test various logging scenarios
     print("Testing secure logging...")

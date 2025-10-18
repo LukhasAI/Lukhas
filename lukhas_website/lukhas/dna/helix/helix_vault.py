@@ -20,7 +20,7 @@ from typing import Any, Optional
 
 import aiofiles
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 from .dna_healix import MemoryHelix, RepairMethod
 

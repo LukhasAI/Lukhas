@@ -52,18 +52,18 @@ qr_animator_stub.QRCodeAnimator = type(
 sys.modules["identity.mobile.qr_code_animator"] = qr_animator_stub
 
 from labs.governance.guardian_sentinel import GuardianSentinel
-from lukhas.governance.healthcare.decision_support import ClinicalDecisionSupport
-from lukhas.governance.identity.auth_integrations.qrg_bridge import (
+from governance.healthcare.decision_support import ClinicalDecisionSupport
+from governance.identity.auth_integrations.qrg_bridge import (
     AuthQRGBridge,
     QRAuthMode,
     QRGAuthIntegration,
 )
-from lukhas.governance.identity.auth_integrations.wallet_bridge import (
+from governance.identity.auth_integrations.wallet_bridge import (
     AuthWalletBridge,
     WalletAuthIntegration,
 )
-from lukhas.governance.identity.core.qrs.session_replay import SessionReplayManager
-from lukhas.governance.identity.core.sing.sso_engine import LambdaSSOEngine
+from governance.identity.core.qrs.session_replay import SessionReplayManager
+from governance.identity.core.sing.sso_engine import LambdaSSOEngine
 
 
 class _StubTierManager:

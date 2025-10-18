@@ -491,7 +491,7 @@ if __name__ == "__main__":
     correlation_id = str(uuid.uuid4())
 
     # Create agent with capabilities
-    agent.create_agent(["reasoning", "lukhas.memory", "learning"], correlation_id)
+    agent.create_agent(["reasoning", "memory", "learning"], correlation_id)
 
     # Assign and complete tasks
     agent.assign_task("task-001", {"type": "reasoning", "complexity": "high"}, correlation_id)

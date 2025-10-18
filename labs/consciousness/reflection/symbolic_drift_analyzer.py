@@ -51,7 +51,7 @@ from enum import Enum, auto
 from pathlib import Path
 from typing import Any, Callable, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 # Rich terminal output
 try:
@@ -69,7 +69,7 @@ except ImportError:
 try:
     from dream.core.dream_memory_manager import DreamMemoryManager
     from ethics.ethical_drift_detector import EthicalDriftDetector
-    from lukhas.core.glyph.glyphs import Glyph
+    from core.glyph.glyphs import Glyph
     from symbolic.drift.symbolic_drift_tracker import DriftPhase, DriftScore
 except ImportError:
     # Mock imports for standalone testing
@@ -905,7 +905,7 @@ class SymbolicDriftAnalyzer:
             "isolation",
             "conflict",
             "resolution",
-            "lukhas.memory",
+            "memory",
             "future",
             "identity",
             "purpose",

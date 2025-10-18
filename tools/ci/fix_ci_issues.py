@@ -22,7 +22,7 @@ class CIFixOrchestrator:
         print("🔧 Fixing Streamlit import issues...")
 
         # Create streamlit compatibility shim
-        streamlit_shim = self.base_path / "lukhas.tools" / "ci" / "streamlit_shim.py"
+        streamlit_shim = self.base_path / "tools" / "ci" / "streamlit_shim.py"
         streamlit_shim.parent.mkdir(parents=True, exist_ok=True)
 
         with open(streamlit_shim, "w") as f:
@@ -273,7 +273,7 @@ timeout_method = thread
         print("🔧 Creating GitHub Actions helper scripts...")
 
         # Create setup script
-        setup_script = self.base_path / "lukhas.tools" / "ci" / "setup_ci_environment.sh"
+        setup_script = self.base_path / "tools" / "ci" / "setup_ci_environment.sh"
         setup_script.parent.mkdir(parents=True, exist_ok=True)
 
         with open(setup_script, "w") as f:
@@ -322,7 +322,7 @@ echo "✅ CI environment setup complete!"
         setup_script.chmod(0o755)
 
         # Create test runner script
-        test_runner = self.base_path / "lukhas.tools" / "ci" / "run_ci_tests.sh"
+        test_runner = self.base_path / "tools" / "ci" / "run_ci_tests.sh"
 
         with open(test_runner, "w") as f:
             f.write(

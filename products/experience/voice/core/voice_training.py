@@ -18,12 +18,12 @@ from typing import Any, Callable, Optional
 
 import numpy as np
 
-from lukhas.core.common.glyph import GLYPHSymbol, create_glyph
-from lukhas.core.common.logger import get_logger
-from lukhas.governance.guardian import GuardianValidator
-from lukhas.voice.audio_processing import AudioBuffer
-from lukhas.voice.speech_recognition import LUKHASSpeechRecognitionService
-from lukhas.voice.voice_analytics import LUKHASVoiceAnalytics
+from core.common.glyph import GLYPHSymbol, create_glyph
+from core.common.logger import get_logger
+from governance.guardian import GuardianValidator
+from voice.audio_processing import AudioBuffer
+from voice.speech_recognition import LUKHASSpeechRecognitionService
+from voice.voice_analytics import LUKHASVoiceAnalytics
 
 # ΛTAG: voice_audioformat
 from .audio_processing import AudioFormat

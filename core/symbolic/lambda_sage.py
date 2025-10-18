@@ -36,7 +36,7 @@ Core Capabilities:
 6. Integration Conflict Detection - Cross-archetype tension identification
 7. Mythic Evolution Prediction - Long-range symbolic transformation forecasting
 
-For more information, visit: https://lukhas.ai
+For more information, visit: https://ai
 """
 
 # ΛTRACE: ΛSAGE Archetypal Resonance Profiler initialization
@@ -102,7 +102,7 @@ class MythicSystem(Enum):
 
 @dataclass
 class SymbolicElement:
-    """Represents a symbolic element extracted from lukhas.core.common systems."""
+    """Represents a symbolic element extracted from core.common systems."""
 
     symbol: str
     source_file: str
@@ -1195,7 +1195,7 @@ class ΛSage:
 
         mem_path = Path(memory_path)
         if not mem_path.exists():
-            mem_path = self.base_directory / "lukhas.memory"
+            mem_path = self.base_directory / "memory"
 
         if not mem_path.exists():
             self.logger.warning("Memory path not found")
@@ -1210,8 +1210,8 @@ class ΛSage:
             ]:
                 file_elements = self._extract_symbols_from_file(
                     file_path,
-                    "lukhas.memory",
-                    ["fold", "symbolic", "glyph", "pattern", "lukhas.memory"],
+                    "memory",
+                    ["fold", "symbolic", "glyph", "pattern", "memory"],
                 )
                 elements.extend(file_elements)
 
@@ -1551,7 +1551,7 @@ class ΛSage:
                 "symbolic",
             ]
             patterns.extend([p for p in dream_patterns if p in context])
-        elif symbol_elem.system_origin == "lukhas.memory":
+        elif symbol_elem.system_origin == "memory":
             memory_patterns = [
                 "recall",
                 "forgotten",

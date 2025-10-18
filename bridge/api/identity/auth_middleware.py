@@ -7,7 +7,7 @@ from typing import Any
 __all__ = ["AuthUser", "get_current_user", "AuthContext"]
 
 _MODULES = (
-    "lukhas_website.lukhas.api.identity.auth_middleware",
+    "lukhas_website.api.identity.auth_middleware",
     "candidate.api.identity.auth_middleware",
     "bridge.api.identity",
 )

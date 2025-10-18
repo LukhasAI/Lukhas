@@ -56,7 +56,7 @@ try:
     # Add parent directory to path for imports
     sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
 
-    from lukhas.governance.identity.consent.consent_chain_validator import (
+    from governance.identity.consent.consent_chain_validator import (
         ConsentChainValidator,
         validate_stargate_consent,
     )

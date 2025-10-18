@@ -2,7 +2,7 @@
 
 import asyncio
 
-from lukhas.governance.identity.core.sent.policy_engine import (
+from governance.identity.core.sent.policy_engine import (
     ComprehensiveEthicsPolicyEngine,
     EthicalFramework,
 )

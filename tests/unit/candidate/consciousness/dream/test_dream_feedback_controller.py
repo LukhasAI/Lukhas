@@ -18,7 +18,7 @@ sys.modules["dream.core.dream_snapshot"] = dream_core_snapshot_module
 setattr(dream_core_pkg, "dream_snapshot", dream_core_snapshot_module)
 setattr(dream_pkg, "core", dream_core_pkg)
 
-from lukhas.consciousness.dream.core.dream_feedback_controller import (  # noqa: E402
+from consciousness.dream.core.dream_feedback_controller import (  # noqa: E402
     DreamFeedbackController,
 )
 

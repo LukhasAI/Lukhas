@@ -1,7 +1,7 @@
 """Bridge for `candidate.async_utils`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.candidate.async_utils
+  1) lukhas_website.candidate.async_utils
   2) candidate.candidate.async_utils
   3) async_utils
 
@@ -22,7 +22,7 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.candidate.async_utils",
+    "lukhas_website.candidate.async_utils",
     "labs.candidate.async_utils",
     "async_utils",
 )

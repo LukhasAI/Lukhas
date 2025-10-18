@@ -8,13 +8,13 @@ import asyncio
 from dataclasses import dataclass
 from typing import Any
 
-from lukhas.core.colonies.base_colony import BaseColony
-from lukhas.core.colonies.creativity_colony import CreativityColony
-from lukhas.core.colonies.memory_colony import MemoryColony
-from lukhas.core.colonies.reasoning_colony import ReasoningColony
-from lukhas.core.colonies.tensor_colony_ops import batch_propagate
-from lukhas.core.common import get_logger
-from lukhas.core.symbolism.tags import TagPermission, TagScope
+from core.colonies.base_colony import BaseColony
+from core.colonies.creativity_colony import CreativityColony
+from core.colonies.memory_colony import MemoryColony
+from core.colonies.reasoning_colony import ReasoningColony
+from core.colonies.tensor_colony_ops import batch_propagate
+from core.common import get_logger
+from core.symbolism.tags import TagPermission, TagScope
 
 logger = get_logger(__name__)
 
@@ -57,7 +57,7 @@ def measure_divergence(colonies: list[BaseColony]) -> DivergenceReport:
 
 async def simulate_dilemma() -> list[DivergenceReport]:
     reasoning = ReasoningColony("reason")
-    memory = MemoryColony("lukhas.memory")
+    memory = MemoryColony("memory")
     creativity = CreativityColony("creativity")
 
     await asyncio.gather(reasoning.start(), memory.start(), creativity.start())

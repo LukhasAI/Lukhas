@@ -34,9 +34,9 @@ from feedback.user_feedback_system import (
     FeedbackItem,
     FeedbackType,
 )
-from lukhas.core.common import get_logger
-from lukhas.core.common.exceptions import LukhasError, ValidationError
-from lukhas.core.interfaces import CoreInterface
+from core.common import get_logger
+from core.common.exceptions import LukhasError, ValidationError
+from core.interfaces import CoreInterface
 
 logger = get_logger(__name__)
 

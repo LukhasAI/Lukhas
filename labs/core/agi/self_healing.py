@@ -430,7 +430,7 @@ class SelfHealingSystem:
         """Classify failure type from error"""
         error_str = str(error).lower()
 
-        if "lukhas.memory" in error_str:
+        if "memory" in error_str:
             return FailureType.MEMORY_OVERFLOW
         elif "deadlock" in error_str or "timeout" in error_str:
             return FailureType.DEADLOCK
@@ -452,7 +452,7 @@ class SelfHealingSystem:
     def _assess_severity(self, component: str, error: Exception) -> float:
         """Assess failure severity"""
         # Critical components have higher severity
-        critical_components = ["consciousness", "lukhas.memory", "core"]
+        critical_components = ["consciousness", "memory", "core"]
 
         severity = 0.5
 

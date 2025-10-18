@@ -595,7 +595,7 @@ class MatrizSignalEmissionCoordinator:
             "consciousness": ConsciousnessEmitter("consciousness", consciousness_id),
             "orchestration": OrchestrationEmitter("orchestration", consciousness_id),
             "identity": IdentityEmitter("identity", consciousness_id),
-            "lukhas.governance": GovernanceEmitter("lukhas.governance", consciousness_id),
+            "governance": GovernanceEmitter("governance", consciousness_id),
             "symbolic_core": SymbolicCoreEmitter("symbolic_core", consciousness_id),
         }
 
@@ -670,7 +670,7 @@ def create_identity_emitter(consciousness_id: str) -> IdentityEmitter:
 
 def create_governance_emitter(consciousness_id: str) -> GovernanceEmitter:
     """Create governance module emitter"""
-    return GovernanceEmitter("lukhas.governance", consciousness_id)
+    return GovernanceEmitter("governance", consciousness_id)
 
 
 def create_symbolic_emitter(consciousness_id: str) -> SymbolicCoreEmitter:

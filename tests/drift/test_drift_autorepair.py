@@ -108,10 +108,10 @@ class TestAutonomousDriftCorrection:
 
         # Test memory drift repair
         memory_result = repair_engine.reconsolidate(
-            kind='lukhas.memory',
+            kind='memory',
             score=0.25,
             context={'test': 'context'},
-            top_symbols=['lukhas.memory.fold_stability', 'lukhas.memory.entropy']
+            top_symbols=['memory.fold_stability', 'memory.entropy']
         )
 
         assert memory_result.success
@@ -124,8 +124,8 @@ class TestAutonomousDriftCorrection:
 
         # Memory drift should prefer reconsolidation
         memory_result = repair_engine.reconsolidate(
-            'lukhas.memory', 0.20, {},
-            ['lukhas.memory.fold_stability', 'lukhas.memory.fold_count']
+            'memory', 0.20, {},
+            ['memory.fold_stability', 'memory.fold_count']
         )
         assert memory_result.method == RepairMethod.RECONSOLIDATE
 
@@ -232,7 +232,7 @@ class TestAutonomousDriftCorrection:
         # Unified drift with mixed contributing symbols
         unified_result = repair_engine.reconsolidate(
             'unified', 0.30, {},
-            ['ethical.compliance', 'lukhas.memory.fold_stability', 'identity.coherence']
+            ['ethical.compliance', 'memory.fold_stability', 'identity.coherence']
         )
 
         assert unified_result.success
@@ -241,7 +241,7 @@ class TestAutonomousDriftCorrection:
 
         # Should have addressed all three dimensions
         components = unified_result.details['repair_components']
-        assert components.get('lukhas.memory', 0) > 0
+        assert components.get('memory', 0) > 0
         assert components.get('ethical', 0) > 0
         assert components.get('identity', 0) > 0
 
@@ -273,8 +273,8 @@ class TestAutonomousDriftCorrection:
 
         # Extremely severe drift (above 0.4) should trigger rollback
         severe_result = repair_engine.reconsolidate(
-            'lukhas.memory', 0.45, {},  # Very high drift
-            ['lukhas.memory.fold_collapse', 'lukhas.memory.critical_failure']
+            'memory', 0.45, {},  # Very high drift
+            ['memory.fold_collapse', 'memory.critical_failure']
         )
 
         assert severe_result.success
@@ -351,9 +351,9 @@ class TestAutonomousDriftCorrection:
         assert 'ethical.constitutional' in symbols
 
         # Test fallback symbols
-        symbols = manager._extract_symbols_from_context('lukhas.memory', {})
-        assert 'lukhas.memory.fold_stability' in symbols
-        assert 'lukhas.memory.entropy' in symbols
+        symbols = manager._extract_symbols_from_context('memory', {})
+        assert 'memory.fold_stability' in symbols
+        assert 'memory.entropy' in symbols
 
 
 class TestAutorepairAcceptanceGates:
@@ -366,7 +366,7 @@ class TestAutorepairAcceptanceGates:
         # Test various drift scenarios
         test_cases = [
             ('ethical', 0.20, ['ethical.compliance']),
-            ('lukhas.memory', 0.25, ['lukhas.memory.fold_stability']),
+            ('memory', 0.25, ['memory.fold_stability']),
             ('identity', 0.18, ['identity.coherence']),
         ]
 
@@ -454,8 +454,8 @@ class TestAutorepairAcceptanceGates:
         manager._initialize_repair_engine()
 
         # Trigger repair
-        manager.on_exceed('lukhas.memory', 0.22, {
-            'top_symbols': ['lukhas.memory.fold_instability'],
+        manager.on_exceed('memory', 0.22, {
+            'top_symbols': ['memory.fold_instability'],
             'test': 'rationale_check'
         })
 

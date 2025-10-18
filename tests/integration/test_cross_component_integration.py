@@ -32,7 +32,7 @@ class TestActorTierIntegration:
         """Test actors with tier-based access control."""
         try:
             from identity.tier_system import AccessContext, AccessType, DynamicTierSystem, PermissionScope, TierLevel
-            from lukhas.core.actor_system import ActorSystem, AIAgentActor
+            from core.actor_system import ActorSystem, AIAgentActor
 
             # Create integrated systems
             actor_system = ActorSystem()
@@ -122,7 +122,7 @@ class TestActorTierIntegration:
         """Test actor workflow with session elevation."""
         try:
             from identity.tier_system import DynamicTierSystem, TierLevel
-            from lukhas.core.actor_system import ActorSystem, AIAgentActor
+            from core.actor_system import ActorSystem, AIAgentActor
 
             actor_system = ActorSystem()
             tier_system = DynamicTierSystem()

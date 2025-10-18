@@ -7,7 +7,7 @@ Tests the Ring and DecimatingRing classes for Phase 4 backpressure guarantees.
 """
 import pytest
 
-from lukhas.core.ring import DecimatingRing, Ring
+from core.ring import DecimatingRing, Ring
 
 
 class TestRing:

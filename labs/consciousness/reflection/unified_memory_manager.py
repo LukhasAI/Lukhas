@@ -20,8 +20,8 @@ from typing import Any, Optional
 
 import numpy as np
 
-from lukhas.memory.memory_fold import MemoryFoldConfig
-from lukhas.memory.systems.memory_visualizer import (
+from memory.memory_fold import MemoryFoldConfig
+from memory.systems.memory_visualizer import (
     EnhancedMemoryVisualizer,
     VisualizationConfig,
 )

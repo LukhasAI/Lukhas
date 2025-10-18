@@ -20,7 +20,7 @@ from typing import Any, Dict
 
 # Import OTEL instrumentation
 try:
-    from lukhas.observability.otel_instrumentation import (
+    from observability.otel_instrumentation import (
         get_instrumentation_status,
         initialize_otel_instrumentation,
         instrument_matriz_stage,

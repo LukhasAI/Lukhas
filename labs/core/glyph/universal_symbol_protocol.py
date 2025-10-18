@@ -70,7 +70,7 @@ class SymbolDomain(Enum):
 
     COGNITIVE = "cognitive"
     EMOTIONAL = "emotional"
-    MEMORY = "lukhas.memory"
+    MEMORY = "memory"
     IDENTITY = "identity"
     ETHICAL = "ethical"
     CREATIVE = "creative"

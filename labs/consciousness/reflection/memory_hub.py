@@ -20,14 +20,14 @@ import logging
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from lukhas.core.bridges.memory_consciousness_bridge import get_memory_consciousness_bridge
-from lukhas.core.bridges.memory_learning_bridge import MemoryLearningBridge
-from lukhas.core.common import get_logger
-from lukhas.memory.core.base_manager import BaseMemoryManager
+from core.bridges.memory_consciousness_bridge import get_memory_consciousness_bridge
+from core.bridges.memory_learning_bridge import MemoryLearningBridge
+from core.common import get_logger
+from memory.core.base_manager import BaseMemoryManager
 
 # Task 3C: Add connectivity imports
 try:
-    from lukhas.core.core_hub import get_core_hub
+    from core.core_hub import get_core_hub
 except ImportError:
     get_core_hub = None
     logging.warning("CoreHub not available")
@@ -49,16 +49,16 @@ from consciousness.reflection.unified_memory_manager import (
     QIMemoryManager,
 )
 from dream.core.dream_memory_manager import DreamMemoryManager
-from lukhas.memory.distributed_state_manager import (
+from memory.distributed_state_manager import (
     DistributedStateManager,
     MultiNodeStateManager,
 )
-from lukhas.memory.qi_manager import EnhancedMemoryManager
-from lukhas.memory.voice_memory_manager import MemoryManager
+from memory.qi_manager import EnhancedMemoryManager
+from memory.voice_memory_manager import MemoryManager
 
 # Agent 1 Task 6: Golden Helix Memory Mapper integration
 try:
-    from lukhas.memory.systems.memory_helix_golden import HealixMapper
+    from memory.systems.memory_helix_golden import HealixMapper
 
     GOLDEN_HELIX_AVAILABLE = True
 except ImportError as e:
@@ -67,7 +67,7 @@ except ImportError as e:
 
 # Agent 1 Task 7: Symbolic Delta Compression integration
 try:
-    from lukhas.memory.systems.symbolic_delta_compression import (
+    from memory.systems.symbolic_delta_compression import (
         create_compression_manager,
     )
 
@@ -78,7 +78,7 @@ except ImportError as e:
 
 # Agent 1 Task 10: Unified Emotional Memory Manager integration
 try:
-    from lukhas.memory.emotional_memory_manager_unified import (
+    from memory.emotional_memory_manager_unified import (
         UnifiedEmotionalMemoryManager,
     )
 
@@ -89,7 +89,7 @@ except ImportError as e:
 
 # High-priority integrations
 try:
-    from lukhas.memory.systems.memory_planning_wrapper import get_memory_planner
+    from memory.systems.memory_planning_wrapper import get_memory_planner
 
     MEMORY_PLANNING_AVAILABLE = True
 except ImportError as e:
@@ -97,7 +97,7 @@ except ImportError as e:
     logging.warning(f"Memory planning wrapper not available: {e}")
     # Try mock implementation
     try:
-        from lukhas.memory.systems.memory_planning_mock import get_memory_planner
+        from memory.systems.memory_planning_mock import get_memory_planner
 
         MEMORY_PLANNING_AVAILABLE = True
         logging.info("Using mock memory planner implementation")
@@ -105,7 +105,7 @@ except ImportError as e:
         logging.warning(f"Memory planning mock also not available: {e2}")
 
 try:
-    from lukhas.memory.systems.memory_profiler_wrapper import get_memory_profiler
+    from memory.systems.memory_profiler_wrapper import get_memory_profiler
 
     MEMORY_PROFILER_AVAILABLE = True
 except ImportError as e:
@@ -113,7 +113,7 @@ except ImportError as e:
     logging.warning(f"Memory profiler wrapper not available: {e}")
     # Try mock implementation
     try:
-        from lukhas.memory.systems.memory_profiler_mock import get_memory_profiler
+        from memory.systems.memory_profiler_mock import get_memory_profiler
 
         MEMORY_PROFILER_AVAILABLE = True
         logging.info("Using mock memory profiler implementation")
@@ -122,7 +122,7 @@ except ImportError as e:
 
 # Advanced trauma repair system
 try:
-    from lukhas.memory.repair.trauma_repair_wrapper import get_memory_trauma_repair
+    from memory.repair.trauma_repair_wrapper import get_memory_trauma_repair
 
     TRAUMA_REPAIR_AVAILABLE = True
 except ImportError as e:
@@ -131,7 +131,7 @@ except ImportError as e:
 
 # Multimodal memory support
 try:
-    from lukhas.memory.systems.multimodal_memory_integration import (
+    from memory.systems.multimodal_memory_integration import (
         create_multimodal_memory_integration,
     )
 
@@ -142,7 +142,7 @@ except ImportError as e:
 
 # Episodic Memory Colony Integration
 try:
-    from lukhas.memory.colonies.episodic_memory_integration import (
+    from memory.colonies.episodic_memory_integration import (
         create_episodic_memory_integration,
     )
 
@@ -153,7 +153,7 @@ except ImportError as e:
 
 # Memory Tracker Integration
 try:
-    from lukhas.memory.systems.memory_tracker_integration import (
+    from memory.systems.memory_tracker_integration import (
         create_memory_tracker_integration,
     )
 
@@ -162,11 +162,11 @@ except ImportError as e:
     MEMORY_TRACKER_AVAILABLE = False
     logging.warning(f"Memory tracker integration not available: {e}")
 
-# from lukhas.memory.openai_memory_adapter import MemoryOpenAIAdapter
-# from lukhas.memory.service import MemoryService
-# from lukhas.memory.service import IdentityClient
+# from memory.openai_memory_adapter import MemoryOpenAIAdapter
+# from memory.service import MemoryService
+# from memory.service import IdentityClient
 # from dream.core.dream_memory_manager import DreamMemoryManager
-# from lukhas.memory.services import MemoryService
+# from memory.services import MemoryService
 
 logger = get_logger(__name__)
 
@@ -386,13 +386,13 @@ class MemoryHub:
         for service_name, class_name in system_services:
             try:
                 if service_name == "memory_system":
-                    module = __import__("lukhas.memory.systems.memory_system", fromlist=[class_name])
+                    module = __import__("memory.systems.memory_system", fromlist=[class_name])
                 elif service_name == "memory_orchestrator":
-                    module = __import__("lukhas.memory.systems.memory_orchestrator", fromlist=[class_name])
+                    module = __import__("memory.systems.memory_orchestrator", fromlist=[class_name])
                 elif service_name == "memory_engine":
-                    module = __import__("lukhas.memory.systems.engine", fromlist=[class_name])
+                    module = __import__("memory.systems.engine", fromlist=[class_name])
                 elif service_name == "memory_core":
-                    module = __import__("lukhas.memory.systems.core", fromlist=[class_name])
+                    module = __import__("memory.systems.core", fromlist=[class_name])
 
                 cls = getattr(module, class_name)
                 instance = cls()
@@ -460,9 +460,9 @@ class MemoryHub:
                 ]:
                     module = __import__(f"memory.consolidation.{service_name}", fromlist=[class_name])
                 elif service_name == "replay_buffer":
-                    module = __import__("lukhas.memory.replay.replay_buffer", fromlist=[class_name])
+                    module = __import__("memory.replay.replay_buffer", fromlist=[class_name])
                 elif service_name == "resonant_memory_access":
-                    module = __import__("lukhas.memory.resonance.resonant_memory_access", fromlist=[class_name])
+                    module = __import__("memory.resonance.resonant_memory_access", fromlist=[class_name])
                 elif service_name in ["integration_bridge", "adaptive_memory_engine"]:
                     module = __import__(f"memory.systems.{service_name}", fromlist=[class_name])
 
@@ -476,12 +476,12 @@ class MemoryHub:
     def _register_additional_services(self):
         """Register additional required memory services"""
         additional_services = [
-            ("semantic_memory", "SemanticMemory", "lukhas.memory.semantic.semantic_memory"),
-            ("episodic_memory", "EpisodicMemory", "lukhas.memory.episodic.episodic_memory"),
+            ("semantic_memory", "SemanticMemory", "memory.semantic.semantic_memory"),
+            ("episodic_memory", "EpisodicMemory", "memory.episodic.episodic_memory"),
             (
                 "memory_consolidation",
                 "MemoryConsolidation",
-                "lukhas.memory.consolidation.memory_consolidation",
+                "memory.consolidation.memory_consolidation",
             ),
         ]
 
@@ -498,7 +498,7 @@ class MemoryHub:
     def _register_neurosymbolic_layer(self):
         """Register the neurosymbolic integration layer."""
         try:
-            from lukhas.memory.systems.neurosymbolic_integration import (
+            from memory.systems.neurosymbolic_integration import (
                 create_neurosymbolic_layer,
             )
 
@@ -516,7 +516,7 @@ class MemoryHub:
     def _register_with_service_discovery(self):
         """Register services with global service discovery"""
         try:
-            from lukhas.core.integration.service_discovery import (
+            from core.integration.service_discovery import (
                 get_service_discovery,
             )
 
@@ -544,7 +544,7 @@ class MemoryHub:
 
             for service_name in key_services:
                 if service_name in self.services:
-                    discovery.register_service_globally(service_name, self.services[service_name], "lukhas.memory")
+                    discovery.register_service_globally(service_name, self.services[service_name], "memory")
 
             logger.debug(f"Registered {len(key_services)} memory services with global discovery")
         except Exception as e:
@@ -595,7 +595,7 @@ class MemoryHub:
             try:
                 self.core = get_core_hub()
                 await self.core.register_service(
-                    "lukhas.memory",
+                    "memory",
                     {
                         "type": "persistent_storage",
                         "capabilities": ["folding", "qi_storage", "distributed"],
@@ -627,7 +627,7 @@ class MemoryHub:
             if hasattr(self, "distributedstatemanager"):
                 self.state_manager = self.distributedstatemanager
             else:
-                from lukhas.memory.distributed_state_manager import (
+                from memory.distributed_state_manager import (
                     DistributedStateManager,
                 )
 
@@ -731,7 +731,7 @@ class MemoryHub:
             mapper = self.get_service("golden_helix_mapper")
             if mapper:
                 # Convert string to MemoryStrand enum
-                from lukhas.memory.systems.memory_helix_golden import MemoryStrand
+                from memory.systems.memory_helix_golden import MemoryStrand
 
                 strand_enum = MemoryStrand(strand_type)
                 return await mapper.encode_memory(memory, strand_enum, context)
@@ -752,7 +752,7 @@ class MemoryHub:
             mapper = self.get_service("golden_helix_mapper")
             if mapper:
                 # Convert string to MutationStrategy enum
-                from lukhas.memory.systems.memory_helix_golden import MutationStrategy
+                from memory.systems.memory_helix_golden import MutationStrategy
 
                 strategy_enum = MutationStrategy(strategy)
                 return await mapper.mutate_memory(memory_id, mutation, strategy_enum)
@@ -776,7 +776,7 @@ class MemoryHub:
             if mapper:
                 strand_enum = None
                 if strand_type:
-                    from lukhas.memory.systems.memory_helix_golden import MemoryStrand
+                    from memory.systems.memory_helix_golden import MemoryStrand
 
                     strand_enum = MemoryStrand(strand_type)
 

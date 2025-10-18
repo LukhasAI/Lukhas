@@ -46,9 +46,9 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
-# Try to import from lukhas.core.common if available
+# Try to import from core.common if available
 try:
-    from lukhas.core.common import get_logger
+    from core.common import get_logger
 
     logger = get_logger("consciousness", timezone)
 except ImportError:
@@ -60,8 +60,8 @@ try:
     from ...identity.interface import IdentityClient as PersonaManager
 
     # Using IdentityClient as temp placeholder
-    from ...lukhas.memory.emotional import EmotionEngine  # Using available emotion module
-    from ...lukhas.memory.enhanced_memory_manager import EnhancedMemoryManager
+    from ...memory.emotional import EmotionEngine  # Using available emotion module
+    from ...memory.enhanced_memory_manager import EnhancedMemoryManager
     from ...voice.voice_processor import VoiceProcessor
 except ImportError as e:
     logger.warning(f"Some core components not available: {e}")
@@ -198,7 +198,7 @@ class ConsciousnessIntegrator:
         """Load integration configuration"""
         default_config = {
             "integration_priorities": {
-                "lukhas.memory": IntegrationPriority.CRITICAL,
+                "memory": IntegrationPriority.CRITICAL,
                 "voice": IntegrationPriority.HIGH,
                 "personality": IntegrationPriority.HIGH,
                 "emotion": IntegrationPriority.HIGH,
@@ -236,7 +236,7 @@ class ConsciousnessIntegrator:
         try:
             # Initialize memory manager
             self.memory_manager = EnhancedMemoryManager()
-            self.active_integrations["lukhas.memory"] = True
+            self.active_integrations["memory"] = True
             logger.info("Memory manager initialized")
 
             # Initialize voice processor
@@ -475,7 +475,7 @@ class ConsciousnessIntegrator:
     async def _route_event(self, event: ConsciousnessEvent):
         """Route consciousness event to appropriate handlers"""
         handlers = {
-            "lukhas.memory": self._handle_memory_event,
+            "memory": self._handle_memory_event,
             "voice": self._handle_voice_event,
             "personality": self._handle_personality_event,
             "emotion": self._handle_emotion_event,

@@ -5,7 +5,7 @@ import sys
 from datetime import datetime, timezone
 from typing import Any
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 # Configure logging
 logging.basicConfig(
@@ -35,7 +35,7 @@ try:
     from governance.identity.core.id_service import IdentityManager
 
     # Utils and config
-    from lukhas.core.orchestration.brain.config.settings import load_settings
+    from core.orchestration.brain.config.settings import load_settings
 
 except ImportError as e:
     logger.critical(f"Failed to import required components: {e}")

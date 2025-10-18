@@ -25,7 +25,7 @@ Integration layer that distributes foundational knowledge across LUKHAS
 subsystems including memory, narrative, ethics, and reasoning components.
 Provides centralized knowledge management with symbolic enrichment.
 
-For more information, visit: https://lukhas.ai
+For more information, visit: https://ai
 """
 
 # ΛTRACE: Symbolic knowledge integration initialization
@@ -34,7 +34,7 @@ For more information, visit: https://lukhas.ai
 
 __version__ = "1.0.0"
 __author__ = "LUKHAS Development Team"
-__email__ = "dev@lukhas.ai"
+__email__ = "dev@ai"
 __status__ = "Production"
 
 import json
@@ -45,7 +45,7 @@ from typing import Any, Optional
 
 # Try to import lukhas_components with fallbacks
 try:
-    from ...lukhas.tools.parsers.knowledge_loader import SymbolicConcept, SymbolicKnowledgeLoader
+    from ...tools.parsers.knowledge_loader import SymbolicConcept, SymbolicKnowledgeLoader
 except ImportError:
     # Fallback for relative imports
     import sys
@@ -141,11 +141,11 @@ class SymbolicKnowledgeIntegrator:
         try:
             memory_export = self.loader.export_for_memory_system()
             await self._integrate_with_memory_system(memory_export)
-            results["lukhas.memory"] = True
+            results["memory"] = True
             logger.info("🔍 ΛTRACE: Memory system integration completed")
         except Exception as e:
             logger.warning(f"🔍 ΛTRACE: Memory system integration failed: {e}")
-            results["lukhas.memory"] = False
+            results["memory"] = False
 
         # Narrative system integration
         try:
@@ -183,7 +183,7 @@ class SymbolicKnowledgeIntegrator:
     async def _integrate_with_memory_system(self, memory_export: dict[str, Any]):
         """Integrate knowledge with memory system."""
         # Create memory enrichment configuration
-        memory_config_path = self.config_path.parent / "lukhas.memory" / "knowledge_enrichment.json"
+        memory_config_path = self.config_path.parent / "memory" / "knowledge_enrichment.json"
 
         # Ensure directory exists
         memory_config_path.parent.mkdir(parents=True, exist_ok=True)

@@ -36,7 +36,7 @@ class ComplianceMatrizAdapter:
             },
             "timestamps": {"created_ts": int(time.time() * 1000)},
             "provenance": {
-                "producer": "lukhas.compliance",
+                "producer": "compliance",
                 "capabilities": [
                     "compliance:validate",
                     "compliance:audit",

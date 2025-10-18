@@ -6,7 +6,7 @@ import time
 from fastapi import APIRouter, Query
 from fastapi.responses import JSONResponse
 
-from lukhas.audit.tool_analytics import get_analytics, read_incidents
+from audit.tool_analytics import get_analytics, read_incidents
 
 router = APIRouter(prefix="/tools", tags=["incidents"])
 

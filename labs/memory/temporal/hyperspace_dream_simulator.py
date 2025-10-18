@@ -71,7 +71,7 @@ from uuid import uuid4
 import numpy as np
 
 try:
-    from lukhas.core.integration.dynamic_modality_broker import (
+    from core.integration.dynamic_modality_broker import (
         DataType,
         ModalityData,
         get_dmb,
@@ -104,7 +104,7 @@ except ImportError:
 # Lukhas Core Integration
 from dream.dream_feedback_propagator import DreamFeedbackPropagator
 from ethics.meta_ethics_governor import CulturalContext, EthicalDecision, get_meg
-from lukhas.memory.emotional import EmotionalMemory
+from memory.emotional import EmotionalMemory
 
 # JULES05_NOTE: Loop-safe guard added
 MAX_RECURSION_DEPTH = 10

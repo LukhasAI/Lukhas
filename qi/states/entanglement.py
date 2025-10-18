@@ -254,7 +254,7 @@ if __name__ == "__main__":
 ║ REFERENCES:
 ║   - Docs: docs/quantum/entanglement-protocol.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=quantum
-║   - Wiki: wiki.lukhas.ai/quantum-architecture
+║   - Wiki: wiki.ai/quantum-architecture
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

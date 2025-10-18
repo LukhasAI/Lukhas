@@ -24,8 +24,8 @@ from typing import Any, Dict, List, Optional, Set, Tuple, Union
 import numpy as np
 import structlog  # ΛTRACE: Standardized logging.
 
-from lukhas.core.common import get_logger
-from lukhas.orchestration.brain.spine.fold_engine import AGIMemory
+from core.common import get_logger
+from orchestration.brain.spine.fold_engine import AGIMemory
 
 22  # ═══════════════════════════════════════════════════
 # FILENAME: fold_engine.py

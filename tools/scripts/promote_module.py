@@ -116,7 +116,7 @@ def create_shim(shim_direction: str | None, src: Path, dst: Path, dry: bool) -> 
     shim_file: Path
     if shim_direction == "candidate->lukhas":
         # Create a candidate shim that re-exports from lukhas
-        # Example: candidate/core/orchestration/__init__.py -> from lukhas.core.orchestration import *
+        # Example: candidate/core/orchestration/__init__.py -> from core.orchestration import *
         shim_file = src / "__init__.py"
         content = _shim_content("lukhas", src)
     else:
@@ -133,7 +133,7 @@ def create_shim(shim_direction: str | None, src: Path, dst: Path, dry: bool) -> 
 
 def _shim_content(target_root: str, module_path: Path) -> str:
     # Derive dotted path under root from provided path
-    # e.g., lukhas/core/orchestration -> lukhas.core.orchestration
+    # e.g., lukhas/core/orchestration -> core.orchestration
     parts = list(module_path.parts)
     try:
         idx = parts.index(target_root)

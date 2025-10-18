@@ -267,7 +267,7 @@ class GuardianIntegrationValidator:
         # Memory Module Integration
         print("    🧠 Testing Memory-Guardian integration...")
         try:
-            from lukhas.core.identity.manager import AdvancedIdentityManager
+            from core.identity.manager import AdvancedIdentityManager
 
             identity_mgr = AdvancedIdentityManager()
 
@@ -318,7 +318,7 @@ class GuardianIntegrationValidator:
         # Lambda ID Service Integration
         print("    🆔 Testing Lambda ID-Guardian integration...")
         try:
-            from lukhas.governance.identity.core.lambd_id_service import LambdaIDService
+            from governance.identity.core.lambd_id_service import LambdaIDService
 
             lambda_service = LambdaIDService()
 
@@ -592,7 +592,7 @@ class GuardianIntegrationValidator:
         print("    📝 Test 2: Audit trail completeness")
         try:
             # Test that all Guardian operations are properly logged
-            from lukhas.core.identity.manager import AdvancedIdentityManager
+            from core.identity.manager import AdvancedIdentityManager
 
             identity_mgr = AdvancedIdentityManager()
 

@@ -239,14 +239,14 @@ class MemoryServiceProvider:
         """Register memory services"""
 
         def create_memory_service():
-            from lukhas.memory.core import MemoryCore
+            from memory.core import MemoryCore
 
             return MemoryCore()
 
         register_factory(
             "memory_service",
             create_memory_service,
-            {"module": "lukhas.memory", "interface": "MemoryCore"},
+            {"module": "memory", "interface": "MemoryCore"},
         )
 
 
@@ -277,7 +277,7 @@ class ConsciousnessServiceProvider:
         """Register consciousness services"""
 
         def create_consciousness_service():
-            from lukhas.consciousness.bridge import ConsciousnessBridge
+            from consciousness.bridge import ConsciousnessBridge
 
             return ConsciousnessBridge()
 

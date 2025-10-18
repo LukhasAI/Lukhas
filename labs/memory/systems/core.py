@@ -579,6 +579,6 @@ if __name__ == "__main__":
 # MAINTENANCE: Implement all STUBBED methods for full functionality.
 #   Replace placeholder BaseModule/decorators with actual LUKHAS components.
 #   Develop robust persistence, encryption, and consolidation logic.
-# CONTACT: LUKHAS DEVELOPMENT TEAM (dev@lukhas.ai)
+# CONTACT: LUKHAS DEVELOPMENT TEAM (dev@ai)
 # LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
 # ═══════════════════════════════════════════════════════════════════════════

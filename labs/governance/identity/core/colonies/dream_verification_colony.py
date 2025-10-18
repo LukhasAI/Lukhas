@@ -18,18 +18,18 @@ from typing import Any, Optional
 import numpy as np
 
 # Import colony infrastructure
-from lukhas.core.colonies.base_colony import BaseColony, ConsensusResult
-from lukhas.core.enhanced_swarm import AgentCapability, AgentMemory, AgentState, EnhancedSwarmAgent as SwarmAgent
+from core.colonies.base_colony import BaseColony, ConsensusResult
+from core.enhanced_swarm import AgentCapability, AgentMemory, AgentState, EnhancedSwarmAgent as SwarmAgent
 
 # Import event bus for dream coordination
 try:
-    from lukhas.orchestration.symbolic_kernel_bus import DreamEventType
+    from orchestration.symbolic_kernel_bus import DreamEventType
 except ImportError:
     DreamEventType = None
 
 # Import dream system components
 try:
-    from lukhas.governance.identity.core.auth.dream_auth import (
+    from governance.identity.core.auth.dream_auth import (
         DreamAuthenticationResult,
         DreamAuthenticator,
         DreamPattern,
@@ -45,7 +45,7 @@ except ImportError:
 
 # Import identity events
 try:
-    from lukhas.governance.identity.core.events import IdentityEventPublisher, IdentityEventType
+    from governance.identity.core.events import IdentityEventPublisher, IdentityEventType
 except ImportError:
     IdentityEventPublisher = None
     IdentityEventType = None
@@ -560,8 +560,8 @@ class DreamVerificationColony(BaseColony):
         await super().initialize()
 
         # Get event systems
-        from lukhas.governance.identity.core.events import get_identity_event_publisher
-        from lukhas.core.event_bus import get_global_event_bus
+        from governance.identity.core.events import get_identity_event_publisher
+        from core.event_bus import get_global_event_bus
 
         self.event_publisher = await get_identity_event_publisher()
         self.event_bus = await get_global_event_bus()

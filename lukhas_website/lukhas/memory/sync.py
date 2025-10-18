@@ -5,7 +5,7 @@ Phase 5: Memory fold synchronization module with governance guardrails.
 Provides bounded fan-in/out and per-tick budgets for safe cross-lane memory operations.
 
 Usage:
-    from lukhas.memory.sync import MemorySynchronizer, SyncResult
+    from memory.sync import MemorySynchronizer, SyncResult
 
     syncer = MemorySynchronizer(lane="experimental")
     result = syncer.sync_fold(source_lane="candidate", target_lane="experimental", fold_data=data)

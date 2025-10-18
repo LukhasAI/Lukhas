@@ -673,7 +673,7 @@ class LUKHASCapabilityAnalyzer:
                 "memory pattern",
                 "dna-inspired",
             ],
-            "Emotional Memory": ["emotional", "feeling", "trauma", "lukhas.memory"],
+            "Emotional Memory": ["emotional", "feeling", "trauma", "memory"],
             "Pattern Learning": ["learn", "adapt", "pattern", "recognition"],
             "Context Integration": [
                 "context",
@@ -681,7 +681,7 @@ class LUKHASCapabilityAnalyzer:
                 "connection",
                 "link",
             ],
-            "Flashback System": ["recall", "retrieve", "flashback", "lukhas.memory"],
+            "Flashback System": ["recall", "retrieve", "flashback", "memory"],
         }
 
         for capability, indicators in memory_indicators.items():
@@ -1008,5 +1008,5 @@ async def main():
 if __name__ == "__main__":
     asyncio.run(main())
 
-# LUKHAS Systems 2025 www.lukhas.ai
-# lukhas Systems 2025 www.lukhas.ai
+# LUKHAS Systems 2025 www.ai
+# lukhas Systems 2025 www.ai

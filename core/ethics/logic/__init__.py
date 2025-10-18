@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from importlib import import_module
 
-from lukhas._bridgeutils import bridge_from_candidates
+from _bridgeutils import bridge_from_candidates
 
 _CANDIDATES = (
     "labs.core.ethics.logic",

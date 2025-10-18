@@ -1,1 +1,1 @@
-# Package marker for lukhas.branding
+# Package marker for branding

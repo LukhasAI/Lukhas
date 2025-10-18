@@ -77,7 +77,7 @@ from uuid import uuid4
 import structlog
 
 # Initialize structured logger
-logger = structlog.get_logger("lukhas.cpi_api", timezone)
+logger = structlog.get_logger("cpi_api", timezone)
 
 
 class CodeLanguage(Enum):

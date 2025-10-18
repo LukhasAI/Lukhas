@@ -555,11 +555,11 @@ class ConsentManager(GlyphIntegrationMixin):
             impact_scores["identity"] = 0.7 if permission in ["modify", "delete"] else 0.3
 
         # Consciousness impact
-        if any(term in resource for term in ["consciousness", "lukhas.memory", "decision", "thought"]):
+        if any(term in resource for term in ["consciousness", "memory", "decision", "thought"]):
             impact_scores["consciousness"] = 0.8 if permission in ["modify", "delete"] else 0.4
 
         # Guardian impact
-        if any(term in resource for term in ["guardian", "security", "protection", "lukhas.governance"]):
+        if any(term in resource for term in ["guardian", "security", "protection", "governance"]):
             impact_scores["guardian"] = 0.9 if permission in ["modify", "delete", "disable"] else 0.5
 
         # Cross-component impact
@@ -911,7 +911,7 @@ class ConsentManager(GlyphIntegrationMixin):
             "governance_validated": request.governance_validated,
             "constellation_impact": request.constellation_impact,
             "governance_escalation": any(
-                "lukhas.governance" in action for action in request.context if "lukhas.governance" in action.lower()
+                "governance" in action for action in request.context if "governance" in action.lower()
             ),
         }
 

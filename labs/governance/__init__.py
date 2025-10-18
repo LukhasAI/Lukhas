@@ -7,11 +7,11 @@ from typing import Iterable
 __all__ = ["Guardian", "SafetyGuard", "PolicyGuard", "PolicyResult", "LUKHASLane", "get_lane_enum"]
 
 _CANDIDATE_SOURCES: tuple[tuple[str, tuple[str, ...]], ...] = (
-    ("lukhas_website.lukhas.governance.guardian_system", ("Guardian", "SafetyGuard", "PolicyGuard", "PolicyResult")),
+    ("lukhas_website.governance.guardian_system", ("Guardian", "SafetyGuard", "PolicyGuard", "PolicyResult")),
     ("labs.core.ethics.ab_safety_guard", ("Guardian", "SafetyGuard", "PolicyGuard", "PolicyResult")),
-    ("lukhas.governance.guardian_impl", ("Guardian", "SafetyGuard", "PolicyGuard", "PolicyResult")),
-    ("lukhas_website.lukhas.governance.schema_registry", ("LUKHASLane", "get_lane_enum")),
-    ("lukhas.governance.schema_registry", ("LUKHASLane", "get_lane_enum")),
+    ("governance.guardian_impl", ("Guardian", "SafetyGuard", "PolicyGuard", "PolicyResult")),
+    ("lukhas_website.governance.schema_registry", ("LUKHASLane", "get_lane_enum")),
+    ("governance.schema_registry", ("LUKHASLane", "get_lane_enum")),
 )
 
 

@@ -384,7 +384,7 @@ def find_good_candidates(project_root: Path) -> list[Path]:
         project_root / "lukhas" / "core",
         project_root / "lukhas" / "orchestration",
         project_root / "lukhas" / "bio_neural",
-        project_root / "lukhas.memory",
+        project_root / "memory",
     ]
 
     for directory in core_dirs:

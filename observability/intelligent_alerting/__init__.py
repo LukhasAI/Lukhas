@@ -1,7 +1,7 @@
 """Bridge for `observability.intelligent_alerting`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.observability.intelligent_alerting
+  1) lukhas_website.observability.intelligent_alerting
   2) candidate.observability.intelligent_alerting
   3) observability.intelligent_alerting
 
@@ -22,7 +22,7 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.observability.intelligent_alerting",
+    "lukhas_website.observability.intelligent_alerting",
     "candidate.observability.intelligent_alerting",
     "observability.intelligent_alerting",
 )

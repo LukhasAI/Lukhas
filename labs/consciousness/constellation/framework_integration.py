@@ -701,7 +701,7 @@ class ConstellationFrameworkIntegration:
                 component=ConstellationComponent.IDENTITY,
                 severity="high" if report.constellation_metrics.identity_authenticity < 0.3 else "medium",
                 description=f"Identity authenticity below threshold: {report.constellation_metrics.identity_authenticity:.3f}",
-                affected_systems=["lukhas.memory", "quantum", "bio"],
+                affected_systems=["memory", "quantum", "bio"],
             )
             violations.append(violation)
 
@@ -711,7 +711,7 @@ class ConstellationFrameworkIntegration:
                 component=ConstellationComponent.CONSCIOUSNESS,
                 severity="high" if report.constellation_metrics.consciousness_depth < 0.3 else "medium",
                 description=f"Consciousness depth below threshold: {report.constellation_metrics.consciousness_depth:.3f}",
-                affected_systems=["lukhas.memory", "quantum", "bio"],
+                affected_systems=["memory", "quantum", "bio"],
             )
             violations.append(violation)
 
@@ -721,7 +721,7 @@ class ConstellationFrameworkIntegration:
                 component=ConstellationComponent.GUARDIAN,
                 severity="critical" if report.constellation_metrics.guardian_ethics < 0.5 else "high",
                 description=f"Guardian ethics compliance below threshold: {report.constellation_metrics.guardian_ethics:.3f}",
-                affected_systems=["lukhas.memory", "quantum", "bio"],
+                affected_systems=["memory", "quantum", "bio"],
             )
             violations.append(violation)
 
@@ -932,7 +932,7 @@ class ConstellationFrameworkIntegration:
                         },
                     },
                     "system_compliance": {
-                        "lukhas.memory": latest_report.memory_system_compliance,
+                        "memory": latest_report.memory_system_compliance,
                         "quantum": latest_report.quantum_system_compliance,
                         "bio": latest_report.bio_system_compliance,
                     },

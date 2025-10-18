@@ -11,9 +11,9 @@ from collections import defaultdict, deque
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from lukhas.core.colonies.base_colony import BaseColony
-from lukhas.core.efficient_communication import MessagePriority
-from lukhas.core.swarm import SwarmAgent
+from core.colonies.base_colony import BaseColony
+from core.efficient_communication import MessagePriority
+from core.swarm import SwarmAgent
 
 logger = logging.getLogger(__name__)
 
@@ -78,7 +78,7 @@ class MemoryAgent(SwarmAgent):
                 results.append(
                     {
                         "memory_id": memory_id,
-                        "lukhas.memory": memory,
+                        "memory": memory,
                         "relevance": len(set(tags) & set(memory["tags"])) / len(tags),
                     }
                 )
@@ -97,7 +97,7 @@ class MemoryColony(BaseColony):
         super().__init__(
             colony_id,
             capabilities=[
-                "lukhas.memory",
+                "memory",
                 "storage",
                 "retrieval",
                 "search",
@@ -259,7 +259,7 @@ class MemoryColony(BaseColony):
                 self.stats["total_retrievals"] += 1
                 return {
                     "status": "completed",
-                    "lukhas.memory": memory,
+                    "memory": memory,
                     "retrieved_from": agent_id,
                 }
 
@@ -499,7 +499,7 @@ async def demo_enhanced_memory_colony():
                     "skill": "memory_storage",
                     "steps": ["receive", "index", "store"],
                 },
-                "tags": ["skill", "procedure", "lukhas.memory"],
+                "tags": ["skill", "procedure", "memory"],
                 "memory_type": "procedural",
                 "importance": 0.7,
             },

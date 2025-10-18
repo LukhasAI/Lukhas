@@ -35,11 +35,11 @@ class AuditEventType(Enum):
     KNOWLEDGE_SYNTHESIZED = "learning.synthesis"
 
     # Memory events
-    MEMORY_STORED = "lukhas.memory.stored"
-    MEMORY_RECALLED = "lukhas.memory.recalled"
-    MEMORY_CONSOLIDATED = "lukhas.memory.consolidated"
-    MEMORY_FORGOTTEN = "lukhas.memory.forgotten"
-    MEMORY_PATTERN_DETECTED = "lukhas.memory.pattern"
+    MEMORY_STORED = "memory.stored"
+    MEMORY_RECALLED = "memory.recalled"
+    MEMORY_CONSOLIDATED = "memory.consolidated"
+    MEMORY_FORGOTTEN = "memory.forgotten"
+    MEMORY_PATTERN_DETECTED = "memory.pattern"
 
     # Dream events
     DREAM_INITIATED = "dream.initiated"

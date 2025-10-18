@@ -364,11 +364,11 @@ class AdvancedDriftDetector:
         try:
             # Import constitutional AI framework dynamically
             try:
-                from lukhas.governance.ethics.constitutional_ai import (
+                from governance.ethics.constitutional_ai import (
                     ConstitutionalFramework,
                 )
-                from lukhas.governance.identity.auth_backend.audit_logger import (
-                    AuditEventType,  # noqa: F401  # TODO: lukhas.governance.identity.aut...
+                from governance.identity.auth_backend.audit_logger import (
+                    AuditEventType,  # noqa: F401  # TODO: governance.identity.aut...
                     AuditLogger,
                 )
 
@@ -1157,7 +1157,7 @@ class AdvancedDriftDetector:
             return drift_score  # Direct impact
 
         # Consciousness-related factors
-        consciousness_factors = ["decision", "learning", "lukhas.memory", "reasoning"]
+        consciousness_factors = ["decision", "learning", "memory", "reasoning"]
         consciousness_impact = 0.0
 
         for key in current_data:

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 """Vector collapse utilities for symbolic tag propagation."""
 
-from lukhas.core.symbolism.tags import TagScope
+from core.symbolism.tags import TagScope
 
 # ΛTAG: vector_collapse_logic
 

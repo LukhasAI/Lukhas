@@ -8,7 +8,7 @@ import sys
 
 import requests
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 # Configure logging
 logger = get_logger(__name__)

@@ -25,7 +25,7 @@ from typing import Any, Dict, List
 # Add project root to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from lukhas.observability.matriz_instrumentation import (
+from observability.matriz_instrumentation import (
     cognitive_pipeline_span,
     get_cognitive_instrumentation_status,
     initialize_cognitive_instrumentation,
@@ -35,7 +35,7 @@ from lukhas.observability.matriz_instrumentation import (
     record_memory_cascade_risk,
     record_thought_complexity,
 )
-from lukhas.observability.otel_instrumentation import initialize_otel_instrumentation, instrument_cognitive_event
+from observability.otel_instrumentation import initialize_otel_instrumentation, instrument_cognitive_event
 
 # Configure logging
 logging.basicConfig(

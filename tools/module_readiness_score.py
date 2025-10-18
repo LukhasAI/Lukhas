@@ -118,7 +118,7 @@ class ModuleReadinessScorer:
                     score += 3
                 if "state" in contract:
                     score += 3
-                if "lukhas.governance" in contract:
+                if "governance" in contract:
                     score += 3
 
                 break  # Only check first contract for now

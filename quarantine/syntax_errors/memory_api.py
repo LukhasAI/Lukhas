@@ -72,17 +72,17 @@ class MemoryServicesAPI:
         # Import appropriate backend
         if self.storage_backend == "quantum":
             try:
-                from lukhas.memory.core.qi_memory_manager import MemoryManager
+                from memory.core.qi_memory_manager import MemoryManager
 
                 self._memory_manager = MemoryManager()
                 self._quantum_features = True
             except ImportError:
                 # Fallback to standard if quantum not available
-                from lukhas.memory.core.base_manager import BaseMemoryManager
+                from memory.core.base_manager import BaseMemoryManager
 
                 self._memory_manager = BaseMemoryManager()
         else:
-            from lukhas.memory.core.base_manager import BaseMemoryManager
+            from memory.core.base_manager import BaseMemoryManager
 
             self._memory_manager = BaseMemoryManager()
 

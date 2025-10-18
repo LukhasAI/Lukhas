@@ -176,7 +176,7 @@ class ArchetypeDetector:
             ],
             "variations": [
                 ["reminiscence", "wistfulness", "remorse", "grief", "sadness"],
-                ["lukhas.memory", "homesickness", "sorrow", "mourning", "depression"],
+                ["memory", "homesickness", "sorrow", "mourning", "depression"],
             ],
             "risk_level": 0.7,
             "cascade_potential": 0.6,
@@ -223,7 +223,7 @@ class ArchetypeDetector:
             "description": "Core identity dissolution pattern threatening system coherence",
         },
         ArchetypePattern.TRAUMA_ECHO: {
-            "pattern": ["pain", "lukhas.memory", "trigger", "reaction", "pain", "lukhas.memory"],
+            "pattern": ["pain", "memory", "trigger", "reaction", "pain", "memory"],
             "variations": [
                 ["hurt", "flashback", "stimulus", "response", "suffering"],
                 ["anguish", "recall", "activation", "behavior", "trauma"],
@@ -393,7 +393,7 @@ class ArchetypeDetector:
                 "vacuum",
             },
             "memory_concepts": {
-                "lukhas.memory",
+                "memory",
                 "remember",
                 "recall",
                 "flashback",
@@ -501,7 +501,7 @@ class EmotionalEchoDetector:
 
             if source_type == "dream":
                 return self._extract_from_dream(data)
-            elif source_type == "lukhas.memory":
+            elif source_type == "memory":
                 return self._extract_from_memory(data)
             elif source_type == "drift_log":
                 return self._extract_from_drift_log(data)
@@ -525,7 +525,7 @@ class EmotionalEchoDetector:
             or "current_emotion_vector" in data
             or ("emotions" in data and any(key in data for key in ["memory_type", "confidence", "memory_id"]))
         ):
-            return "lukhas.memory"
+            return "memory"
         elif "drift_score" in data or "ethical_drift" in data:
             return "drift_log"
         elif "emotions" in data and "timestamp" in data:
@@ -577,7 +577,7 @@ class EmotionalEchoDetector:
         return EmotionalSequence(
             sequence_id=f"MEMORY_{int(time.time())}_{hash(str(data)) % 10000}",
             timestamp=data.get("timestamp", datetime.now(timezone.utc).isoformat()),
-            source="lukhas.memory",
+            source="memory",
             emotions=emotions,
             symbols=symbols,
             intensity=data.get("intensity", 0.5),
@@ -1636,7 +1636,7 @@ def _generate_synthetic_emotional_data(count: int = 50, high_risk: bool = False)
         ["nostalgia", "longing", "regret", "loss", "melancholy"],  # Nostalgic trap
         ["irritation", "frustration", "anger", "rage", "destruction"],  # Anger cascade
         ["confusion", "doubt", "dissociation", "emptiness", "void"],  # Identity crisis
-        ["pain", "lukhas.memory", "trigger", "reaction", "pain"],  # Trauma echo
+        ["pain", "memory", "trigger", "reaction", "pain"],  # Trauma echo
     ]
 
     patterns = risk_patterns if high_risk else normal_patterns + risk_patterns[:2]

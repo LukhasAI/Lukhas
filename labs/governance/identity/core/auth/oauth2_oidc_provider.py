@@ -67,7 +67,7 @@ class OAuth2OIDCProvider:
 
     def __init__(self, config: Optional[dict] = None):
         self.config = config or {}
-        self.issuer = self.config.get("issuer", "https://lukhas.ai")
+        self.issuer = self.config.get("issuer", "https://ai")
         self.key_id = "lukhas-signing-key-2024"
 
         # Generate RSA key pair for JWT signing
@@ -453,7 +453,7 @@ class OAuth2OIDCProvider:
                 )
 
             if "email" in scopes:
-                userinfo.update({"email": f"{user_id}@lukhas.ai", "email_verified": True})
+                userinfo.update({"email": f"{user_id}@ai", "email_verified": True})
 
             if "phone" in scopes:
                 userinfo.update({"phone_number": "+1-XXX-XXX-XXXX", "phone_number_verified": False})

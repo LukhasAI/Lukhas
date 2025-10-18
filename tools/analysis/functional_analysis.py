@@ -174,8 +174,8 @@ class FunctionalAnalyzer:
                 "consciousness",
                 ["decision_making", "awareness", "state_management", "cognitive"],
             ),
-            "lukhas.memory": self.scan_for_capabilities(
-                "lukhas.memory", ["storage", "retrieval", "association", "learning", "recall"]
+            "memory": self.scan_for_capabilities(
+                "memory", ["storage", "retrieval", "association", "learning", "recall"]
             ),
             "identity": self.scan_for_capabilities(
                 "identity", ["formation", "validation", "authentication", "profile"]
@@ -287,7 +287,7 @@ def main():
 
     for system in [
         "consciousness",
-        "lukhas.memory",
+        "memory",
         "identity",
         "bio",
         "orchestration",

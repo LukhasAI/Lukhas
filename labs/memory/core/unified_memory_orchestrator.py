@@ -30,7 +30,7 @@ from typing import Any, Optional, Union
 import numpy as np
 
 # Import logging
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -57,7 +57,7 @@ except ImportError:
 # Import memory system components
 try:
     # Import through interface to break circular dependency
-    from lukhas.core.interfaces.memory_interface import get_test_module
+    from core.interfaces.memory_interface import get_test_module
 
     from ..consolidation.consolidation_orchestrator import (
         ConsolidationOrchestrator,
@@ -1712,7 +1712,7 @@ async def demonstrate_unified_memory():
     memory2_id = await orchestrator.encode_memory(
         content="Learned about hippocampal-neocortical memory consolidation",
         memory_type=MemoryType.SEMANTIC,
-        tags=["neuroscience", "learning", "lukhas.memory"],
+        tags=["neuroscience", "learning", "memory"],
         emotional_valence=0.3,
         importance=0.7,
         semantic_links=["hippocampus", "consolidation", "sleep"],

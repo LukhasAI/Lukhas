@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 # Import from candidate lane system
 try:
-    from lukhas.metrics import MetricsCollector, get_metrics_collector
+    from metrics import MetricsCollector, get_metrics_collector
 
     METRICS_AVAILABLE = True
 except ImportError:

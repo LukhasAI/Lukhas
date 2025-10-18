@@ -2,8 +2,8 @@ from typing import Any
 
 import networkx as nx
 
-from lukhas.core.colonies.base_colony import BaseColony
-from lukhas.core.symbolism.tags import Tag, TagScope
+from core.colonies.base_colony import BaseColony
+from core.symbolism.tags import Tag, TagScope
 from symbolic.vocabularies import SymbolicVocabulary
 
 

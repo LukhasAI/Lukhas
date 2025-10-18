@@ -124,7 +124,7 @@ class DreamDataCollector:
             memory_themes = self._extract_memory_themes(recent_memories)
 
             return {
-                "source": "lukhas.memory",
+                "source": "memory",
                 "recent_memories": recent_memories,
                 "themes": memory_themes,
                 "emotional_traces": self._extract_emotional_traces(recent_memories),
@@ -590,7 +590,7 @@ class DreamDataCollector:
 
         # Collect from all sources
         data_collection = {
-            "lukhas.memory": await self.collect_memory_data(),
+            "memory": await self.collect_memory_data(),
             "consciousness": await self.collect_consciousness_data(),
             "emotion": await self.collect_emotional_data(),
             "qi_symbolic": await self.collect_quantum_symbolic_data(),
@@ -634,8 +634,8 @@ class DreamDataCollector:
         seeds = []
 
         # Memory-based seed
-        if "lukhas.memory" in data:
-            memory_themes = data["lukhas.memory"].get("themes", [])
+        if "memory" in data:
+            memory_themes = data["memory"].get("themes", [])
             if memory_themes:
                 seeds.append(
                     {
@@ -723,7 +723,7 @@ class DreamDataCollector:
         influences = []
 
         # Check each source's strength
-        if data.get("lukhas.memory", {}).get("recent_memories"):
+        if data.get("memory", {}).get("recent_memories"):
             influences.append("memory_driven")
 
         if data.get("emotion", {}).get("emotional_complexity", 0) > 0.7:

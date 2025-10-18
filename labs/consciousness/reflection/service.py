@@ -161,13 +161,13 @@ try:
     import sys
 
     sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))
-    from lukhas.governance.identity.interface import IdentityClient
+    from governance.identity.interface import IdentityClient
 
     IDENTITY_CLIENT_AVAILABLE = True
-    logger.info("ΛTRACE: IdentityClient imported successfully from lukhas.governance.identity.interface.")
+    logger.info("ΛTRACE: IdentityClient imported successfully from governance.identity.interface.")
 except ImportError as e_ic:
     logger.error(
-        "ΛTRACE: Failed to import IdentityClient from lukhas.governance.identity.interface. Using fallback.",
+        "ΛTRACE: Failed to import IdentityClient from governance.identity.interface. Using fallback.",
         error_message=str(e_ic),
         exc_info=True,
     )
@@ -1313,7 +1313,7 @@ if __name__ == "__main__":
 ║ REFERENCES:
 ║   - Docs: docs/consciousness/consciousness-service.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=consciousness-service
-║   - Wiki: wiki.lukhas.ai/consciousness-service-api
+║   - Wiki: wiki.ai/consciousness-service-api
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

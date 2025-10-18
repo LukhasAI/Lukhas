@@ -101,7 +101,7 @@ class BaseModule(ABC):
 ║ REFERENCES:
 ║   - Docs: docs/common/module-development.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=base-module
-║   - Wiki: wiki.lukhas.ai/module-architecture
+║   - Wiki: wiki.ai/module-architecture
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

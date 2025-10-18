@@ -51,7 +51,7 @@ def create_hybrid_memory_fold() -> HybridMemoryFold:
 
 # Try to import and re-export VectorStorageLayer from candidate implementation
 try:
-    from lukhas.memory.fold_system.hybrid_memory_fold import VectorStorageLayer
+    from memory.fold_system.hybrid_memory_fold import VectorStorageLayer
 
     logger.info("Re-exported VectorStorageLayer from candidate implementation")
 except Exception as e:

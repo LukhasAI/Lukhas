@@ -7,8 +7,8 @@ import logging
 import time
 from typing import Optional
 
-from lukhas.core.actor_system import Actor, ActorSystem
-from lukhas.core.supervision import RootSupervisor, SupervisionStrategy
+from core.actor_system import Actor, ActorSystem
+from core.supervision import RootSupervisor, SupervisionStrategy
 
 logger = logging.getLogger(__name__)
 

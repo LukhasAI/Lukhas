@@ -78,7 +78,7 @@ class ConsciousnessService:
         # Memory integration
         if self._memory:
             memory_result = await self._memory.integrate(agent_id, experience)
-            result["subsystems"].append({"lukhas.memory": memory_result})
+            result["subsystems"].append({"memory": memory_result})
 
         # Learning integration
         if self._learning:

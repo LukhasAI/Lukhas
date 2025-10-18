@@ -50,7 +50,7 @@ def visualize_entropy(data: bytes):
 
 if __name__ == "__main__":
     # This allows the script to be used with pipes, e.g.:
-    # python -m lukhas.security.secure_random | python tools/analysis/entropy_visualizer.py
+    # python -m security.secure_random | python tools/analysis/entropy_visualizer.py
     # Or with a file:
     # python tools/analysis/entropy_visualizer.py some_file.bin
 

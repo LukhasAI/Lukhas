@@ -46,7 +46,7 @@ logger = logging.getLogger(__name__)
 
 __version__ = "1.0.0"
 __author__ = "LUKHAS Development Team"
-__email__ = "dev@lukhas.ai"
+__email__ = "dev@ai"
 __status__ = "Production"
 
 from collections import defaultdict
@@ -54,7 +54,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Optional, Union
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 # Internal imports
 from symbolic.glyphs.glyph import EmotionVector, Glyph, GlyphFactory

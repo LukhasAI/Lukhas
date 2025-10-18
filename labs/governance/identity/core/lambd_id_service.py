@@ -41,11 +41,11 @@ from enum import Enum, IntEnum
 from pathlib import Path
 from typing import Any, Dict, Optional, Union
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 # Guardian system integration for ethical ΛiD operations
 try:
-    from lukhas.governance.guardian_system import GuardianSystem
+    from governance.guardian_system import GuardianSystem
     GUARDIAN_AVAILABLE = True
 except ImportError:
     GUARDIAN_AVAILABLE = False

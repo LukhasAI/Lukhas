@@ -44,7 +44,7 @@ class TerminologyAuditor:
 
         # Required schema versions
         self.required_schemas = {
-            "v2.0.0": ["guardian", "flag_snapshot", "lukhas.governance"],
+            "v2.0.0": ["guardian", "flag_snapshot", "governance"],
             "constellation-v1.0": ["framework", "architecture"],
             "lukhas-v3.0": ["api", "core", "system"]
         }
@@ -224,7 +224,7 @@ def run_terminology_audit():
     print("🔍 Scanning codebase for terminology issues...")
 
     # Scan key directories only for performance
-    key_dirs = ['lukhas', 'matriz', 'guardian', 'tests', 'lukhas.tools', 'docs']
+    key_dirs = ['lukhas', 'matriz', 'guardian', 'tests', 'tools', 'docs']
     for dir_name in key_dirs:
         dir_path = Path(dir_name)
         if dir_path.exists():

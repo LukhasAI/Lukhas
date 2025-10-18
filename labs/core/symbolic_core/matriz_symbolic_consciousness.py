@@ -479,7 +479,7 @@ class MatrizSymbolicConsciousnessProcessor:
             ["consciousness", "state"],
             ["self", "awareness"],
             ["decision", "making"],
-            ["lukhas.memory", "formation"],
+            ["memory", "formation"],
             ["ethical", "reasoning"],
         ]
 

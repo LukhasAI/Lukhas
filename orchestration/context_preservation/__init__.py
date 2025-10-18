@@ -1,7 +1,7 @@
 """Bridge for `orchestration.context_preservation`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.orchestration.context_preservation
+  1) lukhas_website.orchestration.context_preservation
   2) candidate.orchestration.context_preservation
   3) orchestration.context_preservation
 
@@ -22,7 +22,7 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.orchestration.context_preservation",
+    "lukhas_website.orchestration.context_preservation",
     "candidate.orchestration.context_preservation",
     "orchestration.context_preservation",
 )

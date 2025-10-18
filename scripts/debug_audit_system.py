@@ -4,7 +4,7 @@ import asyncio
 import tempfile
 from datetime import datetime, timedelta, timezone
 
-from lukhas.governance.security.audit_system import AuditEventType, AuditQuery, ComprehensiveAuditSystem
+from governance.security.audit_system import AuditEventType, AuditQuery, ComprehensiveAuditSystem
 
 
 async def debug_audit_system():

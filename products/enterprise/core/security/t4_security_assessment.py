@@ -27,7 +27,7 @@ SAFETY_AVAILABLE = importlib.util.find_spec("safety") is not None
 
 # LUKHAS security integration availability (avoid unused imports)
 LUKHAS_SECURITY_AVAILABLE = (
-    importlib.util.find_spec("lukhas.governance.drift_detector") is not None
+    importlib.util.find_spec("governance.drift_detector") is not None
     or importlib.util.find_spec("candidate.governance.guardian.drift_detector") is not None
 )
 

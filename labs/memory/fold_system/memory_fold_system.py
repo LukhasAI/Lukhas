@@ -80,7 +80,7 @@ except ImportError:
 
 # Import structural conscience for critical decisions
 try:
-    from lukhas.memory.structural_conscience import (
+    from memory.structural_conscience import (
         ConscienceSeverity,
         MoralDecisionType,
         StructuralConscience,
@@ -594,7 +594,7 @@ def create_memory_fold_system(enable_conscience: bool = True, enable_auto_taggin
     """
     conscience = None
     if enable_conscience and StructuralConscience:
-        from lukhas.memory.structural_conscience import create_structural_conscience
+        from memory.structural_conscience import create_structural_conscience
 
         conscience = create_structural_conscience()
 

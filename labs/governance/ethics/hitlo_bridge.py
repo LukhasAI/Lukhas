@@ -50,7 +50,7 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 from ..orchestration_src.human_in_the_loop_orchestrator import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination
 from datetime import timezone
@@ -551,7 +551,7 @@ def create_ethics_hitlo_bridge(
 ║ REFERENCES:
 ║   - Docs: docs/ethics/hitlo_bridge.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=ethics-hitlo
-║   - Wiki: internal.lukhas.ai/ethics/hitlo-bridge
+║   - Wiki: internal.ai/ethics/hitlo-bridge
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

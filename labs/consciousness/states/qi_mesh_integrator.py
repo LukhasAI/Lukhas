@@ -29,7 +29,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -118,7 +118,7 @@ class QIEthicsMeshIntegrator:
         # Subsystem weights for ethics aggregation
         self.subsystem_weights = {
             "emotion": 0.25,
-            "lukhas.memory": 0.20,
+            "memory": 0.20,
             "reasoning": 0.25,
             "dream": 0.15,
             "ethics": 0.10,
@@ -575,9 +575,9 @@ class QIEthicsMeshIntegrator:
         # Define expected entanglement strengths based on module relationships
         high_entanglement_pairs = {
             ("emotion", "dream"): 0.8,
-            ("lukhas.memory", "reasoning"): 0.9,
+            ("memory", "reasoning"): 0.9,
             ("ethics", "reasoning"): 0.7,
-            ("emotion", "lukhas.memory"): 0.6,
+            ("emotion", "memory"): 0.6,
         }
 
         # Check both orientations
@@ -702,7 +702,7 @@ async def demo_quantum_ethics_mesh():
             "alignment": 0.9,
             "phase": 0.5,
         },
-        "lukhas.memory": {
+        "memory": {
             "coherence": 0.9,
             "confidence": 0.85,
             "entropy": 0.2,

@@ -63,7 +63,7 @@ Q
 Q REFERENCES:
 Q   - Docs: docs/core/symbolic_diagnostics/package_overview.md
 Q   - Issues: github.com/lukhas-ai/core/issues?label=diagnostics
-Q   - Wiki: wiki.lukhas.ai/diagnostics/package-initialization
+Q   - Wiki: wiki.ai/diagnostics/package-initialization
 Q
 Q COPYRIGHT & LICENSE:
 Q   Copyright (c) 2025 LUKHAS AI. All rights reserved.

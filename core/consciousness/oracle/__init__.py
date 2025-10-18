@@ -1,7 +1,7 @@
 """Bridge for `core.consciousness.oracle`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.core.consciousness.oracle
+  1) lukhas_website.core.consciousness.oracle
   2) candidate.core.consciousness.oracle
   3) core.consciousness.oracle
 
@@ -22,7 +22,7 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.core.consciousness.oracle",
+    "lukhas_website.core.consciousness.oracle",
     "labs.core.consciousness.oracle",
     "core.consciousness.oracle",
 )

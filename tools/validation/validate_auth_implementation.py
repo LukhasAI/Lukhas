@@ -29,7 +29,7 @@ def test_api_key_validation():
     print("🔑 Testing API Key Validation...")
 
     try:
-        from lukhas.core.interfaces.api.v1.common.auth import (
+        from core.interfaces.api.v1.common.auth import (
             _validate_key_format,
             _verify_key_signature,
             generate_api_key,

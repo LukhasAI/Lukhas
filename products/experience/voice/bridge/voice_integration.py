@@ -21,7 +21,7 @@ from typing import Any
 import numpy as np
 
 # Import LUKHAS voice modulation system
-from lukhas.voice.voice_modulator import LucasVoiceSystem, VoiceModulator
+from voice.voice_modulator import LucasVoiceSystem, VoiceModulator
 
 from ..voice_profiling import VoiceProfileManager
 

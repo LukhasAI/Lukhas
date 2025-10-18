@@ -5,7 +5,7 @@ import warnings
 
 warnings.warn(
     "Importing from 'consciousness.cognitive' is deprecated; "
-    "prefer `lukhas.consciousness` public API.",
+    "prefer `consciousness` public API.",
     DeprecationWarning,
     stacklevel=2,
 )

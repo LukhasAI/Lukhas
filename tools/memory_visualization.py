@@ -96,7 +96,7 @@ class MemoryVisualizer:
         if DASHBOARD_AVAILABLE:
             self.dashboard = SimpleDashboard("Memory Visualization")
 
-        self.logger = logging.getLogger("lukhas.memory.visualizer")
+        self.logger = logging.getLogger("memory.visualizer")
         self.logger.info(
             f"Memory visualizer initialized (matplotlib: {MATPLOTLIB_AVAILABLE}, plotly: {PLOTLY_AVAILABLE})"
         )

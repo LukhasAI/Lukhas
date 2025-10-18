@@ -583,7 +583,7 @@ async def demonstrate_safety_features():
     import sys
 
     sys.path.append("../..")
-    from lukhas.memory.core import create_hybrid_memory_fold
+    from memory.core import create_hybrid_memory_fold
 
     # Create base memory system
     base_memory = create_hybrid_memory_fold()

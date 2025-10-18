@@ -30,8 +30,8 @@ DIAGNOSTIC_DIR = ROOT / "reports" / "deep_search"
 ORCHESTRATOR_LOG = ROOT / "reports" / "autofix" / "orchestrator.json"
 
 # Import our enhanced fixers
-sys.path.insert(0, str(ROOT / "lukhas.tools" / "automation"))
-sys.path.insert(0, str(ROOT / "lukhas.tools" / "ci"))
+sys.path.insert(0, str(ROOT / "tools" / "automation"))
+sys.path.insert(0, str(ROOT / "tools" / "ci"))
 
 try:
     from enhanced_fstring_fixer import EnhancedFStringFixer
@@ -266,7 +266,7 @@ class DiagnosticOrchestrator:
         # Import fixes are typically one-time manual additions
         # For now, return success if auth_integration is available
         try:
-            from lukhas.governance.identity import auth_integration  # noqa: F401  # Legacy bridge validation
+            from governance.identity import auth_integration  # noqa: F401  # Legacy bridge validation
 
             return {"status": "success", "bridges_verified": 1}
         except ImportError as e:

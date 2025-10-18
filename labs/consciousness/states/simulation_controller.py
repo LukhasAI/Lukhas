@@ -64,7 +64,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Callable
 
-from lukhas.core.bio_systems.bio_oscillator import OscillationType
+from core.bio_systems.bio_oscillator import OscillationType
 
 logger = logging.getLogger("bio_simulation_controller")
 
@@ -586,7 +586,7 @@ class BioSimulationController:
 ║ REFERENCES:
 ║   - Docs: docs/bio_systems/endocrine_system_guide.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=bio-systems
-║   - Wiki: internal.lukhas.ai/wiki/endocrine-system
+║   - Wiki: internal.ai/wiki/endocrine-system
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

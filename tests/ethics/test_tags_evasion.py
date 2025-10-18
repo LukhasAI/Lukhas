@@ -26,7 +26,7 @@ pytestmark = pytest.mark.skipif(
 # --- Imports (adjust if your modules expose different symbols) ---
 # TODO: Update imports if your project uses different names/paths.
 try:
-    from lukhas.core.ethics.safety_tags import SafetyTagEnricher
+    from core.ethics.safety_tags import SafetyTagEnricher
     enricher = SafetyTagEnricher()
     def enrich_plan_with_tags(plan):
         return enricher.enrich_plan(plan)
@@ -34,7 +34,7 @@ except Exception:
     enrich_plan_with_tags = None
 
 try:
-    from lukhas.core.ethics.logic.dsl_lite import (
+    from core.ethics.logic.dsl_lite import (
         and_op as dsl_and,
         has_category,
         has_tag,

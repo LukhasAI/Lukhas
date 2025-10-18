@@ -12,7 +12,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from lukhas.orchestration.multi_ai_router import (
+from orchestration.multi_ai_router import (
     AIModel,
     AIProvider,
     AIResponse,

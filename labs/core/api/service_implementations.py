@@ -13,7 +13,7 @@ log = structlog.get_logger(__name__)
 
 # Import real implementations with graceful fallbacks
 try:
-    from lukhas.core.glyph.glyph_engine import GlyphEngine as SymbolicEngine
+    from core.glyph.glyph_engine import GlyphEngine as SymbolicEngine
 
     SYMBOLIC_ENGINE_AVAILABLE = True
 except ImportError:
@@ -30,7 +30,7 @@ try:
     if candidate_path not in sys.path:
         sys.path.insert(0, candidate_path)
 
-    from lukhas.memory.systems.memory_learning.memory_manager import MemoryManager
+    from memory.systems.memory_learning.memory_manager import MemoryManager
 
     MEMORY_MANAGER_AVAILABLE = True
 except ImportError as e:
@@ -38,7 +38,7 @@ except ImportError as e:
     MEMORY_MANAGER_AVAILABLE = False
 
 try:
-    from lukhas.governance.guardian_system import GuardianSystem
+    from governance.guardian_system import GuardianSystem
 
     GUARDIAN_SYSTEM_AVAILABLE = True
 except ImportError:
@@ -62,7 +62,7 @@ except ImportError:
         EMOTION_ENGINE_AVAILABLE = False
 
 try:
-    from lukhas.consciousness.dream.core.dream_engine import (
+    from consciousness.dream.core.dream_engine import (
         DreamEngine,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for Constellation Framework consciousness evolution
     )
 
@@ -72,7 +72,7 @@ except ImportError:
     DREAM_ENGINE_AVAILABLE = False
 
 try:
-    from lukhas.core.coordination import (
+    from core.coordination import (
         ContractNetInitiator as CoordinationManager,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
     )
 

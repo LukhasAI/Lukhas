@@ -57,7 +57,7 @@ def bootstrap_seed_chain(seed: str, depth: int = 3) -> list[str]:
 ║ REFERENCES:
 ║   - Docs: docs/orchestration/init.md
 ║   - Issues: github.com/lukhas-ai/lukhas/issues?label=orchestration
-║   - Wiki: https://lukhas.ai/wiki/Orchestration-Initialization
+║   - Wiki: https://ai/wiki/Orchestration-Initialization
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

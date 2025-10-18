@@ -1,7 +1,7 @@
 """Bridge for `candidate.core.symbolic.symbolic_glyph_hash`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.candidate.core.symbolic.symbolic_glyph_hash
+  1) lukhas_website.candidate.core.symbolic.symbolic_glyph_hash
   2) candidate.candidate.core.symbolic.symbolic_glyph_hash
   3) core.symbolic.symbolic_glyph_hash
 
@@ -22,7 +22,7 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.candidate.core.symbolic.symbolic_glyph_hash",
+    "lukhas_website.candidate.core.symbolic.symbolic_glyph_hash",
     "labs.candidate.core.symbolic.symbolic_glyph_hash",
     "core.symbolic.symbolic_glyph_hash",
 )

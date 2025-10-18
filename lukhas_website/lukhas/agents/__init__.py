@@ -2,7 +2,7 @@
 LUKHAS AI Agent System Bridge
 ============================
 
-Bridge module connecting lukhas.agents to the root /agent system.
+Bridge module connecting agents to the root /agent system.
 The real LUKHAS consciousness agents are now located in /agent directory.
 
 This module provides backward compatibility while directing users

@@ -11,10 +11,10 @@ import json
 import uuid
 from datetime import datetime, timezone
 
-from lukhas.core.symbolic.glyph_engine import generate_glyph
+from core.symbolic.glyph_engine import generate_glyph
 
 # Assuming execution from a context where 'candidate' is in the Python path.
-from lukhas.core.symbolic.symbolic_core import SymbolicWorld
+from core.symbolic.symbolic_core import SymbolicWorld
 
 
 def consolidate_symbolic_communication():

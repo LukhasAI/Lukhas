@@ -59,7 +59,7 @@ except Exception:  # pragma: no cover - fallback if qi_mind is unavailable
 
 # Logging setup with optional structlog
 try:
-    from lukhas.core.common import get_logger
+    from core.common import get_logger
 
     logger = get_logger(__name__)
 except Exception:  # pragma: no cover - fallback when structlog or core is unavailable
@@ -72,7 +72,7 @@ except Exception:  # pragma: no cover - fallback when structlog or core is unava
 
 
 MODULE_VERSION = "1.0.0"
-MODULE_NAME = "lukhas.memory"
+MODULE_NAME = "memory"
 
 
 @dataclass

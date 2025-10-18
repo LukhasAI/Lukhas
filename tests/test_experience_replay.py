@@ -12,7 +12,7 @@ from pathlib import Path
 
 import pytest
 
-from lukhas.core.consciousness_stream import ConsciousnessStream
+from core.consciousness_stream import ConsciousnessStream
 
 
 class TestExperienceReplay:

@@ -14,7 +14,7 @@
 ║ This module provides standardized logging utilities for the LUKHAS Cognitive system,
 ║ ensuring consistent log formatting and hierarchical organization:
 ║
-║ • Hierarchical logger namespacing (e.g., lukhas.module.submodule)
+║ • Hierarchical logger namespacing (e.g., module.submodule)
 ║ • Standardized timestamp and formatting across all modules
 ║ • Configurable log levels with environment override support
 ║ • Stream handler setup with proper handler cleanup
@@ -71,7 +71,7 @@ def setup_logger(name: str, level: int = logging.INFO, format_string: Optional[s
 
 
 # Default logger instance
-logger = setup_logger("lukhas.common")
+logger = setup_logger("common")
 
 """
 ═══════════════════════════════════════════════════════════════════════════════
@@ -95,7 +95,7 @@ logger = setup_logger("lukhas.common")
 ║ REFERENCES:
 ║   - Docs: docs/common/logging-guide.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=logging
-║   - Wiki: wiki.lukhas.ai/logging-framework
+║   - Wiki: wiki.ai/logging-framework
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

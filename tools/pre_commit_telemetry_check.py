@@ -22,7 +22,7 @@ def validate_telemetry_fixture(fixture_path: str) -> List[str]:
         # Required attributes per OpenTelemetry semconv v1.37.0
         required_span_attrs = {
             "code.function",
-            "lukhas.module",
+            "module",
             "otel.semconv.version"
         }
 

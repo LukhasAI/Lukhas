@@ -18,9 +18,9 @@ from collections import deque
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Mapping, Optional, Sequence, Tuple
 
-from lukhas.core.interfaces import ICognitiveNode
-from lukhas.core.registry import resolve
-from lukhas.metrics import (
+from core.interfaces import ICognitiveNode
+from core.registry import resolve
+from metrics import (
     arbitration_decisions_total,
     constellation_star_activations,
     ethics_risk_distribution,

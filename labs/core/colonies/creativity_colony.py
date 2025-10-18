@@ -16,7 +16,7 @@ except ImportError:
         def fatigue_level(*args, **kwargs):
             return 0.0
 
-from lukhas.core.colonies.base_colony import BaseColony
+from core.colonies.base_colony import BaseColony
 
 logger = logging.getLogger(__name__)
 

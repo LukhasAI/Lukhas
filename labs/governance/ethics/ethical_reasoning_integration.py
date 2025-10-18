@@ -15,7 +15,7 @@ Provides integration wrapper for connecting the ethical reasoning system to the 
 
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 from .ethical_reasoning_system import (
     EthicalConstraint,

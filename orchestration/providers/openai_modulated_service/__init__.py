@@ -1,10 +1,10 @@
 """Bridge: orchestration.providers.openai_modulated_service (syntax error stub)."""
 from __future__ import annotations
 
-from lukhas._bridgeutils import bridge_from_candidates, deprecate, safe_guard
+from _bridgeutils import bridge_from_candidates, deprecate, safe_guard
 
 _CANDIDATES = (
-    "lukhas_website.lukhas.orchestration.providers.openai_modulated_service",
+    "lukhas_website.orchestration.providers.openai_modulated_service",
     "candidate.orchestration.providers.openai_modulated_service",
 )
 

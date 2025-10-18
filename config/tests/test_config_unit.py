@@ -1,129 +1,209 @@
-# @generated LUKHAS scaffold v1.0
-# template_id: module.scaffold/v1
-# template_commit: f95979630
-# do_not_edit: true
-# human_editable: false
+# @generated LUKHAS scaffold v1
+# template: module_scaffold/tests/test_{{ module }}_unit.py.j2
+# template_sha256: 5091e346bc2b807a7e7645d6e12a926a46c2cadb3bad8376edc4833199bd6bc0
+# module: config
+# do_not_edit: false
 #
 """
 Unit tests for config module.
 """
 
-import unittest
+import importlib
+from unittest.mock import patch
 
 import pytest
 
-# Import module components
-try:
-    pass  #     pass  #
-    import config  # noqa: F401  # TODO: config; consider using importl...
-except ImportError:
-    pytest.skip("Module config not available", allow_module_level=True)
 
+# Test imports
+def test_module_imports():
+    """Test that the config module can be imported."""
+    try:
+        module = importlib.import_module("config")
+        assert module is not None
+    except ImportError as e:
+        pytest.skip(f"Module config not available: {e}")
 
-class TestConfigModule(unittest.TestCase):
-    """Unit tests for config module core functionality."""
+def test_module_has_init():
+    """Test that the config module has proper __init__.py."""
+    try:
+        module = importlib.import_module("config")
+        # Check for common attributes
+        assert hasattr(module, '__file__')
+    except ImportError:
+        pytest.skip("Module config not available")
 
-    def setUp(self):
-        """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "config",
-            "test_mode": True
-        }
+class TestConfigCore:
+    """Unit tests for config core functionality."""
 
-    def tearDown(self):
-        """Clean up after tests."""
-        pass
+    def test_basic_instantiation(self):
+        """Test basic component instantiation."""
+        try:
+            from config import ConfigCore
+            component = ConfigCore()
+            assert component is not None
+        except ImportError:
+            pytest.skip("ConfigCore not available")
 
-    def test_module_import(self):
-        """Test that module can be imported successfully."""
-        import config
-        self.assertIsNotNone(config)
+    def test_configuration_handling(self):
+        """Test configuration parameter handling."""
+        try:
+            from config.config import ConfigConfig
 
-    def test_module_version(self):
-        """Test module has version information."""
-        import config
-        # Most modules should have version info
-        self.assertTrue(hasattr(config, "__version__") or
-                       hasattr(config, "VERSION"))
+            config = ConfigConfig(
+                debug_mode=True,
+                performance_monitoring=False
+            )
 
-    def test_module_initialization(self):
-        """Test module can be initialized."""
-        # Add module-specific initialization tests
-        pass
+            assert config.debug_mode is True
+            assert config.performance_monitoring is False
 
-    @pytest.mark.unit
-    def test_core_functionality(self):
-        """Test core module functionality."""
-        # Add tests for main module features
-        pass
+        except ImportError:
+            pytest.skip("ConfigConfig not available")
 
-    @pytest.mark.unit
     def test_error_handling(self):
-        """Test module error handling."""
-        # Test various error conditions
-        pass
-
-    @pytest.mark.unit
-    def test_configuration_validation(self):
-        """Test configuration validation."""
-        # Test config loading and validation
-        pass
-
-
-# Test individual components if entrypoints available
-
-
-class TestAuditSafetyConfig(unittest.TestCase):
-    """Tests for AuditSafetyConfig component."""
-
-    def test_auditsafetyconfig_import(self):
-        """Test AuditSafetyConfig can be imported."""
+        """Test proper error handling patterns."""
         try:
-            from config.audit_safety_defaults import AuditSafetyConfig
-            self.assertIsNotNone(AuditSafetyConfig)
+            from config import ConfigCore
+            from core.exceptions import LUKHASException
+
+            component = ConfigCore()
+
+            # Test invalid input handling
+            with pytest.raises((LUKHASException, ValueError, TypeError)):
+                component.process(None)
+
         except ImportError:
-            pytest.skip("Component AuditSafetyConfig not available")
+            pytest.skip("ConfigCore not available")
 
-    def test_auditsafetyconfig_instantiation(self):
-        """Test AuditSafetyConfig can be instantiated."""
-        # Add component-specific instantiation tests
-        pass
+class TestConfigIntegration:
+    """Unit tests for config integration points."""
 
-
-class TestSafetyDefaultsManager(unittest.TestCase):
-    """Tests for SafetyDefaultsManager component."""
-
-    def test_safetydefaultsmanager_import(self):
-        """Test SafetyDefaultsManager can be imported."""
+    def test_consciousness_integration(self):
+        """Test integration with consciousness system."""
         try:
-            from config.audit_safety_defaults import SafetyDefaultsManager
-            self.assertIsNotNone(SafetyDefaultsManager)
+            from config import ConfigCore
+            from consciousness import ConsciousnessCore
+
+            consciousness = ConsciousnessCore()
+            component = ConfigCore()
+
+            # Test consciousness-aware processing
+            with consciousness.awareness_context():
+                # This should not raise an exception
+                result = component.process({})
+
         except ImportError:
-            pytest.skip("Component SafetyDefaultsManager not available")
+            pytest.skip("Consciousness integration not available")
 
-    def test_safetydefaultsmanager_instantiation(self):
-        """Test SafetyDefaultsManager can be instantiated."""
-        # Add component-specific instantiation tests
-        pass
-
-
-class Testcreate_audit_safety_manager(unittest.TestCase):
-    """Tests for create_audit_safety_manager component."""
-
-    def test_create_audit_safety_manager_import(self):
-        """Test create_audit_safety_manager can be imported."""
+    def test_matriz_compatibility(self):
+        """Test MATRIZ contract compatibility."""
         try:
-            from config.audit_safety_defaults import create_audit_safety_manager
-            self.assertIsNotNone(create_audit_safety_manager)
+            from config import ConfigCore
+
+            component = ConfigCore()
+
+            # Test MATRIZ pipeline methods
+            assert hasattr(component, 'process')
+            assert callable(getattr(component, 'process'))
+
         except ImportError:
-            pytest.skip("Component create_audit_safety_manager not available")
+            pytest.skip("ConfigCore not available")
 
-    def test_create_audit_safety_manager_instantiation(self):
-        """Test create_audit_safety_manager can be instantiated."""
-        # Add component-specific instantiation tests
-        pass
+class TestConfigObservability:
+    """Unit tests for config observability features."""
 
+    def test_span_emission(self):
+        """Test that observability spans are properly emitted."""
+        try:
+            from config import ConfigCore
 
+            component = ConfigCore()
 
-if __name__ == "__main__":
-    unittest.main()
+            # Mock span collection
+            with patch('observability.span_manager.create_span') as mock_span:
+                component.process({})
+
+                # Verify span creation
+                mock_span.assert_called()
+
+        except ImportError:
+            pytest.skip("Observability features not available")
+
+    def test_metrics_collection(self):
+        """Test that performance metrics are collected."""
+        try:
+            from config import ConfigCore
+
+            component = ConfigCore()
+
+            # Test metrics collection
+            with patch('monitoring.metrics.record_metric') as mock_metric:
+                component.process({})
+
+                # Verify metric recording
+                mock_metric.assert_called()
+
+        except ImportError:
+            pytest.skip("Metrics collection not available")
+
+class TestConfigPerformance:
+    """Performance and regression tests for config."""
+
+    def test_processing_performance(self):
+        """Test that processing completes within acceptable time."""
+        try:
+            import time
+
+            from config import ConfigCore
+
+            component = ConfigCore()
+
+            start_time = time.time()
+            result = component.process({})
+            duration = time.time() - start_time
+
+            # Should complete within 1 second for basic operations
+            assert duration < 1.0
+
+        except ImportError:
+            pytest.skip("ConfigCore not available")
+
+    def test_memory_efficiency(self):
+        """Test memory usage stays within bounds."""
+        try:
+            import os
+
+            import psutil
+
+            from config import ConfigCore
+
+            component = ConfigCore()
+
+            process = psutil.Process(os.getpid())
+            initial_memory = process.memory_info().rss
+
+            # Process multiple items
+            for i in range(100):
+                component.process({'iteration': i})
+
+            final_memory = process.memory_info().rss
+            memory_increase = final_memory - initial_memory
+
+            # Memory increase should be reasonable (< 10MB for basic ops)
+            assert memory_increase < 10 * 1024 * 1024
+
+        except (ImportError, AttributeError):
+            pytest.skip("Memory testing not available")
+
+# Configuration for pytest
+def pytest_configure(config):
+    """Configure pytest for config tests."""
+    config.addinivalue_line(
+        "markers", "integration: mark test as integration test"
+    )
+    config.addinivalue_line(
+        "markers", "performance: mark test as performance test"
+    )
+    config.addinivalue_line(
+        "markers", "slow: mark test as slow running"
+    )

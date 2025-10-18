@@ -16,8 +16,8 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Dict, List, Optional
 
-from lukhas.observability.opentelemetry_tracing import LUKHASTracer
-from lukhas.observability.prometheus_metrics import LUKHASMetrics
+from observability.opentelemetry_tracing import LUKHASTracer
+from observability.prometheus_metrics import LUKHASMetrics
 
 
 class ErrorCategory(Enum):

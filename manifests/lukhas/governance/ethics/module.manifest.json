@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.governance.ethics",
-    "path": "lukhas/governance/ethics",
+    "path": "governance/ethics",
     "type": "package",
     "lane": "lukhas",
     "colony": "ethics"
@@ -15,7 +15,7 @@
     "cognitive_function": ""
   },
   "constellation_alignment": {
-    "primary_star": "🛡️ Watch (Guardian)",
+    "primary_star": "\ud83d\udee1\ufe0f Watch (Guardian)",
     "star_aliases": [],
     "trinity_aspects": []
   },

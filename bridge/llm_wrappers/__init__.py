@@ -52,7 +52,7 @@ for wrapper_name, class_name in [
 ]:
     try:
         module = __import__(
-            f"lukhas.bridge.llm_wrappers.{wrapper_name}",
+            f"bridge.llm_wrappers.{wrapper_name}",
             fromlist=[class_name],
         )
         wrapper_class = getattr(module, class_name)

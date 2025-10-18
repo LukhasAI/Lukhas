@@ -48,14 +48,14 @@ from typing import Any, Optional
 import numpy as np
 
 # LUKHAS Core Imports
-from lukhas.memory.emotional import EmotionalMemory
-from lukhas.memory.governance.ethical_drift_governor import (
+from memory.emotional import EmotionalMemory
+from memory.governance.ethical_drift_governor import (
     EthicalDriftGovernor,
     create_ethical_governor,
 )
 
 # TODO: Update to use unified tier system
-# - Replace EmotionalTier enum with imports from lukhas.core.tier_unification_adapter
+# - Replace EmotionalTier enum with imports from core.tier_unification_adapter
 # - Use @emotional_tier_required decorator for tier-gated methods
 # - Add user_id parameter to all emotion processing methods
 # - Map EmotionalTier to LAMBDA_TIER using TierMappingConfig

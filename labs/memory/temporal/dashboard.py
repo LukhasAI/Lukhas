@@ -934,7 +934,7 @@ __all__ = [
 ║ REFERENCES:
 ║   - Docs: docs/memory/memory-dashboard.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=memory-dashboard
-║   - Wiki: wiki.lukhas.ai/memory-monitoring
+║   - Wiki: wiki.ai/memory-monitoring
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

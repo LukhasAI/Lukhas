@@ -32,13 +32,13 @@ from enum import Enum
 from typing import Any, Callable, Optional
 
 try:
-    from lukhas.governance.consent_ledger.ledger_v1 import ConsentLedgerV1, PolicyVerdict
+    from governance.consent_ledger.ledger_v1 import ConsentLedgerV1, PolicyVerdict
 except ImportError:
     PolicyVerdict = None
     ConsentLedgerV1 = None
 
 try:
-    from lukhas.governance.security.audit_system import (
+    from governance.security.audit_system import (
         AuditCategory,
         AuditEventType,
         AuditLevel,
@@ -1177,7 +1177,7 @@ class ComprehensiveEthicsPolicyEngine:
             "decision",
             "reasoning",
             "learning",
-            "lukhas.memory",
+            "memory",
             "consciousness",
         ]
 

@@ -756,7 +756,7 @@ class AuthenticationServer:
             "export_notes": [
                 "This export contains all personal data processed by the LUKHAS authentication system",
                 "Data is provided in structured JSON format for portability",
-                "Contact data protection officer for questions: dpo@lukhas.ai",
+                "Contact data protection officer for questions: dpo@ai",
             ],
         }
 

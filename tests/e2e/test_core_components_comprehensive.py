@@ -38,7 +38,7 @@ class TestActorSystem:
     def test_actor_creation_and_registration(self):
         """Test creating and registering actors in the system."""
         try:
-            from lukhas.core.actor_system import Actor, ActorSystem
+            from core.actor_system import Actor, ActorSystem
 
             # Create actor system
             system = ActorSystem()
@@ -65,7 +65,7 @@ class TestActorSystem:
     def test_message_passing_and_handling(self):
         """Test message passing between actors and custom handlers."""
         try:
-            from lukhas.core.actor_system import Actor, ActorSystem
+            from core.actor_system import Actor, ActorSystem
 
             system = ActorSystem()
 
@@ -107,7 +107,7 @@ class TestActorSystem:
     def test_ai_agent_actor_functionality(self):
         """Test AI Agent Actor with capabilities and task management."""
         try:
-            from lukhas.core.actor_system import ActorSystem, AIAgentActor
+            from core.actor_system import ActorSystem, AIAgentActor
 
             system = ActorSystem()
 
@@ -150,7 +150,7 @@ class TestActorSystem:
     def test_global_actor_system(self):
         """Test global actor system instance and utilities."""
         try:
-            from lukhas.core.actor_system import default_actor_system, get_global_actor_system
+            from core.actor_system import default_actor_system, get_global_actor_system
 
             # Test global system access
             global_system = get_global_actor_system()
@@ -564,12 +564,12 @@ class TestMainApplication:
         try:
             # Test bootstrap functions with fallback handling
             try:
-                from lukhas.core.bootstrap import get_bootstrap, initialize_lukhas, shutdown_lukhas
+                from core.bootstrap import get_bootstrap, initialize_lukhas, shutdown_lukhas
 
                 bootstrap_available = True
             except ImportError:
                 try:
-                    from lukhas.core.bootstrap import get_bootstrap, initialize_lukhas, shutdown_lukhas
+                    from core.bootstrap import get_bootstrap, initialize_lukhas, shutdown_lukhas
 
                     bootstrap_available = True
                 except ImportError:

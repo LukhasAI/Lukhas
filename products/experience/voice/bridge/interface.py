@@ -21,15 +21,15 @@ import time
 import uuid
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 # Import relevant components
-from lukhas.core.voice_profiling import VoiceProfile, VoiceProfileManager
-from lukhas.core.voice_safety_guard import VoiceSafetyFilter
+from core.voice_profiling import VoiceProfile, VoiceProfileManager
+from core.voice_safety_guard import VoiceSafetyFilter
 
 # Import personality integration
 try:
-    from lukhas.core.personality.voice_personality import VoicePersonalityIntegrator
+    from core.personality.voice_personality import VoicePersonalityIntegrator
 
     PERSONALITY_AVAILABLE = True
 except ImportError:
@@ -38,7 +38,7 @@ except ImportError:
 
 # Import memory helix for accent learning and word curiosity
 try:
-    from lukhas.core.voice_memory_helix import VoiceMemoryHelix
+    from core.voice_memory_helix import VoiceMemoryHelix
 
     MEMORY_HELIX_AVAILABLE = True
 except ImportError:

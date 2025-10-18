@@ -20,14 +20,14 @@ os.environ["GUARDIAN_MODE"] = "ENFORCE"
 os.environ["LUKHAS_TESTING"] = "1"
 
 try:
-    from lukhas.core.ethics.ethics_engine import EthicsAction, EthicsResult
-    from lukhas.core.ethics.guardian_drift_bands import (
+    from core.ethics.ethics_engine import EthicsAction, EthicsResult
+    from core.ethics.guardian_drift_bands import (
         ActionBand,
         GuardianDecisionEngine,
         GuardianResult,
         SafetyCategory,
     )
-    from lukhas.governance.guardian_bridge import GuardianBridge
+    from governance.guardian_bridge import GuardianBridge
 except ImportError:
     # Fallback for testing without full Guardian system
     GuardianDecisionEngine = Mock

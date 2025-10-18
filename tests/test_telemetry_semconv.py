@@ -29,13 +29,13 @@ def test_memory_recall_span_has_semconv_attrs():
 
     found = False
     for sp in spans:
-        if sp.get("name") == "lukhas.memory.recall":
+        if sp.get("name") == "memory.recall":
             attrs = sp.get("attributes", {})
 
             # Required semantic convention keys per matrix contract
             assert "code.function" in attrs, "Missing semconv attribute: code.function"
-            assert attrs.get("lukhas.module") == "lukhas.memory", f"Expected lukhas.module=memory, got {attrs.get('lukhas.module')}"
-            assert "lukhas.k" in attrs, "Missing custom attribute: lukhas.k"
+            assert attrs.get("module") == "memory", f"Expected module=memory, got {attrs.get('module')}"
+            assert "k" in attrs, "Missing custom attribute: k"
 
             # Semconv version tracking
             assert "otel.semconv.version" in attrs, "Missing semconv version tracking"
@@ -54,13 +54,13 @@ def test_memory_fold_span_has_semconv_attrs():
 
     found = False
     for sp in spans:
-        if sp.get("name") == "lukhas.memory.fold":
+        if sp.get("name") == "memory.fold":
             attrs = sp.get("attributes", {})
 
             # Required semantic convention keys
             assert "code.function" in attrs, "Missing semconv attribute: code.function"
-            assert attrs.get("lukhas.module") == "lukhas.memory", f"Expected lukhas.module=memory, got {attrs.get('lukhas.module')}"
-            assert "lukhas.fold_count" in attrs, "Missing custom attribute: lukhas.fold_count"
+            assert attrs.get("module") == "memory", f"Expected module=memory, got {attrs.get('module')}"
+            assert "fold_count" in attrs, "Missing custom attribute: fold_count"
 
             found = True
             break
@@ -74,7 +74,7 @@ def test_latency_metric_present():
     metrics = tel.get("metrics", [])
     metric_names = {m.get("name") for m in metrics}
 
-    assert "lukhas.memory.latency" in metric_names, "Missing latency metric in telemetry"
+    assert "memory.latency" in metric_names, "Missing latency metric in telemetry"
 
 @pytest.mark.telemetry
 def test_recall_results_metric_present():
@@ -83,7 +83,7 @@ def test_recall_results_metric_present():
     metrics = tel.get("metrics", [])
     metric_names = {m.get("name") for m in metrics}
 
-    assert "lukhas.memory.recall.results" in metric_names, "Missing recall results metric"
+    assert "memory.recall.results" in metric_names, "Missing recall results metric"
 
 @pytest.mark.telemetry
 def test_cascade_prevention_counter_present():
@@ -92,7 +92,7 @@ def test_cascade_prevention_counter_present():
     metrics = tel.get("metrics", [])
     metric_names = {m.get("name") for m in metrics}
 
-    assert "lukhas.memory.cascade.prevented" in metric_names, "Missing cascade prevention counter"
+    assert "memory.cascade.prevented" in metric_names, "Missing cascade prevention counter"
 
 @pytest.mark.telemetry
 def test_metrics_have_correct_types():
@@ -101,9 +101,9 @@ def test_metrics_have_correct_types():
     metrics = tel.get("metrics", [])
 
     expected_types = {
-        "lukhas.memory.latency": "histogram",
-        "lukhas.memory.recall.results": "gauge",
-        "lukhas.memory.cascade.prevented": "counter"
+        "memory.latency": "histogram",
+        "memory.recall.results": "gauge",
+        "memory.cascade.prevented": "counter"
     }
 
     for metric in metrics:

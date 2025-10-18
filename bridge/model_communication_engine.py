@@ -378,7 +378,7 @@ class ModelCommunicationEngine(nn.Module):
 ║ REFERENCES:
 ║   - Docs: docs/bridge/model_communication_engine.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=model-communication
-║   - Wiki: internal.lukhas.ai/wiki/neural-bridge-architecture
+║   - Wiki: internal.ai/wiki/neural-bridge-architecture
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

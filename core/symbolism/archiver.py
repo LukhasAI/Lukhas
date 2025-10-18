@@ -8,7 +8,7 @@ import logging
 import time
 from typing import Any
 
-from lukhas.core.colonies.base_colony import BaseColony
+from core.colonies.base_colony import BaseColony
 
 logger = logging.getLogger(__name__)
 

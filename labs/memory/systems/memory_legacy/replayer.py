@@ -46,14 +46,14 @@ logger = get_logger(__name__)
 # AIMPORT_TODO: Resolve these imports via proper packaging or PYTHONPATH.
 LUKHAS_SYMBOLIC_COMPONENTS_REPLAYER_AVAILABLE_FLAG = False  # Unique flag
 try:
-    from lukhas.orchestration.brain.spine.trait_manager import load_traits
+    from orchestration.brain.spine.trait_manager import load_traits
 
     # type: ignore
     from symbolic.lukhas_voice import speak  # type: ignore
     from symbolic.memoria import log_memory as log_symbolic_ai_memory_event
 
     # type: ignore
-    from symbolic.personas.lukhas.lukhas_visualizer import display_visual_traits
+    from symbolic.personas.lukhas_visualizer import display_visual_traits
 
     LUKHAS_SYMBOLIC_COMPONENTS_REPLAYER_AVAILABLE_FLAG = True
     log.debug("LUKHAS symbolic_ai components for Replayer imported (if paths were valid).")
@@ -109,7 +109,7 @@ def load_recent_dream_logs(
     log_date: Optional[datetime] = None,
     specific_log_file: Optional[Path] = None,
 ) -> list[dict[str, Any]]:
-    """Loads recent dream log entries from lukhas.core.common dream logs."""
+    """Loads recent dream log entries from core.common dream logs."""
     log.debug(
         "Loading recent dream logs for replay.",
         load_limit=limit,

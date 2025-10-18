@@ -834,9 +834,9 @@ class WebAuthnManager:
 # Global WebAuthn manager instance
 _global_webauthn_manager: Optional[WebAuthnManager] = None
 
-def get_webauthn_manager(rp_id: str = "lukhas.ai",
+def get_webauthn_manager(rp_id: str = "ai",
                         rp_name: str = "LUKHAS AI",
-                        origin: str = "https://lukhas.ai") -> WebAuthnManager:
+                        origin: str = "https://ai") -> WebAuthnManager:
     """Get global WebAuthn manager instance"""
     global _global_webauthn_manager
     if _global_webauthn_manager is None:

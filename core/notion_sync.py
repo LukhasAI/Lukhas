@@ -13,9 +13,9 @@
 "Enhancing beauty while adding sophistication" - lukhas Systems 2025
 
 OFFICIAL RESOURCES:
-• www.lukhas.ai - Advanced AI Solutions
-• www.lukhas.dev - Algorithm Development Hub
-• www.lukhas.id - Digital Identity Platform
+• www.ai - Advanced AI Solutions
+• www.dev - Algorithm Development Hub
+• www.id - Digital Identity Platform
 
 INTEGRATION POINTS: Notion • WebManager • Documentation Tools • ISO Standards
 EXPORT FORMATS: Markdown • LaTeX • HTML • PDF • JSON • XML
@@ -674,7 +674,7 @@ def test_system():
         from block_builder import BlockBuilder
         from markdown_parser import MarkdownParser
 
-        from lukhas.core.config_manager import ConfigManager
+        from core.config_manager import ConfigManager
 
         print("✅ All imports successful")
 

@@ -19,8 +19,8 @@ from dataclasses import dataclass
 import psutil
 import pytest
 
-from lukhas.observability.opentelemetry_tracing import LUKHASTracer
-from lukhas.observability.prometheus_metrics import LUKHASMetrics
+from observability.opentelemetry_tracing import LUKHASTracer
+from observability.prometheus_metrics import LUKHASMetrics
 
 
 @dataclass
@@ -200,7 +200,7 @@ class TestMATRIZPerformanceBudgets:
     @pytest.mark.asyncio
     async def test_stage_latency_budget(self, monitor):
         """Test individual stage latency budgets."""
-        from lukhas.core.matriz.pipeline_stage import PipelineStage
+        from core.matriz.pipeline_stage import PipelineStage
         from tests.e2e.test_matriz_orchestration import MockPlugin
 
         async with monitor.monitor_performance("stage_latency"):
@@ -230,8 +230,8 @@ class TestMATRIZPerformanceBudgets:
     @pytest.mark.asyncio
     async def test_pipeline_throughput_budget(self, monitor):
         """Test pipeline throughput meets budget requirements."""
-        from lukhas.core.matriz.async_orchestrator import AsyncOrchestrator
-        from lukhas.core.matriz.pipeline_stage import PipelineStage
+        from core.matriz.async_orchestrator import AsyncOrchestrator
+        from core.matriz.pipeline_stage import PipelineStage
         from tests.e2e.test_matriz_orchestration import MockPlugin
 
         async with monitor.monitor_performance("pipeline_throughput"):

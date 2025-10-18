@@ -8,13 +8,13 @@ import asyncio
 import os
 import sys
 
-from lukhas.memory.dna_helix import (
+from memory.dna_helix import (
     MemoryHelix,
     RepairMethod,
     SymbolicRepairLoop,
     SymbolicStrand,
 )
-from lukhas.memory.dna_helix.helix_vault import HelixVault
+from memory.dna_helix.helix_vault import HelixVault
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 

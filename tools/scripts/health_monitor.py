@@ -140,10 +140,10 @@ class SystemHealthMonitor:
         modules = {
             "core": "Brain Stem",
             "consciousness": "Cortex",
-            "lukhas.memory": "Hippocampus",
+            "memory": "Hippocampus",
             "quantum": "Quantum Processor (to be renamed QIM)",
             "emotion": "Limbic System",
-            "lukhas.governance": "Immune System",
+            "governance": "Immune System",
             "bridge": "Peripheral Nervous",
             "orchestration": "Coordinator",
             "identity": "Identity System",

@@ -24,7 +24,7 @@ and planet.
 
 [Module Description Here]
 
-For more information, visit: https://lukhas.ai
+For more information, visit: https://ai
 """
 
 
@@ -34,5 +34,5 @@ For more information, visit: https://lukhas.ai
 
 __version__ = "1.0.0"
 __author__ = "LUKHAS Development Team"
-__email__ = "dev@lukhas.ai"
+__email__ = "dev@ai"
 __status__ = "Production"

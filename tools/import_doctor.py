@@ -37,7 +37,7 @@ def main():
     clusters = [{"module": m, "count": c} for m, c in counts.most_common()]
     Path(ART / "import_clusters.json").write_text(json.dumps(clusters, indent=2))
 
-    # Build package shim map: lukhas.a.b.c -> package dir 'lukhas/a/b' and submodule 'c'
+    # Build package shim map: a.b.c -> package dir 'lukhas/a/b' and submodule 'c'
     pkg_map = defaultdict(set)
     for mod in counts:
         parts = mod.split(".")[1:]  # drop 'lukhas'

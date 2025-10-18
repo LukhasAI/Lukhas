@@ -21,13 +21,13 @@ from typing import Any, Callable, Optional, Union
 
 import numpy as np
 
-from lukhas.core.actor_system import Actor
-from lukhas.core.common import get_logger
-from lukhas.core.distributed_tracing import AIAgentTracer, get_global_tracer
+from core.actor_system import Actor
+from core.common import get_logger
+from core.distributed_tracing import AIAgentTracer, get_global_tracer
 
 # Import BaseColony infrastructure for coherence
 try:
-    from lukhas.core.colonies.base_colony import BaseColony
+    from core.colonies.base_colony import BaseColony
 
     BASE_COLONY_AVAILABLE = True
 except ImportError:
@@ -227,9 +227,9 @@ class EnhancedSwarmAgent(Actor):
         # Simple heuristic - can be made more sophisticated
         related_pairs = [
             ("reasoning", "analysis"),
-            ("lukhas.memory", "storage"),
+            ("memory", "storage"),
             ("creativity", "generation"),
-            ("ethics", "lukhas.governance"),
+            ("ethics", "governance"),
         ]
 
         for pair in related_pairs:
@@ -455,7 +455,7 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
                 "inference",
                 "analysis",
             ],
-            "lukhas.memory": [
+            "memory": [
                 "storage",
                 "retrieval",
                 "indexing",
@@ -468,7 +468,7 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
                 "innovation",
                 "divergent_thinking",
             ],
-            "lukhas.governance": [
+            "governance": [
                 "ethics",
                 "policy",
                 "consensus",
@@ -618,9 +618,9 @@ class EnhancedColony(BaseColony if BASE_COLONY_AVAILABLE else object):
         # Define capability distribution based on colony type
         capability_pools = {
             "reasoning": ["analysis", "logic", "inference", "pattern_recognition"],
-            "lukhas.memory": ["storage", "retrieval", "indexing", "compression"],
+            "memory": ["storage", "retrieval", "indexing", "compression"],
             "creativity": ["generation", "synthesis", "innovation", "combination"],
-            "lukhas.governance": ["ethics", "policy", "consensus", "arbitration"],
+            "governance": ["ethics", "policy", "consensus", "arbitration"],
             "temporal": ["time_analysis", "prediction", "history", "scheduling"],
             "quantum": ["superposition", "entanglement", "interference", "measurement"],
         }
@@ -927,9 +927,9 @@ class EnhancedSwarmHub:
                 t in colony_id.lower()
                 for t in [
                     "reasoning",
-                    "lukhas.memory",
+                    "memory",
                     "creativity",
-                    "lukhas.governance",
+                    "governance",
                     "temporal",
                     "quantum",
                 ]
@@ -938,9 +938,9 @@ class EnhancedSwarmHub:
                     t
                     for t in [
                         "reasoning",
-                        "lukhas.memory",
+                        "memory",
                         "creativity",
-                        "lukhas.governance",
+                        "governance",
                         "temporal",
                         "quantum",
                     ]
@@ -964,11 +964,11 @@ class EnhancedSwarmHub:
         """Establish links between related colonies."""
         # Define colony relationships
         relationships = {
-            "reasoning": ["lukhas.memory", "creativity"],
-            "lukhas.memory": ["reasoning", "temporal"],
-            "creativity": ["reasoning", "lukhas.memory"],
-            "lukhas.governance": ["reasoning", "lukhas.memory", "temporal"],
-            "temporal": ["lukhas.memory", "reasoning"],
+            "reasoning": ["memory", "creativity"],
+            "memory": ["reasoning", "temporal"],
+            "creativity": ["reasoning", "memory"],
+            "governance": ["reasoning", "memory", "temporal"],
+            "temporal": ["memory", "reasoning"],
             "quantum": ["reasoning", "creativity"],
         }
 
@@ -1163,9 +1163,9 @@ async def demonstrate_enhanced_swarm():
     # Create diverse colonies
     colonies = [
         ("reasoning-alpha", "reasoning", 8),
-        ("memory-beta", "lukhas.memory", 10),
+        ("memory-beta", "memory", 10),
         ("creativity-gamma", "creativity", 6),
-        ("governance-delta", "lukhas.governance", 4),
+        ("governance-delta", "governance", 4),
     ]
 
     for colony_id, colony_type, agent_count in colonies:
@@ -1180,7 +1180,7 @@ async def demonstrate_enhanced_swarm():
         {
             "id": "task-1",
             "type": "analysis",
-            "required_capabilities": ["reasoning", "lukhas.memory"],
+            "required_capabilities": ["reasoning", "memory"],
             "priority": 0.8,
         },
         {
@@ -1192,7 +1192,7 @@ async def demonstrate_enhanced_swarm():
         {
             "id": "task-3",
             "type": "policy_review",
-            "required_capabilities": ["lukhas.governance", "reasoning"],
+            "required_capabilities": ["governance", "reasoning"],
             "priority": 0.9,
         },
     ]

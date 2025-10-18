@@ -14,8 +14,8 @@ import inspect
 import os
 import pkgutil
 
-from lukhas.core.interfaces import CognitiveNodeBase
-from lukhas.core.registry import register
+from core.interfaces import CognitiveNodeBase
+from core.registry import register
 
 
 def discover_nodes(root_package: str = "labs") -> int:

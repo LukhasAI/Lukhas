@@ -799,7 +799,7 @@ __all__ = [
 ║ REFERENCES:
 ║   - Docs: docs/identity/tier_management.md
 ║   - Issues: github.com/lukhas-ai/lukhas/issues?label=tier-manager
-║   - Wiki: https://internal.lukhas.ai/wiki/Tier_Manager
+║   - Wiki: https://internal.ai/wiki/Tier_Manager
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

@@ -31,7 +31,7 @@ class AzureFreeStrategy:
         """High-priority Azure services for AI development"""
         return {
             "ai_ml_services": {
-                "Azure OpenAI": "✅ Already deployed! (lukhas.openai.azure.com)",
+                "Azure OpenAI": "✅ Already deployed! (openai.azure.com)",
                 "Cognitive Services": "🎯 Computer Vision, Text Analytics, Translation",
                 "Azure Machine Learning": "🧠 Model training and deployment",
                 "Form Recognizer": "📄 Document AI processing",

@@ -1001,7 +1001,7 @@ def vision(ctx):
     # Alignment check
     print(f"\n{Colors.BOLD}🎯 Alignment Assessment:{Colors.END}")
 
-    core_concepts = ["consciousness", "lukhas.memory", "identity", "ethics", "emotional"]
+    core_concepts = ["consciousness", "memory", "identity", "ethics", "emotional"]
     covered = [c for c in core_concepts if any(c in str(focus_tags) for c in core_concepts)]
 
     alignment_score = len(covered) / len(core_concepts)
@@ -1215,7 +1215,7 @@ def config_builder(ctx):
     # Import and run the builder
     import subprocess
 
-    subprocess.run([sys.executable, "-m", "lukhas.tools.journal.config_builder"])
+    subprocess.run([sys.executable, "-m", "tools.journal.config_builder"])
 
 
 @cli.command()

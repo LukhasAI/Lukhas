@@ -20,7 +20,7 @@ def test_orchestration_imports():
 def test_kernel_bus_import():
     """Test kernel bus imports."""
     try:
-        from lukhas.orchestration.kernel_bus import KernelBus
+        from orchestration.kernel_bus import KernelBus
 
         # Test basic instantiation
         bus = KernelBus()
@@ -58,7 +58,7 @@ def test_context_bus_import():
 def test_context_api_import():
     """Test context API imports."""
     try:
-        from lukhas.orchestration.context.api import ContextAPI
+        from orchestration.context.api import ContextAPI
 
         # Test basic instantiation
         api = ContextAPI()
@@ -75,7 +75,7 @@ def test_context_api_import():
 def test_orchestration_initialization():
     """Test orchestration system initialization."""
     try:
-        from lukhas.orchestration.kernel_bus import KernelBus
+        from orchestration.kernel_bus import KernelBus
 
         bus = KernelBus()
 
@@ -96,7 +96,7 @@ def test_orchestration_initialization():
 def test_orchestration_error_handling():
     """Test orchestration error handling."""
     try:
-        from lukhas.orchestration.kernel_bus import KernelBus
+        from orchestration.kernel_bus import KernelBus
 
         bus = KernelBus()
 

@@ -14,19 +14,19 @@ from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel, Field
 
-from lukhas.consciousness.reflection.openai_modulated_service import (
+from consciousness.reflection.openai_modulated_service import (
     OpenAIModulatedService,
 )
-from lukhas.core.colonies.consensus_mechanisms import ConsensusMethod
-from lukhas.core.colonies.enhanced_colony import EnhancedReasoningColony
-from lukhas.orchestration.gpt_colony_orchestrator import (
+from core.colonies.consensus_mechanisms import ConsensusMethod
+from core.colonies.enhanced_colony import EnhancedReasoningColony
+from orchestration.gpt_colony_orchestrator import (
     GPTColonyOrchestrator,
     OrchestrationMode,
     OrchestrationTask,
 )
 
 # Import LUKHAS components
-from lukhas.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 from symbolic.exchange.universal_exchange import (
     ExchangeProtocol,
     UniversalSymbolExchange,

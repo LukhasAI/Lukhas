@@ -20,10 +20,10 @@ class MemoryConsciousnessBridge:
     async def connect(self) -> bool:
         """Establish connection between systems"""
         try:
-            from lukhas.consciousness.reflection.consciousness_hub import (
+            from consciousness.reflection.consciousness_hub import (
                 get_consciousness_hub,
             )
-            from lukhas.consciousness.reflection.memory_hub import get_memory_hub
+            from consciousness.reflection.memory_hub import get_memory_hub
 
             self.memory_hub = get_memory_hub()
             self.consciousness_hub = get_consciousness_hub()
@@ -78,7 +78,7 @@ class MemoryConsciousnessBridge:
     def transform_memory_to_consciousness(self, data: dict[str, Any]) -> dict[str, Any]:
         """Transform data format from Memory to Consciousness"""
         return {
-            "source_system": "lukhas.memory",
+            "source_system": "memory",
             "target_system": "consciousness",
             "data": data,
         }
@@ -87,7 +87,7 @@ class MemoryConsciousnessBridge:
         """Transform data format from Consciousness to Memory"""
         return {
             "source_system": "consciousness",
-            "target_system": "lukhas.memory",
+            "target_system": "memory",
             "data": data,
         }
 

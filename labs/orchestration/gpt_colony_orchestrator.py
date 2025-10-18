@@ -14,18 +14,18 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Optional
 
-from lukhas.consciousness.reflection.openai_modulated_service import (
+from consciousness.reflection.openai_modulated_service import (
     OpenAICapability,
     OpenAIModulatedService,
 )
-from lukhas.core.colonies.consensus_mechanisms import ColonyConsensus
+from core.colonies.consensus_mechanisms import ColonyConsensus
 
 # Import our components
-from lukhas.core.colonies.enhanced_colony import (
+from core.colonies.enhanced_colony import (
     ConsensusResult,
     EnhancedReasoningColony,
 )
-from lukhas.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
 logger = logging.getLogger(__name__)
 

@@ -14,7 +14,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from lukhas.governance.guardian.core import (
+from governance.guardian.core import (
     DriftResult,
     EthicalDecision,
     EthicalSeverity,

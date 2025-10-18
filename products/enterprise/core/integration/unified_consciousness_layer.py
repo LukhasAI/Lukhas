@@ -51,8 +51,8 @@ except ImportError:
 
 # T4 Agent components
 try:
-    from lukhas.governance.ethics.constitutional_ai import ConstitutionalFramework
-    from lukhas.governance.security.access_control import ProductionPermissionManager
+    from governance.ethics.constitutional_ai import ConstitutionalFramework
+    from governance.security.access_control import ProductionPermissionManager
     from performance.extreme_auth_optimization import ExtremeAuthPerformanceOptimizer
     from tools.t4_quality_gate_validator import T4QualityGateValidator
 
@@ -241,7 +241,7 @@ class UnifiedConsciousnessLayer:
 
         # Step 5: Enterprise observability (Jules)
         processing_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
-        self.observability_stack.submit_metric("histogram", "lukhas.consciousness.request_duration_ms", processing_time)
+        self.observability_stack.submit_metric("histogram", "consciousness.request_duration_ms", processing_time)
 
         return {
             "response": orchestration_result.get("response", ""),

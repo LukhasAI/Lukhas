@@ -63,11 +63,11 @@ except ImportError:
         return MockBrainCore("learning")
 
     def MemoryBrainCore():
-        return MockBrainCore("lukhas.memory")
+        return MockBrainCore("memory")
 
     BRAIN_COMPONENTS_AVAILABLE = False
 
-logger = logging.getLogger("lukhas.AbstractReasoningBrain")
+logger = logging.getLogger("AbstractReasoningBrain")
 
 
 class AbstractReasoningBrainCore:
@@ -243,7 +243,7 @@ class AbstractReasoningBrainCore:
         target_brains = target_brains or [
             "dreams",
             "emotional",
-            "lukhas.memory",
+            "memory",
             "learning",
         ]
 
@@ -264,15 +264,15 @@ class AbstractReasoningBrainCore:
                     result = await self.brain_symphony.evaluate_solution_aesthetics(dreams_input)
                     brain_results["emotional"] = result
 
-                elif brain_name == "lukhas.memory" and "lukhas.memory" in target_brains:
+                elif brain_name == "memory" and "memory" in target_brains:
                     result = await self.brain_symphony.find_structural_analogies(reasoning_request)
-                    brain_results["lukhas.memory"] = result
+                    brain_results["memory"] = result
 
                 elif brain_name == "learning" and "learning" in target_brains:
                     # Combine all previous results for learning synthesis
                     dreams_patterns = brain_results.get("dreams", {})
                     emotional_signals = brain_results.get("emotional", {})
-                    analogies = brain_results.get("lukhas.memory", {})
+                    analogies = brain_results.get("memory", {})
 
                     result = await self.brain_symphony.synthesize_reasoning_path(
                         dreams_patterns, emotional_signals, analogies

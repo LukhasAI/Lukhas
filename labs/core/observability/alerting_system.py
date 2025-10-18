@@ -62,7 +62,7 @@ class AlertCategory(Enum):
     GUARDIAN = "guardian"
     CONSCIOUSNESS = "consciousness"
     IDENTITY = "identity"
-    MEMORY = "lukhas.memory"
+    MEMORY = "memory"
     API = "api"
     DRIFT = "drift"
     HEALTH = "health"
@@ -503,7 +503,7 @@ class ComprehensiveAlertingSystem:
                 config_id="email_critical",
                 name="Critical Email Notifications",
                 channel=NotificationChannel.EMAIL,
-                endpoint="admin@lukhas.ai",
+                endpoint="admin@ai",
                 severity_filter=[AlertSeverity.CRITICAL, AlertSeverity.EMERGENCY],
                 rate_limit=5,
                 subject_template="🚨 LUKHAS AI Critical Alert: {title}",
@@ -1020,7 +1020,7 @@ LUKHAS AI Monitoring System
 
             # Create email message
             msg = MimeMultipart()
-            msg["From"] = "alerts@lukhas.ai"
+            msg["From"] = "alerts@ai"
             msg["To"] = config.endpoint
             msg["Subject"] = subject
 

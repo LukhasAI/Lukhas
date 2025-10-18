@@ -14,8 +14,8 @@
 
 import logging
 
-from lukhas.core.emotional_state import get_tone
-from lukhas.core.event_bus import subscribe
+from core.emotional_state import get_tone
+from core.event_bus import subscribe
 
 # Initialize logger
 logger = logging.getLogger(__name__)

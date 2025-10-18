@@ -37,7 +37,7 @@ from bridge.api.flows import (
 )
 
 # Import our authentication modules
-from lukhas.core.interfaces.api.v1.common.auth import (
+from core.interfaces.api.v1.common.auth import (
     _check_rate_limit,
     _validate_key_format,
     _verify_key_signature,
@@ -56,7 +56,7 @@ class TestAPIKeyValidation(unittest.TestCase):
     def setUp(self):
         """Set up test environment."""
         # Clear rate limiting store
-        from lukhas.core.interfaces.api.v1.common.auth import _rate_limit_store
+        from core.interfaces.api.v1.common.auth import _rate_limit_store
 
         _rate_limit_store.clear()
 
@@ -145,7 +145,7 @@ class TestAuthenticationEndpoints(unittest.TestCase):
         user_data = {
             "username": "testuser",
             "password": PLACEHOLDER_PASSWORD_SECURE,
-            "email": "test@lukhas.ai",
+            "email": "test@ai",
         }
 
         response = self.client.post("/api/v2/auth/register", json=user_data, content_type="application/json")
@@ -161,7 +161,7 @@ class TestAuthenticationEndpoints(unittest.TestCase):
         # Verify user created in database
         self.assertIn("testuser", users_db)
         user_record = users_db["testuser"]
-        self.assertEqual(user_record["email"], "test@lukhas.ai")
+        self.assertEqual(user_record["email"], "test@ai")
         self.assertTrue(user_record["lambda_id"].startswith("λ"))
 
     def test_user_registration_invalid_password(self):
@@ -169,7 +169,7 @@ class TestAuthenticationEndpoints(unittest.TestCase):
         user_data = {
             "username": "testuser",
             "password": PLACEHOLDER_PASSWORD_WEAK,
-            "email": "test@lukhas.ai",
+            "email": "test@ai",
         }
 
         response = self.client.post("/api/v2/auth/register", json=user_data, content_type="application/json")
@@ -184,7 +184,7 @@ class TestAuthenticationEndpoints(unittest.TestCase):
         user_data = {
             "username": "testuser",
             "password": PLACEHOLDER_PASSWORD_SECURE,
-            "email": "test@lukhas.ai",
+            "email": "test@ai",
         }
 
         # First registration should succeed
@@ -204,7 +204,7 @@ class TestAuthenticationEndpoints(unittest.TestCase):
         user_data = {
             "username": "testuser",
             "password": PLACEHOLDER_PASSWORD_SECURE,
-            "email": "test@lukhas.ai",
+            "email": "test@ai",
         }
         self.client.post("/api/v2/auth/register", json=user_data)
 
@@ -228,7 +228,7 @@ class TestAuthenticationEndpoints(unittest.TestCase):
         user_data = {
             "username": "testuser",
             "password": PLACEHOLDER_PASSWORD_SECURE,
-            "email": "test@lukhas.ai",
+            "email": "test@ai",
         }
         self.client.post("/api/v2/auth/register", json=user_data)
 
@@ -247,7 +247,7 @@ class TestAuthenticationEndpoints(unittest.TestCase):
         user_data = {
             "username": "testuser",
             "password": PLACEHOLDER_PASSWORD_SECURE,
-            "email": "test@lukhas.ai",
+            "email": "test@ai",
         }
         self.client.post("/api/v2/auth/register", json=user_data)
 
@@ -268,7 +268,7 @@ class TestAuthenticationEndpoints(unittest.TestCase):
         user_data = {
             "username": "testuser",
             "password": PLACEHOLDER_PASSWORD_STRONG,
-            "email": "test@lukhas.ai",
+            "email": "test@ai",
         }
         self.client.post("/api/v2/auth/register", json=user_data)
 
@@ -298,7 +298,7 @@ class TestAuthenticationEndpoints(unittest.TestCase):
         user_data = {
             "username": "testuser",
             "password": PLACEHOLDER_PASSWORD_STRONG,
-            "email": "test@lukhas.ai",
+            "email": "test@ai",
         }
         self.client.post("/api/v2/auth/register", json=user_data)
 
@@ -325,7 +325,7 @@ class TestAuthenticationEndpoints(unittest.TestCase):
         user_data = {
             "username": "testuser",
             "password": PLACEHOLDER_PASSWORD_STRONG,
-            "email": "test@lukhas.ai",
+            "email": "test@ai",
         }
         self.client.post("/api/v2/auth/register", json=user_data)
 

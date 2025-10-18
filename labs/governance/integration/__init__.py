@@ -45,7 +45,7 @@ logger.info("ΛTRACE: core.integration.governance package initialized.", exports
 # LOGGING: ΛTRACE_ENABLED via structlog.
 # AUTHENTICATION: Not applicable.
 # HOW TO USE:
-#   from lukhas.core.integration.governance import PolicyBoardConnector # Example
+#   from core.integration.governance import PolicyBoardConnector # Example
 # INTEGRATION NOTES: Connects core Cognitive AI to governance and ethics layers.
 #                    May involve #ΛEXTERNAL interfaces to compliance systems.
 # MAINTENANCE: Update __all__ as components are added/refactored.

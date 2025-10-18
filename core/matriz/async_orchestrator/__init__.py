@@ -1,7 +1,7 @@
 """Bridge for `core.matriz.async_orchestrator`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.core.matriz.async_orchestrator
+  1) lukhas_website.core.matriz.async_orchestrator
   2) candidate.core.matriz.async_orchestrator
   3) core.matriz.async_orchestrator
 
@@ -22,7 +22,7 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.core.matriz.async_orchestrator",
+    "lukhas_website.core.matriz.async_orchestrator",
     "labs.core.matriz.async_orchestrator",
     "core.matriz.async_orchestrator",
 )

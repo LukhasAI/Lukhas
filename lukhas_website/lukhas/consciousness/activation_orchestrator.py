@@ -38,13 +38,13 @@ from typing import Any, Optional
 
 try:
     from async_manager import TaskPriority, get_consciousness_manager
-    from lukhas.consciousness.constellation_integration import (
+    from consciousness.constellation_integration import (
         get_constellation_integrator,
         initialize_constellation_consciousness,
     )
-    from lukhas.consciousness.registry import consciousness_activation_context, get_consciousness_registry
-    from lukhas.core.common.config import get_config
-    from lukhas.memory.consciousness_memory_integration import get_memory_integrator
+    from consciousness.registry import consciousness_activation_context, get_consciousness_registry
+    from core.common.config import get_config
+    from memory.consciousness_memory_integration import get_memory_integrator
 except ImportError:
     # Graceful fallback for development
     def get_consciousness_registry():

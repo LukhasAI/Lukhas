@@ -1,12 +1,12 @@
 """Bridge: tools.performance_monitor (with getLogger compat fix)."""
 from __future__ import annotations
 
-from lukhas._bridgeutils import bridge_from_candidates, deprecate, safe_guard
+from _bridgeutils import bridge_from_candidates, deprecate, safe_guard
 
 _CANDIDATES = (
-    "lukhas_website.lukhas.tools.performance_monitor",
+    "lukhas_website.tools.performance_monitor",
     "labs.tools.performance_monitor",
-    "lukhas.tools.performance_monitor",
+    "tools.performance_monitor",
 )
 
 __all__, _exports = bridge_from_candidates(*_CANDIDATES)

@@ -31,8 +31,8 @@ from bio.core.symbolic_anomaly_filter_colony import create_anomaly_filter_colony
 from bio.core.symbolic_contextual_mapping_colony import create_mapping_colony
 from bio.core.symbolic_fallback_systems import get_fallback_manager
 from bio.core.symbolic_preprocessing_colony import create_preprocessing_colony
-from lukhas.core.colonies.base_colony import BaseColony
-from lukhas.core.symbolism.tags import TagPermission, TagScope
+from core.colonies.base_colony import BaseColony
+from core.symbolism.tags import TagPermission, TagScope
 
 logger = logging.getLogger("ΛTRACE.bio.orchestrator")
 

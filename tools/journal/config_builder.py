@@ -25,7 +25,7 @@ class ConfigBuilder:
             "lukhas_integration": {
                 "enabled": True,
                 "consciousness_level": "enhanced",
-                "modules": ["core", "consciousness", "lukhas.memory"],
+                "modules": ["core", "consciousness", "memory"],
             }
         }
 
@@ -39,7 +39,7 @@ class ConfigBuilder:
                     "lukhas_integration": {
                         "enabled": True,
                         "consciousness_level": "basic",
-                        "modules": ["core", "lukhas.memory"],
+                        "modules": ["core", "memory"],
                     }
                 },
             },
@@ -53,8 +53,8 @@ class ConfigBuilder:
                         "modules": [
                             "core",
                             "consciousness",
-                            "lukhas.memory",
-                            "lukhas.governance",
+                            "memory",
+                            "governance",
                             "emotion",
                         ],
                         "features": {
@@ -137,9 +137,9 @@ class ConfigBuilder:
                         "enabled": True,
                         "consciousness_level": "enhanced",
                         "modules": [
-                            "lukhas.governance",
+                            "governance",
                             "consciousness",
-                            "lukhas.memory",
+                            "memory",
                             "identity",
                         ],
                         "features": {
@@ -167,7 +167,7 @@ class ConfigBuilder:
                     "lukhas_integration": {
                         "enabled": True,
                         "consciousness_level": "basic",
-                        "modules": ["core", "lukhas.memory"],
+                        "modules": ["core", "memory"],
                         "features": {
                             "memory_fold_tracking": {
                                 "enabled": True,
@@ -190,10 +190,10 @@ class ConfigBuilder:
                         "consciousness_level": "transcendent",
                         "modules": [
                             "consciousness",
-                            "lukhas.memory",
+                            "memory",
                             "quantum",
                             "identity",
-                            "lukhas.governance",
+                            "governance",
                             "dream",
                             "emotion",
                             "bio",
@@ -310,10 +310,10 @@ class ConfigBuilder:
         print("\n📦 Select LUKHAS Modules:")
         available_modules = [
             ("consciousness", "Self-awareness and reflection"),
-            ("lukhas.memory", "Memory fold creation and retrieval"),
+            ("memory", "Memory fold creation and retrieval"),
             ("quantum", "Quantum-inspired processing"),
             ("identity", "LUKHAS-ID and authentication"),
-            ("lukhas.governance", "Guardian system ethics"),
+            ("governance", "Guardian system ethics"),
             ("dream", "Creative problem solving"),
             ("emotion", "Emotional state tracking"),
             ("bio", "Biological adaptation patterns"),
@@ -381,7 +381,7 @@ class ConfigBuilder:
                 config["lukhas_integration"]["features"] = {}
             config["lukhas_integration"]["features"]["dream_mode_exploration"] = True
 
-        if "lukhas.governance" in selected_modules:
+        if "governance" in selected_modules:
             if click.confirm("Enable guardian system integration?", default=True):
                 if "features" not in config["lukhas_integration"]:
                     config["lukhas_integration"]["features"] = {}
@@ -422,7 +422,7 @@ class ConfigBuilder:
         if "quantum" in modules and "consciousness" not in modules:
             issues.append("Quantum module requires consciousness module")
 
-        if "dream" in modules and "lukhas.memory" not in modules:
+        if "dream" in modules and "memory" not in modules:
             issues.append("Dream module works best with memory module")
 
         return issues

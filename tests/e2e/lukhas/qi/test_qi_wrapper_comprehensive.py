@@ -8,7 +8,7 @@ import pytest
 def test_qi_wrapper_comprehensive_initialization():
     """Test QI wrapper comprehensive initialization and quantum-inspired setup."""
     try:
-        from lukhas.qi.qi_wrapper import QIWrapper
+        from qi.qi_wrapper import QIWrapper
 
         # Test various initialization patterns
         initialization_patterns = [
@@ -46,7 +46,7 @@ def test_qi_wrapper_comprehensive_initialization():
 def test_quantum_state_management():
     """Test comprehensive quantum state creation, manipulation, and measurement."""
     try:
-        from lukhas.qi.qi_wrapper import QIWrapper
+        from qi.qi_wrapper import QIWrapper
 
         qi = QIWrapper()
 
@@ -125,7 +125,7 @@ def test_quantum_state_management():
 def test_quantum_algorithms_and_processing():
     """Test quantum-inspired algorithms and processing capabilities."""
     try:
-        from lukhas.qi.qi_wrapper import QIWrapper
+        from qi.qi_wrapper import QIWrapper
 
         qi = QIWrapper()
 
@@ -194,7 +194,7 @@ def test_quantum_algorithms_and_processing():
 def test_decoherence_and_noise_modeling():
     """Test quantum decoherence, noise modeling, and error correction."""
     try:
-        from lukhas.qi.qi_wrapper import QIWrapper
+        from qi.qi_wrapper import QIWrapper
 
         qi = QIWrapper()
 
@@ -259,7 +259,7 @@ def test_decoherence_and_noise_modeling():
 def test_consciousness_quantum_integration():
     """Test consciousness-quantum integration and Constellation Framework."""
     try:
-        from lukhas.qi.qi_wrapper import QIWrapper
+        from qi.qi_wrapper import QIWrapper
 
         qi = QIWrapper()
 
@@ -270,7 +270,7 @@ def test_consciousness_quantum_integration():
                 "quantum_coherence": 0.9,
                 "triad_context": {
                     "identity": "active",
-                    "lukhas.memory": "accessible",
+                    "memory": "accessible",
                     "guardian": "monitoring",
                 },
             },
@@ -329,7 +329,7 @@ def test_consciousness_quantum_integration():
 def test_quantum_optimization_and_machine_learning():
     """Test quantum-inspired optimization and machine learning algorithms."""
     try:
-        from lukhas.qi.qi_wrapper import QIWrapper
+        from qi.qi_wrapper import QIWrapper
 
         qi = QIWrapper()
 
@@ -354,7 +354,7 @@ def test_quantum_optimization_and_machine_learning():
             },
             {
                 "algorithm": "quantum_consciousness_learning",
-                "consciousness_features": ["awareness", "lukhas.memory", "attention"],
+                "consciousness_features": ["awareness", "memory", "attention"],
                 "learning_rate": 0.01,
             },
         ]
@@ -395,7 +395,7 @@ def test_quantum_optimization_and_machine_learning():
 def test_quantum_communication_and_cryptography():
     """Test quantum communication protocols and cryptographic applications."""
     try:
-        from lukhas.qi.qi_wrapper import QIWrapper
+        from qi.qi_wrapper import QIWrapper
 
         qi = QIWrapper()
 
@@ -459,7 +459,7 @@ def test_quantum_communication_and_cryptography():
 def test_quantum_edge_cases_and_performance():
     """Test quantum edge cases, error handling, and performance optimization."""
     try:
-        from lukhas.qi.qi_wrapper import QIWrapper
+        from qi.qi_wrapper import QIWrapper
 
         qi = QIWrapper()
 

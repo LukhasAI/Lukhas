@@ -1,7 +1,7 @@
 """Bridge for `matriz.runtime.policy`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.matriz.runtime.policy
+  1) lukhas_website.matriz.runtime.policy
   2) candidate.matriz.runtime.policy
   3) matriz.runtime.policy
 
@@ -22,7 +22,7 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.matriz.runtime.policy",
+    "lukhas_website.matriz.runtime.policy",
     "candidate.matriz.runtime.policy",
     "matriz.runtime.policy",
 )

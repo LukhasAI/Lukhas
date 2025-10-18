@@ -17,10 +17,10 @@ import numpy as np
 import psutil
 
 # Import identity components
-from lukhas.governance.identity.core.events import IdentityEventPriority, IdentityEventPublisher, get_identity_event_publisher
+from governance.identity.core.events import IdentityEventPriority, IdentityEventPublisher, get_identity_event_publisher
 
 # Import self-healing components
-from lukhas.core.self_healing import HealingStrategy, HealthStatus, SelfHealingSystem
+from core.self_healing import HealingStrategy, HealthStatus, SelfHealingSystem
 
 logger = logging.getLogger("LUKHAS_IDENTITY_HEALTH")
 

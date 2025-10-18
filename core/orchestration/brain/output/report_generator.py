@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 
 import openai
 
-from lukhas.orchestration.brain.spine.trait_manager import load_traits
+from orchestration.brain.spine.trait_manager import load_traits
 from symbolic.lukhas_unified_self import run as unified_self_run
 
 # Configure OpenAI API

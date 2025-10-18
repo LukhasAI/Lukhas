@@ -21,7 +21,7 @@ from enum import Enum
 from typing import Any, Callable, Optional
 
 try:
-    from lukhas.async_utils import create_managed_task, run_background_task
+    from async_utils import create_managed_task, run_background_task
 except ImportError:
     # Fallback for development - safe implementations
     def create_managed_task(coro, **kwargs):
@@ -45,11 +45,11 @@ except ImportError:
 
 import structlog
 
-from lukhas.orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 
 # Optional import of global bus getter for default wiring
 try:
-    from lukhas.orchestration.signals.signal_bus import (
+    from orchestration.signals.signal_bus import (
         get_signal_bus as _get_global_signal_bus,
     )
 except Exception:

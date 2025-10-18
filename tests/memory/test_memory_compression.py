@@ -494,7 +494,7 @@ async def test_integration_compression_with_vector_documents():
     """Integration test with vector document compression"""
     import json
 
-    from lukhas.memory.backends.base import VectorDocument
+    from memory.backends.base import VectorDocument
 
     # Create a vector document
     doc = VectorDocument(

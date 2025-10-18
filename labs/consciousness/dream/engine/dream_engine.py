@@ -19,10 +19,10 @@ except Exception:  # pragma: no cover - optional
 import uuid
 from collections import Counter
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 try:
-    from lukhas.memory.systems.helix_mapper import HelixMapper
+    from memory.systems.helix_mapper import HelixMapper
 except Exception:  # pragma: no cover - optional fallback
 
     class HelixMapper:
@@ -31,7 +31,7 @@ except Exception:  # pragma: no cover - optional fallback
 
 
 try:
-    from lukhas.orchestration.brain.cognitive.voice_engine import (
+    from orchestration.brain.cognitive.voice_engine import (
         CognitiveVoiceEngine,
     )
 except Exception:  # pragma: no cover - optional fallback
@@ -40,7 +40,7 @@ except Exception:  # pragma: no cover - optional fallback
         pass
 
 
-from lukhas.core.colonies.creativity_colony import CreativityColony
+from core.colonies.creativity_colony import CreativityColony
 
 logger = get_logger(__name__)
 

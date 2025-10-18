@@ -1,7 +1,7 @@
 """Bridge for consciousness.dream.expand -> candidate.consciousness.dream expansion."""
 from __future__ import annotations
 
-from lukhas._bridgeutils import bridge
+from _bridgeutils import bridge
 
 _mod, _exports, __all__ = bridge(
     candidates=(
@@ -10,7 +10,7 @@ _mod, _exports, __all__ = bridge(
     ),
     deprecation=(
         "Importing from 'consciousness.dream.expand' is deprecated; "
-        "prefer 'lukhas.consciousness' public API where possible."
+        "prefer 'consciousness' public API where possible."
     ),
 )
 

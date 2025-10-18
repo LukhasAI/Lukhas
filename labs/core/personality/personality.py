@@ -47,7 +47,7 @@ from typing import Any, Optional
 import structlog
 
 # Initialize structured logger
-logger = structlog.get_logger("lukhas.personality", timezone)
+logger = structlog.get_logger("personality", timezone)
 
 
 class InteractionContext(Enum):
@@ -493,7 +493,7 @@ def get_personality_manager(federated_model=None) -> PersonalityManager:
 ║ REFERENCES:
 ║   - Docs: docs/core/personality/adaptive_systems.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=personality
-║   - Wiki: wiki.lukhas.ai/personality/adaptive-systems
+║   - Wiki: wiki.ai/personality/adaptive-systems
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

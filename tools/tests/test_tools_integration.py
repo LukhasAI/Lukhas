@@ -27,7 +27,7 @@ class TestToolsIntegration(unittest.TestCase):
     def setUpClass(cls):
         """Set up integration test environment."""
         cls.integration_config = {
-            "module_name": "lukhas.tools",
+            "module_name": "tools",
             "integration_mode": True,
             "timeout": 30
         }

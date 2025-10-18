@@ -782,7 +782,7 @@ def ethical_checkpoint(cultural_context: CulturalContext = CulturalContext.UNIVE
 ║ REFERENCES:
 ║   - Docs: docs/ethics/meta_ethics_governor.md
 ║   - Issues: github.com/lukhas-ai/cognitive/issues?label=ethics
-║   - Wiki: internal.lukhas.ai/ethics/meg
+║   - Wiki: internal.ai/ethics/meg
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

@@ -71,7 +71,7 @@ import numpy as np
 try:
     from ...emotion.mood_regulator import MoodRegulator
     from ...emotion.recurring_emotion_tracker import RecurringEmotionTracker
-    from ...lukhas.memory.emotional import EmotionalMemory, EmotionEngine
+    from ...memory.emotional import EmotionalMemory, EmotionEngine
 
     EMOTION_AVAILABLE = True
 except ImportError:
@@ -82,8 +82,8 @@ except ImportError:
     RecurringEmotionTracker = None
 
 try:
-    from ...lukhas.memory.enhanced_memory_manager import EnhancedMemoryManager
-    from ...lukhas.memory.memory_manager import MemoryManager
+    from ...memory.enhanced_memory_manager import EnhancedMemoryManager
+    from ...memory.memory_manager import MemoryManager
 
     MEMORY_AVAILABLE = True
 except ImportError:
@@ -285,7 +285,7 @@ class LambdaMirror:
         self,
         reflection_log_path: str = "agent_outputs/reflections/lambda_self_log.jsonl",
         metrics_path: str = "metrics/emotional_alignment.csv",
-        memory_directory: str = "lukhas.memory",
+        memory_directory: str = "memory",
         dream_directory: str = "dream",
         logs_directory: str = "logs",
     ):
@@ -960,7 +960,7 @@ class LambdaMirror:
                         if line.strip():
                             try:
                                 data = json.loads(line)
-                                exp = self._create_experience_from_data(data, "lukhas.memory", str(file_path), line_num)
+                                exp = self._create_experience_from_data(data, "memory", str(file_path), line_num)
                                 if exp:
                                     experiences.append(exp)
                             except json.JSONDecodeError:
@@ -970,11 +970,11 @@ class LambdaMirror:
                     data = json.load(f)
                     if isinstance(data, list):
                         for i, item in enumerate(data):
-                            exp = self._create_experience_from_data(item, "lukhas.memory", str(file_path), i)
+                            exp = self._create_experience_from_data(item, "memory", str(file_path), i)
                             if exp:
                                 experiences.append(exp)
                     else:
-                        exp = self._create_experience_from_data(data, "lukhas.memory", str(file_path), 0)
+                        exp = self._create_experience_from_data(data, "memory", str(file_path), 0)
                         if exp:
                             experiences.append(exp)
         except Exception as e:
@@ -2791,7 +2791,7 @@ def main():
 
     parser.add_argument(
         "--memory-dir",
-        default="lukhas.memory",
+        default="memory",
         help="Memory directory path",
     )
 
@@ -2996,7 +2996,7 @@ if __name__ == "__main__":
 ║ REFERENCES:
 ║   - Docs: docs/LAMBDA_MIRROR_META_LEARNING_INTEGRATION.md
 ║   - Issues: github.com/lukhas-ai/consciousness/issues?label=reflection
-║   - Wiki: internal.lukhas.ai/wiki/lambda-mirror
+║   - Wiki: internal.ai/wiki/lambda-mirror
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

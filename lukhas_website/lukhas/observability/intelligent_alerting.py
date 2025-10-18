@@ -240,7 +240,7 @@ class IntelligentAlertingSystem:
                     EscalationLevel.L3_SENIOR_ENGINEERING: timedelta(minutes=30),
                 },
                 correlation_tags=["performance", "user_experience"],
-                runbook_url="https://docs.lukhas.ai/runbooks/high-response-time",
+                runbook_url="https://docs.ai/runbooks/high-response-time",
             ),
             AlertRule(
                 rule_id="evidence_collection_failure",
@@ -254,7 +254,7 @@ class IntelligentAlertingSystem:
                     EscalationLevel.L4_MANAGEMENT: timedelta(minutes=60),
                 },
                 correlation_tags=["compliance", "evidence", "audit"],
-                runbook_url="https://docs.lukhas.ai/runbooks/evidence-collection-failure",
+                runbook_url="https://docs.ai/runbooks/evidence-collection-failure",
             ),
             AlertRule(
                 rule_id="anomaly_detection_critical",

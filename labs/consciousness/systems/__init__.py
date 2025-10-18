@@ -143,7 +143,7 @@ logger.info(f"ΛTRACE: 'consciousness.core_consciousness' package initialized. E
 ║ REFERENCES:
 ║   - Docs: docs/consciousness/core_consciousness_guide.md
 ║   - Issues: github.com/lukhas-ai/consciousness/issues
-║   - Wiki: internal.lukhas.ai/wiki/consciousness
+║   - Wiki: internal.ai/wiki/consciousness
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

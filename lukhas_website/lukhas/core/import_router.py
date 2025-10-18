@@ -54,28 +54,28 @@ class ModuleRouter:
     # Module mapping: canonical path -> list of alternative paths
     MODULE_REGISTRY: ClassVar[dict[str, list[str]]] = {
         # Core modules
-        "lukhas.core.actor_system": [
+        "core.actor_system": [
             "candidate.core.actor_system",
             "core.actor_system",
         ],
-        "lukhas.core.colonies": [
+        "core.colonies": [
             "candidate.core.colonies",
             "candidate.colonies",
             "core.colonies",
         ],
         # Bio modules
-        "lukhas.bio.utilities": [
+        "bio.utilities": [
             "candidate.bio.bio_utilities",
             "bio.bio_utilities",
             "bio.utilities",
         ],
-        "lukhas.bio.core.bio_symbolic": [
+        "bio.core.bio_symbolic": [
             "candidate.core.symbolic.symbolic_bio_symbolic",
             "candidate.consciousness.unified.symbolic_bio_symbolic_orchestrator",
             "bio.core.symbolic_bio_symbolic",
         ],
         # Memory modules
-        "lukhas.memory.emotional": [
+        "memory.emotional": [
             "candidate.memory.emotional_memory_manager_unified",
             "candidate.memory.systems.emotional_memory_manager",
             "candidate.consciousness.states.emotional_memory_manager",
@@ -96,12 +96,12 @@ class ModuleRouter:
             "candidate.qi.states.integration",
         ],
         # Bridge modules
-        "lukhas.bridge.openai_core_service": [
+        "bridge.openai_core_service": [
             "candidate.bridge.openai_core_service",
             "bridge.openai_core_service",
         ],
         # Communication modules
-        "lukhas.core.efficient_communication": [
+        "core.efficient_communication": [
             "candidate.core.efficient_communication",
             "core.communication",
         ],
@@ -109,14 +109,14 @@ class ModuleRouter:
 
     # Class name mappings: requested name -> (module, actual name)
     CLASS_ALIASES: ClassVar[dict[str, tuple[str, str]]] = {
-        "AIAgentActor": ("lukhas.core.actor_system", "AIAgentActor"),
-        "BaseColony": ("lukhas.core.colonies", "BaseColony"),
-        "ConsensusResult": ("lukhas.core.colonies", "ConsensusResult"),
+        "AIAgentActor": ("core.actor_system", "AIAgentActor"),
+        "BaseColony": ("core.colonies", "BaseColony"),
+        "ConsensusResult": ("core.colonies", "ConsensusResult"),
         "EfficientCommunicationFabric": (
-            "lukhas.core.colonies",
+            "core.colonies",
             "EfficientCommunicationFabric",
         ),
-        "SupervisorAgent": ("lukhas.core.colonies", "SupervisorAgent"),
+        "SupervisorAgent": ("core.colonies", "SupervisorAgent"),
     }
 
     def __init__(self) -> None:
@@ -263,8 +263,8 @@ class ModuleRouter:
 
         # Search in common locations
         common_modules = [
-            "lukhas.core.actor_system",
-            "lukhas.core.colonies",
+            "core.actor_system",
+            "core.colonies",
             "candidate.core.actor_system",
             "candidate.core.colonies.base_colony",
         ]

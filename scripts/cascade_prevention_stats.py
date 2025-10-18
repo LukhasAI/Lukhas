@@ -11,8 +11,8 @@ for noisy in [
 ]:
     logging.getLogger(noisy).setLevel(logging.ERROR)
 
-from lukhas.memory.consolidation import ConsolidationMode, ConsolidationOrchestrator, InMemoryStore
-from lukhas.memory.structural_conscience import StructuralConscience
+from memory.consolidation import ConsolidationMode, ConsolidationOrchestrator, InMemoryStore
+from memory.structural_conscience import StructuralConscience
 
 
 async def run_single_test(seed: int) -> dict:

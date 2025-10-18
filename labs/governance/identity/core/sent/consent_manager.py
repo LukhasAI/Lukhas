@@ -164,7 +164,7 @@ class LambdaConsentManager:
         """Map action type to required consent scope"""
         action_scope_map = {
             "replay_session": "replay",
-            "access_memory": "lukhas.memory",
+            "access_memory": "memory",
             "biometric_auth": "biometric",
             "location_tracking": "location",
             "audio_processing": "audio",

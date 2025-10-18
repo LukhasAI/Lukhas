@@ -14,14 +14,14 @@ import pytest
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from lukhas.memory.scheduled_folding import (
+from memory.scheduled_folding import (
     CompressionLevel,
     FoldStatus,
     ScheduledFold,
     ScheduledFoldingManager,
     get_folding_manager,
 )
-from lukhas.memory.adaptive_memory import MemoryFold, MemoryItem, MemoryType
+from memory.adaptive_memory import MemoryFold, MemoryItem, MemoryType
 
 
 def create_test_fold(item_count: int = 10, content_size: int = 100, unique_suffix: str = None) -> MemoryFold:

@@ -34,7 +34,7 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Callable, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 logger = get_logger(__name__)
 
@@ -68,7 +68,7 @@ class DebugCategory(Enum):
     CONSCIOUSNESS = "consciousness"
     IDENTITY = "identity"
     GUARDIAN = "guardian"
-    MEMORY = "lukhas.memory"
+    MEMORY = "memory"
     API = "api"
     PERFORMANCE = "performance"
     SECURITY = "security"

@@ -19,10 +19,10 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from lukhas.observability.advanced_metrics import AdvancedMetricsSystem
-from lukhas.observability.evidence_collection import ComplianceRegime, EvidenceCollectionEngine, EvidenceType
-from lukhas.observability.performance_regression import PerformanceRegressionDetector
-from lukhas.observability.security_hardening import ObservabilitySecurityHardening
+from observability.advanced_metrics import AdvancedMetricsSystem
+from observability.evidence_collection import ComplianceRegime, EvidenceCollectionEngine, EvidenceType
+from observability.performance_regression import PerformanceRegressionDetector
+from observability.security_hardening import ObservabilitySecurityHardening
 
 
 class TestPerformanceValidation:
@@ -59,7 +59,7 @@ class TestPerformanceValidation:
     @pytest.fixture
     def advanced_metrics_system(self, mock_dependencies):
         """Create advanced metrics system for performance testing"""
-        with patch('lukhas.observability.advanced_metrics.get_lukhas_metrics', return_value=mock_dependencies['prometheus_metrics']):
+        with patch('observability.advanced_metrics.get_lukhas_metrics', return_value=mock_dependencies['prometheus_metrics']):
             system = AdvancedMetricsSystem(
                 enable_anomaly_detection=False,  # Disable for pure performance testing
                 enable_ml_features=False,
@@ -71,8 +71,8 @@ class TestPerformanceValidation:
     @pytest.fixture
     async def performance_detector(self, mock_dependencies):
         """Create performance regression detector for testing"""
-        with patch('lukhas.observability.performance_regression.get_advanced_metrics', return_value=mock_dependencies['prometheus_metrics']):
-            with patch('lukhas.observability.performance_regression.get_alerting_system', return_value=MagicMock()):
+        with patch('observability.performance_regression.get_advanced_metrics', return_value=mock_dependencies['prometheus_metrics']):
+            with patch('observability.performance_regression.get_alerting_system', return_value=MagicMock()):
                 detector = PerformanceRegressionDetector(
                     baseline_window_days=1,
                     enable_ml_detection=False,  # Disable for performance testing
@@ -598,7 +598,7 @@ class TestRealWorldScenarios:
             mock_prometheus.errors_total = MagicMock()
             mock_prometheus.errors_total.labels.return_value.inc = MagicMock()
 
-            with patch('lukhas.observability.advanced_metrics.get_lukhas_metrics', return_value=mock_prometheus):
+            with patch('observability.advanced_metrics.get_lukhas_metrics', return_value=mock_prometheus):
                 advanced_metrics = AdvancedMetricsSystem(
                     enable_anomaly_detection=True,
                     enable_ml_features=False,  # Realistic setting

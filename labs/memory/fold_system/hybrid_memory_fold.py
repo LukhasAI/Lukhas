@@ -892,7 +892,7 @@ def create_hybrid_memory_fold(
     """
     # Create structural conscience if requested
     if enable_conscience:
-        from lukhas.memory.structural_conscience import create_structural_conscience
+        from memory.structural_conscience import create_structural_conscience
 
         conscience = create_structural_conscience()
         kwargs["structural_conscience"] = conscience

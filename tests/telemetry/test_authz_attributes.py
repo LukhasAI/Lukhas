@@ -18,7 +18,7 @@ from pathlib import Path
 import pytest
 
 # Add tools directory to path for importing authorization middleware
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "lukhas.tools"))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / "tools"))
 
 from matrix_authz_middleware import AuthzRequest, MatrixAuthzMiddleware
 
@@ -53,29 +53,29 @@ async def test_authz_span_required_lukhas_attributes(telemetry_capture, test_sub
 
     # Required LUKHAS authorization attributes
     required_attrs = [
-        "lukhas.subject",
-        "lukhas.tier",
-        "lukhas.tier_num",
-        "lukhas.scopes",
-        "lukhas.module",
-        "lukhas.action",
-        "lukhas.decision",
-        "lukhas.reason",
-        "lukhas.policy_sha",
-        "lukhas.contract_sha",
-        "lukhas.capability_id",
-        "lukhas.mfa_used",
-        "lukhas.region",
-        "lukhas.decision_time_ms"
+        "subject",
+        "tier",
+        "tier_num",
+        "scopes",
+        "module",
+        "action",
+        "decision",
+        "reason",
+        "policy_sha",
+        "contract_sha",
+        "capability_id",
+        "mfa_used",
+        "region",
+        "decision_time_ms"
     ]
 
     for attr in required_attrs:
         assert attr in attrs, f"Missing required attribute: {attr}"
 
     # Verify attribute types
-    assert isinstance(attrs["lukhas.tier_num"], int), "tier_num should be integer"
-    assert isinstance(attrs["lukhas.mfa_used"], bool), "mfa_used should be boolean"
-    assert isinstance(attrs["lukhas.decision_time_ms"], (int, float)), "decision_time_ms should be numeric"
+    assert isinstance(attrs["tier_num"], int), "tier_num should be integer"
+    assert isinstance(attrs["mfa_used"], bool), "mfa_used should be boolean"
+    assert isinstance(attrs["decision_time_ms"], (int, float)), "decision_time_ms should be numeric"
 
 
 @pytest.mark.telemetry
@@ -105,7 +105,7 @@ async def test_authz_span_scope_formatting(telemetry_capture, test_subjects):
     attrs = span.attributes
 
     # Verify scopes are properly formatted as comma-separated string
-    scopes_attr = attrs["lukhas.scopes"]
+    scopes_attr = attrs["scopes"]
     assert isinstance(scopes_attr, str), "Scopes should be formatted as string"
 
     # Verify all expected scopes are present
@@ -158,15 +158,15 @@ async def test_authz_span_subject_patterns(telemetry_capture, test_subjects):
     assert len(authz_spans) >= 2, "Expected spans for both user and service requests"
 
     # Find user and service spans
-    user_span = next((s for s in authz_spans if "user:test_trusted" in s.attributes["lukhas.subject"]), None)
-    service_span = next((s for s in authz_spans if "svc:orchestrator" in s.attributes["lukhas.subject"]), None)
+    user_span = next((s for s in authz_spans if "user:test_trusted" in s.attributes["subject"]), None)
+    service_span = next((s for s in authz_spans if "svc:orchestrator" in s.attributes["subject"]), None)
 
     assert user_span is not None, "User span not found"
     assert service_span is not None, "Service span not found"
 
     # Verify subject formats
-    assert user_span.attributes["lukhas.subject"] == "lukhas:user:test_trusted"
-    assert service_span.attributes["lukhas.subject"] == "lukhas:svc:orchestrator"
+    assert user_span.attributes["subject"] == "lukhas:user:test_trusted"
+    assert service_span.attributes["subject"] == "lukhas:svc:orchestrator"
 
 
 @pytest.mark.telemetry
@@ -210,8 +210,8 @@ async def test_authz_span_tier_consistency(telemetry_capture, test_subjects):
     # Verify tier consistency for each span
     for span in authz_spans:
         attrs = span.attributes
-        tier_str = attrs["lukhas.tier"]
-        tier_num = attrs["lukhas.tier_num"]
+        tier_str = attrs["tier"]
+        tier_num = attrs["tier_num"]
 
         # Verify tier_num matches expected mapping
         if tier_str == "guest":
@@ -268,7 +268,7 @@ async def test_authz_span_decision_values(telemetry_capture, test_subjects):
     assert len(authz_spans) >= 2, "Expected spans for both allow and deny scenarios"
 
     # Verify decision values are standardized
-    decisions = [span.attributes["lukhas.decision"] for span in authz_spans]
+    decisions = [span.attributes["decision"] for span in authz_spans]
     valid_decisions = {"allow", "deny"}
 
     for decision in decisions:
@@ -308,7 +308,7 @@ async def test_authz_span_capability_id_masking(telemetry_capture, test_subjects
     attrs = span.attributes
 
     # Verify capability ID is masked
-    capability_id = attrs["lukhas.capability_id"]
+    capability_id = attrs["capability_id"]
     assert capability_id != full_token, "Capability token should be masked"
     assert capability_id.endswith("..."), "Capability ID should end with ellipsis"
     assert len(capability_id) < len(full_token), "Masked capability ID should be shorter than original"
@@ -345,8 +345,8 @@ async def test_authz_span_contract_sha_presence(telemetry_capture, test_subjects
     attrs = span.attributes
 
     # Verify contract SHA is present
-    assert "lukhas.contract_sha" in attrs, "Missing contract_sha attribute"
-    contract_sha = attrs["lukhas.contract_sha"]
+    assert "contract_sha" in attrs, "Missing contract_sha attribute"
+    contract_sha = attrs["contract_sha"]
 
     assert isinstance(contract_sha, str), "Contract SHA should be string"
     assert len(contract_sha) > 0, "Contract SHA should not be empty"
@@ -388,9 +388,9 @@ async def test_authz_span_region_tracking(telemetry_capture, test_subjects):
     # Verify region attribute handling
     for span in authz_spans:
         attrs = span.attributes
-        assert "lukhas.region" in attrs, "Missing region attribute"
+        assert "region" in attrs, "Missing region attribute"
 
-        region_attr = attrs["lukhas.region"]
+        region_attr = attrs["region"]
 
         # Region should be string or "unknown" for None values
         assert isinstance(region_attr, str), "Region should be string"
@@ -426,7 +426,7 @@ async def test_authz_span_performance_attribute_ranges(telemetry_capture, test_s
     attrs = span.attributes
 
     # Verify decision time is reasonable
-    decision_time_ms = attrs["lukhas.decision_time_ms"]
+    decision_time_ms = attrs["decision_time_ms"]
     assert 0 <= decision_time_ms <= 10000, f"Decision time {decision_time_ms}ms seems unreasonable"
 
     # Verify span duration is reasonable

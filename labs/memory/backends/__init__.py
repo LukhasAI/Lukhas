@@ -1,7 +1,7 @@
 """Bridge for `candidate.memory.backends`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.candidate.memory.backends
+  1) lukhas_website.candidate.memory.backends
   2) candidate.candidate.memory.backends
   3) memory.backends
 
@@ -22,9 +22,9 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.candidate.memory.backends",
+    "lukhas_website.candidate.memory.backends",
     "labs.candidate.memory.backends",
-    "lukhas.memory.backends",
+    "memory.backends",
 )
 
 _SRC = None

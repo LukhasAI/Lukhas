@@ -213,7 +213,7 @@ class AdvancedConsentManager:
             {
                 "name": "LUKHAS AI",
                 "address": "To be configured",
-                "email": "privacy@lukhas.ai",
+                "email": "privacy@ai",
                 "phone": "To be configured",
             },
         )
@@ -223,7 +223,7 @@ class AdvancedConsentManager:
             "dpo_contact",
             {
                 "name": "Data Protection Officer",
-                "email": "dpo@lukhas.ai",
+                "email": "dpo@ai",
                 "phone": "To be configured",
             },
         )
@@ -638,7 +638,7 @@ class AdvancedConsentManager:
             issued_at=current_time,
             purposes_consented=purpose_ids,
             data_controller=self.data_controller,
-            privacy_policy_url=self.config.get("privacy_policy_url", "https://lukhas.ai/privacy"),
+            privacy_policy_url=self.config.get("privacy_policy_url", "https://ai/privacy"),
             withdrawal_instructions="Visit your account settings or contact our DPO to withdraw consent",
             contact_info=self.dpo_contact,
             receipt_hash=receipt_hash,

@@ -87,7 +87,7 @@ if __name__ == "__main__":
         description="Represents the ethical drift score of an agent or colony.",
         schema={"score": float, "agent_id": str},
         max_propagation_depth=5,
-        allowed_colonies=["ethics", "lukhas.governance"],
+        allowed_colonies=["ethics", "governance"],
     )
 
     contract2 = SymbolicContract(

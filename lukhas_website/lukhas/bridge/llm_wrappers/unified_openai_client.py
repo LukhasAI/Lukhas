@@ -17,11 +17,11 @@ from openai import AsyncOpenAI, OpenAI
 
 # Use proper lukhas imports
 try:
-    from lukhas.core.common import get_logger, retry, with_timeout
+    from core.common import get_logger, retry, with_timeout
 
     logger = get_logger(__name__, "BRIDGE")
 except ImportError:
-    # Fallback to standard logging if lukhas.core.common not available
+    # Fallback to standard logging if core.common not available
     logger = logging.getLogger(__name__)
 
     def retry(*args, **kwargs):

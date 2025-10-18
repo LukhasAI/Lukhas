@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import pytest
 
-from lukhas.core.reliability import idempotency
+from core.reliability import idempotency
 
 
 @pytest.fixture(autouse=True)

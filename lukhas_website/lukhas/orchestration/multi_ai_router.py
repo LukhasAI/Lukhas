@@ -21,7 +21,7 @@ from typing import Any, Dict, List, Optional
 
 from opentelemetry import trace
 
-from lukhas.observability import counter, gauge, histogram
+from observability import counter, gauge, histogram
 
 # Import provider factory
 from .providers import create_provider_client, get_provider_status, validate_provider_configuration

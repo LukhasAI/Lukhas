@@ -38,8 +38,8 @@ except Exception:  # pragma: no cover - metrics optional in tests
 
 # OpenTelemetry instrumentation
 try:
-    from lukhas.observability.otel_instrumentation import (
-        initialize_otel_instrumentation,  # noqa: F401  # TODO: lukhas.observability.otel_inst...
+    from observability.otel_instrumentation import (
+        initialize_otel_instrumentation,  # noqa: F401  # TODO: observability.otel_inst...
         instrument_matriz_stage,
         matriz_pipeline_span,
     )
@@ -65,7 +65,7 @@ except ImportError:
 
 # Circuit Breaker integration for retries/backpressure
 try:
-    from lukhas.core.reliability.circuit_breaker import circuit_breaker, get_circuit_health
+    from core.reliability.circuit_breaker import circuit_breaker, get_circuit_health
 
     CIRCUIT_BREAKER_AVAILABLE = True
 except ImportError:

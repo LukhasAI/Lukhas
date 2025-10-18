@@ -29,14 +29,14 @@ TIER_MAPPINGS = {
 # Module categorization for tier assignment
 MODULE_TIERS = {
     # Core system modules - higher privilege
-    "lukhas.governance": ["inner_circle", "root_dev"],
+    "governance": ["inner_circle", "root_dev"],
     "identity": ["trusted", "inner_circle", "root_dev"],
     "security": ["inner_circle", "root_dev"],
     "core": ["trusted", "inner_circle"],
 
     # Service modules - medium privilege
     "consciousness": ["friend", "trusted", "inner_circle"],
-    "lukhas.memory": ["friend", "trusted", "inner_circle"],
+    "memory": ["friend", "trusted", "inner_circle"],
     "orchestration": ["friend", "trusted"],
     "deployment": ["trusted", "inner_circle"],
     "observability": ["friend", "trusted"],
@@ -45,7 +45,7 @@ MODULE_TIERS = {
     "bridge": ["friend", "trusted"],
     "api": ["visitor", "friend", "trusted"],
     "agents": ["visitor", "friend", "trusted"],
-    "lukhas.tools": ["visitor", "friend"],
+    "tools": ["visitor", "friend"],
 
     # Public/documentation modules - minimal privilege
     "branding": ["guest", "visitor"],
@@ -63,13 +63,13 @@ SCOPE_PATTERNS = {
     "orchestration": ["dispatch", "route", "coordinate", "monitor"],
     "api": ["query", "mutate", "subscribe", "admin"],
     "consciousness": ["sense", "process", "dream", "aware"],
-    "lukhas.memory": ["store", "retrieve", "forget", "consolidate"],
+    "memory": ["store", "retrieve", "forget", "consolidate"],
     "bridge": ["connect", "transform", "sync", "relay"],
-    "lukhas.governance": ["enforce", "audit", "approve", "govern"],
+    "governance": ["enforce", "audit", "approve", "govern"],
     "security": ["encrypt", "decrypt", "sign", "verify"],
     "deployment": ["deploy", "rollback", "scale", "monitor"],
     "observability": ["trace", "metric", "log", "alert"],
-    "lukhas.tools": ["execute", "analyze", "generate", "validate"],
+    "tools": ["execute", "analyze", "generate", "validate"],
     "default": ["read", "write", "execute", "admin"]
 }
 
@@ -101,7 +101,7 @@ def get_module_scopes(module_name: str) -> List[str]:
 def should_require_webauthn(module_name: str, tiers: List[str]) -> bool:
     """Determine if module should require WebAuthn."""
     # Critical modules always require WebAuthn
-    critical_patterns = ["identity", "auth", "security", "lukhas.governance", "wallet", "passkey"]
+    critical_patterns = ["identity", "auth", "security", "governance", "wallet", "passkey"]
     if any(pattern in module_name.lower() for pattern in critical_patterns):
         return True
 
@@ -125,7 +125,7 @@ def generate_contract(module_path: Path, module_name: str) -> Dict[str, Any]:
     accepted_subjects = ["lukhas:user:*"]
     if "orchestration" in module_name or "api" in module_name:
         accepted_subjects.append(f"lukhas:svc:{simple_name}")
-    if "lukhas.governance" in module_name or "security" in module_name:
+    if "governance" in module_name or "security" in module_name:
         accepted_subjects.append("lukhas:svc:guardian")
 
     contract = {
@@ -182,7 +182,7 @@ def generate_contract(module_path: Path, module_name: str) -> Dict[str, Any]:
             "spans": [
                 {
                     "name": f"{simple_name}.operation",
-                    "attrs": ["code.function", "lukhas.module", "lukhas.tier"]
+                    "attrs": ["code.function", "module", "tier"]
                 }
             ],
             "metrics": [
@@ -211,7 +211,7 @@ def generate_contract(module_path: Path, module_name: str) -> Dict[str, Any]:
             "job": f"lukhas.{simple_name}.job"
         },
         "provenance": {
-            "@context": "https://lukhas.ai/provenance/v1",
+            "@context": "https://ai/provenance/v1",
             "commit": "",
             "branch": "main",
             "built_by": {
@@ -257,7 +257,7 @@ def generate_contract(module_path: Path, module_name: str) -> Dict[str, Any]:
     }
 
     # Add specific features based on module type
-    if "lukhas.governance" in module_name or "security" in module_name:
+    if "governance" in module_name or "security" in module_name:
         contract["privacy"] = {
             "epsilon": 1.0,
             "delta": 1e-5,
@@ -272,7 +272,7 @@ def generate_contract(module_path: Path, module_name: str) -> Dict[str, Any]:
                 }
             ],
             "policy_engine": "opa",
-            "policy_packages": [f"lukhas.policies.{simple_name}"]
+            "policy_packages": [f"policies.{simple_name}"]
         }
 
     if "identity" in module_name or "auth" in module_name:
@@ -283,7 +283,7 @@ def generate_contract(module_path: Path, module_name: str) -> Dict[str, Any]:
             }
         }
 
-    if "consciousness" in module_name or "lukhas.memory" in module_name:
+    if "consciousness" in module_name or "memory" in module_name:
         contract["formal"] = {
             "tla_plus": {
                 "spec": f"{simple_name}.tla",

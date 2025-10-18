@@ -502,7 +502,7 @@ if __name__ == "__main__":
 ║ REFERENCES:
 ║   - Docs: docs/bridge/bridge_trace_logger.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=bridge-trace
-║   - Wiki: internal.lukhas.ai/wiki/bridge-architecture
+║   - Wiki: internal.ai/wiki/bridge-architecture
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

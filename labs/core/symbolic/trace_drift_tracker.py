@@ -23,7 +23,7 @@ Maintains backward compatibility while providing access to advanced drift analys
 
 import structlog
 
-from lukhas.core.symbolic.symbolic_drift_tracker import (
+from core.symbolic.symbolic_drift_tracker import (
     SymbolicDriftTracker as CoreSymbolicDriftTracker,
 )
 

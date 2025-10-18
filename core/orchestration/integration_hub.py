@@ -39,7 +39,7 @@ except ImportError:
     MitoEthicsSync = None
 
 try:
-    from lukhas.orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
+    from orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
 except ImportError:
     TrioOrchestrator = None
 
@@ -68,15 +68,15 @@ except ImportError:
     IdentityHub = None
 
 try:
-    from lukhas.consciousness.reflection.consciousness_hub import ConsciousnessHub
-    from lukhas.consciousness.reflection.memory_hub import MemoryHub
+    from consciousness.reflection.consciousness_hub import ConsciousnessHub
+    from consciousness.reflection.memory_hub import MemoryHub
 except ImportError:
     ConsciousnessHub = None
     MemoryHub = None
 
 # Consciousness integration
 try:
-    from lukhas.consciousness.systems.unified_consciousness_engine import (
+    from consciousness.systems.unified_consciousness_engine import (
         get_unified_consciousness_engine,
     )
 except ImportError:
@@ -84,13 +84,13 @@ except ImportError:
 
 # Core system imports (verified paths)
 try:
-    from lukhas.core.core_hub import CoreHub
+    from core.core_hub import CoreHub
 except ImportError:
     CoreHub = None
 
 # Core interfaces
 try:
-    from lukhas.core.interfaces.interfaces_hub import get_interfaces_hub
+    from core.interfaces.interfaces_hub import get_interfaces_hub
 except ImportError:
     get_interfaces_hub = None
 
@@ -258,7 +258,7 @@ class SystemIntegrationHub:
         """Connect learning engine to all systems"""
         # Learning needs access to all systems for meta-learning
         self.learning_engine.register_data_source("consciousness", self.consciousness_hub)
-        self.learning_engine.register_data_source("lukhas.memory", self.memory_hub)
+        self.learning_engine.register_data_source("memory", self.memory_hub)
         self.learning_engine.register_data_source("ethics", self.ethics_service)
 
         self._update_phase("learning_systems", time.time())

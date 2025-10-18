@@ -8,7 +8,7 @@ from typing import Optional
 from fastapi import APIRouter, Depends, Header, HTTPException, Query, Request
 from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
 
-from lukhas.audit.analytics_read import (
+from audit.analytics_read import (
     recent_incidents,
     recent_tool_usage,
     summarize_safety_modes,
@@ -163,7 +163,7 @@ def admin_index(request: Request):
 
     # Performance section with sparklines
     s_health = _series("health", hours)
-    s_tools = _series("lukhas.tools", hours)
+    s_tools = _series("tools", hours)
     s_openapi = _series("openapi", hours)
 
     body += f"""
@@ -243,7 +243,7 @@ def admin_tools():
     body += "</table></div>"
     body += (
         "<div class='card' style='margin-top:16px'><h2>Summary (24h)</h2><pre>"
-        + html.escape(json.dumps({"modes": modes, "lukhas.tools": summary}, indent=2))
+        + html.escape(json.dumps({"modes": modes, "tools": summary}, indent=2))
         + "</pre></div>"
     )
     return _page("Admin Tools & Safety", body)
@@ -303,5 +303,5 @@ def summary_json(window_s: int = Query(24 * 3600, ge=60, le=7 * 24 * 3600)):
     _require_enabled()
     return {
         "modes": summarize_safety_modes(window_s=window_s),
-        "lukhas.tools": summarize_tools(window_s=window_s),
+        "tools": summarize_tools(window_s=window_s),
     }

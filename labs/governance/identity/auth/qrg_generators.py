@@ -36,8 +36,8 @@ from security import secure_random
 
 # Import LUKHAS components
 try:
-    from lukhas.governance.identity.auth.entropy_synchronizer import EntropySynchronizer
-    from lukhas.core.interfaces.as_agent.core.gatekeeper import (
+    from governance.identity.auth.entropy_synchronizer import EntropySynchronizer
+    from core.interfaces.as_agent.core.gatekeeper import (
         ConstitutionalGatekeeper,
     )
     from utils.cultural_safety_checker import CulturalSafetyChecker

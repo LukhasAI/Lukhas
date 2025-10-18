@@ -3,12 +3,12 @@ from typing import Any, Optional
 import networkx as nx
 
 # TODO[GLYPH:specialist] - Fix cross-lane import dependencies for consciousness mesh formation
-# Current import issues: lukhas.core.colonies.base_colony not available in candidate lane
+# Current import issues: core.colonies.base_colony not available in candidate lane
 # Required: Create fallback import chain or use dynamic loading for consciousness node integration
 
 # Temporary imports for development - needs proper resolution for mesh formation
 try:
-    from lukhas.core.colonies import BaseColony, TagScope
+    from core.colonies import BaseColony, TagScope
 except ImportError:
     # TODO[GLYPH:specialist] - Implement consciousness node base class fallback
     import logging
@@ -34,7 +34,7 @@ except ImportError:
 
 # TODO[GLYPH:specialist] - Implement proper symbolic vocabulary integration
 try:
-    from lukhas.core.symbolic_legacy.vocabularies import SymbolicVocabulary
+    from core.symbolic_legacy.vocabularies import SymbolicVocabulary
 except ImportError:
     # Stub implementation for development
     class SymbolicVocabulary:
@@ -84,7 +84,7 @@ class SymbolicReasoningColony(BaseColony):
     def reach_consensus(self, proposal: Any) -> Any:
         """Reach consciousness consensus across colony using GLYPH communication"""
         # Placeholder implementation for consciousness consensus
-        from lukhas.core.colonies import ConsensusResult
+        from core.colonies import ConsensusResult
 
         return ConsensusResult(
             consensus_reached=True,

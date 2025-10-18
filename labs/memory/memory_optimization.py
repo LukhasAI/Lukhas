@@ -82,7 +82,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Callable, Generic, Optional, TypeVar, Union
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 # Try to import optional dependencies
 try:
@@ -761,7 +761,7 @@ async def integrate_with_energy_analyzer():
     """
     Demonstrate integration between memory optimization and energy analysis
     """
-    from lukhas.core.energy_consumption_analysis import (
+    from core.energy_consumption_analysis import (
         EnergyComponent,
         EnergyConsumptionAnalyzer,
     )

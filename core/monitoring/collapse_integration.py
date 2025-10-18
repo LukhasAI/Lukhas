@@ -258,7 +258,7 @@ def integrate_collapse_tracking(orchestrator, ethics_sentinel=None) -> CollapseI
 ║   - Collapse Tracker: lukhas/core/monitoring/collapse_tracker.py
 ║
 ║ USAGE:
-║   from lukhas.core.monitoring.collapse_integration import integrate_collapse_tracking
+║   from core.monitoring.collapse_integration import integrate_collapse_tracking
 ║   integration = integrate_collapse_tracking(orchestrator, ethics_sentinel)
 ║
 ║ MONITORING:
@@ -274,7 +274,7 @@ def integrate_collapse_tracking(orchestrator, ethics_sentinel=None) -> CollapseI
 ║ REFERENCES:
 ║   - Docs: docs/core/monitoring/collapse_integration.md
 ║   - Issues: github.com/lukhas-ai/core/issues?label=collapse-integration
-║   - Wiki: wiki.lukhas.ai/core/collapse
+║   - Wiki: wiki.ai/core/collapse
 ║
 ║ COPYRIGHT & LICENSE:
 ║   Copyright (c) 2025 LUKHAS AI. All rights reserved.

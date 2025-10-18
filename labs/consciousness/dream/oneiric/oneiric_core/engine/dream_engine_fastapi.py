@@ -42,9 +42,9 @@ try:
     )
     from dream.core.dream_engine import DreamEngineSystem
     from dream.core.qi_dream_adapter import DreamQuantumConfig, QIDreamAdapter
-    from lukhas.core.bio_systems.qi_layer import QIBioOscillator
-    from lukhas.core.unified_integration import UnifiedIntegration
-    from lukhas.memory.core_memory.dream_memory_manager import DreamMemoryManager
+    from core.bio_systems.qi_layer import QIBioOscillator
+    from core.unified_integration import UnifiedIntegration
+    from memory.core_memory.dream_memory_manager import DreamMemoryManager
 
     BIO_CORE_AVAILABLE = True
     MEMORY_MANAGER_AVAILABLE = True
@@ -452,7 +452,7 @@ class EnhancedDreamEngine:
     async def _handle_process_memory(self, content: dict[str, Any]) -> None:
         """Handle process memory request"""
         try:
-            memory = content.get("lukhas.memory")
+            memory = content.get("memory")
             if not memory:
                 logger.error("No memory provided")
                 return

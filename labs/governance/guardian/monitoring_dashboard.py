@@ -1001,7 +1001,7 @@ class GuardianMonitoringDashboard:
             "awareness",
             "decision",
             "learning",
-            "lukhas.memory",
+            "memory",
         ]
 
         if any(keyword in metric.name.lower() for keyword in consciousness_keywords):

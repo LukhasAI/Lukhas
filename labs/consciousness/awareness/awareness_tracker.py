@@ -9,7 +9,7 @@ import asyncio
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from lukhas.core.common import get_logger
+from core.common import get_logger
 
 
 class AwarenessTracker:
@@ -89,7 +89,7 @@ class AwarenessTracker:
 
         if category == "consciousness":
             return await self._process_consciousness(data)
-        elif category == "lukhas.governance":
+        elif category == "governance":
             return await self._process_governance(data)
         elif category == "voice":
             return await self._process_voice(data)

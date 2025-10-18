@@ -8,7 +8,7 @@ from typing import List
 __all__: List[str] = []
 
 for _candidate in (
-    "lukhas_website.lukhas.core.interfaces.api",
+    "lukhas_website.core.interfaces.api",
     "labs.core.interfaces.api",
     "core.interfaces.api",
 ):

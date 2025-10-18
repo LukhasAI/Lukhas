@@ -6,7 +6,7 @@ Common patterns for using the new kernel bus in LUKHΛS components.
 """
 
 
-from lukhas.orchestration.symbolic_kernel_bus import (
+from orchestration.symbolic_kernel_bus import (
     EventPriority,
     SymbolicEffect,
     kernel_bus,
@@ -17,9 +17,9 @@ from lukhas.orchestration.symbolic_kernel_bus import (
 def create_memory_fold(fold_id: str, content: dict):
     """Create a memory fold with proper symbolic effects"""
     kernel_bus.emit(
-        "lukhas.memory.fold.init",
+        "memory.fold.init",
         {"fold_id": fold_id, "content": content},
-        source="lukhas.memory.manager",
+        source="memory.manager",
         effects=[SymbolicEffect.MEMORY_FOLD, SymbolicEffect.LOG_TRACE],
         priority=EventPriority.HIGH,
     )

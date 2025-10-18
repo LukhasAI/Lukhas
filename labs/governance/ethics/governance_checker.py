@@ -32,7 +32,7 @@ from typing import Any
 # This would be replaced by a more robust policy loading mechanism
 # that could be configured from a central location.
 # For now, we'll keep it simple.
-FINE_TUNE_WHITELIST = ["dream", "lukhas.memory", "reflection", "affect"]
+FINE_TUNE_WHITELIST = ["dream", "memory", "reflection", "affect"]
 GOV_TRACE_LOG = os.path.join(os.path.dirname(__file__), "governance_trace_log.md")
 
 

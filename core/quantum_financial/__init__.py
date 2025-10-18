@@ -1,7 +1,7 @@
 """Bridge for `core.quantum_financial`.
 
 Auto-generated bridge following canonical pattern:
-  1) lukhas_website.lukhas.core.quantum_financial
+  1) lukhas_website.core.quantum_financial
   2) candidate.core.quantum_financial
   3) core.quantum_financial
 
@@ -22,7 +22,7 @@ def _try(n: str):
 
 # Try backends in order
 _CANDIDATES = (
-    "lukhas_website.lukhas.core.quantum_financial",
+    "lukhas_website.core.quantum_financial",
     "labs.core.quantum_financial",
     "core.quantum_financial",
 )

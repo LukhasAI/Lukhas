@@ -22,14 +22,14 @@ logger = logging.getLogger("memory_consolidation")
 class MemorySystemConsolidator:
     def __init__(self, root_path: str):
         self.root_path = Path(root_path)
-        self.core_memory_path = self.root_path / "core" / "lukhas.memory"
-        self.brain_memory_path = self.root_path / "brain" / "lukhas.memory"
+        self.core_memory_path = self.root_path / "core" / "memory"
+        self.brain_memory_path = self.root_path / "brain" / "memory"
 
         # Critical files that need to be properly tagged and organized
         self.critical_files = {
             "memory_manager.py": {
                 "path": self.core_memory_path,
-                "tags": ["lukhas.memory", "core", "critical", "identity", "security"],
+                "tags": ["memory", "core", "critical", "identity", "security"],
                 "dependencies": [
                     "memory_folds.py",
                     "trauma_lock.py",
@@ -40,17 +40,17 @@ class MemorySystemConsolidator:
             },
             "memory_folds.py": {
                 "path": self.core_memory_path,
-                "tags": ["lukhas.memory", "core", "critical", "patterns", "fold-engine"],
+                "tags": ["memory", "core", "critical", "patterns", "fold-engine"],
                 "dependencies": ["numpy", "chromadb", "redis"],
             },
             "trauma_lock.py": {
                 "path": self.core_memory_path,
-                "tags": ["lukhas.memory", "core", "critical", "security", "trauma"],
+                "tags": ["memory", "core", "critical", "security", "trauma"],
                 "dependencies": ["memory_folds.py", "identity_legacy.py"],
             },
             "pattern_engine.py": {
                 "path": self.core_memory_path,
-                "tags": ["lukhas.memory", "core", "critical", "patterns", "neural"],
+                "tags": ["memory", "core", "critical", "patterns", "neural"],
                 "dependencies": ["memory_folds.py", "numpy", "tensorflow"],
             },
         }
