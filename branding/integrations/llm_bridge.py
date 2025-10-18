@@ -9,17 +9,14 @@ import os
 import time
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, Optional, Protocol, Type, runtime_checkable
 
 from dotenv import load_dotenv
 
+from lukhas.core.registry import discover_entry_points, resolve
+
 # Load environment variables from .env file
 load_dotenv()
-
-# Import LLM wrappers via registry system (T4 architecture compliance)
-from typing import Protocol, Type, runtime_checkable
-
-from lukhas.core.registry import discover_entry_points, resolve
 
 
 @runtime_checkable

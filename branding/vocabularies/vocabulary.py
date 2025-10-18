@@ -11,9 +11,7 @@ Author: lukhas AI Team
 This file is part of the LUKHAS (Logical Unified Knowledge Hyper-Adaptable System)
 Copyright (c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
-"""
 
-"""
 🌙 DREAM MODULE SYMBOLIC VOCABULARY
 
 Symbolic vocabulary for LUKHAS Dream Module operations.
@@ -21,12 +19,12 @@ Symbolic vocabulary for lukhas Dream Module operations.
 Provides semantic meaning and symbolic representation for dream processing.
 """
 
-# Dream Phase Symbols
-
-
 import random
 
 from lukhas.core.utils.__init__ import symbolic_message
+
+
+# Dream Phase Symbols
 
 
 def fix_later(*args, **kwargs):
