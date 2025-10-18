@@ -1,3 +1,0 @@
-"""
-Brain_Integration Module
-"""

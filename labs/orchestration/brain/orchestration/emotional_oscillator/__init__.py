@@ -1,3 +1,0 @@
-"""
-Emotional_Oscillator Module
-"""

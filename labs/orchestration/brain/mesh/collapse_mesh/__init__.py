@@ -1,3 +1,0 @@
-"""
-Collapse_Mesh Module
-"""

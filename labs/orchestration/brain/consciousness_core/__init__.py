@@ -1,3 +1,0 @@
-"""
-Consciousness_Core Module
-"""

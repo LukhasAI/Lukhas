@@ -1,3 +1,0 @@
-"""
-Response_Types Module
-"""

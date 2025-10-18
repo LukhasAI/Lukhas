@@ -1,3 +1,0 @@
-"""
-Personality Module
-"""

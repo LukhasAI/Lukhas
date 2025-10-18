@@ -1,3 +1,0 @@
-"""
-Cognitive_Core Module
-"""

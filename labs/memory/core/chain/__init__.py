@@ -1,3 +1,0 @@
-"""
-Memory_Chain Module
-"""

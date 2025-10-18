@@ -1,1 +1,0 @@
-../../scripts/lukhas_pb2.py

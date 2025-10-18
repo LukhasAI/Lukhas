@@ -1,3 +1,0 @@
-"""
-Rate_Modulator Module
-"""

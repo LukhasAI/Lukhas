@@ -1,3 +1,0 @@
-"""
-Trait_Manager Module
-"""

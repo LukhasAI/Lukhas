@@ -1,3 +1,0 @@
-"""
-Ethical_Engine Module
-"""

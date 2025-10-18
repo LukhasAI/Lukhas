@@ -1,3 +1,0 @@
-"""
-Multibrainsymphony Module
-"""

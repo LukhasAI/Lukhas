@@ -1,3 +1,0 @@
-"""
-Integrity_Probe Module
-"""
