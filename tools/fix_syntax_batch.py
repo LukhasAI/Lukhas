@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
 """
 Batch syntax error fixer for LUKHAS codebase.
 """
 
 import json
+import logging
 import re
 import subprocess
+
+logger = logging.getLogger(__name__)
 
 
 def get_syntax_errors():
