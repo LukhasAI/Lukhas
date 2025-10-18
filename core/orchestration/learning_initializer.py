@@ -1,6 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: learning_initializer.py
 # MODULE: orchestration.learning_initializer
@@ -17,6 +14,7 @@ it with the service registry. This prevents circular dependencies by ensuring
 the learning service is initialized at the orchestration layer.
 """
 
+import logging
 from typing import Optional
 
 import structlog
@@ -24,6 +22,7 @@ import structlog
 from lukhas.orchestration.service_registry import ServiceNames, register_factory
 
 # Initialize logger
+logger = logging.getLogger(__name__)
 logger = structlog.get_logger("ΛTRACE.orchestration.learning_initializer")
 
 
