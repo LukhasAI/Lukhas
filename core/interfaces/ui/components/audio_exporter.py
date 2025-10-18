@@ -3,9 +3,7 @@ Enhanced Core TypeScript - Integrated from Advanced Systems
 Original: audio_exporter.py
 Advanced: audio_exporter.py
 Integration Date: 2025-05-31T07:55:31.349978
-"""
 
-"""
 ╭────────────────────────────────────────────────────────────╮
 │  LUCΛS :: Audio Exporter                                   │
 │  Prepares narrated dreams for export as audio (.mp3/.wav)  │

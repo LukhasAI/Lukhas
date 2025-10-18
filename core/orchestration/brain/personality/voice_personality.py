@@ -3,10 +3,7 @@ Enhanced Core TypeScript - Integrated from Advanced Systems
 Original: voice_personality.py
 Advanced: voice_personality.py
 Integration Date: 2025-05-31T07:55:28.151577
-"""
-from datetime import timezone
 
-"""
 ╔═══════════════════════════════════════════════════════════════════════════╗
 ║ MODULE        : voice_personality.py                                      ║
 ║ DESCRIPTION   : Integrates personality components with voice synthesis    ║
@@ -23,7 +20,7 @@ DEPENDENCIES:
 
 import logging
 import random
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 # Configure logging

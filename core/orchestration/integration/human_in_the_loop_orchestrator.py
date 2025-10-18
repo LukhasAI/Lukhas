@@ -1,7 +1,3 @@
-import logging
-import time
-
-logger = logging.getLogger(__name__)
 """
 👥 Human-in-the-Loop Orchestrator (HITLO)
 ═══════════════════════════════════════════════════════════════════════════
@@ -45,6 +41,8 @@ SYMBOLIC TAGS: ΛHITLO, ΛHUMAN, ΛORCHESTRATOR, ΛDECISION, ΛESCROW
 """
 
 import asyncio
+import logging
+import time
 import uuid
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
@@ -56,8 +54,9 @@ from typing import Any, Optional
 import structlog
 
 # ΛTRACE: Standardized logging for HITLO module
-logger = structlog.get_logger(__name__)
-logger.info("ΛTRACE_MODULE_INIT", module_path=__file__, status="initializing")
+structured_logger = structlog.get_logger(__name__)
+logger = logging.getLogger(__name__)
+structured_logger.info("ΛTRACE_MODULE_INIT", module_path=__file__, status="initializing")
 
 # Graceful imports with fallbacks for Lukhas integration
 try:
