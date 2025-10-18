@@ -1,41 +1,283 @@
 ---
-status: wip
+title: LUKHAS Documentation - Root Context
+status: active
 type: documentation
-owner: unknown
-module: root
+owner: LUKHAS Core Team
+module: docs
+schema_version: 1.1.0
+updated: 2025-10-18
+version: 2.0
+constellation_star: Supporting
+matriz_node: supporting
+quality_tier: T2_important
+contract_refs:
+  - lukhas.docs.structure@v1
+  - lukhas.docs.standards@v1
+  - constellation.star_system@v2
+tags: [documentation, context, architecture, standards, constellation]
 redirect: false
 moved_to: null
+badges:
+  status: https://img.shields.io/badge/status-active-green
+  quality: https://img.shields.io/badge/quality-T2-blue
+  coverage: https://img.shields.io/badge/coverage-780_modules-brightgreen
 ---
 
-![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+![Status: Active](https://img.shields.io/badge/status-active-green)
+![Quality: T2](https://img.shields.io/badge/quality-T2-blue)
+![Module Coverage](https://img.shields.io/badge/coverage-780_modules-brightgreen)
 
-# docs - Module Context
+# LUKHAS Documentation System
 
 ## Overview
 
-LUKHAS docs module implementing specialized docs functionality with 0 components for integrated system operations.
+The LUKHAS documentation system provides comprehensive architectural context, API specifications, and operational guidance across 780+ modules organized by the Constellation Framework's 8-star system. This documentation root serves as the primary entry point for understanding system architecture, cognitive patterns, and integration strategies.
+
+## Documentation Structure
+
+### 📁 Core Documentation Categories
+
+#### 1. Architecture (`docs/architecture/`)
+- System design principles
+- Constellation Framework (8-star system)
+- MATRIZ cognitive pipeline
+- Lane-based development model
+- Consciousness-aware patterns
+
+**Key Files**:
+- [CONSTELLATION_TOP.md](CONSTELLATION_TOP.md) - 8-star system overview
+- `architecture/README.md` - Deep architectural dive
+- `architecture/TRINITY_FRAMEWORK.md` - Three-lane philosophy
+
+#### 2. API Documentation (`docs/api/`)
+- Public API specifications
+- Ecosystem integration interfaces
+- Contract definitions
+- OpenAPI schemas
+
+**Key Files**:
+- [ECOSYSTEM_APIS.md](api/ECOSYSTEM_APIS.md) - Dream, Drift, ΛiD APIs
+- `api/README.md` - API overview and versioning
+- `openapi/` - OpenAPI 3.0 specifications
+
+#### 3. Strategic Documentation (`docs/strategic/`)
+- Business alignment
+- Ecosystem positioning
+- Partnership frameworks
+- Market strategy
+
+**Key Files**:
+- [OPENAI_ECOSYSTEM_ALIGNMENT.md](strategic/OPENAI_ECOSYSTEM_ALIGNMENT.md) - OpenAI integration strategy
+- `strategic/README.roadmap.md` - Public module roadmap
+
+#### 4. Audit & Compliance (`docs/audits/`)
+- Module inventories
+- Quality metrics
+- Compliance reports
+- Security scans
+
+**Key Files**:
+- `COMPLETE_MODULE_INVENTORY.json` - 780 module inventory
+- `COMPLETE_ARTIFACT_INVENTORY.md` - Artifact coverage report
+- `live/latest_security_scan.json` - Security audit results
+
+#### 5. Schemas & Contracts (`docs/schemas/`, `contracts/`)
+- JSON schemas for manifests
+- Contract definitions
+- Validation rules
+
+**Key Files**:
+- `schemas/matriz_module_compliance.schema.json` - Module manifest schema
+- `contracts/**/*.json` - Service contracts
+
+### 📊 Documentation Coverage Statistics
+
+| Category | Files | Coverage | Status |
+|----------|-------|----------|--------|
+| Module Manifests | 780+ | 100% (target) | 🟡 In Progress (Phase 4) |
+| API Specs | 15+ | 60% | 🟢 Active Development |
+| Architecture Docs | 25+ | 85% | 🟢 Comprehensive |
+| Strategic Docs | 8+ | 40% | 🟡 Phase 3 Focus |
+| Audit Reports | 12+ | 90% | 🟢 Well-Maintained |
 
 ## Quick Reference
 
-```python
-from docs import *
+### For Developers
+```bash
+# Find module context
+cd <module_directory>
+cat lukhas_context.md
+
+# Generate new manifests
+python scripts/generate_module_manifests.py \
+  --inventory docs/audits/COMPLETE_MODULE_INVENTORY.json \
+  --star-from-rules \
+  --write-context
+
+# Validate contracts
+python scripts/validate_contract_refs.py
+
+# Check front matter coverage
+python scripts/context_coverage_bot.py
 ```
 
-## Key Components
+### For Architects
+- **System Overview**: [docs/architecture/README.md](architecture/README.md)
+- **Constellation Guide**: [CONSTELLATION_TOP.md](CONSTELLATION_TOP.md)
+- **MATRIZ Integration**: [docs/MATRIZ_GUIDE.md](MATRIZ_GUIDE.md)
 
+### For Product Managers
+- **OpenAI Strategy**: [docs/strategic/OPENAI_ECOSYSTEM_ALIGNMENT.md](strategic/OPENAI_ECOSYSTEM_ALIGNMENT.md)
+- **Public APIs**: [docs/api/ECOSYSTEM_APIS.md](api/ECOSYSTEM_APIS.md)
+- **Roadmap**: [docs/strategic/README.roadmap.md](strategic/README.roadmap.md)
 
+## Key Concepts
 
+### Constellation Framework (8-Star System)
+LUKHAS modules are classified by cognitive function using 8 "stars":
+
+| Star | Domain | Module Count | Example |
+|------|--------|--------------|---------|
+| 🌊 Flow | Consciousness | 108 | `candidate/consciousness/` |
+| ✦ Trail | Memory | 97 | `candidate/memory/` |
+| ⚛️ Anchor | Identity | 55 | `lukhas/identity/` |
+| 🛡️ Watch | Guardian | 53 | `lukhas/governance/guardian/` |
+| 🔬 Horizon | Vision | 53 | `candidate/vision/` |
+| 🔮 Oracle | Quantum | 11 | `candidate/quantum/` |
+| 🌱 Living | Bio-Inspired | TBD | `candidate/bio/` |
+| 🌙 Drift | Dream/Creative | TBD | `candidate/dream/` |
+
+**Total**: 780 modules across 9 stars (including Supporting)
+
+See [CONSTELLATION_TOP.md](CONSTELLATION_TOP.md) for comprehensive star documentation.
+
+### MATRIZ Cognitive Pipeline
+Memory-Attention-Thought-Risk-Intent-Action-Decision cognitive engine:
+
+- **Memory**: Persistent state management
+- **Attention**: Routing and salience detection
+- **Thought**: Reasoning and analysis
+- **Risk**: Safety evaluation
+- **Intent**: Goal interpretation
+- **Action**: Effect execution
+- **Decision**: Choice coordination
+
+### Quality Tiers
+- **T1 (Critical)**: Production, requires tests + owner, <1% error budget
+- **T2 (Important)**: Integration, requires tests, <5% error budget
+- **T3 (Standard)**: Development, optional tests, <10% error budget
+- **T4 (Experimental)**: Prototype, no requirements
+
+## Documentation Standards
+
+### YAML Front Matter (Required)
+All `.md` files in `docs/` must include YAML front matter:
+
+```yaml
+---
+title: Human-readable title
+status: active|wip|deprecated|archived
+type: documentation|specification|guide|reference
+owner: Team or Individual
+schema_version: 1.1.0
+updated: YYYY-MM-DD
+constellation_star: Star assignment (if applicable)
+contract_refs:
+  - contract.id@v1
+tags: [relevant, tags]
+---
+```
+
+### Contract References
+Link to relevant service contracts in `contract_refs` field:
+- Format: `service.contract_name@v1`
+- Must exist in `contracts/` directory
+- Validated by `scripts/validate_contract_refs.py`
+
+### Cross-References
+Use markdown links with relative paths:
+```markdown
+See [Constellation Overview](CONSTELLATION_TOP.md) for star details.
+Refer to [API Specs](api/ECOSYSTEM_APIS.md) for integration.
+```
 
 ## Module Metadata
 
-- **Lane**: L2
-- **Entrypoints**: 0
-- **Schema**: 1.0.0
-- **Tags**: docs
-- **Dependencies**: None
+- **Path**: `docs/`
+- **Type**: Documentation Root
+- **Lane**: Supporting (Infrastructure)
+- **Star**: Supporting
+- **MATRIZ Node**: supporting
+- **Quality Tier**: T2_important
+- **Schema Version**: 1.1.0
+- **Module Count**: 780 documented modules
+- **Contract Dependencies**:
+  - `lukhas.docs.structure@v1`
+  - `lukhas.docs.standards@v1`
+  - `constellation.star_system@v2`
+
+## Related Documentation
+
+### Internal References
+- [Constellation Top](CONSTELLATION_TOP.md) - 8-star system
+- [Architecture Guide](architecture/README.md) - System design
+- [API Documentation](api/README.md) - Public interfaces
+- [Strategic Alignment](strategic/OPENAI_ECOSYSTEM_ALIGNMENT.md) - Ecosystem positioning
+
+### External Resources
+- **Developer Portal**: https://docs.lukhas.ai (planned)
+- **API Reference**: https://api.lukhas.ai/v1/docs (planned)
+- **GitHub**: https://github.com/lukhas-ai (planned)
+
+## Contracts
+
+### Published Events
+- `docs.updated@v1` - Documentation changes
+- `manifest.generated@v1` - New manifest created
+
+### Subscribed Events
+- `module.created@v1` - Trigger manifest generation
+- `star.promoted@v1` - Update constellation docs
+
+### Exported Utilities
+- `generate_module_manifests.py` - Manifest generator
+- `validate_contract_refs.py` - Contract validator
+- `context_coverage_bot.py` - Coverage checker
+
+## Observability
+
+- **Logging**: `lukhas.docs: INFO`
+- **Metrics**:
+  - `docs.manifest.count` (gauge: 780)
+  - `docs.context.coverage_pct` (gauge: target 99%)
+  - `docs.contract.validation_failures` (counter)
+- **Traces**: Document generation spans
+
+## Security
+
+- **Authentication**: Public read, internal write
+- **Data Classification**: Public (documentation)
+- **Secrets**: None
+- **Policies**: No restricted content in public docs
+
+## Maintenance
+
+### Update Frequency
+- **Architecture Docs**: Quarterly or on major changes
+- **API Specs**: Per release cycle
+- **Module Manifests**: Automated via CI (Phase 4-5)
+- **Audit Reports**: Monthly
+
+### Ownership
+- **Primary Owner**: LUKHAS Core Team
+- **API Docs**: API Team
+- **Strategic Docs**: Product/Strategy Team
+- **Audit Reports**: DevOps Team
 
 ---
 
-**Status**: L2 Integration
-**Version**: 1.0.0
+**Status**: Active (T2 Quality Tier)
+**Version**: 2.0.0
 **Last Updated**: 2025-10-18
+**Schema**: 1.1.0
+**Total Modules Documented**: 780
