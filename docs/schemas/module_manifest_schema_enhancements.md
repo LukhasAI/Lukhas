@@ -1,4 +1,4 @@
-# Module Manifest Schema Enhancements
+ # Module Manifest Schema Enhancements
 
 **Date**: 2025-10-18  
 **Schema File**: `schemas/module.manifest.schema.json`  
