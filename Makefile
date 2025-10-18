@@ -1331,7 +1331,7 @@ context-coverage: ## Check lukhas_context.md coverage and front-matter presence
 	$(PYTHON) scripts/context_coverage_bot.py --manifests manifests --min $${MIN_COV:-0.95}
 
 contracts-validate: ## Validate contract references in manifests
-	$(PYTHON) scripts/validate_contract_refs.py
+	python3 scripts/validate_contract_refs.py
 
 links-check: ## Check internal documentation links
 	$(PYTHON) docs/check_links.py --root .

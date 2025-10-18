@@ -95,7 +95,12 @@
       "Bash(gh issue view 389 --json title,body,labels)",
       "Bash(.venv/bin/ruff check . --select E402,E701,E702,E703,E704)",
       "Bash(.venv/bin/pytest -q -m \"smoke\" --maxfail=1 --disable-warnings)",
-      "Bash(xargs cat)"
+      "Bash(xargs cat)",
+      "Bash(xargs -I {} sh -c 'echo \"\"\"\"=== {} ===\"\"\"\" && cat {} | python3 -m json.tool | grep -A 5 \"\"\"\"constellation_alignment\"\"\"\"')",
+      "Bash(git for-each-ref --sort=-committerdate --format='%(committerdate:short) %(refname:short) %(authorname)' refs/heads/)",
+      "Bash(echo -e \"\\n$br:\")",
+      "Bash(echo \"=== Batch $batch files ===\")",
+      "Bash(git -C /Users/agi_dev/LOCAL-REPOS/Lukhas/Lukhas-cc-dxrc status --short)"
     ],
     "defaultMode": "bypassPermissions"
   }
