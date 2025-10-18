@@ -41,6 +41,8 @@ import uuid
 from datetime import datetime, timezone
 from typing import Any, Optional
 
+from lukhas.core.module_registry import ModuleRegistry
+
 # Configure module logger
 logger = logging.getLogger(__name__)
 
@@ -89,9 +91,6 @@ try:
     from identity.backend.app.compliance import ComplianceEngine
 except ImportError:
     ComplianceEngine = None
-
-# Module Registry - Import the fully implemented registry
-from lukhas.core.module_registry import ModuleRegistry
 
 # Bio Core - Use candidate.bio.core directly to avoid circular imports
 try:

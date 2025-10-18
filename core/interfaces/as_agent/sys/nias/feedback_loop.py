@@ -3,10 +3,7 @@ Enhanced Core TypeScript - Integrated from Advanced Systems
 Original: feedback_loop.py
 Advanced: feedback_loop.py
 Integration Date: 2025-05-31T07:55:30.563779
-"""
-from datetime import timezone
 
-"""
 ╭──────────────────────────────────────────────────────────────────────────────╮
 │                       LUCΛS :: FEEDBACK LOOP MODULE                          │
 │               Version: v1.0 | Symbolic Response + Resonance Tracker          │
@@ -21,10 +18,10 @@ DESCRIPTION:
 """
 
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
-FEEDBACK_LOG_PATH = Path("core/logs/feedback_log.jsonl", timezone)
+FEEDBACK_LOG_PATH = Path("core/logs/feedback_log.jsonl")
 FEEDBACK_LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
 
 

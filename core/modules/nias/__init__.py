@@ -1,12 +1,12 @@
-from datetime import datetime, timezone
-
 """
 NIAS (Non-Intrusive Ad System) Module
 Unified module for ethical, consent-aware symbolic message delivery.
 Integrates with Dream system for deferred processing and quantum consciousness.
 """
+
 import logging
 import time
+from datetime import datetime, timezone
 from typing import Any
 
 import streamlit as st

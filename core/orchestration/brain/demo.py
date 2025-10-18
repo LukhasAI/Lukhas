@@ -1,12 +1,10 @@
+#!/usr/bin/env python3
 """
 Enhanced Core TypeScript - Integrated from Advanced Systems
 Original: demo.py
 Advanced: demo.py
 Integration Date: 2025-05-31T07:55:27.784414
-"""
 
-#!/usr/bin/env python3
-"""
 Adaptive Cognitive AI Interface Demo
 
 This script demonstrates the core capabilities of the Adaptive Cognitive AI Interface system,

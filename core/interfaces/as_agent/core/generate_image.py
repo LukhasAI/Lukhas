@@ -1,6 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 ΛTRACE: generate_image.py
 ΛAGENT: GitHub-Copilot/Jules-Integration
@@ -15,10 +12,13 @@ Advanced: generate_image.py
 Integration Date: 2025-05-31T07:55:30.405829
 """
 
+import logging
+
 import structlog
 
-# Configure structured logging
-logger = structlog.get_logger(__name__)
+# Configure logging
+logger = logging.getLogger(__name__)
+structured_logger = structlog.get_logger(__name__)
 
 # Fix hardcoded plugin import with try/except
 try:

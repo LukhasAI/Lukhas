@@ -1,8 +1,3 @@
-import logging
-import time
-import uuid
-
-logger = logging.getLogger(__name__)
 """
 ═══════════════════════════════════════════════════════════════════════════════════
 📡 MODULE: core.orchestration.energy_aware_execution_planner
@@ -51,7 +46,10 @@ AIDEA: Add circadian rhythm patterns for natural energy cycles
 
 import asyncio
 import json
+import logging
 import threading
+import time
+import uuid
 from collections import deque
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
@@ -68,7 +66,9 @@ try:
 except ImportError as e:
     structlog.get_logger().warning(f"Missing dependencies: {e}")
 
-logger = structlog.get_logger("strategy_engine.eaxp")
+# Configure logging
+logger = logging.getLogger(__name__)
+structured_logger = structlog.get_logger("strategy_engine.eaxp")
 
 
 class EnergyProfile(Enum):

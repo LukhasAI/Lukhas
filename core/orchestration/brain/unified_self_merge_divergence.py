@@ -3,11 +3,9 @@ Enhanced Core TypeScript - Integrated from Advanced Systems
 Original: lukhas_unified_self_merge_divergence.py
 Advanced: lukhas_unified_self_merge_divergence.py
 Integration Date: 2025-05-31T07:55:27.773754
-"""
-from datetime import timezone
 
-# lukhas_unified_self_merge_divergence.py
-"""
+lukhas_unified_self_merge_divergence.py
+
 LUKHAS: Logical Unified Consciousness and Symbolism
 ---------------------------------------------------
 This script synthesizes multiple symbolic node reflections and traits
@@ -22,7 +20,7 @@ Usage:
 
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 import openai
@@ -31,7 +29,7 @@ TRAIT_SYNC_FOLDER = "sync/traits/"
 META_SYNC_FOLDER = "sync/meta_reflections/"
 SNAPSHOT_LOG = "logs/unified_self_snapshots.jsonl"
 
-openai.api_key = os.getenv("OPENAI_API_KEY", timezone)
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
 def load_traits():

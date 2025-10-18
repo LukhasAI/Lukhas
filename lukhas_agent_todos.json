@@ -1,0 +1,70 @@
+{
+  "Claude Code": [
+    {
+      "task": "Patch manifest generator to allow --star-from-rules flag.",
+      "detail": "Use configs/star_rules.json to override Supporting assignments. Ensure confidence thresholds respected.",
+      "priority": "high"
+    },
+    {
+      "task": "Regenerate 780 manifests with updated star assignments.",
+      "detail": "Re-run with --write-context flag to overwrite outdated lukhas_context.md files.",
+      "priority": "high"
+    },
+    {
+      "task": "Update lukhas_context.md structure.",
+      "detail": "Inject YAML front matter, link contracts, add doc cross-links.",
+      "priority": "medium"
+    },
+    {
+      "task": "Patch schema for better validator error reporting.",
+      "detail": "Add description to all required fields to enhance clarity.",
+      "priority": "low"
+    }
+  ],
+  "GitHub Copilot / Codex": [
+    {
+      "task": "Refactor file structure: elevate flagship modules.",
+      "detail": "Promote 'lukhas/' subdirs into root if they're validated flagship modules (e.g., drift, vivox, bio, dream).",
+      "priority": "medium"
+    },
+    {
+      "task": "Write test coverage bots for context files.",
+      "detail": "Scan for orphan modules (no context file) and missing badges.",
+      "priority": "low"
+    }
+  ],
+  "DevOps Agents": [
+    {
+      "task": "Integrate --check-links, --star-promotions, --t1-owners into CI.",
+      "detail": "Ensure GitHub Actions fail on new broken links, orphan T1s, or unreviewed promotions.",
+      "priority": "high"
+    },
+    {
+      "task": "Build a deployment-ready release pipeline.",
+      "detail": "Add Makefile targets for release freeze, tag, pre-release validation.",
+      "priority": "medium"
+    },
+    {
+      "task": "Enable OpenAPI-compatible stub generation.",
+      "detail": "Expose a CLI to convert manifests → OpenAPI for future API Gateway alignments.",
+      "priority": "medium"
+    }
+  ],
+  "0.01% / Strategic Alignment": [
+    {
+      "task": "Audit alignment to OpenAI system cards and deployment stack.",
+      "detail": "Check if Lukhas modules can enhance ChatGPT plugins, Assistant APIs, file systems.",
+      "priority": "high"
+    },
+    {
+      "task": "Design Dream/Drift/Lukhas_ID as ecosystem-level APIs.",
+      "detail": "Prepare them for speculative integration with multimodal agents for use in scenario simulation, identity routing, and quantum/dream modeling.",
+      "priority": "high"
+    },
+    {
+      "task": "Create README.roadmap.md for Lukhas public modules.",
+      "detail": "Document how modules complement OpenAI and what verticals they enable.",
+      "priority": "medium"
+    }
+  ]
+}

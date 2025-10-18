@@ -1,7 +1,3 @@
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 LUKHAS System Initialization - Production Ready
 ================================================
@@ -14,7 +10,7 @@ import logging
 import os
 import sys
 import time
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
@@ -26,9 +22,11 @@ project_root = Path(__file__).parent.parent
 if str(project_root) not in sys.path:
     sys.path.insert(0, str(project_root))
 
+# Initialize module logger
+logger = logging.getLogger(__name__)
+
+
 # Configure logging
-
-
 def setup_logging(level: str = "INFO", log_file: Optional[str] = None):
     """Configure logging for the system"""
     log_format = "%(asctime)s [%(levelname)s] %(name)s - %(message)s"

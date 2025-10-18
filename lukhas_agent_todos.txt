@@ -1,0 +1,94 @@
+## 🧠 Lukhas AI — Agent-Friendly TODO Lists
+
+This is a breakdown of focused, actionable TODOs for different agents (Claude Code, GitHub Copilot, Codex, and DevOps agents in VSCode) to execute surgically. Tasks are grouped by priority and system component.
+
+---
+
+### 🧠 Claude Code (Reasoning, Schema, Alignment)
+
+#### 🔹 MATRIZ Completion
+- [ ] Refactor MATRIZ node pipeline to ensure Thought → Act step includes self-critique
+- [ ] Add `latency_target_p95` per module in manifests and validate against smoke tests
+- [ ] Finalize support for Dream ↔ MATRIZ integration (bi-directional reasoning)
+
+#### 🔹 Vivox Ethics Enhancements
+- [ ] Implement Vivox Drift index based on decision deltas over time (log & visualize)
+- [ ] Add Vivox override log viewer + reviewer panel (admin-only)
+
+#### 🔹 Dream API & DreamEngine
+- [ ] Finalize Dream API OpenAPI schema
+- [ ] Implement `simulate_scenarios()` endpoint
+- [ ] Add feedback loop interface to learn from real decisions
+- [ ] Support `consensus_colony=["gpt-4", "lukhas-t1", "claude"]` in Dream config
+
+#### 🔹 Contracts & Schema
+- [ ] Move all `contracts/*` to versioned folders (e.g. `contracts/v1/`)
+- [ ] Enforce manifest events match valid contract IDs (CI tripwire)
+
+---
+
+### 🤖 GitHub Copilot (Boilerplate, Hook, Refactors)
+
+#### 🔹 Guardian Tripwires
+- [ ] Implement validator: reject manifests with T1_critical but no test_paths
+- [ ] Check `owner` present in all T1/T2 manifests (CI tripwire)
+
+#### 🔹 Pre-Commit / Linting
+- [ ] Add `check_context_links.py` to pre-commit hook
+- [ ] Add auto-linter for YAML schema field naming (`snake_case`, `required`, etc.)
+
+#### 🔹 Smoke & Perf
+- [ ] Extend `pytest -k matriz_smoke` suite for all core stars
+- [ ] Add benchmark for `matriz_think()` under 250ms target
+
+---
+
+### 🔍 Codex (Docs, Examples, Public APIs)
+
+#### 🔹 Public API Docs
+- [ ] Generate OpenAPI spec for Dream API, MATRIZ API, Guardian Policy API
+- [ ] Create Markdown quickstart guides (`docs/apis/quickstart_dream.md`, etc.)
+- [ ] Add OpenAI-compatible usage examples for every public endpoint
+
+#### 🔹 Identity Layer (ΛiD)
+- [ ] Document trust tiers T1–T5 in `docs/identity/tiers.md`
+- [ ] Publish a JWT issuance flow and `/.well-known/openid-configuration`
+- [ ] Ensure web consent ledger is linked in ΛiD login flow
+
+#### 🔹 Website / Dev Portal Prep
+- [ ] Create outline for lukhas.io homepage (Dream, Ethics, AugmentGPT pitch)
+- [ ] Create diagram of MATRIZ + Guardian + Vivox interaction
+- [ ] Add demo gifs of Dream API in action
+
+---
+
+### ⚙️ DevOps Agent (Infra, CI/CD, Org)
+
+#### 🔹 Repository Refactor
+- [ ] Rename `lukhas/candidate/` → `lukhas/experimental/`
+- [ ] Move `lukhas/lukhas/` → `lukhas/core/`
+- [ ] Move all root-level stars (Dream, Ethics, Identity, Memory, etc.) to `/core/`
+- [ ] Create top-level folders: `/guardian/`, `/vivox/`, `/dream/`, `/identity/`, etc.
+
+#### 🔹 CI/CD Enhancements
+- [ ] Add drift check: fail CI if manifest count drops >1%
+- [ ] Export manifest stats, star promotions, owner coverage as artifacts
+- [ ] Add docs badge generation (coverage, API uptime, etc.)
+
+#### 🔹 Release Engineering
+- [ ] Adopt `release/FREEZE.md` checklist: perf/obs/sec signoffs
+- [ ] Generate and publish golden manifests for 5 core modules
+- [ ] Freeze schema at `v1.1.0`, version-lock CI validators
+
+---
+
+### 🔮 Extra (0.01% Tier / OpenAI Alignment)
+
+- [ ] Add RLHF compatibility layer (feedback into Dream rankings)
+- [ ] Allow plug-in architecture: GPT-4 Vision module → Vision star
+- [ ] Add Model Cards for `DreamEngine`, `Vivox`, `Guardian`, etc.
+- [ ] Open source selected modules (e.g. `docs/`, `rules/`, Dream SDK)
+
+---
+
+Let me know if you'd like this saved in a machine-readable TODO.json or broken up into `.taskpaper` or `.org` files for specific editors/agents.

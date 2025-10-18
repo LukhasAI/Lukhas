@@ -1,6 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 ═══════════════════════════════════════════════════════════════════════════════════
 📡 MODULE: core.integration.neuro_symbolic_fusion_layer
@@ -46,6 +43,7 @@ AIDEA: Explore emotional fusion for empathetic AI reasoning
 """
 
 import json
+import logging
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
@@ -65,7 +63,8 @@ except ImportError as e:
     # Graceful fallback for missing dependencies
     structlog.get_logger().warning(f"Missing dependencies: {e}")
 
-logger = structlog.get_logger("strategy_engine.nsfl")
+logger = logging.getLogger(__name__)
+structured_logger = structlog.get_logger("strategy_engine.nsfl")
 
 
 class FusionMode(Enum):
