@@ -13,7 +13,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Optional
 
-from lukhas.bridge.voice.systems.voice_synthesis import (
+from bridge.voice.systems.voice_synthesis import (
     CoquiProvider,
     EdgeTTSProvider,
     ElevenLabsProvider,

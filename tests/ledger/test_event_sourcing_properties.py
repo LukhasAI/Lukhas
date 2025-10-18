@@ -28,9 +28,9 @@ from hypothesis.stateful import Bundle, RuleBasedStateMachine, initialize, invar
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
-from lukhas.ledger.consent_handlers import IdempotentConsentHandler, IdempotentTraceHandler
-from lukhas.ledger.event_bus import AsyncEventBus
-from lukhas.ledger.events import (
+from ledger.consent_handlers import IdempotentConsentHandler, IdempotentTraceHandler
+from ledger.event_bus import AsyncEventBus
+from ledger.events import (
     ConsentGrantedEvent,
     ConsentRevokedEvent,
     ConsentType,

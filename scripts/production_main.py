@@ -26,7 +26,7 @@ from typing import Any, Optional
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 # Import LUKHAS components
-from lukhas.branding_bridge import (
+from branding_bridge import (
     get_constellation_context,
     get_system_signature,
     initialize_branding,

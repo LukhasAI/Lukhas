@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from lukhas.tools.matriz.graph_compiler import compile_graph, validate_invariants
+from tools.matriz.graph_compiler import compile_graph, validate_invariants
 
 
 def test_valid_minimal_graph_compiles():

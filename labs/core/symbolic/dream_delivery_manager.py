@@ -23,7 +23,7 @@ from lukhas.core.interfaces.voice.voice_emotional.context_aware_modular_voice im
 from .voice_parameter import VoiceParameter
 
 try:
-    from lukhas.tools.documentation.memory_evolution.voice_synthesis import (
+    from tools.documentation.memory_evolution.voice_synthesis import (
         VoiceSynthesisAdapter,
     )
 except ImportError:

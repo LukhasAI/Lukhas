@@ -212,7 +212,7 @@ class MetricsCollector:
     async def _collect_flags_metrics(self) -> dict[str, Any]:
         """Collect feature flags status"""
         try:
-            from lukhas.flags import get_flags
+            from flags import get_flags
 
             flags = get_flags()
 

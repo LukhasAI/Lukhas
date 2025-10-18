@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.memory.folds.fold_engine",
-    "path": "lukhas/memory/folds/fold_engine",
+    "path": "memory/folds/fold_engine",
     "type": "package",
     "lane": "lukhas",
     "colony": "memory"

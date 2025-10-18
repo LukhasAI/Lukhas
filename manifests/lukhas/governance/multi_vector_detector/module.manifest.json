@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.governance.multi_vector_detector",
-    "path": "lukhas/governance/multi_vector_detector",
+    "path": "governance/multi_vector_detector",
     "type": "package",
     "lane": "lukhas"
   },

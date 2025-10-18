@@ -27,7 +27,7 @@ from prometheus_client import Counter, Gauge, Histogram, make_asgi_app
 from lukhas.governance.guardian import get_guardian_status
 
 # Import API routers
-from lukhas.identity.webauthn_api import router as webauthn_router
+from identity.webauthn_api import router as webauthn_router
 from lukhas.orchestration.api import router as orchestration_router
 
 logger = logging.getLogger(__name__)

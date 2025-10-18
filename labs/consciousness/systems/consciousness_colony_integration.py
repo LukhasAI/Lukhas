@@ -10,7 +10,7 @@ from typing import Any, Optional
 import numpy as np
 
 from consciousness.systems.engine import LUKHASConsciousnessEngine
-from lukhas.bridge.shared_state import SharedStateManager
+from bridge.shared_state import SharedStateManager
 from lukhas.core.colonies.creativity_colony import CreativityColony
 from lukhas.core.colonies.memory_colony import MemoryColony
 from lukhas.core.colonies.reasoning_colony import ReasoningColony

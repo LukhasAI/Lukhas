@@ -30,7 +30,7 @@ CASES = [
     # Multi-import forms
     ("multi_from",
      "from tools.monitoring import a, b\n",
-     "from lukhas.tools.monitoring import a, b\n"),
+     "from tools.monitoring import a, b\n"),
 
     ("multi_from_candidate",
      "from candidate.core import A, B, C\n",
@@ -164,12 +164,12 @@ def test_codemod_handles_mixed_imports():
     src = """
 from candidate.core import A
 from labs.other import B
-import lukhas.tools
+import tools
 """
     expected = """
 from labs.core import A
 from labs.other import B
-import lukhas.tools
+import tools
 """
     result = run_codemod(src)
     assert result == expected, "Codemod should handle mixed imports"

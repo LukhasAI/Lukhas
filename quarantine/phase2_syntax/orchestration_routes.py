@@ -18,7 +18,7 @@ from pydantic import BaseModel
 # Import the orchestration components
 try:
     # Optional: available when orchestration suite is installed
-    from lukhas.bridge.orchestration.multi_ai_orchestrator import (
+    from bridge.orchestration.multi_ai_orchestrator import (
         AIProvider,
         MultiAIOrchestrator,
         OrchestrationRequest,

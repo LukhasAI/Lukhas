@@ -130,7 +130,7 @@ class BrandVoiceAdapter:
 
         # Initialize voice systems
         if VOICE_SYSTEMS_AVAILABLE:
-            from lukhas.bridge.voice.voice_profiling import VoiceProfileManager
+            from bridge.voice.voice_profiling import VoiceProfileManager
 
             profile_manager = VoiceProfileManager()
             self.core_voice_personality = VoicePersonalityIntegrator(profile_manager)

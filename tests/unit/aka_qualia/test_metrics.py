@@ -8,8 +8,8 @@ import math
 import pytest
 
 try:
-    from lukhas.aka_qualia.metrics import AkaQualiaMetrics, MetricsConfig
-    from lukhas.aka_qualia.models import (
+    from aka_qualia.metrics import AkaQualiaMetrics, MetricsConfig
+    from aka_qualia.models import (
         AgencyFeel,
         Metrics,
         PhenomenalScene,
@@ -336,7 +336,7 @@ class TestAkaQualiaMetrics:
 
     def test_compute_neurosis_risk_with_glyph_penalty(self, metrics_computer: AkaQualiaMetrics):
         """Tests that repeated glyph triplets add a penalty to the risk score."""
-        from lukhas.aka_qualia.models import PhenomenalGlyph
+        from aka_qualia.models import PhenomenalGlyph
 
         # Create a repeating glyph pattern
         glyphs = [PhenomenalGlyph(key="aka:loop", attrs={})]

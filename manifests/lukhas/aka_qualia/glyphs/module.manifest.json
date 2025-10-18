@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.aka_qualia.glyphs",
-    "path": "lukhas/aka_qualia/glyphs",
+    "path": "aka_qualia/glyphs",
     "type": "package",
     "lane": "lukhas"
   },

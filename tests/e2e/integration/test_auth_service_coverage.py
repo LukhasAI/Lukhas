@@ -9,7 +9,7 @@ import pytest
 def test_auth_service_comprehensive_structure():
     """Test auth service comprehensive structure and initialization."""
     try:
-        from lukhas.identity.auth_service import AuthService
+        from identity.auth_service import AuthService
 
         # Test class hierarchy and structure
         assert issubclass(AuthService, object)
@@ -48,7 +48,7 @@ def test_auth_service_comprehensive_structure():
 def test_authentication_comprehensive_flows():
     """Test comprehensive authentication flows and scenarios."""
     try:
-        from lukhas.identity.auth_service import AuthService
+        from identity.auth_service import AuthService
 
         service = AuthService()
 
@@ -102,7 +102,7 @@ def test_authentication_comprehensive_flows():
 def test_session_management_comprehensive():
     """Test comprehensive session management and lifecycle."""
     try:
-        from lukhas.identity.auth_service import AuthService
+        from identity.auth_service import AuthService
 
         service = AuthService()
 
@@ -177,7 +177,7 @@ def test_session_management_comprehensive():
 def test_token_management_comprehensive():
     """Test comprehensive token generation, validation, and lifecycle."""
     try:
-        from lukhas.identity.auth_service import AuthService
+        from identity.auth_service import AuthService
 
         service = AuthService()
 
@@ -250,7 +250,7 @@ def test_token_management_comprehensive():
 def test_authorization_and_permissions():
     """Test comprehensive authorization and permission management."""
     try:
-        from lukhas.identity.auth_service import AuthService
+        from identity.auth_service import AuthService
 
         service = AuthService()
 
@@ -318,7 +318,7 @@ def test_authorization_and_permissions():
 def test_auth_service_triad_framework_integration():
     """Test auth service integration with Constellation Framework and consciousness."""
     try:
-        from lukhas.identity.auth_service import AuthService
+        from identity.auth_service import AuthService
 
         service = AuthService()
 
@@ -374,7 +374,7 @@ def test_auth_service_triad_framework_integration():
 def test_auth_service_edge_cases_and_security():
     """Test auth service edge cases, security scenarios, and error handling."""
     try:
-        from lukhas.identity.auth_service import AuthService
+        from identity.auth_service import AuthService
 
         service = AuthService()
 

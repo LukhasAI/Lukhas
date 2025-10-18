@@ -32,7 +32,7 @@ import qrcode
 from PIL import Image, ImageDraw
 
 # Replaced insecure random with secure random for consistency
-from lukhas.security import secure_random
+from security import secure_random
 
 # Import LUKHAS components
 try:

@@ -30,8 +30,8 @@ from typing import Any
 
 import pytest
 
-from lukhas.aka_qualia.core import AkaQualia
-from lukhas.aka_qualia.models import (
+from aka_qualia.core import AkaQualia
+from aka_qualia.models import (
     SeverityLevel,
 )
 

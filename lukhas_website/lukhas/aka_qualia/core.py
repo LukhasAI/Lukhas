@@ -8,7 +8,7 @@ Core implementation of bidirectional signal↔qualia translator with
 operational proto-qualia, ethical regulation, and measurable outcomes.
 
 Usage:
-    from lukhas.aka_qualia.core import AkaQualia
+    from aka_qualia.core import AkaQualia
     aq = AkaQualia(pls, teq_guardian, glyph_mapper, router, memory, cfg)
     result = await aq.step(signals=S, goals=G, ethics_state=E, guardian_state=U, memory_ctx=M)
 """
@@ -19,28 +19,28 @@ import time
 from pathlib import Path
 from typing import Any, Callable, Optional
 
-from lukhas.aka_qualia.glyphs import map_scene_to_glyphs, normalize_glyph_keys
-from lukhas.aka_qualia.memory import AkaqMemory, create_memory_client
-from lukhas.aka_qualia.metrics import AkaQualiaMetrics, EnergySnapshot
-from lukhas.aka_qualia.models import (
+from aka_qualia.glyphs import map_scene_to_glyphs, normalize_glyph_keys
+from aka_qualia.memory import AkaqMemory, create_memory_client
+from aka_qualia.metrics import AkaQualiaMetrics, EnergySnapshot
+from aka_qualia.models import (
     Metrics,
     PhenomenalGlyph,
     PhenomenalScene,
     ProtoQualia,
     RegulationPolicy,
 )
-from lukhas.aka_qualia.oneiric_hook import OneiricHook, create_oneiric_hook
-from lukhas.aka_qualia.palette import get_safe_palette_recommendation
-from lukhas.aka_qualia.pls import PLS
-from lukhas.aka_qualia.regulation import RegulationAuditEntry, RegulationPolicyEngine
-from lukhas.aka_qualia.router_client import (
+from aka_qualia.oneiric_hook import OneiricHook, create_oneiric_hook
+from aka_qualia.palette import get_safe_palette_recommendation
+from aka_qualia.pls import PLS
+from aka_qualia.regulation import RegulationAuditEntry, RegulationPolicyEngine
+from aka_qualia.router_client import (
     RouterClient,
     compute_routing_priority,
     create_router_client,
 )
-from lukhas.aka_qualia.teq_hook import TEQGuardian
-from lukhas.aka_qualia.util import compute_drift_phi, extract_affect_energy
-from lukhas.aka_qualia.vivox_integration import VivoxAkaQualiaIntegration
+from aka_qualia.teq_hook import TEQGuardian
+from aka_qualia.util import compute_drift_phi, extract_affect_energy
+from aka_qualia.vivox_integration import VivoxAkaQualiaIntegration
 from lukhas.metrics import get_metrics_collector
 
 

@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.matriz.runtime.policy",
-    "path": "lukhas/matriz/runtime/policy",
+    "path": "matriz/runtime/policy",
     "type": "package",
     "lane": "lukhas"
   },

@@ -6,7 +6,7 @@ import pytest
 def test_branding_bridge_import():
     """Test branding bridge imports and basic initialization."""
     try:
-        from lukhas.branding_bridge import BrandingBridge
+        from branding_bridge import BrandingBridge
 
         # Test basic instantiation
         bridge = BrandingBridge()
@@ -24,7 +24,7 @@ def test_branding_bridge_import():
 def test_branding_bridge_get_context():
     """Test brand context retrieval."""
     try:
-        from lukhas.branding_bridge import BrandingBridge
+        from branding_bridge import BrandingBridge
 
         bridge = BrandingBridge()
 
@@ -43,7 +43,7 @@ def test_branding_bridge_get_context():
 def test_branding_bridge_message_validation():
     """Test message validation functionality."""
     try:
-        from lukhas.branding_bridge import BrandingBridge
+        from branding_bridge import BrandingBridge
 
         bridge = BrandingBridge()
 
@@ -63,7 +63,7 @@ def test_branding_bridge_message_validation():
 def test_branding_bridge_tone_system():
     """Test 3-layer tone system application."""
     try:
-        from lukhas.branding_bridge import BrandingBridge
+        from branding_bridge import BrandingBridge
 
         bridge = BrandingBridge()
 
@@ -82,7 +82,7 @@ def test_branding_bridge_tone_system():
 def test_branding_bridge_error_handling():
     """Test error handling in branding bridge."""
     try:
-        from lukhas.branding_bridge import BrandingBridge
+        from branding_bridge import BrandingBridge
 
         bridge = BrandingBridge()
 

@@ -4,15 +4,15 @@ import os
 
 from fastapi import Depends, FastAPI, Header, HTTPException
 
-from lukhas.api.admin import router as admin_router
-from lukhas.api.audit import router as audit_router
-from lukhas.api.dna import router as dna_router
-from lukhas.api.feedback import router as feedback_router
-from lukhas.api.incidents import router as incidents_router
-from lukhas.api.metrics import router as metrics_router
-from lukhas.api.ops import router as ops_router
-from lukhas.api.perf import router as perf_router
-from lukhas.api.tools import router as tools_router
+from api.admin import router as admin_router
+from api.audit import router as audit_router
+from api.dna import router as dna_router
+from api.feedback import router as feedback_router
+from api.incidents import router as incidents_router
+from api.metrics import router as metrics_router
+from api.ops import router as ops_router
+from api.perf import router as perf_router
+from api.tools import router as tools_router
 
 # --- app metadata ---
 app = FastAPI(

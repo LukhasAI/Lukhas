@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.core.consciousness_ticker",
-    "path": "lukhas/core/consciousness_ticker",
+    "path": "core/consciousness_ticker",
     "type": "package",
     "lane": "lukhas"
   },

@@ -41,8 +41,8 @@ log = structlog.get_logger(__name__)
 LUKHAS_FRAMEWORK_COMPONENTS_AVAILABLE = False
 try:
     # Try candidate lane first
-    from lukhas.bridge.plugin_base import LucasPlugin, LucasPluginManifest
-    from lukhas.bridge.plugin_loader import PluginLoader
+    from bridge.plugin_base import LucasPlugin, LucasPluginManifest
+    from bridge.plugin_loader import PluginLoader
     from lukhas.core.registry import core_registry
     from lukhas.core.utils.base_module import BaseLucasModule
 
@@ -51,8 +51,8 @@ try:
 except ImportError:
     try:
         # Fallback to production lane
-        from lukhas.bridge.plugin_base import LucasPlugin, LucasPluginManifest
-        from lukhas.bridge.plugin_loader import PluginLoader
+        from bridge.plugin_base import LucasPlugin, LucasPluginManifest
+        from bridge.plugin_loader import PluginLoader
         from lukhas.core.registry import core_registry
         from lukhas.core.utils.base_module import BaseLucasModule
 

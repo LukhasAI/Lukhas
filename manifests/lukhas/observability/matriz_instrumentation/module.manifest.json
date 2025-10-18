@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.observability.matriz_instrumentation",
-    "path": "lukhas/observability/matriz_instrumentation",
+    "path": "observability/matriz_instrumentation",
     "type": "package",
     "lane": "lukhas"
   },

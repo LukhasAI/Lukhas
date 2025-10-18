@@ -74,7 +74,7 @@ def compute_affect_delta(symbols: list[str]) -> float:
         import os
 
         os.environ["EMOTION_ACTIVE"] = "true"
-        from lukhas.emotion import process_emotion
+        from emotion import process_emotion
 
         # Process symbols through emotion engine
         symbol_text = " ".join(symbols) if symbols else "neutral"
@@ -283,7 +283,7 @@ async def memory_dump() -> MemoryDumpResponse:
         # Import memory system components
         import os
 
-        from lukhas.emotion import process_emotion
+        from emotion import process_emotion
         from memory.unified.fold_manager import FoldManager
 
         # Initialize memory manager

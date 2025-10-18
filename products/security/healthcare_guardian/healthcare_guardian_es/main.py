@@ -39,7 +39,7 @@ except ImportError:
 try:
     from lukhas.consciousness import ConsciousnessEngine
     from lukhas.guardian import GuardianSystem
-    from lukhas.identity import IdentityManager
+    from identity import IdentityManager
 
     LUKHAS_AVAILABLE = True
 except ImportError:

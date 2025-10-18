@@ -1,9 +1,9 @@
 """Tiny Streamlit compatibility shim.
 
 Usage:
-    from lukhas.utils.streamlit_compat import st
+    from utils.streamlit_compat import st
 or:
-    from lukhas.utils import st
+    from utils import st
 """
 from __future__ import annotations
 

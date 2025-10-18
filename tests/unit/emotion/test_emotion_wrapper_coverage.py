@@ -6,7 +6,7 @@ import pytest
 def test_emotion_wrapper_import():
     """Test emotion wrapper imports and basic initialization."""
     try:
-        from lukhas.emotion.emotion_wrapper import EmotionWrapper
+        from emotion.emotion_wrapper import EmotionWrapper
 
         # Test basic instantiation
         wrapper = EmotionWrapper()
@@ -24,7 +24,7 @@ def test_emotion_wrapper_import():
 def test_emotion_wrapper_process_emotion():
     """Test emotion processing functionality."""
     try:
-        from lukhas.emotion.emotion_wrapper import EmotionWrapper
+        from emotion.emotion_wrapper import EmotionWrapper
 
         wrapper = EmotionWrapper()
 
@@ -44,7 +44,7 @@ def test_emotion_wrapper_process_emotion():
 def test_emotion_wrapper_state_management():
     """Test emotional state management."""
     try:
-        from lukhas.emotion.emotion_wrapper import EmotionWrapper
+        from emotion.emotion_wrapper import EmotionWrapper
 
         wrapper = EmotionWrapper()
 
@@ -63,7 +63,7 @@ def test_emotion_wrapper_state_management():
 def test_emotion_wrapper_valence_update():
     """Test valence update functionality."""
     try:
-        from lukhas.emotion.emotion_wrapper import EmotionWrapper
+        from emotion.emotion_wrapper import EmotionWrapper
 
         wrapper = EmotionWrapper()
 
@@ -85,7 +85,7 @@ def test_emotion_wrapper_valence_update():
 def test_emotion_wrapper_error_handling():
     """Test error handling in emotion wrapper."""
     try:
-        from lukhas.emotion.emotion_wrapper import EmotionWrapper
+        from emotion.emotion_wrapper import EmotionWrapper
 
         wrapper = EmotionWrapper()
 

@@ -44,7 +44,7 @@ with contextlib.suppress(ImportError):
 
 # Import LUKHAS AI branding system for consciousness outputs
 try:
-    from lukhas.branding_bridge import (
+    from branding_bridge import (
         BrandContext,
         get_brand_voice,
         get_constellation_context,

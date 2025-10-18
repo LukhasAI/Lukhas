@@ -330,9 +330,9 @@ class ExternalAdaptersServiceAdapter(IBridgeService):
         """Lazy load external adapters"""
         if not self._initialized:
             try:
-                from lukhas.bridge.adapters.drive_adapter import GoogleDriveAdapter
-                from lukhas.bridge.adapters.dropbox_adapter import DropboxAdapter
-                from lukhas.bridge.adapters.gmail_adapter import GmailAdapter
+                from bridge.adapters.drive_adapter import GoogleDriveAdapter
+                from bridge.adapters.dropbox_adapter import DropboxAdapter
+                from bridge.adapters.gmail_adapter import GmailAdapter
 
                 self._adapters["gmail"] = GmailAdapter()
                 self._adapters["drive"] = GoogleDriveAdapter()

@@ -21,7 +21,7 @@ from typing import Any, Callable, Optional
 from lukhas.consciousness.awareness.awareness_engine import AwarenessEngine
 from lukhas.core.common.glyph import GLYPHSymbol, create_glyph
 from lukhas.core.common.logger import get_logger
-from lukhas.emotion.emotion_hub import EmotionHub
+from emotion.emotion_hub import EmotionHub
 from lukhas.governance.guardian import GuardianValidator
 from lukhas.memory.service import MemoryService
 from lukhas.voice.voice_modulator import (

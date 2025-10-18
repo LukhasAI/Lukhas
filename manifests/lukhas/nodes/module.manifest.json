@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.nodes",
-    "path": "lukhas/nodes",
+    "path": "nodes",
     "type": "package",
     "lane": "lukhas"
   },

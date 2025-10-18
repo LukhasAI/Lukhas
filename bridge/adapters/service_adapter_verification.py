@@ -18,7 +18,7 @@ def test_imports():
 
     try:
         # Critical alias
-        from lukhas.bridge.adapters.service_adapter_base import (
+        from bridge.adapters.service_adapter_base import (
             AdapterState,  # noqa: F401  # TODO: lukhas.bridge.adapters.service...
             BaseServiceAdapter,
             CapabilityToken,  # noqa: F401  # TODO: lukhas.bridge.adapters.service...
@@ -42,7 +42,7 @@ def test_adapter_creation():
     print("\n🏗️  Testing adapter creation...")
 
     try:
-        from lukhas.bridge.adapters.service_adapter_base import BaseServiceAdapter
+        from bridge.adapters.service_adapter_base import BaseServiceAdapter
 
         # Create a simple test adapter
         class TestAdapter(BaseServiceAdapter):
@@ -72,7 +72,7 @@ def test_health_status():
     print("\n🏥 Testing health status...")
 
     try:
-        from lukhas.bridge.adapters.service_adapter_base import BaseServiceAdapter
+        from bridge.adapters.service_adapter_base import BaseServiceAdapter
 
         class TestAdapter(BaseServiceAdapter):
             async def authenticate(self, credentials):
@@ -99,7 +99,7 @@ async def test_consciousness_integration():
     print("\n🧠 Testing consciousness integration...")
 
     try:
-        from lukhas.bridge.adapters.service_adapter_base import BaseServiceAdapter
+        from bridge.adapters.service_adapter_base import BaseServiceAdapter
 
         class TestAdapter(BaseServiceAdapter):
             async def authenticate(self, credentials):

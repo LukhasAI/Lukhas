@@ -22,7 +22,7 @@ sys.path.insert(0, str(project_root))
 
 try:
     from products.enterprise.core.observability.t4_observability_stack import T4ObservabilityStack
-    from lukhas.tools.monitoring.production_alerting_system import ProductionAlertingSystem, SystemMetrics
+    from tools.monitoring.production_alerting_system import ProductionAlertingSystem, SystemMetrics
 except ImportError as e:
     logging.error(f"Failed to import required modules: {e}")
     sys.exit(1)

@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.core.ethics",
-    "path": "lukhas/core/ethics",
+    "path": "core/ethics",
     "type": "package",
     "lane": "lukhas",
     "colony": "ethics"

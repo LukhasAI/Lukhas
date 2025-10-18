@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.core.drift",
-    "path": "lukhas/core/drift",
+    "path": "core/drift",
     "type": "package",
     "lane": "lukhas"
   },

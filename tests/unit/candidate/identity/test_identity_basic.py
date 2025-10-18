@@ -20,7 +20,7 @@ def test_auth_service_import():
 def test_lambda_id_import():
     """Test LambdaID imports."""
     try:
-        from lukhas.identity.lambda_id import LambdaIDService
+        from identity.lambda_id import LambdaIDService
 
         # Check class exists
         assert LambdaIDService is not None

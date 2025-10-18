@@ -15,9 +15,9 @@ import os
 import time
 from typing import Any
 
-from lukhas.aka_qualia.core import AkaQualia
-from lukhas.aka_qualia.glyphs import map_scene_to_glyphs
-from lukhas.aka_qualia.models import (
+from aka_qualia.core import AkaQualia
+from aka_qualia.glyphs import map_scene_to_glyphs
+from aka_qualia.models import (
     AgencyFeel,
     Metrics,
     PhenomenalScene,
@@ -27,8 +27,8 @@ from lukhas.aka_qualia.models import (
     SeverityLevel,
     TemporalFeel,
 )
-from lukhas.aka_qualia.oneiric_hook import create_oneiric_hook
-from lukhas.aka_qualia.router_client import (
+from aka_qualia.oneiric_hook import create_oneiric_hook
+from aka_qualia.router_client import (
     compute_routing_priority,
     create_router_client,
 )

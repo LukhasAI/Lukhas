@@ -12,7 +12,7 @@ Constellation Framework Integration: ⚛️🧠🛡️
 - 🛡️ Guardian: Brand compliance validation and drift protection
 
 Usage:
-    from lukhas.branding_bridge import (
+    from branding_bridge import (
         get_brand_voice, validate_output, get_constellation_context,
         initialize_branding, get_system_signature
     )

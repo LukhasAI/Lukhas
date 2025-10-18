@@ -51,7 +51,7 @@ except ImportError:
     import sys
 
     sys.path.append(str(Path(__file__).parent.parent.parent))
-    from lukhas.tools.parsers.knowledge_loader import SymbolicConcept, SymbolicKnowledgeLoader
+    from tools.parsers.knowledge_loader import SymbolicConcept, SymbolicKnowledgeLoader
 
 # Set up structured logging
 logging.basicConfig(level=logging.INFO)

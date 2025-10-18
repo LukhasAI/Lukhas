@@ -20,7 +20,7 @@ import time
 import uuid
 from typing import Any, cast
 
-from lukhas.bridge.llm_wrappers.tool_executor import (
+from bridge.llm_wrappers.tool_executor import (
     execute_tool as bridged_execute_tool,
 )
 
@@ -918,7 +918,7 @@ def resume_with_tools(
     import json
 
     from lukhas.audit.tool_analytics import get_analytics
-    from lukhas.tools.tool_executor import get_tool_executor
+    from tools.tool_executor import get_tool_executor
 
     analytics = get_analytics()
     executor = get_tool_executor()

@@ -8,7 +8,7 @@ import pytest
 pytest.importorskip("dropbox")
 from unittest.mock import AsyncMock, patch
 
-from lukhas.bridge.adapters.dropbox_adapter import DropboxAdapter
+from bridge.adapters.dropbox_adapter import DropboxAdapter
 
 
 @pytest.mark.tier3

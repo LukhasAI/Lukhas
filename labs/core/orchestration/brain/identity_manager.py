@@ -44,7 +44,7 @@ try:
     from .trauma_lock import TraumaLockSystem
 except ImportError:
     try:
-        from lukhas.identity.security.trauma_lock import TraumaLockSystem
+        from identity.security.trauma_lock import TraumaLockSystem
     except ImportError:
         # Create stub for development/testing
         class TraumaLockSystem:

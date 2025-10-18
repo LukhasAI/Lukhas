@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.security",
-    "path": "lukhas/security",
+    "path": "security",
     "type": "package",
     "lane": "lukhas"
   },

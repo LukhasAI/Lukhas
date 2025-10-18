@@ -9,7 +9,7 @@ try:
     logger.info("lukhas.accepted.bio.symbolic -> bio.symbolic")
 except Exception:
     try:
-        from lukhas.bio.symbolic import get_symbolic_processor
+        from bio.symbolic import get_symbolic_processor
         logger.info("lukhas.accepted.bio.symbolic -> candidate.bio.symbolic")
     except Exception as e:
         logger.warning(f"Could not wire symbolic processor: {e}")

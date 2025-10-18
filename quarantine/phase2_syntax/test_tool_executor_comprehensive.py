@@ -14,10 +14,10 @@ import pytest
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "../../candidate/tools"))
 
-from lukhas.tools.external_service_integration import ExternalServiceIntegration
-from lukhas.tools.tool_executor import ToolExecutor
-from lukhas.tools.tool_executor_guardian import ToolExecutorGuardian
-from lukhas.tools.tool_orchestrator import MultiAIConsensus, ToolOrchestrator
+from tools.external_service_integration import ExternalServiceIntegration
+from tools.tool_executor import ToolExecutor
+from tools.tool_executor_guardian import ToolExecutorGuardian
+from tools.tool_orchestrator import MultiAIConsensus, ToolOrchestrator
 
 
 @pytest.fixture

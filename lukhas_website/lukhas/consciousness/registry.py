@@ -35,7 +35,7 @@ from enum import Enum
 from typing import Any, Callable, Optional, TypeVar
 
 try:
-    from lukhas.async_manager import TaskPriority, get_consciousness_manager
+    from async_manager import TaskPriority, get_consciousness_manager
     from lukhas.core.common.config import get_config
 except ImportError:
     # Graceful fallback for development

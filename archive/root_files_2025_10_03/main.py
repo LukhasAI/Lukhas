@@ -39,12 +39,12 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 # Import LUKHAS AI branding system for system initialization
 # Import branding bridge with fallback handling
 try:
-    from lukhas.branding_bridge import get_system_signature, initialize_branding
+    from branding_bridge import get_system_signature, initialize_branding
 
     BRANDING_AVAILABLE = True
 except ImportError:
     try:
-        from lukhas.branding_bridge import get_system_signature, initialize_branding
+        from branding_bridge import get_system_signature, initialize_branding
 
         BRANDING_AVAILABLE = True
     except ImportError:

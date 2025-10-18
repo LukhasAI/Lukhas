@@ -49,7 +49,7 @@ try:
     )
 
     # LUKHAS imports
-    from lukhas.bridge.api.orchestration_api_bridge import (
+    from bridge.api.orchestration_api_bridge import (
         APIProvider,
         ComprehensiveAPIOrchestrator,  # noqa: F401  # TODO: lukhas.bridge.api.orchestratio...
         OrchestrationRequest,

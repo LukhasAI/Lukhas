@@ -4,7 +4,7 @@ from typing import Any, Optional
 
 import yaml
 
-from lukhas.flags import is_enabled
+from flags import is_enabled
 
 PRECEDENCE = ["alignment_risk", "stress", "ambiguity", "novelty"]
 

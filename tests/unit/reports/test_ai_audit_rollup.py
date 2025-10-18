@@ -1,7 +1,7 @@
 from pathlib import Path
 import json
 
-from lukhas.tools.reports.ai_audit_rollup import normalize_event, append_to_ledger, rollup
+from tools.reports.ai_audit_rollup import normalize_event, append_to_ledger, rollup
 
 
 def test_normalize_event_fields():

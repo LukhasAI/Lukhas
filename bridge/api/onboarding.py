@@ -26,7 +26,7 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 try:
-    from lukhas.bridge.api.validation import (
+    from bridge.api.validation import (
         ValidationErrorType,  # noqa: F401  # TODO: lukhas.bridge.api.validation.V...
         ValidationSeverity,  # noqa: F401  # TODO: lukhas.bridge.api.validation.V...
         get_validator,

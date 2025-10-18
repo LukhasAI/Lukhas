@@ -22,7 +22,7 @@ from dataclasses import asdict, dataclass
 from enum import Enum
 from typing import Any, Optional
 
-from lukhas.aka_qualia.core import AkaQualia
+from aka_qualia.core import AkaQualia
 
 
 class StressTestType(Enum):

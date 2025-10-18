@@ -88,10 +88,10 @@ except ImportError:
 
 try:
     # Bio System Components
-    from lukhas.bio.awareness import BiologicalAwareness
-    from lukhas.bio.core import BioCore
-    from lukhas.bio.oscillator import BiologicalOscillator
-    from lukhas.bio.symbolic import SymbolicBio
+    from bio.awareness import BiologicalAwareness
+    from bio.core import BioCore
+    from bio.oscillator import BiologicalOscillator
+    from bio.symbolic import SymbolicBio
 
     BIO_AVAILABLE = True
 except ImportError:

@@ -22,7 +22,7 @@ from textwrap import dedent
 
 import pytest
 
-from lukhas.tools.acceptance_gate_ast import (
+from tools.acceptance_gate_ast import (
     BANNED,
     AuditTrail,
     ImportScannerAST,
@@ -684,7 +684,7 @@ class TestSecurityValidation:
         """Test comprehensive security validation of banned imports."""
         security_test_cases = [
             ("import lukhas.core", True),
-            ("from lukhas.security import Auth", True),
+            ("from security import Auth", True),
             ("import lukhas.core.sensitive.data", True),
             ("__import__('quarantine.module')", True),
             ("importlib.import_module('archive.legacy')", True),

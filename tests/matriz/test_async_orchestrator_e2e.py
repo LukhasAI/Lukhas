@@ -10,7 +10,7 @@ import pytest
 from labs.core.orchestration.async_orchestrator import AsyncOrchestrator, CancellationToken
 from core.interfaces import CognitiveNodeBase
 from core.registry import register
-from lukhas.nodes.example_nodes import DecisionNode, ErrorNode, IntentNode, SlowNode, ThoughtNode
+from nodes.example_nodes import DecisionNode, ErrorNode, IntentNode, SlowNode, ThoughtNode
 
 
 class TransientFailureNode(CognitiveNodeBase):

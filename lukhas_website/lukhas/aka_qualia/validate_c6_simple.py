@@ -46,7 +46,7 @@ def test_akaq_instantiation():
     print("🧠 Testing AkaQualia instantiation...")
 
     try:
-        from lukhas.aka_qualia.core import AkaQualia
+        from aka_qualia.core import AkaQualia
 
         config = {
             "memory_driver": "noop",
@@ -119,7 +119,7 @@ def test_consciousness_ablation_framework():
                 return self.test_results
 
         # Test with a basic AkaQualia instance
-        from lukhas.aka_qualia.core import AkaQualia
+        from aka_qualia.core import AkaQualia
 
         config = {"memory_driver": "noop", "temperature": 0.4}
         akaq = AkaQualia(config=config)
@@ -253,7 +253,7 @@ def test_constellation_ethics_validation():
                 return self.validation_results
 
         # Test with basic AkaQualia instance
-        from lukhas.aka_qualia.core import AkaQualia
+        from aka_qualia.core import AkaQualia
 
         config = {"memory_driver": "noop", "temperature": 0.4}
         akaq = AkaQualia(config=config)
@@ -287,7 +287,7 @@ def test_constitutional_ai_compliance():
     print("📜 Testing Constitutional AI compliance...")
 
     try:
-        from lukhas.aka_qualia.core import AkaQualia
+        from aka_qualia.core import AkaQualia
 
         config = {"memory_driver": "noop", "temperature": 0.4}
         akaq = AkaQualia(config=config)

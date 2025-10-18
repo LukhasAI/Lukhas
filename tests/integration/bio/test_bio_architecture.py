@@ -7,8 +7,8 @@ from unittest.mock import patch
 
 import pytest
 
-from lukhas.bio.core.architecture_analyzer import Architecture, BioSymbolicArchitectureAnalyzer, SymbolicData
-from lukhas.bio.core.bio_symbolic import BioSymbolic, BioSymbolicOrchestrator, SymbolicGlyph
+from bio.core.architecture_analyzer import Architecture, BioSymbolicArchitectureAnalyzer, SymbolicData
+from bio.core.bio_symbolic import BioSymbolic, BioSymbolicOrchestrator, SymbolicGlyph
 
 
 @pytest.mark.bio_architecture

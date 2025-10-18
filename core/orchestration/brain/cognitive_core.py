@@ -50,7 +50,7 @@ except ImportError:
 
 # Optional imports - create fallbacks if modules don't exist
 try:
-    from lukhas.bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
+    from bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
 
     lukhas_openai = UnifiedOpenAIClient()
     OPENAI_AVAILABLE = True

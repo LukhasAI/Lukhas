@@ -3,7 +3,7 @@ import pytest
 from lukhas.core.quantum_financial.quantum_financial_consciousness_engine import (
     QuantumFinancialConsciousnessEngine,
 )
-from lukhas.flags.ff import Flags
+from flags.ff import Flags
 
 
 @pytest.mark.asyncio

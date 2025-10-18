@@ -249,7 +249,7 @@ def get_enhanced_memory_metrics() -> dict[str, Any]:
 def create_memory_client(driver: str):
     """Factory function to create memory clients by driver name"""
     if driver == "noop":
-        from lukhas.aka_qualia.memory_noop import NoopMemory
+        from aka_qualia.memory_noop import NoopMemory
 
         return NoopMemory()
     else:

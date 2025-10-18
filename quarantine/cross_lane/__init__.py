@@ -22,10 +22,10 @@ try:
 except Exception:
     try:
         # Fall back to candidate implementations
-        import lukhas.bio.adapters as _adapters_mod
-        import lukhas.bio.awareness as _awareness_mod
-        import lukhas.bio.core as _engine_mod
-        import lukhas.bio.symbolic as _symbolic_mod
+        import bio.adapters as _adapters_mod
+        import bio.awareness as _awareness_mod
+        import bio.core as _engine_mod
+        import bio.symbolic as _symbolic_mod
         logger.info("lukhas.accepted.bio: using candidate.bio implementations")
     except Exception as e:
         logger.warning(f"lukhas.accepted.bio: could not wire bio implementations: {e}")

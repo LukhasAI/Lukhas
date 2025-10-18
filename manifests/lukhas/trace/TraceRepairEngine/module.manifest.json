@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.trace.TraceRepairEngine",
-    "path": "lukhas/trace/TraceRepairEngine",
+    "path": "trace/TraceRepairEngine",
     "type": "package",
     "lane": "lukhas"
   },

@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.public_api",
-    "path": "lukhas/public_api",
+    "path": "public_api",
     "type": "package",
     "lane": "lukhas"
   },

@@ -22,7 +22,7 @@ Integration Date: 2025-05-31T07:55:28.291189
 import os
 import sys
 
-from lukhas.tools.session_logger import log_session_event
+from tools.session_logger import log_session_event
 
 
 def launch_dashboard(user_id):

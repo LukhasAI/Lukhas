@@ -12,7 +12,7 @@ import pytest
 
 from labs.core.orchestration.async_orchestrator import AsyncOrchestrator
 from core.registry import register
-from lukhas.nodes.example_nodes import DecisionNode, IntentNode, ThoughtNode
+from nodes.example_nodes import DecisionNode, IntentNode, ThoughtNode
 
 
 @pytest.fixture

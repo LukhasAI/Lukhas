@@ -30,7 +30,7 @@ try:
     from identity.security_hardening import create_security_hardening_manager
     from identity.tiers import SecurityPolicy, create_tiered_authenticator
     from identity.webauthn_enhanced import create_enhanced_webauthn_service
-    from lukhas.api.identity import router as identity_router
+    from api.identity import router as identity_router
     API_AVAILABLE = True
 except ImportError:
     API_AVAILABLE = False

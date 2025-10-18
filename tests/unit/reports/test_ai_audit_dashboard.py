@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from lukhas.tools.reports.ai_audit_dashboard import generate_dashboard
+from tools.reports.ai_audit_dashboard import generate_dashboard
 
 
 def test_generate_dashboard_from_csv(tmp_path: Path):

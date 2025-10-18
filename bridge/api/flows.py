@@ -18,13 +18,13 @@ from flask import (
 # LUKHAS identity system integration
 try:
     from lukhas.governance.identity.connector import IdentityConnector
-    from lukhas.identity.auth_service import AuthService
+    from identity.auth_service import AuthService
 
     LUKHAS_IDENTITY_AVAILABLE = True
 except ImportError:
     try:
         from lukhas.governance.identity.connector import IdentityConnector
-        from lukhas.identity.auth_service import AuthService
+        from identity.auth_service import AuthService
 
         LUKHAS_IDENTITY_AVAILABLE = True
     except ImportError:

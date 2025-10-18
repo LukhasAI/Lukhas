@@ -15,8 +15,8 @@ from typing import Any, Optional
 
 # Try to import existing model wrappers
 try:
-    from lukhas.bridge.llm_wrappers.anthropic_wrapper import AnthropicWrapper
-    from lukhas.bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
+    from bridge.llm_wrappers.anthropic_wrapper import AnthropicWrapper
+    from bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
 
     LUKHAS_WRAPPERS_AVAILABLE = True
 except ImportError:

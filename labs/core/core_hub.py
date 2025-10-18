@@ -80,7 +80,7 @@ except ImportError:
     logging.warning("TrioOrchestrator not available")
 
 try:
-    from lukhas.bridge.integration_bridge import IntegrationBridge
+    from bridge.integration_bridge import IntegrationBridge
 except ImportError:
     IntegrationBridge = None
     logging.warning("IntegrationBridge not available")

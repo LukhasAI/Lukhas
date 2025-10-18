@@ -849,7 +849,7 @@ def create_trinity_compliant_identity_system(
 ) -> tuple[Any, ConstellationValidator, GLYPHIntegrator]:
     """Create Constellation-compliant identity system with GLYPH integration"""
     try:
-        from lukhas.identity import IdentitySystem
+        from identity import IdentitySystem
 
         # Create identity system
         identity_system = IdentitySystem()

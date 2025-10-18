@@ -4,7 +4,7 @@ import logging
 from pathlib import Path
 from typing import Any
 
-from lukhas.tiers import GlobalTier
+from tiers import GlobalTier
 
 logger = logging.getLogger(__name__)
 

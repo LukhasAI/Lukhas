@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.tools.categorize_todos",
-    "path": "lukhas/tools/categorize_todos",
+    "path": "tools/categorize_todos",
     "type": "package",
     "lane": "lukhas"
   },

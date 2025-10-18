@@ -8,7 +8,7 @@ TODO[T4-AUDIT]:triage - Deep bio hierarchy with unclear integration path. Need a
 
 import warnings
 
-from lukhas.bio.symbolic import *
+from bio.symbolic import *
 
 # warnings.warn(
 #     "Import 'bio_symbolic' is deprecated and will be removed on 2025-11-01. "

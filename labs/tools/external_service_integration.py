@@ -10,10 +10,10 @@ from typing import Any, Optional
 
 # Service Adapter Integration
 try:
-    from lukhas.bridge.adapters.drive_adapter import DriveAdapter
-    from lukhas.bridge.adapters.dropbox_adapter import DropboxAdapter
-    from lukhas.bridge.adapters.gmail_adapter import GmailAdapter
-    from lukhas.bridge.adapters.service_adapter_base import BaseServiceAdapter, CapabilityToken
+    from bridge.adapters.drive_adapter import DriveAdapter
+    from bridge.adapters.dropbox_adapter import DropboxAdapter
+    from bridge.adapters.gmail_adapter import GmailAdapter
+    from bridge.adapters.service_adapter_base import BaseServiceAdapter, CapabilityToken
 except ImportError:
     BaseServiceAdapter = None
     CapabilityToken = None

@@ -1,7 +1,7 @@
 import asyncio
 from typing import Any, Callable, Optional
 
-from lukhas.bridge.message_bus import MessageBus
+from bridge.message_bus import MessageBus
 from lukhas.core.colonies.base_colony import BaseColony
 
 

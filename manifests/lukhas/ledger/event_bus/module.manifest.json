@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.ledger.event_bus",
-    "path": "lukhas/ledger/event_bus",
+    "path": "ledger/event_bus",
     "type": "package",
     "lane": "lukhas"
   },

@@ -37,7 +37,7 @@ from enum import Enum
 from typing import Any, Optional
 
 try:
-    from lukhas.async_manager import TaskPriority, get_consciousness_manager
+    from async_manager import TaskPriority, get_consciousness_manager
     from lukhas.consciousness.constellation_integration import (
         get_constellation_integrator,
         initialize_constellation_consciousness,

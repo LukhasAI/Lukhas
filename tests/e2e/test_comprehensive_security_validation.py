@@ -480,7 +480,7 @@ class TestAuditComplianceSecurity:
 
     def test_security_audit_trail_completeness(self):
         """Test that security audit trail captures all required information."""
-        from lukhas.tools.acceptance_gate_ast import AuditTrail
+        from tools.acceptance_gate_ast import AuditTrail
 
         audit = AuditTrail()
 

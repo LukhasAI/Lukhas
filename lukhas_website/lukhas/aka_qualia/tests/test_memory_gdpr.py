@@ -18,7 +18,7 @@ import time
 
 import pytest
 
-from lukhas.aka_qualia.tests.conftest import create_test_glyph, create_test_scene
+from aka_qualia.tests.conftest import create_test_glyph, create_test_scene
 
 
 class TestGDPRErasure:
@@ -323,7 +323,7 @@ class TestPrivacyHashing:
         test_subject = "Same Subject Different Salt"
 
         # Create two memory clients with different salts
-        from lukhas.aka_qualia.memory_sql import SqlMemory
+        from aka_qualia.memory_sql import SqlMemory
         memory1 = SqlMemory(sqlite_engine, "salt_1", is_prod=True)
         memory2 = SqlMemory(sqlite_engine, "salt_2", is_prod=True)
 

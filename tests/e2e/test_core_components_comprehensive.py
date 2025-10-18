@@ -383,7 +383,7 @@ class TestMemorySQL:
     def test_sql_memory_initialization(self):
         """Test SQL memory system initialization and database setup."""
         try:
-            from lukhas.aka_qualia.memory_sql import SqlMemory
+            from aka_qualia.memory_sql import SqlMemory
 
             db_url = self.setup_test_database()
 
@@ -410,7 +410,7 @@ class TestMemorySQL:
     def test_memory_save_and_retrieve(self):
         """Test saving and retrieving memory scenes."""
         try:
-            from lukhas.aka_qualia.memory_sql import SqlMemory
+            from aka_qualia.memory_sql import SqlMemory
 
             db_url = self.setup_test_database()
             memory = SqlMemory(dsn=db_url)
@@ -450,7 +450,7 @@ class TestMemorySQL:
     def test_privacy_hashing_features(self):
         """Test privacy hashing for production mode."""
         try:
-            from lukhas.aka_qualia.memory_sql import SqlMemory
+            from aka_qualia.memory_sql import SqlMemory
 
             db_url = self.setup_test_database()
 
@@ -494,7 +494,7 @@ class TestMemorySQL:
     def test_memory_statistics_tracking(self):
         """Test memory system statistics and metrics tracking."""
         try:
-            from lukhas.aka_qualia.memory_sql import SqlMemory
+            from aka_qualia.memory_sql import SqlMemory
 
             db_url = self.setup_test_database()
             memory = SqlMemory(dsn=db_url)
@@ -604,12 +604,12 @@ class TestMainApplication:
             branding_available = False
 
             try:
-                from lukhas.branding_bridge import get_system_signature, initialize_branding
+                from branding_bridge import get_system_signature, initialize_branding
 
                 branding_available = True
             except ImportError:
                 try:
-                    from lukhas.branding_bridge import get_system_signature, initialize_branding
+                    from branding_bridge import get_system_signature, initialize_branding
 
                     branding_available = True
                 except ImportError:

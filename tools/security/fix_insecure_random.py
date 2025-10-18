@@ -111,7 +111,7 @@ class InsecureRandomFixer:
             if re.search(r"^import random\s*$", content, re.MULTILINE):
                 replacement = (
                     "# SECURITY FIX: Replaced insecure random with secure random\n"
-                    "from lukhas.security import secure_random"
+                    "from security import secure_random"
                 )
                 content = re.sub(r"^import random\s*$", replacement, content, flags=re.MULTILINE)
                 fixes += 1

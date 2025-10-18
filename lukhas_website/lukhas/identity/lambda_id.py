@@ -12,7 +12,7 @@ WEBAUTHN_ACTIVE = os.environ.get("WEBAUTHN_ACTIVE", "false").lower() == "true"
 _webauthn_manager = None
 if WEBAUTHN_ACTIVE:
     try:
-        from lukhas.identity.webauthn import WebAuthnManager
+        from identity.webauthn import WebAuthnManager
 
         _webauthn_manager = WebAuthnManager()
     except ImportError:

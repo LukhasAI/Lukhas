@@ -166,7 +166,7 @@ class ImportController:
     DEPRECATED_IMPORTS = {
         'from lukhas.agi_services': 'Use candidate.bridge.orchestration instead',
         'from lukhas.consciousness.legacy': 'Migrated to candidate.consciousness',
-        'from lukhas.identity.old_lambda_id': 'Use candidate.identity.lambda_id',
+        'from identity.old_lambda_id': 'Use candidate.identity.lambda_id',
     }
 
     def __init__(self):

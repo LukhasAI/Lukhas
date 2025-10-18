@@ -79,7 +79,7 @@ from .routing_strategies import (
 
 _orchestration_branding_available = False
 try:
-    from lukhas.branding_bridge import (
+    from branding_bridge import (
         BrandContext,
         get_brand_voice,
         get_constellation_context,

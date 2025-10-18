@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.aka_qualia.observability",
-    "path": "lukhas/aka_qualia/observability",
+    "path": "aka_qualia/observability",
     "type": "package",
     "lane": "lukhas"
   },

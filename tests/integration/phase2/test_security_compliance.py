@@ -32,8 +32,8 @@ PLACEHOLDER_PASSWORD_2 = "SecurePassword123!"  # nosec
 try:
     from lukhas.governance.guardian_system import GuardianSystem
     from identity.core import IdentitySystem
-    from lukhas.compliance.ai_compliance import ComplianceEngine
-    from lukhas.security.authentication import (
+    from compliance.ai_compliance import ComplianceEngine
+    from security.authentication import (
         generate_api_key,
         generate_jwt_token,
         validate_api_key,

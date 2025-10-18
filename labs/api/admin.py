@@ -14,7 +14,7 @@ from lukhas.audit.analytics_read import (
     summarize_safety_modes,
     summarize_tools,
 )
-from lukhas.flags import is_enabled
+from flags import is_enabled
 
 router = APIRouter(prefix="/admin", tags=["Admin"])
 

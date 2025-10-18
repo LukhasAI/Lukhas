@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.consciousness.reflection_engine",
-    "path": "lukhas/consciousness/reflection_engine",
+    "path": "consciousness/reflection_engine",
     "type": "package",
     "lane": "lukhas",
     "colony": "simulation"

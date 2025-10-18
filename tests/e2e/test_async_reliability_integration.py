@@ -11,7 +11,7 @@ import time
 
 import pytest
 
-from lukhas.async_manager import (
+from async_manager import (
     ConsciousnessTaskManager,
     TaskPriority,
     get_consciousness_manager,

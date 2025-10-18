@@ -25,7 +25,7 @@ def test_governance_guardian_system_enhanced():
 
 def test_tools_performance_monitor_getlogger_compat():
     "lukhas.tools.performance_monitor provides getLogger with compat shim."
-    import lukhas.tools.performance_monitor as pm
+    import tools.performance_monitor as pm
     assert hasattr(pm, "__all__")
     # Check if getLogger available (may or may not be exported)
     if "getLogger" in pm.__all__:
@@ -38,7 +38,7 @@ def test_tools_performance_monitor_getlogger_compat():
 
 def test_lukhas_cognitive_core_contradiction_integrator():
     """lukhas.cognitive_core.reasoning.contradiction_integrator bridge works."""
-    import lukhas.cognitive_core.reasoning.contradiction_integrator as ci
+    import cognitive_core.reasoning.contradiction_integrator as ci
     assert hasattr(ci, "__all__")
     # Check if ContradictionIntegrator available
     if "ContradictionIntegrator" in ci.__all__:

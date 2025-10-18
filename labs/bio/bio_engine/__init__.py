@@ -7,7 +7,7 @@ import warnings
 
 import streamlit as st
 
-from lukhas.bio.engine import *
+from bio.engine import *
 
 warnings.warn(
     "Import 'bio.bio_engine' is deprecated and will be removed on 2025-11-01. "

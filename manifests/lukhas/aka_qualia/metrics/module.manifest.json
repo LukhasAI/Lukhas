@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.aka_qualia.metrics",
-    "path": "lukhas/aka_qualia/metrics",
+    "path": "aka_qualia/metrics",
     "type": "package",
     "lane": "lukhas"
   },

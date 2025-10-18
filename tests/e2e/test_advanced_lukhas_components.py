@@ -38,7 +38,7 @@ class TestIdentitySystem:
         """Test ΛID authentication with various scenarios"""
         try:
             # Import identity components
-            from lukhas.identity.lambda_id import authenticate
+            from identity.lambda_id import authenticate
 
             print("    🔍 Testing ΛID authentication...")
 
@@ -72,7 +72,7 @@ class TestIdentitySystem:
     def test_user_registration(self) -> bool:
         """Test user registration and passkey creation"""
         try:
-            from lukhas.identity.lambda_id import register_passkey, verify_passkey
+            from identity.lambda_id import register_passkey, verify_passkey
 
             print("    👤 Testing user registration...")
 
@@ -109,7 +109,7 @@ class TestIdentitySystem:
     def test_credential_management(self) -> bool:
         """Test credential listing and revocation"""
         try:
-            from lukhas.identity.lambda_id import list_credentials, revoke_credential
+            from identity.lambda_id import list_credentials, revoke_credential
 
             print("    🔑 Testing credential management...")
 

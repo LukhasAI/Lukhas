@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.api.oidc",
-    "path": "lukhas/api/oidc",
+    "path": "api/oidc",
     "type": "package",
     "lane": "lukhas",
     "colony": "actuation"

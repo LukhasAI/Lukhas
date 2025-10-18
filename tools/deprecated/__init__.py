@@ -5,7 +5,7 @@ Provides decision auditing and analysis capabilities
 
 # Use absolute imports to avoid relative import issues
 try:
-    from lukhas.tools.deprecated.audit_decision_embedding_engine import DecisionAuditDecorator, DecisionAuditEngine
+    from tools.deprecated.audit_decision_embedding_engine import DecisionAuditDecorator, DecisionAuditEngine
 
     __all__ = ["DecisionAuditDecorator", "DecisionAuditEngine"]
 except ImportError:

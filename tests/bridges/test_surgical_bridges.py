@@ -31,4 +31,4 @@ def test_consciousness_collapse_sim_imports():
 @pytest.mark.xfail(reason="tools package import: works in isolation, test suite interference")
 def test_tools_collapse_main_imports():
     """Verify tools.collapse_simulator_main bridge exists."""
-    from lukhas.tools.collapse_simulator_main import __all__  # noqa: F401
+    from tools.collapse_simulator_main import __all__  # noqa: F401

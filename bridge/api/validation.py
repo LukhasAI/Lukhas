@@ -1288,7 +1288,7 @@ if __name__ == "__main__":
 # AUTHENTICATION: JWT token validation, API key validation with tier-based permissions
 # SECURITY: XSS prevention, SQL injection detection, PHI detection, function security validation
 # HOW TO USE:
-#   from lukhas.bridge.api.validation import validate_orchestration_request
+#   from bridge.api.validation import validate_orchestration_request
 #   result = await validate_orchestration_request(request_data, context, auth_token)
 # INTEGRATION NOTES: Designed for integration with FastAPI endpoints and orchestration systems.
 #                    Provides comprehensive validation for all LUKHAS API operations.

@@ -51,7 +51,7 @@ except ImportError:
 
 # Import LUKHAS components - with fallbacks for development
 try:
-    from lukhas.branding_bridge import get_system_signature, get_triad_context, initialize_branding
+    from branding_bridge import get_system_signature, get_triad_context, initialize_branding
 except ImportError:
     # Development fallbacks
     def get_system_signature():

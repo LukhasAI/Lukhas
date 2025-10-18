@@ -4,8 +4,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from lukhas.tools.analysis import import_fixer as analysis_fixer
-from lukhas.tools.automation import import_fixer as automation_fixer
+from tools.analysis import import_fixer as analysis_fixer
+from tools.automation import import_fixer as automation_fixer
 
 
 def test_analysis_stub_generation_has_no_todo_markers() -> None:
