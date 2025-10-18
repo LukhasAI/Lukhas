@@ -45,20 +45,27 @@ class ModuleManifestValidator:
         }
 
     def find_lukhas_modules(self) -> List[Path]:
-        """Find all LUKHAS AI module directories."""
-        lukhas_root = Path("lukhas")
-        if not lukhas_root.exists():
-            logger.error("lukhas/ directory not found")
+        """Find all LUKHAS AI module directories (post-Phase 5B flat structure)."""
+        # After Phase 5B flattening, modules are at root level
+        # Check manifests/ directory for all manifested modules
+        manifests_root = Path("manifests")
+        if not manifests_root.exists():
+            logger.error("manifests/ directory not found")
             return []
 
         modules = []
-        for item in lukhas_root.iterdir():
-            if item.is_dir() and not item.name.startswith('__'):
-                # Skip deep subdirectories that are not top-level modules
-                if item.name not in ['accepted', 'shims', 'tools', 'utils', 'trinity']:
-                    modules.append(item)
+        # Scan all directories in manifests/ - these are our modules
+        for item in manifests_root.rglob("module.manifest.json"):
+            # Get the module path from manifest location
+            # manifests/consciousness/core/module.manifest.json → consciousness/core
+            module_rel_path = item.parent.relative_to(manifests_root)
+            module_path = Path(str(module_rel_path))
 
-        return sorted(modules)
+            # Check if actual module exists at root
+            if module_path.exists() or Path(f"labs/{module_path}").exists():
+                modules.append(module_path)
+
+        return sorted(set(modules))
 
     def load_module_manifest(self, module_path: Path) -> Optional[Dict[str, Any]]:
         """Load module lane manifest if it exists."""
