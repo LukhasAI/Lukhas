@@ -1,6 +1,6 @@
 ---
 module: lukhas.api.oidc
-star: Supporting
+star: 🛡️ Watch (Guardian)
 tier: T3_standard
 owner: unassigned
 colony: actuation
@@ -9,7 +9,7 @@ matriz: [action]
 ---
 # lukhas.api.oidc
 
-**Star**: Supporting
+**Star**: 🛡️ Watch (Guardian)
 **MATRIZ Nodes**: action
 **Colony**: actuation
 
