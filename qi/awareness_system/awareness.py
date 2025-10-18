@@ -1,7 +1,3 @@
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: awareness.py
 # MODULE: core.integration.bio_awareness.awareness
@@ -18,10 +14,13 @@ logger = logging.getLogger(__name__)
 Enhanced system awareness integrating prot1's bio-inspired features with prot2's quantum-inspired capabilities. (Original Docstring)
 """
 
-from datetime import datetime
+import logging
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 import structlog
+
+logger = logging.getLogger(__name__)
 
 # Initialize logger for ΛTRACE using structlog
 logger = structlog.get_logger("ΛTRACE.core.integration.bio_awareness.Awareness", timezone)
