@@ -1,12 +1,3 @@
----
-module: candidate.orchestration.brain.safety_guardrails
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/orchestration/brain/safety_guardrails/module.manifest.json
-matriz: [intent]
----
 # candidate.orchestration.brain.safety_guardrails
 
 **Star**: Supporting

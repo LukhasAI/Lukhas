@@ -1,12 +1,3 @@
----
-module: candidate.core.orchestration.security
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/orchestration/security/module.manifest.json
-matriz: [intent]
----
 # candidate.core.orchestration.security
 
 **Star**: Supporting

@@ -1,12 +1,3 @@
----
-module: lukhas.governance.multi_vector_detector
-star: 🛡️ Watch (Guardian)
-tier: T2_important
-owner: unassigned
-colony: -
-manifest_path: manifests/lukhas/governance/multi_vector_detector/module.manifest.json
-matriz: [risk]
----
 # lukhas.governance.multi_vector_detector
 
 **Star**: 🛡️ Watch (Guardian)

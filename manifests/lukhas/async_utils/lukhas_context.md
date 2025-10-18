@@ -1,12 +1,3 @@
----
-module: lukhas.async_utils
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/lukhas/async_utils/module.manifest.json
-matriz: [supporting]
----
 # lukhas.async_utils
 
 **Star**: Supporting

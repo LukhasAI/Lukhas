@@ -1,12 +1,3 @@
----
-module: lukhas.bridge.external_adapters
-star: Supporting
-tier: T2_important
-owner: unassigned
-colony: actuation
-manifest_path: manifests/lukhas/bridge/external_adapters/module.manifest.json
-matriz: [action]
----
 # lukhas.bridge.external_adapters
 
 **Star**: Supporting

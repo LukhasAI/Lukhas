@@ -1,12 +1,3 @@
----
-module: candidate.memory.bridges.learning
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: memory
-manifest_path: manifests/candidate/memory/bridges/learning/module.manifest.json
-matriz: [memory]
----
 # candidate.memory.bridges.learning
 
 **Star**: ✦ Trail (Memory)

@@ -1,12 +1,3 @@
----
-module: candidate.orchestration.bio_symbolic_orchestrator
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/orchestration/bio_symbolic_orchestrator/module.manifest.json
-matriz: [intent]
----
 # candidate.orchestration.bio_symbolic_orchestrator
 
 **Star**: Supporting

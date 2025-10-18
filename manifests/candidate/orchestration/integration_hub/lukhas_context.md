@@ -1,12 +1,3 @@
----
-module: candidate.orchestration.integration_hub
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/orchestration/integration_hub/module.manifest.json
-matriz: [intent]
----
 # candidate.orchestration.integration_hub
 
 **Star**: Supporting

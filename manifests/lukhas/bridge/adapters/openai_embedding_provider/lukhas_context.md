@@ -1,12 +1,3 @@
----
-module: lukhas.bridge.adapters.openai_embedding_provider
-star: Supporting
-tier: T2_important
-owner: unassigned
-colony: actuation
-manifest_path: manifests/lukhas/bridge/adapters/openai_embedding_provider/module.manifest.json
-matriz: [action]
----
 # lukhas.bridge.adapters.openai_embedding_provider
 
 **Star**: Supporting

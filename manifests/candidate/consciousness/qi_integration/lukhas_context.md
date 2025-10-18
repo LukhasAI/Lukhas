@@ -1,12 +1,3 @@
----
-module: candidate.consciousness.qi_integration
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/candidate/consciousness/qi_integration/module.manifest.json
-matriz: [thought]
----
 # candidate.consciousness.qi_integration
 
 **Star**: 🌊 Flow (Consciousness)

@@ -1,12 +1,3 @@
----
-module: candidate.core.symbolic_core.reasoning
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/symbolic_core/reasoning/module.manifest.json
-matriz: [thought]
----
 # candidate.core.symbolic_core.reasoning
 
 **Star**: Supporting

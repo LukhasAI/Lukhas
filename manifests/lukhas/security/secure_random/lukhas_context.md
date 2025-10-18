@@ -1,12 +1,3 @@
----
-module: lukhas.security.secure_random
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/lukhas/security/secure_random/module.manifest.json
-matriz: [supporting]
----
 # lukhas.security.secure_random
 
 **Star**: Supporting

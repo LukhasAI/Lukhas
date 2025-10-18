@@ -1,12 +1,3 @@
----
-module: candidate.governance.identity.mobile
-star: ⚛️ Anchor (Identity)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/governance/identity/mobile/module.manifest.json
-matriz: [risk]
----
 # candidate.governance.identity.mobile
 
 **Star**: ⚛️ Anchor (Identity)

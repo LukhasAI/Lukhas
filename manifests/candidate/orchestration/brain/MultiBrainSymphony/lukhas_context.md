@@ -1,12 +1,3 @@
----
-module: candidate.orchestration.brain.MultiBrainSymphony
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/orchestration/brain/MultiBrainSymphony/module.manifest.json
-matriz: [intent]
----
 # candidate.orchestration.brain.MultiBrainSymphony
 
 **Star**: Supporting

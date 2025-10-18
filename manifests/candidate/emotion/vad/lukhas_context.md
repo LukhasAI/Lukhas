@@ -1,12 +1,3 @@
----
-module: candidate.emotion.vad
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/emotion/vad/module.manifest.json
-matriz: [supporting]
----
 # candidate.emotion.vad
 
 **Star**: Supporting

@@ -1,12 +1,3 @@
----
-module: candidate.memory.learning.adaptive_agi.Meta_Learning
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: memory
-manifest_path: manifests/candidate/memory/learning/adaptive_agi/Meta_Learning/module.manifest.json
-matriz: [memory]
----
 # candidate.memory.learning.adaptive_agi.Meta_Learning
 
 **Star**: ✦ Trail (Memory)

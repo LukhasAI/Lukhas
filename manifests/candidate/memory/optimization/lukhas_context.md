@@ -1,12 +1,3 @@
----
-module: candidate.memory.optimization
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: memory
-manifest_path: manifests/candidate/memory/optimization/module.manifest.json
-matriz: [memory]
----
 # candidate.memory.optimization
 
 **Star**: ✦ Trail (Memory)

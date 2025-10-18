@@ -1,12 +1,3 @@
----
-module: candidate.memory.core.brain
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: memory
-manifest_path: manifests/candidate/memory/core/brain/module.manifest.json
-matriz: [memory]
----
 # candidate.memory.core.brain
 
 **Star**: ✦ Trail (Memory)

@@ -1,12 +1,3 @@
----
-module: lukhas.core.ethics
-star: 🛡️ Watch (Guardian)
-tier: T4_experimental
-owner: unassigned
-colony: ethics
-manifest_path: manifests/lukhas/core/ethics/module.manifest.json
-matriz: [risk]
----
 # lukhas.core.ethics
 
 **Star**: 🛡️ Watch (Guardian)

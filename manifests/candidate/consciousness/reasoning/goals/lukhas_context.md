@@ -1,12 +1,3 @@
----
-module: candidate.consciousness.reasoning.goals
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/candidate/consciousness/reasoning/goals/module.manifest.json
-matriz: [thought]
----
 # candidate.consciousness.reasoning.goals
 
 **Star**: 🌊 Flow (Consciousness)

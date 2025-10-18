@@ -1,12 +1,3 @@
----
-module: candidate.orchestration.learning_initializer
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/orchestration/learning_initializer/module.manifest.json
-matriz: [intent]
----
 # candidate.orchestration.learning_initializer
 
 **Star**: Supporting

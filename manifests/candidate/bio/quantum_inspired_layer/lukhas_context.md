@@ -1,12 +1,3 @@
----
-module: candidate.bio.quantum_inspired_layer
-star: 🔮 Oracle (Quantum)
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/bio/quantum_inspired_layer/module.manifest.json
-matriz: [supporting]
----
 # candidate.bio.quantum_inspired_layer
 
 **Star**: 🔮 Oracle (Quantum)

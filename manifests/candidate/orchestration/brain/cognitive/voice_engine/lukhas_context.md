@@ -1,12 +1,3 @@
----
-module: candidate.orchestration.brain.cognitive.voice_engine
-star: Supporting
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/orchestration/brain/cognitive/voice_engine/module.manifest.json
-matriz: [thought]
----
 # candidate.orchestration.brain.cognitive.voice_engine
 
 **Star**: Supporting

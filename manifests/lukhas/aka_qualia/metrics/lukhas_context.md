@@ -1,12 +1,3 @@
----
-module: lukhas.aka_qualia.metrics
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/lukhas/aka_qualia/metrics/module.manifest.json
-matriz: [supporting]
----
 # lukhas.aka_qualia.metrics
 
 **Star**: Supporting

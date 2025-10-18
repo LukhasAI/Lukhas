@@ -1,12 +1,3 @@
----
-module: lukhas.identity.device_registry
-star: ⚛️ Anchor (Identity)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/lukhas/identity/device_registry/module.manifest.json
-matriz: [supporting]
----
 # lukhas.identity.device_registry
 
 **Star**: ⚛️ Anchor (Identity)

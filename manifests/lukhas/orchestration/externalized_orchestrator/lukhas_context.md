@@ -1,12 +1,3 @@
----
-module: lukhas.orchestration.externalized_orchestrator
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/lukhas/orchestration/externalized_orchestrator/module.manifest.json
-matriz: [intent]
----
 # lukhas.orchestration.externalized_orchestrator
 
 **Star**: Supporting

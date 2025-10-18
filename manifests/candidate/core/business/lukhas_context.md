@@ -1,12 +1,3 @@
----
-module: candidate.core.business
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/business/module.manifest.json
-matriz: [supporting]
----
 # candidate.core.business
 
 **Star**: Supporting

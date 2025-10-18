@@ -1,12 +1,3 @@
----
-module: candidate.governance.identity.core.glyph
-star: ⚛️ Anchor (Identity)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/governance/identity/core/glyph/module.manifest.json
-matriz: [risk]
----
 # candidate.governance.identity.core.glyph
 
 **Star**: ⚛️ Anchor (Identity)

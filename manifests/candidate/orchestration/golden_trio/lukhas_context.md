@@ -1,12 +1,3 @@
----
-module: candidate.orchestration.golden_trio
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/orchestration/golden_trio/module.manifest.json
-matriz: [intent]
----
 # candidate.orchestration.golden_trio
 
 **Star**: Supporting

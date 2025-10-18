@@ -1,12 +1,3 @@
----
-module: lukhas.cognitive_core
-star: Supporting
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/lukhas/cognitive_core/module.manifest.json
-matriz: [thought]
----
 # lukhas.cognitive_core
 
 **Star**: Supporting

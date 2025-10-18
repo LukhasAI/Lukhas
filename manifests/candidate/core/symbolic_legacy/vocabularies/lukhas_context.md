@@ -1,12 +1,3 @@
----
-module: candidate.core.symbolic_legacy.vocabularies
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/symbolic_legacy/vocabularies/module.manifest.json
-matriz: [supporting]
----
 # candidate.core.symbolic_legacy.vocabularies
 
 **Star**: Supporting

@@ -1,12 +1,3 @@
----
-module: candidate.memory.core.expansion.vivox_me_core
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: memory
-manifest_path: manifests/candidate/memory/core/expansion/vivox_me_core/module.manifest.json
-matriz: [memory]
----
 # candidate.memory.core.expansion.vivox_me_core
 
 **Star**: ✦ Trail (Memory)

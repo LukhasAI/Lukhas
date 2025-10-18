@@ -1,12 +1,3 @@
----
-module: candidate.observability
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/observability/module.manifest.json
-matriz: [supporting]
----
 # candidate.observability
 
 **Star**: Supporting

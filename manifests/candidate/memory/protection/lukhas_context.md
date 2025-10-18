@@ -1,12 +1,3 @@
----
-module: candidate.memory.protection
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: memory
-manifest_path: manifests/candidate/memory/protection/module.manifest.json
-matriz: [memory]
----
 # candidate.memory.protection
 
 **Star**: ✦ Trail (Memory)

@@ -1,12 +1,3 @@
----
-module: candidate.governance.identity.biometric
-star: ⚛️ Anchor (Identity)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/governance/identity/biometric/module.manifest.json
-matriz: [risk]
----
 # candidate.governance.identity.biometric
 
 **Star**: ⚛️ Anchor (Identity)

@@ -1,12 +1,3 @@
----
-module: candidate.core.glyph
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/glyph/module.manifest.json
-matriz: [supporting]
----
 # candidate.core.glyph
 
 **Star**: Supporting

@@ -1,12 +1,3 @@
----
-module: candidate.core.agi.adaptive
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/agi/adaptive/module.manifest.json
-matriz: [supporting]
----
 # candidate.core.agi.adaptive
 
 **Star**: Supporting

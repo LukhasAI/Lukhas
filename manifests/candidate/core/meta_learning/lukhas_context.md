@@ -1,12 +1,3 @@
----
-module: candidate.core.meta_learning
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/meta_learning/module.manifest.json
-matriz: [supporting]
----
 # candidate.core.meta_learning
 
 **Star**: Supporting

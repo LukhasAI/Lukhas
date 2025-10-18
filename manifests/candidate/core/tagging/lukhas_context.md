@@ -1,12 +1,3 @@
----
-module: candidate.core.tagging
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/tagging/module.manifest.json
-matriz: [supporting]
----
 # candidate.core.tagging
 
 **Star**: Supporting

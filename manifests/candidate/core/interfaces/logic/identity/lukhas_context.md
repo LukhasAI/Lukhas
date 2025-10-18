@@ -1,12 +1,3 @@
----
-module: candidate.core.interfaces.logic.identity
-star: ⚛️ Anchor (Identity)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/interfaces/logic/identity/module.manifest.json
-matriz: [action]
----
 # candidate.core.interfaces.logic.identity
 
 **Star**: ⚛️ Anchor (Identity)

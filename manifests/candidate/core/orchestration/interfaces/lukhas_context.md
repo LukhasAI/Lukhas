@@ -1,12 +1,3 @@
----
-module: candidate.core.orchestration.interfaces
-star: 🔬 Horizon (Vision)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/orchestration/interfaces/module.manifest.json
-matriz: [intent]
----
 # candidate.core.orchestration.interfaces
 
 **Star**: 🔬 Horizon (Vision)

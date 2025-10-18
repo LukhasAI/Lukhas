@@ -1,12 +1,3 @@
----
-module: candidate.core.interfaces.as_agent.streamlit.components
-star: 🔬 Horizon (Vision)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/interfaces/as_agent/streamlit/components/module.manifest.json
-matriz: [action]
----
 # candidate.core.interfaces.as_agent.streamlit.components
 
 **Star**: 🔬 Horizon (Vision)

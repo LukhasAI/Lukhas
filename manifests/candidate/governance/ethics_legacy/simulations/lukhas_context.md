@@ -1,12 +1,3 @@
----
-module: candidate.governance.ethics_legacy.simulations
-star: 🛡️ Watch (Guardian)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/candidate/governance/ethics_legacy/simulations/module.manifest.json
-matriz: [risk]
----
 # candidate.governance.ethics_legacy.simulations
 
 **Star**: 🛡️ Watch (Guardian)

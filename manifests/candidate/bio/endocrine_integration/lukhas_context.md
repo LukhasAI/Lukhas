@@ -1,12 +1,3 @@
----
-module: candidate.bio.endocrine_integration
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/bio/endocrine_integration/module.manifest.json
-matriz: [supporting]
----
 # candidate.bio.endocrine_integration
 
 **Star**: Supporting

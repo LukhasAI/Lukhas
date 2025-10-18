@@ -1,12 +1,3 @@
----
-module: candidate.orchestration.dream.dream_hub
-star: 🌊 Flow (Consciousness)
-tier: T4_experimental
-owner: unassigned
-colony: simulation
-manifest_path: manifests/candidate/orchestration/dream/dream_hub/module.manifest.json
-matriz: [intent]
----
 # candidate.orchestration.dream.dream_hub
 
 **Star**: 🌊 Flow (Consciousness)

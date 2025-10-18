@@ -1,12 +1,3 @@
----
-module: candidate.orchestration.brain.token_budget_controller
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/orchestration/brain/token_budget_controller/module.manifest.json
-matriz: [intent]
----
 # candidate.orchestration.brain.token_budget_controller
 
 **Star**: Supporting

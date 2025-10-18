@@ -1,12 +1,3 @@
----
-module: candidate.core.interfaces.ui.adaptive
-star: 🔬 Horizon (Vision)
-tier: T3_standard
-owner: unassigned
-colony: interface
-manifest_path: manifests/candidate/core/interfaces/ui/adaptive/module.manifest.json
-matriz: [action]
----
 # candidate.core.interfaces.ui.adaptive
 
 **Star**: 🔬 Horizon (Vision)

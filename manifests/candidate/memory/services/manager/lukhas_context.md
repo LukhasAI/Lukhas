@@ -1,12 +1,3 @@
----
-module: candidate.memory.services.manager
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: memory
-manifest_path: manifests/candidate/memory/services/manager/module.manifest.json
-matriz: [memory]
----
 # candidate.memory.services.manager
 
 **Star**: ✦ Trail (Memory)

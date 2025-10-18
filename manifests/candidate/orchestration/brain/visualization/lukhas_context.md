@@ -1,12 +1,3 @@
----
-module: candidate.orchestration.brain.visualization
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: interface
-manifest_path: manifests/candidate/orchestration/brain/visualization/module.manifest.json
-matriz: [intent]
----
 # candidate.orchestration.brain.visualization
 
 **Star**: Supporting

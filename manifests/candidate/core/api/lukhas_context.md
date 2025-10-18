@@ -1,12 +1,3 @@
----
-module: candidate.core.api
-star: Supporting
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/api/module.manifest.json
-matriz: [action]
----
 # candidate.core.api
 
 **Star**: Supporting

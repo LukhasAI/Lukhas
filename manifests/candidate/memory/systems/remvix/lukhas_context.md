@@ -1,12 +1,3 @@
----
-module: candidate.memory.systems.remvix
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: memory
-manifest_path: manifests/candidate/memory/systems/remvix/module.manifest.json
-matriz: [memory]
----
 # candidate.memory.systems.remvix
 
 **Star**: ✦ Trail (Memory)

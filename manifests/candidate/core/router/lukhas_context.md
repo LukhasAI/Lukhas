@@ -1,12 +1,3 @@
----
-module: candidate.core.router
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/router/module.manifest.json
-matriz: [supporting]
----
 # candidate.core.router
 
 **Star**: Supporting

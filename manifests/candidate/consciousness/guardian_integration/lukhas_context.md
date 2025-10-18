@@ -1,12 +1,3 @@
----
-module: candidate.consciousness.guardian_integration
-star: 🛡️ Watch (Guardian)
-tier: T3_standard
-owner: unassigned
-colony: simulation
-manifest_path: manifests/candidate/consciousness/guardian_integration/module.manifest.json
-matriz: [thought]
----
 # candidate.consciousness.guardian_integration
 
 **Star**: 🛡️ Watch (Guardian)

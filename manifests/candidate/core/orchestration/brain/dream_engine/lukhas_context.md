@@ -1,12 +1,3 @@
----
-module: candidate.core.orchestration.brain.dream_engine
-star: 🌊 Flow (Consciousness)
-tier: T4_experimental
-owner: unassigned
-colony: simulation
-manifest_path: manifests/candidate/core/orchestration/brain/dream_engine/module.manifest.json
-matriz: [intent]
----
 # candidate.core.orchestration.brain.dream_engine
 
 **Star**: 🌊 Flow (Consciousness)

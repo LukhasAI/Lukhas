@@ -1,12 +1,3 @@
----
-module: candidate.core.consciousness.oracle
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/candidate/core/consciousness/oracle/module.manifest.json
-matriz: [thought]
----
 # candidate.core.consciousness.oracle
 
 **Star**: 🌊 Flow (Consciousness)

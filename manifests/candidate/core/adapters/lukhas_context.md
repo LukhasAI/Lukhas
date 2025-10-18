@@ -1,12 +1,3 @@
----
-module: candidate.core.adapters
-star: Supporting
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/adapters/module.manifest.json
-matriz: [action]
----
 # candidate.core.adapters
 
 **Star**: Supporting

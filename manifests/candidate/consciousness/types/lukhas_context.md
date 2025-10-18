@@ -1,12 +1,3 @@
----
-module: candidate.consciousness.types
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/candidate/consciousness/types/module.manifest.json
-matriz: [thought]
----
 # candidate.consciousness.types
 
 **Star**: 🌊 Flow (Consciousness)

@@ -1,12 +1,3 @@
----
-module: candidate.memory.systems.memory_learning
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: memory
-manifest_path: manifests/candidate/memory/systems/memory_learning/module.manifest.json
-matriz: [memory]
----
 # candidate.memory.systems.memory_learning
 
 **Star**: ✦ Trail (Memory)

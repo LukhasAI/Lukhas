@@ -1,12 +1,3 @@
----
-module: candidate.orchestration.brain.privacy_manager
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/orchestration/brain/privacy_manager/module.manifest.json
-matriz: [intent]
----
 # candidate.orchestration.brain.privacy_manager
 
 **Star**: Supporting

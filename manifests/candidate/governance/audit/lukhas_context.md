@@ -1,12 +1,3 @@
----
-module: candidate.governance.audit
-star: 🛡️ Watch (Guardian)
-tier: T2_important
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/governance/audit/module.manifest.json
-matriz: [risk]
----
 # candidate.governance.audit
 
 **Star**: 🛡️ Watch (Guardian)

@@ -1,12 +1,3 @@
----
-module: lukhas.core.matriz.async_orchestrator
-star: Supporting
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/lukhas/core/matriz/async_orchestrator/module.manifest.json
-matriz: [supporting]
----
 # lukhas.core.matriz.async_orchestrator
 
 **Star**: Supporting

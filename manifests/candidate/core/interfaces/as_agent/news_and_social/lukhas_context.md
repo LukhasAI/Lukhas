@@ -1,12 +1,3 @@
----
-module: candidate.core.interfaces.as_agent.news_and_social
-star: 🔬 Horizon (Vision)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/interfaces/as_agent/news_and_social/module.manifest.json
-matriz: [action]
----
 # candidate.core.interfaces.as_agent.news_and_social
 
 **Star**: 🔬 Horizon (Vision)

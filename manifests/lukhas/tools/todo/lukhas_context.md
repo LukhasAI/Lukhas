@@ -1,12 +1,3 @@
----
-module: lukhas.tools.todo
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/lukhas/tools/todo/module.manifest.json
-matriz: [supporting]
----
 # lukhas.tools.todo
 
 **Star**: Supporting

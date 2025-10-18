@@ -1,12 +1,3 @@
----
-module: candidate.orchestration.brain.mesh.collapse_mesh
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/orchestration/brain/mesh/collapse_mesh/module.manifest.json
-matriz: [intent]
----
 # candidate.orchestration.brain.mesh.collapse_mesh
 
 **Star**: Supporting

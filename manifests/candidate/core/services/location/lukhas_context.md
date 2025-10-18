@@ -1,12 +1,3 @@
----
-module: candidate.core.services.location
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/services/location/module.manifest.json
-matriz: [supporting]
----
 # candidate.core.services.location
 
 **Star**: Supporting

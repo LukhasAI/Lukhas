@@ -1,12 +1,3 @@
----
-module: candidate.core.symbolic_legacy.reasoning
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/symbolic_legacy/reasoning/module.manifest.json
-matriz: [thought]
----
 # candidate.core.symbolic_legacy.reasoning
 
 **Star**: Supporting

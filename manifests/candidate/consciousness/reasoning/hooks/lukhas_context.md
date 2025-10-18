@@ -1,12 +1,3 @@
----
-module: candidate.consciousness.reasoning.hooks
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/candidate/consciousness/reasoning/hooks/module.manifest.json
-matriz: [thought]
----
 # candidate.consciousness.reasoning.hooks
 
 **Star**: 🌊 Flow (Consciousness)

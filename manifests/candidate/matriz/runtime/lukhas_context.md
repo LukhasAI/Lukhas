@@ -1,12 +1,3 @@
----
-module: candidate.matriz.runtime
-star: Supporting
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/matriz/runtime/module.manifest.json
-matriz: [supporting]
----
 # candidate.matriz.runtime
 
 **Star**: Supporting

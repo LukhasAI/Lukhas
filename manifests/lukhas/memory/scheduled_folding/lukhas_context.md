@@ -1,12 +1,3 @@
----
-module: lukhas.memory.scheduled_folding
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: memory
-manifest_path: manifests/lukhas/memory/scheduled_folding/module.manifest.json
-matriz: [memory]
----
 # lukhas.memory.scheduled_folding
 
 **Star**: ✦ Trail (Memory)

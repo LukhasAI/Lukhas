@@ -1,12 +1,3 @@
----
-module: candidate.memory.governance
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: memory
-manifest_path: manifests/candidate/memory/governance/module.manifest.json
-matriz: [memory]
----
 # candidate.memory.governance
 
 **Star**: ✦ Trail (Memory)

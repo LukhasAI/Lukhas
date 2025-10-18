@@ -1,12 +1,3 @@
----
-module: candidate.orchestration.brain.integrity_probe
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/orchestration/brain/integrity_probe/module.manifest.json
-matriz: [intent]
----
 # candidate.orchestration.brain.integrity_probe
 
 **Star**: Supporting

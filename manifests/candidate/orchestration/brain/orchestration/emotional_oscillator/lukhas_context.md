@@ -1,12 +1,3 @@
----
-module: candidate.orchestration.brain.orchestration.emotional_oscillator
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/orchestration/brain/orchestration/emotional_oscillator/module.manifest.json
-matriz: [intent]
----
 # candidate.orchestration.brain.orchestration.emotional_oscillator
 
 **Star**: Supporting

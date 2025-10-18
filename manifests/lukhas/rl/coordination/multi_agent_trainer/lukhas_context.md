@@ -1,12 +1,3 @@
----
-module: lukhas.rl.coordination.multi_agent_trainer
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/lukhas/rl/coordination/multi_agent_trainer/module.manifest.json
-matriz: [intent]
----
 # lukhas.rl.coordination.multi_agent_trainer
 
 **Star**: Supporting

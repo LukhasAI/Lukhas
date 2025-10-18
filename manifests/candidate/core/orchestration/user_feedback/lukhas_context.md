@@ -1,12 +1,3 @@
----
-module: candidate.core.orchestration.user_feedback
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/orchestration/user_feedback/module.manifest.json
-matriz: [intent]
----
 # candidate.core.orchestration.user_feedback
 
 **Star**: Supporting

@@ -1,12 +1,3 @@
----
-module: candidate.cognitive_core.reasoning.deep_inference_engine
-star: Supporting
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/cognitive_core/reasoning/deep_inference_engine/module.manifest.json
-matriz: [thought]
----
 # candidate.cognitive_core.reasoning.deep_inference_engine
 
 **Star**: Supporting

@@ -1,12 +1,3 @@
----
-module: lukhas.observability.enhanced_distributed_tracing
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/lukhas/observability/enhanced_distributed_tracing/module.manifest.json
-matriz: [supporting]
----
 # lukhas.observability.enhanced_distributed_tracing
 
 **Star**: Supporting

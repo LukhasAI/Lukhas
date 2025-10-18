@@ -1,12 +1,3 @@
----
-module: candidate.core.interfaces.api.v1.grpc
-star: 🔬 Horizon (Vision)
-tier: T3_standard
-owner: unassigned
-colony: actuation
-manifest_path: manifests/candidate/core/interfaces/api/v1/grpc/module.manifest.json
-matriz: [action]
----
 # candidate.core.interfaces.api.v1.grpc
 
 **Star**: 🔬 Horizon (Vision)

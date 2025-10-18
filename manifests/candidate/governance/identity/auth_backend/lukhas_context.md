@@ -1,12 +1,3 @@
----
-module: candidate.governance.identity.auth_backend
-star: ⚛️ Anchor (Identity)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/governance/identity/auth_backend/module.manifest.json
-matriz: [risk]
----
 # candidate.governance.identity.auth_backend
 
 **Star**: ⚛️ Anchor (Identity)

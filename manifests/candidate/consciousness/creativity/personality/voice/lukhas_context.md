@@ -1,12 +1,3 @@
----
-module: candidate.consciousness.creativity.personality.voice
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/candidate/consciousness/creativity/personality/voice/module.manifest.json
-matriz: [thought]
----
 # candidate.consciousness.creativity.personality.voice
 
 **Star**: 🌊 Flow (Consciousness)

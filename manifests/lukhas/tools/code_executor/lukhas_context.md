@@ -1,12 +1,3 @@
----
-module: lukhas.tools.code_executor
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/lukhas/tools/code_executor/module.manifest.json
-matriz: [supporting]
----
 # lukhas.tools.code_executor
 
 **Star**: Supporting

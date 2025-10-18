@@ -1,12 +1,3 @@
----
-module: candidate.orchestration.core_modules.unified_orchestrator
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/orchestration/core_modules/unified_orchestrator/module.manifest.json
-matriz: [intent]
----
 # candidate.orchestration.core_modules.unified_orchestrator
 
 **Star**: Supporting

@@ -1,12 +1,3 @@
----
-module: candidate.orchestration.brain.cognitive.cognitive_updater
-star: Supporting
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/orchestration/brain/cognitive/cognitive_updater/module.manifest.json
-matriz: [thought]
----
 # candidate.orchestration.brain.cognitive.cognitive_updater
 
 **Star**: Supporting

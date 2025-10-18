@@ -1,12 +1,3 @@
----
-module: candidate.memory.causal
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: memory
-manifest_path: manifests/candidate/memory/causal/module.manifest.json
-matriz: [memory]
----
 # candidate.memory.causal
 
 **Star**: ✦ Trail (Memory)

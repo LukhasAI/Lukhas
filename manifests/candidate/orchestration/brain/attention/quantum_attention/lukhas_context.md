@@ -1,12 +1,3 @@
----
-module: candidate.orchestration.brain.attention.quantum_attention
-star: 🔮 Oracle (Quantum)
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/orchestration/brain/attention/quantum_attention/module.manifest.json
-matriz: [attention]
----
 # candidate.orchestration.brain.attention.quantum_attention
 
 **Star**: 🔮 Oracle (Quantum)

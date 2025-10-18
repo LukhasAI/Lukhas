@@ -1,12 +1,3 @@
----
-module: candidate.consciousness.dream.oneiric.oneiric_core.utils
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/candidate/consciousness/dream/oneiric/oneiric_core/utils/module.manifest.json
-matriz: [thought]
----
 # candidate.consciousness.dream.oneiric.oneiric_core.utils
 
 **Star**: 🌊 Flow (Consciousness)

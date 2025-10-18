@@ -1,12 +1,3 @@
----
-module: candidate.core.interfaces.as_agent.sample_payloads
-star: 🔬 Horizon (Vision)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/interfaces/as_agent/sample_payloads/module.manifest.json
-matriz: [action]
----
 # candidate.core.interfaces.as_agent.sample_payloads
 
 **Star**: 🔬 Horizon (Vision)

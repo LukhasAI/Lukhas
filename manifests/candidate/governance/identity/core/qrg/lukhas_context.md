@@ -1,12 +1,3 @@
----
-module: candidate.governance.identity.core.qrg
-star: ⚛️ Anchor (Identity)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/governance/identity/core/qrg/module.manifest.json
-matriz: [risk]
----
 # candidate.governance.identity.core.qrg
 
 **Star**: ⚛️ Anchor (Identity)

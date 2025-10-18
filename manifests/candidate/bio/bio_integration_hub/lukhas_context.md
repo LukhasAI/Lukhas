@@ -1,12 +1,3 @@
----
-module: candidate.bio.bio_integration_hub
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/bio/bio_integration_hub/module.manifest.json
-matriz: [supporting]
----
 # candidate.bio.bio_integration_hub
 
 **Star**: Supporting

@@ -1,12 +1,3 @@
----
-module: candidate.core.log_system
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/log_system/module.manifest.json
-matriz: [supporting]
----
 # candidate.core.log_system
 
 **Star**: Supporting

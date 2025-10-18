@@ -1,12 +1,3 @@
----
-module: candidate.bio.symbolic.qi_attention
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/bio/symbolic/qi_attention/module.manifest.json
-matriz: [attention]
----
 # candidate.bio.symbolic.qi_attention
 
 **Star**: Supporting

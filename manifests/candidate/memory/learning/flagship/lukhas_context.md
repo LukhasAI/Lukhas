@@ -1,12 +1,3 @@
----
-module: candidate.memory.learning.flagship
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: memory
-manifest_path: manifests/candidate/memory/learning/flagship/module.manifest.json
-matriz: [memory]
----
 # candidate.memory.learning.flagship
 
 **Star**: ✦ Trail (Memory)

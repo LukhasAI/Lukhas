@@ -1,12 +1,3 @@
----
-module: candidate.memory.compression
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: memory
-manifest_path: manifests/candidate/memory/compression/module.manifest.json
-matriz: [memory]
----
 # candidate.memory.compression
 
 **Star**: ✦ Trail (Memory)

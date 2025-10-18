@@ -1,12 +1,3 @@
----
-module: candidate.consciousness.dream.base.dream_refold
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/candidate/consciousness/dream/base/dream_refold/module.manifest.json
-matriz: [memory]
----
 # candidate.consciousness.dream.base.dream_refold
 
 **Star**: ✦ Trail (Memory)

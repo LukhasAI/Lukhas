@@ -1,12 +1,3 @@
----
-module: candidate.orchestration.signal_router
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/orchestration/signal_router/module.manifest.json
-matriz: [intent]
----
 # candidate.orchestration.signal_router
 
 **Star**: Supporting

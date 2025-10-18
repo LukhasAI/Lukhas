@@ -1,12 +1,3 @@
----
-module: candidate.core.explainability
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/explainability/module.manifest.json
-matriz: [supporting]
----
 # candidate.core.explainability
 
 **Star**: Supporting

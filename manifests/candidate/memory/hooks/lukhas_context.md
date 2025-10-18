@@ -1,12 +1,3 @@
----
-module: candidate.memory.hooks
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: memory
-manifest_path: manifests/candidate/memory/hooks/module.manifest.json
-matriz: [memory]
----
 # candidate.memory.hooks
 
 **Star**: ✦ Trail (Memory)

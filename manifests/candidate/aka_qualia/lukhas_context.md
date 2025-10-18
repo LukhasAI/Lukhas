@@ -1,12 +1,3 @@
----
-module: candidate.aka_qualia
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/aka_qualia/module.manifest.json
-matriz: [supporting]
----
 # candidate.aka_qualia
 
 **Star**: Supporting

@@ -1,12 +1,3 @@
----
-module: lukhas.observability.service_metrics
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/lukhas/observability/service_metrics/module.manifest.json
-matriz: [supporting]
----
 # lukhas.observability.service_metrics
 
 **Star**: Supporting

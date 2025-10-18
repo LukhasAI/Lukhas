@@ -1,12 +1,3 @@
----
-module: lukhas.rl.engine
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/lukhas/rl/engine/module.manifest.json
-matriz: [supporting]
----
 # lukhas.rl.engine
 
 **Star**: Supporting

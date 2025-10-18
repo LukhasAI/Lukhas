@@ -1,12 +1,3 @@
----
-module: candidate.core.qi_biometrics
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/qi_biometrics/module.manifest.json
-matriz: [supporting]
----
 # candidate.core.qi_biometrics
 
 **Star**: Supporting

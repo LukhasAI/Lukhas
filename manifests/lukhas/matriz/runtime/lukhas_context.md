@@ -1,12 +1,3 @@
----
-module: lukhas.matriz.runtime
-star: Supporting
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/lukhas/matriz/runtime/module.manifest.json
-matriz: [supporting]
----
 # lukhas.matriz.runtime
 
 **Star**: Supporting

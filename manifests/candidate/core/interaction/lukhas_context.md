@@ -1,12 +1,3 @@
----
-module: candidate.core.interaction
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/interaction/module.manifest.json
-matriz: [action]
----
 # candidate.core.interaction
 
 **Star**: Supporting

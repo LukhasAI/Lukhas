@@ -1,12 +1,3 @@
----
-module: candidate.emotion.affect_detection
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/emotion/affect_detection/module.manifest.json
-matriz: [supporting]
----
 # candidate.emotion.affect_detection
 
 **Star**: Supporting

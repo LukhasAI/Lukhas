@@ -1,12 +1,3 @@
----
-module: candidate.consciousness.interfaces
-star: 🔬 Horizon (Vision)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/candidate/consciousness/interfaces/module.manifest.json
-matriz: [thought]
----
 # candidate.consciousness.interfaces
 
 **Star**: 🔬 Horizon (Vision)

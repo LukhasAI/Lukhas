@@ -1,12 +1,3 @@
----
-module: lukhas.bridge
-star: Supporting
-tier: T2_important
-owner: unassigned
-colony: -
-manifest_path: manifests/lukhas/bridge/module.manifest.json
-matriz: [action]
----
 # lukhas.bridge
 
 **Star**: Supporting

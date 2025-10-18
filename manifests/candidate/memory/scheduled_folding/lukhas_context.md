@@ -1,12 +1,3 @@
----
-module: candidate.memory.scheduled_folding
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: memory
-manifest_path: manifests/candidate/memory/scheduled_folding/module.manifest.json
-matriz: [memory]
----
 # candidate.memory.scheduled_folding
 
 **Star**: ✦ Trail (Memory)

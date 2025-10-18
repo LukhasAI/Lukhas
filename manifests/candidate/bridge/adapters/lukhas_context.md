@@ -1,12 +1,3 @@
----
-module: candidate.bridge.adapters
-star: Supporting
-tier: T2_important
-owner: unassigned
-colony: actuation
-manifest_path: manifests/candidate/bridge/adapters/module.manifest.json
-matriz: [action]
----
 # candidate.bridge.adapters
 
 **Star**: Supporting

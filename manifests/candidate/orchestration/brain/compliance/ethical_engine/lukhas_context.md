@@ -1,12 +1,3 @@
----
-module: candidate.orchestration.brain.compliance.ethical_engine
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: ethics
-manifest_path: manifests/candidate/orchestration/brain/compliance/ethical_engine/module.manifest.json
-matriz: [risk]
----
 # candidate.orchestration.brain.compliance.ethical_engine
 
 **Star**: Supporting

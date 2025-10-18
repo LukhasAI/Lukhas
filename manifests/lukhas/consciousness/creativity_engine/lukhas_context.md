@@ -1,12 +1,3 @@
----
-module: lukhas.consciousness.creativity_engine
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/lukhas/consciousness/creativity_engine/module.manifest.json
-matriz: [thought]
----
 # lukhas.consciousness.creativity_engine
 
 **Star**: 🌊 Flow (Consciousness)

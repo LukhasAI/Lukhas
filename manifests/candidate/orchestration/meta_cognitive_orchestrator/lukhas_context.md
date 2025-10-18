@@ -1,12 +1,3 @@
----
-module: candidate.orchestration.meta_cognitive_orchestrator
-star: Supporting
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/orchestration/meta_cognitive_orchestrator/module.manifest.json
-matriz: [thought]
----
 # candidate.orchestration.meta_cognitive_orchestrator
 
 **Star**: Supporting

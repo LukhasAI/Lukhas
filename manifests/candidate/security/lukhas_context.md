@@ -1,12 +1,3 @@
----
-module: candidate.security
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/security/module.manifest.json
-matriz: [supporting]
----
 # candidate.security
 
 **Star**: Supporting

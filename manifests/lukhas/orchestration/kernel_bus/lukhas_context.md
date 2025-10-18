@@ -1,12 +1,3 @@
----
-module: lukhas.orchestration.kernel_bus
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/lukhas/orchestration/kernel_bus/module.manifest.json
-matriz: [intent]
----
 # lukhas.orchestration.kernel_bus
 
 **Star**: Supporting

@@ -1,12 +1,3 @@
----
-module: candidate.core.personality
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/personality/module.manifest.json
-matriz: [supporting]
----
 # candidate.core.personality
 
 **Star**: Supporting

@@ -1,12 +1,3 @@
----
-module: candidate.memory.folds.tracker
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: memory
-manifest_path: manifests/candidate/memory/folds/tracker/module.manifest.json
-matriz: [memory]
----
 # candidate.memory.folds.tracker
 
 **Star**: ✦ Trail (Memory)

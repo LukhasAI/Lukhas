@@ -1,12 +1,3 @@
----
-module: candidate.consciousness.states
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/candidate/consciousness/states/module.manifest.json
-matriz: [thought]
----
 # candidate.consciousness.states
 
 **Star**: 🌊 Flow (Consciousness)

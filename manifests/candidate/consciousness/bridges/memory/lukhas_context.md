@@ -1,12 +1,3 @@
----
-module: candidate.consciousness.bridges.memory
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/candidate/consciousness/bridges/memory/module.manifest.json
-matriz: [memory]
----
 # candidate.consciousness.bridges.memory
 
 **Star**: ✦ Trail (Memory)

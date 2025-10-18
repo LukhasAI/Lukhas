@@ -1,12 +1,3 @@
----
-module: lukhas.consciousness.dream
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/lukhas/consciousness/dream/module.manifest.json
-matriz: [thought]
----
 # lukhas.consciousness.dream
 
 **Star**: 🌊 Flow (Consciousness)

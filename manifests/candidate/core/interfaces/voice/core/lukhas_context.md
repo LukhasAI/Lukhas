@@ -1,12 +1,3 @@
----
-module: candidate.core.interfaces.voice.core
-star: 🔬 Horizon (Vision)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/interfaces/voice/core/module.manifest.json
-matriz: [action]
----
 # candidate.core.interfaces.voice.core
 
 **Star**: 🔬 Horizon (Vision)

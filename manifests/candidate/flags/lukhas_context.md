@@ -1,12 +1,3 @@
----
-module: candidate.flags
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/flags/module.manifest.json
-matriz: [supporting]
----
 # candidate.flags
 
 **Star**: Supporting

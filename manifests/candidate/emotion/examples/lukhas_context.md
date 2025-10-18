@@ -1,12 +1,3 @@
----
-module: candidate.emotion.examples
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/emotion/examples/module.manifest.json
-matriz: [supporting]
----
 # candidate.emotion.examples
 
 **Star**: Supporting

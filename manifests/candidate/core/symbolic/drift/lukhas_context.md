@@ -1,12 +1,3 @@
----
-module: candidate.core.symbolic.drift
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/symbolic/drift/module.manifest.json
-matriz: [risk]
----
 # candidate.core.symbolic.drift
 
 **Star**: Supporting

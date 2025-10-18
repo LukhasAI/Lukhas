@@ -1,12 +1,3 @@
----
-module: candidate.core.symbolic.symbolic_glyph_hash
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/symbolic/symbolic_glyph_hash/module.manifest.json
-matriz: [supporting]
----
 # candidate.core.symbolic.symbolic_glyph_hash
 
 **Star**: Supporting

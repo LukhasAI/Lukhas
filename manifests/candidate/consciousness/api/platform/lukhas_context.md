@@ -1,12 +1,3 @@
----
-module: candidate.consciousness.api.platform
-star: 🌊 Flow (Consciousness)
-tier: T3_standard
-owner: unassigned
-colony: actuation
-manifest_path: manifests/candidate/consciousness/api/platform/module.manifest.json
-matriz: [thought]
----
 # candidate.consciousness.api.platform
 
 **Star**: 🌊 Flow (Consciousness)

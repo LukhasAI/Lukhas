@@ -1,12 +1,3 @@
----
-module: candidate.governance.identity.zkproof
-star: ⚛️ Anchor (Identity)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/governance/identity/zkproof/module.manifest.json
-matriz: [risk]
----
 # candidate.governance.identity.zkproof
 
 **Star**: ⚛️ Anchor (Identity)

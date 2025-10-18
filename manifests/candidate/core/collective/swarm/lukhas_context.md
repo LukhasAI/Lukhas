@@ -1,12 +1,3 @@
----
-module: candidate.core.collective.swarm
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/collective/swarm/module.manifest.json
-matriz: [supporting]
----
 # candidate.core.collective.swarm
 
 **Star**: Supporting

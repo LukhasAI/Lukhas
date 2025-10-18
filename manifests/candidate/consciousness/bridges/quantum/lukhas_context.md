@@ -1,12 +1,3 @@
----
-module: candidate.consciousness.bridges.quantum
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/candidate/consciousness/bridges/quantum/module.manifest.json
-matriz: [thought]
----
 # candidate.consciousness.bridges.quantum
 
 **Star**: 🌊 Flow (Consciousness)

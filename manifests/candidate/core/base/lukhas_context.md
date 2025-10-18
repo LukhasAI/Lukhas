@@ -1,12 +1,3 @@
----
-module: candidate.core.base
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/base/module.manifest.json
-matriz: [supporting]
----
 # candidate.core.base
 
 **Star**: Supporting

@@ -1,12 +1,3 @@
----
-module: candidate.orchestration.lukhas_master_orchestrator
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/orchestration/lukhas_master_orchestrator/module.manifest.json
-matriz: [intent]
----
 # candidate.orchestration.lukhas_master_orchestrator
 
 **Star**: Supporting

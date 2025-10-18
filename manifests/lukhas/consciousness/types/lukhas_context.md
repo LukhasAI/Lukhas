@@ -1,12 +1,3 @@
----
-module: lukhas.consciousness.types
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/lukhas/consciousness/types/module.manifest.json
-matriz: [thought]
----
 # lukhas.consciousness.types
 
 **Star**: 🌊 Flow (Consciousness)

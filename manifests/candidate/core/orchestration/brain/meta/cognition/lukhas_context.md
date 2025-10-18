@@ -1,12 +1,3 @@
----
-module: candidate.core.orchestration.brain.meta.cognition
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/orchestration/brain/meta/cognition/module.manifest.json
-matriz: [intent]
----
 # candidate.core.orchestration.brain.meta.cognition
 
 **Star**: Supporting

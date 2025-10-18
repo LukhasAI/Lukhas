@@ -1,12 +1,3 @@
----
-module: candidate.consciousness.registry
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/candidate/consciousness/registry/module.manifest.json
-matriz: [thought]
----
 # candidate.consciousness.registry
 
 **Star**: 🌊 Flow (Consciousness)

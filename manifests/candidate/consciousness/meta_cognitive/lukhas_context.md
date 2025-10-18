@@ -1,12 +1,3 @@
----
-module: candidate.consciousness.meta_cognitive
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/candidate/consciousness/meta_cognitive/module.manifest.json
-matriz: [thought]
----
 # candidate.consciousness.meta_cognitive
 
 **Star**: 🌊 Flow (Consciousness)

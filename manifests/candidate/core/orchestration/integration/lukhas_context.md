@@ -1,12 +1,3 @@
----
-module: candidate.core.orchestration.integration
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/orchestration/integration/module.manifest.json
-matriz: [intent]
----
 # candidate.core.orchestration.integration
 
 **Star**: Supporting

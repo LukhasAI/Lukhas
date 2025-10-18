@@ -1,12 +1,3 @@
----
-module: candidate.memory.examples.basic
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: memory
-manifest_path: manifests/candidate/memory/examples/basic/module.manifest.json
-matriz: [memory]
----
 # candidate.memory.examples.basic
 
 **Star**: ✦ Trail (Memory)

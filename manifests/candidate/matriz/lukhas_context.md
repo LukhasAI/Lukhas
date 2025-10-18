@@ -1,12 +1,3 @@
----
-module: candidate.matriz
-star: Supporting
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/matriz/module.manifest.json
-matriz: [supporting]
----
 # candidate.matriz
 
 **Star**: Supporting

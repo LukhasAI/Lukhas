@@ -1,12 +1,3 @@
----
-module: lukhas.compliance
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/lukhas/compliance/module.manifest.json
-matriz: [risk]
----
 # lukhas.compliance
 
 **Star**: Supporting

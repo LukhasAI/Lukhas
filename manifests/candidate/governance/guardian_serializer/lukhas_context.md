@@ -1,12 +1,3 @@
----
-module: candidate.governance.guardian_serializer
-star: 🛡️ Watch (Guardian)
-tier: T3_standard
-owner: unassigned
-colony: ethics
-manifest_path: manifests/candidate/governance/guardian_serializer/module.manifest.json
-matriz: [risk]
----
 # candidate.governance.guardian_serializer
 
 **Star**: 🛡️ Watch (Guardian)

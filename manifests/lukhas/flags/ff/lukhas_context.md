@@ -1,12 +1,3 @@
----
-module: lukhas.flags.ff
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/lukhas/flags/ff/module.manifest.json
-matriz: [supporting]
----
 # lukhas.flags.ff
 
 **Star**: Supporting

@@ -1,12 +1,3 @@
----
-module: lukhas.core.matriz.pipeline_stage
-star: Supporting
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/lukhas/core/matriz/pipeline_stage/module.manifest.json
-matriz: [supporting]
----
 # lukhas.core.matriz.pipeline_stage
 
 **Star**: Supporting

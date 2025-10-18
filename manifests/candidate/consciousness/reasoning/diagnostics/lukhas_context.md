@@ -1,12 +1,3 @@
----
-module: candidate.consciousness.reasoning.diagnostics
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/candidate/consciousness/reasoning/diagnostics/module.manifest.json
-matriz: [thought]
----
 # candidate.consciousness.reasoning.diagnostics
 
 **Star**: 🌊 Flow (Consciousness)

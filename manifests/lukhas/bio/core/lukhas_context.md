@@ -1,12 +1,3 @@
----
-module: lukhas.bio.core
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/lukhas/bio/core/module.manifest.json
-matriz: [supporting]
----
 # lukhas.bio.core
 
 **Star**: Supporting

@@ -1,12 +1,3 @@
----
-module: lukhas.memory.backends.faiss_store
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: memory
-manifest_path: manifests/lukhas/memory/backends/faiss_store/module.manifest.json
-matriz: [memory]
----
 # lukhas.memory.backends.faiss_store
 
 **Star**: ✦ Trail (Memory)

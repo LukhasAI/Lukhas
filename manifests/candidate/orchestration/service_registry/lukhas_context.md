@@ -1,12 +1,3 @@
----
-module: candidate.orchestration.service_registry
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/orchestration/service_registry/module.manifest.json
-matriz: [intent]
----
 # candidate.orchestration.service_registry
 
 **Star**: Supporting

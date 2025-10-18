@@ -1,12 +1,3 @@
----
-module: lukhas.ledger.event_bus
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/lukhas/ledger/event_bus/module.manifest.json
-matriz: [supporting]
----
 # lukhas.ledger.event_bus
 
 **Star**: Supporting

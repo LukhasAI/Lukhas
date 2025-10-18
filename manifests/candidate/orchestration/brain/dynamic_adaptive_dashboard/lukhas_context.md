@@ -1,12 +1,3 @@
----
-module: candidate.orchestration.brain.dynamic_adaptive_dashboard
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/orchestration/brain/dynamic_adaptive_dashboard/module.manifest.json
-matriz: [intent]
----
 # candidate.orchestration.brain.dynamic_adaptive_dashboard
 
 **Star**: Supporting

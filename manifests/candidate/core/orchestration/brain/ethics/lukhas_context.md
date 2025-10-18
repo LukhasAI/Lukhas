@@ -1,12 +1,3 @@
----
-module: candidate.core.orchestration.brain.ethics
-star: 🛡️ Watch (Guardian)
-tier: T4_experimental
-owner: unassigned
-colony: ethics
-manifest_path: manifests/candidate/core/orchestration/brain/ethics/module.manifest.json
-matriz: [risk]
----
 # candidate.core.orchestration.brain.ethics
 
 **Star**: 🛡️ Watch (Guardian)

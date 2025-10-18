@@ -1,12 +1,3 @@
----
-module: lukhas.ledger.consent_handlers
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/lukhas/ledger/consent_handlers/module.manifest.json
-matriz: [supporting]
----
 # lukhas.ledger.consent_handlers
 
 **Star**: Supporting

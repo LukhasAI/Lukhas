@@ -1,12 +1,3 @@
----
-module: candidate.governance.identity.wearables_integration
-star: ⚛️ Anchor (Identity)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/governance/identity/wearables_integration/module.manifest.json
-matriz: [risk]
----
 # candidate.governance.identity.wearables_integration
 
 **Star**: ⚛️ Anchor (Identity)

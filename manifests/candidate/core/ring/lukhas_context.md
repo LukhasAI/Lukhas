@@ -1,12 +1,3 @@
----
-module: candidate.core.ring
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/ring/module.manifest.json
-matriz: [supporting]
----
 # candidate.core.ring
 
 **Star**: Supporting

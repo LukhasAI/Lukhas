@@ -1,12 +1,3 @@
----
-module: candidate.core.events
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/events/module.manifest.json
-matriz: [supporting]
----
 # candidate.core.events
 
 **Star**: Supporting

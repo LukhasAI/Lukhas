@@ -1,12 +1,3 @@
----
-module: candidate.core.orchestration.agents.builtin
-star: 🔬 Horizon (Vision)
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/orchestration/agents/builtin/module.manifest.json
-matriz: [intent]
----
 # candidate.core.orchestration.agents.builtin
 
 **Star**: 🔬 Horizon (Vision)

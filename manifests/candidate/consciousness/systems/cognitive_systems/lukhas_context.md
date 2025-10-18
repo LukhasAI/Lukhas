@@ -1,12 +1,3 @@
----
-module: candidate.consciousness.systems.cognitive_systems
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/candidate/consciousness/systems/cognitive_systems/module.manifest.json
-matriz: [thought]
----
 # candidate.consciousness.systems.cognitive_systems
 
 **Star**: 🌊 Flow (Consciousness)

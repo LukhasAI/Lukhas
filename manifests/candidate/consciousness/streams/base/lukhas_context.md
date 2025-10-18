@@ -1,12 +1,3 @@
----
-module: candidate.consciousness.streams.base
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/candidate/consciousness/streams/base/module.manifest.json
-matriz: [thought]
----
 # candidate.consciousness.streams.base
 
 **Star**: 🌊 Flow (Consciousness)

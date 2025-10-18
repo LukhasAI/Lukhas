@@ -1,12 +1,3 @@
----
-module: candidate.consciousness.dream.expand
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/candidate/consciousness/dream/expand/module.manifest.json
-matriz: [thought]
----
 # candidate.consciousness.dream.expand
 
 **Star**: 🌊 Flow (Consciousness)

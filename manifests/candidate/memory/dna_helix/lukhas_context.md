@@ -1,12 +1,3 @@
----
-module: candidate.memory.dna_helix
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: memory
-manifest_path: manifests/candidate/memory/dna_helix/module.manifest.json
-matriz: [memory]
----
 # candidate.memory.dna_helix
 
 **Star**: ✦ Trail (Memory)

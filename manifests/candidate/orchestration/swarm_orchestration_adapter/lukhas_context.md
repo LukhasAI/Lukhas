@@ -1,12 +1,3 @@
----
-module: candidate.orchestration.swarm_orchestration_adapter
-star: Supporting
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/orchestration/swarm_orchestration_adapter/module.manifest.json
-matriz: [intent]
----
 # candidate.orchestration.swarm_orchestration_adapter
 
 **Star**: Supporting

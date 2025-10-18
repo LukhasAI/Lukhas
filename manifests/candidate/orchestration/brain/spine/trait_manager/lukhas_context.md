@@ -1,12 +1,3 @@
----
-module: candidate.orchestration.brain.spine.trait_manager
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/orchestration/brain/spine/trait_manager/module.manifest.json
-matriz: [intent]
----
 # candidate.orchestration.brain.spine.trait_manager
 
 **Star**: Supporting

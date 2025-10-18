@@ -1,12 +1,3 @@
----
-module: candidate.ledger
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/ledger/module.manifest.json
-matriz: [supporting]
----
 # candidate.ledger
 
 **Star**: Supporting

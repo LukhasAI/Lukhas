@@ -1,12 +1,3 @@
----
-module: candidate.core.interfaces.as_agent.agent_logic
-star: 🔬 Horizon (Vision)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/interfaces/as_agent/agent_logic/module.manifest.json
-matriz: [action]
----
 # candidate.core.interfaces.as_agent.agent_logic
 
 **Star**: 🔬 Horizon (Vision)

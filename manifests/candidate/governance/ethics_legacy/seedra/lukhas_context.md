@@ -1,12 +1,3 @@
----
-module: candidate.governance.ethics_legacy.seedra
-star: 🛡️ Watch (Guardian)
-tier: T2_important
-owner: unassigned
-colony: ethics
-manifest_path: manifests/candidate/governance/ethics_legacy/seedra/module.manifest.json
-matriz: [risk]
----
 # candidate.governance.ethics_legacy.seedra
 
 **Star**: 🛡️ Watch (Guardian)

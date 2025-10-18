@@ -1,12 +1,3 @@
----
-module: candidate.consciousness.layers.base
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/candidate/consciousness/layers/base/module.manifest.json
-matriz: [thought]
----
 # candidate.consciousness.layers.base
 
 **Star**: 🌊 Flow (Consciousness)

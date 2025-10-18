@@ -1,12 +1,3 @@
----
-module: candidate.consciousness.dream.processors
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/candidate/consciousness/dream/processors/module.manifest.json
-matriz: [thought]
----
 # candidate.consciousness.dream.processors
 
 **Star**: 🌊 Flow (Consciousness)

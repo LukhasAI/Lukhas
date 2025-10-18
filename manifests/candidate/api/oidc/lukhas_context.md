@@ -1,12 +1,3 @@
----
-module: candidate.api.oidc
-star: 🛡️ Watch (Guardian)
-tier: T3_standard
-owner: unassigned
-colony: actuation
-manifest_path: manifests/candidate/api/oidc/module.manifest.json
-matriz: [action]
----
 # candidate.api.oidc
 
 **Star**: 🛡️ Watch (Guardian)

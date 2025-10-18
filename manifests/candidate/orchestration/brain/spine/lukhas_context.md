@@ -1,12 +1,3 @@
----
-module: candidate.orchestration.brain.spine
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/orchestration/brain/spine/module.manifest.json
-matriz: [intent]
----
 # candidate.orchestration.brain.spine
 
 **Star**: Supporting

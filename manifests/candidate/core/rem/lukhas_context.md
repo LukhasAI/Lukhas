@@ -1,12 +1,3 @@
----
-module: candidate.core.rem
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/rem/module.manifest.json
-matriz: [supporting]
----
 # candidate.core.rem
 
 **Star**: Supporting

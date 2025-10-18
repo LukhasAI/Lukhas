@@ -1,12 +1,3 @@
----
-module: candidate.core.neural_architectures
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/neural_architectures/module.manifest.json
-matriz: [supporting]
----
 # candidate.core.neural_architectures
 
 **Star**: Supporting

@@ -1,12 +1,3 @@
----
-module: candidate.bridge.api
-star: Supporting
-tier: T3_standard
-owner: unassigned
-colony: actuation
-manifest_path: manifests/candidate/bridge/api/module.manifest.json
-matriz: [action]
----
 # candidate.bridge.api
 
 **Star**: Supporting

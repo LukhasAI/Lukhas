@@ -1,12 +1,3 @@
----
-module: candidate.core.identity
-star: ⚛️ Anchor (Identity)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/identity/module.manifest.json
-matriz: [supporting]
----
 # candidate.core.identity
 
 **Star**: ⚛️ Anchor (Identity)

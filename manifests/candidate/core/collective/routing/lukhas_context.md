@@ -1,12 +1,3 @@
----
-module: candidate.core.collective.routing
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/collective/routing/module.manifest.json
-matriz: [supporting]
----
 # candidate.core.collective.routing
 
 **Star**: Supporting

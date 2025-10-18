@@ -1,12 +1,3 @@
----
-module: candidate.orchestration.brain.collapse_chain_integrity
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/orchestration/brain/collapse_chain_integrity/module.manifest.json
-matriz: [intent]
----
 # candidate.orchestration.brain.collapse_chain_integrity
 
 **Star**: Supporting

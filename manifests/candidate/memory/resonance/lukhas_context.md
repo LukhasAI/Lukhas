@@ -1,12 +1,3 @@
----
-module: candidate.memory.resonance
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: memory
-manifest_path: manifests/candidate/memory/resonance/module.manifest.json
-matriz: [memory]
----
 # candidate.memory.resonance
 
 **Star**: ✦ Trail (Memory)

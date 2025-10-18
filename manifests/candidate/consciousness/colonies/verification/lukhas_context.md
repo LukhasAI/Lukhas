@@ -1,12 +1,3 @@
----
-module: candidate.consciousness.colonies.verification
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/candidate/consciousness/colonies/verification/module.manifest.json
-matriz: [thought]
----
 # candidate.consciousness.colonies.verification
 
 **Star**: 🌊 Flow (Consciousness)

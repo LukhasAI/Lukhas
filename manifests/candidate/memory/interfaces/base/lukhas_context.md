@@ -1,12 +1,3 @@
----
-module: candidate.memory.interfaces.base
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: memory
-manifest_path: manifests/candidate/memory/interfaces/base/module.manifest.json
-matriz: [memory]
----
 # candidate.memory.interfaces.base
 
 **Star**: ✦ Trail (Memory)

@@ -1,12 +1,3 @@
----
-module: candidate.orchestration.brain.cognitive
-star: Supporting
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/orchestration/brain/cognitive/module.manifest.json
-matriz: [thought]
----
 # candidate.orchestration.brain.cognitive
 
 **Star**: Supporting

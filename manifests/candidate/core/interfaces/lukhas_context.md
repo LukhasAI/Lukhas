@@ -1,12 +1,3 @@
----
-module: candidate.core.interfaces
-star: 🔬 Horizon (Vision)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/core/interfaces/module.manifest.json
-matriz: [action]
----
 # candidate.core.interfaces
 
 **Star**: 🔬 Horizon (Vision)

@@ -1,12 +1,3 @@
----
-module: lukhas.emotion.examples
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/lukhas/emotion/examples/module.manifest.json
-matriz: [supporting]
----
 # lukhas.emotion.examples
 
 **Star**: Supporting

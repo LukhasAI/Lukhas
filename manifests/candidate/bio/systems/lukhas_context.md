@@ -1,12 +1,3 @@
----
-module: candidate.bio.systems
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/bio/systems/module.manifest.json
-matriz: [supporting]
----
 # candidate.bio.systems
 
 **Star**: Supporting

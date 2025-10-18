@@ -1,12 +1,3 @@
----
-module: lukhas.trace.TraceRepairEngine
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/lukhas/trace/TraceRepairEngine/module.manifest.json
-matriz: [supporting]
----
 # lukhas.trace.TraceRepairEngine
 
 **Star**: Supporting

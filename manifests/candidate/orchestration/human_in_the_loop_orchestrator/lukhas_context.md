@@ -1,12 +1,3 @@
----
-module: candidate.orchestration.human_in_the_loop_orchestrator
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/orchestration/human_in_the_loop_orchestrator/module.manifest.json
-matriz: [intent]
----
 # candidate.orchestration.human_in_the_loop_orchestrator
 
 **Star**: Supporting

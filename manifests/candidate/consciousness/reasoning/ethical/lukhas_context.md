@@ -1,12 +1,3 @@
----
-module: candidate.consciousness.reasoning.ethical
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/candidate/consciousness/reasoning/ethical/module.manifest.json
-matriz: [thought]
----
 # candidate.consciousness.reasoning.ethical
 
 **Star**: 🌊 Flow (Consciousness)

@@ -1,12 +1,3 @@
----
-module: candidate.rl.coordination
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/rl/coordination/module.manifest.json
-matriz: [intent]
----
 # candidate.rl.coordination
 
 **Star**: Supporting

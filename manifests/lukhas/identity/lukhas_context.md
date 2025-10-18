@@ -1,12 +1,3 @@
----
-module: lukhas.identity
-star: ⚛️ Anchor (Identity)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/lukhas/identity/module.manifest.json
-matriz: [supporting]
----
 # lukhas.identity
 
 **Star**: ⚛️ Anchor (Identity)

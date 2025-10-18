@@ -1,12 +1,3 @@
----
-module: candidate.bio.core.symbolic_bio_symbolic_architectures
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/candidate/bio/core/symbolic_bio_symbolic_architectures/module.manifest.json
-matriz: [supporting]
----
 # candidate.bio.core.symbolic_bio_symbolic_architectures
 
 **Star**: Supporting
