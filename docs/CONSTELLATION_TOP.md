@@ -90,18 +90,23 @@ The **Constellation Framework** is LUKHAS's 8-star classification system that ma
 **Purpose**: Foundational modules without specialized cognitive assignments
 **Promotion Path**: Can be auto-promoted to specific stars via `--star-from-rules` based on capability detection
 
-## 📊 Current Distribution (780 Total Modules)
+## 📊 Current Distribution (1,572 Total Modules)
 
 | Star | Count | Percentage | Status |
 |------|-------|------------|--------|
-| 🌊 Flow (Consciousness) | 108 | 13.8% | Active |
-| ✦ Trail (Memory) | 97 | 12.4% | Active |
-| ⚛️ Anchor (Identity) | 55 | 7.1% | Active |
-| 🛡️ Watch (Guardian) | 53 | 6.8% | Active |
-| 🔬 Horizon (Vision) | 53 | 6.8% | Active |
-| 🔮 Oracle (Quantum) | 11 | 1.4% | Active |
-| Supporting | 394 | 50.5% | Default |
-| **Total** | **780** | **100%** | - |
+| Supporting | 856 | 54.5% | Default |
+| 🌊 Flow (Consciousness) | 200 | 12.7% | Active |
+| ✦ Trail (Memory) | 179 | 11.4% | Active |
+| ⚛️ Anchor (Identity) | 105 | 6.7% | Active |
+| 🔬 Horizon (Vision) | 105 | 6.7% | Active |
+| 🛡️ Watch (Guardian) | 97 | 6.2% | Active |
+| 🔮 Oracle (Quantum) | 22 | 1.4% | Active |
+| Other (🔧 Bridge, 🌸, etc.) | 8 | 0.5% | Legacy |
+| **Total** | **1,572** | **100%** | - |
+
+**Manifest Coverage**: 56.5% (1,572 manifests / 2,782 Python packages)
+**Orphan Packages**: 1,210 packages without manifests
+**99% Target**: Need 1,182 additional manifests (delegated to Copilot - Task A)
 
 **Note**: 🌱 Living, 🌙 Drift, and ⚖️ North are in development and will be populated during Phase 3-4 manifest regeneration.
 
@@ -243,8 +248,9 @@ make star-audit       # Audit star assignments for consistency
 
 ---
 
-**Last Updated**: 2025-10-18
+**Last Updated**: 2025-10-19
 **Schema Version**: 2.0
-**Manifest Count**: 780 modules
+**Manifest Count**: 1,572 modules (56.5% coverage)
 **Active Stars**: 6 of 9 deployed
+**Orphan Packages**: 1,210 (awaiting manifest generation)
 
