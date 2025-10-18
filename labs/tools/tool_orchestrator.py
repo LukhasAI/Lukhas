@@ -15,22 +15,22 @@ from .tool_executor_guardian import get_tool_executor_guardian
 
 # Multi-AI Bridge Integration
 try:
-    from lukhas.bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
+    from bridge.llm_wrappers.unified_openai_client import UnifiedOpenAIClient
 except ImportError:
     UnifiedOpenAIClient = None
 
 try:
-    from lukhas.bridge.llm_wrappers.anthropic_wrapper import AnthropicWrapper
+    from bridge.llm_wrappers.anthropic_wrapper import AnthropicWrapper
 except ImportError:
     AnthropicWrapper = None
 
 try:
-    from lukhas.bridge.llm_wrappers.gemini_wrapper import GeminiWrapper
+    from bridge.llm_wrappers.gemini_wrapper import GeminiWrapper
 except ImportError:
     GeminiWrapper = None
 
 try:
-    from lukhas.bridge.llm_wrappers.perplexity_wrapper import PerplexityWrapper
+    from bridge.llm_wrappers.perplexity_wrapper import PerplexityWrapper
 except ImportError:
     PerplexityWrapper = None
 

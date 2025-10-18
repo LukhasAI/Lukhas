@@ -26,7 +26,7 @@ def main():
         # Import the audit function and run it
         import asyncio
 
-        from lukhas.tools.lukhas_audit import audit_file_implementation
+        from tools.lukhas_audit import audit_file_implementation
 
         # Run the audit
         result = asyncio.run(audit_file_implementation(file_path))

@@ -19,7 +19,7 @@ import pytest
 try:
     from core.bridge.llm_guardrail import call_llm, get_guardrail_metrics
     from lukhas.governance.guardian_bridge import GuardianBridge
-    from lukhas.identity.auth import AuthenticationService
+    from identity.auth import AuthenticationService
     from lukhas.observability.prometheus_metrics import LUKHASMetrics
     SECURITY_MODULES_AVAILABLE = True
 except ImportError:

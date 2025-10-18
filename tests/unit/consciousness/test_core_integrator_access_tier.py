@@ -3,7 +3,7 @@
 import pytest
 
 from lukhas.consciousness.reflection.core_integrator import AccessTier, resolve_access_tier
-from lukhas.tiers import GlobalTier, TierMappingError
+from tiers import GlobalTier, TierMappingError
 
 
 def test_resolve_access_tier_supports_legacy_names() -> None:

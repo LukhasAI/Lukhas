@@ -20,7 +20,7 @@ from typing import Any, Dict, Iterable, List, Optional
 
 # NOTE: TraceRepairEngine is optional; defer import to runtime.
 try:  # pragma: no cover - import side effects tested via simulation
-    from lukhas.trace.TraceRepairEngine import TraceRepairEngine
+    from trace.TraceRepairEngine import TraceRepairEngine
 except Exception:  # pragma: no cover - optional dependency fallback
     TraceRepairEngine = None  # type: ignore
 

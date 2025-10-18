@@ -14,7 +14,7 @@ import logging
 from abc import abstractmethod
 from typing import Any, Optional, Protocol
 
-from lukhas.aka_qualia.models import PhenomenalGlyph, PhenomenalScene
+from aka_qualia.models import PhenomenalGlyph, PhenomenalScene
 
 logger = logging.getLogger(__name__)
 

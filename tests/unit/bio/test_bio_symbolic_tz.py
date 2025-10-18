@@ -6,7 +6,7 @@ import pytest
 def test_bio_symbolic_initialization():
     """Test BioSymbolicProcessor initialization and UTC usage."""
     try:
-        from lukhas.bio.core.bio_symbolic import BioSymbolicProcessor
+        from bio.core.bio_symbolic import BioSymbolicProcessor
 
         processor = BioSymbolicProcessor()
         assert processor is not None

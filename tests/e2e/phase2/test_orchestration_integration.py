@@ -36,9 +36,9 @@ try:
         WorkflowExecution,
     )
     from lukhas.governance.guardian_system import GuardianSystem
-    from lukhas.bridge.anthropic_bridge import AnthropicBridge
-    from lukhas.bridge.google_bridge import GoogleBridge
-    from lukhas.bridge.openai_bridge import OpenAIBridge
+    from bridge.anthropic_bridge import AnthropicBridge
+    from bridge.google_bridge import GoogleBridge
+    from bridge.openai_bridge import OpenAIBridge
 except ImportError as e:
     pytest.skip(f"Phase 2 modules not available: {e}", allow_module_level=True)
 

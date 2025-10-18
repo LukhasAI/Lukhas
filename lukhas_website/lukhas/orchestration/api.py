@@ -20,7 +20,7 @@ from opentelemetry import trace
 from pydantic import BaseModel, Field
 
 from lukhas.governance.guardian import get_guardian
-from lukhas.identity.auth_service import verify_token
+from identity.auth_service import verify_token
 from lukhas.observability import counter, histogram
 
 from .multi_ai_router import AIProvider, ConsensusType, RoutingRequest, get_multi_ai_router

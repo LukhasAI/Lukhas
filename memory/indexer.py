@@ -69,7 +69,7 @@ _register("DocumentIndexer")
 
 # Added for test compatibility (memory.indexer.OpenAIEmbeddingProvider)
 try:
-    from lukhas.bridge.adapters.openai_embedding_provider import OpenAIEmbeddingProvider  # noqa: F401
+    from bridge.adapters.openai_embedding_provider import OpenAIEmbeddingProvider  # noqa: F401
     if "OpenAIEmbeddingProvider" not in __all__:
         __all__.append("OpenAIEmbeddingProvider")
 except ImportError:

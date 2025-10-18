@@ -26,8 +26,8 @@ import time
 import numpy as np
 import pytest
 
-from lukhas.cognitive_core.reasoning.contradiction_integrator import ContradictionIntegrator
-from lukhas.cognitive_core.reasoning.deep_inference_engine import (
+from cognitive_core.reasoning.contradiction_integrator import ContradictionIntegrator
+from cognitive_core.reasoning.deep_inference_engine import (
     DeepInferenceEngine,
     InferenceRequest,
     InferenceResult,

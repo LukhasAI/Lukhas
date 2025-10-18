@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.consciousness.matriz_thought_loop",
-    "path": "lukhas/consciousness/matriz_thought_loop",
+    "path": "consciousness/matriz_thought_loop",
     "type": "package",
     "lane": "lukhas",
     "colony": "simulation"

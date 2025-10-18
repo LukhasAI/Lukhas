@@ -9,7 +9,7 @@ import asyncio
 
 import pytest
 
-from lukhas.async_manager import (
+from async_manager import (
     ConsciousnessTaskManager,
     TaskPriority,
     get_background_manager,

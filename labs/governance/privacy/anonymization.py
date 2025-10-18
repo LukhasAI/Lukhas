@@ -42,7 +42,7 @@ from typing import Any, Optional, Union
 import numpy as np
 
 # Replaced insecure random with cryptographically secure random for privacy
-from lukhas.security import secure_random
+from security import secure_random
 
 logger = logging.getLogger(__name__)
 

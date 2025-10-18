@@ -16,8 +16,8 @@ from urllib.parse import urljoin
 
 import requests
 
-from lukhas.aka_qualia.models import PhenomenalScene, RegulationPolicy
-from lukhas.aka_qualia.palette import get_safe_palette_recommendation
+from aka_qualia.models import PhenomenalScene, RegulationPolicy
+from aka_qualia.palette import get_safe_palette_recommendation
 
 logger = logging.getLogger(__name__)
 
@@ -149,7 +149,7 @@ class OneiricHook:
         current_colorfield = scene.proto.colorfield
         if current_colorfield:
             # Check if current colorfield has high threat bias
-            from lukhas.aka_qualia.palette import map_colorfield
+            from aka_qualia.palette import map_colorfield
 
             bias = map_colorfield(current_colorfield, self.config["palette_culture_profile"])
 

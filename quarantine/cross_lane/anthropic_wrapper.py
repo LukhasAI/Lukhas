@@ -21,7 +21,7 @@ def _get_anthropic_wrapper_class():
     if _anthropic_wrapper_class is None:
         try:
             # Import from candidate lane with lazy loading
-            from lukhas.bridge.llm_wrappers.anthropic_wrapper import AnthropicWrapper as CandidateWrapper
+            from bridge.llm_wrappers.anthropic_wrapper import AnthropicWrapper as CandidateWrapper
 
             _anthropic_wrapper_class = CandidateWrapper
             logger.info("✅ Anthropic wrapper loaded from candidate lane")

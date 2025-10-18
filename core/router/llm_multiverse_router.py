@@ -9,13 +9,13 @@ import uuid
 from datetime import datetime, timezone
 from typing import Literal
 
-from lukhas.bridge.llm_wrappers.anthropic_wrapper import AnthropicWrapper
-from lukhas.bridge.llm_wrappers.azure_openai_wrapper import AzureOpenaiWrapper
-from lukhas.bridge.llm_wrappers.gemini_wrapper import GeminiWrapper
+from bridge.llm_wrappers.anthropic_wrapper import AnthropicWrapper
+from bridge.llm_wrappers.azure_openai_wrapper import AzureOpenaiWrapper
+from bridge.llm_wrappers.gemini_wrapper import GeminiWrapper
 
 # === Initialize wrapper instances ===
-from lukhas.bridge.llm_wrappers.openai_wrapper import OpenaiWrapper
-from lukhas.bridge.llm_wrappers.perplexity_wrapper import PerplexityWrapper
+from bridge.llm_wrappers.openai_wrapper import OpenaiWrapper
+from bridge.llm_wrappers.perplexity_wrapper import PerplexityWrapper
 
 openai = OpenaiWrapper()
 anthropic = AnthropicWrapper()

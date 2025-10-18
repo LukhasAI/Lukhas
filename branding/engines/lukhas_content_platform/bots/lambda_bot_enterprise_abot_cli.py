@@ -17,7 +17,7 @@ import click
 
 # Add project root to path (repo-relative if available)
 try:
-    from lukhas.utils.runtime_paths import ensure_repo_paths
+    from utils.runtime_paths import ensure_repo_paths
 
     ensure_repo_paths(["lukhas_ai_lambda_bot", "core"])
 except Exception:

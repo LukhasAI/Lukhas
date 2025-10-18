@@ -17,7 +17,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Optional
 
-from lukhas.aka_qualia.models import PhenomenalScene, RegulationPolicy
+from aka_qualia.models import PhenomenalScene, RegulationPolicy
 
 
 @dataclass

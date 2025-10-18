@@ -18,7 +18,7 @@ from fastapi.testclient import TestClient
 from identity.security_hardening import SecurityAction
 
 # Import modules to test
-from lukhas.api.oidc import get_correlation_id, router, security_check_dependency
+from api.oidc import get_correlation_id, router, security_check_dependency
 
 
 @pytest.fixture
@@ -428,7 +428,7 @@ class TestSecurityFeatures:
         request.headers = {"Origin": "https://app.lukhas.ai"}
 
         headers = {}
-        from lukhas.api.oidc import _add_cors_headers
+        from api.oidc import _add_cors_headers
         result = _add_cors_headers(headers, request)
 
         assert "Access-Control-Allow-Origin" in result
@@ -445,7 +445,7 @@ class TestSecurityFeatures:
         request.headers = {"Origin": "https://evil.example.com"}
 
         headers = {}
-        from lukhas.api.oidc import _add_cors_headers
+        from api.oidc import _add_cors_headers
         result = _add_cors_headers(headers, request)
 
         assert "Access-Control-Allow-Origin" not in result

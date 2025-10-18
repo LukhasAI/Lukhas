@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.bridge.external_adapters.gmail_adapter",
-    "path": "lukhas/bridge/external_adapters/gmail_adapter",
+    "path": "bridge/external_adapters/gmail_adapter",
     "type": "package",
     "lane": "lukhas",
     "colony": "actuation"

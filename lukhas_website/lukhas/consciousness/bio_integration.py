@@ -9,7 +9,7 @@ from typing import Any, Dict
 
 # Assuming SymbolicGlyph is available from the bio module.
 # A real implementation might need to handle circular dependencies carefully.
-from lukhas.bio.core.bio_symbolic import SymbolicGlyph
+from bio.core.bio_symbolic import SymbolicGlyph
 
 logger = logging.getLogger(__name__)
 

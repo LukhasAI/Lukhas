@@ -23,9 +23,9 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "../"))
 # Import Agent 1's identity system
 
 # Import Agent 3's adapters
-from lukhas.bridge.adapters.drive_adapter import DriveAdapter, DriveContextIntegration
-from lukhas.bridge.adapters.dropbox_adapter import DropboxAdapter, DropboxContextIntegration
-from lukhas.bridge.adapters.gmail_adapter import GmailAdapter, GmailContextIntegration
+from bridge.adapters.drive_adapter import DriveAdapter, DriveContextIntegration
+from bridge.adapters.dropbox_adapter import DropboxAdapter, DropboxContextIntegration
+from bridge.adapters.gmail_adapter import GmailAdapter, GmailContextIntegration
 from lukhas.core.identity.lambda_id_core import LukhasIdentityService
 
 # Import Agent 2's consent and policy

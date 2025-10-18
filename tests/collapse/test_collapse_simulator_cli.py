@@ -6,14 +6,14 @@ import pathlib
 
 import pytest
 
-from lukhas.tools.collapse_simulator import (
+from tools.collapse_simulator import (
     DEFAULT_OUTPUT_PATH,
     SimulationContext,
     compile_summary,
     derive_top_symbols,
     simulate_collapse,
 )
-from lukhas.tools import collapse_simulator_main
+from tools import collapse_simulator_main
 
 
 def test_simulate_collapse_creates_artifact(tmp_path: pathlib.Path) -> None:

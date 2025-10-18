@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.orchestration.kernel_bus",
-    "path": "lukhas/orchestration/kernel_bus",
+    "path": "orchestration/kernel_bus",
     "type": "package",
     "lane": "lukhas"
   },

@@ -13,8 +13,8 @@ from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Dict, List, Optional, Set
 
-from lukhas.identity.observability import IdentityObservability
-from lukhas.identity.token_generator import TokenGenerator
+from identity.observability import IdentityObservability
+from identity.token_generator import TokenGenerator
 
 logger = logging.getLogger(__name__)
 

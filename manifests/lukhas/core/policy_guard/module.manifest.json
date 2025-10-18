@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.core.policy_guard",
-    "path": "lukhas/core/policy_guard",
+    "path": "core/policy_guard",
     "type": "package",
     "lane": "lukhas"
   },

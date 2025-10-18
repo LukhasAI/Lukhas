@@ -281,7 +281,7 @@ Old imports will continue working but show deprecation warnings:
 from bio_core import BioEngine
 
 # New import (recommended)
-from lukhas.bio import BioEngine
+from bio import BioEngine
 ```
 
 ## Testing

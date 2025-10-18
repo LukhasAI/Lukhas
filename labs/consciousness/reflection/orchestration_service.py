@@ -81,7 +81,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 # Import message bus for cross-module communication
 message_bus_available = True
 try:
-    from lukhas.bridge.message_bus import (
+    from bridge.message_bus import (
         Message,
         MessageBus,
         MessagePriority,

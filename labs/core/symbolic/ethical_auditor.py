@@ -67,7 +67,7 @@ import openai
 # Import LUKHAS core modules
 try:
     from lukhas.consciousness.dream.oneiric.oneiric_core.analysis.drift_score import SymbolicTrustScorer
-    from lukhas.tools.documentation.symbolic_knowledge_core.knowledge_graph import (
+    from tools.documentation.symbolic_knowledge_core.knowledge_graph import (
         AIConstitutionChecker,
         EmotionalSecureLogger,
     )

@@ -35,8 +35,8 @@ from hypothesis import assume, given, strategies as st
 from hypothesis.stateful import Bundle, RuleBasedStateMachine, consumes, rule
 
 # LUKHAS cognitive imports
-from lukhas.cognitive_core.reasoning.contradiction_integrator import ContradictionIntegrator
-from lukhas.cognitive_core.reasoning.deep_inference_engine import DeepInferenceEngine, InferenceType
+from cognitive_core.reasoning.contradiction_integrator import ContradictionIntegrator
+from cognitive_core.reasoning.deep_inference_engine import DeepInferenceEngine, InferenceType
 from lukhas.consciousness.enhanced_thought_engine import EnhancedThoughtEngine, ThoughtComplexity
 from lukhas.consciousness.meta_cognitive_assessor import MetaCognitiveAssessor
 

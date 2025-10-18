@@ -5,9 +5,9 @@ ROOT = Path(__file__).resolve().parents[3]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from lukhas.tools.ci.build_manifest import TodoManifestBuilder  # noqa: E402
-from lukhas.tools.ci.lock_batches import BatchLocker  # noqa: E402
-from lukhas.tools.ci.split_batches import BatchSplitter  # noqa: E402
+from tools.ci.build_manifest import TodoManifestBuilder  # noqa: E402
+from tools.ci.lock_batches import BatchLocker  # noqa: E402
+from tools.ci.split_batches import BatchSplitter  # noqa: E402
 
 
 def test_extract_todo_text_handles_language_block():

@@ -238,7 +238,7 @@ async def test_spirulina_atp_system():
     print_test_header("SPIRULINA-ATP ENERGY SYSTEM", "Testing bio-hybrid energy efficiency")
 
     try:
-        from lukhas.bio.energy.spirulina_atp_system import SpirulinaATPHybridSystem
+        from bio.energy.spirulina_atp_system import SpirulinaATPHybridSystem
 
         # Initialize system
         energy_system = SpirulinaATPHybridSystem(system_scale=1.0)

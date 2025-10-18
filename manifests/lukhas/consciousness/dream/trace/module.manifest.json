@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.consciousness.dream.trace",
-    "path": "lukhas/consciousness/dream/trace",
+    "path": "consciousness/dream/trace",
     "type": "package",
     "lane": "lukhas",
     "colony": "simulation"

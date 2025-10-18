@@ -39,7 +39,7 @@ except ImportError:
     logging.warning("SymbolicHub not available")
 
 try:
-    from lukhas.bridge.symbolic_memory_mapper import SymbolicMemoryMapper
+    from bridge.symbolic_memory_mapper import SymbolicMemoryMapper
 except ImportError:
     SymbolicMemoryMapper = None
     logging.warning("SymbolicMemoryMapper not available")

@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.memory.backends.base",
-    "path": "lukhas/memory/backends/base",
+    "path": "memory/backends/base",
     "type": "package",
     "lane": "lukhas",
     "colony": "memory"

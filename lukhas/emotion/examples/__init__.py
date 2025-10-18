@@ -1,1 +1,0 @@
-"""lukhas.emotion.examples compatibility."""

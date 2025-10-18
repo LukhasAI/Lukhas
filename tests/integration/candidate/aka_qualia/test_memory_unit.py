@@ -19,9 +19,9 @@ import time
 
 import pytest
 
-from lukhas.aka_qualia.memory import create_memory_client
-from lukhas.aka_qualia.memory_noop import NoopMemory
-from lukhas.aka_qualia.memory_sql import SqlMemory
+from aka_qualia.memory import create_memory_client
+from aka_qualia.memory_noop import NoopMemory
+from aka_qualia.memory_sql import SqlMemory
 from tests.integration.candidate.aka_qualia.conftest import create_test_glyph, create_test_scene
 
 
@@ -201,7 +201,7 @@ class TestDataValidation:
     @pytest.mark.unit
     def test_proto_qualia_vector_conversion(self, sql_memory):
         """Proto-qualia should be converted to 5-dimensional vectors"""
-        from lukhas.aka_qualia.util import to_proto_vec
+        from aka_qualia.util import to_proto_vec
 
         proto_data = {"tone": 0.5, "arousal": 0.8, "clarity": 0.9, "embodiment": 0.7, "narrative_gravity": 0.6}
 
@@ -215,7 +215,7 @@ class TestDataValidation:
     @pytest.mark.unit
     def test_missing_proto_fields_handled(self, sql_memory):
         """Missing proto-qualia fields should default gracefully"""
-        from lukhas.aka_qualia.util import to_proto_vec
+        from aka_qualia.util import to_proto_vec
 
         partial_proto = {"tone": 0.3, "clarity": 0.8}  # Missing other fields
         vector = to_proto_vec(partial_proto)

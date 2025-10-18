@@ -26,8 +26,8 @@ from typing import Any, Dict, Optional
 import structlog
 from prometheus_client import CollectorRegistry, Counter, Gauge, Histogram, generate_latest
 
-from lukhas.identity.webauthn_production import WebAuthnCredential
-from lukhas.identity.webauthn_security_hardening import SecurityEvent
+from identity.webauthn_production import WebAuthnCredential
+from identity.webauthn_security_hardening import SecurityEvent
 
 logger = structlog.get_logger(__name__)
 
@@ -579,7 +579,7 @@ if __name__ == "__main__":
         )
 
         # Record security event
-        from lukhas.identity.webauthn_security_hardening import SecurityEvent, ThreatLevel
+        from identity.webauthn_security_hardening import SecurityEvent, ThreatLevel
 
         event = SecurityEvent(
             event_type="rate_limit_exceeded",

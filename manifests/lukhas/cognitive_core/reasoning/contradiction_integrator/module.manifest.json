@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.cognitive_core.reasoning.contradiction_integrator",
-    "path": "lukhas/cognitive_core/reasoning/contradiction_integrator",
+    "path": "cognitive_core/reasoning/contradiction_integrator",
     "type": "package",
     "lane": "lukhas"
   },

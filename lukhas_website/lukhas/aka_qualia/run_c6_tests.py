@@ -187,11 +187,11 @@ class WaveCTestRunner:
         try:
             # Test 1: Basic imports work
             try:
-                from lukhas.aka_qualia.core import AkaQualia
-                from lukhas.aka_qualia.tests.test_consciousness_ablation import (
+                from aka_qualia.core import AkaQualia
+                from aka_qualia.tests.test_consciousness_ablation import (
                     ComponentAblationFramework,
                 )
-                from lukhas.aka_qualia.tests.test_ethics_validation import (
+                from aka_qualia.tests.test_ethics_validation import (
                     ConstellationFrameworkValidator,
                 )
 

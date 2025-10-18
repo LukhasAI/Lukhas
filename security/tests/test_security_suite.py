@@ -43,9 +43,9 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
 # Import security components
 try:
-    pass  # from lukhas.security... imports commented out
+    pass  # from security... imports commented out
     # (Original imports moved to comments)
-    # from lukhas.security.access_control import (
+    # from security.access_control import (
     #     AccessControlSystem,
     #     ActionType,
     #     Resource,
@@ -53,26 +53,26 @@ try:
     #     Subject,
     #     create_access_control_system,
     # )
-    # from lukhas.security.compliance_framework import (
+    # from security.compliance_framework import (
     #     ComplianceFramework,
     #     ComplianceStandard,
     #     ControlStatus,
     #     create_compliance_framework,
     # )
-    # from lukhas.security.encryption_manager import (
+    # from security.encryption_manager import (
     #     EncryptionAlgorithm,
     #     EncryptionManager,
     #     KeyType,
     #     KeyUsage,
     #     create_encryption_manager,
     # )
-    # from lukhas.security.incident_response import (
+    # from security.incident_response import (
     #     IncidentCategory,
     #     IncidentResponseSystem,
     #     IncidentSeverity,
     #     create_incident_response_system,
     # )
-    # from lukhas.security.input_validation import (
+    # from security.input_validation import (
     #     AIInputValidator,
     #     AttackVector,
     #     InputValidator,
@@ -81,7 +81,7 @@ try:
     #     create_api_validator,
     #     create_web_validator,
     # )
-    # from lukhas.security.security_monitor import (
+    # from security.security_monitor import (
     #     EventType,
     #     SecurityEvent,
     #     SecurityMonitor,
@@ -680,7 +680,7 @@ class TestComplianceFramework(unittest.TestCase):
 
     def test_evidence_collection(self):
         """Test evidence collection."""
-        from lukhas.security.compliance_framework import EvidenceType
+        from security.compliance_framework import EvidenceType
 
         with self.benchmark.measure():
             evidence_id = self.framework.collect_evidence(
@@ -696,7 +696,7 @@ class TestComplianceFramework(unittest.TestCase):
 
     def test_risk_assessment(self):
         """Test risk assessment."""
-        from lukhas.security.compliance_framework import RiskLevel
+        from security.compliance_framework import RiskLevel
 
         with self.benchmark.measure():
             risk_id = self.framework.run_risk_assessment(

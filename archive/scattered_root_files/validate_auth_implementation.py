@@ -68,7 +68,7 @@ def test_authentication_flows():
     print("🛡️ Testing Authentication Flows...")
 
     try:
-        from lukhas.bridge.api.flows import (
+        from bridge.api.flows import (
             _generate_access_token,
             _generate_lambda_id,
             _generate_refresh_token,
@@ -139,7 +139,7 @@ def test_session_management():
     print("🔐 Testing Session Management...")
 
     try:
-        from lukhas.bridge.api.flows import (
+        from bridge.api.flows import (
             _check_account_lockout,
             blacklisted_tokens,
             failed_login_attempts,

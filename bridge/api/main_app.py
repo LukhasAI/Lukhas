@@ -41,14 +41,14 @@ except ImportError:
 
 # LUKHAS imports
 try:
-    from lukhas.bridge.api.documentation import (
+    from bridge.api.documentation import (
         export_openapi_spec,  # noqa: F401  # TODO: lukhas.bridge.api.documentatio...
         generate_api_documentation,  # noqa: F401  # TODO: lukhas.bridge.api.documentatio...
     )
-    from lukhas.bridge.api.onboarding import router as onboarding_router
-    from lukhas.bridge.api.orchestration_endpoints import app as orchestration_app
-    from lukhas.bridge.api.security import get_security_manager
-    from lukhas.bridge.api.validation import get_validator, run_validation_tests
+    from bridge.api.onboarding import router as onboarding_router
+    from bridge.api.orchestration_endpoints import app as orchestration_app
+    from bridge.api.security import get_security_manager
+    from bridge.api.validation import get_validator, run_validation_tests
 
     BRIDGE_MODULES_AVAILABLE = True
 except ImportError as e:

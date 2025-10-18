@@ -6,7 +6,7 @@ import pytest
 def test_branding_bridge_imports():
     """Test branding_bridge module imports successfully."""
     try:
-        import lukhas.branding_bridge as bridge
+        import branding_bridge as bridge
 
         assert bridge is not None
         # Module should be importable

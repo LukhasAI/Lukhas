@@ -7,7 +7,7 @@ import warnings
 
 import streamlit as st
 
-from lukhas.bio.hub import *
+from bio.hub import *
 
 warnings.warn(
     "Import 'bio.bio_hub' is deprecated and will be removed on 2025-11-01. Please update to 'lukhas.accepted.bio.hub'",

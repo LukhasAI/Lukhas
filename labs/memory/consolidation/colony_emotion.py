@@ -4,7 +4,7 @@ from typing import Any
 import numpy as np
 
 from lukhas.core.colonies.base_colony import BaseColony
-from lukhas.emotion.models import EmotionalState, EmotionVector
+from emotion.models import EmotionalState, EmotionVector
 
 # TAG:memory
 # TAG:consolidation

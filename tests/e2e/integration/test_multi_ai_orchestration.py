@@ -24,7 +24,7 @@ try:
         OrchestrationRequest,
         TaskType,
     )
-    from lukhas.bridge.workflow.workflow_orchestrator import WorkflowOrchestrator  # noqa: F401
+    from bridge.workflow.workflow_orchestrator import WorkflowOrchestrator  # noqa: F401
 
     ORCHESTRATION_AVAILABLE = True
 except ImportError:

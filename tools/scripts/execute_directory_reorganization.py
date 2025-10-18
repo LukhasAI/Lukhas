@@ -174,12 +174,12 @@ from learning import something
 from voice import something
 
 # NEW
-from lukhas.bridge.api_legacy import something
+from bridge.api_legacy import something
 from lukhas.qi.bio_legacy import something
 from lukhas.governance.ethics_legacy import something
 from lukhas.governance.identity import something
 from lukhas.memory.learning import something
-from lukhas.bridge.voice import something
+from bridge.voice import something
 ```
 
 ## Archived Directories

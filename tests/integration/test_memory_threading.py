@@ -18,7 +18,7 @@ try:
     from sqlalchemy import create_engine
     from sqlalchemy.pool import StaticPool
 
-    from lukhas.aka_qualia.memory_sql import SqlMemory
+    from aka_qualia.memory_sql import SqlMemory
 
     def test_sql_memory_threading():
         """Test the actual SqlMemory class with threading"""

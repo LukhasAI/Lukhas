@@ -32,8 +32,8 @@ import numpy as np
 import pytest
 
 # LUKHAS cognitive imports
-from lukhas.cognitive_core.reasoning.contradiction_integrator import ContradictionIntegrator
-from lukhas.cognitive_core.reasoning.deep_inference_engine import DeepInferenceEngine, InferenceType
+from cognitive_core.reasoning.contradiction_integrator import ContradictionIntegrator
+from cognitive_core.reasoning.deep_inference_engine import DeepInferenceEngine, InferenceType
 from lukhas.consciousness.enhanced_thought_engine import EnhancedThoughtEngine, ThoughtComplexity
 from lukhas.consciousness.meta_cognitive_assessor import MetaCognitiveAssessor
 

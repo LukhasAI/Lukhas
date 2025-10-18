@@ -10,7 +10,7 @@ from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Optional
 
-from lukhas.flags import get_flags
+from flags import get_flags
 
 # Storage paths
 AUDIT_DIR = Path(".lukhas_audit")

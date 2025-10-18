@@ -10,7 +10,7 @@ import jwt
 import pytest
 from fastapi.testclient import TestClient
 
-from lukhas.bridge.api_gateway.unified_api_gateway import UnifiedAPIGateway
+from bridge.api_gateway.unified_api_gateway import UnifiedAPIGateway
 
 
 @pytest.mark.tier3

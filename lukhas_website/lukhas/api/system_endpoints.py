@@ -8,7 +8,7 @@ Provides system status and introspection endpoints:
 - /system/flags - Feature flag status
 
 Usage:
-    from lukhas.api.system_endpoints import get_plugins_status, get_system_health
+    from api.system_endpoints import get_plugins_status, get_system_health
 """
 
 import json

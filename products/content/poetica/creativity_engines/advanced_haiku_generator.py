@@ -62,7 +62,7 @@ from lukhas.core.common import get_logger
 
 # Import LUKHAS AI branding system through centralized bridge
 try:
-    from lukhas.branding_bridge import (
+    from branding_bridge import (
         BrandContext,
         generate_branded_content,
         get_brand_voice,

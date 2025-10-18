@@ -19,7 +19,7 @@ from typing import Any, Callable, Optional
 
 # Import LUKHAS AI branding system for orchestration compliance
 try:
-    from lukhas.branding_bridge import (
+    from branding_bridge import (
         BrandContext,
         get_brand_voice,
         get_constellation_context,

@@ -8,7 +8,7 @@ try:
     logger.info("lukhas.accepted.bio.engine -> bio.core")
 except Exception:
     try:
-        from lukhas.bio.core import BioEngine
+        from bio.core import BioEngine
         logger.info("lukhas.accepted.bio.engine -> candidate.bio.core")
     except Exception as e:
         logger.warning(f"Could not wire bio engine: {e}")

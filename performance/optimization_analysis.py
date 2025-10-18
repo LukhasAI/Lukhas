@@ -233,7 +233,7 @@ class PerformanceAnalyzer:
         """Simulate typical system operations for profiling"""
         # Simulate feature flag operations
         try:
-            from lukhas.flags import get_flags, is_enabled
+            from flags import get_flags, is_enabled
 
             for _ in range(100):
                 get_flags()

@@ -27,9 +27,9 @@ sys.path.insert(0, str(project_root))
 
 import jsonschema
 
-from lukhas.ledger.event_bus import AsyncEventBus
-from lukhas.ledger.events import ConsentGrantedEvent, ConsentType, validate_event_schema
-from lukhas.ledger.metrics import get_metrics, reset_metrics
+from ledger.event_bus import AsyncEventBus
+from ledger.events import ConsentGrantedEvent, ConsentType, validate_event_schema
+from ledger.metrics import get_metrics, reset_metrics
 
 # Configure logging
 logging.basicConfig(

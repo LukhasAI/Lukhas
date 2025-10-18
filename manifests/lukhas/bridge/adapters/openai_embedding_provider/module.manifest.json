@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.bridge.adapters.openai_embedding_provider",
-    "path": "lukhas/bridge/adapters/openai_embedding_provider",
+    "path": "bridge/adapters/openai_embedding_provider",
     "type": "package",
     "lane": "lukhas",
     "colony": "actuation"

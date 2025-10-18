@@ -21,7 +21,7 @@ import time
 from dataclasses import dataclass
 from typing import Any, Optional
 
-from lukhas.aka_qualia.models import PhenomenalScene, ProtoQualia
+from aka_qualia.models import PhenomenalScene, ProtoQualia
 
 
 @dataclass

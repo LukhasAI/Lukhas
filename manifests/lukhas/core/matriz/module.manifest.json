@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.core.matriz",
-    "path": "lukhas/core/matriz",
+    "path": "core/matriz",
     "type": "package",
     "lane": "lukhas"
   },

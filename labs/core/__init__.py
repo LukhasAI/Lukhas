@@ -9,7 +9,7 @@ import streamlit as st
 
 # Import LUKHAS AI branding system for core operations
 try:
-    from lukhas.branding_bridge import (
+    from branding_bridge import (
         CONSCIOUSNESS_SYMBOL,
         CONSTELLATION_FRAMEWORK,
         GUARDIAN_SYMBOL,

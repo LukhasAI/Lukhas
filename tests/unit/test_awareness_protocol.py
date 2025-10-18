@@ -1,7 +1,7 @@
 import pytest
 
 from lukhas.consciousness.awareness.awareness_protocol import map_local_tier_to_global
-from lukhas.tiers import GlobalTier, TierMappingError
+from tiers import GlobalTier, TierMappingError
 
 
 def test_map_local_tier_to_global_valid_tiers():

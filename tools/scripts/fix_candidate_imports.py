@@ -18,8 +18,8 @@ def fix_imports_in_file(file_path):
 
         # Fix common problematic patterns in candidate files
         fixes = [
-            # from bridge.module -> from lukhas.bridge.module
-            (r"from bridge\.([a-zA-Z_][a-zA-Z0-9_.]*)", r"from lukhas.bridge.\1"),
+            # from bridge.module -> from bridge.module
+            (r"from bridge\.([a-zA-Z_][a-zA-Z0-9_.]*)", r"from bridge.\1"),
             # from orchestration.module -> from lukhas.orchestration.module
             (
                 r"from orchestration\.([a-zA-Z_][a-zA-Z0-9_.]*)",

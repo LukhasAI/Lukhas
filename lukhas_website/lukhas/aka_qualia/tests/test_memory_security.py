@@ -19,7 +19,7 @@ import time
 import pytest
 from sqlalchemy.exc import DatabaseError, IntegrityError, OperationalError
 
-from lukhas.aka_qualia.tests.conftest import create_test_glyph, create_test_scene
+from aka_qualia.tests.conftest import create_test_glyph, create_test_scene
 
 
 class TestFaultInjection:

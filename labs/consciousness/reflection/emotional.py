@@ -75,7 +75,7 @@ from typing import Any, Optional  # Tuple unused
 # Third-Party Imports
 import numpy as np
 
-from lukhas.tools.dev.patch_utils import temporary_patch
+from tools.dev.patch_utils import temporary_patch
 
 # Legacy import removed - function implemented directly in this module
 

@@ -27,7 +27,7 @@ if _backend:
             globals()[_name] = _value
             __all__.append(_name)
 else:
-    from lukhas.nodes import Graph, Node, NodeId  # type: ignore  # noqa: F401
+    from nodes import Graph, Node, NodeId  # type: ignore  # noqa: F401
 
     __all__.extend(["NodeId", "Node", "Graph"])
 

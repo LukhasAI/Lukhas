@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.aka_qualia.router_client",
-    "path": "lukhas/aka_qualia/router_client",
+    "path": "aka_qualia/router_client",
     "type": "package",
     "lane": "lukhas"
   },

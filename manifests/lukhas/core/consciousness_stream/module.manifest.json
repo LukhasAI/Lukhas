@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.core.consciousness_stream",
-    "path": "lukhas/core/consciousness_stream",
+    "path": "core/consciousness_stream",
     "type": "package",
     "lane": "lukhas"
   },

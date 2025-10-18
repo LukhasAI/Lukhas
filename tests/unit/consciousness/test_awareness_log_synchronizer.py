@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 
 from lukhas.consciousness.awareness.awareness_log_synchronizer import AwarenessLogSynchronizer
-from lukhas.tiers import GlobalTier
+from tiers import GlobalTier
 
 
 def test_sync_for_user_respects_tier(tmp_path: Path):

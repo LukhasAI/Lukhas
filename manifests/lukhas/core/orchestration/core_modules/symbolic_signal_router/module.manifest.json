@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.core.orchestration.core_modules.symbolic_signal_router",
-    "path": "lukhas/core/orchestration/core_modules/symbolic_signal_router",
+    "path": "core/orchestration/core_modules/symbolic_signal_router",
     "type": "package",
     "lane": "lukhas"
   },

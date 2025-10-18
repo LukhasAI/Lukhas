@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from lukhas.tools.scripts import fix_syntax_errors as fse
+from tools.scripts import fix_syntax_errors as fse
 
 
 def test_fix_eol_string_literal(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:

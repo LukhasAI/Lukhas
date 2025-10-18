@@ -20,7 +20,7 @@ from pydantic import BaseModel
 # LUKHAS Identity Integration - PLACEHOLDER
 # Note: Update these imports based on your actual identity middleware location
 try:
-    from lukhas.identity.middleware import (
+    from identity.middleware import (
         AuthContext,
         get_current_user,
         require_permission,

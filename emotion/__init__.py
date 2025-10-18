@@ -40,7 +40,7 @@ EMOTION_ACTIVE = True
 
 try:
     # Import from production lukhas.emotion system
-    from lukhas.emotion import (
+    from emotion import (
         EMOTION_ACTIVE as _emotion_active,
         EmotionWrapper,
         emit,
@@ -56,7 +56,7 @@ try:
     logger.info("✅ LUKHAS emotion system loaded successfully")
 
 except ImportError as e:
-    logger.warning(f"⚠️  Could not import lukhas.emotion: {e}")
+    logger.warning(f"⚠️  Could not import emotion: {e}")
     error_msg = str(e)  # ΛTAG: emotion_import_error | TaskID: TODO-MED-EMOTION-__INIT__.PY-85a5d8bf
 
     # Fallback placeholder functions

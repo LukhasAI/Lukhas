@@ -14,7 +14,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
-from lukhas.bridge.local_llm_fixer import CodeIssue, FixType, LocalLLMFixer
+from bridge.local_llm_fixer import CodeIssue, FixType, LocalLLMFixer
 from lukhas.core.cognitive.self_healing import FailureType, HealingAction, HealingStrategy, SystemFailure
 from lukhas.governance.guardian import GuardianSystem
 

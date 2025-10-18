@@ -6,7 +6,7 @@
 import pytest
 
 try:
-    from lukhas.bio.core.bio_symbolic import BioSymbolic, BioSymbolicOrchestrator, SymbolicGlyph
+    from bio.core.bio_symbolic import BioSymbolic, BioSymbolicOrchestrator, SymbolicGlyph
 except ImportError:  # pragma: no cover
     pytest.skip("Bio symbolic module unavailable", allow_module_level=True)
 

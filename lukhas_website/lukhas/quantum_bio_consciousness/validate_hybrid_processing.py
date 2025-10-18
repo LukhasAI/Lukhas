@@ -77,7 +77,7 @@ def validate_bio_consciousness_integration():
 
     try:
         # Test bio oscillators
-        from lukhas.bio.oscillator import get_orchestrator
+        from bio.oscillator import get_orchestrator
 
         orchestrator = get_orchestrator()
         oscillation_test = orchestrator.step()
@@ -87,7 +87,7 @@ def validate_bio_consciousness_integration():
         )
 
         # Test bio awareness
-        from lukhas.bio.awareness import EnhancedSystemAwareness
+        from bio.awareness import EnhancedSystemAwareness
 
         awareness = EnhancedSystemAwareness()
         awareness_test = awareness.sense("constellation_test_input")
@@ -97,7 +97,7 @@ def validate_bio_consciousness_integration():
         )
 
         # Test bio-symbolic processing
-        from lukhas.bio.core.bio_symbolic import BioSymbolicOrchestrator
+        from bio.core.bio_symbolic import BioSymbolicOrchestrator
 
         bio_orchestrator = BioSymbolicOrchestrator()
 
@@ -132,8 +132,8 @@ def validate_hybrid_quantum_bio_processing():
 
     try:
         # Initialize both quantum and bio systems
-        from lukhas.bio.core.bio_symbolic import BioSymbolicOrchestrator
-        from lukhas.bio.oscillator import get_orchestrator
+        from bio.core.bio_symbolic import BioSymbolicOrchestrator
+        from bio.oscillator import get_orchestrator
         from lukhas.qi.qi_wrapper import get_qi_wrapper
 
         qi_wrapper = get_qi_wrapper()

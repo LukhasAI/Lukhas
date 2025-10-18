@@ -28,14 +28,14 @@ Performance Targets:
 - Measurable ablation value vs baseline
 
 Usage:
-    from lukhas.aka_qualia.core import AkaQualia
+    from aka_qualia.core import AkaQualia
     aq = AkaQualia(pls, teq_guardian, glyph_mapper, router, memory, cfg)
     result = await aq.step(signals=S, goals=G, ethics_state=E, guardian_state=U, memory_ctx=M)
 """
 import streamlit as st
 
-from lukhas.aka_qualia.core import AkaQualia
-from lukhas.aka_qualia.models import (
+from aka_qualia.core import AkaQualia
+from aka_qualia.models import (
     Metrics,
     PhenomenalGlyph,
     PhenomenalScene,

@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.flags",
-    "path": "lukhas/flags",
+    "path": "flags",
     "type": "package",
     "lane": "lukhas"
   },

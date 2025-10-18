@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.orchestration",
-    "path": "lukhas/orchestration",
+    "path": "orchestration",
     "type": "package",
     "lane": "lukhas"
   },

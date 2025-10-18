@@ -46,13 +46,13 @@ except ImportError:
     GUARDIAN_SYSTEM_AVAILABLE = False
 
 try:
-    from lukhas.emotion.emotion_hub import DreamSeedEmotionEngine as EmotionEngine
+    from emotion.emotion_hub import DreamSeedEmotionEngine as EmotionEngine
 
     EMOTION_ENGINE_AVAILABLE = True
 except ImportError:
     try:
         # Try alternative emotion system
-        from lukhas.emotion import (
+        from emotion import (
             EmotionWrapper as EmotionEngine,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
         )
 

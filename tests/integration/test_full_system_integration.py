@@ -14,14 +14,14 @@ from lukhas.governance.audit_trail import AuditEventType, AuditLevel, AuditTrail
 from identity.tiers import TierSystem
 from lukhas.consciousness.consciousness_stream import ConsciousnessStream
 from lukhas.consciousness.memory_bridge import MemoryConsciousnessBridge
-from lukhas.identity.device_registry import DeviceRegistry
-from lukhas.identity.jwt_utils import JWTManager
+from identity.device_registry import DeviceRegistry
+from identity.jwt_utils import JWTManager
 
 # Import all major components
-from lukhas.identity.lambda_id import LambdaIDSystem
-from lukhas.identity.observability import IdentityObservability
-from lukhas.identity.oidc_provider import OIDCProvider
-from lukhas.identity.session_manager import SessionManager
+from identity.lambda_id import LambdaIDSystem
+from identity.observability import IdentityObservability
+from identity.oidc_provider import OIDCProvider
+from identity.session_manager import SessionManager
 from lukhas.memory.consciousness_memory_integration import ConsciousnessMemoryIntegrator
 from lukhas.memory.distributed_memory import DistributedMemoryOrchestrator
 from lukhas.memory.federation_coordinator import FederationCoordinator
@@ -148,7 +148,7 @@ class TestIdentityIntegration:
 
         # Register device
         device_registry = integration_harness.components['device_registry']
-        from lukhas.identity.session_manager import DeviceType
+        from identity.session_manager import DeviceType
 
         device = await device_registry.register_device(
             lambda_id=lambda_id,
@@ -447,7 +447,7 @@ class TestPerformanceIntegration:
         test_lambda_id = lambda_ids[0]
 
         # Create test session
-        from lukhas.identity.session_manager import DeviceType
+        from identity.session_manager import DeviceType
         device_registry = integration_harness.components['device_registry']
 
         device = await device_registry.register_device(

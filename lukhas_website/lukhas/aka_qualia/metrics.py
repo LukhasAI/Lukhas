@@ -19,7 +19,7 @@ from collections import defaultdict, deque
 from dataclasses import dataclass
 from typing import Any, Optional
 
-from lukhas.aka_qualia.models import Metrics, PhenomenalScene, ProtoQualia
+from aka_qualia.models import Metrics, PhenomenalScene, ProtoQualia
 
 
 @dataclass

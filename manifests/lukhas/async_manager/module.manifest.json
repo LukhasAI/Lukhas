@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.async_manager",
-    "path": "lukhas/async_manager",
+    "path": "async_manager",
     "type": "package",
     "lane": "lukhas"
   },

@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.orchestration.context_preservation",
-    "path": "lukhas/orchestration/context_preservation",
+    "path": "orchestration/context_preservation",
     "type": "package",
     "lane": "lukhas"
   },

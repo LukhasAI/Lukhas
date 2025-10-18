@@ -8,7 +8,7 @@ Minimal test to validate the C4.4 test infrastructure is working.
 """
 import pytest
 
-from lukhas.aka_qualia.memory_noop import NoopMemory
+from aka_qualia.memory_noop import NoopMemory
 from memory import create_memory_client
 
 

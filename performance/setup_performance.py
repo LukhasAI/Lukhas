@@ -85,7 +85,7 @@ class PerformanceSetup:
         # Apply to existing components
         try:
             # Apply to feature flags system
-            from lukhas.flags import _flags
+            from flags import _flags
 
             global_memory_optimizer.track_object(_flags)
 

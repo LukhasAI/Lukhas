@@ -51,7 +51,7 @@ log = structlog.get_logger(__name__)
 LUKHAS_OSCILLATORS_AVAILABLE = False
 try:
     # Try absolute imports first (candidate lane structure)
-    from lukhas.bridge.voice.bio_core.oscillator.qi_layer import QIBioOscillator
+    from bridge.voice.bio_core.oscillator.qi_layer import QIBioOscillator
 
     # type: ignore
     from lukhas.qi.processing.qi_engine import QIOscillator  # type: ignore
@@ -61,7 +61,7 @@ try:
 except ImportError:
     try:
         # Fallback to production lane if available
-        from lukhas.bridge.voice.bio_core.oscillator.qi_layer import QIBioOscillator
+        from bridge.voice.bio_core.oscillator.qi_layer import QIBioOscillator
 
         # type: ignore
         from lukhas.qi.processing.qi_engine import QIOscillator  # type: ignore

@@ -125,7 +125,7 @@ except ImportError as e:
 
 # Voice synthesis adapter
 try:
-    from lukhas.bridge.voice.systems.synthesis import (
+    from bridge.voice.systems.synthesis import (
         AdaptiveVoiceSynthesis as VoiceSynthesisAdapter,
     )
 except ImportError:

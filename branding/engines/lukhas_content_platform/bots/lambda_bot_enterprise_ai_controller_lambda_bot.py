@@ -96,7 +96,7 @@ def fix_later(*args, **kwargs) -> DeferredImplementationSignal:
 
 
 try:
-    from lukhas.utils.runtime_paths import ensure_repo_paths
+    from utils.runtime_paths import ensure_repo_paths
 
     ensure_repo_paths(["core", "lukhas_ai_lambda_bot"])
 except Exception:

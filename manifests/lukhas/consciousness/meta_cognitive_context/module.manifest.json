@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.consciousness.meta_cognitive_context",
-    "path": "lukhas/consciousness/meta_cognitive_context",
+    "path": "consciousness/meta_cognitive_context",
     "type": "package",
     "lane": "lukhas",
     "colony": "simulation"

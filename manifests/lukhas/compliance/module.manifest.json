@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.compliance",
-    "path": "lukhas/compliance",
+    "path": "compliance",
     "type": "package",
     "lane": "lukhas"
   },

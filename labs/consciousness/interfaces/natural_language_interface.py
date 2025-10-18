@@ -24,7 +24,7 @@ from enum import Enum
 from typing import Any, Optional
 
 # LUKHAS Branding Integration
-from lukhas.branding_bridge import BrandContext, get_bridge, initialize_branding
+from branding_bridge import BrandContext, get_bridge, initialize_branding
 from lukhas.core.common import GLYPHSymbol, GLYPHToken, get_logger
 from lukhas.core.common.exceptions import LukhasError
 from lukhas.core.interfaces import CoreInterface

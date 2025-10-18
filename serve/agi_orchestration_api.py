@@ -27,7 +27,7 @@ except ImportError:
 
 # Existing LUKHAS orchestration (graceful fallback)
 try:
-    from lukhas.bridge.orchestration.multi_ai_orchestrator import MultiAIOrchestrator
+    from bridge.orchestration.multi_ai_orchestrator import MultiAIOrchestrator
 
     LUKHAS_ORCHESTRATION_AVAILABLE = True
 except ImportError:

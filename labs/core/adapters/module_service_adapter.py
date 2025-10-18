@@ -579,8 +579,8 @@ class BridgeServiceAdapter(IBridgeService):
         """Lazy load bridge components"""
         if not self._initialized:
             try:
-                from lukhas.bridge.api_connector import APIConnector
-                from lukhas.bridge.protocol_translator import ProtocolTranslator
+                from bridge.api_connector import APIConnector
+                from bridge.protocol_translator import ProtocolTranslator
 
                 self._api_connector = APIConnector() if APIConnector else None
                 self._translator = ProtocolTranslator() if ProtocolTranslator else None

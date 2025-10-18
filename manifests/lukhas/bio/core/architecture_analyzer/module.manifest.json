@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.bio.core.architecture_analyzer",
-    "path": "lukhas/bio/core/architecture_analyzer",
+    "path": "bio/core/architecture_analyzer",
     "type": "package",
     "lane": "lukhas"
   },

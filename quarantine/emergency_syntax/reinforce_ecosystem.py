@@ -52,7 +52,7 @@ class EcosystemReinforcer:
 
         # Import mappings from reorganization
         import_mappings = {
-            "from api import": "from lukhas.bridge.api_legacy import",
+            "from api import": "from bridge.api_legacy import",
             "from architectures import": "from lukhas.core.architectures import",
             "from bio import": "from lukhas.qi.bio_legacy import",
             "from creativity import": "from lukhas.consciousness.creativity import",
@@ -63,8 +63,8 @@ class EcosystemReinforcer:
             "from orchestration import": "from lukhas.core.orchestration import",
             "from reasoning import": "from lukhas.consciousness.reasoning import",
             "from symbolic import": "from lukhas.core.symbolic_core import",
-            "from voice import": "from lukhas.bridge.voice import",
-            "import api": "import lukhas.bridge.api_legacy as api",
+            "from voice import": "from bridge.voice import",
+            "import api": "import bridge.api_legacy as api",
             "import architectures": "import core.architectures as architectures",
             "import bio": "import lukhas.qi.bio_legacy as bio",
             "import creativity": "import lukhas.consciousness.creativity as creativity",
@@ -75,7 +75,7 @@ class EcosystemReinforcer:
             "import lukhas.orchestration": "import core.orchestration as orchestration",
             "import reasoning": "import lukhas.consciousness.reasoning as reasoning",
             "import symbolic": "import core.symbolic_core as symbolic",
-            "import voice": "import lukhas.bridge.voice as voice",
+            "import voice": "import bridge.voice as voice",
         }
 
         fixed_count = 0

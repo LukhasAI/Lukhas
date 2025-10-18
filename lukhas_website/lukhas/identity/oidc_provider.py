@@ -15,10 +15,10 @@ from enum import Enum
 from typing import Any, Dict, List, Optional, Set
 from urllib.parse import urlencode
 
-from lukhas.identity.jwt_utils import JWTManager
-from lukhas.identity.observability import IdentityObservability
-from lukhas.identity.session_manager import SessionManager
-from lukhas.identity.tiers import TierSystem
+from identity.jwt_utils import JWTManager
+from identity.observability import IdentityObservability
+from identity.session_manager import SessionManager
+from identity.tiers import TierSystem
 
 logger = logging.getLogger(__name__)
 

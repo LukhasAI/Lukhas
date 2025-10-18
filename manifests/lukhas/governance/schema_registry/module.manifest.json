@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.governance.schema_registry",
-    "path": "lukhas/governance/schema_registry",
+    "path": "governance/schema_registry",
     "type": "package",
     "lane": "lukhas"
   },

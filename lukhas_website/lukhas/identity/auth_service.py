@@ -36,7 +36,7 @@ except ImportError:
 
 # Try importing LUKHAS identity components with real implementations
 try:
-    from lukhas.identity.wallet import WalletManager
+    from identity.wallet import WalletManager
 
     WALLET_AVAILABLE = True
 except ImportError:

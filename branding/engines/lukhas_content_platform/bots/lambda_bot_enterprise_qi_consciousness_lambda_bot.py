@@ -17,7 +17,7 @@ from typing import Any, Complex
 
 # Ensure repo-relative paths (no absolute user paths)
 try:
-    from lukhas.utils.runtime_paths import ensure_repo_paths
+    from utils.runtime_paths import ensure_repo_paths
 
     # Add common top-level modules if present
     ensure_repo_paths(["core", "quantum", "lukhas_ai_lambda_bot"])

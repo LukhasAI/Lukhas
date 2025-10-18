@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.identity.device_registry",
-    "path": "lukhas/identity/device_registry",
+    "path": "identity/device_registry",
     "type": "package",
     "lane": "lukhas"
   },

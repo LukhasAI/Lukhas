@@ -2,7 +2,7 @@
   "schema_version": "1.1.0",
   "module": {
     "name": "lukhas.consciousness.meta_cognitive_assessor",
-    "path": "lukhas/consciousness/meta_cognitive_assessor",
+    "path": "consciousness/meta_cognitive_assessor",
     "type": "package",
     "lane": "lukhas",
     "colony": "simulation"

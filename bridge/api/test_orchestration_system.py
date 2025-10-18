@@ -31,14 +31,14 @@ try:
     import websockets  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for API expansion (document or implement)
     from httpx import AsyncClient
 
-    from lukhas.bridge.api.orchestration_api_bridge import (
+    from bridge.api.orchestration_api_bridge import (
         APIProvider,
         ComprehensiveAPIOrchestrator,
         OrchestrationRequest,
         OrchestrationStrategy,
     )
-    from lukhas.bridge.api.orchestration_endpoints import app
-    from lukhas.bridge.llm_wrappers.anthropic_function_bridge import (
+    from bridge.api.orchestration_endpoints import app
+    from bridge.llm_wrappers.anthropic_function_bridge import (
         AnthropicFunctionBridge,
         ClaudeModel,  # noqa: F401  # TODO: lukhas.bridge.llm_wrappers.ant...
         ToolDefinition,
@@ -46,7 +46,7 @@ try:
     )
 
     # LUKHAS imports
-    from lukhas.bridge.llm_wrappers.openai_function_bridge import (
+    from bridge.llm_wrappers.openai_function_bridge import (
         FunctionCallMode,
         FunctionDefinition,
         OpenAIFunctionBridge,

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from lukhas.tools.commands.base import BaseCommand, CommandExecutionError
+from tools.commands.base import BaseCommand, CommandExecutionError
 
 
 class _RecorderCommand(BaseCommand):

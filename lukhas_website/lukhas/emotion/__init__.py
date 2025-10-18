@@ -40,7 +40,7 @@ EMOTION_ACTIVE = True
 
 try:
     # Import from production lukhas.emotion system
-    from lukhas.emotion.emotion_wrapper import AdvancedEmotionWrapper as EmotionWrapper, get_advanced_emotion_wrapper
+    from emotion.emotion_wrapper import AdvancedEmotionWrapper as EmotionWrapper, get_advanced_emotion_wrapper
     from lukhas.observability.matriz_decorators import instrument
     from lukhas.observability.matriz_emit import emit
 
@@ -74,7 +74,7 @@ try:
     logger.info("✅ LUKHAS emotion system loaded successfully")
 
 except ImportError as e:
-    logger.warning(f"⚠️  Could not import lukhas.emotion: {e}")
+    logger.warning(f"⚠️  Could not import emotion: {e}")
     import_error = str(e)
 
     # Fallback placeholder functions

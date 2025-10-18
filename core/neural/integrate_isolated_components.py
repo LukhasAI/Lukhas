@@ -316,7 +316,7 @@ class LUKHASNeuralNetwork:
             from qi.neuroplastic_connector import QimConnector
             from emotion.neuroplastic_connector import EmotionConnector
             from lukhas.governance.neuroplastic_connector import GovernanceConnector
-            from lukhas.bridge.neuroplastic_connector import BridgeConnector
+            from bridge.neuroplastic_connector import BridgeConnector
 
             # Import bridges
             from lukhas.consciousness.orchestration_bridge import orchestration_bridge
