@@ -74,10 +74,10 @@ except ImportError:
     print("Warning: Elite modules not found. Some features may be limited.")
     SymbolicTrustScorer = None
     AIConstitutionChecker = None
+    EmotionalSecureLogger = None
 
 # Initialize module logger
 logger = logging.getLogger(__name__)
-    EmotionalSecureLogger = None
 
 
 @dataclass
