@@ -472,5 +472,5 @@ telemetry.record(
 **Schema Version**: 1.0.0
 **Complexity**: Low (infrastructure support)
 **MATRIZ Compatibility**: Standard
-**Last Updated**: 2025-10-02
+**Last Updated**: 2025-10-18
 **Philosophy**: What gets measured gets improved—telemetry makes the invisible visible.

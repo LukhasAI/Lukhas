@@ -11,7 +11,7 @@ type: documentation
 **Purpose**: JSON schemas, validation schemas, and data specifications
 **Lane**: L2 (Integration)
 **Language**: JSON Schema
-**Last Updated**: 2025-10-02
+**Last Updated**: 2025-10-18
 
 ---
 
@@ -74,4 +74,4 @@ jsonschema.validate(instance=data, schema=schema)
 
 **Status**: Integration Lane (L2)
 **Team**: Core
-**Last Updated**: 2025-10-02
+**Last Updated**: 2025-10-18
