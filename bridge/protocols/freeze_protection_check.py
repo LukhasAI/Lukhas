@@ -1,8 +1,5 @@
-import logging
-
-logger = logging.getLogger(__name__)
-# LUKHAS_TAG: freeze_protection, core_trace
 import inspect
+import logging
 
 from lukhas.core.common import get_logger
 
@@ -10,6 +7,7 @@ from lukhas.core.common import get_logger
 # TAG:protocols
 # TAG:neuroplastic
 # TAG:colony
+# LUKHAS_TAG: freeze_protection, core_trace
 
 logger = get_logger(__name__)
 
