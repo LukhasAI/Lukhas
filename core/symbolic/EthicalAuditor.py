@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:core
@@ -60,9 +56,10 @@ License: LUKHlukhasS Tier License System
 
 import hashlib
 import json
+import logging
 import os
 from dataclasses import asdict, dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
@@ -74,9 +71,12 @@ try:
     from lukhas.core.elite.emotional_secure_logger import EmotionalSecureLogger
     from lukhas.core.elite.symbolic_trust_scorer import SymbolicTrustScorer
 except ImportError:
-    print("Warning: Elite modules not found. Some features may be limited.", timezone)
+    print("Warning: Elite modules not found. Some features may be limited.")
     SymbolicTrustScorer = None
     AIConstitutionChecker = None
+
+# Initialize module logger
+logger = logging.getLogger(__name__)
     EmotionalSecureLogger = None
 
 
