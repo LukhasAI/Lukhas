@@ -212,4 +212,4 @@ with tracer.start_span("consent.grant"):
 
 **Status**: L2 Integration governance layer
 **Version**: Schema 3.0.0
-**Last Updated**: 2025-10-03
+**Last Updated**: 2025-10-18

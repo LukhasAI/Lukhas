@@ -11,7 +11,7 @@ type: documentation
 **Purpose**: API contracts, MATRIZ contracts, and interface specifications
 **Lane**: L2 (Integration)
 **Language**: JSON Schemas
-**Last Updated**: 2025-10-02
+**Last Updated**: 2025-10-18
 
 ---
 
@@ -232,4 +232,4 @@ This module operates within the MATRIZ cognitive framework:
 **Team**: Core
 **Code Owners**: @lukhas-core
 **Contract Files**: 67+ MATRIZ contracts
-**Last Updated**: 2025-10-02
+**Last Updated**: 2025-10-18

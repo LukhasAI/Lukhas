@@ -11,7 +11,7 @@ type: documentation
 **Purpose**: Core dream processing components for consciousness integration
 **Lane**: L2 (Integration)
 **Language**: Python
-**Last Updated**: 2025-10-02
+**Last Updated**: 2025-10-18
 
 ---
 
@@ -340,4 +340,4 @@ From manifest:
 **Code Owners**: @lukhas-core
 **Entrypoints**: 9 dream processing functions
 **Test Coverage**: 85.0%
-**Last Updated**: 2025-10-02
+**Last Updated**: 2025-10-18

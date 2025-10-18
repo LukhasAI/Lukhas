@@ -10,7 +10,7 @@ type: documentation
 **Purpose**: Common interface for external service integrations with capability token validation
 **Lane**: L2 (Integration)
 **Language**: Python
-**Last Updated**: 2025-10-02
+**Last Updated**: 2025-10-18
 
 ---
 
@@ -292,4 +292,4 @@ class MyServiceAdapter(ServiceAdapter):
 **Manifest**: ✓ module.manifest.json (schema v3.0.0)
 **Team**: Core
 **Code Owners**: @lukhas-core
-**Last Updated**: 2025-10-02
+**Last Updated**: 2025-10-18

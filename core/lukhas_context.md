@@ -12,7 +12,7 @@ The `core` module provides backward compatibility by exposing `lukhas.core` func
 **Purpose**: Compatibility bridge for lukhas.core namespace
 **Lane**: L2 Integration
 **Schema**: v3.0.0
-**Last Updated**: 2025-10-03
+**Last Updated**: 2025-10-18
 
 ## Quick Reference
 
@@ -182,4 +182,4 @@ Both work during transition period. New code should use `lukhas.core`.
 
 **Status**: Compatibility bridge (transitional)
 **Version**: Schema 3.0.0
-**Last Updated**: 2025-10-03
+**Last Updated**: 2025-10-18

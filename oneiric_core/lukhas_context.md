@@ -154,4 +154,4 @@ with tracer.start_span("oneiric_core.dream_session"):
 
 **Status**: L2 Integration infrastructure
 **Version**: Schema 3.0.0
-**Last Updated**: 2025-10-03
+**Last Updated**: 2025-10-18

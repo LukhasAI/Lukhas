@@ -11,7 +11,7 @@ type: documentation
 **Purpose**: LUKHAS brand identity, tone systems, and content orchestration
 **Lane**: L2 (Integration)
 **Language**: Python
-**Last Updated**: 2025-10-02
+**Last Updated**: 2025-10-18
 
 ---
 
@@ -277,4 +277,4 @@ REQUIRED_SPANS = [
 **Components**: 70+ Python files across 37 subdirectories
 **Documentation**: 38+ brand guides
 **Test Coverage**: 85.0%
-**Last Updated**: 2025-10-02
+**Last Updated**: 2025-10-18

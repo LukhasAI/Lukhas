@@ -11,7 +11,7 @@ type: documentation
 **Purpose**: Container infrastructure and Docker orchestration
 **Lane**: L2 (Integration)
 **Language**: Python
-**Last Updated**: 2025-10-02
+**Last Updated**: 2025-10-18
 
 ---
 
@@ -395,4 +395,4 @@ This module operates within the MATRIZ cognitive framework:
 **Manifest**: ✓ module.manifest.json (schema v1.0.0)
 **Team**: Core
 **Code Owners**: @lukhas-core
-**Last Updated**: 2025-10-02
+**Last Updated**: 2025-10-18
