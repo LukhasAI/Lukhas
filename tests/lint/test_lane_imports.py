@@ -360,8 +360,8 @@ class TestLaneImports:
         # Check that approved integrations exist
         approved_files = []
         for integration in linter.approved_integrations:
-            # Convert module path to file path
-            file_path = linter.lukhas_root / integration.replace("lukhas.", "").replace(".", "/")
+            # Convert module path to file path (now at project root, not under lukhas/)
+            file_path = linter.project_root / integration.replace(".", "/")
             py_file = file_path.with_suffix(".py")
 
             if py_file.exists():

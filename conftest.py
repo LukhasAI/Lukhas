@@ -9,6 +9,12 @@ import traceback
 from pathlib import Path
 from typing import Optional
 
+# Ensure sitecustomize runs (fixes _SixMetaPathImporter compatibility)
+try:
+    import sitecustomize  # noqa: F401
+except ImportError:
+    pass
+
 # CRITICAL: Add repo root to sys.path so packages like bridge/, qi/, etc. are importable
 repo_root = Path(__file__).parent
 if str(repo_root) not in sys.path:
@@ -98,3 +104,13 @@ def pytest_sessionstart(session):
     except Exception:
         # If prometheus_client not installed in env, skip silently
         pass
+
+
+# ---- Additional test fixtures ----
+import pytest
+
+
+@pytest.fixture(scope="session")
+def labs_root():
+    """Provide path to labs (candidate) directory."""
+    return repo_root / "labs"
