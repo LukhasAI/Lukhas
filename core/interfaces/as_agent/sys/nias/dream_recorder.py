@@ -1,13 +1,9 @@
-
 """
 Enhanced Core TypeScript - Integrated from Advanced Systems
 Original: dream_recorder.py
 Advanced: dream_recorder.py
 Integration Date: 2025-05-31T07:55:30.562286
-"""
-from datetime import timezone
 
-"""
 ╭──────────────────────────────────────────────────────────────────────────────╮
 │                    LUCΛS :: DREAM RECORDER MODULE (NIAS)                    │
 │                  Version: v1.0 | Symbolic Dream Archive Logger              │
@@ -24,7 +20,7 @@ DESCRIPTION:
 
 import json
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 
 DREAM_LOG_PATH = "core/logs/dream_log.jsonl"
 os.makedirs(os.path.dirname(DREAM_LOG_PATH), exist_ok=True)
