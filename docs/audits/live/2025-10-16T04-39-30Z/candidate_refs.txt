@@ -1,0 +1,20 @@
+17:     - `/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/candidate/bridge/test_route_handlers.py`
+18:     - `/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/candidate/bridge/test_trace_logger.py`
+23:     - `/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/candidate/emotion/examples/test_basic_example.py`
+65:- `candidate/bridge/` - Full bridge implementation
+66:- `candidate/emotion/` - Full emotion system with examples
+67:- `candidate/governance/` - Full governance with ethics, identity, consent
+68:- `candidate/consciousness/` - Full consciousness with dream, creativity
+69:- `candidate/memory/` - Extended memory features
+70:- `candidate/core/` - Core prototypes
+88:   - Issue: Root `consciousness/` lacks submodules like `dream/`, these exist in `candidate/consciousness/`
+102:   - Actual API code is in `bridge/api/` or `candidate/api/`
+125:- `candidate/` → `lukhas/`
+133:- Keep candidate modules in candidate/
+139:1. `/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/candidate/bridge/test_route_handlers.py`
+140:2. `/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/candidate/bridge/test_trace_logger.py`
+141:3. `/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/candidate/emotion/examples/test_basic_example.py`
+226:   - Ensure fixes don't violate candidate/core/lukhas boundaries
+232:- **Development Lane (`candidate/`)**: Experimental features, 2,877 files
+238:- ✅ `candidate/` ← can import from `core/`, `matriz/` ONLY
+239:- ❌ `candidate/` ← NEVER import from `lukhas/` (boundary violation)
