@@ -1,4 +1,20 @@
+"""
+LUKHAS Symbolic Vocabularies - Usage Examples
+============================================
+
+This file demonstrates how to properly use the symbolic vocabularies
+within the LUKHAS system.
+"""
 import logging
+
+from symbolic.vocabularies import (
+    BIO_SYMBOLS,
+    DREAM_PHASE_SYMBOLS,
+    IDENTITY_SYMBOLIC_VOCABULARY,
+    get_symbol,
+)
+
+logger = logging.getLogger(__name__)
 
 
 def create_status_display_line(key: str, value: str) -> str:
@@ -12,24 +28,6 @@ def create_status_display_line(key: str, value: str) -> str:
         A formatted status line for display
     """
     return f"{key}: {value}"
-
-
-logger = logging.getLogger(__name__)
-"""
-LUKHAS Symbolic Vocabularies - Usage Examples
-============================================
-
-This file demonstrates how to properly use the symbolic vocabularies
-within the LUKHAS system.
-"""
-
-# Import vocabularies
-from symbolic.vocabularies import (
-    BIO_SYMBOLS,
-    DREAM_PHASE_SYMBOLS,
-    IDENTITY_SYMBOLIC_VOCABULARY,
-    get_symbol,
-)
 
 
 # Example 1: Direct symbol access
