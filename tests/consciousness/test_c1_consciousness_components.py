@@ -16,9 +16,6 @@ import time
 import pytest
 from hypothesis import given, strategies as st
 
-# Configure asyncio testing
-pytestmark = pytest.mark.asyncio
-
 # Import consciousness components
 from consciousness import (
     AutoConsciousness,
@@ -32,6 +29,9 @@ from consciousness import (
     GuardianResponse,
     ReflectionReport,
 )
+
+# Configure asyncio testing
+pytestmark = pytest.mark.asyncio
 
 
 class TestAwarenessEngine:

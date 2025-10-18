@@ -1,28 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
-# ██╗      ██████╗  ██████╗ ██╗  ██╗ █████╗ ███████╗
-# ██║     ██╔═══██╗██╔════╝ ██║  ██║██╔══██╗██╔════╝
-# ██║     ██║   ██║██║  ███╗███████║███████║███████╗
-# ██║     ██║   ██║██║   ██║██╔══██║██╔══██║╚════██║
-# ███████╗╚██████╔╝╚██████╔╝██║  ██║██║  ██║███████║
-# ╚══════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝
-# LUKHAS™ (2024) - LUKHAS High-Performance AI System
-#
-# Desc: Alias for ReasoningEffort specific to chat completions.
-# Docs: https://github.com/LUKHAS-AI/lukhas-docs/blob/main/reasoning_effort_chat.md
-# Λssociated: shared.reasoning_effort.ReasoningEffort
-#
-# THIS FILE IS ΛUTOGENERATED AND MANAGED BY LUKHAS AI.
-# MANUAL MODIFICATIONS MAY BE OVERWRITTEN.
-#
-# Copyright (C) 2024 LUKHAS AI. All rights reserved.
-# Use of this source code is governed by a LUKHAS AI license
-# that can be found in the LICENSE file.
-#
-# Contact: contact@lukhas.ai
-# Website: https://lukhas.ai
-#
 """
 # ΛNOTE: This module provides a symbolic alias, `ChatCompletionReasoningEffort`,
 # pointing to the general `ReasoningEffort` class. This specialization by context
@@ -39,6 +14,8 @@ for use in the context of chat completions. This promotes clarity and allows
 for future specialization if chat completion effort tracking requires unique features.
 """
 
+import logging
+
 # AIMPORT_TODO: Verify the package structure for `shared.reasoning_effort`.
 # The current relative import `..shared.reasoning_effort` assumes a specific package hierarchy.
 # If `shared` is intended as a globally available package, an absolute import path should be used.
@@ -49,6 +26,8 @@ for future specialization if chat completion effort tracking requires unique fea
 # Example of absolute import:
 # from core_framework.shared.reasoning_effort import ReasoningEffort
 from ..shared.reasoning_effort import ReasoningEffort
+
+logger = logging.getLogger(__name__)
 
 # Initialize ΛTRACE logger for this module using structlog
 logger.info(

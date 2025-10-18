@@ -1,5 +1,4 @@
 """
-
 #TAG:bridge
 #TAG:api
 #TAG:neuroplastic
@@ -9,19 +8,16 @@ Enhanced Core TypeScript - Integrated from Advanced Systems
 Original: paths.py
 Advanced: paths.py
 Integration Date: 2025-05-31T07:55:28.120299
-"""
 
-"""
 Central path configuration for Lukhas System
 ----------------------------------------
 All path-related configuration should be defined here and imported by other modules.
 This ensures consistency across the system and makes path updates easier to manage.
 """
 
-# Core paths
-
-
 from pathlib import Path
+
+# Core paths
 
 ROOT_DIR = Path(__file__).parent.parent.parent  # /Users/Gonz/Lukhas
 CORE_DIR = ROOT_DIR / "CORE"
