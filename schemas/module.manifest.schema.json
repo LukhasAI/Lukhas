@@ -41,36 +41,97 @@
     }
   },
   "properties": {
-    "schema_version": { "$ref": "#/$defs/semver", "description": "Schema version for this manifest format" },
-    "module": { "$ref": "#/$defs/moduleName" },
-    "description": { "type": "string" },
+    "schema_version": { 
+      "$ref": "#/$defs/semver", 
+      "description": "Schema version for this manifest format (semantic versioning)",
+      "examples": ["1.0.0", "1.1.0", "2.0.0"]
+    },
+    "module": { 
+      "$ref": "#/$defs/moduleName",
+      "description": "Canonical module name using Python dotted path notation. Must start with lowercase letter and use only lowercase, digits, and underscores. For root modules, use single name (e.g., 'core'). For nested modules, use dotted notation (e.g., 'lukhas.core', 'candidate.consciousness')",
+      "examples": ["core", "matriz", "lukhas.api", "candidate.consciousness", "qi.quantum"]
+    },
+    "description": { 
+      "type": "string",
+      "description": "Brief description of module purpose, functionality, and role in LUKHAS architecture. Should explain what the module does and why it exists",
+      "minLength": 10,
+      "examples": [
+        "Quantum intelligence core providing QI processing and quantum-inspired reasoning",
+        "RESTful API server for LUKHAS consciousness and orchestration endpoints",
+        "Symbolic processing and pattern matching for consciousness state representation"
+      ]
+    },
 
     "ownership": {
       "type": "object",
+      "description": "Module ownership and maintainer information for code review routing and responsibility assignment. Critical for CODEOWNERS file generation and team accountability",
       "additionalProperties": false,
       "required": ["team", "codeowners"],
       "properties": {
-        "team": { "type": "string", "minLength": 1 },
-        "codeowners": { "type": "array", "minItems": 1, "items": { "type": "string", "pattern": "^@.+$" } },
-        "slack_channel": { "type": "string" }
+        "team": { 
+          "type": "string", 
+          "minLength": 1,
+          "description": "Team or organizational unit responsible for this module",
+          "examples": ["Consciousness Team", "Platform Team", "MATRIZ Core", "Guardian Team", "QI Research"]
+        },
+        "codeowners": { 
+          "type": "array", 
+          "minItems": 1, 
+          "items": { "type": "string", "pattern": "^@.+$" },
+          "description": "GitHub usernames (prefixed with @) of primary code owners for pull request review routing. At least one codeowner required. Listed in priority order for review assignment",
+          "examples": [["@lukhas-dev"], ["@consciousness-team", "@platform-team"], ["@qi-research", "@matriz-core"]]
+        },
+        "slack_channel": { 
+          "type": "string",
+          "description": "Slack channel for module-related discussions and alerts (optional). Include # prefix",
+          "pattern": "^#.+$",
+          "examples": ["#consciousness-dev", "#platform-alerts", "#matriz-core"]
+        }
       }
     },
 
     "layout": {
       "type": "object",
+      "description": "Module file structure layout and canonical paths for code, config, tests, documentation, and assets. Essential for build tools, test runners, and documentation generators to locate module resources",
       "additionalProperties": false,
       "required": ["code_layout"],
       "properties": {
-        "code_layout": { "type": "string", "enum": ["src-root", "package-root"] },
+        "code_layout": { 
+          "type": "string", 
+          "enum": ["src-root", "package-root"],
+          "description": "Code organization pattern. 'src-root': code in src/ subdirectory (e.g., src/module/). 'package-root': code at package root (e.g., module/__init__.py). Determines import paths and build configuration",
+          "examples": ["package-root", "src-root"]
+        },
         "paths": {
           "type": "object",
+          "description": "Repository-relative paths to key module resources (all paths relative to repository root, no leading slash)",
           "additionalProperties": false,
           "properties": {
-            "code": { "$ref": "#/$defs/relpath" },
-            "config": { "$ref": "#/$defs/relpath" },
-            "tests": { "$ref": "#/$defs/relpath" },
-            "docs": { "$ref": "#/$defs/relpath" },
-            "assets": { "$ref": "#/$defs/relpath" }
+            "code": { 
+              "$ref": "#/$defs/relpath",
+              "description": "Path to module source code (Python files, implementation)",
+              "examples": ["core/", "lukhas/api/", "candidate/consciousness/"]
+            },
+            "config": { 
+              "$ref": "#/$defs/relpath",
+              "description": "Path to module configuration files (YAML, JSON, TOML settings)",
+              "examples": ["configs/core/", "api/config/", "consciousness/settings/"]
+            },
+            "tests": { 
+              "$ref": "#/$defs/relpath",
+              "description": "Path to test suite (pytest tests, test fixtures, mocks)",
+              "examples": ["tests/core/", "api/tests/", "tests/consciousness/"]
+            },
+            "docs": { 
+              "$ref": "#/$defs/relpath",
+              "description": "Path to module documentation (Markdown, API docs, architecture diagrams)",
+              "examples": ["docs/core/", "api/docs/", "consciousness/README.md"]
+            },
+            "assets": { 
+              "$ref": "#/$defs/relpath",
+              "description": "Path to static assets (images, data files, templates, resources)",
+              "examples": ["assets/core/", "api/assets/", "consciousness/data/"]
+            }
           }
         }
       }
@@ -78,70 +139,234 @@
 
     "runtime": {
       "type": "object",
+      "description": "Runtime environment specification including language, version, and entry points. Used by deployment tools, containerization, and process managers to configure execution environment",
       "additionalProperties": false,
       "properties": {
-        "language": { "type": "string", "enum": ["python", "typescript", "other"] },
-        "entrypoints": { "type": "array", "items": { "type": "string" } }
+        "language": { 
+          "type": "string", 
+          "enum": ["python", "typescript", "other"],
+          "description": "Primary programming language for this module. Determines runtime requirements, build tooling, and dependency management strategy",
+          "examples": ["python", "typescript"]
+        },
+        "entrypoints": { 
+          "type": "array", 
+          "items": { "type": "string" },
+          "description": "Executable entry points for this module - scripts, CLI commands, or importable main modules. Used by process managers and deployment tools to start services. For Python: module paths (e.g., 'lukhas.api.app:main'). For TypeScript: file paths (e.g., 'dist/index.js')",
+          "examples": [
+            ["main.py"],
+            ["lukhas.api.app:main", "lukhas.api.cli:cli"],
+            ["dist/server.js", "dist/cli.js"]
+          ]
+        }
       }
     },
 
     "matrix": {
       "type": "object",
+      "description": "MATRIZ integration configuration specifying contract compliance, lane assignment, and quality gates. Critical for LUKHAS architecture compliance and Constellation Framework alignment",
       "additionalProperties": false,
       "properties": {
-        "contract": { "$ref": "#/$defs/relpath" },
-        "lane": { "$ref": "#/$defs/lane" },
-        "gates_profile": { "type": "string", "enum": ["strict", "standard", "lenient"] }
+        "contract": { 
+          "$ref": "#/$defs/relpath",
+          "description": "Repository-relative path to MATRIZ contract file (YAML specification). Defines module's capabilities, interfaces, and compliance requirements. Used by contract validators and integration tests",
+          "examples": [
+            "contracts/core.contract.yaml",
+            "api/contract.yaml",
+            "candidate/consciousness/contract.matriz.yaml"
+          ]
+        },
+        "lane": { 
+          "$ref": "#/$defs/lane",
+          "description": "LUKHAS lane assignment (L0-L5 maturity model). L0=research/prototype, L1=candidate, L2=integration, L3=production, L4=critical, L5=core infrastructure. Determines import restrictions and quality requirements",
+          "examples": ["L0", "L1", "L2", "L3"]
+        },
+        "gates_profile": { 
+          "type": "string", 
+          "enum": ["strict", "standard", "lenient"],
+          "description": "Quality gate enforcement level for CI/CD. 'strict': block on any issue. 'standard': block on critical issues only. 'lenient': warn only. Applies to linting, testing, security scans, and contract validation",
+          "examples": ["strict", "standard", "lenient"]
+        }
       }
     },
 
     "identity": {
       "type": "object",
+      "description": "Authentication and authorization requirements for module access. Integrates with LUKHAS ΛID (Lambda ID) identity system. Specifies who can access module functionality and what permissions are required",
       "additionalProperties": false,
       "properties": {
-        "requires_auth": { "type": "boolean", "default": false },
-        "tiers": { "type": "array", "items": { "$ref": "#/$defs/tier" } },
-        "scopes": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+        "requires_auth": { 
+          "type": "boolean", 
+          "default": false,
+          "description": "Whether this module requires authentication for access. If true, must specify tiers and optionally scopes. Used by API gateways and security middleware to enforce access control",
+          "examples": [true, false]
+        },
+        "tiers": { 
+          "type": "array", 
+          "items": { "$ref": "#/$defs/tier" },
+          "description": "Allowed ΛID user tiers for module access (guest, visitor, friend, trusted, inner_circle, root_dev). Hierarchical: higher tiers include all lower tier permissions. Required if requires_auth=true",
+          "examples": [
+            ["trusted", "inner_circle", "root_dev"],
+            ["friend", "trusted"],
+            ["root_dev"]
+          ]
+        },
+        "scopes": { 
+          "type": "array", 
+          "items": { "type": "string", "minLength": 1 },
+          "description": "OAuth-style scopes required for module access. Fine-grained permissions beyond tier-based access. Optional. Examples: 'consciousness:read', 'matriz:write', 'quantum:admin'",
+          "examples": [
+            ["consciousness:read", "consciousness:write"],
+            ["api:read"],
+            ["matriz:admin", "quantum:write"]
+          ]
+        }
       }
     },
 
     "links": {
       "type": "object",
+      "description": "External references and links for module resources. Required for documentation, issue tracking, and repository navigation. All URIs must be absolute (https://)",
       "additionalProperties": false,
       "required": ["repo", "docs", "issues"],
       "properties": {
-        "repo": { "$ref": "#/$defs/uri" },
-        "docs": { "oneOf": [ { "$ref": "#/$defs/uri" }, { "$ref": "#/$defs/relpath" } ] },
-        "issues": { "$ref": "#/$defs/uri" },
-        "sbom": { "$ref": "#/$defs/relpath" }
+        "repo": { 
+          "$ref": "#/$defs/uri",
+          "description": "Absolute URI to module's source repository (typically GitHub). Used for source code browsing and clone operations",
+          "examples": [
+            "https://github.com/LUKHAS-AI/lukhas",
+            "https://github.com/LUKHAS-AI/matriz-core",
+            "https://github.com/LUKHAS-AI/consciousness"
+          ]
+        },
+        "docs": { 
+          "oneOf": [ { "$ref": "#/$defs/uri" }, { "$ref": "#/$defs/relpath" } ],
+          "description": "Documentation location - either absolute URI (https://docs.lukhas.ai/module) or repository-relative path (docs/module/README.md). Used by documentation generators and IDE help systems",
+          "examples": [
+            "https://docs.lukhas.ai/core",
+            "https://docs.lukhas.ai/api/reference",
+            "docs/core/README.md",
+            "api/docs/index.md"
+          ]
+        },
+        "issues": { 
+          "$ref": "#/$defs/uri",
+          "description": "Absolute URI to issue tracker for bug reports and feature requests (typically GitHub Issues). Used for automated bug triage and issue creation",
+          "examples": [
+            "https://github.com/LUKHAS-AI/lukhas/issues",
+            "https://github.com/LUKHAS-AI/matriz-core/issues"
+          ]
+        },
+        "sbom": { 
+          "$ref": "#/$defs/relpath",
+          "description": "Repository-relative path to Software Bill of Materials (SBOM) file listing all dependencies. Optional. Used for security audits and compliance reporting",
+          "examples": [
+            "sbom/core-sbom.json",
+            "api/sbom.cyclonedx.json",
+            "consciousness/dependencies.spdx.json"
+          ]
+        }
       }
     },
 
-    "tags": { "type": "array", "items": { "type": "string" } },
+    "tags": { 
+      "type": "array", 
+      "items": { "type": "string" },
+      "description": "Freeform tags for module categorization, discovery, and filtering. Use lowercase kebab-case. Common tags: consciousness, quantum, api, authentication, monitoring, bio-inspired, symbolic, integration. Used by search, documentation generators, and module browsers",
+      "uniqueItems": true,
+      "examples": [
+        ["consciousness", "neural-processing", "bio-inspired"],
+        ["api", "rest", "openapi"],
+        ["quantum", "qi-core", "reasoning"],
+        ["monitoring", "observability", "alerting"]
+      ]
+    },
 
     "observability": {
       "type": "object",
+      "description": "Observability configuration for distributed tracing, metrics, logging, and events. Specifies required spans for OpenTelemetry tracing and semantic convention version for compatibility",
       "additionalProperties": false,
       "properties": {
-        "required_spans": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
-        "otel_semconv_version": { "$ref": "#/$defs/otelSemconv", "default": "1.37.0" }
+        "required_spans": { 
+          "type": "array", 
+          "items": { "type": "string" }, 
+          "uniqueItems": true,
+          "description": "OpenTelemetry span names that must be emitted by this module for distributed tracing. Used by APM tools and trace visualization to track request flows across modules. Span names should be descriptive operation names",
+          "examples": [
+            ["consciousness.process", "consciousness.synthesize"],
+            ["api.request", "api.auth", "api.response"],
+            ["matriz.node.execute", "matriz.reason", "matriz.store"]
+          ]
+        },
+        "otel_semconv_version": { 
+          "$ref": "#/$defs/otelSemconv", 
+          "default": "1.37.0",
+          "description": "OpenTelemetry Semantic Conventions version for attribute naming and span structure. Ensures compatibility with observability platforms. Use latest stable version unless platform requires specific version",
+          "examples": ["1.37.0", "1.36.0", "1.35.0"]
+        }
       }
     },
 
     "tokenization": {
       "type": "object",
+      "description": "Blockchain tokenization configuration for modules that represent on-chain assets or use cryptographic proofs. Optional. Enables verifiable ownership and integrity guarantees via distributed ledger",
       "additionalProperties": false,
       "properties": {
-        "enabled": { "type": "boolean", "default": false },
-        "chain": { "type": "string", "enum": ["solana", "evm", "none"], "default": "none" },
-        "asset_id": { "type": "string" },
-        "proof_uri": { "oneOf": [ { "$ref": "#/$defs/uri" }, { "$ref": "#/$defs/relpath" } ] }
+        "enabled": { 
+          "type": "boolean", 
+          "default": false,
+          "description": "Whether blockchain tokenization is enabled for this module. If true, must specify chain, asset_id, and proof_uri",
+          "examples": [true, false]
+        },
+        "chain": { 
+          "type": "string", 
+          "enum": ["solana", "evm", "none"], 
+          "default": "none",
+          "description": "Blockchain platform for tokenization. 'solana': Solana blockchain. 'evm': Ethereum Virtual Machine compatible chains (Ethereum, Polygon, etc.). 'none': no tokenization. Required if enabled=true",
+          "examples": ["solana", "evm", "none"]
+        },
+        "asset_id": { 
+          "type": "string",
+          "description": "On-chain asset identifier (token address, NFT ID, etc.). Blockchain-specific format. For Solana: base58 address. For EVM: 0x-prefixed hex address. Required if enabled=true",
+          "examples": [
+            "9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin",
+            "0x1234567890abcdef1234567890abcdef12345678"
+          ]
+        },
+        "proof_uri": { 
+          "oneOf": [ { "$ref": "#/$defs/uri" }, { "$ref": "#/$defs/relpath" } ],
+          "description": "Location of cryptographic proof file (transaction hash, certificate, signature). Absolute URI (https://arweave.net/...) or repository-relative path (proofs/module.proof.json). Required if enabled=true",
+          "examples": [
+            "https://arweave.net/tx123456...",
+            "proofs/core-module.proof.json",
+            "https://ipfs.io/ipfs/Qm..."
+          ]
+        }
       }
     },
 
-    "dependencies": { "type": "array", "items": { "$ref": "#/$defs/moduleName" } },
+    "dependencies": { 
+      "type": "array", 
+      "items": { "$ref": "#/$defs/moduleName" },
+      "description": "Internal LUKHAS module dependencies (not external pip/npm packages). Listed modules must be available at import time. Used by build tools to determine load order and detect circular dependencies. Should only include direct dependencies, not transitive",
+      "uniqueItems": true,
+      "examples": [
+        ["core", "matriz"],
+        ["lukhas.identity", "lukhas.memory"],
+        ["candidate.consciousness", "candidate.symbolic"]
+      ]
+    },
 
-    "contracts": { "type": "array", "items": { "$ref": "#/$defs/relpath" } },
+    "contracts": { 
+      "type": "array", 
+      "items": { "$ref": "#/$defs/relpath" },
+      "description": "Repository-relative paths to MATRIZ contract files that this module implements or depends on. Contracts define interfaces, capabilities, and compliance requirements. Used by contract validators to ensure module conforms to expected behavior",
+      "uniqueItems": true,
+      "examples": [
+        ["contracts/core.contract.yaml"],
+        ["api/contracts/rest.contract.yaml", "api/contracts/auth.contract.yaml"],
+        ["candidate/consciousness/contracts/processing.yaml"]
+      ]
+    },
 
     "aliases": {
       "type": "array",
@@ -169,36 +394,95 @@
 
     "metadata": {
       "type": "object",
+      "description": "Module lifecycle metadata including creation date, version, and maturity status. Used by documentation generators, release notes, and deprecation warnings",
       "additionalProperties": false,
       "properties": {
-        "created": { "type": "string", "format": "date" },
-        "updated": { "type": "string", "format": "date" },
-        "version": { "$ref": "#/$defs/semver" },
-        "status": { "type": "string", "enum": ["experimental", "alpha", "beta", "stable", "deprecated"] }
+        "created": { 
+          "type": "string", 
+          "format": "date",
+          "description": "Module creation date (ISO 8601 format: YYYY-MM-DD). When the module was first introduced to the repository",
+          "examples": ["2024-01-15", "2025-10-18"]
+        },
+        "updated": { 
+          "type": "string", 
+          "format": "date",
+          "description": "Last significant update date (ISO 8601 format: YYYY-MM-DD). Should be updated when module undergoes major changes, not for every commit",
+          "examples": ["2025-10-18", "2025-09-20"]
+        },
+        "version": { 
+          "$ref": "#/$defs/semver",
+          "description": "Module semantic version (SemVer 2.0.0). Independent from repository version. Track major API changes, features, and patches. Increment MAJOR for breaking changes, MINOR for features, PATCH for bugfixes",
+          "examples": ["0.1.0", "1.0.0", "2.3.1"]
+        },
+        "status": { 
+          "type": "string", 
+          "enum": ["experimental", "alpha", "beta", "stable", "deprecated"],
+          "description": "Module maturity/stability status. experimental: research/prototype. alpha: early development, unstable API. beta: feature-complete, stabilizing API. stable: production-ready, stable API. deprecated: scheduled for removal. Affects lane promotion and quality requirements",
+          "examples": ["experimental", "alpha", "beta", "stable", "deprecated"]
+        }
       }
     },
 
     "performance": {
       "type": "object",
+      "description": "Performance requirements and resource limits for production deployment. Defines SLAs for availability and latency, plus resource allocation limits. Used by deployment tools, autoscalers, and performance monitoring",
       "additionalProperties": false,
       "properties": {
         "sla": {
           "type": "object",
+          "description": "Service Level Agreement targets for module performance metrics. Used by monitoring systems to generate alerts when SLAs are violated",
           "additionalProperties": false,
           "properties": {
-            "availability": { "type": "number", "minimum": 0, "maximum": 100 },
-            "latency_p95_ms": { "type": "integer", "minimum": 1 },
-            "latency_p99_ms": { "type": "integer", "minimum": 1 },
-            "throughput_rps": { "type": "integer", "minimum": 1 }
+            "availability": { 
+              "type": "number", 
+              "minimum": 0, 
+              "maximum": 100,
+              "description": "Target availability percentage (0-100). 99.9% = 'three nines' = ~8.76 hours downtime/year. 99.99% = 'four nines' = ~52.56 minutes downtime/year. Typically 99.0-99.99% for production modules",
+              "examples": [99.0, 99.9, 99.99, 95.0]
+            },
+            "latency_p95_ms": { 
+              "type": "integer", 
+              "minimum": 1,
+              "description": "95th percentile latency target in milliseconds. 95% of requests should complete within this time. Typical values: 100ms for APIs, 250ms for orchestration, 500ms for batch processing",
+              "examples": [100, 250, 500, 1000]
+            },
+            "latency_p99_ms": { 
+              "type": "integer", 
+              "minimum": 1,
+              "description": "99th percentile latency target in milliseconds. 99% of requests should complete within this time. Usually 2-5x p95 latency. Used to detect tail latency issues",
+              "examples": [250, 500, 1000, 2000]
+            },
+            "throughput_rps": { 
+              "type": "integer", 
+              "minimum": 1,
+              "description": "Minimum sustained throughput in requests per second (RPS). Target capacity for production load. Used by load balancers and autoscalers to determine when to scale",
+              "examples": [10, 100, 1000, 10000]
+            }
           }
         },
         "resource_limits": {
           "type": "object",
+          "description": "Maximum resource allocation limits for containerized deployment. Used by Kubernetes, Docker, and resource quota systems to prevent resource exhaustion",
           "additionalProperties": false,
           "properties": {
-            "memory_mb": { "type": "integer", "minimum": 1 },
-            "cpu_cores": { "type": "number", "minimum": 0.1 },
-            "disk_gb": { "type": "integer", "minimum": 1 }
+            "memory_mb": { 
+              "type": "integer", 
+              "minimum": 1,
+              "description": "Maximum memory allocation in megabytes. Module process will be killed if exceeding this limit. Typical values: 512MB for lightweight services, 2048MB for APIs, 4096MB+ for data processing",
+              "examples": [512, 1024, 2048, 4096]
+            },
+            "cpu_cores": { 
+              "type": "number", 
+              "minimum": 0.1,
+              "description": "Maximum CPU core allocation (fractional cores allowed). 1.0 = 1 full core. 0.5 = half a core. Used by container orchestrators for CPU throttling. Typical values: 0.5 for background tasks, 1.0 for APIs, 2.0+ for compute-intensive modules",
+              "examples": [0.5, 1.0, 2.0, 4.0]
+            },
+            "disk_gb": { 
+              "type": "integer", 
+              "minimum": 1,
+              "description": "Maximum disk space allocation in gigabytes. Includes logs, temporary files, caches, and data storage. Module should handle disk quota exceeded errors gracefully",
+              "examples": [1, 5, 10, 50, 100]
+            }
           }
         }
       }
@@ -206,11 +490,38 @@
 
     "testing": {
       "type": "object",
+      "description": "Testing requirements and configuration for module quality assurance. Defines coverage targets, test frameworks, and test types. Used by CI/CD pipelines to validate module quality",
       "additionalProperties": false,
       "properties": {
-        "coverage_target": { "type": "integer", "minimum": 0, "maximum": 100 },
-        "test_frameworks": { "type": "array", "items": { "type": "string", "enum": ["pytest", "unittest", "jest", "mocha", "other"] } },
-        "test_types": { "type": "array", "items": { "type": "string", "enum": ["unit", "integration", "e2e", "performance", "security"] } }
+        "coverage_target": { 
+          "type": "integer", 
+          "minimum": 0, 
+          "maximum": 100,
+          "description": "Minimum test coverage percentage (0-100). Percentage of code lines/branches executed by test suite. Typical targets: 75% for T2, 85% for T1, 90%+ for critical modules. CI/CD should fail if below target",
+          "examples": [75, 80, 85, 90]
+        },
+        "test_frameworks": { 
+          "type": "array", 
+          "items": { "type": "string", "enum": ["pytest", "unittest", "jest", "mocha", "other"] },
+          "description": "Testing frameworks used by this module. Multiple frameworks allowed for different test types. Python: pytest (preferred), unittest. JavaScript/TypeScript: jest, mocha",
+          "uniqueItems": true,
+          "examples": [
+            ["pytest"],
+            ["pytest", "unittest"],
+            ["jest"]
+          ]
+        },
+        "test_types": { 
+          "type": "array", 
+          "items": { "type": "string", "enum": ["unit", "integration", "e2e", "performance", "security"] },
+          "description": "Types of tests implemented for this module. unit: isolated component tests. integration: module interaction tests. e2e: end-to-end workflow tests. performance: load/stress tests. security: vulnerability/penetration tests",
+          "uniqueItems": true,
+          "examples": [
+            ["unit", "integration"],
+            ["unit", "integration", "e2e"],
+            ["unit", "integration", "performance", "security"]
+          ]
+        }
       }
     },
 
