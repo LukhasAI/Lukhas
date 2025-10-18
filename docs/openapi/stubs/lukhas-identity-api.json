@@ -1,0 +1,172 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "LUKHAS Identity API",
+    "description": "Lambda ID (\u03bbID) authentication and tiering\n\n**Constellation Star**: \u269b\ufe0f Anchor (Identity)",
+    "version": "1.0.0",
+    "contact": {
+      "name": "LUKHAS AI Platform",
+      "url": "https://lukhas.ai"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.lukhas.ai",
+      "description": "Production"
+    },
+    {
+      "url": "http://localhost:8000",
+      "description": "Development"
+    }
+  ],
+  "paths": {
+    "/v1/identity/authenticate": {
+      "post": {
+        "summary": "Authenticate user",
+        "operationId": "identity__v1_identity_authenticate_post",
+        "tags": [
+          "Identity"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/identity/tier": {
+      "get": {
+        "summary": "Get tier eligibility",
+        "operationId": "identity__v1_identity_tier_get",
+        "tags": [
+          "Identity"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/identity/session": {
+      "post": {
+        "summary": "Create session",
+        "operationId": "identity__v1_identity_session_post",
+        "tags": [
+          "Identity"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Lambda ID (\u03bbID) JWT token"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Identity",
+      "description": "Lambda ID (\u03bbID) authentication and tiering"
+    }
+  ]
+}

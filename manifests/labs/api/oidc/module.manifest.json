@@ -15,7 +15,7 @@
     "cognitive_function": ""
   },
   "constellation_alignment": {
-    "primary_star": "Supporting",
+    "primary_star": "\ud83d\udee1\ufe0f Watch (Guardian)",
     "star_aliases": [],
     "trinity_aspects": []
   },
@@ -81,7 +81,7 @@
   },
   "metadata": {
     "created": "2025-10-11T22:12:48Z",
-    "last_updated": "2025-10-11T22:12:48Z",
+    "last_updated": "2025-10-18T00:00:00Z",
     "manifest_generated": true,
     "owner": "unassigned",
     "documentation_url": "",

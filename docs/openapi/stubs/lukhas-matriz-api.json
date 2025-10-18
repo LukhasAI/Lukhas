@@ -1,0 +1,216 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "LUKHAS MATRIZ API",
+    "description": "Cognitive DNA processing and node orchestration\n\n**Constellation Star**: \u269b\ufe0f Quantum (Processing)",
+    "version": "1.0.0",
+    "contact": {
+      "name": "LUKHAS AI Platform",
+      "url": "https://lukhas.ai"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.lukhas.ai",
+      "description": "Production"
+    },
+    {
+      "url": "http://localhost:8000",
+      "description": "Development"
+    }
+  ],
+  "paths": {
+    "/v1/matriz/nodes": {
+      "post": {
+        "summary": "Create cognitive node",
+        "operationId": "matriz__v1_matriz_nodes_post",
+        "tags": [
+          "Matriz"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/matriz/nodes/{node_id}": {
+      "get": {
+        "summary": "Retrieve node",
+        "operationId": "matriz__v1_matriz_nodes_{node_id}_get",
+        "tags": [
+          "Matriz"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/matriz/query": {
+      "post": {
+        "summary": "Execute cognitive query",
+        "operationId": "matriz__v1_matriz_query_post",
+        "tags": [
+          "Matriz"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/matriz/trace": {
+      "get": {
+        "summary": "Get reasoning trace",
+        "operationId": "matriz__v1_matriz_trace_get",
+        "tags": [
+          "Matriz"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Lambda ID (\u03bbID) JWT token"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Matriz",
+      "description": "Cognitive DNA processing and node orchestration"
+    }
+  ]
+}

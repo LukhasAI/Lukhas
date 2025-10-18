@@ -1,0 +1,172 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "LUKHAS Guardian API",
+    "description": "Constitutional AI and ethical oversight\n\n**Constellation Star**: \ud83d\udee1\ufe0f Watch (Guardian)",
+    "version": "1.0.0",
+    "contact": {
+      "name": "LUKHAS AI Platform",
+      "url": "https://lukhas.ai"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.lukhas.ai",
+      "description": "Production"
+    },
+    {
+      "url": "http://localhost:8000",
+      "description": "Development"
+    }
+  ],
+  "paths": {
+    "/v1/guardian/audit": {
+      "post": {
+        "summary": "Submit for ethical audit",
+        "operationId": "guardian__v1_guardian_audit_post",
+        "tags": [
+          "Guardian"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/guardian/policies": {
+      "get": {
+        "summary": "List active policies",
+        "operationId": "guardian__v1_guardian_policies_get",
+        "tags": [
+          "Guardian"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/guardian/drift": {
+      "get": {
+        "summary": "Detect consciousness drift",
+        "operationId": "guardian__v1_guardian_drift_get",
+        "tags": [
+          "Guardian"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Lambda ID (\u03bbID) JWT token"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Guardian",
+      "description": "Constitutional AI and ethical oversight"
+    }
+  ]
+}

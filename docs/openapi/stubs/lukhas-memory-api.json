@@ -1,0 +1,172 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "LUKHAS Memory API",
+    "description": "Fold-based memory retrieval and trail navigation\n\n**Constellation Star**: \u2726 Trail (Memory)",
+    "version": "1.0.0",
+    "contact": {
+      "name": "LUKHAS AI Platform",
+      "url": "https://lukhas.ai"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.lukhas.ai",
+      "description": "Production"
+    },
+    {
+      "url": "http://localhost:8000",
+      "description": "Development"
+    }
+  ],
+  "paths": {
+    "/v1/memory/fold": {
+      "post": {
+        "summary": "Create memory fold",
+        "operationId": "memory__v1_memory_fold_post",
+        "tags": [
+          "Memory"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/memory/recall": {
+      "post": {
+        "summary": "Recall memories",
+        "operationId": "memory__v1_memory_recall_post",
+        "tags": [
+          "Memory"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/memory/trail": {
+      "get": {
+        "summary": "Navigate memory trail",
+        "operationId": "memory__v1_memory_trail_get",
+        "tags": [
+          "Memory"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "success"
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Lambda ID (\u03bbID) JWT token"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Memory",
+      "description": "Fold-based memory retrieval and trail navigation"
+    }
+  ]
+}
