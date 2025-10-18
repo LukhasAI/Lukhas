@@ -1,0 +1,222 @@
+name: Manifest Validation
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'manifests/**/*.json'
+      - 'schemas/module.manifest.schema.json'
+      - '.github/workflows/manifest-validation.yml'
+
+jobs:
+  validate-manifests:
+    name: Validate Module Manifests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Need full history for star promotion detection
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install jsonschema
+
+      - name: Validate manifest schema
+        run: |
+          echo "🔍 Validating manifest schemas..."
+          python3 << 'EOF'
+          import json
+          import sys
+          from pathlib import Path
+          from jsonschema import validate, ValidationError
+          
+          # Load schema
+          schema_file = Path('schemas/module.manifest.schema.json')
+          if not schema_file.exists():
+              print("⚠️  Schema file not found, skipping validation")
+              sys.exit(0)
+          
+          with open(schema_file) as f:
+              schema = json.load(f)
+          
+          # Validate all manifests
+          errors = []
+          validated = 0
+          
+          for manifest_file in Path('manifests').rglob('module.manifest.json'):
+              # Skip archived manifests
+              if '.archive' in str(manifest_file):
+                  continue
+              
+              try:
+                  with open(manifest_file) as f:
+                      data = json.load(f)
+                  validate(instance=data, schema=schema)
+                  validated += 1
+              except ValidationError as e:
+                  errors.append(f"{manifest_file}: {e.message}")
+              except json.JSONDecodeError as e:
+                  errors.append(f"{manifest_file}: Invalid JSON - {e}")
+          
+          print(f"✅ Validated {validated} manifests")
+          
+          if errors:
+              print(f"\n❌ Found {len(errors)} validation errors:")
+              for error in errors[:10]:
+                  print(f"  - {error}")
+              if len(errors) > 10:
+                  print(f"  ... and {len(errors) - 10} more")
+              sys.exit(1)
+          
+          print("✅ All manifests pass schema validation")
+          EOF
+
+      - name: Check for orphan modules
+        run: |
+          echo "🔍 Checking for orphan modules..."
+          python3 << 'EOF'
+          import json
+          from pathlib import Path
+          
+          # Get all Python packages
+          packages = set()
+          for init_file in Path('.').rglob('__init__.py'):
+              path_str = str(init_file.parent)
+              if any(x in path_str for x in ['.venv', 'node_modules', '.git', 'build', 'dist', '__pycache__']):
+                  continue
+              packages.add(str(init_file.parent.relative_to('.')))
+          
+          # Get all manifested modules
+          manifested = set()
+          for manifest_file in Path('manifests').rglob('module.manifest.json'):
+              if '.archive' in str(manifest_file):
+                  continue
+              try:
+                  with open(manifest_file) as f:
+                      data = json.load(f)
+                      module_path = data.get('module', {}).get('path', '')
+                      if module_path:
+                          manifested.add(module_path)
+              except:
+                  pass
+          
+          # Calculate coverage
+          if len(packages) > 0:
+              coverage = (len(manifested) / len(packages)) * 100
+              print(f"📊 Coverage: {coverage:.1f}%")
+              print(f"📦 Packages: {len(packages)}")
+              print(f"📋 Manifests: {len(manifested)}")
+              
+              # Allow up to 5 orphans
+              max_orphans = 5
+              orphan_count = max(0, len(packages) - len(manifested))
+              
+              if coverage < 99:
+                  print(f"\n⚠️  Coverage below 99% ({orphan_count} orphans)")
+                  if orphan_count > max_orphans:
+                      print(f"❌ Too many orphan modules (max {max_orphans} allowed)")
+                      exit(1)
+                  else:
+                      print(f"✅ Within acceptable range (≤{max_orphans} orphans)")
+              else:
+                  print(f"✅ Coverage target met (≥99%)")
+          EOF
+
+  check-star-promotions:
+    name: Check Star Promotions
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Need full history
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Detect star promotions
+        run: |
+          # Make script executable
+          chmod +x scripts/detect_star_promotions.py
+          
+          # Detect promotions but don't fail (informational only)
+          python3 scripts/detect_star_promotions.py \
+            --base origin/${{ github.base_ref }} \
+            --head HEAD \
+            || echo "⚠️  Could not check star promotions (non-blocking)"
+
+  check-t1-requirements:
+    name: Check T1 Requirements
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Enforce T1 requirements
+        run: |
+          echo "🔍 Checking T1 module requirements..."
+          python3 << 'EOF'
+          import json
+          import sys
+          from pathlib import Path
+          
+          errors = []
+          t1_checked = 0
+          
+          for manifest_file in Path('manifests').rglob('module.manifest.json'):
+              # Skip archived manifests
+              if '.archive' in str(manifest_file):
+                  continue
+              
+              try:
+                  with open(manifest_file) as f:
+                      data = json.load(f)
+                  
+                  tier = data.get('testing', {}).get('quality_tier', '')
+                  if 'T1' not in tier:
+                      continue
+                  
+                  t1_checked += 1
+                  module = data.get('module', {}).get('path', str(manifest_file))
+                  
+                  # Check for OWNERS.toml
+                  module_dir = manifest_file.parent
+                  owners_file = module_dir / 'OWNERS.toml'
+                  if not owners_file.exists():
+                      errors.append(f"{module}: Missing OWNERS.toml")
+                  
+                  # Check for contracts
+                  contracts = data.get('contracts', [])
+                  if not contracts:
+                      errors.append(f"{module}: Missing contracts")
+              
+              except Exception as e:
+                  errors.append(f"{manifest_file}: Error reading manifest - {e}")
+          
+          print(f"📊 Checked {t1_checked} T1 modules")
+          
+          if errors:
+              print(f"\n❌ T1 Enforcement Failures ({len(errors)}):")
+              for error in errors:
+                  print(f"  - {error}")
+              sys.exit(1)
+          
+          if t1_checked == 0:
+              print("✅ No T1 modules to check")
+          else:
+              print(f"✅ All {t1_checked} T1 modules comply with requirements")
+          EOF
