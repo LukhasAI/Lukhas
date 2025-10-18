@@ -94,7 +94,8 @@
       "Bash(gh issue view 360 --json title,body,labels)",
       "Bash(gh issue view 389 --json title,body,labels)",
       "Bash(.venv/bin/ruff check . --select E402,E701,E702,E703,E704)",
-      "Bash(.venv/bin/pytest -q -m \"smoke\" --maxfail=1 --disable-warnings)"
+      "Bash(.venv/bin/pytest -q -m \"smoke\" --maxfail=1 --disable-warnings)",
+      "Bash(xargs cat)"
     ],
     "defaultMode": "bypassPermissions"
   }

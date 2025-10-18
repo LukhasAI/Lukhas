@@ -376,13 +376,13 @@ audit-merge-check:
 # ------------------------------------------------------------------------------
 .PHONY: smoke test it e2e
 smoke:
-	CI_QUALITY_GATES=1 pytest -q -m "smoke" --maxfail=1 --disable-warnings
+	CI_QUALITY_GATES=1 python3 -m pytest -q tests/smoke -m "smoke" --maxfail=1 --disable-warnings
 test:
-	pytest -q --disable-warnings
+	python3 -m pytest -q --disable-warnings
 it:
-	pytest -q -m "integration" --disable-warnings
+	python3 -m pytest -q -m "integration" --disable-warnings
 e2e:
-	pytest -q -m "e2e" --disable-warnings
+	python3 -m pytest -q -m "e2e" --disable-warnings
 
 # Minimal CI-friendly check target (scoped to focused gates: ruff, contract tests, scoped mypy)
 .PHONY: check-scoped lint-scoped test-contract type-scoped
@@ -1316,7 +1316,19 @@ stats: ## Generate manifest statistics
 	$(PYTHON) scripts/report_manifest_stats.py --manifests manifests --out docs/audits
 
 context-validate: ## Validate lukhas_context.md front-matter against manifests
-	$(PYTHON) scripts/validate_context_front_matter.py
+	python3 scripts/validate_context_front_matter.py
+
+context-migrate-frontmatter: ## Add YAML front-matter to lukhas_context.md (in manifests/**)
+	$(PYTHON) scripts/migrate_context_front_matter.py
+
+context-coverage: ## Check lukhas_context.md coverage and front-matter presence
+	$(PYTHON) scripts/context_coverage_bot.py --manifests manifests --min $${MIN_COV:-0.95}
+
+context-migrate-frontmatter: ## Add YAML front-matter to lukhas_context.md (in manifests/**)
+	$(PYTHON) scripts/migrate_context_front_matter.py
+
+context-coverage: ## Check lukhas_context.md coverage and front-matter presence
+	$(PYTHON) scripts/context_coverage_bot.py --manifests manifests --min $${MIN_COV:-0.95}
 
 contracts-validate: ## Validate contract references in manifests
 	$(PYTHON) scripts/validate_contract_refs.py
@@ -1344,6 +1356,14 @@ promotions: ## Suggest star promotions (Supporting → specific)
 # =============================================================================
 # T4 Ruff Gold Standard Targets (turn_ruff_into_gold.md)
 # =============================================================================
+
+.PHONY: context-migrate-frontmatter context-coverage
+
+context-migrate-frontmatter: ## Add YAML front-matter to lukhas_context.md (in manifests/**)
+	$(PYTHON) scripts/migrate_context_front_matter.py
+
+context-coverage: ## Check lukhas_context.md coverage and front-matter presence
+	$(PYTHON) scripts/context_coverage_bot.py --manifests manifests --min $${MIN_COV:-0.95}
 
 lint-json: ## Generate Ruff JSON output
 	python3 -m ruff check --output-format json . > docs/audits/ruff.json

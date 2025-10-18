@@ -24,6 +24,89 @@ ROOT = HERE.parent
 
 STAR_DEFAULT = "Supporting"
 
+# --- Star rules support (Phase 3) -------------------------------------------------
+def load_star_rules(path: pathlib.Path):
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+
+def infer_star_from_rules(
+    *,
+    rules_cfg: dict,
+    module_name: str,
+    path: str,
+    matriz_node: str,
+    capabilities: list,
+    owner: str,
+) -> (str, float):
+    """Return (star, confidence) suggestion from rules.
+
+    Heuristic scoring using weights in rules_cfg.weights across:
+      - path regex hits (rules[])
+      - capability overrides
+      - node overrides
+      - owner priors
+    """
+    if not rules_cfg:
+        return (STAR_DEFAULT, 0.0)
+
+    weights = rules_cfg.get("weights", {})
+    w_path = float(weights.get("path_regex", 0.4))
+    w_cap = float(weights.get("capability_override", 0.6))
+    w_node = float(weights.get("node_override", 0.5))
+    w_owner = float(weights.get("owner_prior", 0.35))
+
+    score = {}
+    text = f"{module_name} {path}".lower()
+
+    # apply exclusions
+    for ex in rules_cfg.get("exclusions", []) or []:
+        try:
+            text = re.sub(ex.get("pattern", ""), " ", text, flags=re.IGNORECASE)
+        except re.error:
+            pass
+
+    # rules: path keywords
+    for r in rules_cfg.get("rules", []) or []:
+        star = r.get("star")
+        pat = r.get("pattern")
+        try:
+            if pat and re.search(pat, text, flags=re.IGNORECASE):
+                score[star] = score.get(star, 0.0) + w_path
+        except re.error:
+            continue
+
+    # capability overrides
+    caps = {c.get("name", "").lower() for c in (capabilities or [])}
+    for co in rules_cfg.get("capability_overrides", []) or []:
+        cap = (co.get("capability") or "").lower()
+        star = co.get("star")
+        if cap and star and cap in caps:
+            score[star] = score.get(star, 0.0) + w_cap
+
+    # node overrides
+    for no in rules_cfg.get("node_overrides", []) or []:
+        if (no.get("node") or "").lower() == (matriz_node or "").lower():
+            star = no.get("star")
+            if star:
+                score[star] = score.get(star, 0.0) + w_node
+
+    # owner priors
+    for op in rules_cfg.get("owner_priors", []) or []:
+        try:
+            if re.search(op.get("owner_regex", ""), owner or "", flags=re.IGNORECASE):
+                star = op.get("star")
+                if star:
+                    score[star] = score.get(star, 0.0) + w_owner
+        except re.error:
+            pass
+
+    if not score:
+        return (STAR_DEFAULT, 0.0)
+    best_star = max(score.items(), key=lambda kv: kv[1])[0]
+    return (best_star, float(score[best_star]))
+
 # Test discovery patterns
 TEST_GLOBS = [
     "tests/test_*.py",
@@ -302,6 +385,9 @@ def main():
     ap.add_argument("--star-canon", default=str(HERE / "star_canon.json"))
     ap.add_argument("--write-context", action="store_true")
     ap.add_argument("--limit", type=int, default=None)
+    ap.add_argument("--star-from-rules", action="store_true", help="Use configs/star_rules.json to override 'Supporting'")
+    ap.add_argument("--star-rules", default=str(ROOT / "configs" / "star_rules.json"))
+    ap.add_argument("--star-confidence-min", type=float, default=0.70)
     args = ap.parse_args()
 
     inv = json.load(open(args.inventory, "r", encoding="utf-8"))
@@ -310,6 +396,10 @@ def main():
     items = inv.get("inventory", [])
     if args.limit:
         items = items[:args.limit]
+
+    rules_cfg = None
+    if args.star_from_rules:
+        rules_cfg = load_star_rules(pathlib.Path(args.star_rules))
 
     total = 0
     wrote = 0
@@ -336,6 +426,21 @@ def main():
         quality_tier = decide_quality_tier(priority, has_tests, owner)
 
         capabilities = infer_capabilities(path or "", star, matriz_node, module_name or "")
+
+        # Optional star promotion via rules (only if currently Supporting)
+        if args.star_from_rules and star == STAR_DEFAULT and rules_cfg:
+            owner = it.get("owner", "") or ""
+            suggest_star, conf = infer_star_from_rules(
+                rules_cfg=rules_cfg,
+                module_name=module_name or "",
+                path=path or "",
+                matriz_node=matriz_node,
+                capabilities=capabilities,
+                owner=owner,
+            )
+            min_auto = float((rules_cfg.get("confidence", {}) or {}).get("min_autopromote", args.star_confidence_min))
+            if conf >= min_auto:
+                star = validate_star(suggest_star, star_canon)
 
         module_obj = {
             "name": module_name,
