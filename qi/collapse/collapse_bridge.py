@@ -1,6 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: collapse_bridge.py
 # MODULE: orchestration.brain.collapse_bridge
@@ -15,11 +12,14 @@ logger = logging.getLogger(__name__)
 # ΛCOMMIT_WINDOW: post-ZIP
 # ΛAPPROVED_BY: Human Overseer (Gonzalo)
 
+import logging
 from typing import Any
 
 import structlog
 
 from lukhas.orchestration.brain.unified_collapse_system import BrainCollapseManager
+
+logger = logging.getLogger(__name__)
 
 # TAG:qim
 # TAG:qi_states

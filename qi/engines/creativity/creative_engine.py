@@ -35,9 +35,9 @@ __version__ = "2.0.0"
 __tier__ = 2
 
 
-import asyncio
-import os
-import sys
+import asyncio  # noqa: E402
+import os  # noqa: E402
+import sys  # noqa: E402
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
