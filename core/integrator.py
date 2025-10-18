@@ -1,6 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
 # --- LUKHΛS AI Standard Header ---
 # File: core_integrator.py
 # Path: integration/core_integrator.py
@@ -22,6 +19,7 @@ logger = logging.getLogger(__name__)
 
 # Standard Library Imports
 import asyncio
+import logging
 import threading
 import time
 import uuid  # Added uuid for message IDs
@@ -35,7 +33,8 @@ from typing import Any, Callable, Optional
 # Third-Party Imports
 import structlog
 
-# Initialize structlog logger for this module
+# Initialize loggers for this module
+logger = logging.getLogger(__name__)
 log = structlog.get_logger(__name__)
 
 # --- LUKHΛS Core Component Imports & Placeholders ---
