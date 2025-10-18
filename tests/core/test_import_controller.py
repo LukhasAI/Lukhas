@@ -54,8 +54,8 @@ def matriz_config(matriz_yaml_path):
 
 @pytest.mark.unit
 def test_import_controller_lane_detection_lukhas(import_controller):
-    """Test lane detection for lukhas/ (production lane)."""
-    file_path = Path("lukhas/consciousness/awareness_protocol.py")
+    """Test lane detection for root-level modules (former lukhas/ after Phase 5B)."""
+    file_path = Path("consciousness/awareness_protocol.py")
 
     lane = import_controller.detect_lane(file_path)
 
@@ -284,8 +284,8 @@ def test_import_controller_full_validation(import_controller, matriz_config):
     # Load config
     import_controller.load_matriz_config(matriz_config)
 
-    # Test valid import
-    valid_source = Path("lukhas/api/service.py")
+    # Test valid import (after Phase 5B: api at root level)
+    valid_source = Path("api/service.py")
     valid_import = "from core.symbolic import SymbolMapper"
 
     violation = import_controller.check_import(valid_source, valid_import)
@@ -364,7 +364,8 @@ def test_import_controller_stdlib_imports(import_controller):
 @pytest.mark.unit
 def test_import_controller_third_party_imports(import_controller):
     """Test handling of third-party imports."""
-    source_file = Path("lukhas/api/service.py")
+    # After Phase 5B: api at root level
+    source_file = Path("api/service.py")
     third_party_imports = [
         "import numpy",
         "from fastapi import FastAPI",

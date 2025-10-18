@@ -34,34 +34,31 @@ class SystemDiscovery:
 
         system_areas = {
             "consciousness_intelligence": [
-                "lukhas/consciousness",
                 "consciousness",
+                "candidate/consciousness",
                 "qi",
                 "reasoning",
                 "brain",
                 "dreams",
-                "lukhas/bio",
                 "bio",
             ],
-            "memory_data": ["lukhas/memory", "memory", "labs/aka_qualia", "labs/memory", "data"],
+            "memory_data": ["memory", "labs/aka_qualia", "labs/memory", "candidate/memory", "data"],
             "security_governance": [
-                "lukhas/security",
                 "security",
                 "ethics",
                 "governance",
                 "governance_extended",
-                "lukhas/governance",
             ],
             "product_integration": ["products", "sdk", "matriz", "adapters", "mcp_servers"],
             "infrastructure_ops": [
-                "lukhas/api",
-                "lukhas/orchestration",
+                "api",
+                "orchestration",
                 "analytics",
                 "monitoring",
                 "observability",
-                "lukhas/agents",
+                "agents",
             ],
-            "advanced_features": ["lukhas/vivox", "labs/vivox", "rl", "emotion", "modulation", "symbolic"],
+            "advanced_features": ["vivox", "labs/vivox", "rl", "emotion", "modulation", "symbolic"],
         }
 
         discovered = {}
@@ -177,23 +174,23 @@ class TestConsciousnessIntelligence:
         try:
             print("    🧠 Testing consciousness core...")
 
-            # Test lukhas consciousness
-            lukhas_consciousness = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/consciousness")
-            consciousness_direct = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/consciousness")
+            # After Phase 5B: consciousness at root level (lukhas/ removed)
+            consciousness_root = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/consciousness")
+            candidate_consciousness = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/candidate/consciousness")
 
             systems_found = 0
 
-            if lukhas_consciousness.exists():
-                python_files = list(lukhas_consciousness.glob("*.py"))
+            if consciousness_root.exists():
+                python_files = list(consciousness_root.glob("*.py"))
                 if python_files:
                     systems_found += 1
-                    print(f"    ✅ Lukhas consciousness system found with {len(python_files)} modules")
+                    print(f"    ✅ Root consciousness system found with {len(python_files)} modules")
 
-            if consciousness_direct.exists():
-                python_files = list(consciousness_direct.glob("*.py"))
+            if candidate_consciousness.exists():
+                python_files = list(candidate_consciousness.glob("*.py"))
                 if python_files:
                     systems_found += 1
-                    print(f"    ✅ Direct consciousness system found with {len(python_files)} modules")
+                    print(f"    ✅ Candidate consciousness system found with {len(python_files)} modules")
 
             if systems_found == 0:
                 print("    ⚠️ No consciousness systems found")
@@ -446,8 +443,9 @@ class TestSecurityGovernance:
         try:
             print("    🔒 Testing security infrastructure...")
 
+            # After Phase 5B: security at root level
             security_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/security")
-            lukhas_security = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/security")
+            governance_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/governance")
 
             systems_found = 0
 
@@ -457,11 +455,11 @@ class TestSecurityGovernance:
                     systems_found += 1
                     print(f"    ✅ Security infrastructure found with {len(subdirs)} subsystems")
 
-            if lukhas_security.exists():
-                python_files = list(lukhas_security.glob("**/*.py"))
+            if governance_path.exists():
+                python_files = list(governance_path.glob("**/*.py"))
                 if python_files:
                     systems_found += 1
-                    print(f"    ✅ Lukhas security found with {len(python_files)} modules")
+                    print(f"    ✅ Governance security found with {len(python_files)} modules")
 
             if systems_found == 0:
                 print("    ⚠️ No security infrastructure found")
@@ -646,9 +644,10 @@ class TestInfrastructureOps:
         try:
             print("    🎼 Testing orchestration systems...")
 
-            orchestration_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/orchestration")
+            # After Phase 5B: orchestration at root level
+            orchestration_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/orchestration")
             if not orchestration_path.exists():
-                print("    ⚠️ Orchestration directory not found")
+                print("    ⚠️ Orchestration directory not found at root level")
                 return False
 
             python_files = list(orchestration_path.glob("**/*.py"))
@@ -668,16 +667,15 @@ class TestInfrastructureOps:
         try:
             print("    📊 Testing monitoring & observability...")
 
+            # After Phase 5B: observability at root level
             monitoring_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/monitoring")
             observability_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/observability")
-            lukhas_observability = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/observability")
 
             systems_found = 0
 
             for path_name, path in [
                 ("Monitoring", monitoring_path),
                 ("Observability", observability_path),
-                ("Lukhas Observability", lukhas_observability),
             ]:
                 if path.exists():
                     python_files = list(path.glob("**/*.py"))
@@ -700,7 +698,8 @@ class TestInfrastructureOps:
         try:
             print("    🤖 Testing agent systems...")
 
-            agents_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/agents")
+            # After Phase 5B: agents at root level
+            agents_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/agents")
             agents_external = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/agents_external")
 
             systems_found = 0
@@ -771,16 +770,17 @@ class TestAdvancedFeatures:
         try:
             print("    🌊 Testing VIVOX systems...")
 
-            lukhas_vivox = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas/vivox")
+            # After Phase 5B: check root and candidate locations
+            vivox_root = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/vivox")
             candidate_vivox = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/vivox")
 
             systems_found = 0
 
-            if lukhas_vivox.exists():
-                python_files = list(lukhas_vivox.glob("**/*.py"))
+            if vivox_root.exists():
+                python_files = list(vivox_root.glob("**/*.py"))
                 if python_files:
                     systems_found += 1
-                    print(f"    ✅ Lukhas VIVOX found with {len(python_files)} modules")
+                    print(f"    ✅ Root VIVOX found with {len(python_files)} modules")
 
             if candidate_vivox.exists():
                 python_files = list(candidate_vivox.glob("**/*.py"))

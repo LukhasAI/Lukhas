@@ -38,12 +38,12 @@ class LaneImportLinter:
     def __init__(self):
         """Initialize lane import linter."""
         self.project_root = Path(__file__).parent.parent.parent
-        self.lukhas_root = self.project_root / "lukhas"
+        # After Phase 5B: lukhas/ removed, modules at root level
         self.matriz_root = self.project_root / "MATRIZ"
         self.candidate_root = self.project_root / "labs"
 
-        # Define lane boundaries
-        self.lane_hierarchy = ["MATRIZ", "lukhas", "labs"]
+        # Define lane boundaries (lukhas is now root-level modules)
+        self.lane_hierarchy = ["MATRIZ", "root", "labs"]
 
         # Forbidden cross-lane imports
         self.forbidden_imports = {
@@ -239,10 +239,10 @@ class LaneImportLinter:
         """Validate all lane boundaries and return violations by lane."""
         lane_violations = {}
 
-        # Check each lane directory
+        # Check each lane directory (after Phase 5B, root modules scanned at project_root)
         lane_directories = {
             "MATRIZ": self.matriz_root,
-            "lukhas": self.lukhas_root,
+            "root": self.project_root,  # Root-level modules (former lukhas/)
             "labs": self.candidate_root
         }
 
@@ -308,11 +308,11 @@ class TestLaneImports:
         logger.info("✓ MATRIZ lane isolation maintained")
 
     def test_lukhas_cannot_import_matriz(self):
-        """Test lukhas modules cannot import MATRIZ directly."""
+        """Test root modules (former lukhas/) cannot import MATRIZ directly."""
         linter = LaneImportLinter()
 
-        # Scan lukhas violations
-        lukhas_violations = linter.scan_directory_for_violations(linter.lukhas_root, "lukhas")
+        # Scan root-level module violations (after Phase 5B flattening)
+        lukhas_violations = linter.scan_directory_for_violations(linter.project_root, "root")
 
         # Filter for MATRIZ-specific violations
         matriz_import_violations = [v for v in lukhas_violations if "MATRIZ" in v]
@@ -429,7 +429,7 @@ class TestLaneImports:
 
         # Calculate overall compliance
         total_violations = sum(len(violations) for violations in lane_violations.values())
-        lanes_checked = len([d for d in [linter.matriz_root, linter.lukhas_root, linter.candidate_root] if d.exists()])
+        lanes_checked = len([d for d in [linter.matriz_root, linter.project_root, linter.candidate_root] if d.exists()])
 
         logger.info(f"Lanes checked: {lanes_checked}")
         logger.info(f"Total violations: {total_violations}")
@@ -438,9 +438,9 @@ class TestLaneImports:
         critical_violations = 0
         if "MATRIZ" in lane_violations:
             critical_violations += len(lane_violations["MATRIZ"])
-        if "lukhas" in lane_violations:
-            matriz_lukhas_violations = [v for v in lane_violations["lukhas"] if "MATRIZ" in v]
-            critical_violations += len(matriz_lukhas_violations)
+        if "root" in lane_violations:
+            matriz_root_violations = [v for v in lane_violations["root"] if "MATRIZ" in v]
+            critical_violations += len(matriz_root_violations)
 
         assert critical_violations == 0, f"Critical lane boundary violations detected: {critical_violations}"
 
