@@ -11,7 +11,7 @@ if str(ROOT) not in sys.path:
 for module_name in ["labs", "labs.core", "labs.core.task_manager"]:
     sys.modules.pop(module_name, None)
 
-from labs.core.task_manager import LukhλsTaskManager, TaskPriority
+from labs.core.task_manager import LukhλsTaskManager, TaskPriority  # noqa: E402
 
 
 @pytest.mark.asyncio

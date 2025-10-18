@@ -2,6 +2,9 @@
 # tier: tier2
 # module_uid: candidate.governance.ethics.enhanced_ethical_guardian
 # criticality: P1
+
+import json
+
 import pytest
 import yaml
 
@@ -24,9 +27,6 @@ def test_context_awareness_justification_allows_security_testing(policy):
     assert "keyword:deceive" in " ".join(d.reasons)
     assert "context:security_testing+justified" in " ".join(d.reasons)
     assert d.allow, f"should allow with justification; risk={d.risk_final}"
-
-
-import json
 
 
 @pytest.mark.parametrize(

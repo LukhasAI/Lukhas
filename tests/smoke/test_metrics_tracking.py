@@ -7,9 +7,12 @@ Validates that:
 - Prometheus format is valid
 - Health checks include dependency validation
 """
+
 import pytest
 from fastapi.testclient import TestClient
+
 from lukhas.adapters.openai.api import get_app
+from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
 
 
 @pytest.fixture
@@ -18,8 +21,6 @@ def client():
     app = get_app()
     return TestClient(app)
 
-
-from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
 
 AUTH_HEADERS = GOLDEN_AUTH_HEADERS
 
