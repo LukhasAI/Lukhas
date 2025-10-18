@@ -29,9 +29,7 @@ QC TEAM DISCOVERIES (June 15, 2025):
 - BioAwarenessSystem: Available at core/consciousness/awareness_engine.py (ΛAwarenessEngine) ✅
 - BioAwarenessSystem: Available at core/consciousness/awareness_engine.py (lukhasAwarenessEngine) ✅
 See AGENT.md for detailed component mapping.
-"""
 
-"""
 LUKHAS Flagship Core - Main System Architecture
 This module implements the core flagship LUKHAS AI system, representing the stable
 lukhas Flagship Core - Main System Architecture
