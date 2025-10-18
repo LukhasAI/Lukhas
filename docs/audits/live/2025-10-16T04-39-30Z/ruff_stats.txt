@@ -1,0 +1,8 @@
+167	E402  	[ ] module-import-not-at-top-of-file
+148	RUF100	[*] unused-noqa
+ 29	W293  	[*] blank-line-with-whitespace
+ 19	F841  	[*] unused-variable
+  9	F401  	[ ] unused-import
+  8	E722  	[ ] bare-except
+  6	F402  	[ ] import-shadowed-by-loop-var
+  1	F403  	[ ] undefined-local-with-import-star

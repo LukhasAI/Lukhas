@@ -1,9 +1,10 @@
 from __future__ import annotations
 
 import logging
-from datetime import timezone
+from datetime import datetime, timezone
+from pathlib import Path
 
-log = logging.getLogger(__name__)
+import structlog
 
 # ΛORIGIN_AGENT: CODEX-01
 # ΛTASK_ID: C-08
@@ -12,11 +13,7 @@ log = logging.getLogger(__name__)
 # ΛUDIT: Emotion-aware collapse hooks implementation
 """Emotion-aware collapse hooks for symbolic cognition."""
 
-
-from datetime import datetime
-from pathlib import Path
-
-import structlog
+log = logging.getLogger(__name__)
 
 # TAG:qim
 # TAG:qi_states

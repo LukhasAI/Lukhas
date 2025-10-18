@@ -1,0 +1,146 @@
+{
+  "timestamp": "2025-10-16T04:55:25.497800Z",
+  "endpoint": "/v1/chat/completions",
+  "lukhas": {
+    "status_code": 404,
+    "headers": {
+      "date": "Thu, 16 Oct 2025 04:55:25 GMT",
+      "server": "uvicorn",
+      "content-length": "73",
+      "content-type": "application/json",
+      "strict-transport-security": "max-age=31536000; includeSubDomains",
+      "x-content-type-options": "nosniff",
+      "x-frame-options": "DENY",
+      "referrer-policy": "no-referrer",
+      "content-security-policy": "default-src 'none'; frame-ancestors 'none'; base-uri 'none'",
+      "x-service-version": "dev",
+      "x-trace-id": "a2e508123b0b47169f99779fb96deb94",
+      "x-request-id": "a2e508123b0b47169f99779fb96deb94",
+      "x-ratelimit-limit-requests": "40",
+      "x-ratelimit-remaining-requests": "39",
+      "x-ratelimit-reset-requests": "0.049",
+      "x-ratelimit-limit-tokens": "0",
+      "x-ratelimit-remaining-tokens": "0",
+      "x-ratelimit-reset-tokens": "0.000"
+    },
+    "duration_ms": 5.93,
+    "body": "{\"error\":{\"type\":\"http_error\",\"message\":\"Not Found\",\"code\":\"http_error\"}}"
+  },
+  "openai": {
+    "status_code": 200,
+    "headers": {
+      "Date": "Thu, 16 Oct 2025 04:55:26 GMT",
+      "Content-Type": "application/json",
+      "Transfer-Encoding": "chunked",
+      "Connection": "keep-alive",
+      "access-control-expose-headers": "X-Request-ID",
+      "openai-organization": "user-g3ftjuvam5ielfkk9aitlona",
+      "openai-processing-ms": "164",
+      "openai-project": "proj_Y5nVo57x3r86N6N6BpuZHPjy",
+      "openai-version": "2020-10-01",
+      "x-envoy-upstream-service-time": "495",
+      "x-ratelimit-limit-requests": "10000",
+      "x-ratelimit-limit-tokens": "200000",
+      "x-ratelimit-remaining-requests": "9999",
+      "x-ratelimit-remaining-tokens": "199994",
+      "x-ratelimit-reset-requests": "8.64s",
+      "x-ratelimit-reset-tokens": "1ms",
+      "x-request-id": "req_6c7d1934df4d4faabd4e06efdb1555d9",
+      "x-openai-proxy-wasm": "v0.1",
+      "cf-cache-status": "DYNAMIC",
+      "Set-Cookie": "__cf_bm=uRoOzsuHbLpXe.4wRkIg2zOmi_Co_0JGdHa_s4n_a.s-1760590526-1.0.1.1-yERK10asTm8l9N2S_JNDEUgGuhvhhGdWBJ0AvrAgVOaNttSRWuRw7kQkHC6BPgcEG9JizomKFtz..hFPYRL1VCE8lFh3lIs0fmCyZ73i3J4; path=/; expires=Thu, 16-Oct-25 05:25:26 GMT; domain=.api.openai.com; HttpOnly; Secure; SameSite=None, _cfuvid=LU5mcCbbzDJdxsur2RH.JdOyk6Y4OyFnOnUMv52RNP4-1760590526736-0.0.1.1-604800000; path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None",
+      "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+      "X-Content-Type-Options": "nosniff",
+      "Server": "cloudflare",
+      "CF-RAY": "98f4f6c12d59419b-LHR",
+      "Content-Encoding": "gzip",
+      "alt-svc": "h3=\":443\"; ma=86400"
+    },
+    "duration_ms": 1204.98,
+    "body": {
+      "id": "chatcmpl-CRAJK9gUZosjx8Nk3BBQTJDTXxraj",
+      "object": "chat.completion",
+      "created": 1760590526,
+      "model": "gpt-3.5-turbo-0125",
+      "choices": [
+        {
+          "index": 0,
+          "message": {
+            "role": "assistant",
+            "content": "test",
+            "refusal": null,
+            "annotations": []
+          },
+          "logprobs": null,
+          "finish_reason": "stop"
+        }
+      ],
+      "usage": {
+        "prompt_tokens": 12,
+        "completion_tokens": 1,
+        "total_tokens": 13,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "service_tier": "default",
+      "system_fingerprint": null
+    }
+  },
+  "comparison": {
+    "status_match": false,
+    "envelope_keys_match": {
+      "match": false,
+      "reason": "Non-dict response"
+    },
+    "headers_parity": {
+      "x-ratelimit-limit": {
+        "lukhas": "MISSING",
+        "openai": "MISSING",
+        "present_in_both": false
+      },
+      "x-ratelimit-remaining": {
+        "lukhas": "MISSING",
+        "openai": "MISSING",
+        "present_in_both": false
+      },
+      "x-ratelimit-reset": {
+        "lukhas": "MISSING",
+        "openai": "MISSING",
+        "present_in_both": false
+      },
+      "x-ratelimit-limit-requests": {
+        "lukhas": "40",
+        "openai": "10000",
+        "present_in_both": true
+      },
+      "x-ratelimit-remaining-requests": {
+        "lukhas": "39",
+        "openai": "9999",
+        "present_in_both": true
+      },
+      "x-ratelimit-reset-requests": {
+        "lukhas": "0.049",
+        "openai": "8.64s",
+        "present_in_both": true
+      },
+      "x-trace-id": {
+        "lukhas": "a2e508123b0b47169f99779fb96deb94",
+        "openai": "MISSING",
+        "present_in_both": false
+      },
+      "x-service-version": {
+        "lukhas": "dev",
+        "openai": "MISSING",
+        "present_in_both": false
+      }
+    }
+  }
+}
