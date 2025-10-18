@@ -1,4 +1,5 @@
 """Unit tests for DreamFeedbackController symbolic redirect scoring."""
+
 from __future__ import annotations
 
 import importlib
@@ -17,7 +18,7 @@ sys.modules["dream.core.dream_snapshot"] = dream_core_snapshot_module
 setattr(dream_core_pkg, "dream_snapshot", dream_core_snapshot_module)
 setattr(dream_pkg, "core", dream_core_pkg)
 
-from lukhas.consciousness.dream.core.dream_feedback_controller import (
+from lukhas.consciousness.dream.core.dream_feedback_controller import (  # noqa: E402
     DreamFeedbackController,
 )
 
