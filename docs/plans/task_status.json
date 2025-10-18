@@ -1,5 +1,5 @@
 {
-  "last_updated": "2025-10-15T05:35:00Z",
+  "last_updated": "2025-10-16T05:32:29Z",
   "schema_version": "1.0",
   "summary": {
     "total_tasks": 18,
@@ -88,7 +88,9 @@
         "priority": "high",
         "estimated_hours": 2.5,
         "branch": "ops/copilot/rc-soak-sentinel",
-        "dependencies": ["prometheus_running"],
+        "dependencies": [
+          "prometheus_running"
+        ],
         "pr_number": null,
         "progress": {
           "total_steps": 6,
@@ -315,13 +317,17 @@
         "priority": "critical",
         "estimated_hours": 1,
         "branch": null,
-        "dependencies": ["taskB_circuit_breaker"],
+        "dependencies": [
+          "taskB_circuit_breaker"
+        ],
         "progress": {
           "total_steps": 6,
           "completed_steps": 0,
           "percentage": 0
         },
-        "blockers": ["waiting_for_taskB"]
+        "blockers": [
+          "waiting_for_taskB"
+        ]
       },
       "cc4_guardian_review": {
         "id": "cc4",
@@ -331,13 +337,17 @@
         "priority": "high",
         "estimated_hours": 0.5,
         "branch": null,
-        "dependencies": ["task2_golden_tokens"],
+        "dependencies": [
+          "task2_golden_tokens"
+        ],
         "progress": {
           "total_steps": 5,
           "completed_steps": 0,
           "percentage": 0
         },
-        "blockers": ["waiting_for_task2"]
+        "blockers": [
+          "waiting_for_task2"
+        ]
       },
       "cc5_openapi_validation": {
         "id": "cc5",
@@ -347,13 +357,21 @@
         "priority": "high",
         "estimated_hours": 0.33,
         "branch": null,
-        "dependencies": ["task1_shadow_diff", "task3_streaming_rl", "task4_backoff_hints"],
+        "dependencies": [
+          "task1_shadow_diff",
+          "task3_streaming_rl",
+          "task4_backoff_hints"
+        ],
         "progress": {
           "total_steps": 5,
           "completed_steps": 0,
           "percentage": 0
         },
-        "blockers": ["waiting_for_task1", "waiting_for_task3", "waiting_for_task4"]
+        "blockers": [
+          "waiting_for_task1",
+          "waiting_for_task3",
+          "waiting_for_task4"
+        ]
       },
       "cc6_integration_tests": {
         "id": "cc6",
@@ -363,13 +381,17 @@
         "priority": "medium",
         "estimated_hours": 0.5,
         "branch": null,
-        "dependencies": ["multiple_prs_merged"],
+        "dependencies": [
+          "multiple_prs_merged"
+        ],
         "progress": {
           "total_steps": 5,
           "completed_steps": 0,
           "percentage": 0
         },
-        "blockers": ["waiting_for_pr_merges"]
+        "blockers": [
+          "waiting_for_pr_merges"
+        ]
       }
     }
   },
