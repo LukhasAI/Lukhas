@@ -1,3 +1,12 @@
+---
+module: candidate.core.orchestration.swarm
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/orchestration/swarm/module.manifest.json
+matriz: [intent]
+---
 # candidate.core.orchestration.swarm
 
 **Star**: Supporting

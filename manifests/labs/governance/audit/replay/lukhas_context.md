@@ -1,3 +1,12 @@
+---
+module: candidate.governance.audit.replay
+star: 🛡️ Watch (Guardian)
+tier: T2_important
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/governance/audit/replay/module.manifest.json
+matriz: [risk]
+---
 # candidate.governance.audit.replay
 
 **Star**: 🛡️ Watch (Guardian)

@@ -1,3 +1,12 @@
+---
+module: lukhas.consciousness.memory_bridge
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: unassigned
+colony: simulation
+manifest_path: manifests/lukhas/consciousness/memory_bridge/module.manifest.json
+matriz: [memory]
+---
 # lukhas.consciousness.memory_bridge
 
 **Star**: ✦ Trail (Memory)

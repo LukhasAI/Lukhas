@@ -1,3 +1,12 @@
+---
+module: lukhas.memory.sync
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: unassigned
+colony: memory
+manifest_path: manifests/lukhas/memory/sync/module.manifest.json
+matriz: [memory]
+---
 # lukhas.memory.sync
 
 **Star**: ✦ Trail (Memory)

@@ -1,3 +1,12 @@
+---
+module: lukhas.observability.advanced_metrics
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/lukhas/observability/advanced_metrics/module.manifest.json
+matriz: [supporting]
+---
 # lukhas.observability.advanced_metrics
 
 **Star**: Supporting

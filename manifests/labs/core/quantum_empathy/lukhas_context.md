@@ -1,3 +1,12 @@
+---
+module: candidate.core.quantum_empathy
+star: 🔮 Oracle (Quantum)
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/quantum_empathy/module.manifest.json
+matriz: [supporting]
+---
 # candidate.core.quantum_empathy
 
 **Star**: 🔮 Oracle (Quantum)

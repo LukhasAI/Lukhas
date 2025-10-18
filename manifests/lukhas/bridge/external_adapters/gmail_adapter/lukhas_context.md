@@ -1,3 +1,12 @@
+---
+module: lukhas.bridge.external_adapters.gmail_adapter
+star: Supporting
+tier: T2_important
+owner: unassigned
+colony: actuation
+manifest_path: manifests/lukhas/bridge/external_adapters/gmail_adapter/module.manifest.json
+matriz: [action]
+---
 # lukhas.bridge.external_adapters.gmail_adapter
 
 **Star**: Supporting

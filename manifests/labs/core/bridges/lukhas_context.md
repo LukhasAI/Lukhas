@@ -1,3 +1,12 @@
+---
+module: candidate.core.bridges
+star: Supporting
+tier: T2_important
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/bridges/module.manifest.json
+matriz: [action]
+---
 # candidate.core.bridges
 
 **Star**: Supporting

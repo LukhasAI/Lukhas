@@ -1,3 +1,12 @@
+---
+module: candidate.core.symbolic_legacy.features.memoria
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/symbolic_legacy/features/memoria/module.manifest.json
+matriz: [supporting]
+---
 # candidate.core.symbolic_legacy.features.memoria
 
 **Star**: Supporting

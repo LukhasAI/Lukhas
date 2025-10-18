@@ -1,3 +1,12 @@
+---
+module: candidate.core.orchestration.brain.cognitive.awareness
+star: 🌊 Flow (Consciousness)
+tier: T3_standard
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/orchestration/brain/cognitive/awareness/module.manifest.json
+matriz: [attention]
+---
 # candidate.core.orchestration.brain.cognitive.awareness
 
 **Star**: 🌊 Flow (Consciousness)

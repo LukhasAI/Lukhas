@@ -1,3 +1,12 @@
+---
+module: candidate.consciousness.examples.basic
+star: 🌊 Flow (Consciousness)
+tier: T2_important
+owner: unassigned
+colony: simulation
+manifest_path: manifests/labs/consciousness/examples/basic/module.manifest.json
+matriz: [thought]
+---
 # candidate.consciousness.examples.basic
 
 **Star**: 🌊 Flow (Consciousness)

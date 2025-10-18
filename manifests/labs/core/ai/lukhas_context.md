@@ -1,3 +1,12 @@
+---
+module: candidate.core.ai
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/ai/module.manifest.json
+matriz: [supporting]
+---
 # candidate.core.ai
 
 **Star**: Supporting

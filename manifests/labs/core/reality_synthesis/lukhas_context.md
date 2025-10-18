@@ -1,3 +1,12 @@
+---
+module: candidate.core.reality_synthesis
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/reality_synthesis/module.manifest.json
+matriz: [supporting]
+---
 # candidate.core.reality_synthesis
 
 **Star**: Supporting

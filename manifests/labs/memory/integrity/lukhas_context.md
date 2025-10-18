@@ -1,3 +1,12 @@
+---
+module: candidate.memory.integrity
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: unassigned
+colony: memory
+manifest_path: manifests/labs/memory/integrity/module.manifest.json
+matriz: [memory]
+---
 # candidate.memory.integrity
 
 **Star**: ✦ Trail (Memory)

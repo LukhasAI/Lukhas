@@ -1,3 +1,12 @@
+---
+module: candidate.core.policy_guard
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/policy_guard/module.manifest.json
+matriz: [supporting]
+---
 # candidate.core.policy_guard
 
 **Star**: Supporting

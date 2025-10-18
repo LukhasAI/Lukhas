@@ -1,3 +1,12 @@
+---
+module: lukhas.memory.backends.base
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: unassigned
+colony: memory
+manifest_path: manifests/lukhas/memory/backends/base/module.manifest.json
+matriz: [memory]
+---
 # lukhas.memory.backends.base
 
 **Star**: ✦ Trail (Memory)

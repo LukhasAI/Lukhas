@@ -1,3 +1,12 @@
+---
+module: candidate.emotion.tools
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/emotion/tools/module.manifest.json
+matriz: [supporting]
+---
 # candidate.emotion.tools
 
 **Star**: Supporting

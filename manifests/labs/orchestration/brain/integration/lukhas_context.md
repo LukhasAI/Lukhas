@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.brain.integration
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/orchestration/brain/integration/module.manifest.json
+matriz: [intent]
+---
 # candidate.orchestration.brain.integration
 
 **Star**: Supporting

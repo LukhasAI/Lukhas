@@ -1,3 +1,12 @@
+---
+module: candidate.memory.interfaces.connector
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: unassigned
+colony: memory
+manifest_path: manifests/labs/memory/interfaces/connector/module.manifest.json
+matriz: [memory]
+---
 # candidate.memory.interfaces.connector
 
 **Star**: ✦ Trail (Memory)

@@ -1,3 +1,12 @@
+---
+module: candidate.bio.quantum_bio_components
+star: 🔮 Oracle (Quantum)
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/bio/quantum_bio_components/module.manifest.json
+matriz: [supporting]
+---
 # candidate.bio.quantum_bio_components
 
 **Star**: 🔮 Oracle (Quantum)

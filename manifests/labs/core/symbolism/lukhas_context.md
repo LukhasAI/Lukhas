@@ -1,3 +1,12 @@
+---
+module: candidate.core.symbolism
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/symbolism/module.manifest.json
+matriz: [supporting]
+---
 # candidate.core.symbolism
 
 **Star**: Supporting

@@ -1,3 +1,12 @@
+---
+module: candidate.core.qi_financial
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/qi_financial/module.manifest.json
+matriz: [supporting]
+---
 # candidate.core.qi_financial
 
 **Star**: Supporting

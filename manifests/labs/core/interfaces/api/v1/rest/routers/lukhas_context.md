@@ -1,3 +1,12 @@
+---
+module: candidate.core.interfaces.api.v1.rest.routers
+star: 🔬 Horizon (Vision)
+tier: T3_standard
+owner: unassigned
+colony: actuation
+manifest_path: manifests/labs/core/interfaces/api/v1/rest/routers/module.manifest.json
+matriz: [action]
+---
 # candidate.core.interfaces.api.v1.rest.routers
 
 **Star**: 🔬 Horizon (Vision)

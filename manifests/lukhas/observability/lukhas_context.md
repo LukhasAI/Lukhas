@@ -1,3 +1,12 @@
+---
+module: lukhas.observability
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/lukhas/observability/module.manifest.json
+matriz: [supporting]
+---
 # lukhas.observability
 
 **Star**: Supporting

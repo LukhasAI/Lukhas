@@ -1,3 +1,12 @@
+---
+module: candidate.bio.oscillator
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/bio/oscillator/module.manifest.json
+matriz: [supporting]
+---
 # candidate.bio.oscillator
 
 **Star**: Supporting

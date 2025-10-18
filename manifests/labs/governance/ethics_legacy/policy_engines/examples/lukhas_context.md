@@ -1,3 +1,12 @@
+---
+module: candidate.governance.ethics_legacy.policy_engines.examples
+star: 🛡️ Watch (Guardian)
+tier: T2_important
+owner: unassigned
+colony: ethics
+manifest_path: manifests/labs/governance/ethics_legacy/policy_engines/examples/module.manifest.json
+matriz: [risk]
+---
 # candidate.governance.ethics_legacy.policy_engines.examples
 
 **Star**: 🛡️ Watch (Guardian)

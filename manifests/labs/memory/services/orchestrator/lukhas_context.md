@@ -1,3 +1,12 @@
+---
+module: candidate.memory.services.orchestrator
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: unassigned
+colony: memory
+manifest_path: manifests/labs/memory/services/orchestrator/module.manifest.json
+matriz: [memory]
+---
 # candidate.memory.services.orchestrator
 
 **Star**: ✦ Trail (Memory)

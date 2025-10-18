@@ -1,3 +1,12 @@
+---
+module: candidate.consciousness.connected
+star: 🌊 Flow (Consciousness)
+tier: T2_important
+owner: unassigned
+colony: simulation
+manifest_path: manifests/labs/consciousness/connected/module.manifest.json
+matriz: [thought]
+---
 # candidate.consciousness.connected
 
 **Star**: 🌊 Flow (Consciousness)

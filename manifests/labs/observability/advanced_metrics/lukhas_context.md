@@ -1,3 +1,12 @@
+---
+module: candidate.observability.advanced_metrics
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/observability/advanced_metrics/module.manifest.json
+matriz: [supporting]
+---
 # candidate.observability.advanced_metrics
 
 **Star**: Supporting

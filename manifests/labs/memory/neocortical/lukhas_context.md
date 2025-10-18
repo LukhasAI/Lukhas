@@ -1,3 +1,12 @@
+---
+module: candidate.memory.neocortical
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: unassigned
+colony: memory
+manifest_path: manifests/labs/memory/neocortical/module.manifest.json
+matriz: [memory]
+---
 # candidate.memory.neocortical
 
 **Star**: ✦ Trail (Memory)

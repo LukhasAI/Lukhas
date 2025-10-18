@@ -1,3 +1,12 @@
+---
+module: candidate.governance.consent_ledger
+star: 🛡️ Watch (Guardian)
+tier: T2_important
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/governance/consent_ledger/module.manifest.json
+matriz: [risk]
+---
 # candidate.governance.consent_ledger
 
 **Star**: 🛡️ Watch (Guardian)

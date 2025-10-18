@@ -1,3 +1,12 @@
+---
+module: candidate.memory.learning.embodied_thought
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: unassigned
+colony: memory
+manifest_path: manifests/labs/memory/learning/embodied_thought/module.manifest.json
+matriz: [memory]
+---
 # candidate.memory.learning.embodied_thought
 
 **Star**: ✦ Trail (Memory)

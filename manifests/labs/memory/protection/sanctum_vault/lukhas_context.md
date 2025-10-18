@@ -1,3 +1,12 @@
+---
+module: candidate.memory.protection.sanctum_vault
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: unassigned
+colony: memory
+manifest_path: manifests/labs/memory/protection/sanctum_vault/module.manifest.json
+matriz: [memory]
+---
 # candidate.memory.protection.sanctum_vault
 
 **Star**: ✦ Trail (Memory)

@@ -1,3 +1,12 @@
+---
+module: candidate.memory.learning.adaptive_agi
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: unassigned
+colony: memory
+manifest_path: manifests/labs/memory/learning/adaptive_agi/module.manifest.json
+matriz: [memory]
+---
 # candidate.memory.learning.adaptive_agi
 
 **Star**: ✦ Trail (Memory)

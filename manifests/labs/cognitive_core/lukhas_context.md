@@ -1,3 +1,12 @@
+---
+module: candidate.cognitive_core
+star: Supporting
+tier: T3_standard
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/cognitive_core/module.manifest.json
+matriz: [thought]
+---
 # candidate.cognitive_core
 
 **Star**: Supporting

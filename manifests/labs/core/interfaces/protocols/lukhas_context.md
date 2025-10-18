@@ -1,3 +1,12 @@
+---
+module: candidate.core.interfaces.protocols
+star: 🔬 Horizon (Vision)
+tier: T3_standard
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/interfaces/protocols/module.manifest.json
+matriz: [action]
+---
 # candidate.core.interfaces.protocols
 
 **Star**: 🔬 Horizon (Vision)

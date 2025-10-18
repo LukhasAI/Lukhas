@@ -1,3 +1,12 @@
+---
+module: candidate.core.orchestration.immune
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/orchestration/immune/module.manifest.json
+matriz: [intent]
+---
 # candidate.core.orchestration.immune
 
 **Star**: Supporting

@@ -1,3 +1,12 @@
+---
+module: candidate.memory.folds.multi
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: unassigned
+colony: memory
+manifest_path: manifests/labs/memory/folds/multi/module.manifest.json
+matriz: [memory]
+---
 # candidate.memory.folds.multi
 
 **Star**: ✦ Trail (Memory)

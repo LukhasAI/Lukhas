@@ -1,3 +1,12 @@
+---
+module: candidate.bio.bio_utilities
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/bio/bio_utilities/module.manifest.json
+matriz: [supporting]
+---
 # candidate.bio.bio_utilities
 
 **Star**: Supporting

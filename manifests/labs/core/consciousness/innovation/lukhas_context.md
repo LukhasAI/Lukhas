@@ -1,3 +1,12 @@
+---
+module: candidate.core.consciousness.innovation
+star: 🌊 Flow (Consciousness)
+tier: T2_important
+owner: unassigned
+colony: simulation
+manifest_path: manifests/labs/core/consciousness/innovation/module.manifest.json
+matriz: [thought]
+---
 # candidate.core.consciousness.innovation
 
 **Star**: 🌊 Flow (Consciousness)

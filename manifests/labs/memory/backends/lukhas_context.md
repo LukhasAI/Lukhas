@@ -1,3 +1,12 @@
+---
+module: candidate.memory.backends
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: unassigned
+colony: memory
+manifest_path: manifests/labs/memory/backends/module.manifest.json
+matriz: [memory]
+---
 # candidate.memory.backends
 
 **Star**: ✦ Trail (Memory)

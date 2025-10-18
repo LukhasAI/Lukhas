@@ -1,3 +1,12 @@
+---
+module: candidate.memory.scaffold
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: unassigned
+colony: memory
+manifest_path: manifests/labs/memory/scaffold/module.manifest.json
+matriz: [memory]
+---
 # candidate.memory.scaffold
 
 **Star**: ✦ Trail (Memory)

@@ -1,3 +1,12 @@
+---
+module: lukhas.aka_qualia.memory_noop
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: unassigned
+colony: -
+manifest_path: manifests/lukhas/aka_qualia/memory_noop/module.manifest.json
+matriz: [memory]
+---
 # lukhas.aka_qualia.memory_noop
 
 **Star**: ✦ Trail (Memory)

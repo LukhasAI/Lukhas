@@ -1,3 +1,12 @@
+---
+module: candidate.governance.guardian.guardian_impl
+star: 🛡️ Watch (Guardian)
+tier: T3_standard
+owner: unassigned
+colony: ethics
+manifest_path: manifests/labs/governance/guardian/guardian_impl/module.manifest.json
+matriz: [risk]
+---
 # candidate.governance.guardian.guardian_impl
 
 **Star**: 🛡️ Watch (Guardian)

@@ -1,3 +1,12 @@
+---
+module: candidate.bio.core.symbolic_mito_ethics_sync
+star: 🛡️ Watch (Guardian)
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/bio/core/symbolic_mito_ethics_sync/module.manifest.json
+matriz: [risk]
+---
 # candidate.bio.core.symbolic_mito_ethics_sync
 
 **Star**: 🛡️ Watch (Guardian)

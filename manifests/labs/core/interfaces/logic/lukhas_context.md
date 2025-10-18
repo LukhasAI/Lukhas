@@ -1,3 +1,12 @@
+---
+module: candidate.core.interfaces.logic
+star: 🔬 Horizon (Vision)
+tier: T3_standard
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/interfaces/logic/module.manifest.json
+matriz: [action]
+---
 # candidate.core.interfaces.logic
 
 **Star**: 🔬 Horizon (Vision)

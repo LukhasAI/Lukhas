@@ -1,3 +1,12 @@
+---
+module: candidate.governance.identity.core.onboarding
+star: ⚛️ Anchor (Identity)
+tier: T3_standard
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/governance/identity/core/onboarding/module.manifest.json
+matriz: [risk]
+---
 # candidate.governance.identity.core.onboarding
 
 **Star**: ⚛️ Anchor (Identity)

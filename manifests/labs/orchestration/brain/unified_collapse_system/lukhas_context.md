@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.brain.unified_collapse_system
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/orchestration/brain/unified_collapse_system/module.manifest.json
+matriz: [intent]
+---
 # candidate.orchestration.brain.unified_collapse_system
 
 **Star**: Supporting

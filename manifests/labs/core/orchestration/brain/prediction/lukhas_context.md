@@ -1,3 +1,12 @@
+---
+module: candidate.core.orchestration.brain.prediction
+star: 🔮 Oracle (Quantum)
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/orchestration/brain/prediction/module.manifest.json
+matriz: [intent]
+---
 # candidate.core.orchestration.brain.prediction
 
 **Star**: 🔮 Oracle (Quantum)

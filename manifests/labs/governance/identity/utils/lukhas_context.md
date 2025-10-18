@@ -1,3 +1,12 @@
+---
+module: candidate.governance.identity.utils
+star: ⚛️ Anchor (Identity)
+tier: T3_standard
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/governance/identity/utils/module.manifest.json
+matriz: [risk]
+---
 # candidate.governance.identity.utils
 
 **Star**: ⚛️ Anchor (Identity)

@@ -1,3 +1,12 @@
+---
+module: candidate.core.hub_services
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/hub_services/module.manifest.json
+matriz: [supporting]
+---
 # candidate.core.hub_services
 
 **Star**: Supporting

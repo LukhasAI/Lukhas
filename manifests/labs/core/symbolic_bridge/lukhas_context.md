@@ -1,3 +1,12 @@
+---
+module: candidate.core.symbolic_bridge
+star: Supporting
+tier: T2_important
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/symbolic_bridge/module.manifest.json
+matriz: [action]
+---
 # candidate.core.symbolic_bridge
 
 **Star**: Supporting

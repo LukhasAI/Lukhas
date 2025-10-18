@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.brain.orchestration.the_oscillator
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/orchestration/brain/orchestration/the_oscillator/module.manifest.json
+matriz: [intent]
+---
 # candidate.orchestration.brain.orchestration.the_oscillator
 
 **Star**: Supporting

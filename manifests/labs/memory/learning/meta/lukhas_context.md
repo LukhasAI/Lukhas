@@ -1,3 +1,12 @@
+---
+module: candidate.memory.learning.meta
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: unassigned
+colony: memory
+manifest_path: manifests/labs/memory/learning/meta/module.manifest.json
+matriz: [memory]
+---
 # candidate.memory.learning.meta
 
 **Star**: ✦ Trail (Memory)

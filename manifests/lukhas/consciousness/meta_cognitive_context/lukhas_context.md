@@ -1,3 +1,12 @@
+---
+module: lukhas.consciousness.meta_cognitive_context
+star: 🌊 Flow (Consciousness)
+tier: T2_important
+owner: unassigned
+colony: simulation
+manifest_path: manifests/lukhas/consciousness/meta_cognitive_context/module.manifest.json
+matriz: [thought]
+---
 # lukhas.consciousness.meta_cognitive_context
 
 **Star**: 🌊 Flow (Consciousness)

@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.brain.core.capability_levels
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/orchestration/brain/core/capability_levels/module.manifest.json
+matriz: [intent]
+---
 # candidate.orchestration.brain.core.capability_levels
 
 **Star**: Supporting

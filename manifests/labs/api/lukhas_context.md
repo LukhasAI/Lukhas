@@ -1,3 +1,12 @@
+---
+module: candidate.api
+star: Supporting
+tier: T3_standard
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/api/module.manifest.json
+matriz: [action]
+---
 # candidate.api
 
 **Star**: Supporting

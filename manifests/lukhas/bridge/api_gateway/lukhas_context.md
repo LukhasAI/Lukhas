@@ -1,3 +1,12 @@
+---
+module: lukhas.bridge.api_gateway
+star: Supporting
+tier: T3_standard
+owner: unassigned
+colony: actuation
+manifest_path: manifests/lukhas/bridge/api_gateway/module.manifest.json
+matriz: [action]
+---
 # lukhas.bridge.api_gateway
 
 **Star**: Supporting

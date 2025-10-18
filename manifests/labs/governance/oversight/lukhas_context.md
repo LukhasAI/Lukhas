@@ -1,3 +1,12 @@
+---
+module: candidate.governance.oversight
+star: 🛡️ Watch (Guardian)
+tier: T2_important
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/governance/oversight/module.manifest.json
+matriz: [risk]
+---
 # candidate.governance.oversight
 
 **Star**: 🛡️ Watch (Guardian)

@@ -1,3 +1,12 @@
+---
+module: candidate.memory.consolidation
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: unassigned
+colony: memory
+manifest_path: manifests/labs/memory/consolidation/module.manifest.json
+matriz: [memory]
+---
 # candidate.memory.consolidation
 
 **Star**: ✦ Trail (Memory)

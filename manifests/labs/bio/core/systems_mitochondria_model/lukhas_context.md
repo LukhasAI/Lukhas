@@ -1,3 +1,12 @@
+---
+module: candidate.bio.core.systems_mitochondria_model
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/bio/core/systems_mitochondria_model/module.manifest.json
+matriz: [supporting]
+---
 # candidate.bio.core.systems_mitochondria_model
 
 **Star**: Supporting

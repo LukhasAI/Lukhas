@@ -1,3 +1,12 @@
+---
+module: candidate.core.compliance
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/compliance/module.manifest.json
+matriz: [risk]
+---
 # candidate.core.compliance
 
 **Star**: Supporting

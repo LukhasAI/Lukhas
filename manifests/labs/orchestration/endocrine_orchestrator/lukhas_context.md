@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.endocrine_orchestrator
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/orchestration/endocrine_orchestrator/module.manifest.json
+matriz: [intent]
+---
 # candidate.orchestration.endocrine_orchestrator
 
 **Star**: Supporting

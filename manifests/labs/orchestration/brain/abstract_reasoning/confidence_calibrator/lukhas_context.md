@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.brain.abstract_reasoning.confidence_calibrator
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/orchestration/brain/abstract_reasoning/confidence_calibrator/module.manifest.json
+matriz: [thought]
+---
 # candidate.orchestration.brain.abstract_reasoning.confidence_calibrator
 
 **Star**: Supporting

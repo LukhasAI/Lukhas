@@ -1,3 +1,12 @@
+---
+module: candidate.aka_qualia.observability
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/aka_qualia/observability/module.manifest.json
+matriz: [supporting]
+---
 # candidate.aka_qualia.observability
 
 **Star**: Supporting

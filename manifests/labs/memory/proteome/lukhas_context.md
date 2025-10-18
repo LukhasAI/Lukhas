@@ -1,3 +1,12 @@
+---
+module: candidate.memory.proteome
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: unassigned
+colony: memory
+manifest_path: manifests/labs/memory/proteome/module.manifest.json
+matriz: [memory]
+---
 # candidate.memory.proteome
 
 **Star**: ✦ Trail (Memory)

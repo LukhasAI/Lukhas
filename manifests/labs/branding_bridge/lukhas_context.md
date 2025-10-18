@@ -1,3 +1,12 @@
+---
+module: candidate.branding_bridge
+star: Supporting
+tier: T2_important
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/branding_bridge/module.manifest.json
+matriz: [action]
+---
 # candidate.branding_bridge
 
 **Star**: Supporting

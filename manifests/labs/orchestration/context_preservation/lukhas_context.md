@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.context_preservation
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/orchestration/context_preservation/module.manifest.json
+matriz: [intent]
+---
 # candidate.orchestration.context_preservation
 
 **Star**: Supporting

@@ -1,3 +1,12 @@
+---
+module: candidate.core.interfaces.api.v1.common
+star: 🔬 Horizon (Vision)
+tier: T3_standard
+owner: unassigned
+colony: actuation
+manifest_path: manifests/labs/core/interfaces/api/v1/common/module.manifest.json
+matriz: [action]
+---
 # candidate.core.interfaces.api.v1.common
 
 **Star**: 🔬 Horizon (Vision)

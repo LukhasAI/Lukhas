@@ -1,3 +1,12 @@
+---
+module: candidate.core.consciousness_ticker
+star: 🌊 Flow (Consciousness)
+tier: T2_important
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/consciousness_ticker/module.manifest.json
+matriz: [thought]
+---
 # candidate.core.consciousness_ticker
 
 **Star**: 🌊 Flow (Consciousness)

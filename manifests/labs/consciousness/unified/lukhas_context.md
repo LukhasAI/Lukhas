@@ -1,3 +1,12 @@
+---
+module: candidate.consciousness.unified
+star: 🌊 Flow (Consciousness)
+tier: T2_important
+owner: unassigned
+colony: simulation
+manifest_path: manifests/labs/consciousness/unified/module.manifest.json
+matriz: [thought]
+---
 # candidate.consciousness.unified
 
 **Star**: 🌊 Flow (Consciousness)

@@ -1,3 +1,12 @@
+---
+module: candidate.core.reliability
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/reliability/module.manifest.json
+matriz: [supporting]
+---
 # candidate.core.reliability
 
 **Star**: Supporting

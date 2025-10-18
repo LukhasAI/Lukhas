@@ -1,3 +1,12 @@
+---
+module: candidate.core.orchestration.security.dast
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/orchestration/security/dast/module.manifest.json
+matriz: [intent]
+---
 # candidate.core.orchestration.security.dast
 
 **Star**: Supporting

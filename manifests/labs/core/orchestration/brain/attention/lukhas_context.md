@@ -1,3 +1,12 @@
+---
+module: candidate.core.orchestration.brain.attention
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/orchestration/brain/attention/module.manifest.json
+matriz: [attention]
+---
 # candidate.core.orchestration.brain.attention
 
 **Star**: Supporting

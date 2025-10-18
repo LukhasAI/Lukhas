@@ -1,3 +1,12 @@
+---
+module: lukhas.matriz.runtime.policy
+star: Supporting
+tier: T3_standard
+owner: unassigned
+colony: -
+manifest_path: manifests/lukhas/matriz/runtime/policy/module.manifest.json
+matriz: [supporting]
+---
 # lukhas.matriz.runtime.policy
 
 **Star**: Supporting

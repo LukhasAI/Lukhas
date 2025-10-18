@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.brain.visualization.golden_healix_mapper
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: interface
+manifest_path: manifests/labs/orchestration/brain/visualization/golden_healix_mapper/module.manifest.json
+matriz: [intent]
+---
 # candidate.orchestration.brain.visualization.golden_healix_mapper
 
 **Star**: Supporting

@@ -1,3 +1,12 @@
+---
+module: lukhas.governance.ethics
+star: 🛡️ Watch (Guardian)
+tier: T2_important
+owner: unassigned
+colony: ethics
+manifest_path: manifests/lukhas/governance/ethics/module.manifest.json
+matriz: [risk]
+---
 # lukhas.governance.ethics
 
 **Star**: 🛡️ Watch (Guardian)

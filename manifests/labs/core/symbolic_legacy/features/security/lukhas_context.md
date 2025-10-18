@@ -1,3 +1,12 @@
+---
+module: candidate.core.symbolic_legacy.features.security
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/symbolic_legacy/features/security/module.manifest.json
+matriz: [supporting]
+---
 # candidate.core.symbolic_legacy.features.security
 
 **Star**: Supporting

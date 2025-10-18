@@ -1,3 +1,12 @@
+---
+module: lukhas.bridge.llm_wrappers
+star: Supporting
+tier: T2_important
+owner: unassigned
+colony: actuation
+manifest_path: manifests/lukhas/bridge/llm_wrappers/module.manifest.json
+matriz: [action]
+---
 # lukhas.bridge.llm_wrappers
 
 **Star**: Supporting

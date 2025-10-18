@@ -1,3 +1,12 @@
+---
+module: lukhas.api.oidc
+star: Supporting
+tier: T3_standard
+owner: unassigned
+colony: actuation
+manifest_path: manifests/lukhas/api/oidc/module.manifest.json
+matriz: [action]
+---
 # lukhas.api.oidc
 
 **Star**: Supporting

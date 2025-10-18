@@ -1,3 +1,12 @@
+---
+module: candidate.bio.ai_client
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/bio/ai_client/module.manifest.json
+matriz: [supporting]
+---
 # candidate.bio.ai_client
 
 **Star**: Supporting

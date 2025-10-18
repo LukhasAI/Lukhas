@@ -1,3 +1,12 @@
+---
+module: lukhas.core.reliability
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/lukhas/core/reliability/module.manifest.json
+matriz: [supporting]
+---
 # lukhas.core.reliability
 
 **Star**: Supporting

@@ -1,3 +1,12 @@
+---
+module: candidate.core.interfaces.as_agent.auth
+star: ⚛️ Anchor (Identity)
+tier: T3_standard
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/interfaces/as_agent/auth/module.manifest.json
+matriz: [action]
+---
 # candidate.core.interfaces.as_agent.auth
 
 **Star**: ⚛️ Anchor (Identity)

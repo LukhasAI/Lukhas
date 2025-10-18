@@ -1,3 +1,12 @@
+---
+module: candidate.emotion.empathy
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/emotion/empathy/module.manifest.json
+matriz: [supporting]
+---
 # candidate.emotion.empathy
 
 **Star**: Supporting

@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.brain.monitoring.rate_modulator
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/orchestration/brain/monitoring/rate_modulator/module.manifest.json
+matriz: [intent]
+---
 # candidate.orchestration.brain.monitoring.rate_modulator
 
 **Star**: Supporting

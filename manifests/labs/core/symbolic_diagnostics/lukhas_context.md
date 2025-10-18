@@ -1,3 +1,12 @@
+---
+module: candidate.core.symbolic_diagnostics
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/symbolic_diagnostics/module.manifest.json
+matriz: [supporting]
+---
 # candidate.core.symbolic_diagnostics
 
 **Star**: Supporting

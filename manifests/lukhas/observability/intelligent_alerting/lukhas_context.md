@@ -1,3 +1,12 @@
+---
+module: lukhas.observability.intelligent_alerting
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/lukhas/observability/intelligent_alerting/module.manifest.json
+matriz: [supporting]
+---
 # lukhas.observability.intelligent_alerting
 
 **Star**: Supporting

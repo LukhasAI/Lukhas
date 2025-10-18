@@ -1,3 +1,12 @@
+---
+module: candidate.core.drift
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/drift/module.manifest.json
+matriz: [risk]
+---
 # candidate.core.drift
 
 **Star**: Supporting

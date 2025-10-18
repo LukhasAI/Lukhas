@@ -1,3 +1,12 @@
+---
+module: candidate.governance.healthcare
+star: 🛡️ Watch (Guardian)
+tier: T2_important
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/governance/healthcare/module.manifest.json
+matriz: [risk]
+---
 # candidate.governance.healthcare
 
 **Star**: 🛡️ Watch (Guardian)

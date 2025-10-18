@@ -1,5 +1,5 @@
 Context coverage report
 Manifests: 780
 Context files present: 780 (100.0%)
-With front-matter: 0 (0.0%)
+With front-matter: 780 (100.0%)
 Threshold (front-matter): 95%

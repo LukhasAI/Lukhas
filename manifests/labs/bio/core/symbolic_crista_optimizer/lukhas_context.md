@@ -1,3 +1,12 @@
+---
+module: candidate.bio.core.symbolic_crista_optimizer
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/bio/core/symbolic_crista_optimizer/module.manifest.json
+matriz: [supporting]
+---
 # candidate.bio.core.symbolic_crista_optimizer
 
 **Star**: Supporting

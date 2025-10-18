@@ -1,3 +1,12 @@
+---
+module: lukhas.bio.core.architecture_analyzer
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/lukhas/bio/core/architecture_analyzer/module.manifest.json
+matriz: [supporting]
+---
 # lukhas.bio.core.architecture_analyzer
 
 **Star**: Supporting

@@ -1,3 +1,12 @@
+---
+module: candidate.governance.identity.diagnostics
+star: ⚛️ Anchor (Identity)
+tier: T3_standard
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/governance/identity/diagnostics/module.manifest.json
+matriz: [risk]
+---
 # candidate.governance.identity.diagnostics
 
 **Star**: ⚛️ Anchor (Identity)

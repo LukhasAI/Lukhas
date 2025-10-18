@@ -1,3 +1,12 @@
+---
+module: lukhas.aka_qualia.memory
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: unassigned
+colony: -
+manifest_path: manifests/lukhas/aka_qualia/memory/module.manifest.json
+matriz: [memory]
+---
 # lukhas.aka_qualia.memory
 
 **Star**: ✦ Trail (Memory)

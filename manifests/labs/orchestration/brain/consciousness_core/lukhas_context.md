@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.brain.consciousness_core
+star: 🌊 Flow (Consciousness)
+tier: T2_important
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/orchestration/brain/consciousness_core/module.manifest.json
+matriz: [thought]
+---
 # candidate.orchestration.brain.consciousness_core
 
 **Star**: 🌊 Flow (Consciousness)

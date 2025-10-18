@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.brain.primary_hub
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/orchestration/brain/primary_hub/module.manifest.json
+matriz: [intent]
+---
 # candidate.orchestration.brain.primary_hub
 
 **Star**: Supporting

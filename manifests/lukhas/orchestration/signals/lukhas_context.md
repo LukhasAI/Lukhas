@@ -1,3 +1,12 @@
+---
+module: lukhas.orchestration.signals
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/lukhas/orchestration/signals/module.manifest.json
+matriz: [intent]
+---
 # lukhas.orchestration.signals
 
 **Star**: Supporting

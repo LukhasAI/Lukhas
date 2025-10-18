@@ -1,3 +1,12 @@
+---
+module: candidate.governance.features
+star: 🛡️ Watch (Guardian)
+tier: T2_important
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/governance/features/module.manifest.json
+matriz: [risk]
+---
 # candidate.governance.features
 
 **Star**: 🛡️ Watch (Guardian)

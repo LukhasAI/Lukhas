@@ -1,3 +1,12 @@
+---
+module: candidate.memory.core.expansion.symbolic_proteome
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: unassigned
+colony: memory
+manifest_path: manifests/labs/memory/core/expansion/symbolic_proteome/module.manifest.json
+matriz: [memory]
+---
 # candidate.memory.core.expansion.symbolic_proteome
 
 **Star**: ✦ Trail (Memory)

@@ -1,3 +1,12 @@
+---
+module: candidate.core.symbolic_legacy.features.drift
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/symbolic_legacy/features/drift/module.manifest.json
+matriz: [risk]
+---
 # candidate.core.symbolic_legacy.features.drift
 
 **Star**: Supporting

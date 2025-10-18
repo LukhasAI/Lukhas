@@ -1,3 +1,12 @@
+---
+module: lukhas.memory.folds.fold_engine
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: unassigned
+colony: memory
+manifest_path: manifests/lukhas/memory/folds/fold_engine/module.manifest.json
+matriz: [memory]
+---
 # lukhas.memory.folds.fold_engine
 
 **Star**: ✦ Trail (Memory)

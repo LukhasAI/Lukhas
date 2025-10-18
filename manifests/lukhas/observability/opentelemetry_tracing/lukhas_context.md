@@ -1,3 +1,12 @@
+---
+module: lukhas.observability.opentelemetry_tracing
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/lukhas/observability/opentelemetry_tracing/module.manifest.json
+matriz: [supporting]
+---
 # lukhas.observability.opentelemetry_tracing
 
 **Star**: Supporting

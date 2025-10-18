@@ -1,3 +1,12 @@
+---
+module: lukhas.governance
+star: 🛡️ Watch (Guardian)
+tier: T2_important
+owner: unassigned
+colony: -
+manifest_path: manifests/lukhas/governance/module.manifest.json
+matriz: [risk]
+---
 # lukhas.governance
 
 **Star**: 🛡️ Watch (Guardian)

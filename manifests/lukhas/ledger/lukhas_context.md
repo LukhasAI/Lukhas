@@ -1,3 +1,12 @@
+---
+module: lukhas.ledger
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/lukhas/ledger/module.manifest.json
+matriz: [supporting]
+---
 # lukhas.ledger
 
 **Star**: Supporting

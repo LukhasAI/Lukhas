@@ -1,3 +1,12 @@
+---
+module: lukhas.bridge.orchestration
+star: Supporting
+tier: T2_important
+owner: unassigned
+colony: actuation
+manifest_path: manifests/lukhas/bridge/orchestration/module.manifest.json
+matriz: [intent]
+---
 # lukhas.bridge.orchestration
 
 **Star**: Supporting

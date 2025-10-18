@@ -1,3 +1,12 @@
+---
+module: candidate.consciousness.bridges.core
+star: 🌊 Flow (Consciousness)
+tier: T2_important
+owner: unassigned
+colony: simulation
+manifest_path: manifests/labs/consciousness/bridges/core/module.manifest.json
+matriz: [thought]
+---
 # candidate.consciousness.bridges.core
 
 **Star**: 🌊 Flow (Consciousness)

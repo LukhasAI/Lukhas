@@ -1,3 +1,12 @@
+---
+module: candidate.core.endocrine
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/endocrine/module.manifest.json
+matriz: [supporting]
+---
 # candidate.core.endocrine
 
 **Star**: Supporting

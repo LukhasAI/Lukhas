@@ -1,3 +1,12 @@
+---
+module: candidate.core.neural_architectures.abas
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/neural_architectures/abas/module.manifest.json
+matriz: [supporting]
+---
 # candidate.core.neural_architectures.abas
 
 **Star**: Supporting

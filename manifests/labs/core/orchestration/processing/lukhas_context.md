@@ -1,3 +1,12 @@
+---
+module: candidate.core.orchestration.processing
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/orchestration/processing/module.manifest.json
+matriz: [intent]
+---
 # candidate.core.orchestration.processing
 
 **Star**: Supporting

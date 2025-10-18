@@ -1,3 +1,12 @@
+---
+module: lukhas.rl.coordination
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/lukhas/rl/coordination/module.manifest.json
+matriz: [intent]
+---
 # lukhas.rl.coordination
 
 **Star**: Supporting

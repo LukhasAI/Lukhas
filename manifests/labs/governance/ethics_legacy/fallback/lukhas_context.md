@@ -1,3 +1,12 @@
+---
+module: candidate.governance.ethics_legacy.fallback
+star: 🛡️ Watch (Guardian)
+tier: T2_important
+owner: unassigned
+colony: ethics
+manifest_path: manifests/labs/governance/ethics_legacy/fallback/module.manifest.json
+matriz: [risk]
+---
 # candidate.governance.ethics_legacy.fallback
 
 **Star**: 🛡️ Watch (Guardian)

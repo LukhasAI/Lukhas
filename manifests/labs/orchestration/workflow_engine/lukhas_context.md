@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.workflow_engine
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/orchestration/workflow_engine/module.manifest.json
+matriz: [intent]
+---
 # candidate.orchestration.workflow_engine
 
 **Star**: Supporting

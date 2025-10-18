@@ -1,3 +1,12 @@
+---
+module: lukhas.core.consciousness_stream
+star: 🌊 Flow (Consciousness)
+tier: T2_important
+owner: unassigned
+colony: -
+manifest_path: manifests/lukhas/core/consciousness_stream/module.manifest.json
+matriz: [thought]
+---
 # lukhas.core.consciousness_stream
 
 **Star**: 🌊 Flow (Consciousness)

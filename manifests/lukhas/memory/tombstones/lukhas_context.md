@@ -1,3 +1,12 @@
+---
+module: lukhas.memory.tombstones
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: unassigned
+colony: memory
+manifest_path: manifests/lukhas/memory/tombstones/module.manifest.json
+matriz: [memory]
+---
 # lukhas.memory.tombstones
 
 **Star**: ✦ Trail (Memory)

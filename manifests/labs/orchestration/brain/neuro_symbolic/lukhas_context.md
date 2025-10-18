@@ -1,3 +1,12 @@
+---
+module: candidate.orchestration.brain.neuro_symbolic
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/orchestration/brain/neuro_symbolic/module.manifest.json
+matriz: [intent]
+---
 # candidate.orchestration.brain.neuro_symbolic
 
 **Star**: Supporting

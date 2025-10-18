@@ -1,3 +1,12 @@
+---
+module: candidate.core.safety
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/safety/module.manifest.json
+matriz: [supporting]
+---
 # candidate.core.safety
 
 **Star**: Supporting

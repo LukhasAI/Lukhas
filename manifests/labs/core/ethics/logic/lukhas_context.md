@@ -1,3 +1,12 @@
+---
+module: candidate.core.ethics.logic
+star: 🛡️ Watch (Guardian)
+tier: T4_experimental
+owner: unassigned
+colony: ethics
+manifest_path: manifests/labs/core/ethics/logic/module.manifest.json
+matriz: [risk]
+---
 # candidate.core.ethics.logic
 
 **Star**: 🛡️ Watch (Guardian)

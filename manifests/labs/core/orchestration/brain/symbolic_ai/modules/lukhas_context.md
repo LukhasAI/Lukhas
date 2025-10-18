@@ -1,3 +1,12 @@
+---
+module: candidate.core.orchestration.brain.symbolic_ai.modules
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/orchestration/brain/symbolic_ai/modules/module.manifest.json
+matriz: [intent]
+---
 # candidate.core.orchestration.brain.symbolic_ai.modules
 
 **Star**: Supporting

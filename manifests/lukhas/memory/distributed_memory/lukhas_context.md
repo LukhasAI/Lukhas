@@ -1,3 +1,12 @@
+---
+module: lukhas.memory.distributed_memory
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: unassigned
+colony: memory
+manifest_path: manifests/lukhas/memory/distributed_memory/module.manifest.json
+matriz: [memory]
+---
 # lukhas.memory.distributed_memory
 
 **Star**: ✦ Trail (Memory)

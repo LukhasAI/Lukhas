@@ -1,3 +1,12 @@
+---
+module: lukhas.branding_bridge
+star: Supporting
+tier: T2_important
+owner: unassigned
+colony: -
+manifest_path: manifests/lukhas/branding_bridge/module.manifest.json
+matriz: [action]
+---
 # lukhas.branding_bridge
 
 **Star**: Supporting

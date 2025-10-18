@@ -1,3 +1,12 @@
+---
+module: candidate.memory.learning.federated
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: unassigned
+colony: memory
+manifest_path: manifests/labs/memory/learning/federated/module.manifest.json
+matriz: [memory]
+---
 # candidate.memory.learning.federated
 
 **Star**: ✦ Trail (Memory)

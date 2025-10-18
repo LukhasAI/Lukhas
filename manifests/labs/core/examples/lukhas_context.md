@@ -1,3 +1,12 @@
+---
+module: candidate.core.examples
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/examples/module.manifest.json
+matriz: [supporting]
+---
 # candidate.core.examples
 
 **Star**: Supporting

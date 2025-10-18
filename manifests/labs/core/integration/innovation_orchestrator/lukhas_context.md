@@ -1,3 +1,12 @@
+---
+module: candidate.core.integration.innovation_orchestrator
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/integration/innovation_orchestrator/module.manifest.json
+matriz: [supporting]
+---
 # candidate.core.integration.innovation_orchestrator
 
 **Star**: Supporting

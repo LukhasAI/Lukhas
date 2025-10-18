@@ -1,3 +1,12 @@
+---
+module: candidate.consciousness.creativity.engines
+star: 🌊 Flow (Consciousness)
+tier: T2_important
+owner: unassigned
+colony: simulation
+manifest_path: manifests/labs/consciousness/creativity/engines/module.manifest.json
+matriz: [thought]
+---
 # candidate.consciousness.creativity.engines
 
 **Star**: 🌊 Flow (Consciousness)

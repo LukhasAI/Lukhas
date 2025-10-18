@@ -1,3 +1,12 @@
+---
+module: candidate.core.interfaces.nias
+star: 🔬 Horizon (Vision)
+tier: T3_standard
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/interfaces/nias/module.manifest.json
+matriz: [action]
+---
 # candidate.core.interfaces.nias
 
 **Star**: 🔬 Horizon (Vision)

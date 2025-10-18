@@ -1,3 +1,12 @@
+---
+module: lukhas.aka_qualia.core
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/lukhas/aka_qualia/core/module.manifest.json
+matriz: [supporting]
+---
 # lukhas.aka_qualia.core
 
 **Star**: Supporting

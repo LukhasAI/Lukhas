@@ -1,3 +1,12 @@
+---
+module: candidate.core.orchestration.brain.compliance
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/orchestration/brain/compliance/module.manifest.json
+matriz: [risk]
+---
 # candidate.core.orchestration.brain.compliance
 
 **Star**: Supporting

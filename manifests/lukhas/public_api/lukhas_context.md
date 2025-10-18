@@ -1,3 +1,12 @@
+---
+module: lukhas.public_api
+star: Supporting
+tier: T3_standard
+owner: unassigned
+colony: -
+manifest_path: manifests/lukhas/public_api/module.manifest.json
+matriz: [action]
+---
 # lukhas.public_api
 
 **Star**: Supporting

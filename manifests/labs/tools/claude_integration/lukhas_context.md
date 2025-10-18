@@ -1,3 +1,12 @@
+---
+module: candidate.tools.claude_integration
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/tools/claude_integration/module.manifest.json
+matriz: [supporting]
+---
 # candidate.tools.claude_integration
 
 **Star**: Supporting

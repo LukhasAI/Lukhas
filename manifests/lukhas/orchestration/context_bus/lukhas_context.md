@@ -1,3 +1,12 @@
+---
+module: lukhas.orchestration.context_bus
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/lukhas/orchestration/context_bus/module.manifest.json
+matriz: [intent]
+---
 # lukhas.orchestration.context_bus
 
 **Star**: Supporting

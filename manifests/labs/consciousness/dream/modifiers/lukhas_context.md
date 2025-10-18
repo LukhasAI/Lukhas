@@ -1,3 +1,12 @@
+---
+module: candidate.consciousness.dream.modifiers
+star: 🌊 Flow (Consciousness)
+tier: T2_important
+owner: unassigned
+colony: simulation
+manifest_path: manifests/labs/consciousness/dream/modifiers/module.manifest.json
+matriz: [thought]
+---
 # candidate.consciousness.dream.modifiers
 
 **Star**: 🌊 Flow (Consciousness)

@@ -1,3 +1,12 @@
+---
+module: lukhas.bridge.adapters
+star: Supporting
+tier: T2_important
+owner: unassigned
+colony: actuation
+manifest_path: manifests/lukhas/bridge/adapters/module.manifest.json
+matriz: [action]
+---
 # lukhas.bridge.adapters
 
 **Star**: Supporting

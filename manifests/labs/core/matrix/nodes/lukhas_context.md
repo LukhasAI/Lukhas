@@ -1,3 +1,12 @@
+---
+module: candidate.core.matrix.nodes
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/core/matrix/nodes/module.manifest.json
+matriz: [supporting]
+---
 # candidate.core.matrix.nodes
 
 **Star**: Supporting

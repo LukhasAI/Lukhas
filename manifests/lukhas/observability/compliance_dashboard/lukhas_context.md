@@ -1,3 +1,12 @@
+---
+module: lukhas.observability.compliance_dashboard
+star: Supporting
+tier: T4_experimental
+owner: unassigned
+colony: -
+manifest_path: manifests/lukhas/observability/compliance_dashboard/module.manifest.json
+matriz: [risk]
+---
 # lukhas.observability.compliance_dashboard
 
 **Star**: Supporting

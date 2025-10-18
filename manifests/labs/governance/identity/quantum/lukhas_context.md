@@ -1,3 +1,12 @@
+---
+module: candidate.governance.identity.quantum
+star: ⚛️ Anchor (Identity)
+tier: T3_standard
+owner: unassigned
+colony: -
+manifest_path: manifests/labs/governance/identity/quantum/module.manifest.json
+matriz: [risk]
+---
 # candidate.governance.identity.quantum
 
 **Star**: ⚛️ Anchor (Identity)

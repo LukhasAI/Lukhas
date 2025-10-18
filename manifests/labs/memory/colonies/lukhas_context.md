@@ -1,3 +1,12 @@
+---
+module: candidate.memory.colonies
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: unassigned
+colony: memory
+manifest_path: manifests/labs/memory/colonies/module.manifest.json
+matriz: [memory]
+---
 # candidate.memory.colonies
 
 **Star**: ✦ Trail (Memory)

@@ -1,3 +1,12 @@
+---
+module: candidate.memory.repair
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: unassigned
+colony: memory
+manifest_path: manifests/labs/memory/repair/module.manifest.json
+matriz: [memory]
+---
 # candidate.memory.repair
 
 **Star**: ✦ Trail (Memory)

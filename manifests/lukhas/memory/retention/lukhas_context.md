@@ -1,3 +1,12 @@
+---
+module: lukhas.memory.retention
+star: ✦ Trail (Memory)
+tier: T2_important
+owner: unassigned
+colony: memory
+manifest_path: manifests/lukhas/memory/retention/module.manifest.json
+matriz: [memory]
+---
 # lukhas.memory.retention
 
 **Star**: ✦ Trail (Memory)
