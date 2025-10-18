@@ -1,0 +1,456 @@
+openapi: 3.1.0
+info:
+  title: LUKHAS Identity API (ΛID)
+  version: 1.0.0
+  description: |
+    Lambda Identity (ΛID) authentication and authorization API for LUKHAS AI platform.
+    
+    Provides tier-based access control (guest → visitor → friend → trusted → inner_circle → root_dev),
+    token management, QR code entropy generation, and cross-device synchronization.
+    
+    **Constellation Alignment**: ⚛️ Identity
+    
+    **Key Features**:
+    - Tiered authentication system (6 levels)
+    - Steganographic QR code entropy
+    - Cross-device token synchronization
+    - Session management with Λ-trace auditing
+  contact:
+    name: LUKHAS Identity Team
+    url: https://github.com/LUKHAS-AI/lukhas
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://api.lukhas.ai/v1/identity
+    description: Production server
+  - url: https://staging-api.lukhas.ai/v1/identity
+    description: Staging server
+  - url: http://localhost:8000/v1/identity
+    description: Local development server
+
+tags:
+  - name: Authentication
+    description: Login, logout, token refresh operations
+  - name: Authorization
+    description: Tier management, scope validation
+  - name: Sessions
+    description: Session lifecycle and device management
+  - name: QR Entropy
+    description: Steganographic QR code generation
+
+paths:
+  /auth/login:
+    post:
+      summary: Authenticate user and create session
+      description: |
+        Authenticate user credentials and create a new session with appropriate tier assignment.
+        Returns access token, refresh token, and user tier information.
+      operationId: login
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                  description: Username or email
+                  example: "user@lukhas.ai"
+                password:
+                  type: string
+                  format: password
+                  description: User password
+                  example: "SecureP@ssw0rd!"
+                device_id:
+                  type: string
+                  description: Optional device identifier for cross-device sync
+                  example: "device_abc123"
+      responses:
+        '200':
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthenticationResponse'
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/logout:
+    post:
+      summary: Terminate current session
+      description: |
+        Invalidate access token and terminate current session.
+        Requires valid authentication.
+      operationId: logout
+      tags:
+        - Authentication
+      security:
+        - BearerAuth: []
+      responses:
+        '204':
+          description: Logout successful
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/refresh:
+    post:
+      summary: Refresh access token
+      description: |
+        Use refresh token to obtain a new access token without re-authentication.
+      operationId: refreshToken
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - refresh_token
+              properties:
+                refresh_token:
+                  type: string
+                  description: Valid refresh token
+                  example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      responses:
+        '200':
+          description: Token refreshed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponse'
+        '401':
+          description: Invalid or expired refresh token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /users/{user_id}/tier:
+    get:
+      summary: Get user tier information
+      description: |
+        Retrieve current tier level and eligibility for tier upgrades.
+      operationId: getUserTier
+      tags:
+        - Authorization
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: User identifier (ΛID)
+          example: "lambda_user_123"
+      responses:
+        '200':
+          description: Tier information retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserTierResponse'
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not found
+
+  /qr-entropy/generate:
+    post:
+      summary: Generate QR code with steganographic entropy
+      description: |
+        Generate QR code containing steganographic entropy for secure authentication.
+        Embeds cryptographic entropy invisible to casual observers.
+      operationId: generateQREntropy
+      tags:
+        - QR Entropy
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - session_id
+              properties:
+                session_id:
+                  type: string
+                  description: Authentication session identifier
+                  example: "session_xyz789"
+                entropy_bytes:
+                  type: integer
+                  description: Number of entropy bytes to embed
+                  default: 32
+                  minimum: 16
+                  maximum: 128
+                  example: 32
+                user_context:
+                  type: object
+                  description: Optional user context metadata
+                  additionalProperties: true
+      responses:
+        '200':
+          description: QR code generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QREntropyResponse'
+        '400':
+          description: Invalid request parameters
+        '401':
+          description: Unauthorized
+
+  /sessions/{session_id}:
+    get:
+      summary: Get session details
+      description: |
+        Retrieve detailed information about a specific session.
+      operationId: getSession
+      tags:
+        - Sessions
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: session_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Session identifier
+          example: "session_xyz789"
+      responses:
+        '200':
+          description: Session details retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionResponse'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Session not found
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT access token obtained from /auth/login
+
+  schemas:
+    AuthenticationResponse:
+      type: object
+      required:
+        - access_token
+        - refresh_token
+        - token_type
+        - expires_in
+        - user
+      properties:
+        access_token:
+          type: string
+          description: JWT access token for API requests
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        refresh_token:
+          type: string
+          description: Refresh token for obtaining new access tokens
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        token_type:
+          type: string
+          enum: [bearer]
+          description: Token type (always "bearer")
+          example: "bearer"
+        expires_in:
+          type: integer
+          description: Access token lifetime in seconds
+          example: 3600
+        user:
+          $ref: '#/components/schemas/User'
+
+    TokenResponse:
+      type: object
+      required:
+        - access_token
+        - token_type
+        - expires_in
+      properties:
+        access_token:
+          type: string
+          description: New JWT access token
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        token_type:
+          type: string
+          enum: [bearer]
+          example: "bearer"
+        expires_in:
+          type: integer
+          description: Token lifetime in seconds
+          example: 3600
+
+    User:
+      type: object
+      required:
+        - lambda_id
+        - username
+        - tier
+      properties:
+        lambda_id:
+          type: string
+          description: Unique Lambda Identity (ΛID)
+          example: "λ-abc123def456"
+        username:
+          type: string
+          description: Username
+          example: "user@lukhas.ai"
+        tier:
+          type: string
+          enum: [guest, visitor, friend, trusted, inner_circle, root_dev]
+          description: User tier level
+          example: "trusted"
+        scopes:
+          type: array
+          items:
+            type: string
+          description: OAuth-style permission scopes
+          example: ["consciousness:read", "matriz:write"]
+
+    UserTierResponse:
+      type: object
+      required:
+        - user_id
+        - current_tier
+        - eligible_for_upgrade
+      properties:
+        user_id:
+          type: string
+          description: User identifier (ΛID)
+          example: "lambda_user_123"
+        current_tier:
+          type: string
+          enum: [guest, visitor, friend, trusted, inner_circle, root_dev]
+          description: Current tier level
+          example: "friend"
+        eligible_for_upgrade:
+          type: boolean
+          description: Whether user is eligible for tier upgrade
+          example: true
+        next_tier:
+          type: string
+          enum: [visitor, friend, trusted, inner_circle, root_dev]
+          description: Next available tier (if eligible)
+          example: "trusted"
+        requirements:
+          type: array
+          items:
+            type: string
+          description: Requirements for next tier upgrade
+          example: ["Complete 10 consciousness sessions", "Maintain 30-day activity streak"]
+
+    QREntropyResponse:
+      type: object
+      required:
+        - qr_code
+        - session_id
+        - entropy_embedded
+      properties:
+        qr_code:
+          type: string
+          format: byte
+          description: Base64-encoded QR code image (PNG)
+          example: "iVBORw0KGgoAAAANSUhEUgAA..."
+        session_id:
+          type: string
+          description: Authentication session identifier
+          example: "session_xyz789"
+        entropy_embedded:
+          type: integer
+          description: Number of entropy bytes embedded
+          example: 32
+        expiration:
+          type: string
+          format: date-time
+          description: QR code expiration timestamp (ISO 8601)
+          example: "2025-10-18T15:30:00Z"
+
+    SessionResponse:
+      type: object
+      required:
+        - session_id
+        - user_id
+        - created_at
+        - expires_at
+        - device_id
+      properties:
+        session_id:
+          type: string
+          description: Session identifier
+          example: "session_xyz789"
+        user_id:
+          type: string
+          description: User identifier (ΛID)
+          example: "lambda_user_123"
+        created_at:
+          type: string
+          format: date-time
+          description: Session creation timestamp
+          example: "2025-10-18T14:00:00Z"
+        expires_at:
+          type: string
+          format: date-time
+          description: Session expiration timestamp
+          example: "2025-10-18T18:00:00Z"
+        device_id:
+          type: string
+          description: Device identifier
+          example: "device_abc123"
+        last_activity:
+          type: string
+          format: date-time
+          description: Last activity timestamp
+          example: "2025-10-18T14:45:00Z"
+
+    Error:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+          description: Error code
+          example: "invalid_credentials"
+        message:
+          type: string
+          description: Human-readable error message
+          example: "Invalid username or password"
+        details:
+          type: object
+          description: Additional error details
+          additionalProperties: true

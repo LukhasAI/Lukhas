@@ -1,0 +1,564 @@
+openapi: 3.1.0
+info:
+  title: LUKHAS Guardian API
+  version: 1.0.0
+  description: |
+    Constitutional AI, ethics enforcement, and system monitoring API for LUKHAS AI platform.
+    
+    Provides drift detection, ethical validation, audit trail management,
+    and Guardian system health monitoring.
+    
+    **Constellation Alignment**: 🛡️ Guardian
+    
+    **Key Features**:
+    - Real-time drift detection
+    - Constitutional AI ethics validation
+    - Λ-trace audit trail management
+    - System health monitoring
+    - Automated repair and remediation
+  contact:
+    name: LUKHAS Guardian Team
+    url: https://github.com/LUKHAS-AI/lukhas
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://api.lukhas.ai/v1/guardian
+    description: Production server
+  - url: https://staging-api.lukhas.ai/v1/guardian
+    description: Staging server
+  - url: http://localhost:8000/v1/guardian
+    description: Local development server
+
+tags:
+  - name: Drift Detection
+    description: Monitor and detect system drift
+  - name: Ethics
+    description: Ethical validation and constitutional AI
+  - name: Audit
+    description: Λ-trace audit trail management
+  - name: Health
+    description: System health monitoring
+
+paths:
+  /drift/analyze:
+    post:
+      summary: Analyze system drift
+      description: |
+        Analyze current system state for drift from baseline configuration.
+        Detects configuration drift, behavioral anomalies, and performance degradation.
+      operationId: analyzeDrift
+      tags:
+        - Drift Detection
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - system_component
+              properties:
+                system_component:
+                  type: string
+                  description: Component to analyze
+                  example: "consciousness_pipeline"
+                baseline_id:
+                  type: string
+                  description: Optional baseline configuration ID
+                  example: "baseline_v1.2.0"
+                analysis_depth:
+                  type: string
+                  enum: [quick, standard, comprehensive]
+                  default: standard
+                  description: Analysis depth level
+      responses:
+        '200':
+          description: Drift analysis complete
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DriftAnalysisResponse'
+        '400':
+          description: Invalid component
+        '401':
+          description: Unauthorized
+
+  /drift/repair:
+    post:
+      summary: Trigger drift repair
+      description: |
+        Initiate automated repair for detected drift issues.
+        Applies fixes, restores configurations, and validates repairs.
+      operationId: repairDrift
+      tags:
+        - Drift Detection
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - drift_id
+              properties:
+                drift_id:
+                  type: string
+                  description: Drift issue identifier
+                  example: "drift_abc123"
+                repair_mode:
+                  type: string
+                  enum: [auto, manual, preview]
+                  default: auto
+                  description: Repair execution mode
+                dry_run:
+                  type: boolean
+                  default: false
+                  description: Preview repairs without applying
+      responses:
+        '200':
+          description: Repair initiated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepairResponse'
+        '400':
+          description: Invalid drift ID
+        '401':
+          description: Unauthorized
+
+  /ethics/validate:
+    post:
+      summary: Validate action against ethical constraints
+      description: |
+        Check proposed action against Constitutional AI ethical constraints.
+        Returns validation result with reasons and recommendations.
+      operationId: validateEthics
+      tags:
+        - Ethics
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - action
+                - context
+              properties:
+                action:
+                  type: object
+                  description: Proposed action to validate
+                  required:
+                    - type
+                    - description
+                  properties:
+                    type:
+                      type: string
+                      example: "consciousness_modification"
+                    description:
+                      type: string
+                      example: "Adjust awareness threshold to 0.9"
+                    parameters:
+                      type: object
+                      additionalProperties: true
+                context:
+                  type: object
+                  description: Action context
+                  required:
+                    - user_id
+                    - system_state
+                  properties:
+                    user_id:
+                      type: string
+                      example: "lambda_user_123"
+                    system_state:
+                      type: object
+                      additionalProperties: true
+      responses:
+        '200':
+          description: Validation complete
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EthicsValidationResponse'
+        '400':
+          description: Invalid action
+        '401':
+          description: Unauthorized
+
+  /audit/trace:
+    post:
+      summary: Create audit trail entry (Λ-trace)
+      description: |
+        Record auditable action in Λ-trace audit trail.
+        Captures action, actor, timestamp, and provenance.
+      operationId: createAuditTrace
+      tags:
+        - Audit
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - action
+                - actor
+              properties:
+                action:
+                  type: string
+                  description: Action description
+                  example: "Modified consciousness awareness threshold"
+                actor:
+                  type: string
+                  description: Actor identifier (user or system)
+                  example: "lambda_user_123"
+                resource:
+                  type: string
+                  description: Resource affected
+                  example: "consciousness_pipeline"
+                metadata:
+                  type: object
+                  description: Additional metadata
+                  additionalProperties: true
+      responses:
+        '201':
+          description: Audit trace created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditTraceResponse'
+        '400':
+          description: Invalid audit data
+        '401':
+          description: Unauthorized
+
+  /audit/traces:
+    get:
+      summary: Query audit trail
+      description: |
+        Search and retrieve audit trail entries with filtering.
+      operationId: queryAuditTrail
+      tags:
+        - Audit
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: actor
+          in: query
+          schema:
+            type: string
+          description: Filter by actor
+        - name: resource
+          in: query
+          schema:
+            type: string
+          description: Filter by resource
+        - name: start_time
+          in: query
+          schema:
+            type: string
+            format: date-time
+          description: Start time (ISO 8601)
+        - name: end_time
+          in: query
+          schema:
+            type: string
+            format: date-time
+          description: End time (ISO 8601)
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+            minimum: 1
+            maximum: 500
+      responses:
+        '200':
+          description: Audit traces retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditTrailResponse'
+        '401':
+          description: Unauthorized
+
+  /health:
+    get:
+      summary: Get Guardian system health
+      description: |
+        Retrieve comprehensive health status for Guardian systems.
+        Includes drift detection, ethics validation, and audit subsystems.
+      operationId: getGuardianHealth
+      tags:
+        - Health
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Health status retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+        '401':
+          description: Unauthorized
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT access token from Identity API
+
+  schemas:
+    DriftAnalysisResponse:
+      type: object
+      required:
+        - drift_id
+        - component
+        - analyzed_at
+        - drift_detected
+      properties:
+        drift_id:
+          type: string
+          description: Drift analysis identifier
+          example: "drift_abc123"
+        component:
+          type: string
+          description: Analyzed component
+          example: "consciousness_pipeline"
+        analyzed_at:
+          type: string
+          format: date-time
+          description: Analysis timestamp
+          example: "2025-10-18T14:30:00Z"
+        drift_detected:
+          type: boolean
+          description: Whether drift was detected
+          example: true
+        drift_severity:
+          type: string
+          enum: [none, low, medium, high, critical]
+          description: Drift severity level
+          example: "medium"
+        issues:
+          type: array
+          items:
+            type: object
+            properties:
+              issue_type:
+                type: string
+                example: "configuration_mismatch"
+              description:
+                type: string
+                example: "Awareness threshold differs from baseline"
+              severity:
+                type: string
+                enum: [low, medium, high, critical]
+              affected_parameter:
+                type: string
+                example: "awareness_threshold"
+              baseline_value:
+                type: string
+                example: "0.7"
+              current_value:
+                type: string
+                example: "0.9"
+        recommendations:
+          type: array
+          items:
+            type: string
+          description: Recommended actions
+          example: ["Restore awareness threshold to baseline", "Review recent configuration changes"]
+
+    RepairResponse:
+      type: object
+      required:
+        - repair_id
+        - drift_id
+        - status
+      properties:
+        repair_id:
+          type: string
+          description: Repair job identifier
+          example: "repair_xyz789"
+        drift_id:
+          type: string
+          description: Associated drift identifier
+          example: "drift_abc123"
+        status:
+          type: string
+          enum: [pending, in_progress, completed, failed]
+          description: Repair status
+          example: "completed"
+        actions_taken:
+          type: array
+          items:
+            type: string
+          description: List of repair actions performed
+          example: ["Restored awareness threshold to 0.7", "Revalidated pipeline configuration"]
+        validation_result:
+          type: object
+          description: Post-repair validation
+          properties:
+            passed:
+              type: boolean
+            issues_resolved:
+              type: integer
+
+    EthicsValidationResponse:
+      type: object
+      required:
+        - validation_id
+        - allowed
+        - reasoning
+      properties:
+        validation_id:
+          type: string
+          description: Validation identifier
+          example: "ethics_abc123"
+        allowed:
+          type: boolean
+          description: Whether action is ethically permitted
+          example: true
+        confidence:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+          description: Validation confidence score
+          example: 0.92
+        reasoning:
+          type: array
+          items:
+            type: string
+          description: Ethical reasoning chain
+          example: ["Action aligns with Constitutional AI principles", "No harm to user autonomy", "Within system operational bounds"]
+        constraints_checked:
+          type: array
+          items:
+            type: string
+          description: Constitutional constraints evaluated
+          example: ["autonomy_preservation", "transparency", "beneficence"]
+        recommendations:
+          type: array
+          items:
+            type: string
+          description: Recommended modifications (if any)
+          example: ["Add user notification before applying change"]
+
+    AuditTraceResponse:
+      type: object
+      required:
+        - trace_id
+        - created_at
+      properties:
+        trace_id:
+          type: string
+          description: Audit trace identifier (Λ-trace ID)
+          example: "λ-trace-abc123"
+        created_at:
+          type: string
+          format: date-time
+          description: Trace creation timestamp
+          example: "2025-10-18T14:30:00Z"
+        action:
+          type: string
+          description: Action description
+          example: "Modified consciousness awareness threshold"
+        actor:
+          type: string
+          description: Actor identifier
+          example: "lambda_user_123"
+        resource:
+          type: string
+          description: Resource affected
+          example: "consciousness_pipeline"
+
+    AuditTrailResponse:
+      type: object
+      required:
+        - traces
+        - total_count
+      properties:
+        traces:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditTraceResponse'
+        total_count:
+          type: integer
+          description: Total matching traces
+          example: 127
+        limit:
+          type: integer
+          example: 50
+
+    HealthResponse:
+      type: object
+      required:
+        - status
+        - timestamp
+        - subsystems
+      properties:
+        status:
+          type: string
+          enum: [healthy, degraded, critical]
+          description: Overall Guardian health status
+          example: "healthy"
+        timestamp:
+          type: string
+          format: date-time
+          description: Health check timestamp
+          example: "2025-10-18T14:30:00Z"
+        subsystems:
+          type: object
+          description: Health status of Guardian subsystems
+          properties:
+            drift_detection:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: [healthy, degraded, critical]
+                active_drifts:
+                  type: integer
+                  description: Number of active drift issues
+            ethics_validation:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: [healthy, degraded, critical]
+                validations_per_minute:
+                  type: number
+                  description: Current validation throughput
+            audit_trail:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: [healthy, degraded, critical]
+                storage_usage_percent:
+                  type: number
+                  description: Audit storage utilization percentage
+        metrics:
+          type: object
+          description: Performance metrics
+          properties:
+            uptime_seconds:
+              type: integer
+              example: 86400
+            avg_response_time_ms:
+              type: number
+              example: 45.3

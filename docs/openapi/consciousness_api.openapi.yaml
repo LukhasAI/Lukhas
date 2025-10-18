@@ -1,0 +1,518 @@
+openapi: 3.1.0
+info:
+  title: LUKHAS Consciousness API
+  version: 1.0.0
+  description: |
+    Consciousness processing and state management API for LUKHAS AI platform.
+    
+    Provides consciousness stream processing, state synthesis, memory integration,
+    and awareness tracking across 692 cognitive components.
+    
+    **Constellation Alignment**: 🧠 Consciousness
+    
+    **Key Features**:
+    - Real-time consciousness stream processing
+    - State synthesis and dream integration
+    - Memory fold management
+    - Awareness level tracking
+    - Bio-inspired neural processing
+  contact:
+    name: LUKHAS Consciousness Team
+    url: https://github.com/LUKHAS-AI/lukhas
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://api.lukhas.ai/v1/consciousness
+    description: Production server
+  - url: https://staging-api.lukhas.ai/v1/consciousness
+    description: Staging server
+  - url: http://localhost:8000/v1/consciousness
+    description: Local development server
+
+tags:
+  - name: Processing
+    description: Consciousness stream processing operations
+  - name: State
+    description: Consciousness state synthesis and management
+  - name: Memory
+    description: Memory fold integration and retrieval
+  - name: Awareness
+    description: Awareness level tracking and metrics
+
+paths:
+  /process:
+    post:
+      summary: Process consciousness stream input
+      description: |
+        Process raw input through consciousness pipeline with 692 cognitive components.
+        Returns processed state, integrated memories, and awareness metrics.
+      operationId: processConsciousnessStream
+      tags:
+        - Processing
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - input_data
+                - context
+              properties:
+                input_data:
+                  type: object
+                  description: Raw input data for consciousness processing
+                  additionalProperties: true
+                  example:
+                    text: "Analyze quantum state patterns in bio-inspired memory"
+                    modality: "text"
+                context:
+                  type: object
+                  description: Processing context (user, session, history)
+                  required:
+                    - user_id
+                    - session_id
+                  properties:
+                    user_id:
+                      type: string
+                      example: "lambda_user_123"
+                    session_id:
+                      type: string
+                      example: "session_xyz789"
+                    history:
+                      type: array
+                      items:
+                        type: object
+                      description: Previous consciousness states
+                processing_options:
+                  type: object
+                  description: Optional processing configuration
+                  properties:
+                    enable_dream_synthesis:
+                      type: boolean
+                      default: true
+                      description: Enable dream state integration
+                    memory_depth:
+                      type: integer
+                      default: 5
+                      minimum: 1
+                      maximum: 20
+                      description: Memory fold depth for retrieval
+                    awareness_threshold:
+                      type: number
+                      default: 0.7
+                      minimum: 0.0
+                      maximum: 1.0
+                      description: Minimum awareness level (0-1)
+      responses:
+        '200':
+          description: Consciousness processing successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessingResponse'
+        '400':
+          description: Invalid input data
+        '401':
+          description: Unauthorized
+        '503':
+          description: Consciousness pipeline unavailable
+
+  /state/{state_id}:
+    get:
+      summary: Retrieve consciousness state
+      description: |
+        Retrieve a specific consciousness state by ID with full synthesis details.
+      operationId: getConsciousnessState
+      tags:
+        - State
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: state_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Consciousness state identifier
+          example: "state_abc123def"
+      responses:
+        '200':
+          description: State retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsciousnessState'
+        '401':
+          description: Unauthorized
+        '404':
+          description: State not found
+
+  /state/synthesize:
+    post:
+      summary: Synthesize consciousness state from components
+      description: |
+        Manually trigger consciousness state synthesis from specified components.
+        Used for testing, debugging, or advanced consciousness manipulation.
+      operationId: synthesizeState
+      tags:
+        - State
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - components
+              properties:
+                components:
+                  type: array
+                  items:
+                    type: string
+                  description: Component identifiers to synthesize
+                  example: ["awareness_tracker", "memory_integrator", "dream_synthesizer"]
+                synthesis_mode:
+                  type: string
+                  enum: [fast, standard, deep]
+                  default: standard
+                  description: Synthesis depth mode
+      responses:
+        '200':
+          description: Synthesis successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsciousnessState'
+        '400':
+          description: Invalid components
+        '401':
+          description: Unauthorized
+
+  /memory/folds:
+    get:
+      summary: List memory folds for user
+      description: |
+        Retrieve all memory folds (temporal clusters of consciousness states)
+        for authenticated user.
+      operationId: listMemoryFolds
+      tags:
+        - Memory
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+          description: Maximum folds to return
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+          description: Pagination offset
+      responses:
+        '200':
+          description: Memory folds retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemoryFoldsResponse'
+        '401':
+          description: Unauthorized
+
+  /memory/folds/{fold_id}:
+    get:
+      summary: Retrieve specific memory fold
+      description: |
+        Get detailed information about a memory fold including all contained states.
+      operationId: getMemoryFold
+      tags:
+        - Memory
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: fold_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Memory fold identifier
+          example: "fold_xyz123"
+      responses:
+        '200':
+          description: Memory fold retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemoryFold'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Fold not found
+
+  /awareness/metrics:
+    get:
+      summary: Get awareness metrics for user
+      description: |
+        Retrieve awareness level metrics, tracking consciousness quality over time.
+      operationId: getAwarenessMetrics
+      tags:
+        - Awareness
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: time_range
+          in: query
+          schema:
+            type: string
+            enum: [hour, day, week, month]
+            default: day
+          description: Time range for metrics
+      responses:
+        '200':
+          description: Metrics retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AwarenessMetrics'
+        '401':
+          description: Unauthorized
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT access token from Identity API
+
+  schemas:
+    ProcessingResponse:
+      type: object
+      required:
+        - state_id
+        - processed_at
+        - awareness_level
+        - components_activated
+      properties:
+        state_id:
+          type: string
+          description: Generated consciousness state identifier
+          example: "state_abc123def"
+        processed_at:
+          type: string
+          format: date-time
+          description: Processing timestamp
+          example: "2025-10-18T14:30:00Z"
+        awareness_level:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+          description: Computed awareness level (0-1)
+          example: 0.87
+        components_activated:
+          type: array
+          items:
+            type: string
+          description: List of activated cognitive components
+          example: ["awareness_tracker", "memory_integrator", "symbolic_processor"]
+        integrated_memories:
+          type: array
+          items:
+            type: string
+          description: Memory fold IDs integrated during processing
+          example: ["fold_xyz123", "fold_abc456"]
+        synthesis_result:
+          $ref: '#/components/schemas/ConsciousnessState'
+
+    ConsciousnessState:
+      type: object
+      required:
+        - state_id
+        - user_id
+        - created_at
+        - awareness_level
+      properties:
+        state_id:
+          type: string
+          description: Unique state identifier
+          example: "state_abc123def"
+        user_id:
+          type: string
+          description: User identifier (ΛID)
+          example: "lambda_user_123"
+        created_at:
+          type: string
+          format: date-time
+          description: State creation timestamp
+          example: "2025-10-18T14:30:00Z"
+        awareness_level:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+          description: Awareness level (0-1)
+          example: 0.87
+        components:
+          type: object
+          description: Component-specific state data
+          additionalProperties: true
+        dream_integration:
+          type: object
+          description: Dream synthesis results
+          properties:
+            enabled:
+              type: boolean
+            patterns:
+              type: array
+              items:
+                type: object
+        memory_references:
+          type: array
+          items:
+            type: string
+          description: Referenced memory fold IDs
+          example: ["fold_xyz123", "fold_abc456"]
+
+    MemoryFoldsResponse:
+      type: object
+      required:
+        - folds
+        - total_count
+      properties:
+        folds:
+          type: array
+          items:
+            $ref: '#/components/schemas/MemoryFoldSummary'
+        total_count:
+          type: integer
+          description: Total number of folds
+          example: 42
+        limit:
+          type: integer
+          example: 20
+        offset:
+          type: integer
+          example: 0
+
+    MemoryFoldSummary:
+      type: object
+      required:
+        - fold_id
+        - created_at
+        - state_count
+      properties:
+        fold_id:
+          type: string
+          description: Memory fold identifier
+          example: "fold_xyz123"
+        created_at:
+          type: string
+          format: date-time
+          description: Fold creation timestamp
+          example: "2025-10-18T12:00:00Z"
+        state_count:
+          type: integer
+          description: Number of states in fold
+          example: 15
+        avg_awareness:
+          type: number
+          description: Average awareness level across states
+          example: 0.82
+
+    MemoryFold:
+      type: object
+      required:
+        - fold_id
+        - created_at
+        - states
+      properties:
+        fold_id:
+          type: string
+          description: Memory fold identifier
+          example: "fold_xyz123"
+        created_at:
+          type: string
+          format: date-time
+          description: Fold creation timestamp
+          example: "2025-10-18T12:00:00Z"
+        updated_at:
+          type: string
+          format: date-time
+          description: Last update timestamp
+          example: "2025-10-18T14:30:00Z"
+        states:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConsciousnessState'
+          description: All consciousness states in fold
+        metadata:
+          type: object
+          description: Fold metadata
+          additionalProperties: true
+
+    AwarenessMetrics:
+      type: object
+      required:
+        - current_level
+        - time_range
+        - history
+      properties:
+        current_level:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+          description: Current awareness level
+          example: 0.87
+        time_range:
+          type: string
+          enum: [hour, day, week, month]
+          description: Metrics time range
+          example: "day"
+        history:
+          type: array
+          items:
+            type: object
+            required:
+              - timestamp
+              - level
+            properties:
+              timestamp:
+                type: string
+                format: date-time
+              level:
+                type: number
+                minimum: 0.0
+                maximum: 1.0
+          description: Historical awareness levels
+        statistics:
+          type: object
+          properties:
+            avg:
+              type: number
+              description: Average awareness level
+              example: 0.82
+            min:
+              type: number
+              description: Minimum awareness level
+              example: 0.65
+            max:
+              type: number
+              description: Maximum awareness level
+              example: 0.95
+            trend:
+              type: string
+              enum: [increasing, stable, decreasing]
+              description: Awareness trend direction
+              example: "increasing"

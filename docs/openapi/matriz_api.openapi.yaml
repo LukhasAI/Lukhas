@@ -1,0 +1,627 @@
+openapi: 3.1.0
+info:
+  title: LUKHAS MATRIZ API
+  version: 1.0.0
+  description: |
+    MATRIZ cognitive DNA engine API for node-based reasoning and provenance tracking.
+    
+    Every operation becomes a traceable node with reasoning chains, causal links,
+    and temporal relationships. Provides cognitive orchestration with full provenance.
+    
+    **Constellation Alignment**: 🧬 MATRIZ (Cognitive DNA)
+    
+    **Key Features**:
+    - Node-based cognitive processing
+    - Reasoning chain capture and replay
+    - Provenance tracking for all decisions
+    - Symbolic processing with validation
+    - Memory integration and semantic linking
+  contact:
+    name: LUKHAS MATRIZ Team
+    url: https://github.com/LUKHAS-AI/lukhas
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://api.lukhas.ai/v1/matriz
+    description: Production server
+  - url: https://staging-api.lukhas.ai/v1/matriz
+    description: Staging server
+  - url: http://localhost:8001/v1/matriz
+    description: Local development server (MATRIZ port)
+
+tags:
+  - name: Nodes
+    description: Cognitive node creation and management
+  - name: Reasoning
+    description: Reasoning chain execution and tracking
+  - name: Provenance
+    description: Decision provenance and trace analysis
+  - name: Memory
+    description: Node memory and semantic linking
+
+paths:
+  /nodes:
+    post:
+      summary: Create cognitive node
+      description: |
+        Create a new cognitive processing node with capabilities and constraints.
+        Nodes are the fundamental unit of MATRIZ computation.
+      operationId: createNode
+      tags:
+        - Nodes
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - node_type
+                - capabilities
+              properties:
+                node_type:
+                  type: string
+                  description: Type of cognitive node
+                  enum: [math, fact, validator, custom]
+                  example: "math"
+                capabilities:
+                  type: array
+                  items:
+                    type: string
+                  description: Node capabilities
+                  example: ["arithmetic", "algebra"]
+                constraints:
+                  type: object
+                  description: Node constraints and validation rules
+                  additionalProperties: true
+                metadata:
+                  type: object
+                  description: Custom node metadata
+                  additionalProperties: true
+      responses:
+        '201':
+          description: Node created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeResponse'
+        '400':
+          description: Invalid node specification
+        '401':
+          description: Unauthorized
+
+  /nodes/{node_id}:
+    get:
+      summary: Get node details
+      description: |
+        Retrieve detailed information about a specific cognitive node.
+      operationId: getNode
+      tags:
+        - Nodes
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: node_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Node identifier
+          example: "node_abc123"
+      responses:
+        '200':
+          description: Node details retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeResponse'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Node not found
+
+  /nodes/{node_id}/execute:
+    post:
+      summary: Execute node processing
+      description: |
+        Execute cognitive processing on a node with input data.
+        Captures full reasoning chain and provenance.
+      operationId: executeNode
+      tags:
+        - Nodes
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: node_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Node identifier
+          example: "node_abc123"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - input
+              properties:
+                input:
+                  type: object
+                  description: Node input data
+                  additionalProperties: true
+                  example:
+                    operation: "add"
+                    operands: [42, 17]
+                context:
+                  type: object
+                  description: Execution context
+                  additionalProperties: true
+      responses:
+        '200':
+          description: Execution successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExecutionResponse'
+        '400':
+          description: Invalid input
+        '401':
+          description: Unauthorized
+        '404':
+          description: Node not found
+
+  /reasoning/chains:
+    post:
+      summary: Execute multi-node reasoning chain
+      description: |
+        Coordinate multiple nodes to solve complex reasoning tasks.
+        Returns complete reasoning chain with provenance for each step.
+      operationId: executeReasoningChain
+      tags:
+        - Reasoning
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - query
+                - nodes
+              properties:
+                query:
+                  type: object
+                  description: Query to process
+                  required:
+                    - type
+                    - data
+                  properties:
+                    type:
+                      type: string
+                      example: "symbolic_reasoning"
+                    data:
+                      type: object
+                      additionalProperties: true
+                nodes:
+                  type: array
+                  items:
+                    type: string
+                  description: Node IDs to coordinate
+                  example: ["node_abc123", "node_def456"]
+                optimization:
+                  type: string
+                  enum: [speed, accuracy, balanced]
+                  default: balanced
+                  description: Chain optimization strategy
+      responses:
+        '200':
+          description: Reasoning chain executed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReasoningChainResponse'
+        '400':
+          description: Invalid query or nodes
+        '401':
+          description: Unauthorized
+
+  /reasoning/chains/{chain_id}:
+    get:
+      summary: Retrieve reasoning chain
+      description: |
+        Get complete reasoning chain by ID including all steps and provenance.
+      operationId: getReasoningChain
+      tags:
+        - Reasoning
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: chain_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Reasoning chain identifier
+          example: "chain_xyz789"
+      responses:
+        '200':
+          description: Chain retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReasoningChainResponse'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Chain not found
+
+  /provenance/trace:
+    get:
+      summary: Trace decision provenance
+      description: |
+        Trace the complete provenance of a decision back to origin nodes.
+        Returns full reasoning path with causal relationships.
+      operationId: traceProvenance
+      tags:
+        - Provenance
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: decision_id
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Decision identifier
+          example: "decision_abc123"
+        - name: depth
+          in: query
+          schema:
+            type: integer
+            default: 10
+            minimum: 1
+            maximum: 50
+          description: Maximum trace depth
+      responses:
+        '200':
+          description: Provenance traced successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProvenanceTraceResponse'
+        '400':
+          description: Invalid decision ID
+        '401':
+          description: Unauthorized
+
+  /memory/nodes:
+    get:
+      summary: List stored cognitive nodes
+      description: |
+        Retrieve list of cognitive nodes stored in MATRIZ memory.
+        Supports filtering by type, capabilities, and age.
+      operationId: listMemoryNodes
+      tags:
+        - Memory
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: node_type
+          in: query
+          schema:
+            type: string
+          description: Filter by node type
+        - name: capability
+          in: query
+          schema:
+            type: string
+          description: Filter by capability
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+            minimum: 1
+            maximum: 200
+      responses:
+        '200':
+          description: Memory nodes retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemoryNodesResponse'
+        '401':
+          description: Unauthorized
+
+  /memory/semantic-links:
+    post:
+      summary: Create semantic link between nodes
+      description: |
+        Establish semantic relationship between two cognitive nodes.
+        Links enable knowledge graph traversal and inference.
+      operationId: createSemanticLink
+      tags:
+        - Memory
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - source_node_id
+                - target_node_id
+                - relationship
+              properties:
+                source_node_id:
+                  type: string
+                  description: Source node identifier
+                  example: "node_abc123"
+                target_node_id:
+                  type: string
+                  description: Target node identifier
+                  example: "node_def456"
+                relationship:
+                  type: string
+                  description: Relationship type
+                  example: "depends_on"
+                metadata:
+                  type: object
+                  description: Link metadata
+                  additionalProperties: true
+      responses:
+        '201':
+          description: Semantic link created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SemanticLinkResponse'
+        '400':
+          description: Invalid link specification
+        '401':
+          description: Unauthorized
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT access token from Identity API
+
+  schemas:
+    NodeResponse:
+      type: object
+      required:
+        - node_id
+        - node_type
+        - created_at
+        - capabilities
+      properties:
+        node_id:
+          type: string
+          description: Unique node identifier
+          example: "node_abc123"
+        node_type:
+          type: string
+          description: Node type
+          example: "math"
+        created_at:
+          type: string
+          format: date-time
+          description: Node creation timestamp
+          example: "2025-10-18T14:30:00Z"
+        capabilities:
+          type: array
+          items:
+            type: string
+          description: Node capabilities
+          example: ["arithmetic", "algebra"]
+        constraints:
+          type: object
+          description: Node constraints
+          additionalProperties: true
+        status:
+          type: string
+          enum: [active, inactive, archived]
+          description: Node status
+          example: "active"
+
+    ExecutionResponse:
+      type: object
+      required:
+        - execution_id
+        - node_id
+        - executed_at
+        - result
+      properties:
+        execution_id:
+          type: string
+          description: Execution identifier
+          example: "exec_xyz789"
+        node_id:
+          type: string
+          description: Executed node identifier
+          example: "node_abc123"
+        executed_at:
+          type: string
+          format: date-time
+          description: Execution timestamp
+          example: "2025-10-18T14:30:00Z"
+        result:
+          type: object
+          description: Execution result
+          additionalProperties: true
+          example:
+            output: 59
+            operation: "add"
+        reasoning_trace:
+          type: array
+          items:
+            type: object
+            properties:
+              step:
+                type: integer
+              operation:
+                type: string
+              reasoning:
+                type: string
+          description: Complete reasoning trace
+        provenance_id:
+          type: string
+          description: Provenance trace identifier
+          example: "prov_abc123"
+
+    ReasoningChainResponse:
+      type: object
+      required:
+        - chain_id
+        - created_at
+        - steps
+        - result
+      properties:
+        chain_id:
+          type: string
+          description: Reasoning chain identifier
+          example: "chain_xyz789"
+        created_at:
+          type: string
+          format: date-time
+          description: Chain creation timestamp
+          example: "2025-10-18T14:30:00Z"
+        steps:
+          type: array
+          items:
+            type: object
+            properties:
+              step_number:
+                type: integer
+              node_id:
+                type: string
+              operation:
+                type: string
+              result:
+                type: object
+              reasoning:
+                type: string
+          description: Chain execution steps
+        result:
+          type: object
+          description: Final chain result
+          additionalProperties: true
+        total_nodes:
+          type: integer
+          description: Number of nodes coordinated
+          example: 3
+        execution_time_ms:
+          type: number
+          description: Total execution time in milliseconds
+          example: 123.45
+
+    ProvenanceTraceResponse:
+      type: object
+      required:
+        - decision_id
+        - traced_at
+        - trace_path
+      properties:
+        decision_id:
+          type: string
+          description: Decision identifier
+          example: "decision_abc123"
+        traced_at:
+          type: string
+          format: date-time
+          description: Trace timestamp
+          example: "2025-10-18T14:30:00Z"
+        trace_path:
+          type: array
+          items:
+            type: object
+            properties:
+              node_id:
+                type: string
+              operation:
+                type: string
+              timestamp:
+                type: string
+                format: date-time
+              causal_links:
+                type: array
+                items:
+                  type: string
+          description: Complete provenance path from origin to decision
+        origin_nodes:
+          type: array
+          items:
+            type: string
+          description: Original input nodes
+          example: ["node_abc123", "node_def456"]
+        depth:
+          type: integer
+          description: Trace depth
+          example: 5
+
+    MemoryNodesResponse:
+      type: object
+      required:
+        - nodes
+        - total_count
+      properties:
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/NodeResponse'
+        total_count:
+          type: integer
+          description: Total matching nodes
+          example: 127
+        limit:
+          type: integer
+          example: 50
+
+    SemanticLinkResponse:
+      type: object
+      required:
+        - link_id
+        - source_node_id
+        - target_node_id
+        - relationship
+        - created_at
+      properties:
+        link_id:
+          type: string
+          description: Semantic link identifier
+          example: "link_abc123"
+        source_node_id:
+          type: string
+          description: Source node identifier
+          example: "node_abc123"
+        target_node_id:
+          type: string
+          description: Target node identifier
+          example: "node_def456"
+        relationship:
+          type: string
+          description: Relationship type
+          example: "depends_on"
+        created_at:
+          type: string
+          format: date-time
+          description: Link creation timestamp
+          example: "2025-10-18T14:30:00Z"
+        metadata:
+          type: object
+          description: Link metadata
+          additionalProperties: true

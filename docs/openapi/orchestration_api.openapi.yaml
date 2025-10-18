@@ -1,0 +1,676 @@
+openapi: 3.1.0
+info:
+  title: LUKHAS Orchestration API (Brain)
+  version: 1.0.0
+  description: |
+    Brain orchestration and coordination API for LUKHAS AI platform.
+    
+    Coordinates multi-system operations, manages cognitive flow, and routes
+    processing tasks across consciousness, MATRIZ, and specialized modules.
+    
+    **Constellation Alignment**: 🌸 Flow (Orchestration)
+    
+    **Key Features**:
+    - Multi-system workflow coordination
+    - Dynamic task routing and load balancing
+    - Service mesh integration
+    - Real-time status monitoring
+    - Failover and recovery management
+  contact:
+    name: LUKHAS Orchestration Team
+    url: https://github.com/LUKHAS-AI/lukhas
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://api.lukhas.ai/v1/orchestration
+    description: Production server
+  - url: https://staging-api.lukhas.ai/v1/orchestration
+    description: Staging server
+  - url: http://localhost:8000/v1/orchestration
+    description: Local development server
+
+tags:
+  - name: Workflows
+    description: Multi-system workflow management
+  - name: Tasks
+    description: Task routing and execution
+  - name: Services
+    description: Service mesh and coordination
+  - name: Monitoring
+    description: Orchestration status and health
+
+paths:
+  /workflows:
+    post:
+      summary: Create orchestration workflow
+      description: |
+        Define a multi-system workflow coordinating consciousness, MATRIZ,
+        and specialized processing modules.
+      operationId: createWorkflow
+      tags:
+        - Workflows
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - workflow_name
+                - steps
+              properties:
+                workflow_name:
+                  type: string
+                  description: Workflow identifier
+                  example: "consciousness_synthesis_with_matriz"
+                description:
+                  type: string
+                  description: Workflow description
+                  example: "Process consciousness stream with MATRIZ reasoning"
+                steps:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - step_name
+                      - service
+                      - action
+                    properties:
+                      step_name:
+                        type: string
+                        example: "process_consciousness"
+                      service:
+                        type: string
+                        example: "consciousness"
+                      action:
+                        type: string
+                        example: "/process"
+                      input_mapping:
+                        type: object
+                        additionalProperties: true
+                      error_handling:
+                        type: string
+                        enum: [fail, retry, skip, fallback]
+                        default: retry
+                  description: Workflow execution steps
+                timeout_seconds:
+                  type: integer
+                  default: 300
+                  minimum: 10
+                  maximum: 3600
+                  description: Workflow timeout in seconds
+      responses:
+        '201':
+          description: Workflow created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowResponse'
+        '400':
+          description: Invalid workflow specification
+        '401':
+          description: Unauthorized
+
+  /workflows/{workflow_id}:
+    get:
+      summary: Get workflow details
+      description: |
+        Retrieve workflow definition and current status.
+      operationId: getWorkflow
+      tags:
+        - Workflows
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: workflow_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Workflow identifier
+          example: "workflow_abc123"
+      responses:
+        '200':
+          description: Workflow details retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkflowResponse'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Workflow not found
+
+  /workflows/{workflow_id}/execute:
+    post:
+      summary: Execute workflow
+      description: |
+        Execute workflow with provided input data.
+        Returns execution ID for status tracking.
+      operationId: executeWorkflow
+      tags:
+        - Workflows
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: workflow_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Workflow identifier
+          example: "workflow_abc123"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - input_data
+              properties:
+                input_data:
+                  type: object
+                  description: Workflow input data
+                  additionalProperties: true
+                context:
+                  type: object
+                  description: Execution context
+                  properties:
+                    user_id:
+                      type: string
+                    session_id:
+                      type: string
+                    priority:
+                      type: string
+                      enum: [low, normal, high, critical]
+                      default: normal
+      responses:
+        '202':
+          description: Workflow execution started
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExecutionResponse'
+        '400':
+          description: Invalid input data
+        '401':
+          description: Unauthorized
+        '404':
+          description: Workflow not found
+
+  /executions/{execution_id}:
+    get:
+      summary: Get execution status
+      description: |
+        Retrieve real-time status of workflow execution.
+      operationId: getExecutionStatus
+      tags:
+        - Workflows
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: execution_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Execution identifier
+          example: "exec_xyz789"
+      responses:
+        '200':
+          description: Execution status retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExecutionStatusResponse'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Execution not found
+
+  /tasks/route:
+    post:
+      summary: Route task to appropriate service
+      description: |
+        Dynamically route task to best available service based on
+        capabilities, load, and performance requirements.
+      operationId: routeTask
+      tags:
+        - Tasks
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - task_type
+                - task_data
+              properties:
+                task_type:
+                  type: string
+                  description: Task category
+                  example: "symbolic_reasoning"
+                task_data:
+                  type: object
+                  description: Task payload
+                  additionalProperties: true
+                requirements:
+                  type: object
+                  description: Task requirements
+                  properties:
+                    max_latency_ms:
+                      type: integer
+                      example: 500
+                    min_availability:
+                      type: number
+                      example: 0.99
+                    preferred_services:
+                      type: array
+                      items:
+                        type: string
+                      example: ["matriz", "consciousness"]
+      responses:
+        '200':
+          description: Task routed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoutingResponse'
+        '400':
+          description: Invalid task specification
+        '401':
+          description: Unauthorized
+        '503':
+          description: No available services for task
+
+  /services:
+    get:
+      summary: List registered services
+      description: |
+        Retrieve list of services in orchestration mesh with health status.
+      operationId: listServices
+      tags:
+        - Services
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [healthy, degraded, unavailable]
+          description: Filter by service status
+      responses:
+        '200':
+          description: Services retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServicesResponse'
+        '401':
+          description: Unauthorized
+
+  /services/{service_id}/health:
+    get:
+      summary: Get service health
+      description: |
+        Retrieve detailed health metrics for a specific service.
+      operationId: getServiceHealth
+      tags:
+        - Services
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: service_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Service identifier
+          example: "consciousness"
+      responses:
+        '200':
+          description: Service health retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceHealthResponse'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Service not found
+
+  /monitoring/metrics:
+    get:
+      summary: Get orchestration metrics
+      description: |
+        Retrieve aggregated orchestration metrics including throughput,
+        latency, error rates, and resource utilization.
+      operationId: getOrchestrationMetrics
+      tags:
+        - Monitoring
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: time_range
+          in: query
+          schema:
+            type: string
+            enum: [5m, 15m, 1h, 24h, 7d]
+            default: 1h
+          description: Metrics time range
+      responses:
+        '200':
+          description: Metrics retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrchestrationMetrics'
+        '401':
+          description: Unauthorized
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT access token from Identity API
+
+  schemas:
+    WorkflowResponse:
+      type: object
+      required:
+        - workflow_id
+        - workflow_name
+        - created_at
+        - steps
+      properties:
+        workflow_id:
+          type: string
+          description: Workflow identifier
+          example: "workflow_abc123"
+        workflow_name:
+          type: string
+          description: Workflow name
+          example: "consciousness_synthesis_with_matriz"
+        description:
+          type: string
+          description: Workflow description
+          example: "Process consciousness stream with MATRIZ reasoning"
+        created_at:
+          type: string
+          format: date-time
+          description: Creation timestamp
+          example: "2025-10-18T14:30:00Z"
+        steps:
+          type: array
+          items:
+            type: object
+          description: Workflow steps
+        status:
+          type: string
+          enum: [active, paused, archived]
+          description: Workflow status
+          example: "active"
+
+    ExecutionResponse:
+      type: object
+      required:
+        - execution_id
+        - workflow_id
+        - status
+        - started_at
+      properties:
+        execution_id:
+          type: string
+          description: Execution identifier
+          example: "exec_xyz789"
+        workflow_id:
+          type: string
+          description: Workflow identifier
+          example: "workflow_abc123"
+        status:
+          type: string
+          enum: [queued, running, completed, failed, cancelled]
+          description: Execution status
+          example: "running"
+        started_at:
+          type: string
+          format: date-time
+          description: Execution start timestamp
+          example: "2025-10-18T14:30:00Z"
+
+    ExecutionStatusResponse:
+      type: object
+      required:
+        - execution_id
+        - status
+        - current_step
+        - progress
+      properties:
+        execution_id:
+          type: string
+          description: Execution identifier
+          example: "exec_xyz789"
+        status:
+          type: string
+          enum: [queued, running, completed, failed, cancelled]
+          description: Current status
+          example: "running"
+        current_step:
+          type: integer
+          description: Current step number (0-indexed)
+          example: 2
+        progress:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+          description: Completion progress (0-1)
+          example: 0.65
+        steps_completed:
+          type: array
+          items:
+            type: object
+            properties:
+              step_name:
+                type: string
+              completed_at:
+                type: string
+                format: date-time
+              result:
+                type: object
+          description: Completed steps with results
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              step_name:
+                type: string
+              error_message:
+                type: string
+              occurred_at:
+                type: string
+                format: date-time
+          description: Errors encountered during execution
+
+    RoutingResponse:
+      type: object
+      required:
+        - task_id
+        - routed_to
+        - routing_decision
+      properties:
+        task_id:
+          type: string
+          description: Task identifier
+          example: "task_abc123"
+        routed_to:
+          type: string
+          description: Selected service identifier
+          example: "matriz"
+        routing_decision:
+          type: object
+          description: Routing decision details
+          properties:
+            reason:
+              type: string
+              example: "Best performance for symbolic_reasoning tasks"
+            alternatives:
+              type: array
+              items:
+                type: string
+              description: Alternative services considered
+              example: ["consciousness", "symbolic"]
+            confidence:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+              example: 0.92
+        estimated_completion_ms:
+          type: integer
+          description: Estimated completion time in milliseconds
+          example: 450
+
+    ServicesResponse:
+      type: object
+      required:
+        - services
+        - total_count
+      properties:
+        services:
+          type: array
+          items:
+            type: object
+            properties:
+              service_id:
+                type: string
+              service_name:
+                type: string
+              status:
+                type: string
+                enum: [healthy, degraded, unavailable]
+              capabilities:
+                type: array
+                items:
+                  type: string
+              current_load:
+                type: number
+                minimum: 0.0
+                maximum: 1.0
+        total_count:
+          type: integer
+          description: Total number of services
+          example: 5
+
+    ServiceHealthResponse:
+      type: object
+      required:
+        - service_id
+        - status
+        - checked_at
+      properties:
+        service_id:
+          type: string
+          description: Service identifier
+          example: "consciousness"
+        status:
+          type: string
+          enum: [healthy, degraded, unavailable]
+          description: Service health status
+          example: "healthy"
+        checked_at:
+          type: string
+          format: date-time
+          description: Health check timestamp
+          example: "2025-10-18T14:30:00Z"
+        metrics:
+          type: object
+          properties:
+            uptime_seconds:
+              type: integer
+              example: 86400
+            request_rate_per_second:
+              type: number
+              example: 45.3
+            avg_response_time_ms:
+              type: number
+              example: 123.5
+            error_rate_percent:
+              type: number
+              example: 0.12
+        last_error:
+          type: object
+          properties:
+            message:
+              type: string
+            occurred_at:
+              type: string
+              format: date-time
+
+    OrchestrationMetrics:
+      type: object
+      required:
+        - time_range
+        - collected_at
+      properties:
+        time_range:
+          type: string
+          description: Metrics time range
+          example: "1h"
+        collected_at:
+          type: string
+          format: date-time
+          description: Collection timestamp
+          example: "2025-10-18T14:30:00Z"
+        workflows:
+          type: object
+          properties:
+            total_executed:
+              type: integer
+              example: 1250
+            successful:
+              type: integer
+              example: 1198
+            failed:
+              type: integer
+              example: 52
+            avg_duration_ms:
+              type: number
+              example: 2345.67
+        tasks:
+          type: object
+          properties:
+            total_routed:
+              type: integer
+              example: 5432
+            routing_success_rate:
+              type: number
+              example: 0.989
+            avg_routing_time_ms:
+              type: number
+              example: 12.3
+        services:
+          type: object
+          properties:
+            total_registered:
+              type: integer
+              example: 5
+            healthy:
+              type: integer
+              example: 5
+            degraded:
+              type: integer
+              example: 0
+            unavailable:
+              type: integer
+              example: 0
