@@ -1,3 +1,0 @@
-"""
-Symbolic_World Module
-"""
