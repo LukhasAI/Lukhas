@@ -1,3 +1,7 @@
+from nias.core.nias_engine import NIASEngine
+
+from ethics.seedra.seedra_core import SEEDRACore
+from lukhas.orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
 
 """
 Enhanced Core TypeScript - Integrated from Advanced Systems
@@ -21,12 +25,6 @@ DESCRIPTION:
     user consent tier, or dream-based fallback logic.
 
 """
-
-
-from nias.core.nias_engine import NIASEngine
-
-from ethics.seedra.seedra_core import SEEDRACore
-from lukhas.orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
 
 # Explicit imports replacing star imports per PEP8 guidelines # CLAUDE_EDIT_v0.8
 
