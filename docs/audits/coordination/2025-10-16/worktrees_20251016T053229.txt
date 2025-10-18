@@ -1,0 +1,5 @@
+/Users/agi_dev/LOCAL-REPOS/Lukhas                     de19b187c [fix/lukhas-e402-noqa]
+/Users/agi_dev/LOCAL-REPOS/Lukhas-claude-coordinator  5a7244647 [chore/claude/coordination-dashboard]
+/Users/agi_dev/LOCAL-REPOS/Lukhas-main                0b64fa5f3 [chore/ruff-sweep-safe-20251014T180317Z]
+/Users/agi_dev/LOCAL-REPOS/Lukhas-phase2              c4ebe2c36 [phase2-import-codemod-fresh]
+/Users/agi_dev/LOCAL-REPOS/Lukhas/Lukhas-cc-dxrc      c4ebe2c36 [docs/cc/rc-dx-polish]

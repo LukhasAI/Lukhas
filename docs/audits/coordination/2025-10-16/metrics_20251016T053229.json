@@ -1,0 +1,18 @@
+{
+  "timestamp": "2025-10-16T05:32:29Z",
+  "snapshot_id": "20251016T053229",
+  "prs": {
+    "open": 15,
+    "ci_failures": 0
+  },
+  "worktrees": {
+    "count": 5
+  },
+  "tasks": {
+    "total": 18,
+    "in_progress": 0,
+    "completed": 0,
+    "not_started": 18,
+    "blocked": 0
+  }
+}
