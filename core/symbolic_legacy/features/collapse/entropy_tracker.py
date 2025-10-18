@@ -1,7 +1,3 @@
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 ═══════════════════════════════════════════════════════════════════════════════
 ║ 🌀 LUKHAS AI - Collapse Entropy Tracking System
@@ -41,9 +37,10 @@ logger = logging.getLogger(__name__)
 
 import hashlib
 import json
+import logging
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
@@ -53,8 +50,9 @@ import structlog
 # Import drift monitoring integration
 from lukhas.core.monitoring.drift_monitor import DriftDimension, UnifiedDriftMonitor
 
-# Configure structured logging
-logger = structlog.get_logger(__name__)
+# Configure logging
+logger = logging.getLogger(__name__)
+structured_logger = structlog.get_logger(__name__)
 
 
 class CollapsePhase(Enum):
