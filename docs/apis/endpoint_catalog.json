@@ -1,5 +1,5 @@
 {
-  "total_endpoints": 38,
+  "total_endpoints": 56,
   "apis": [
     "LUKHAS Consciousness API",
     "LUKHAS Guardian API",
@@ -10,6 +10,72 @@
     "LUKHAS Orchestration API (Brain)"
   ],
   "endpoints": [
+    {
+      "api": "LUKHAS Identity API (\u039bID)",
+      "path": "/auth/login",
+      "method": "POST",
+      "operation_id": "login",
+      "summary": "Authenticate user and create session",
+      "tags": [
+        "Authentication"
+      ],
+      "base_url": "https://api.lukhas.ai/v1/identity"
+    },
+    {
+      "api": "LUKHAS Identity API (\u039bID)",
+      "path": "/auth/logout",
+      "method": "POST",
+      "operation_id": "logout",
+      "summary": "Terminate current session",
+      "tags": [
+        "Authentication"
+      ],
+      "base_url": "https://api.lukhas.ai/v1/identity"
+    },
+    {
+      "api": "LUKHAS Identity API (\u039bID)",
+      "path": "/auth/refresh",
+      "method": "POST",
+      "operation_id": "refreshToken",
+      "summary": "Refresh access token",
+      "tags": [
+        "Authentication"
+      ],
+      "base_url": "https://api.lukhas.ai/v1/identity"
+    },
+    {
+      "api": "LUKHAS Identity API (\u039bID)",
+      "path": "/users/{user_id}/tier",
+      "method": "GET",
+      "operation_id": "getUserTier",
+      "summary": "Get user tier information",
+      "tags": [
+        "Authorization"
+      ],
+      "base_url": "https://api.lukhas.ai/v1/identity"
+    },
+    {
+      "api": "LUKHAS Identity API (\u039bID)",
+      "path": "/qr-entropy/generate",
+      "method": "POST",
+      "operation_id": "generateQREntropy",
+      "summary": "Generate QR code with steganographic entropy",
+      "tags": [
+        "QR Entropy"
+      ],
+      "base_url": "https://api.lukhas.ai/v1/identity"
+    },
+    {
+      "api": "LUKHAS Identity API (\u039bID)",
+      "path": "/sessions/{session_id}",
+      "method": "GET",
+      "operation_id": "getSession",
+      "summary": "Get session details",
+      "tags": [
+        "Sessions"
+      ],
+      "base_url": "https://api.lukhas.ai/v1/identity"
+    },
     {
       "api": "LUKHAS Consciousness API",
       "path": "/process",
@@ -229,6 +295,138 @@
         "Memory"
       ],
       "base_url": "https://api.lukhas.ai/v1/matriz"
+    },
+    {
+      "api": "LUKHAS Consciousness API",
+      "path": "/process",
+      "method": "POST",
+      "operation_id": "processConsciousnessStream",
+      "summary": "Process consciousness stream input",
+      "tags": [
+        "Processing"
+      ],
+      "base_url": "https://api.lukhas.ai/v1/consciousness"
+    },
+    {
+      "api": "LUKHAS Consciousness API",
+      "path": "/state/{state_id}",
+      "method": "GET",
+      "operation_id": "getConsciousnessState",
+      "summary": "Retrieve consciousness state",
+      "tags": [
+        "State"
+      ],
+      "base_url": "https://api.lukhas.ai/v1/consciousness"
+    },
+    {
+      "api": "LUKHAS Consciousness API",
+      "path": "/state/synthesize",
+      "method": "POST",
+      "operation_id": "synthesizeState",
+      "summary": "Synthesize consciousness state from components",
+      "tags": [
+        "State"
+      ],
+      "base_url": "https://api.lukhas.ai/v1/consciousness"
+    },
+    {
+      "api": "LUKHAS Consciousness API",
+      "path": "/memory/folds",
+      "method": "GET",
+      "operation_id": "listMemoryFolds",
+      "summary": "List memory folds for user",
+      "tags": [
+        "Memory"
+      ],
+      "base_url": "https://api.lukhas.ai/v1/consciousness"
+    },
+    {
+      "api": "LUKHAS Consciousness API",
+      "path": "/memory/folds/{fold_id}",
+      "method": "GET",
+      "operation_id": "getMemoryFold",
+      "summary": "Retrieve specific memory fold",
+      "tags": [
+        "Memory"
+      ],
+      "base_url": "https://api.lukhas.ai/v1/consciousness"
+    },
+    {
+      "api": "LUKHAS Consciousness API",
+      "path": "/awareness/metrics",
+      "method": "GET",
+      "operation_id": "getAwarenessMetrics",
+      "summary": "Get awareness metrics for user",
+      "tags": [
+        "Awareness"
+      ],
+      "base_url": "https://api.lukhas.ai/v1/consciousness"
+    },
+    {
+      "api": "LUKHAS Guardian API",
+      "path": "/drift/analyze",
+      "method": "POST",
+      "operation_id": "analyzeDrift",
+      "summary": "Analyze system drift",
+      "tags": [
+        "Drift Detection"
+      ],
+      "base_url": "https://api.lukhas.ai/v1/guardian"
+    },
+    {
+      "api": "LUKHAS Guardian API",
+      "path": "/drift/repair",
+      "method": "POST",
+      "operation_id": "repairDrift",
+      "summary": "Trigger drift repair",
+      "tags": [
+        "Drift Detection"
+      ],
+      "base_url": "https://api.lukhas.ai/v1/guardian"
+    },
+    {
+      "api": "LUKHAS Guardian API",
+      "path": "/ethics/validate",
+      "method": "POST",
+      "operation_id": "validateEthics",
+      "summary": "Validate action against ethical constraints",
+      "tags": [
+        "Ethics"
+      ],
+      "base_url": "https://api.lukhas.ai/v1/guardian"
+    },
+    {
+      "api": "LUKHAS Guardian API",
+      "path": "/audit/trace",
+      "method": "POST",
+      "operation_id": "createAuditTrace",
+      "summary": "Create audit trail entry (\u039b-trace)",
+      "tags": [
+        "Audit"
+      ],
+      "base_url": "https://api.lukhas.ai/v1/guardian"
+    },
+    {
+      "api": "LUKHAS Guardian API",
+      "path": "/audit/traces",
+      "method": "GET",
+      "operation_id": "queryAuditTrail",
+      "summary": "Query audit trail",
+      "tags": [
+        "Audit"
+      ],
+      "base_url": "https://api.lukhas.ai/v1/guardian"
+    },
+    {
+      "api": "LUKHAS Guardian API",
+      "path": "/health",
+      "method": "GET",
+      "operation_id": "getGuardianHealth",
+      "summary": "Get Guardian system health",
+      "tags": [
+        "Health"
+      ],
+      "base_url": "https://api.lukhas.ai/v1/guardian"
     },
     {
       "api": "LUKHAS Guardian API",
