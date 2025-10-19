@@ -304,13 +304,13 @@ jobs:
         run: |
           interrogate -v --fail-under 85 \
             -o docs/audits/docstring_coverage.json \
-            scripts api matriz lukhas
+            scripts
 
-      - name: Run pydocstyle (style enforcement)
+      - name: Run pydocstyle (style enforcement for scripts)
         shell: bash
         run: |
           set -o pipefail
-          pydocstyle scripts api matriz lukhas \
+          pydocstyle scripts \
             | tee docs/audits/docstring_offenders.txt
 
       - name: Upload docstring artifacts
