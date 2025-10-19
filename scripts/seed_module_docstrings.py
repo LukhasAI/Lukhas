@@ -52,13 +52,14 @@ def seed_file(path: Path) -> bool:
     if has_module_docstring(original):
         return False
 
-    shebang = ""
-    rest = original
-    if original.startswith("#!/"):
-        lines = original.splitlines(True)
-        shebang = lines[0]
-        rest = "".join(lines[1:])
-
+    # Determine insertion index: after shebang, but before any future imports.
+    lines = original.splitlines(True)
+    i = 0
+    if lines and lines[0].startswith("#!/"):
+        i = 1
+    # Ensure module docstring remains the first statement (before future imports)
+    # per Python rules: future imports may be preceded only by docstring/comments.
+    # So we do NOT advance past `from __future__` lines here.
     doc = (
         '"""\n'
         f"Module: {path.name}\n\n"
@@ -66,9 +67,8 @@ def seed_file(path: Path) -> bool:
         "Add detailed documentation and examples as needed.\n"
         '"""\n\n'
     )
-
-    new_text = f"{shebang}{doc}{rest}"
-    path.write_text(new_text, encoding="utf-8")
+    lines.insert(i, doc)
+    path.write_text("".join(lines), encoding="utf-8")
     return True
 
 

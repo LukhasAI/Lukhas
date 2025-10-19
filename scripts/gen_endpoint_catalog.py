@@ -28,6 +28,7 @@ def extract_endpoints(spec_path: Path) -> list[dict]:
     servers = spec.get("servers", []) or []
     if servers and isinstance(servers, list) and isinstance(servers[0], dict):
         base_url = servers[0].get("url", "")
+    x_status = spec.get("x-status") or "active"
 
     paths = spec.get("paths", {}) or {}
     for path, methods in paths.items():
@@ -47,6 +48,7 @@ def extract_endpoints(spec_path: Path) -> list[dict]:
                     "summary": details.get("summary", ""),
                     "tags": details.get("tags", []) or [],
                     "base_url": base_url,
+                    "x_status": x_status,
                 }
             )
 
