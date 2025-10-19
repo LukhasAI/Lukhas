@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: gen_endpoint_catalog.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Generate endpoint catalog JSON from OpenAPI specs.
 
 SPDX-License-Identifier: MIT
@@ -91,4 +84,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

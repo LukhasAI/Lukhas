@@ -34,6 +34,11 @@ SKIP_DIR_PREFIXES = (".git", ".venv", ".mypy_cache", ".pytest_cache", "node_modu
 
 
 def has_module_docstring(text: str) -> bool:
+    # Allow for a Unix shebang on the first line
+    if text.startswith("#!/"):
+        nl = text.find("\n")
+        if nl != -1:
+            text = text[nl + 1 :]
     s = text.lstrip()
     return s.startswith('"""') or s.startswith("'''")
 
@@ -104,4 +109,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
