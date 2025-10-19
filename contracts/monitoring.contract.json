@@ -1,0 +1,123 @@
+{
+  "schema_version": "2.0.0",
+  "contract_id": "monitoring@v1",
+  "module": "monitoring",
+  "version": "1.0.0",
+  "status": "active",
+  "tier": "T1",
+  "owner": "platform-team",
+  "description": "System health monitoring, observability, and alerting for LUKHAS platform",
+  "purpose": "Provides comprehensive system monitoring, observability infrastructure, and intelligent alerting for detecting anomalies and performance issues",
+  "constellation_framework": [
+    "🎯 Guard",
+    "🛡️ Guardian",
+    "⚛️ Identity"
+  ],
+  "capabilities": [
+    {
+      "name": "monitoring",
+      "type": "observation",
+      "description": "Monitor system health metrics, performance indicators, and operational status",
+      "guarantees": [
+        "Metric accuracy",
+        "Timely collection",
+        "Data persistence"
+      ]
+    },
+    {
+      "name": "observability",
+      "type": "instrumentation",
+      "description": "Provide system observability through traces, metrics, and logs",
+      "guarantees": [
+        "Complete trace coverage",
+        "Metric aggregation",
+        "Structured logging"
+      ]
+    },
+    {
+      "name": "alerting",
+      "type": "notification",
+      "description": "Generate intelligent alerts for anomalies, thresholds, and critical events",
+      "guarantees": [
+        "No missed critical alerts",
+        "Alert deduplication",
+        "Priority ordering"
+      ]
+    }
+  ],
+  "public_interface": {
+    "classes": [
+      "SystemMonitor",
+      "ObservabilityProvider",
+      "AlertManager"
+    ],
+    "functions": [
+      "monitor_system",
+      "collect_metrics",
+      "generate_alert"
+    ],
+    "events": {
+      "publishes": [
+        "monitoring.alert.generated",
+        "monitoring.metric.collected",
+        "monitoring.health.changed"
+      ],
+      "subscribes": [
+        "system.health.check",
+        "system.metric.reported"
+      ]
+    }
+  },
+  "dependencies": {
+    "internal": [],
+    "external": [
+      "prometheus_client",
+      "opentelemetry"
+    ]
+  },
+  "quality_guarantees": {
+    "input_validation": "All metrics and alerts validated for format and ranges",
+    "error_handling": "Monitoring failures do not impact monitored systems",
+    "type_safety": "Full type annotations for all monitoring APIs",
+    "thread_safety": "Thread-safe metric collection and aggregation",
+    "idempotency": "Alert generation is idempotent within time windows"
+  },
+  "performance_contract": {
+    "latency_target": "<10ms",
+    "throughput_target": 10000,
+    "availability_target": 0.9999,
+    "memory_limit": "512MB",
+    "cpu_limit": "1.0 core"
+  },
+  "security": {
+    "requires_auth": false,
+    "data_classification": "internal",
+    "sandboxed": true,
+    "network_calls": true,
+    "network_description": "Sends metrics to Prometheus, traces to OTLP collectors"
+  },
+  "observability": {
+    "required_spans": [
+      "monitoring.collect",
+      "monitoring.alert",
+      "monitoring.health_check"
+    ],
+    "metrics": [
+      "monitoring.collection_duration",
+      "monitoring.alerts_generated",
+      "monitoring.health_checks_performed"
+    ],
+    "logging": {
+      "logger_name": "monitoring",
+      "default_level": "INFO"
+    }
+  },
+  "breaking_changes": [],
+  "deprecations": [],
+  "migration_guide": "N/A - Initial contract version",
+  "metadata": {
+    "created": "2025-10-19",
+    "last_updated": "2025-10-19",
+    "maintained_by": "platform-team"
+  }
+}

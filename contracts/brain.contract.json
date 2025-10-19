@@ -1,0 +1,115 @@
+{
+  "schema_version": "2.0.0",
+  "contract_id": "brain@v1",
+  "module": "brain",
+  "version": "2.0.0",
+  "status": "active",
+  "tier": "T1",
+  "owner": "platform-team",
+  "description": "High-level cognitive orchestration, intelligence monitoring, and unified consciousness coordination for LUKHAS brain architecture",
+  "purpose": "Provides unified access to brain processing capabilities, cognitive orchestration, and intelligence monitoring following the lane system architecture",
+  "constellation_framework": [
+    "⚛️ Identity",
+    "🧠 Consciousness",
+    "🛡️ Guardian"
+  ],
+  "capabilities": [
+    {
+      "name": "orchestration",
+      "type": "coordination",
+      "description": "Coordinate multi-system operations across cognitive domains",
+      "guarantees": [
+        "Atomic operation execution",
+        "Rollback on failure",
+        "Event ordering preservation"
+      ]
+    },
+    {
+      "name": "flow_coordination",
+      "type": "data_management",
+      "description": "Manage data flow between modules and processing pipelines",
+      "guarantees": [
+        "Data consistency",
+        "Flow tracking",
+        "Error propagation"
+      ]
+    },
+    {
+      "name": "cognitive_routing",
+      "type": "routing",
+      "description": "Route cognitive processing tasks to appropriate handlers",
+      "guarantees": [
+        "Correct handler selection",
+        "Load balancing",
+        "Fallback mechanisms"
+      ]
+    }
+  ],
+  "public_interface": {
+    "classes": [
+      "BrainOrchestrator",
+      "CognitiveRouter",
+      "FlowCoordinator"
+    ],
+    "functions": [
+      "orchestrate_cognitive_task",
+      "route_processing",
+      "coordinate_flow"
+    ],
+    "events": {
+      "publishes": [],
+      "subscribes": []
+    }
+  },
+  "dependencies": {
+    "internal": [
+      "orchestration",
+      "consciousness"
+    ],
+    "external": []
+  },
+  "quality_guarantees": {
+    "input_validation": "All inputs are validated before processing",
+    "error_handling": "All errors are caught, logged, and handled gracefully",
+    "type_safety": "Full type annotations for all public interfaces",
+    "thread_safety": "Thread-safe for concurrent access",
+    "idempotency": "Operations are idempotent where applicable"
+  },
+  "performance_contract": {
+    "latency_target": "<100ms",
+    "throughput_target": 1000,
+    "availability_target": 0.999,
+    "memory_limit": "512MB",
+    "cpu_limit": "2.0 cores"
+  },
+  "security": {
+    "requires_auth": false,
+    "data_classification": "internal",
+    "sandboxed": true,
+    "network_calls": false
+  },
+  "observability": {
+    "required_spans": [
+      "brain.orchestrate",
+      "brain.route",
+      "brain.coordinate"
+    ],
+    "metrics": [
+      "brain.orchestration_duration",
+      "brain.routing_decisions",
+      "brain.flow_coordination_count"
+    ],
+    "logging": {
+      "logger_name": "brain",
+      "default_level": "INFO"
+    }
+  },
+  "breaking_changes": [],
+  "deprecations": [],
+  "migration_guide": "N/A - Initial contract version",
+  "metadata": {
+    "created": "2025-10-19",
+    "last_updated": "2025-10-19",
+    "maintained_by": "platform-team"
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "schema_version": "2.0.0",
+  "contract_id": "qi@v1",
+  "module": "qi",
+  "version": "1.0.0",
+  "status": "active",
+  "tier": "T1",
+  "owner": "qi-research-team",
+  "description": "Quantum-inspired intelligence processing and quantum-based reasoning for LUKHAS QI core",
+  "purpose": "Provides quantum intelligence processing capabilities, quantum-inspired reasoning algorithms, and core quantum intelligence functionality",
+  "constellation_framework": [
+    "🌟 Origin",
+    "⚛️ Quantum",
+    "🧠 Consciousness"
+  ],
+  "capabilities": [
+    {
+      "name": "quantum_processing",
+      "type": "processing",
+      "description": "Quantum-inspired intelligence processing using superposition and entanglement concepts",
+      "guarantees": [
+        "Deterministic results for same inputs",
+        "Mathematical correctness",
+        "Numerical stability"
+      ]
+    },
+    {
+      "name": "qi_core",
+      "type": "core",
+      "description": "Core quantum intelligence algorithms and data structures",
+      "guarantees": [
+        "Consistent state representation",
+        "Efficient computation",
+        "Memory bounded operations"
+      ]
+    },
+    {
+      "name": "quantum_reasoning",
+      "type": "reasoning",
+      "description": "Quantum-based reasoning using probability amplitudes and interference patterns",
+      "guarantees": [
+        "Logical consistency",
+        "Probabilistic guarantees",
+        "Explainable decisions"
+      ]
+    }
+  ],
+  "public_interface": {
+    "classes": [
+      "QuantumProcessor",
+      "QICore",
+      "QuantumReasoner"
+    ],
+    "functions": [
+      "process_quantum_state",
+      "apply_quantum_gate",
+      "reason_quantum"
+    ],
+    "events": {
+      "publishes": [],
+      "subscribes": []
+    }
+  },
+  "dependencies": {
+    "internal": [],
+    "external": [
+      "numpy",
+      "scipy"
+    ]
+  },
+  "quality_guarantees": {
+    "input_validation": "All quantum states are validated for normalization and dimensionality",
+    "error_handling": "Graceful degradation on quantum operation failures",
+    "type_safety": "Full type annotations with quantum-specific types",
+    "thread_safety": "Read-only operations are thread-safe, write operations use locking",
+    "idempotency": "Pure quantum operations are idempotent"
+  },
+  "performance_contract": {
+    "latency_target": "<50ms",
+    "throughput_target": 5000,
+    "availability_target": 0.9999,
+    "memory_limit": "1GB",
+    "cpu_limit": "4.0 cores"
+  },
+  "security": {
+    "requires_auth": false,
+    "data_classification": "internal",
+    "sandboxed": true,
+    "network_calls": false
+  },
+  "observability": {
+    "required_spans": [
+      "qi.process",
+      "qi.reason",
+      "qi.quantum_operation"
+    ],
+    "metrics": [
+      "qi.processing_duration",
+      "qi.quantum_operations_count",
+      "qi.reasoning_accuracy"
+    ],
+    "logging": {
+      "logger_name": "qi",
+      "default_level": "INFO"
+    }
+  },
+  "breaking_changes": [],
+  "deprecations": [],
+  "migration_guide": "N/A - Initial contract version",
+  "metadata": {
+    "created": "2025-10-19",
+    "last_updated": "2025-10-19",
+    "maintained_by": "qi-research-team"
+  }
+}

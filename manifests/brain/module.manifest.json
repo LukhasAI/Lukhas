@@ -73,10 +73,13 @@
   },
   "metadata": {
     "created": "2025-10-18T20:48:26Z",
-    "last_updated": "2025-10-18T20:48:26Z",
+    "last_updated": "2025-10-19T01:22:00Z",
     "manifest_generated": true,
-    "owner": "unassigned",
+    "owner": "platform-team",
     "documentation_url": "",
     "tags": []
-  }
+  },
+  "contracts": [
+    "contracts/brain.contract.json"
+  ]
 }
