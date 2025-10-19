@@ -93,6 +93,17 @@ interrogate -v scripts api
 # Validate OpenAPI (if created)
 swagger-cli validate docs/openapi/*.openapi.yaml
 spectral lint docs/openapi/*.openapi.yaml
+
+# Generate unified metrics and dashboard (T4+)
+python scripts/emit_metrics.py \
+  --coverage docs/audits/docstring_coverage.json \
+  --offenders docs/audits/docstring_offenders.txt \
+  --spectral-junit docs/audits/openapi_lint_junit.xml \
+  --out docs/audits/metrics.json
+
+python scripts/gen_coverage_dashboard.py \
+  --metrics docs/audits/metrics.json \
+  --out docs/audits/coverage_dashboard.md
 ```
 
 ### 5. Create PR (10 min)
@@ -276,7 +287,29 @@ paths:
 **Validation**:
 ```bash
 swagger-cli validate docs/openapi/*.openapi.yaml
-spectral lint docs/openapi/*.openapi.yaml
+spectral lint docs/openapi/*.openapi.yaml --format junit --output docs/audits/openapi_lint_junit.xml
+```
+
+**T4+ Enhancements** (Optional but Recommended):
+```bash
+# Generate ReDoc static previews (browsable HTML)
+for f in docs/openapi/*.openapi.yaml; do
+  base=$(basename "$f" .openapi.yaml)
+  redoc-cli build "$f" -o "docs/openapi/site/${base}.html"
+done
+
+# Add SPDX license headers (advisory)
+python scripts/add_spdx_headers.py \
+  --roots docs/openapi \
+  --spdx "SPDX-License-Identifier: Proprietary" \
+  --author "LUKHAS API Team" \
+  --filetype yaml
+
+# Validate docstring semantics (advisory report)
+python scripts/validate_docstring_semantics.py \
+  --roots scripts api \
+  --report docs/audits/docstring_semantics_report.md \
+  --no-llm
 ```
 
 ---
@@ -302,6 +335,13 @@ spectral lint docs/openapi/*.openapi.yaml
 - [ ] Spectral lint passes: `spectral lint docs/openapi/*.openapi.yaml`
 - [ ] README.md index created: `docs/openapi/README.md`
 - [ ] All specs include examples and response schemas
+
+### T4+ Quality Polish (Bonus)
+- [ ] Unified metrics generated: `docs/audits/metrics.json`
+- [ ] Coverage dashboard created: `docs/audits/coverage_dashboard.md`
+- [ ] ReDoc previews built: `docs/openapi/site/*.html`
+- [ ] Semantic validation report: `docs/audits/docstring_semantics_report.md`
+- [ ] SPDX headers added (if applicable)
 
 ---
 
@@ -355,6 +395,13 @@ Co-Authored-By: Jules <noreply@lukhas.ai>
 - pydocstyle: http://www.pydocstyle.org/
 - swagger-cli: https://apitools.dev/swagger-cli/
 - spectral: https://stoplight.io/open-source/spectral
+- redoc-cli: https://redocly.com/docs/redoc/
+
+### T4+ Polish Scripts (New!)
+- `scripts/emit_metrics.py` - Aggregate coverage/style/lint into unified JSON
+- `scripts/gen_coverage_dashboard.py` - Generate visual Markdown dashboard
+- `scripts/add_spdx_headers.py` - Inject SPDX license headers
+- `scripts/validate_docstring_semantics.py` - Semantic validation (heuristic)
 
 ### LUKHAS Documentation
 - Architecture Overview: [docs/architecture/README.md](../../docs/architecture/README.md)
@@ -397,6 +444,12 @@ When you're done, the repository will have:
 - ✅ Comprehensive README index for API documentation
 - ✅ All acceptance criteria passing
 - ✅ PR created with T4 commit standards
+
+**T4+ Bonus Deliverables**:
+- ✅ Unified metrics dashboard (`docs/audits/coverage_dashboard.md`)
+- ✅ ReDoc browsable previews (`docs/openapi/site/*.html`)
+- ✅ Semantic validation advisory report
+- ✅ CI artifacts ready for phase4-docs-polish bundle
 
 **Estimated time investment**: 3-4 hours
 **Impact**: Massive improvement to developer experience and API discoverability
