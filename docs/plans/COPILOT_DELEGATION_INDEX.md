@@ -1,8 +1,9 @@
 # GitHub Copilot Task Delegation Index
 
 **Created**: 2025-10-18
+**Updated**: 2025-10-19 (Post-Phase 5B completion)
 **Status**: Ready for Delegation
-**Total Tasks**: 3 high-priority tasks
+**Total Tasks**: 4 high-priority tasks
 
 ---
 
@@ -19,22 +20,42 @@ These tasks have been prepared for delegation to GitHub Copilot (or other AI cod
 
 ## 🎯 Available Tasks
 
-### **Task A: Artifact Coverage Audit (99% Target)**
-- **File**: [COPILOT_TASK_A_ARTIFACT_AUDIT.md](./COPILOT_TASK_A_ARTIFACT_AUDIT.md)
-- **Priority**: High
+### **Task A (Updated): Artifact Coverage Audit - Phase 5B** ⭐ RECOMMENDED NEXT
+- **File**: [COPILOT_TASK_A_UPDATED_2025-10-19.md](./COPILOT_TASK_A_UPDATED_2025-10-19.md)
+- **Priority**: HIGH (blocks Phase 4)
 - **Time**: 2-3 hours
 - **Complexity**: Medium
 - **Model Rec**: Claude 3.5 Sonnet or GPT-4
+- **Status**: ✅ Phase 5B Complete (PRs #433, #434 merged)
 
-**Summary**: Scan repository for orphan modules (packages without manifests) and generate missing manifests to achieve 99% artifact coverage.
+**Summary**: Generate 363 missing manifests to achieve 99% coverage using validated star rules with Phase 5B flat structure.
+
+**Current State** (2025-10-19):
+- Total packages: 1,953
+- Current manifests: 1,571 (80.4% coverage)
+- Target: 1,934 manifests (99%)
+- Gap: 363 manifests needed
 
 **Key Steps**:
-1. Find all Python packages without manifests
-2. Categorize orphans by domain
-3. Generate missing manifests with appropriate star/tier assignments
+1. Find 363 orphan packages (packages without manifests)
+2. Generate manifests using `--star-from-rules` (validated configs/star_rules.json)
+3. Use 0.70 confidence threshold for star auto-promotion
 4. Validate all manifests pass schema checks
+5. Create audit report
 
-**Output**: ~50-100 new manifests, 99% coverage
+**Output**: 363 new manifests, 99% coverage, audit report
+
+**Why This Task Now**:
+- Phase 5B is complete (flat structure finalized)
+- Star rules validated (2025-10-19)
+- Blocks Phase 4 manifest regeneration
+- PRs #433 and #434 merged successfully
+
+---
+
+### **Task A (Original): Artifact Coverage Audit** [SUPERSEDED]
+- **File**: [COPILOT_TASK_A_ARTIFACT_AUDIT.md](./COPILOT_TASK_A_ARTIFACT_AUDIT.md)
+- **Status**: ⚠️ OUTDATED (pre-Phase 5B, superseded by updated version above)
 
 ---
 
