@@ -22,6 +22,8 @@ import pathlib
 import re
 import sys
 
+from star_canon_utils import extract_canon_labels, normalize_star_label
+
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 REPORT = ROOT / "docs" / "audits" / "context_lint.txt"
 
@@ -29,21 +31,21 @@ def load_star_canon():
     # Prefer python package if present
     try:
         from star_canon import canon as canon_fn  # type: ignore
-        return canon_fn()
+        payload = canon_fn()
+        extract_canon_labels(payload)
+        return payload
     except Exception:
         pass
     # Fallback to local JSON
     p = ROOT / "scripts" / "star_canon.json"
     if p.exists():
-        return json.loads(p.read_text(encoding="utf-8"))
+        payload = json.loads(p.read_text(encoding="utf-8"))
+        extract_canon_labels(payload)
+        return payload
     return {"stars": [], "aliases": {}}
 
 def normalize_star(name: str, canon: dict) -> str:
-    if not name:
-        return name
-    stars = set(canon.get("stars", []))
-    aliases = canon.get("aliases", {})
-    return name if name in stars else aliases.get(name, name)
+    return normalize_star_label(name, canon)
 
 FM_START = re.compile(r"^\s*---\s*$")
 FM_END   = re.compile(r"^\s*---\s*$")

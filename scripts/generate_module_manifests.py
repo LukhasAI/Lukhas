@@ -19,6 +19,8 @@ import re
 import sys
 from typing import Any, Dict, List, Optional
 
+from star_canon_utils import extract_canon_labels, normalize_star_label
+
 HERE = pathlib.Path(__file__).resolve().parent
 ROOT = HERE.parent
 
@@ -134,29 +136,28 @@ COLONY_HINTS = [
     (r"/perception|/asr|/vision_model", "perception"),
 ]
 
-def validate_star(star: str, star_canon: Dict[str, Any]) -> str:
+def validate_star(star: str, star_canon: Dict[str, Any], *, labels: Optional[set[str]] = None) -> str:
     """Hard gate: refuse invalid stars, fail fast."""
-    stars = set(star_canon.get("stars", []))
-    if star not in stars:
-        print(f"❌ FATAL: Invalid star '{star}' not in canon: {stars}", file=sys.stderr)
+    labels = labels or set(extract_canon_labels(star_canon))
+    if star not in labels:
+        print(f"❌ FATAL: Invalid star '{star}' not in canon: {labels}", file=sys.stderr)
         print(f"💡 Update star_canon.json or fix star inference heuristics", file=sys.stderr)
         sys.exit(1)
     return star
 
 
 def guess_star(path: str, inv_star: Optional[str], star_canon: Dict[str, Any]) -> str:
-    aliases = star_canon.get("aliases", {})
-    stars = set(star_canon.get("stars", []))
+    labels = set(extract_canon_labels(star_canon))
     # Inventory-proposed star (normalize via aliases)
     if inv_star:
-        norm = aliases.get(inv_star, inv_star)
-        if norm in stars:
-            return validate_star(norm, star_canon)
+        norm = normalize_star_label(inv_star, star_canon)
+        if norm in labels:
+            return validate_star(norm, star_canon, labels=labels)
     # Heuristics from path
     for pattern, star in STAR_HINTS:
         if re.search(pattern, path):
-            return validate_star(star, star_canon)
-    return validate_star(STAR_DEFAULT, star_canon)
+            return validate_star(star, star_canon, labels=labels)
+    return validate_star(STAR_DEFAULT, star_canon, labels=labels)
 
 def guess_colony(path: str) -> Optional[str]:
     for pattern, colony in COLONY_HINTS:
@@ -392,6 +393,7 @@ def main():
 
     inv = json.load(open(args.inventory, "r", encoding="utf-8"))
     star_canon = json.load(open(args.star_canon, "r", encoding="utf-8"))
+    extract_canon_labels(star_canon)
 
     items = inv.get("inventory", [])
     if args.limit:
