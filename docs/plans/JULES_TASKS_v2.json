@@ -1,0 +1,158 @@
+[
+  {
+    "id": "J-01",
+    "title": "Seed module docstrings across all scripts",
+    "description": "Auto-inject module docstrings for 347 scripts using scripts/seed_module_docstrings.py. This ensures 100% baseline documentation coverage before manual review.",
+    "commands": [
+      "python scripts/seed_module_docstrings.py && git add -A",
+      "interrogate -v --fail-under 85 -o docs/audits/docstring_coverage.json scripts api"
+    ],
+    "depends_on": [],
+    "acceptance": {
+      "coverage": "interrogate >= 85%",
+      "validation": "pydocstyle scripts api passes without errors"
+    },
+    "priority": "P1",
+    "outputs": [
+      "docs/audits/docstring_coverage.json",
+      "docs/audits/docstring_offenders.txt"
+    ],
+    "parallel_group": "sequential",
+    "estimated_time": "30min"
+  },
+  {
+    "id": "J-02",
+    "title": "Document critical 30 scripts with full function docstrings",
+    "description": "Enhance top 30 infrastructure scripts with comprehensive Google-style function docstrings including Args/Returns/Raises and usage examples.",
+    "files": [
+      "scripts/generate_module_manifests.py",
+      "scripts/validate_module_manifests.py",
+      "scripts/validate_contract_refs.py",
+      "scripts/context_coverage_bot.py",
+      "scripts/migrate_context_front_matter.py",
+      "scripts/sync_t12_manifest_owners.py",
+      "scripts/fix_t12_context_owners.py",
+      "scripts/phase4_build_canary.py",
+      "scripts/phase4_run_set.sh",
+      "scripts/analyze_contract_coverage.py"
+    ],
+    "depends_on": ["J-01"],
+    "acceptance": {
+      "criteria": [
+        "All functions include Args, Returns, and Raises sections",
+        "pydocstyle convention=google passes",
+        "Manual spot-check of 5 random scripts by Claude Code"
+      ]
+    },
+    "priority": "P1",
+    "parallel_group": "sequential",
+    "estimated_time": "2h",
+    "notes": "Focus on top 30 infrastructure scripts. Jules handles this manually."
+  },
+  {
+    "id": "J-03",
+    "title": "Integrate docstring and OpenAPI validation into CI",
+    "description": "Add CI stages to enforce docstring coverage, style checks, and OpenAPI spec validation. Configure fail thresholds for automation.",
+    "files_modified": [
+      ".pre-commit-config.yaml",
+      ".github/workflows/matriz-validate.yml",
+      ".github/workflows/docstring-quality.yml"
+    ],
+    "depends_on": ["J-01", "J-02"],
+    "commands": [
+      "pip install pydocstyle interrogate",
+      "npm i -g @apidevtools/swagger-cli @stoplight/spectral-cli"
+    ],
+    "acceptance": {
+      "criteria": [
+        "CI fails when interrogate coverage < 85%",
+        "swagger-cli validate docs/openapi/*.openapi.yaml returns 0 errors",
+        "spectral lint docs/openapi/*.openapi.yaml reports 0 errors"
+      ]
+    },
+    "priority": "P1",
+    "outputs": [
+      "CI logs for docstring quality and OpenAPI validation",
+      ".github/workflows/docstring-quality.yml"
+    ],
+    "parallel_group": "sequential",
+    "estimated_time": "45min",
+    "notes": "Codex can assist with CI integration. Creates enforcement pipeline."
+  },
+  {
+    "id": "J-04",
+    "title": "Create and validate OpenAPI specifications",
+    "description": "Write and validate five OpenAPI 3.1 YAML files covering Consciousness, Memory, Identity, Governance, and MATRIZ APIs.",
+    "files_output": [
+      "docs/openapi/consciousness.openapi.yaml",
+      "docs/openapi/memory.openapi.yaml",
+      "docs/openapi/identity.openapi.yaml",
+      "docs/openapi/governance.openapi.yaml",
+      "docs/openapi/matriz.openapi.yaml",
+      "docs/openapi/README.md"
+    ],
+    "depends_on": ["J-03"],
+    "acceptance": {
+      "criteria": [
+        "swagger-cli validate passes for all 5 specs",
+        "spectral lint returns 0 errors",
+        "Each spec includes examples and response schemas",
+        "All paths reference Pydantic models from api/ directory"
+      ]
+    },
+    "priority": "P1",
+    "parallel_group": "parallel_after_J03",
+    "estimated_time": "1.5h",
+    "notes": "Can run in parallel with J-05 once J-03 completes. Claude Code handles OpenAPI authoring."
+  },
+  {
+    "id": "J-05",
+    "title": "Generate API index and artifacts",
+    "description": "Create API index documentation and store validation artifacts for audit visibility.",
+    "files_output": [
+      "docs/apis/INDEX.md",
+      "docs/audits/openapi_lint_report.txt",
+      "docs/apis/endpoint_catalog.json"
+    ],
+    "depends_on": ["J-04"],
+    "acceptance": {
+      "criteria": [
+        "INDEX.md links all endpoints across 5 domains",
+        "Artifacts uploaded as CI job outputs",
+        "All doc references resolve (check_links.py passes)",
+        "endpoint_catalog.json contains all routes with metadata"
+      ]
+    },
+    "priority": "P2",
+    "parallel_group": "parallel_after_J03",
+    "estimated_time": "30min",
+    "notes": "Automation-friendly. Can run in parallel with J-04."
+  },
+  {
+    "id": "J-06",
+    "title": "Final validation and PR handoff",
+    "description": "Run final checks, confirm acceptance gates, and prepare PR for main with discipline-pack label.",
+    "depends_on": ["J-05"],
+    "commands": [
+      "pytest -q -m matriz_smoke",
+      "scripts/validate_module_manifests.py --strict",
+      "make jules-validate"
+    ],
+    "acceptance": {
+      "criteria": [
+        "All tests green",
+        "CI passes all docstring/OpenAPI gates",
+        "PR created with standardized commit message template",
+        "All 17 acceptance criteria from J-01 through J-05 verified"
+      ]
+    },
+    "priority": "P2",
+    "parallel_group": "final",
+    "estimated_time": "20min",
+    "outputs": [
+      "PR created on feat/jules-documentation-complete",
+      "docs/audits/jules_completion_report.md"
+    ],
+    "notes": "Copilot handles PR automation. Final gate before merge."
+  }
+]
