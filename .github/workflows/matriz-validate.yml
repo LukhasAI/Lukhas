@@ -323,9 +323,9 @@ jobs:
         run: |
           set -euo pipefail
           TARGETS=(
-            "lukhas/adapters/openai"
-            "lukhas/core/reliability"
-            "lukhas/observability"
+            "bridge/adapters"
+            "core/reliability"
+            "observability"
             "MATRIZ/core"
             "MATRIZ/interfaces/api_server.py"
           )
@@ -637,8 +637,8 @@ jobs:
 
       - name: Validate alert rules
         run: |
-          if [ -d "lukhas/observability/alerts" ]; then
-            promtool check rules lukhas/observability/alerts/*.alerts.yml
+          if [ -d "observability/alerts" ]; then
+            promtool check rules observability/alerts/*.alerts.yml
             echo "✅ Alert rules validation passed"
           else
             echo "ℹ️  No alert rules found, skipping"

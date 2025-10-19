@@ -27,16 +27,16 @@ jobs:
 
         # Define critical paths that require dual approval
         CRITICAL_PATHS=(
-          "lukhas/governance/ethics/"
-          "lukhas/core/registry.py"
+          "labs/governance/ethics/"
+          "core/registry.py"
           "claude-code.json"
-          "lukhas/core/guardian/"
+          "governance/guardian/"
           ".github/workflows/security-audit.yml"
           "ops/prometheus/"
           "tools/security/"
-          "lukhas/observability/"
+          "observability/"
           "matriz/core/async_orchestrator.py"
-          "lukhas/core/import_router.py"
+          "core/import_router.py"
           "guardian/flag_snapshot.sh"
           "docs/templates/canary_decision_one_page.md"
           ".github/workflows/ci.yml"

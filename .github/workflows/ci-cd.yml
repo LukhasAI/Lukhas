@@ -38,7 +38,7 @@ jobs:
       - name: Run Bandit security linter
         run: |
           pip install bandit[toml]
-          bandit -r lukhas/ -f json -o bandit-report.json || true
+          bandit -r consciousness/ identity/ governance/ memory/ core/ bio/ -f json -o bandit-report.json || true
 
       - name: Upload security scan results
         uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808  # v4
@@ -68,16 +68,16 @@ jobs:
           pip install -r requirements-dev.txt
 
       - name: Run Black code formatter check
-        run: black --check lukhas/ tests/
+        run: black --check consciousness/ identity/ governance/ memory/ core/ bio/ tests/
 
       - name: Run isort import sorting check
-        run: isort --check-only lukhas/ tests/
+        run: isort --check-only consciousness/ identity/ governance/ memory/ core/ bio/ tests/
 
       - name: Run flake8 linting
-        run: flake8 lukhas/ tests/
+        run: flake8 consciousness/ identity/ governance/ memory/ core/ bio/ tests/
 
       - name: Run mypy type checking
-        run: mypy lukhas/
+        run: mypy consciousness/ identity/ governance/ memory/ core/ bio/
 
       - name: Generate code coverage report
         run: |

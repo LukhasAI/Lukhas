@@ -37,7 +37,7 @@ jobs:
           echo "🔍 Checking for MockGuardian usage in production code..."
 
           # Define production paths to check
-          PROD_PATHS="lukhas/identity/webauthn_api.py lukhas/orchestration/api.py lukhas/governance/guardian.py"
+          PROD_PATHS="identity/webauthn_api.py orchestration/api.py labs/governance/guardian/guardian.py"
 
           # Check if MockGuardian is imported in production code (excluding tests)
           MOCK_FOUND=0

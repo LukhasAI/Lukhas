@@ -109,7 +109,11 @@ jobs:
           print("|--------|----------|---------------|--------|")
 
           modules = {
-              'lukhas/': 'Core LUKHAS',
+              'consciousness/': 'Consciousness',
+              'identity/': 'Identity',
+              'governance/': 'Governance',
+              'memory/': 'Memory',
+              'core/': 'Core',
               'consciousness/': 'Consciousness',
               'governance/': 'Governance',
               'identity/': 'Identity',
@@ -379,7 +383,7 @@ jobs:
 
           # Define critical files that must have high coverage
           critical_files = [
-              'lukhas/core/',
+              'core/',
               'consciousness/__init__.py',
               'governance/auth_integration_system.py',
               'identity/lambda_id.py',

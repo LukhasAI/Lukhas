@@ -4,7 +4,7 @@ on:
   pull_request:
     paths:
       - 'docs/openapi/**'
-      - 'lukhas/adapters/openai/**'
+      - 'bridge/adapters/**'
       - 'serve/main.py'
 
 jobs:

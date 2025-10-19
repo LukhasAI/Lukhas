@@ -66,8 +66,8 @@ jobs:
           RUFF_PHASE_A=$(python3 -m ruff check candidate/ labs/ --output-format=concise 2>&1 | wc -l || echo "0")
           echo "ruff_phase_a=$RUFF_PHASE_A" >> $GITHUB_OUTPUT
 
-          # Phase B: Hot paths (lukhas/adapters, lukhas/core/reliability)
-          RUFF_PHASE_B=$(python3 -m ruff check lukhas/adapters/ lukhas/core/reliability/ --output-format=concise 2>&1 | wc -l || echo "0")
+          # Phase B: Hot paths (bridge/adapters, core/reliability)
+          RUFF_PHASE_B=$(python3 -m ruff check bridge/adapters/ core/reliability/ --output-format=concise 2>&1 | wc -l || echo "0")
           echo "ruff_phase_b=$RUFF_PHASE_B" >> $GITHUB_OUTPUT
 
           # Budget ceilings (target vs gate)
@@ -153,7 +153,7 @@ print('pass' if has_rl else 'warn')
 ### Thresholds & Budgets
 - **Smoke:** ✅ ≥95% · 🟢 ≥85% · 🟡 ≥70% · 🟠 ≥50% · 🔴 <50%
 - **Ruff Phase A:** Budget ≤${budgetA} (candidate/labs, permissive)
-- **Ruff Phase B:** Target ≤${budgetBTarget}, Gate ≤${budgetBGate} (lukhas/adapters, lukhas/core/reliability)
+- **Ruff Phase B:** Target ≤${budgetBTarget}, Gate ≤${budgetBGate} (bridge/adapters, core/reliability)
   - 🟡 = between target and gate (acceptable, needs improvement)
   - ✅ = at or below target (excellent)
   - 🔴 = exceeds gate (fails CI)

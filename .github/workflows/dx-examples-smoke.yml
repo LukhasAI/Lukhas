@@ -7,7 +7,7 @@ on:
       - 'docs/gonzo/dx/**'
       - 'docs/postman/**'
       - '.github/workflows/dx-examples-smoke.yml'
-      - 'lukhas/adapters/openai/api.py'
+      - 'bridge/adapters/openai_adapter.py'
   workflow_dispatch: {}
 
 concurrency:

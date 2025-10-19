@@ -2,7 +2,12 @@ name: MATRIZ Readiness (quick)
 on:
   pull_request:
     paths:
-      - 'lukhas/**'
+      - 'consciousness/**'
+      - 'identity/**'
+      - 'governance/**'
+      - 'memory/**'
+      - 'core/**'
+      - 'bio/**'
       - 'candidate/**'
       - 'docs/matriz/**'
       - 'templates/module.lane.yaml'

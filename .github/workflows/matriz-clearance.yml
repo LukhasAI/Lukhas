@@ -4,7 +4,12 @@ on:
   push:
     branches: [ main ]
     paths:
-      - "lukhas/**"
+      - "consciousness/**"
+      - "identity/**"
+      - "governance/**"
+      - "memory/**"
+      - "core/**"
+      - "bio/**"
       - "MATRIZ/**"
       - "tests/**"
       - "scripts/**"
@@ -15,7 +20,12 @@ on:
   pull_request:
     branches: [ main ]
     paths:
-      - "lukhas/**"
+      - "consciousness/**"
+      - "identity/**"
+      - "governance/**"
+      - "memory/**"
+      - "core/**"
+      - "bio/**"
       - "MATRIZ/**"
       - "tests/**"
       - "scripts/**"

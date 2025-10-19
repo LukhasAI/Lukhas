@@ -7,7 +7,12 @@ on:
       - 'consciousness/**'
       - 'core/**'
       - 'governance/**'
-      - 'lukhas/**'
+      - 'consciousness/**'
+      - 'identity/**'
+      - 'governance/**'
+      - 'memory/**'
+      - 'core/**'
+      - 'bio/**'
   push:
     branches: [ main ]
 

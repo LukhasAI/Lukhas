@@ -3,13 +3,15 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
-      - 'lukhas/identity/**'
+      - 'identity/**'
+      - 'labs/identity/**'
       - 'tests/identity/**'
       - 'tests/orchestration/test_multi_ai_router.py'  # For integration tests
   push:
     branches: [main, develop]
     paths:
-      - 'lukhas/identity/**'
+      - 'identity/**'
+      - 'labs/identity/**'
       - 'tests/identity/**'
 
 env:
