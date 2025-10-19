@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: mass_fix_remaining_syntax.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Mass Fix Remaining Syntax Errors
 Fix all remaining syntax errors identified in final verification
 """

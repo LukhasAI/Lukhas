@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: plan_colony_renames.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Plan colony (lane) renames without touching the tree.
 
 - Scans for lane-ish dirs (candidate/, legacy lucas/, nested pockets)

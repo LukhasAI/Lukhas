@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: fstring_fix.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 fstring_fix.py — Conservative auto-fixer for common f-string brace syntax errors.
 
 What it does (safe cases only):

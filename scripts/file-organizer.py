@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: file-organizer.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 LUKHAS Automated File Organizer
 ================================
 Keeps the root directory clean by automatically organizing files

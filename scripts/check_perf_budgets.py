@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: check_perf_budgets.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Performance budget checker for T4 hardening
 Validates test durations against historical p95 baselines
 """

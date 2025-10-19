@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: qi_migration_report.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 🧬 LUKHAS Quantum → QI Module Migration Report
 Summary of quantum module structure update to QI (Quantum Intelligence)
 Constellation Framework: ⚛️ Identity | 🧠 Consciousness | 🛡️ Guardian

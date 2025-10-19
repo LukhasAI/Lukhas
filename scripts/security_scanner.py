@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: security_scanner.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 LUKHAS Security Scanner
 Comprehensive security scanning with Semgrep, Bandit, dependency vulnerability scanning,
 and secrets detection for T4/0.01% excellence standards.

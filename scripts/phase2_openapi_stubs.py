@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: phase2_openapi_stubs.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Phase 2: Generate OpenAPI Stubs for Flagship APIs
 
 Creates OpenAPI 3.0 stubs for flagship constellation modules:

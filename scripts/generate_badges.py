@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: generate_badges.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Generate simple SVG badges for manifest and context coverage.
 
 Usage:

@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+"""
+Module: lock.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
 """Acquire or refresh a lightweight repo-local lock."""
 
 import argparse

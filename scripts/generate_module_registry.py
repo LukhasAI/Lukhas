@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+"""
+Module: generate_module_registry.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
 """Generate MODULE_REGISTRY.json from all module.manifest.json files."""
 from __future__ import annotations
 

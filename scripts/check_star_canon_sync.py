@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+"""
+Module: check_star_canon_sync.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
 """Check Star Canon Sync Guard."""
 from __future__ import annotations
 

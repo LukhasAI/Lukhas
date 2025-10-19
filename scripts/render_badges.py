@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: render_badges.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 LUKHAS Documentation Badge Renderer (T4/0.01%)
 
 Synthesizes badges from front-matter (status + owner) and injects at top of docs.

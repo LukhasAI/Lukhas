@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: nuclear_syntax_eliminator_phase2.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 🚨 NUCLEAR SYNTAX ERROR ELIMINATION - PHASE 2
 ============================================
 

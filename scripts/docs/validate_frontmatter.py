@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: validate_frontmatter.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Validate YAML frontmatter in all markdown files.
 
 Checks:

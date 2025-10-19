@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+"""
+Module: unlock.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
 """Release a repo-local lock."""
 
 import argparse

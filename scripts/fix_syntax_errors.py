@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: fix_syntax_errors.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 🔧 LUKHAS Syntax Error Fixer
 Automatically detects and fixes common syntax errors in Python files.
 Part of the Phase 1.1 Foundation Repair initiative.

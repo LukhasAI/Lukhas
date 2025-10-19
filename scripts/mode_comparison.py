@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: mode_comparison.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Mode comparison: STANDARD vs INTENSIVE vs MAINTENANCE consolidation.
 Shows control dial story for different throughput/safety trade-offs.
 """

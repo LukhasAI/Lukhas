@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: fix_closing_brace_issues.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Fix specific f-string closing parenthesis issues
 Patterns like {time.time()} missing closing }
 """

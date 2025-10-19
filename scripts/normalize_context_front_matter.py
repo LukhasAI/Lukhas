@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+"""
+Module: normalize_context_front_matter.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
 import argparse, dataclasses, datetime as dt, json, re, sys
 from pathlib import Path
 

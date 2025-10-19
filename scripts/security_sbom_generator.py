@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: security_sbom_generator.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 LUKHAS Security SBOM Generator
 Generates comprehensive Software Bill of Materials (SBOM) in CycloneDX format
 with security vulnerability mappings and license compliance validation.

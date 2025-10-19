@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: fix_bracket_mismatches.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Fix F-string bracket mismatches
 Fixes issues like {uuid.uuid4(}} -> {uuid.uuid4()}
 """

@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: demo_parallel_orchestration.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Demo script showing parallel orchestration capabilities.
 Demonstrates the performance improvements from parallel execution.
 """

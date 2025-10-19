@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: automated_safe_fixing_plan.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 LUKHAS AI - Automated Safe F-String Fixing Plan
 ==============================================================================
 

@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: generate_module_docs.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 🚀 LUKHAS Module Documentation Generator
 =========================================
 Automatically generates comprehensive documentation for all LUKHAS modules

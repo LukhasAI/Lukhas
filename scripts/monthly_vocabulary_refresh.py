@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: monthly_vocabulary_refresh.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Monthly Vocabulary Refresh Pipeline - T4/0.01% Standards
 LUKHAS AI Enhanced 3-Layer Tone System Maintenance
 

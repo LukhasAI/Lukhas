@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: automated_maintenance_pipeline.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 LUKHAS Automated Schema Maintenance Pipeline
 Provides automated validation, monitoring, and maintenance for LUKHAS architecture
 """

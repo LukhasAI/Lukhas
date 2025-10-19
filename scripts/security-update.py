@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: security-update.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Automated Security Update Script for LUKHAS
 
 This script automatically updates dependencies with known security vulnerabilities

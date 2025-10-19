@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: mass_bracket_fixer.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Mass Bracket Fixer - Target Specific Systematic Patterns
 ========================================================
 

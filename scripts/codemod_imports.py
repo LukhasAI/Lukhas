@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: codemod_imports.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Codemod legacy imports to canonical lukhas.* paths using LibCST when available.
 
 Dry-run by default: outputs docs/audits/codemod_preview.csv with proposed edits.

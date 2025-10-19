@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: fix_remaining_syntax.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Fix remaining syntax errors in LUKHAS codebase
 """
 

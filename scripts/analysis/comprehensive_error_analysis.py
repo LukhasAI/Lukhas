@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: comprehensive_error_analysis.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 🔬 COMPREHENSIVE ERROR ANALYSIS
 Deep analysis of all syntax errors across the entire codebase
 """

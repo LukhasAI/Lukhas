@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: validate_manifests.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Validate all module.manifest.json files against schema.
 Usage:
   python scripts/validate_manifests.py --schema schemas/matriz_module_compliance.schema.json [--root .] [--warn-only]

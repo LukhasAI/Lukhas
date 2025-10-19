@@ -1,3 +1,10 @@
+"""
+Module: colony_dna_smoke.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
 from colony.adapters.consensus_to_dna import (
     persist_consensus_to_dna,
 )

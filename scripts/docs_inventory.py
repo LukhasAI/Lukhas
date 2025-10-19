@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: docs_inventory.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 LUKHAS Documentation Inventory Builder
 
 Scans all *.md files in docs/ and generates a complete manifest with metadata.

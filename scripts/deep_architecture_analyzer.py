@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: deep_architecture_analyzer.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 LUKHAS Deep Architecture Analyzer
 Exposes the true module structure and duplications
 """

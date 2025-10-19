@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: validate_i2_excellence.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 I.2 Tiered Authentication T4/0.01% Excellence Validation Script
 ==============================================================
 

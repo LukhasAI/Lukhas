@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: create_missing_contexts.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Create missing lukhas_context.md files next to module.manifest.json using
 manifest data and include proper YAML front-matter.
 

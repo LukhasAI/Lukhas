@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+"""
+Module: fix_brain_integration.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
 """Fix massive indentation corruption in brain_integration.py"""
 
 import re

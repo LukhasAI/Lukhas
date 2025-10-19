@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: fix_agi_cognitive_inaccuracies.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Fix inaccurate AGI->Cognitive document changes.
 
 This script corrects specific instances where the mass migration was too broad,

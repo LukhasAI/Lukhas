@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: debug_threading_issue.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Debug script to isolate and fix the threading issue with SQLite database table creation.
 """
 

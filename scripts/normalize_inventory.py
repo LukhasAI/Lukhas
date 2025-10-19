@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: normalize_inventory.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Normalize Module Inventory
 
 Prepares COMPLETE_MODULE_INVENTORY.json for manifest generation by:

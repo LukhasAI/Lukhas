@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: consciousness_contract_generator.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 LUKHAS Consciousness Component Contract Generator
 Analyzes consciousness components and generates contracts
 """

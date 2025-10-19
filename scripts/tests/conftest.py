@@ -1,3 +1,10 @@
+"""
+Module: conftest.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
 # @generated LUKHAS scaffold v1.0
 # template_id: module.scaffold/v1
 # template_commit: f95979630

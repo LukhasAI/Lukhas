@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: constellation_mapper.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 LUKHAS Constellation Module Mapper
 Maps relationships and dependencies between consciousness components
 """

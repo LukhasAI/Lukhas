@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: migrate_tests_auto.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Migrate test files to module-local tests/ directories.
 
 Uses git mv for history preservation.

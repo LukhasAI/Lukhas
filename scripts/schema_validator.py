@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: schema_validator.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 LUKHAS Schema Validation Tool
 Validates all LUKHAS schemas and generates comprehensive reports
 """

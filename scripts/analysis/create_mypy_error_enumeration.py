@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: create_mypy_error_enumeration.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Mypy Error Enumeration Script
 Creates a structured JSON file of all mypy errors for agent task assignment
 """

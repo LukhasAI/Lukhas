@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: update_manifest_paths.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Update JSON manifest path strings safely.
 
 Usage:

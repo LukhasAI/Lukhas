@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: fix_t12_context_owners.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Set owner in lukhas_context.md front-matter for T1/T2 modules.
 
 Policy: T1/T2 must have an explicit owner. If the sibling manifest is T1_critical

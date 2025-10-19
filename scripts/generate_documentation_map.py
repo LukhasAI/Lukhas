@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+"""
+Module: generate_documentation_map.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
 """Generate DOCUMENTATION_MAP.md and MODULE_INDEX.md from registry."""
 from __future__ import annotations
 

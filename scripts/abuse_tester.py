@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: abuse_tester.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 LUKHAS Abuse Testing Framework
 Comprehensive API security testing with attack simulation for T4/0.01% excellence standards.
 Tests for injection attacks, authentication bypass, rate limiting, and DoS resistance.

@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: transfer_candidate_scanner.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Scan sibling repositories in /Users/agi_dev/LOCAL-REPOS for modules that are
 likely worth transferring into Lukhas or pruning (duplicates/backups).
 

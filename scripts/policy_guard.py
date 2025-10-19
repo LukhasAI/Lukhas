@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: policy_guard.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Fail if T1_critical modules contain eval/exec/subprocess.* unless whitelisted via manifest.security.policies.
 """
 import json

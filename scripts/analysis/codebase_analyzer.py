@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: codebase_analyzer.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Codebase Analyzer - Systematic analysis tool for messy codebases
 Helps identify naming inconsistencies, misplaced files, and organizational issues
 """

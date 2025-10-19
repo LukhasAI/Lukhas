@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: fix_fstring_errors_v2.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Fix F-string Formatting Errors V2
 More precise fix for f-string curly brace issues
 """

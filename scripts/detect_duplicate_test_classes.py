@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+"""
+Module: detect_duplicate_test_classes.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
 import argparse
 import ast
 import sys

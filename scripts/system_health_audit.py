@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: system_health_audit.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 System Health Audit
 - Runs: ruff stats, pytest+coverage (smoke+unit core), compat hits, openapi validate,
         star-rules coverage (if present), deps scan (pip-audit if available)

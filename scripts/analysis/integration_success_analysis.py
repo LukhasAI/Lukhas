@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: integration_success_analysis.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Cross-Component Integration Success Analysis
 ==========================================
 

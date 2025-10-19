@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: validate_matriz_observability.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 MATRIZ Cognitive Pipeline Observability Validation Script
 
 Validates the complete observability integration for MATRIZ cognitive pipeline including:
