@@ -16,7 +16,7 @@ from difflib import get_close_matches
 from typing import Dict, Set
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-MANIFESTS = list(ROOT.rglob("module.manifest.json"))
+MANIFESTS = [m for m in ROOT.rglob("module.manifest.json") if ".archive" not in str(m)]
 ID_RE = re.compile(r"^[A-Za-z0-9_.:/-]+@v\d+$")
 
 
@@ -56,6 +56,20 @@ def main():
         except Exception as e:
             print(f"[WARN] Could not read manifest {mf}: {e}")
             continue
+        
+        # Check module-level contracts array
+        module_contracts = m.get("contracts", [])
+        if module_contracts:
+            for contract_path in module_contracts:
+                checked += 1
+                # Check if contract file exists
+                full_path = ROOT / contract_path
+                if not full_path.exists():
+                    unknown.add(contract_path)
+                    failures += 1
+                    print(f"[FAIL] {mf}: contract file not found: {contract_path}")
+        
+        # Check observability event contracts (legacy format)
         ev = (m.get("observability", {}) or {}).get("events", {})
         for kind in ("publishes", "subscribes"):
             for item in ev.get(kind, []) or []:
