@@ -4,7 +4,8 @@ on:
   push:
     branches: [ main, develop ]
     paths:
-      - 'lukhas/**/*.py'
+      - '**/*.py'
+      - 'labs/**/*.py'
       - 'candidate/**/*.py'
       - 'tests/**/*.py'
       - 'pyproject.toml'
@@ -12,7 +13,8 @@ on:
   pull_request:
     branches: [ main, develop ]
     paths:
-      - 'lukhas/**/*.py'
+      - '**/*.py'
+      - 'labs/**/*.py'
       - 'candidate/**/*.py'
       - 'tests/**/*.py'
       - 'pyproject.toml'
@@ -180,7 +182,7 @@ jobs:
             # Check if memory files exist
             import os
             memory_files = []
-            for root, dirs, files in os.walk('lukhas/memory'):
+            for root, dirs, files in os.walk('labs/memory'):
                 memory_files.extend(files)
 
             print(f'📊 Memory system files found: {len(memory_files)}')
@@ -260,7 +262,7 @@ jobs:
         }
 
         # Check for registry
-        if os.path.exists('lukhas/core/registry'):
+        if os.path.exists('core/registry'):
             report['validation_results']['registry_available'] = True
 
         # Recommendations

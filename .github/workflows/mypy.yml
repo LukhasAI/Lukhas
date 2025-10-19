@@ -29,7 +29,7 @@ jobs:
           python - <<'PY'
 import json, sys
 j=json.load(open("reports/audit/types/mypy.json"))
-core=sum(1 for e in j.get("errors",[]) if str(e.get("path","")).startswith(("lukhas/","MATRIZ/")))
+core=sum(1 for e in j.get("errors",[]) if str(e.get("path","")).startswith(("consciousness/","identity/","governance/","memory/","core/","bio/","MATRIZ/")))
 print(f"Core mypy errors: {core}")
 sys.exit(1 if core>0 else 0)
 PY

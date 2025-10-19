@@ -210,7 +210,7 @@ jobs:
 
       - name: Start LUKHAS API
         run: |
-          python lukhas/main.py &
+          python main.py &
           API_PID=$!
           echo "API_PID=$API_PID" >> $GITHUB_ENV
           sleep 10  # Wait for startup

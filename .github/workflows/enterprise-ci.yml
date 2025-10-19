@@ -257,7 +257,7 @@ jobs:
           mutation-testing)
             echo "🧬 Mutation Testing for Test Quality Validation"
             # Run mutation testing on core modules
-            mutmut run --paths-to-mutate=lukhas/consciousness \
+            mutmut run --paths-to-mutate=consciousness \
               --tests-dir=tests --runner=pytest \
               --timeout=${{ env.MUTATION_TIMEOUT }}
             mutmut junitxml > reports/advanced/mutation-testing/junit.xml || true

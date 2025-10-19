@@ -6,7 +6,7 @@ on:
     paths:
       - 'matriz/**'
       - 'candidate/core/orchestration/**'
-      - 'lukhas/core/matriz/**'
+      - 'core/matriz/**'
       - 'deployment/canary/**'
   workflow_dispatch:
     inputs:

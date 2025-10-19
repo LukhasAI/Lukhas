@@ -76,9 +76,9 @@ jobs:
 
           # Check if this is a security-sensitive change
           SECURITY_PATHS=(
-            "lukhas/identity/"
-            "lukhas/governance/"
-            "lukhas/consciousness/"
+            "identity/"
+            "labs/governance/"
+            "consciousness/"
             ".semgrep/"
             "scripts/security"
             "tests/security/"
@@ -377,7 +377,7 @@ jobs:
           echo "🔒 Running Bandit static security analysis..."
 
           bandit \
-            -r lukhas/ scripts/ \
+            -r consciousness/ identity/ governance/ memory/ core/ bio/ scripts/ \
             -f json \
             -o security-reports/bandit-report.json \
             -ll \

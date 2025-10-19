@@ -32,7 +32,7 @@ try:
     totals = {"core": 0, "candidate": 0, "other": 0}
     for rec in data:
         path = str(rec.get("filename", ""))
-        if path.startswith(("lukhas/", "MATRIZ/")):
+        if path.startswith(("consciousness/", "identity/", "governance/", "memory/", "core/", "bio/", "MATRIZ/")):
             totals["core"] += 1
         elif path.startswith("candidate/"):
             totals["candidate"] += 1
@@ -44,7 +44,7 @@ try:
     print(f"")
     print(f"| Category | Count |")
     print(f"|----------|-------|")
-    print(f"| Core (lukhas/, MATRIZ/) | {totals['core']} |")
+    print(f"| Core (consciousness/, identity/, governance/, memory/, core/, bio/, MATRIZ/) | {totals['core']} |")
     print(f"| Candidate | {totals['candidate']} |")  
     print(f"| Other | {totals['other']} |")
     print(f"| **Total** | **{total}** |")

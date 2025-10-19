@@ -223,7 +223,7 @@ jobs:
             **⚛️ Transforming technical debt into documented intent**
 
             This PR contains automatically generated TODO annotations for unused imports in production lanes:
-            - `lukhas/`, `core/`, `api/`, `consciousness/`, `memory/`, `identity/`, `MATRIZ/`
+            - `consciousness/`, `identity/`, `governance/`, `memory/`, `core/`,`, `api/`, `consciousness/`, `memory/`, `identity/`, `MATRIZ/`
 
             ### Changes Made:
             - Added `# TODO[T4-UNUSED-IMPORT]: <reason>` annotations to unused imports

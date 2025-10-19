@@ -38,7 +38,7 @@ jobs:
       - name: Check quarantine imports
         run: |
           echo "Checking for quarantine imports in production code..."
-          if grep -r "from lukhas.quarantine" lukhas/ candidate/ 2>/dev/null; then
+          if grep -r "from lukhas.quarantine" consciousness/ identity/ governance/ memory/ core/ bio/ labs/ 2>/dev/null; then
             echo "❌ ERROR: Found quarantine imports in production code!"
             exit 1
           fi

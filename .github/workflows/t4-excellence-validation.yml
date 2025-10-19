@@ -158,14 +158,14 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
 
           # Guardian configuration
-          if grep -q "ProductionGuardian" lukhas/governance/guardian.py; then
+          if grep -q "ProductionGuardian" labs/governance/guardian/guardian.py; then
             echo "- ✅ ProductionGuardian implementation present" >> $GITHUB_STEP_SUMMARY
           else
             echo "- ❌ ProductionGuardian implementation missing" >> $GITHUB_STEP_SUMMARY
           fi
 
           # Rate limiting
-          if [ -f "lukhas/identity/rate_limiting.py" ]; then
+          if [ -f "labs/identity/rate_limiting.py" ]; then
             echo "- ✅ Rate limiting system implemented" >> $GITHUB_STEP_SUMMARY
           else
             echo "- ❌ Rate limiting system missing" >> $GITHUB_STEP_SUMMARY
@@ -248,7 +248,7 @@ jobs:
           }
 
           # Check for any architectural drift
-          with open('lukhas/governance/guardian.py', 'r') as f:
+          with open('labs/governance/guardian/guardian.py', 'r') as f:
               guardian_code = f.read()
               if 'MockGuardian' in guardian_code and 'ProductionGuardian' not in guardian_code:
                   excellence_report['compliance_checks']['guardian_architecture'] = False
