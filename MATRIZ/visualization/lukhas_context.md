@@ -1,14 +1,22 @@
 ---
-status: wip
-type: documentation
+title: lukhas_context
+slug: visualization.lukhas_context
+owner: T4
+lane: labs
+star:
+stability: experimental
+last_reviewed: 2025-10-18
+constellation_stars:
+related_modules:
+manifests:
+links:
+contracts: "[]"
+domain: reasoning
+stars: "[Skill]"
+status: active
+tier: T2
+updated: 2025-10-18
 ---
-# LUKHAS AI Context - Vendor-Neutral AI Guidance
-*This file provides domain-specific context for any AI development tool*
-*Also available as claude.me for Claude Desktop compatibility*
-
----
-
-
 # Graph Visualization
 ## Interactive Cognitive DNA Visualization & Thought Process Exploration
 
