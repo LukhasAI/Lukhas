@@ -707,3 +707,110 @@ jobs:
           python-version: "3.11"
       - name: Compile production Python
         run: python -m compileall -q lukhas MATRIZ core
+
+  docs-polish:
+    name: Documentation Quality Polish (T4+)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt || true
+          pip install interrogate pydocstyle
+          npm i -g @apidevtools/swagger-cli @stoplight/spectral-cli redoc-cli
+      
+      - name: Run interrogate (docstring coverage)
+        run: |
+          mkdir -p docs/audits
+          interrogate -q --fail-under 0 -o docs/audits/docstring_coverage.json scripts api || true
+        continue-on-error: true
+      
+      - name: Run pydocstyle (style validation)
+        run: |
+          pydocstyle scripts api | tee docs/audits/docstring_offenders.txt || true
+        continue-on-error: true
+      
+      - name: OpenAPI validation & lint
+        run: |
+          mkdir -p docs/audits
+          if ls docs/openapi/*.openapi.yaml 1> /dev/null 2>&1; then
+            for f in docs/openapi/*.openapi.yaml; do
+              echo "Validating $f"
+              swagger-cli validate "$f" || true
+              spectral lint "$f" --format junit --output docs/audits/openapi_lint_junit.xml || true
+            done
+          else
+            echo "No OpenAPI specs found (expected during initial setup)"
+          fi
+        continue-on-error: true
+      
+      - name: Build ReDoc previews
+        run: |
+          mkdir -p docs/openapi/site
+          if ls docs/openapi/*.openapi.yaml 1> /dev/null 2>&1; then
+            for f in docs/openapi/*.openapi.yaml; do
+              base=$(basename "$f" .openapi.yaml)
+              redoc-cli build "$f" -o "docs/openapi/site/${base}.html" || true
+            done
+          fi
+        continue-on-error: true
+      
+      - name: Emit documentation metrics
+        run: |
+          python scripts/emit_metrics.py \
+            --coverage docs/audits/docstring_coverage.json \
+            --offenders docs/audits/docstring_offenders.txt \
+            --spectral-junit docs/audits/openapi_lint_junit.xml \
+            --out docs/audits/metrics.json || true
+        continue-on-error: true
+      
+      - name: Generate coverage dashboard
+        run: |
+          python scripts/gen_coverage_dashboard.py \
+            --metrics docs/audits/metrics.json \
+            --out docs/audits/coverage_dashboard.md || true
+        continue-on-error: true
+      
+      - name: Add SPDX headers (advisory)
+        run: |
+          python scripts/add_spdx_headers.py \
+            --roots scripts api \
+            --spdx "SPDX-License-Identifier: Proprietary" \
+            --author "LUKHAS Development Team" \
+            --filetype py || true
+        continue-on-error: true
+      
+      - name: Docstring semantic advisory report
+        run: |
+          python scripts/validate_docstring_semantics.py \
+            --roots scripts api \
+            --report docs/audits/docstring_semantics_report.md \
+            --no-llm || true
+        continue-on-error: true
+      
+      - name: Upload T4+ polish artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase4-docs-polish
+          path: |
+            docs/audits/metrics.json
+            docs/audits/coverage_dashboard.md
+            docs/audits/docstring_coverage.json
+            docs/audits/docstring_offenders.txt
+            docs/audits/openapi_lint_junit.xml
+            docs/audits/docstring_semantics_report.md
+            docs/openapi/site/
+          retention-days: 14
+        if: always()
