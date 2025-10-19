@@ -60,6 +60,7 @@
     ],
     "depends_on": ["J-01", "J-02"],
     "commands": [
+      "python -m pip install --upgrade pip",
       "pip install pydocstyle interrogate",
       "npm i -g @apidevtools/swagger-cli @stoplight/spectral-cli"
     ],
@@ -97,7 +98,8 @@
         "swagger-cli validate passes for all 5 specs",
         "spectral lint returns 0 errors",
         "Each spec includes examples and response schemas",
-        "All paths reference Pydantic models from api/ directory"
+        "All paths reference Pydantic models from api/ directory",
+        "All components/schemas reference existing Python types or documented JSON Schema equivalents"
       ]
     },
     "priority": "P1",
@@ -120,7 +122,8 @@
         "INDEX.md links all endpoints across 5 domains",
         "Artifacts uploaded as CI job outputs",
         "All doc references resolve (check_links.py passes)",
-        "endpoint_catalog.json contains all routes with metadata"
+        "endpoint_catalog.json contains all routes with metadata",
+        "INDEX.md includes ReDoc preview links if present"
       ]
     },
     "priority": "P2",
