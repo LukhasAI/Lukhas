@@ -1,28 +1,30 @@
 ---
 title: LUKHAS Documentation - Root Context
-status: active
-type: documentation
+slug: lukhas_context
 owner: LUKHAS Core Team
+lane: labs
+star:
+stability: experimental
+last_reviewed: 2025-10-18
+constellation_stars:
+related_modules:
+manifests:
+links:
+badges:
+constellation_star: Supporting
+contract_refs:
+matriz_node: supporting
 module: docs
+moved_to: null
+quality_tier: T2_important
+redirect: false
 schema_version: 1.1.0
+status: active
+tags: "[documentation, context, architecture, standards, constellation]"
+type: documentation
 updated: 2025-10-18
 version: 2.0
-constellation_star: Supporting
-matriz_node: supporting
-quality_tier: T2_important
-contract_refs:
-  - lukhas.docs.structure@v1
-  - lukhas.docs.standards@v1
-  - constellation.star_system@v2
-tags: [documentation, context, architecture, standards, constellation]
-redirect: false
-moved_to: null
-badges:
-  status: https://img.shields.io/badge/status-active-green
-  quality: https://img.shields.io/badge/quality-T2-blue
-  coverage: https://img.shields.io/badge/coverage-780_modules-brightgreen
 ---
-
 ![Status: Active](https://img.shields.io/badge/status-active-green)
 ![Quality: T2](https://img.shields.io/badge/quality-T2-blue)
 ![Module Coverage](https://img.shields.io/badge/coverage-780_modules-brightgreen)

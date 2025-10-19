@@ -1,14 +1,18 @@
 ---
+title: lukhas_context
+slug: simulation.lukhas_context
+owner: T4
 lane: L2
+star:
+stability: experimental
+last_reviewed: 2025-10-18
+constellation_stars:
+related_modules:
+manifests:
+links:
 module: consciousness.simulation
 status: stable
 tags:
-- consciousness
-- simulation
-- ethics
-- consent
-- matriz
-- matada
 type: documentation
 ---
 ## Context
