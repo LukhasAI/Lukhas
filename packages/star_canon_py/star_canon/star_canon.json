@@ -1,5 +1,16 @@
 {
   "stars": [
+    {"id": "Anchor", "emoji": "⚓", "domain": "Core Infrastructure"},
+    {"id": "Flow", "emoji": "🌊", "domain": "Consciousness"},
+    {"id": "Trail", "emoji": "✦", "domain": "Memory"},
+    {"id": "Watch", "emoji": "🛡️", "domain": "Guardian/Governance"},
+    {"id": "Horizon", "emoji": "🔭", "domain": "Vision/Perception"},
+    {"id": "Oracle", "emoji": "🔮", "domain": "Quantum/Prediction"},
+    {"id": "Living", "emoji": "🌱", "domain": "Bio-inspired"},
+    {"id": "Drift", "emoji": "🌙", "domain": "Dream/Creativity"},
+    {"id": "Supporting", "emoji": "🔧", "domain": "Infrastructure/Utilities"}
+  ],
+  "labels": [
     "⚛️ Anchor (Identity)",
     "✦ Trail (Memory)",
     "🔬 Horizon (Vision)",
@@ -14,33 +25,43 @@
   "aliases": {
     "Anchor": "⚛️ Anchor (Identity)",
     "Identity": "⚛️ Anchor (Identity)",
+    "⚓ Anchor (Core Infrastructure)": "⚛️ Anchor (Identity)",
 
     "Trail": "✦ Trail (Memory)",
     "Memory": "✦ Trail (Memory)",
 
     "Horizon": "🔬 Horizon (Vision)",
     "Vision": "🔬 Horizon (Vision)",
+    "🔭 Horizon (Vision/Perception)": "🔬 Horizon (Vision)",
 
     "Living": "🌱 Living (Bio)",
     "Bio": "🌱 Living (Bio)",
+    "🌱 Living (Bio-inspired)": "🌱 Living (Bio)",
 
     "Drift": "🌙 Drift (Dream)",
     "Dream": "🌙 Drift (Dream)",
+    "🌙 Drift (Dream/Creativity)": "🌙 Drift (Dream)",
 
     "North": "⚖️ North (Ethics)",
     "Ethics": "⚖️ North (Ethics)",
 
     "Watch": "🛡️ Watch (Guardian)",
     "Guardian": "🛡️ Watch (Guardian)",
+    "Governance": "🛡️ Watch (Guardian)",
+    "🛡️ Watch (Guardian/Governance)": "🛡️ Watch (Guardian)",
 
     "Oracle": "🔮 Oracle (Quantum)",
     "Quantum": "🔮 Oracle (Quantum)",
     "🔮 Oracle (Quantum)": "🔮 Oracle (Quantum)",
     "Ambiguity": "🔮 Oracle (Quantum)",
     "⚛️ Ambiguity (Quantum)": "🔮 Oracle (Quantum)",
+    "🔮 Oracle (Quantum/Prediction)": "🔮 Oracle (Quantum)",
 
     "Flow": "🌊 Flow (Consciousness)",
     "Consciousness": "🌊 Flow (Consciousness)",
-    "🌊 Flow (Consciousness)": "🌊 Flow (Consciousness)"
+    "🌊 Flow (Consciousness)": "🌊 Flow (Consciousness)",
+
+    "Supporting": "Supporting",
+    "🔧 Supporting (Infrastructure/Utilities)": "Supporting"
   }
 }

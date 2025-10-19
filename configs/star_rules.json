@@ -5,6 +5,18 @@
     "v2.0: Add exclusions, owner/dependency priors, richer capability mapping, path guards, and confidence bands; keep Oracle (Quantum) canonical; add Flow (Consciousness)."
   ],
 
+  "stars": [
+    {"id": "Anchor", "emoji": "⚓", "domain": "Core Infrastructure"},
+    {"id": "Flow", "emoji": "🌊", "domain": "Consciousness"},
+    {"id": "Trail", "emoji": "✦", "domain": "Memory"},
+    {"id": "Watch", "emoji": "🛡️", "domain": "Guardian/Governance"},
+    {"id": "Horizon", "emoji": "🔭", "domain": "Vision/Perception"},
+    {"id": "Oracle", "emoji": "🔮", "domain": "Quantum/Prediction"},
+    {"id": "Living", "emoji": "🌱", "domain": "Bio-inspired"},
+    {"id": "Drift", "emoji": "🌙", "domain": "Dream/Creativity"},
+    {"id": "Supporting", "emoji": "🔧", "domain": "Infrastructure/Utilities"}
+  ],
+
   "canonical_stars": [
     "⚛️ Anchor (Identity)",
     "✦ Trail (Memory)",

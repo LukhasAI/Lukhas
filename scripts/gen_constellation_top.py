@@ -17,6 +17,8 @@ import pathlib
 import re
 from collections import defaultdict
 
+from star_canon_utils import extract_canon_labels, normalize_star_label
+
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 MANIFESTS = ROOT / "manifests"
 DOCS = ROOT / "docs"
@@ -39,8 +41,9 @@ def load_manifests():
 def main():
     conf = json.loads(CONFIG.read_text(encoding="utf-8"))
     canon = json.loads(CANON.read_text(encoding="utf-8"))
-    order = conf.get("stars_order", canon.get("stars", []))
-    stars_set = set(canon.get("stars", []))
+    labels = extract_canon_labels(canon)
+    order = conf.get("stars_order", labels)
+    stars_set = set(labels)
 
     # Aggregate
     per_star = defaultdict(list)
@@ -49,9 +52,7 @@ def main():
         total += 1
         star = (m.get("constellation_alignment", {}).get("primary_star")
                 or "Supporting")
-        if star not in stars_set and star != "Supporting":
-            # normalize via aliases
-            star = canon.get("aliases", {}).get(star, star)
+        star = normalize_star_label(star, canon)
         tier = m.get("testing", {}).get("quality_tier", "T4_experimental")
         fqn = m.get("module", {}).get("name") or m.get("module", {}).get("path")
         ctx = (path.parent / "lukhas_context.md").exists()
