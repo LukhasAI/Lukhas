@@ -281,6 +281,48 @@ jobs:
             docs/audits/star_promotions.md
           if-no-files-found: warn
 
+  docstring-quality:
+    name: Documentation Quality Gates
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install interrogate pydocstyle
+
+      - name: Prepare audit directory
+        run: mkdir -p docs/audits
+
+      - name: Run interrogate (docstring coverage)
+        run: |
+          interrogate -v --fail-under 85 \
+            -o docs/audits/docstring_coverage.json \
+            scripts api matriz lukhas
+
+      - name: Run pydocstyle (style enforcement)
+        shell: bash
+        run: |
+          set -o pipefail
+          pydocstyle scripts api matriz lukhas \
+            | tee docs/audits/docstring_offenders.txt
+
+      - name: Upload docstring artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: docstring-quality-artifacts
+          path: |
+            docs/audits/docstring_coverage.json
+            docs/audits/docstring_offenders.txt
+          retention-days: 14
+          if-no-files-found: error
+
   ruff-phaseA:
     name: "Ruff Phase A (budget gate)"
     runs-on: ubuntu-latest
@@ -385,6 +427,46 @@ jobs:
         with:
           name: openapi-spec
           path: docs/openapi/lukhas-openai.json
+
+  openapi-validation:
+    name: OpenAPI Schema Validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare audit directory
+        run: mkdir -p docs/audits
+
+      - name: Install OpenAPI tools
+        run: |
+          npm i -g @apidevtools/swagger-cli @stoplight/spectral-cli
+
+      - name: Validate OpenAPI specs
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          specs=(docs/openapi/*.openapi.yaml)
+          if [ "${#specs[@]}" -eq 0 ]; then
+            echo "No OpenAPI specs found. Skipping validation."
+            exit 0
+          fi
+          for spec in "${specs[@]}"; do
+            echo "Validating ${spec}..."
+            swagger-cli validate "${spec}"
+            base_name="$(basename "${spec}" .yaml)"
+            spectral lint "${spec}" --format junit \
+              --output "docs/audits/${base_name}_lint.xml"
+          done
+
+      - name: Upload OpenAPI artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: openapi-validation-artifacts
+          path: docs/audits/*_lint.xml
+          retention-days: 14
+          if-no-files-found: ignore
 
   facade-smoke:
     name: OpenAI Facade Smoke
