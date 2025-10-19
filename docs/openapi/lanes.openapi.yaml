@@ -2,22 +2,25 @@ openapi: 3.1.0
 info:
   title: LUKHAS Lanes API
   version: 1.0.0
-  description: |
-    Lane introspection and validation endpoints for Candidate/Core/Lukhas lanes.
+  description: 'Lane introspection and validation endpoints for Candidate/Core/Lukhas
+    lanes.
+
+    '
 servers:
-  - url: http://localhost:8000/api/v1
-    description: Development
-  - url: https://api.lukhas.ai/v1
-    description: Production
+- url: http://localhost:8000/api/v1
+  description: Development
+- url: https://api.lukhas.ai/v1
+  description: Production
 tags:
-  - name: lanes
-    description: Lane metadata and validation
+- name: lanes
+  description: Lane metadata and validation
 paths:
   /lanes:
     get:
       summary: List lanes
       operationId: listLanes
-      tags: [lanes]
+      tags:
+      - lanes
       responses:
         '200':
           description: List of lanes
@@ -30,17 +33,18 @@ paths:
               examples:
                 lanes:
                   value:
-                    - name: candidate
-                      status: active
-                    - name: core
-                      status: active
-                    - name: lukhas
-                      status: active
+                  - name: candidate
+                    status: active
+                  - name: core
+                    status: active
+                  - name: lukhas
+                    status: active
   /lanes/validate:
     post:
       summary: Validate import boundaries
       operationId: validateLanes
-      tags: [lanes]
+      tags:
+      - lanes
       requestBody:
         required: true
         content:
@@ -50,7 +54,7 @@ paths:
             examples:
               sample:
                 value:
-                  module: "lukhas/api/router.py"
+                  module: lukhas/api/router.py
       responses:
         '200':
           description: Validation result
@@ -61,7 +65,7 @@ paths:
               examples:
                 ok:
                   value:
-                    module: "lukhas/api/router.py"
+                    module: lukhas/api/router.py
                     violations: []
         '422':
           description: Invalid request
@@ -73,24 +77,35 @@ components:
   schemas:
     Lane:
       type: object
-      required: [name, status]
+      required:
+      - name
+      - status
       properties:
         name:
           type: string
-          enum: [candidate, core, lukhas, products]
+          enum:
+          - candidate
+          - core
+          - lukhas
+          - products
         status:
           type: string
-          enum: [active, paused]
+          enum:
+          - active
+          - paused
     LaneValidationRequest:
       type: object
-      required: [module]
+      required:
+      - module
       properties:
         module:
           type: string
           description: Path to a module to validate for lane boundary rules
     LaneValidationResult:
       type: object
-      required: [module, violations]
+      required:
+      - module
+      - violations
       properties:
         module:
           type: string
@@ -100,10 +115,14 @@ components:
             type: string
     Error:
       type: object
-      required: [error, message]
+      required:
+      - error
+      - message
       properties:
         error:
           type: string
         message:
           type: string
-
+x-status: deprecated
+x-note: Lanes are being removed in favor of flattened/colony structure. Spec retained
+  for compatibility.
