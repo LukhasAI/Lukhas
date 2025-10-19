@@ -1,0 +1,160 @@
+{
+  "schema_version": "1.1.0",
+  "module": {
+    "name": "tests.e2e",
+    "path": "tests/e2e",
+    "type": "package",
+    "lane": "production"
+  },
+  "matriz_integration": {
+    "status": "partial",
+    "pipeline_nodes": [
+      "supporting"
+    ],
+    "cognitive_function": ""
+  },
+  "constellation_alignment": {
+    "primary_star": "Supporting",
+    "star_aliases": [],
+    "trinity_aspects": []
+  },
+  "capabilities": [
+    {
+      "name": "infrastructure_support",
+      "type": "utility",
+      "description": "Provides foundational utilities and infrastructure",
+      "interfaces": []
+    }
+  ],
+  "dependencies": {
+    "internal": [],
+    "external": [],
+    "circular_dependencies": []
+  },
+  "exports": {
+    "classes": [],
+    "functions": [],
+    "constants": []
+  },
+  "testing": {
+    "has_tests": true,
+    "quality_tier": "T4_experimental",
+    "test_paths": [
+      "tests/e2e/candidate/aka_qualia/test_consciousness_ablation.py",
+      "tests/e2e/candidate/aka_qualia/test_glyphs.py",
+      "tests/e2e/candidate/aka_qualia/test_memory_integration.py",
+      "tests/e2e/candidate/bridge/test_orchestration_system.py",
+      "tests/e2e/comprehensive/test_advanced_suite_standalone.py",
+      "tests/e2e/comprehensive/test_comprehensive_all_systems.py",
+      "tests/e2e/consciousness/test_consciousness_basic.py",
+      "tests/e2e/consciousness/test_consciousness_emergence.py",
+      "tests/e2e/consciousness/test_consciousness_integration_full.py",
+      "tests/e2e/consciousness/test_consciousness_suite_comprehensive.py",
+      "tests/e2e/core/test_exceptions_additional.py",
+      "tests/e2e/functional/test_consciousness_integration.py",
+      "tests/e2e/gdpr/test_erasure_validation.py",
+      "tests/e2e/governance/test_guardian.py",
+      "tests/e2e/integration/test_auth_service_coverage.py",
+      "tests/e2e/integration/test_consent_ledger_impl_coverage.py",
+      "tests/e2e/integration/test_high_impact_working_modules.py",
+      "tests/e2e/integration/test_multi_ai_orchestration.py",
+      "tests/e2e/integration/test_phase_1_complete.py",
+      "tests/e2e/lukhas/core/test_distributed_tracing_coverage.py",
+      "tests/e2e/lukhas/qi/test_qi_wrapper_comprehensive.py",
+      "tests/e2e/lukhas/test_consciousness.py",
+      "tests/e2e/memory_security/test_guardian_crypto_spine.py",
+      "tests/e2e/phase2/test_orchestration_integration.py",
+      "tests/e2e/phase2/test_performance_benchmarks.py",
+      "tests/e2e/phase2/test_tool_execution_safety.py",
+      "tests/e2e/rl/test_consciousness_rl.py",
+      "tests/e2e/scripts/test_generate_final_research_report.py",
+      "tests/e2e/security/test_authentication.py",
+      "tests/e2e/test_advanced_lukhas_components.py",
+      "tests/e2e/test_api_security_functional.py",
+      "tests/e2e/test_async_reliability_integration.py",
+      "tests/e2e/test_comprehensive_security_validation.py",
+      "tests/e2e/test_consciousness_activation.py",
+      "tests/e2e/test_consciousness_direct.py",
+      "tests/e2e/test_core_components_comprehensive.py",
+      "tests/e2e/test_core_memory_validation.py",
+      "tests/e2e/test_core_systems_functional.py",
+      "tests/e2e/test_coverage_reality_check.py",
+      "tests/e2e/test_dreams_flow_integration.py",
+      "tests/e2e/test_e2e_audit_dryrun.py",
+      "tests/e2e/test_example_e2e.py",
+      "tests/e2e/test_guardian_integrated_platform.py",
+      "tests/e2e/test_guardian_system.py",
+      "tests/e2e/test_matriz_orchestration.py",
+      "tests/e2e/test_memory_system_validation.py",
+      "tests/e2e/test_priority3_systems_functional.py",
+      "tests/e2e/test_remaining_systems.py",
+      "tests/e2e/tools/test_acceptance_gate_ast.py",
+      "tests/test_api_expansion.py",
+      "tests/test_async_minimal.py",
+      "tests/test_backpressure_ring.py",
+      "tests/test_breakthrough.py",
+      "tests/test_breakthrough_basic.py",
+      "tests/test_chatgpt_mcp.py",
+      "tests/test_clock.py",
+      "tests/test_consciousness_stream.py",
+      "tests/test_consciousness_tick.py",
+      "tests/test_constellation_shims.py",
+      "tests/test_contracts.py",
+      "tests/test_creative_market_import.py",
+      "tests/test_drift.py",
+      "tests/test_events.py",
+      "tests/test_experience_replay.py",
+      "tests/test_folds.py",
+      "tests/test_golden_manifests.py",
+      "tests/test_guardian_integration_validation.py",
+      "tests/test_guardian_quick.py",
+      "tests/test_guardian_serializers.py",
+      "tests/test_lukhas_integration.py",
+      "tests/test_lukhas_unit.py",
+      "tests/test_matrix_v3_presence.py",
+      "tests/test_mcp_enhanced_tools.py",
+      "tests/test_mcp_fetch.py",
+      "tests/test_mcp_file_operations.py",
+      "tests/test_mcp_minimal.py",
+      "tests/test_memory_integration.py",
+      "tests/test_memory_quick.py",
+      "tests/test_memory_sync.py",
+      "tests/test_orchestrator_quick.py",
+      "tests/test_policy_guard.py",
+      "tests/test_provenance_smoke.py",
+      "tests/test_router_logonly.py",
+      "tests/test_stream_continuity.py",
+      "tests/test_t4_excellence_summary.py",
+      "tests/test_telemetry_authz_smoke.py",
+      "tests/test_telemetry_semconv.py"
+    ]
+  },
+  "observability": {
+    "spans": [],
+    "metrics": [],
+    "logging": {
+      "logger_name": "tests.e2e",
+      "default_level": "INFO"
+    },
+    "events": {
+      "publishes": [],
+      "subscribes": []
+    }
+  },
+  "security": {
+    "requires_auth": false,
+    "data_classification": "internal",
+    "secrets_used": [],
+    "network_calls": false,
+    "sandboxed": true,
+    "policies": []
+  },
+  "metadata": {
+    "created": "2025-10-19T01:10:55Z",
+    "last_updated": "2025-10-19T01:10:55Z",
+    "manifest_generated": true,
+    "owner": "unassigned",
+    "documentation_url": "",
+    "tags": []
+  }
+}

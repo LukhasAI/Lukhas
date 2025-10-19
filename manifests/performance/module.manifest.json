@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.1.0",
+  "module": {
+    "name": "performance",
+    "path": "performance",
+    "type": "package",
+    "lane": "production"
+  },
+  "matriz_integration": {
+    "status": "partial",
+    "pipeline_nodes": [
+      "supporting"
+    ],
+    "cognitive_function": ""
+  },
+  "constellation_alignment": {
+    "primary_star": "Supporting",
+    "star_aliases": [],
+    "trinity_aspects": []
+  },
+  "capabilities": [
+    {
+      "name": "infrastructure_support",
+      "type": "utility",
+      "description": "Provides foundational utilities and infrastructure",
+      "interfaces": []
+    }
+  ],
+  "dependencies": {
+    "internal": [],
+    "external": [],
+    "circular_dependencies": []
+  },
+  "exports": {
+    "classes": [],
+    "functions": [],
+    "constants": []
+  },
+  "testing": {
+    "has_tests": true,
+    "quality_tier": "T4_experimental",
+    "test_paths": [
+      "performance/tests/test_performance_integration.py",
+      "performance/tests/test_performance_unit.py",
+      "tests/performance/test_guardian_perf_circuit_open.py",
+      "tests/performance/test_guardian_perf_fastpath.py",
+      "tests/performance/test_guardian_perf_smoke.py",
+      "tests/performance/test_matriz_performance.py",
+      "tests/performance/test_memory_production_load.py",
+      "tests/performance/test_performance_benchmarks.py",
+      "tests/performance/test_performance_budgets.py",
+      "tests/performance/test_router_fast_path.py"
+    ]
+  },
+  "observability": {
+    "spans": [],
+    "metrics": [],
+    "logging": {
+      "logger_name": "performance",
+      "default_level": "INFO"
+    },
+    "events": {
+      "publishes": [],
+      "subscribes": []
+    }
+  },
+  "security": {
+    "requires_auth": false,
+    "data_classification": "internal",
+    "secrets_used": [],
+    "network_calls": false,
+    "sandboxed": true,
+    "policies": []
+  },
+  "metadata": {
+    "created": "2025-10-19T01:10:54Z",
+    "last_updated": "2025-10-19T01:10:54Z",
+    "manifest_generated": true,
+    "owner": "unassigned",
+    "documentation_url": "",
+    "tags": []
+  }
+}

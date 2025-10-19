@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.1.0",
+  "module": {
+    "name": "tests.integration.candidate",
+    "path": "tests/integration/candidate",
+    "type": "package",
+    "lane": "production"
+  },
+  "matriz_integration": {
+    "status": "partial",
+    "pipeline_nodes": [
+      "supporting"
+    ],
+    "cognitive_function": ""
+  },
+  "constellation_alignment": {
+    "primary_star": "Supporting",
+    "star_aliases": [],
+    "trinity_aspects": []
+  },
+  "capabilities": [
+    {
+      "name": "infrastructure_support",
+      "type": "utility",
+      "description": "Provides foundational utilities and infrastructure",
+      "interfaces": []
+    }
+  ],
+  "dependencies": {
+    "internal": [],
+    "external": [],
+    "circular_dependencies": []
+  },
+  "exports": {
+    "classes": [],
+    "functions": [],
+    "constants": []
+  },
+  "testing": {
+    "has_tests": true,
+    "quality_tier": "T4_experimental",
+    "test_paths": [
+      "tests/integration/candidate/aka_qualia/test_c43_integration.py",
+      "tests/integration/candidate/aka_qualia/test_c5_observability.py",
+      "tests/integration/candidate/aka_qualia/test_memory_gdpr.py",
+      "tests/integration/candidate/aka_qualia/test_memory_performance.py",
+      "tests/integration/candidate/aka_qualia/test_memory_security.py",
+      "tests/integration/candidate/aka_qualia/test_memory_unit.py",
+      "tests/integration/candidate/aka_qualia/test_router_contract.py",
+      "tests/integration/candidate/aka_qualia/test_simple.py",
+      "tests/integration/candidate/bridge/test_branding_imports.py",
+      "tests/integration/candidate/bridge/test_orchestration_integration.py",
+      "tests/integration/candidate/core/collective/test_collective_intelligence.py",
+      "tests/integration/candidate/core/test_nias_transcendence.py",
+      "tests/integration/candidate/identity/test_constellation_validation.py",
+      "tests/integration/candidate/tools/test_tool_executor.py",
+      "tests/integration/test_advanced_components_focused.py",
+      "tests/integration/test_aka_qualia.py",
+      "tests/integration/test_api_governance_integration.py",
+      "tests/integration/test_async_manager.py",
+      "tests/integration/test_concurrent_fix.py",
+      "tests/integration/test_cross_component_integration.py",
+      "tests/integration/test_example_integration.py",
+      "tests/integration/test_full_system_integration.py",
+      "tests/integration/test_guardian_dsl.py",
+      "tests/integration/test_i2_api_integration.py",
+      "tests/integration/test_integration.py",
+      "tests/integration/test_matriz_complete_thought_loop.py",
+      "tests/integration/test_memory_system.py",
+      "tests/integration/test_memory_threading.py",
+      "tests/integration/test_openai_facade_integration.py",
+      "tests/integration/test_orchestration_webauthn_integration.py",
+      "tests/integration/test_orchestrator_matriz_roundtrip.py",
+      "tests/integration/test_orchestrator_timeouts.py",
+      "tests/integration/test_parallel_orchestration.py",
+      "tests/integration/test_production_main.py"
+    ]
+  },
+  "observability": {
+    "spans": [],
+    "metrics": [],
+    "logging": {
+      "logger_name": "tests.integration.candidate",
+      "default_level": "INFO"
+    },
+    "events": {
+      "publishes": [],
+      "subscribes": []
+    }
+  },
+  "security": {
+    "requires_auth": false,
+    "data_classification": "internal",
+    "secrets_used": [],
+    "network_calls": false,
+    "sandboxed": true,
+    "policies": []
+  },
+  "metadata": {
+    "created": "2025-10-19T01:10:55Z",
+    "last_updated": "2025-10-19T01:10:55Z",
+    "manifest_generated": true,
+    "owner": "unassigned",
+    "documentation_url": "",
+    "tags": []
+  }
+}

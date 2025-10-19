@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.1.0",
+  "module": {
+    "name": "tests.e2e.candidate",
+    "path": "tests/e2e/candidate",
+    "type": "package",
+    "lane": "production"
+  },
+  "matriz_integration": {
+    "status": "partial",
+    "pipeline_nodes": [
+      "supporting"
+    ],
+    "cognitive_function": ""
+  },
+  "constellation_alignment": {
+    "primary_star": "Supporting",
+    "star_aliases": [],
+    "trinity_aspects": []
+  },
+  "capabilities": [
+    {
+      "name": "infrastructure_support",
+      "type": "utility",
+      "description": "Provides foundational utilities and infrastructure",
+      "interfaces": []
+    }
+  ],
+  "dependencies": {
+    "internal": [],
+    "external": [],
+    "circular_dependencies": []
+  },
+  "exports": {
+    "classes": [],
+    "functions": [],
+    "constants": []
+  },
+  "testing": {
+    "has_tests": true,
+    "quality_tier": "T4_experimental",
+    "test_paths": [
+      "tests/e2e/candidate/aka_qualia/test_consciousness_ablation.py",
+      "tests/e2e/candidate/aka_qualia/test_glyphs.py",
+      "tests/e2e/candidate/aka_qualia/test_memory_integration.py",
+      "tests/e2e/candidate/bridge/test_orchestration_system.py",
+      "tests/e2e/test_advanced_lukhas_components.py",
+      "tests/e2e/test_api_security_functional.py",
+      "tests/e2e/test_async_reliability_integration.py",
+      "tests/e2e/test_comprehensive_security_validation.py",
+      "tests/e2e/test_consciousness_activation.py",
+      "tests/e2e/test_consciousness_direct.py",
+      "tests/e2e/test_core_components_comprehensive.py",
+      "tests/e2e/test_core_memory_validation.py",
+      "tests/e2e/test_core_systems_functional.py",
+      "tests/e2e/test_coverage_reality_check.py",
+      "tests/e2e/test_dreams_flow_integration.py",
+      "tests/e2e/test_e2e_audit_dryrun.py",
+      "tests/e2e/test_example_e2e.py",
+      "tests/e2e/test_guardian_integrated_platform.py",
+      "tests/e2e/test_guardian_system.py",
+      "tests/e2e/test_matriz_orchestration.py",
+      "tests/e2e/test_memory_system_validation.py",
+      "tests/e2e/test_priority3_systems_functional.py",
+      "tests/e2e/test_remaining_systems.py"
+    ]
+  },
+  "observability": {
+    "spans": [],
+    "metrics": [],
+    "logging": {
+      "logger_name": "tests.e2e.candidate",
+      "default_level": "INFO"
+    },
+    "events": {
+      "publishes": [],
+      "subscribes": []
+    }
+  },
+  "security": {
+    "requires_auth": false,
+    "data_classification": "internal",
+    "secrets_used": [],
+    "network_calls": false,
+    "sandboxed": true,
+    "policies": []
+  },
+  "metadata": {
+    "created": "2025-10-19T01:10:55Z",
+    "last_updated": "2025-10-19T01:10:55Z",
+    "manifest_generated": true,
+    "owner": "unassigned",
+    "documentation_url": "",
+    "tags": []
+  }
+}

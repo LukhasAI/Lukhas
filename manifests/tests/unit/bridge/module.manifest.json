@@ -1,0 +1,117 @@
+{
+  "schema_version": "1.1.0",
+  "module": {
+    "name": "tests.unit.bridge",
+    "path": "tests/unit/bridge",
+    "type": "package",
+    "lane": "production"
+  },
+  "matriz_integration": {
+    "status": "partial",
+    "pipeline_nodes": [
+      "supporting"
+    ],
+    "cognitive_function": ""
+  },
+  "constellation_alignment": {
+    "primary_star": "Supporting",
+    "star_aliases": [],
+    "trinity_aspects": []
+  },
+  "capabilities": [
+    {
+      "name": "infrastructure_support",
+      "type": "utility",
+      "description": "Provides foundational utilities and infrastructure",
+      "interfaces": []
+    }
+  ],
+  "dependencies": {
+    "internal": [],
+    "external": [],
+    "circular_dependencies": []
+  },
+  "exports": {
+    "classes": [],
+    "functions": [],
+    "constants": []
+  },
+  "testing": {
+    "has_tests": true,
+    "quality_tier": "T4_experimental",
+    "test_paths": [
+      "tests/unit/bridge/adapters/test_dropbox_adapter.py",
+      "tests/unit/bridge/adapters/test_gmail_adapter.py",
+      "tests/unit/bridge/adapters/test_oauth_manager.py",
+      "tests/unit/bridge/adapters/test_oauth_manager_advanced.py",
+      "tests/unit/bridge/api_gateway/test_unified_api_gateway.py",
+      "tests/unit/bridge/external_adapters/test_gmail_adapter.py",
+      "tests/unit/bridge/test_ai_interface.py",
+      "tests/unit/bridge/test_ai_interface_globals.py",
+      "tests/unit/bridge/test_api_key_manager.py",
+      "tests/unit/bridge/test_audio_engine.py",
+      "tests/unit/bridge/test_direct_ai_router.py",
+      "tests/unit/bridge/test_unified_openai_client.py",
+      "tests/unit/bridge/test_validation.py",
+      "tests/unit/test_author_reference_guard.py",
+      "tests/unit/test_awareness_protocol.py",
+      "tests/unit/test_basic_functions.py",
+      "tests/unit/test_creative_engine_metrics.py",
+      "tests/unit/test_example_unit.py",
+      "tests/unit/test_fallback_settings.py",
+      "tests/unit/test_guardian_kill_switch.py",
+      "tests/unit/test_guardian_metrics.py",
+      "tests/unit/test_guardian_sentinel.py",
+      "tests/unit/test_idempotency_redis.py",
+      "tests/unit/test_idempotency_store.py",
+      "tests/unit/test_identity_lid_compat.py",
+      "tests/unit/test_imports.py",
+      "tests/unit/test_memory_fold_system.py",
+      "tests/unit/test_memory_latency_gates.py",
+      "tests/unit/test_nias_recommendations.py",
+      "tests/unit/test_orchestrator_circuit_breaker.py",
+      "tests/unit/test_orchestrator_circuit_breaker_simple.py",
+      "tests/unit/test_personality_brain.py",
+      "tests/unit/test_policy_pdp.py",
+      "tests/unit/test_public_api.py",
+      "tests/unit/test_qi_creative_types.py",
+      "tests/unit/test_quantum_memory_architecture.py",
+      "tests/unit/test_quota_hierarchy.py",
+      "tests/unit/test_quota_resolver.py",
+      "tests/unit/test_ratelimit_headers.py",
+      "tests/unit/test_ratelimit_keys.py",
+      "tests/unit/test_ratelimit_metrics.py",
+      "tests/unit/test_ratelimit_strategy.py",
+      "tests/unit/test_ruff_formatting.py",
+      "tests/unit/test_security_gates_blocking.py"
+    ]
+  },
+  "observability": {
+    "spans": [],
+    "metrics": [],
+    "logging": {
+      "logger_name": "tests.unit.bridge",
+      "default_level": "INFO"
+    },
+    "events": {
+      "publishes": [],
+      "subscribes": []
+    }
+  },
+  "security": {
+    "requires_auth": false,
+    "data_classification": "internal",
+    "secrets_used": [],
+    "network_calls": false,
+    "sandboxed": true,
+    "policies": []
+  },
+  "metadata": {
+    "created": "2025-10-19T01:10:55Z",
+    "last_updated": "2025-10-19T01:10:55Z",
+    "manifest_generated": true,
+    "owner": "unassigned",
+    "documentation_url": "",
+    "tags": []
+  }
+}

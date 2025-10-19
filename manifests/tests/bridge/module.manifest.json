@@ -1,0 +1,122 @@
+{
+  "schema_version": "1.1.0",
+  "module": {
+    "name": "tests.bridge",
+    "path": "tests/bridge",
+    "type": "package",
+    "lane": "production"
+  },
+  "matriz_integration": {
+    "status": "partial",
+    "pipeline_nodes": [
+      "supporting"
+    ],
+    "cognitive_function": ""
+  },
+  "constellation_alignment": {
+    "primary_star": "Supporting",
+    "star_aliases": [],
+    "trinity_aspects": []
+  },
+  "capabilities": [
+    {
+      "name": "infrastructure_support",
+      "type": "utility",
+      "description": "Provides foundational utilities and infrastructure",
+      "interfaces": []
+    }
+  ],
+  "dependencies": {
+    "internal": [],
+    "external": [],
+    "circular_dependencies": []
+  },
+  "exports": {
+    "classes": [],
+    "functions": [],
+    "constants": []
+  },
+  "testing": {
+    "has_tests": true,
+    "quality_tier": "T4_experimental",
+    "test_paths": [
+      "tests/bridge/test_api_framework_jwt.py",
+      "tests/bridge/test_api_qrs_manager.py",
+      "tests/bridge/test_explainability.py",
+      "tests/bridge/test_explainability_fixtures.py",
+      "tests/bridge/test_jwt_adapter.py",
+      "tests/bridge/test_llm_guardrail.py",
+      "tests/bridge/test_onboarding.py",
+      "tests/bridge/test_onboarding_errors.py",
+      "tests/bridge/test_openai_modulated_service.py",
+      "tests/bridge/test_qrs_manager.py",
+      "tests/bridge/test_vector_store.py",
+      "tests/test_api_expansion.py",
+      "tests/test_async_minimal.py",
+      "tests/test_backpressure_ring.py",
+      "tests/test_breakthrough.py",
+      "tests/test_breakthrough_basic.py",
+      "tests/test_chatgpt_mcp.py",
+      "tests/test_clock.py",
+      "tests/test_consciousness_stream.py",
+      "tests/test_consciousness_tick.py",
+      "tests/test_constellation_shims.py",
+      "tests/test_contracts.py",
+      "tests/test_creative_market_import.py",
+      "tests/test_drift.py",
+      "tests/test_events.py",
+      "tests/test_experience_replay.py",
+      "tests/test_folds.py",
+      "tests/test_golden_manifests.py",
+      "tests/test_guardian_integration_validation.py",
+      "tests/test_guardian_quick.py",
+      "tests/test_guardian_serializers.py",
+      "tests/test_lukhas_integration.py",
+      "tests/test_lukhas_unit.py",
+      "tests/test_matrix_v3_presence.py",
+      "tests/test_mcp_enhanced_tools.py",
+      "tests/test_mcp_fetch.py",
+      "tests/test_mcp_file_operations.py",
+      "tests/test_mcp_minimal.py",
+      "tests/test_memory_integration.py",
+      "tests/test_memory_quick.py",
+      "tests/test_memory_sync.py",
+      "tests/test_orchestrator_quick.py",
+      "tests/test_policy_guard.py",
+      "tests/test_provenance_smoke.py",
+      "tests/test_router_logonly.py",
+      "tests/test_stream_continuity.py",
+      "tests/test_t4_excellence_summary.py",
+      "tests/test_telemetry_authz_smoke.py",
+      "tests/test_telemetry_semconv.py"
+    ]
+  },
+  "observability": {
+    "spans": [],
+    "metrics": [],
+    "logging": {
+      "logger_name": "tests.bridge",
+      "default_level": "INFO"
+    },
+    "events": {
+      "publishes": [],
+      "subscribes": []
+    }
+  },
+  "security": {
+    "requires_auth": false,
+    "data_classification": "internal",
+    "secrets_used": [],
+    "network_calls": false,
+    "sandboxed": true,
+    "policies": []
+  },
+  "metadata": {
+    "created": "2025-10-19T01:10:55Z",
+    "last_updated": "2025-10-19T01:10:55Z",
+    "manifest_generated": true,
+    "owner": "unassigned",
+    "documentation_url": "",
+    "tags": []
+  }
+}
