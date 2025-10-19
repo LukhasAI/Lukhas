@@ -1,4 +1,4 @@
-# lukhas.consciousness.guardian_integration
+# consciousness.guardian_integration
 
 **Star**: 🛡️ Watch (Guardian)
 **MATRIZ Nodes**: thought
@@ -15,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `lukhas.consciousness.guardian_integration: INFO`
+- **Logging**: `consciousness.guardian_integration: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

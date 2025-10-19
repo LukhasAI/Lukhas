@@ -1,13 +1,4 @@
----
-module: candidate.governance.guardian.guardian_impl
-star: 🛡️ Watch (Guardian)
-tier: T3_standard
-owner: unassigned
-colony: ethics
-manifest_path: manifests/labs/governance/guardian/guardian_impl/module.manifest.json
-matriz: [risk]
----
-# candidate.governance.guardian.guardian_impl
+# labs.governance.guardian.guardian_impl
 
 **Star**: 🛡️ Watch (Guardian)
 **MATRIZ Nodes**: risk
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.governance.guardian.guardian_impl: INFO`
+- **Logging**: `labs.governance.guardian.guardian_impl: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

@@ -1,13 +1,4 @@
----
-module: candidate.governance.identity.consent
-star: ⚛️ Anchor (Identity)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/governance/identity/consent/module.manifest.json
-matriz: [risk]
----
-# candidate.governance.identity.consent
+# labs.governance.identity.consent
 
 **Star**: ⚛️ Anchor (Identity)
 **MATRIZ Nodes**: risk
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.governance.identity.consent: INFO`
+- **Logging**: `labs.governance.identity.consent: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

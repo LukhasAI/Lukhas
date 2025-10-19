@@ -1,10 +1,10 @@
 {
   "schema_version": "1.1.0",
   "module": {
-    "name": "lukhas.bridge",
+    "name": "bridge",
     "path": "bridge",
     "type": "package",
-    "lane": "lukhas"
+    "lane": "bridge"
   },
   "matriz_integration": {
     "status": "partial",
@@ -37,15 +37,32 @@
     "constants": []
   },
   "testing": {
-    "has_tests": false,
+    "has_tests": true,
     "quality_tier": "T2_important",
-    "test_paths": []
+    "test_paths": [
+      "bridge/api/test_orchestration_system.py",
+      "bridge/orchestration/test_integration.py",
+      "bridge/tests/test_bridge_integration.py",
+      "bridge/tests/test_bridge_unit.py",
+      "tests/bridge/test_api_framework_jwt.py",
+      "tests/bridge/test_api_qrs_manager.py",
+      "tests/bridge/test_explainability.py",
+      "tests/bridge/test_explainability_fixtures.py",
+      "tests/bridge/test_jwt_adapter.py",
+      "tests/bridge/test_llm_guardrail.py",
+      "tests/bridge/test_onboarding.py",
+      "tests/bridge/test_onboarding_errors.py",
+      "tests/bridge/test_openai_modulated_service.py",
+      "tests/bridge/test_qrs_manager.py",
+      "tests/bridge/test_vector_store.py"
+    ],
+    "coverage_baseline": 50
   },
   "observability": {
     "spans": [],
     "metrics": [],
     "logging": {
-      "logger_name": "lukhas.bridge",
+      "logger_name": "bridge",
       "default_level": "INFO"
     },
     "events": {
@@ -62,10 +79,10 @@
     "policies": []
   },
   "metadata": {
-    "created": "2025-10-18T18:23:40Z",
-    "last_updated": "2025-10-18T19:14:56Z",
+    "created": "2025-10-19T01:05:12Z",
+    "last_updated": "2025-10-19T01:05:12Z",
     "manifest_generated": true,
-    "owner": "triage@lukhas",
+    "owner": "unassigned",
     "documentation_url": "",
     "tags": []
   }

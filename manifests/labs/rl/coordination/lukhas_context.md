@@ -1,13 +1,4 @@
----
-module: candidate.rl.coordination
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/rl/coordination/module.manifest.json
-matriz: [intent]
----
-# candidate.rl.coordination
+# labs.rl.coordination
 
 **Star**: Supporting
 **MATRIZ Nodes**: intent
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.rl.coordination: INFO`
+- **Logging**: `labs.rl.coordination: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

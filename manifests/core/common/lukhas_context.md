@@ -1,4 +1,4 @@
-# lukhas.core.common
+# core.common
 
 **Star**: Supporting
 **MATRIZ Nodes**: supporting
@@ -15,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `lukhas.core.common: INFO`
+- **Logging**: `core.common: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

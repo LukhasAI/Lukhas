@@ -1,10 +1,10 @@
 {
   "schema_version": "1.1.0",
   "module": {
-    "name": "lukhas.orchestration",
+    "name": "orchestration",
     "path": "orchestration",
     "type": "package",
-    "lane": "lukhas"
+    "lane": "orchestration"
   },
   "matriz_integration": {
     "status": "partial",
@@ -37,14 +37,27 @@
     "constants": []
   },
   "testing": {
-    "has_tests": false,
-    "quality_tier": "T4_experimental"
+    "has_tests": true,
+    "quality_tier": "T4_experimental",
+    "test_paths": [
+      "orchestration/tests/test_orchestration_integration.py",
+      "orchestration/tests/test_orchestration_unit.py",
+      "tests/orchestration/test_arbitration.py",
+      "tests/orchestration/test_async_orchestrator_metrics.py",
+      "tests/orchestration/test_externalized_routing.py",
+      "tests/orchestration/test_guardian_enforcement.py",
+      "tests/orchestration/test_killswitch.py",
+      "tests/orchestration/test_meta_loops.py",
+      "tests/orchestration/test_multi_ai_router.py",
+      "tests/orchestration/test_node_discovery.py",
+      "tests/orchestration/test_plan_verifier.py"
+    ]
   },
   "observability": {
     "spans": [],
     "metrics": [],
     "logging": {
-      "logger_name": "lukhas.orchestration",
+      "logger_name": "orchestration",
       "default_level": "INFO"
     },
     "events": {
@@ -61,8 +74,8 @@
     "policies": []
   },
   "metadata": {
-    "created": "2025-10-18T18:23:40Z",
-    "last_updated": "2025-10-18T18:23:40Z",
+    "created": "2025-10-19T01:05:12Z",
+    "last_updated": "2025-10-19T01:05:12Z",
     "manifest_generated": true,
     "owner": "unassigned",
     "documentation_url": "",

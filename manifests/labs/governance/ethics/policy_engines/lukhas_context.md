@@ -1,13 +1,4 @@
----
-module: candidate.governance.ethics.policy_engines
-star: 🛡️ Watch (Guardian)
-tier: T2_important
-owner: unassigned
-colony: ethics
-manifest_path: manifests/labs/governance/ethics/policy_engines/module.manifest.json
-matriz: [risk]
----
-# candidate.governance.ethics.policy_engines
+# labs.governance.ethics.policy_engines
 
 **Star**: 🛡️ Watch (Guardian)
 **MATRIZ Nodes**: risk
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.governance.ethics.policy_engines: INFO`
+- **Logging**: `labs.governance.ethics.policy_engines: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

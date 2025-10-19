@@ -1,4 +1,4 @@
-# lukhas.core.policy_guard
+# core.policy_guard
 
 **Star**: Supporting
 **MATRIZ Nodes**: supporting
@@ -15,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `lukhas.core.policy_guard: INFO`
+- **Logging**: `core.policy_guard: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

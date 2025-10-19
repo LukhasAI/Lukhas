@@ -1,7 +1,7 @@
 # adapters
 
 **Star**: Supporting
-**MATRIZ Nodes**: bridge
+**MATRIZ Nodes**: action
 **Colony**: -
 
 ## What it does

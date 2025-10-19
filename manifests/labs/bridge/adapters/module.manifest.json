@@ -1,10 +1,10 @@
 {
   "schema_version": "1.1.0",
   "module": {
-    "name": "candidate.bridge.adapters",
+    "name": "labs.bridge.adapters",
     "path": "labs/bridge/adapters",
     "type": "package",
-    "lane": "candidate",
+    "lane": "labs",
     "colony": "actuation"
   },
   "matriz_integration": {
@@ -55,7 +55,7 @@
     "spans": [],
     "metrics": [],
     "logging": {
-      "logger_name": "candidate.bridge.adapters",
+      "logger_name": "labs.bridge.adapters",
       "default_level": "INFO"
     },
     "events": {
@@ -72,10 +72,10 @@
     "policies": []
   },
   "metadata": {
-    "created": "2025-10-11T22:12:48Z",
-    "last_updated": "2025-10-18T19:14:56Z",
+    "created": "2025-10-19T01:05:12Z",
+    "last_updated": "2025-10-19T01:05:12Z",
     "manifest_generated": true,
-    "owner": "triage@lukhas",
+    "owner": "unassigned",
     "documentation_url": "",
     "tags": []
   }

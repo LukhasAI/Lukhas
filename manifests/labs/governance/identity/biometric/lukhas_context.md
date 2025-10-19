@@ -1,13 +1,4 @@
----
-module: candidate.governance.identity.biometric
-star: ⚛️ Anchor (Identity)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/governance/identity/biometric/module.manifest.json
-matriz: [risk]
----
-# candidate.governance.identity.biometric
+# labs.governance.identity.biometric
 
 **Star**: ⚛️ Anchor (Identity)
 **MATRIZ Nodes**: risk
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.governance.identity.biometric: INFO`
+- **Logging**: `labs.governance.identity.biometric: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

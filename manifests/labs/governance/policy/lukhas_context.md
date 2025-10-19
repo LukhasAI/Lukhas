@@ -1,13 +1,4 @@
----
-module: candidate.governance.policy
-star: 🛡️ Watch (Guardian)
-tier: T2_important
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/governance/policy/module.manifest.json
-matriz: [risk]
----
-# candidate.governance.policy
+# labs.governance.policy
 
 **Star**: 🛡️ Watch (Guardian)
 **MATRIZ Nodes**: risk
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.governance.policy: INFO`
+- **Logging**: `labs.governance.policy: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

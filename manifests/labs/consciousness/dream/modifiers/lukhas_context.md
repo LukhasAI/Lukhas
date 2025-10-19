@@ -1,13 +1,4 @@
----
-module: candidate.consciousness.dream.modifiers
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/labs/consciousness/dream/modifiers/module.manifest.json
-matriz: [thought]
----
-# candidate.consciousness.dream.modifiers
+# labs.consciousness.dream.modifiers
 
 **Star**: 🌊 Flow (Consciousness)
 **MATRIZ Nodes**: thought
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.consciousness.dream.modifiers: INFO`
+- **Logging**: `labs.consciousness.dream.modifiers: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

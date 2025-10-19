@@ -1,13 +1,4 @@
----
-module: candidate.core.user_interface_manager
-star: 🔬 Horizon (Vision)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/core/user_interface_manager/module.manifest.json
-matriz: [action]
----
-# candidate.core.user_interface_manager
+# labs.core.user_interface_manager
 
 **Star**: 🔬 Horizon (Vision)
 **MATRIZ Nodes**: action
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.core.user_interface_manager: INFO`
+- **Logging**: `labs.core.user_interface_manager: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

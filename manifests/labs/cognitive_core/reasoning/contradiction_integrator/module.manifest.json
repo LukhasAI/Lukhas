@@ -1,10 +1,10 @@
 {
   "schema_version": "1.1.0",
   "module": {
-    "name": "candidate.cognitive_core.reasoning.contradiction_integrator",
+    "name": "labs.cognitive_core.reasoning.contradiction_integrator",
     "path": "labs/cognitive_core/reasoning/contradiction_integrator",
     "type": "package",
-    "lane": "candidate"
+    "lane": "labs"
   },
   "matriz_integration": {
     "status": "partial",
@@ -44,7 +44,7 @@
     "spans": [],
     "metrics": [],
     "logging": {
-      "logger_name": "candidate.cognitive_core.reasoning.contradiction_integrator",
+      "logger_name": "labs.cognitive_core.reasoning.contradiction_integrator",
       "default_level": "INFO"
     },
     "events": {
@@ -61,8 +61,8 @@
     "policies": []
   },
   "metadata": {
-    "created": "2025-10-11T22:12:48Z",
-    "last_updated": "2025-10-11T22:12:48Z",
+    "created": "2025-10-19T01:05:12Z",
+    "last_updated": "2025-10-19T01:05:12Z",
     "manifest_generated": true,
     "owner": "unassigned",
     "documentation_url": "",

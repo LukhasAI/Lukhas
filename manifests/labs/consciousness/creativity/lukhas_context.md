@@ -1,13 +1,4 @@
----
-module: candidate.consciousness.creativity
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/labs/consciousness/creativity/module.manifest.json
-matriz: [thought]
----
-# candidate.consciousness.creativity
+# labs.consciousness.creativity
 
 **Star**: 🌊 Flow (Consciousness)
 **MATRIZ Nodes**: thought
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.consciousness.creativity: INFO`
+- **Logging**: `labs.consciousness.creativity: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

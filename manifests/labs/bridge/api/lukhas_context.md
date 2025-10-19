@@ -1,13 +1,4 @@
----
-module: candidate.bridge.api
-star: Supporting
-tier: T3_standard
-owner: unassigned
-colony: actuation
-manifest_path: manifests/labs/bridge/api/module.manifest.json
-matriz: [action]
----
-# candidate.bridge.api
+# labs.bridge.api
 
 **Star**: Supporting
 **MATRIZ Nodes**: action
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.bridge.api: INFO`
+- **Logging**: `labs.bridge.api: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

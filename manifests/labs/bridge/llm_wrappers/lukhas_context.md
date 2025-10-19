@@ -1,13 +1,4 @@
----
-module: candidate.bridge.llm_wrappers
-star: Supporting
-tier: T2_important
-owner: unassigned
-colony: actuation
-manifest_path: manifests/labs/bridge/llm_wrappers/module.manifest.json
-matriz: [action]
----
-# candidate.bridge.llm_wrappers
+# labs.bridge.llm_wrappers
 
 **Star**: Supporting
 **MATRIZ Nodes**: action
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.bridge.llm_wrappers: INFO`
+- **Logging**: `labs.bridge.llm_wrappers: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

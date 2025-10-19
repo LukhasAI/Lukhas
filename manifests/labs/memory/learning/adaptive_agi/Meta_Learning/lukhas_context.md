@@ -1,13 +1,4 @@
----
-module: candidate.memory.learning.adaptive_agi.Meta_Learning
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: memory
-manifest_path: manifests/labs/memory/learning/adaptive_agi/Meta_Learning/module.manifest.json
-matriz: [memory]
----
-# candidate.memory.learning.adaptive_agi.Meta_Learning
+# labs.memory.learning.adaptive_agi.Meta_Learning
 
 **Star**: ✦ Trail (Memory)
 **MATRIZ Nodes**: memory
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.memory.learning.adaptive_agi.Meta_Learning: INFO`
+- **Logging**: `labs.memory.learning.adaptive_agi.Meta_Learning: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

@@ -1,13 +1,4 @@
----
-module: candidate.core.orchestration.brain.compliance
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/core/orchestration/brain/compliance/module.manifest.json
-matriz: [risk]
----
-# candidate.core.orchestration.brain.compliance
+# labs.core.orchestration.brain.compliance
 
 **Star**: Supporting
 **MATRIZ Nodes**: risk
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.core.orchestration.brain.compliance: INFO`
+- **Logging**: `labs.core.orchestration.brain.compliance: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

@@ -1,13 +1,4 @@
----
-module: candidate.core.interfaces.api
-star: 🔬 Horizon (Vision)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/core/interfaces/api/module.manifest.json
-matriz: [action]
----
-# candidate.core.interfaces.api
+# labs.core.interfaces.api
 
 **Star**: 🔬 Horizon (Vision)
 **MATRIZ Nodes**: action
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.core.interfaces.api: INFO`
+- **Logging**: `labs.core.interfaces.api: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

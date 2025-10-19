@@ -1,13 +1,4 @@
----
-module: candidate.core.identity
-star: ⚛️ Anchor (Identity)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/core/identity/module.manifest.json
-matriz: [supporting]
----
-# candidate.core.identity
+# labs.core.identity
 
 **Star**: ⚛️ Anchor (Identity)
 **MATRIZ Nodes**: supporting
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.core.identity: INFO`
+- **Logging**: `labs.core.identity: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

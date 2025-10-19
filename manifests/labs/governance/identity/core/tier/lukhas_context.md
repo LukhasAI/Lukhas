@@ -1,13 +1,4 @@
----
-module: candidate.governance.identity.core.tier
-star: ⚛️ Anchor (Identity)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/governance/identity/core/tier/module.manifest.json
-matriz: [risk]
----
-# candidate.governance.identity.core.tier
+# labs.governance.identity.core.tier
 
 **Star**: ⚛️ Anchor (Identity)
 **MATRIZ Nodes**: risk
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.governance.identity.core.tier: INFO`
+- **Logging**: `labs.governance.identity.core.tier: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

@@ -1,13 +1,4 @@
----
-module: candidate.memory.consolidation
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: memory
-manifest_path: manifests/labs/memory/consolidation/module.manifest.json
-matriz: [memory]
----
-# candidate.memory.consolidation
+# labs.memory.consolidation
 
 **Star**: ✦ Trail (Memory)
 **MATRIZ Nodes**: memory
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.memory.consolidation: INFO`
+- **Logging**: `labs.memory.consolidation: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

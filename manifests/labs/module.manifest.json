@@ -1,10 +1,10 @@
 {
   "schema_version": "1.1.0",
   "module": {
-    "name": "candidate",
-    "path": "candidate",
+    "name": "labs",
+    "path": "labs",
     "type": "package",
-    "lane": "candidate"
+    "lane": "labs"
   },
   "matriz_integration": {
     "status": "partial",
@@ -42,18 +42,14 @@
     "test_paths": [
       "labs/core/identity/test_consciousness_identity_patterns.py",
       "labs/tests/test_candidate_integration.py",
-      "labs/tests/test_candidate_unit.py",
-      "tests/labs/bridge/test_route_handlers.py",
-      "tests/labs/bridge/test_trace_logger.py",
-      "tests/labs/emotion/examples/test_basic_example.py",
-      "tests/labs/qi/test_qi_entanglement.py"
+      "labs/tests/test_candidate_unit.py"
     ]
   },
   "observability": {
     "spans": [],
     "metrics": [],
     "logging": {
-      "logger_name": "candidate",
+      "logger_name": "labs",
       "default_level": "INFO"
     },
     "events": {
@@ -70,8 +66,8 @@
     "policies": []
   },
   "metadata": {
-    "created": "2025-10-11T22:12:48Z",
-    "last_updated": "2025-10-11T22:12:48Z",
+    "created": "2025-10-19T01:05:12Z",
+    "last_updated": "2025-10-19T01:05:12Z",
     "manifest_generated": true,
     "owner": "unassigned",
     "documentation_url": "",

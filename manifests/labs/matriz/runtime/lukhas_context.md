@@ -1,13 +1,4 @@
----
-module: candidate.matriz.runtime
-star: Supporting
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/matriz/runtime/module.manifest.json
-matriz: [supporting]
----
-# candidate.matriz.runtime
+# labs.matriz.runtime
 
 **Star**: Supporting
 **MATRIZ Nodes**: supporting
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.matriz.runtime: INFO`
+- **Logging**: `labs.matriz.runtime: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

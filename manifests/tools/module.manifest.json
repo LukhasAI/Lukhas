@@ -1,10 +1,10 @@
 {
   "schema_version": "1.1.0",
   "module": {
-    "name": "lukhas.tools",
+    "name": "tools",
     "path": "tools",
     "type": "package",
-    "lane": "lukhas"
+    "lane": "tools"
   },
   "matriz_integration": {
     "status": "partial",
@@ -37,14 +37,29 @@
     "constants": []
   },
   "testing": {
-    "has_tests": false,
-    "quality_tier": "T4_experimental"
+    "has_tests": true,
+    "quality_tier": "T4_experimental",
+    "test_paths": [
+      "tests/tools/test_codemod_imports.py",
+      "tests/tools/test_commands_base.py",
+      "tests/tools/test_lane_guard.py",
+      "tests/tools/test_openai_tools_export.py",
+      "tests/tools/test_stub_generation.py",
+      "tools/ci/test_orchestrator.py",
+      "tools/security/test_dependency_hasher.py",
+      "tools/test_orchestrator_load.py",
+      "tools/test_otel_5stage_spans.py",
+      "tools/test_sharding.py",
+      "tools/testing/test_infrastructure_monitor.py",
+      "tools/tests/test_tools_integration.py",
+      "tools/tests/test_tools_unit.py"
+    ]
   },
   "observability": {
     "spans": [],
     "metrics": [],
     "logging": {
-      "logger_name": "lukhas.tools",
+      "logger_name": "tools",
       "default_level": "INFO"
     },
     "events": {
@@ -61,8 +76,8 @@
     "policies": []
   },
   "metadata": {
-    "created": "2025-10-18T18:23:40Z",
-    "last_updated": "2025-10-18T18:23:40Z",
+    "created": "2025-10-19T01:05:13Z",
+    "last_updated": "2025-10-19T01:05:13Z",
     "manifest_generated": true,
     "owner": "unassigned",
     "documentation_url": "",

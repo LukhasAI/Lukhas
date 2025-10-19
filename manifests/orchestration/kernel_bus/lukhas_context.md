@@ -1,4 +1,4 @@
-# lukhas.orchestration.kernel_bus
+# orchestration.kernel_bus
 
 **Star**: Supporting
 **MATRIZ Nodes**: intent
@@ -15,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `lukhas.orchestration.kernel_bus: INFO`
+- **Logging**: `orchestration.kernel_bus: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

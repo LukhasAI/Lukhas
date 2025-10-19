@@ -1,13 +1,4 @@
----
-module: candidate.orchestration.multi_ai_router
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/orchestration/multi_ai_router/module.manifest.json
-matriz: [intent]
----
-# candidate.orchestration.multi_ai_router
+# labs.orchestration.multi_ai_router
 
 **Star**: Supporting
 **MATRIZ Nodes**: intent
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.orchestration.multi_ai_router: INFO`
+- **Logging**: `labs.orchestration.multi_ai_router: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

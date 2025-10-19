@@ -1,13 +1,4 @@
----
-module: candidate.core.log_system
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/core/log_system/module.manifest.json
-matriz: [supporting]
----
-# candidate.core.log_system
+# labs.core.log_system
 
 **Star**: Supporting
 **MATRIZ Nodes**: supporting
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.core.log_system: INFO`
+- **Logging**: `labs.core.log_system: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

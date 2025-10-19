@@ -1,13 +1,4 @@
----
-module: candidate.consciousness.perception
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/labs/consciousness/perception/module.manifest.json
-matriz: [thought]
----
-# candidate.consciousness.perception
+# labs.consciousness.perception
 
 **Star**: 🌊 Flow (Consciousness)
 **MATRIZ Nodes**: thought
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.consciousness.perception: INFO`
+- **Logging**: `labs.consciousness.perception: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

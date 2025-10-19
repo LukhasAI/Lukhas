@@ -1,13 +1,4 @@
----
-module: candidate.emotion.vad
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/emotion/vad/module.manifest.json
-matriz: [supporting]
----
-# candidate.emotion.vad
+# labs.emotion.vad
 
 **Star**: Supporting
 **MATRIZ Nodes**: supporting
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.emotion.vad: INFO`
+- **Logging**: `labs.emotion.vad: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

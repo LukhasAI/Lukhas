@@ -1,10 +1,10 @@
 {
   "schema_version": "1.1.0",
   "module": {
-    "name": "lukhas.core.common",
+    "name": "core.common",
     "path": "core/common",
     "type": "package",
-    "lane": "lukhas"
+    "lane": "core"
   },
   "matriz_integration": {
     "status": "partial",
@@ -44,7 +44,7 @@
     "spans": [],
     "metrics": [],
     "logging": {
-      "logger_name": "lukhas.core.common",
+      "logger_name": "core.common",
       "default_level": "INFO"
     },
     "events": {
@@ -61,8 +61,8 @@
     "policies": []
   },
   "metadata": {
-    "created": "2025-10-18T18:23:40Z",
-    "last_updated": "2025-10-18T18:23:40Z",
+    "created": "2025-10-19T01:05:12Z",
+    "last_updated": "2025-10-19T01:05:12Z",
     "manifest_generated": true,
     "owner": "unassigned",
     "documentation_url": "",

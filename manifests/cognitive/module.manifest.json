@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.1.0",
+  "module": {
+    "name": "cognitive",
+    "path": "cognitive",
+    "type": "package",
+    "lane": "cognitive"
+  },
+  "matriz_integration": {
+    "status": "partial",
+    "pipeline_nodes": [
+      "thought"
+    ],
+    "cognitive_function": ""
+  },
+  "constellation_alignment": {
+    "primary_star": "Supporting",
+    "star_aliases": [],
+    "trinity_aspects": []
+  },
+  "capabilities": [
+    {
+      "name": "cognitive_processing",
+      "type": "processing",
+      "description": "Performs reasoning, analysis, and decision-making",
+      "interfaces": []
+    }
+  ],
+  "dependencies": {
+    "internal": [],
+    "external": [],
+    "circular_dependencies": []
+  },
+  "exports": {
+    "classes": [],
+    "functions": [],
+    "constants": []
+  },
+  "testing": {
+    "has_tests": true,
+    "quality_tier": "T3_standard",
+    "test_paths": [
+      "cognitive/tests/test_cognitive_integration.py",
+      "cognitive/tests/test_cognitive_unit.py",
+      "tests/cognitive/property_based/test_reasoning_edge_cases.py",
+      "tests/cognitive/stress/test_cognitive_load_infrastructure.py",
+      "tests/cognitive/test_comprehensive_coverage.py"
+    ]
+  },
+  "observability": {
+    "spans": [],
+    "metrics": [],
+    "logging": {
+      "logger_name": "cognitive",
+      "default_level": "INFO"
+    },
+    "events": {
+      "publishes": [],
+      "subscribes": []
+    }
+  },
+  "security": {
+    "requires_auth": false,
+    "data_classification": "internal",
+    "secrets_used": [],
+    "network_calls": false,
+    "sandboxed": true,
+    "policies": []
+  },
+  "metadata": {
+    "created": "2025-10-19T01:05:12Z",
+    "last_updated": "2025-10-19T01:05:12Z",
+    "manifest_generated": true,
+    "owner": "unassigned",
+    "documentation_url": "",
+    "tags": []
+  }
+}

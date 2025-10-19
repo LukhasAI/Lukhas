@@ -1,13 +1,4 @@
----
-module: candidate.orchestration.context_preservation
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/orchestration/context_preservation/module.manifest.json
-matriz: [intent]
----
-# candidate.orchestration.context_preservation
+# labs.orchestration.context_preservation
 
 **Star**: Supporting
 **MATRIZ Nodes**: intent
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.orchestration.context_preservation: INFO`
+- **Logging**: `labs.orchestration.context_preservation: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

@@ -1,4 +1,4 @@
-# lukhas.core.reliability.circuit_breaker
+# core.reliability.circuit_breaker
 
 **Star**: 🔬 Horizon (Vision)
 **MATRIZ Nodes**: supporting
@@ -15,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `lukhas.core.reliability.circuit_breaker: INFO`
+- **Logging**: `core.reliability.circuit_breaker: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

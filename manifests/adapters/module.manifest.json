@@ -4,33 +4,26 @@
     "name": "adapters",
     "path": "adapters",
     "type": "package",
-    "lane": "root",
-    "quality_tier": "T2"
+    "lane": "adapters"
   },
   "matriz_integration": {
     "status": "partial",
     "pipeline_nodes": [
-      "bridge"
+      "action"
     ],
     "cognitive_function": ""
   },
   "constellation_alignment": {
-    "primary_star": "\ud83d\udd27 Bridge",
+    "primary_star": "Supporting",
     "star_aliases": [],
     "trinity_aspects": []
   },
   "capabilities": [
     {
-      "name": "external_integration",
-      "description": "Integration with external services"
-    },
-    {
-      "name": "service_adapters",
-      "description": "Adapters for Drive, Dropbox, Gmail, etc."
-    },
-    {
-      "name": "api_bridging",
-      "description": "Bridge between LUKHAS and external APIs"
+      "name": "action_execution",
+      "type": "orchestration",
+      "description": "Executes actions and effects in the system",
+      "interfaces": []
     }
   ],
   "dependencies": {
@@ -72,8 +65,8 @@
     "policies": []
   },
   "metadata": {
-    "created": "2025-10-18T20:48:26Z",
-    "last_updated": "2025-10-18T20:48:26Z",
+    "created": "2025-10-19T01:05:12Z",
+    "last_updated": "2025-10-19T01:05:12Z",
     "manifest_generated": true,
     "owner": "unassigned",
     "documentation_url": "",

@@ -1,13 +1,4 @@
----
-module: candidate.governance.audit.replay
-star: 🛡️ Watch (Guardian)
-tier: T2_important
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/governance/audit/replay/module.manifest.json
-matriz: [risk]
----
-# candidate.governance.audit.replay
+# labs.governance.audit.replay
 
 **Star**: 🛡️ Watch (Guardian)
 **MATRIZ Nodes**: risk
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.governance.audit.replay: INFO`
+- **Logging**: `labs.governance.audit.replay: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

@@ -1,13 +1,4 @@
----
-module: candidate.bio.advanced_qi_bio
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/bio/advanced_qi_bio/module.manifest.json
-matriz: [supporting]
----
-# candidate.bio.advanced_qi_bio
+# labs.bio.advanced_qi_bio
 
 **Star**: Supporting
 **MATRIZ Nodes**: supporting
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.bio.advanced_qi_bio: INFO`
+- **Logging**: `labs.bio.advanced_qi_bio: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

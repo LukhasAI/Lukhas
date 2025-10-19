@@ -1,10 +1,10 @@
 {
   "schema_version": "1.1.0",
   "module": {
-    "name": "lukhas.api",
+    "name": "api",
     "path": "api",
     "type": "package",
-    "lane": "lukhas"
+    "lane": "api"
   },
   "matriz_integration": {
     "status": "partial",
@@ -37,14 +37,19 @@
     "constants": []
   },
   "testing": {
-    "has_tests": false,
-    "quality_tier": "T3_standard"
+    "has_tests": true,
+    "quality_tier": "T3_standard",
+    "test_paths": [
+      "api/tests/test_api_integration.py",
+      "api/tests/test_api_unit.py",
+      "tests/api/test_main_api.py"
+    ]
   },
   "observability": {
     "spans": [],
     "metrics": [],
     "logging": {
-      "logger_name": "lukhas.api",
+      "logger_name": "api",
       "default_level": "INFO"
     },
     "events": {
@@ -61,8 +66,8 @@
     "policies": []
   },
   "metadata": {
-    "created": "2025-10-18T18:23:40Z",
-    "last_updated": "2025-10-18T18:23:40Z",
+    "created": "2025-10-19T01:05:12Z",
+    "last_updated": "2025-10-19T01:05:12Z",
     "manifest_generated": true,
     "owner": "unassigned",
     "documentation_url": "",

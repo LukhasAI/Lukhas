@@ -1,13 +1,4 @@
----
-module: candidate.bio.quantum_inspired_layer
-star: 🔮 Oracle (Quantum)
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/bio/quantum_inspired_layer/module.manifest.json
-matriz: [supporting]
----
-# candidate.bio.quantum_inspired_layer
+# labs.bio.quantum_inspired_layer
 
 **Star**: 🔮 Oracle (Quantum)
 **MATRIZ Nodes**: supporting
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.bio.quantum_inspired_layer: INFO`
+- **Logging**: `labs.bio.quantum_inspired_layer: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

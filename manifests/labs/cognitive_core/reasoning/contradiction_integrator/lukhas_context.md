@@ -1,13 +1,4 @@
----
-module: candidate.cognitive_core.reasoning.contradiction_integrator
-star: Supporting
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/cognitive_core/reasoning/contradiction_integrator/module.manifest.json
-matriz: [thought]
----
-# candidate.cognitive_core.reasoning.contradiction_integrator
+# labs.cognitive_core.reasoning.contradiction_integrator
 
 **Star**: Supporting
 **MATRIZ Nodes**: thought
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.cognitive_core.reasoning.contradiction_integrator: INFO`
+- **Logging**: `labs.cognitive_core.reasoning.contradiction_integrator: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

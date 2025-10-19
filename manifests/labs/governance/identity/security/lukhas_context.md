@@ -1,13 +1,4 @@
----
-module: candidate.governance.identity.security
-star: ⚛️ Anchor (Identity)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/governance/identity/security/module.manifest.json
-matriz: [risk]
----
-# candidate.governance.identity.security
+# labs.governance.identity.security
 
 **Star**: ⚛️ Anchor (Identity)
 **MATRIZ Nodes**: risk
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.governance.identity.security: INFO`
+- **Logging**: `labs.governance.identity.security: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.1.0",
+  "module": {
+    "name": "consciousness.systems",
+    "path": "consciousness/systems",
+    "type": "package",
+    "lane": "consciousness",
+    "colony": "simulation"
+  },
+  "matriz_integration": {
+    "status": "partial",
+    "pipeline_nodes": [
+      "thought"
+    ],
+    "cognitive_function": ""
+  },
+  "constellation_alignment": {
+    "primary_star": "🌊 Flow (Consciousness)",
+    "star_aliases": [],
+    "trinity_aspects": []
+  },
+  "capabilities": [
+    {
+      "name": "cognitive_processing",
+      "type": "processing",
+      "description": "Performs reasoning, analysis, and decision-making",
+      "interfaces": []
+    },
+    {
+      "name": "consciousness_integration",
+      "type": "orchestration",
+      "description": "Integrates consciousness-aware patterns",
+      "interfaces": []
+    }
+  ],
+  "dependencies": {
+    "internal": [],
+    "external": [],
+    "circular_dependencies": []
+  },
+  "exports": {
+    "classes": [],
+    "functions": [],
+    "constants": []
+  },
+  "testing": {
+    "has_tests": false,
+    "quality_tier": "T2_important",
+    "test_paths": []
+  },
+  "observability": {
+    "spans": [],
+    "metrics": [],
+    "logging": {
+      "logger_name": "consciousness.systems",
+      "default_level": "INFO"
+    },
+    "events": {
+      "publishes": [],
+      "subscribes": []
+    }
+  },
+  "security": {
+    "requires_auth": false,
+    "data_classification": "internal",
+    "secrets_used": [],
+    "network_calls": false,
+    "sandboxed": true,
+    "policies": []
+  },
+  "metadata": {
+    "created": "2025-10-19T01:05:12Z",
+    "last_updated": "2025-10-19T01:05:12Z",
+    "manifest_generated": true,
+    "owner": "unassigned",
+    "documentation_url": "",
+    "tags": []
+  }
+}

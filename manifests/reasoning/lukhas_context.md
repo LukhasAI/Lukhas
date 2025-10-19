@@ -1,7 +1,7 @@
 # reasoning
 
 **Star**: Supporting
-**MATRIZ Nodes**: reasoner
+**MATRIZ Nodes**: thought
 **Colony**: -
 
 ## What it does

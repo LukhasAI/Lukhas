@@ -1,10 +1,10 @@
 {
   "schema_version": "1.1.0",
   "module": {
-    "name": "lukhas.consciousness.guardian_integration",
+    "name": "consciousness.guardian_integration",
     "path": "consciousness/guardian_integration",
     "type": "package",
-    "lane": "lukhas",
+    "lane": "consciousness",
     "colony": "simulation"
   },
   "matriz_integration": {
@@ -15,7 +15,7 @@
     "cognitive_function": ""
   },
   "constellation_alignment": {
-    "primary_star": "\ud83d\udee1\ufe0f Watch (Guardian)",
+    "primary_star": "🛡️ Watch (Guardian)",
     "star_aliases": [],
     "trinity_aspects": []
   },
@@ -51,7 +51,7 @@
     "spans": [],
     "metrics": [],
     "logging": {
-      "logger_name": "lukhas.consciousness.guardian_integration",
+      "logger_name": "consciousness.guardian_integration",
       "default_level": "INFO"
     },
     "events": {
@@ -68,8 +68,8 @@
     "policies": []
   },
   "metadata": {
-    "created": "2025-10-18T18:23:40Z",
-    "last_updated": "2025-10-18T18:23:40Z",
+    "created": "2025-10-19T01:05:12Z",
+    "last_updated": "2025-10-19T01:05:12Z",
     "manifest_generated": true,
     "owner": "unassigned",
     "documentation_url": "",

@@ -1,13 +1,4 @@
----
-module: candidate.consciousness.dream.base.dream_refold
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/labs/consciousness/dream/base/dream_refold/module.manifest.json
-matriz: [memory]
----
-# candidate.consciousness.dream.base.dream_refold
+# labs.consciousness.dream.base.dream_refold
 
 **Star**: ✦ Trail (Memory)
 **MATRIZ Nodes**: memory
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.consciousness.dream.base.dream_refold: INFO`
+- **Logging**: `labs.consciousness.dream.base.dream_refold: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

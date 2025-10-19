@@ -1,13 +1,4 @@
----
-module: candidate.consciousness.awareness
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/labs/consciousness/awareness/module.manifest.json
-matriz: [attention]
----
-# candidate.consciousness.awareness
+# labs.consciousness.awareness
 
 **Star**: 🌊 Flow (Consciousness)
 **MATRIZ Nodes**: attention
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.consciousness.awareness: INFO`
+- **Logging**: `labs.consciousness.awareness: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

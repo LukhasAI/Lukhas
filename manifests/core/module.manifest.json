@@ -1,10 +1,10 @@
 {
   "schema_version": "1.1.0",
   "module": {
-    "name": "lukhas.core",
+    "name": "core",
     "path": "core",
     "type": "package",
-    "lane": "lukhas"
+    "lane": "core"
   },
   "matriz_integration": {
     "status": "partial",
@@ -40,15 +40,22 @@
     "has_tests": true,
     "quality_tier": "T4_experimental",
     "test_paths": [
-      "lukhas/core/tests/test_core_integration.py",
-      "lukhas/core/tests/test_core_unit.py"
+      "core/tests/test_core_integration.py",
+      "core/tests/test_core_unit.py",
+      "tests/core/test_core_compat.py",
+      "tests/core/test_core_compat_alias.py",
+      "tests/core/test_import_budget.py",
+      "tests/core/test_import_controller.py",
+      "tests/core/test_llm_guardrail_metrics.py",
+      "tests/core/test_matriz_lane_default.py",
+      "tests/core/test_orchestrator_lane_defaults.py"
     ]
   },
   "observability": {
     "spans": [],
     "metrics": [],
     "logging": {
-      "logger_name": "lukhas.core",
+      "logger_name": "core",
       "default_level": "INFO"
     },
     "events": {
@@ -65,8 +72,8 @@
     "policies": []
   },
   "metadata": {
-    "created": "2025-10-18T18:23:40Z",
-    "last_updated": "2025-10-18T18:23:40Z",
+    "created": "2025-10-19T01:05:12Z",
+    "last_updated": "2025-10-19T01:05:12Z",
     "manifest_generated": true,
     "owner": "unassigned",
     "documentation_url": "",

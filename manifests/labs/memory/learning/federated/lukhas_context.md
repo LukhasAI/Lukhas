@@ -1,13 +1,4 @@
----
-module: candidate.memory.learning.federated
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: memory
-manifest_path: manifests/labs/memory/learning/federated/module.manifest.json
-matriz: [memory]
----
-# candidate.memory.learning.federated
+# labs.memory.learning.federated
 
 **Star**: ✦ Trail (Memory)
 **MATRIZ Nodes**: memory
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.memory.learning.federated: INFO`
+- **Logging**: `labs.memory.learning.federated: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

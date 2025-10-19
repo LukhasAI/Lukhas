@@ -1,13 +1,4 @@
----
-module: candidate.core.interfaces.voice.voice_emotional
-star: 🔬 Horizon (Vision)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/core/interfaces/voice/voice_emotional/module.manifest.json
-matriz: [action]
----
-# candidate.core.interfaces.voice.voice_emotional
+# labs.core.interfaces.voice.voice_emotional
 
 **Star**: 🔬 Horizon (Vision)
 **MATRIZ Nodes**: action
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.core.interfaces.voice.voice_emotional: INFO`
+- **Logging**: `labs.core.interfaces.voice.voice_emotional: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

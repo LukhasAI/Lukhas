@@ -1,13 +1,4 @@
----
-module: candidate.core.interfaces.logic.voice
-star: 🔬 Horizon (Vision)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/core/interfaces/logic/voice/module.manifest.json
-matriz: [action]
----
-# candidate.core.interfaces.logic.voice
+# labs.core.interfaces.logic.voice
 
 **Star**: 🔬 Horizon (Vision)
 **MATRIZ Nodes**: action
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.core.interfaces.logic.voice: INFO`
+- **Logging**: `labs.core.interfaces.logic.voice: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

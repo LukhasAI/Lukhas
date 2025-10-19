@@ -1,15 +1,6 @@
----
-module: candidate.api.oidc
-star: Supporting
-tier: T3_standard
-owner: unassigned
-colony: actuation
-manifest_path: manifests/labs/api/oidc/module.manifest.json
-matriz: [action]
----
-# candidate.api.oidc
+# labs.api.oidc
 
-**Star**: Supporting
+**Star**: 🛡️ Watch (Guardian)
 **MATRIZ Nodes**: action
 **Colony**: actuation
 
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.api.oidc: INFO`
+- **Logging**: `labs.api.oidc: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

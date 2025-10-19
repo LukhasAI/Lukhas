@@ -1,13 +1,4 @@
----
-module: candidate.orchestration.swarm_orchestration_adapter
-star: Supporting
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/orchestration/swarm_orchestration_adapter/module.manifest.json
-matriz: [intent]
----
-# candidate.orchestration.swarm_orchestration_adapter
+# labs.orchestration.swarm_orchestration_adapter
 
 **Star**: Supporting
 **MATRIZ Nodes**: intent
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.orchestration.swarm_orchestration_adapter: INFO`
+- **Logging**: `labs.orchestration.swarm_orchestration_adapter: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

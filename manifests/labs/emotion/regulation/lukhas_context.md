@@ -1,13 +1,4 @@
----
-module: candidate.emotion.regulation
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/emotion/regulation/module.manifest.json
-matriz: [supporting]
----
-# candidate.emotion.regulation
+# labs.emotion.regulation
 
 **Star**: Supporting
 **MATRIZ Nodes**: supporting
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.emotion.regulation: INFO`
+- **Logging**: `labs.emotion.regulation: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

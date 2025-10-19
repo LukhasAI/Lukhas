@@ -1,4 +1,4 @@
-# lukhas.core.consciousness_stream
+# core.consciousness_stream
 
 **Star**: 🌊 Flow (Consciousness)
 **MATRIZ Nodes**: thought
@@ -15,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `lukhas.core.consciousness_stream: INFO`
+- **Logging**: `core.consciousness_stream: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

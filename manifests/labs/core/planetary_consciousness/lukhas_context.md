@@ -1,13 +1,4 @@
----
-module: candidate.core.planetary_consciousness
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/core/planetary_consciousness/module.manifest.json
-matriz: [thought]
----
-# candidate.core.planetary_consciousness
+# labs.core.planetary_consciousness
 
 **Star**: 🌊 Flow (Consciousness)
 **MATRIZ Nodes**: thought
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.core.planetary_consciousness: INFO`
+- **Logging**: `labs.core.planetary_consciousness: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

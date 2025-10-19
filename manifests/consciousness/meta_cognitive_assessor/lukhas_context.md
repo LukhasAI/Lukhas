@@ -1,4 +1,4 @@
-# lukhas.consciousness.meta_cognitive_assessor
+# consciousness.meta_cognitive_assessor
 
 **Star**: 🌊 Flow (Consciousness)
 **MATRIZ Nodes**: thought
@@ -15,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `lukhas.consciousness.meta_cognitive_assessor: INFO`
+- **Logging**: `consciousness.meta_cognitive_assessor: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

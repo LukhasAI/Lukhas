@@ -1,13 +1,4 @@
----
-module: candidate.bio.awareness
-star: 🌊 Flow (Consciousness)
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/bio/awareness/module.manifest.json
-matriz: [attention]
----
-# candidate.bio.awareness
+# labs.bio.awareness
 
 **Star**: 🌊 Flow (Consciousness)
 **MATRIZ Nodes**: attention
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.bio.awareness: INFO`
+- **Logging**: `labs.bio.awareness: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

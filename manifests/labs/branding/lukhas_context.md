@@ -1,13 +1,4 @@
----
-module: candidate.branding
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/branding/module.manifest.json
-matriz: [supporting]
----
-# candidate.branding
+# labs.branding
 
 **Star**: Supporting
 **MATRIZ Nodes**: supporting
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.branding: INFO`
+- **Logging**: `labs.branding: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

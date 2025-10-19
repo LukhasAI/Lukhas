@@ -1,13 +1,4 @@
----
-module: candidate.consciousness.reasoning.intent
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/labs/consciousness/reasoning/intent/module.manifest.json
-matriz: [thought]
----
-# candidate.consciousness.reasoning.intent
+# labs.consciousness.reasoning.intent
 
 **Star**: 🌊 Flow (Consciousness)
 **MATRIZ Nodes**: thought
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.consciousness.reasoning.intent: INFO`
+- **Logging**: `labs.consciousness.reasoning.intent: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

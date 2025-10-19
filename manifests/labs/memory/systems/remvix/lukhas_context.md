@@ -1,13 +1,4 @@
----
-module: candidate.memory.systems.remvix
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: memory
-manifest_path: manifests/labs/memory/systems/remvix/module.manifest.json
-matriz: [memory]
----
-# candidate.memory.systems.remvix
+# labs.memory.systems.remvix
 
 **Star**: ✦ Trail (Memory)
 **MATRIZ Nodes**: memory
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.memory.systems.remvix: INFO`
+- **Logging**: `labs.memory.systems.remvix: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

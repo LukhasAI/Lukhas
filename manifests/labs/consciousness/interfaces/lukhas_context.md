@@ -1,13 +1,4 @@
----
-module: candidate.consciousness.interfaces
-star: 🔬 Horizon (Vision)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/labs/consciousness/interfaces/module.manifest.json
-matriz: [thought]
----
-# candidate.consciousness.interfaces
+# labs.consciousness.interfaces
 
 **Star**: 🔬 Horizon (Vision)
 **MATRIZ Nodes**: thought
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.consciousness.interfaces: INFO`
+- **Logging**: `labs.consciousness.interfaces: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

@@ -1,13 +1,4 @@
----
-module: candidate.core.orchestration.brain.neural
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/core/orchestration/brain/neural/module.manifest.json
-matriz: [intent]
----
-# candidate.core.orchestration.brain.neural
+# labs.core.orchestration.brain.neural
 
 **Star**: Supporting
 **MATRIZ Nodes**: intent
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.core.orchestration.brain.neural: INFO`
+- **Logging**: `labs.core.orchestration.brain.neural: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

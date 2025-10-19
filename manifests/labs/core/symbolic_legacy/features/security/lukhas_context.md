@@ -1,13 +1,4 @@
----
-module: candidate.core.symbolic_legacy.features.security
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/core/symbolic_legacy/features/security/module.manifest.json
-matriz: [supporting]
----
-# candidate.core.symbolic_legacy.features.security
+# labs.core.symbolic_legacy.features.security
 
 **Star**: Supporting
 **MATRIZ Nodes**: supporting
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.core.symbolic_legacy.features.security: INFO`
+- **Logging**: `labs.core.symbolic_legacy.features.security: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

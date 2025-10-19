@@ -1,13 +1,4 @@
----
-module: candidate.bridge.adapters
-star: Supporting
-tier: T2_important
-owner: unassigned
-colony: actuation
-manifest_path: manifests/labs/bridge/adapters/module.manifest.json
-matriz: [action]
----
-# candidate.bridge.adapters
+# labs.bridge.adapters
 
 **Star**: Supporting
 **MATRIZ Nodes**: action
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.bridge.adapters: INFO`
+- **Logging**: `labs.bridge.adapters: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

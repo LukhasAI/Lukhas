@@ -1,7 +1,7 @@
 # dream
 
-**Star**: Supporting
-**MATRIZ Nodes**: synthesizer
+**Star**: 🌊 Flow (Consciousness)
+**MATRIZ Nodes**: supporting
 **Colony**: simulation
 
 ## What it does

@@ -1,10 +1,10 @@
 {
   "schema_version": "1.1.0",
   "module": {
-    "name": "candidate.core.interfaces.as_agent.utils",
+    "name": "labs.core.interfaces.as_agent.utils",
     "path": "labs/core/interfaces/as_agent/utils",
     "type": "package",
-    "lane": "candidate"
+    "lane": "labs"
   },
   "matriz_integration": {
     "status": "partial",
@@ -50,7 +50,7 @@
     "spans": [],
     "metrics": [],
     "logging": {
-      "logger_name": "candidate.core.interfaces.as_agent.utils",
+      "logger_name": "labs.core.interfaces.as_agent.utils",
       "default_level": "INFO"
     },
     "events": {
@@ -67,8 +67,8 @@
     "policies": []
   },
   "metadata": {
-    "created": "2025-10-11T22:12:49Z",
-    "last_updated": "2025-10-11T22:12:49Z",
+    "created": "2025-10-19T01:05:12Z",
+    "last_updated": "2025-10-19T01:05:12Z",
     "manifest_generated": true,
     "owner": "unassigned",
     "documentation_url": "",

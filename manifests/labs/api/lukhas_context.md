@@ -1,13 +1,4 @@
----
-module: candidate.api
-star: Supporting
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/api/module.manifest.json
-matriz: [action]
----
-# candidate.api
+# labs.api
 
 **Star**: Supporting
 **MATRIZ Nodes**: action
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.api: INFO`
+- **Logging**: `labs.api: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

@@ -1,4 +1,4 @@
-# lukhas.orchestration.multi_ai_router
+# orchestration.multi_ai_router
 
 **Star**: Supporting
 **MATRIZ Nodes**: intent
@@ -15,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `lukhas.orchestration.multi_ai_router: INFO`
+- **Logging**: `orchestration.multi_ai_router: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

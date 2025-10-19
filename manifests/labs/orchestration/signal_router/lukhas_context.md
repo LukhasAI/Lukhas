@@ -1,13 +1,4 @@
----
-module: candidate.orchestration.signal_router
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/orchestration/signal_router/module.manifest.json
-matriz: [intent]
----
-# candidate.orchestration.signal_router
+# labs.orchestration.signal_router
 
 **Star**: Supporting
 **MATRIZ Nodes**: intent
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.orchestration.signal_router: INFO`
+- **Logging**: `labs.orchestration.signal_router: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

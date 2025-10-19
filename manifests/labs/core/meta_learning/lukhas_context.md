@@ -1,13 +1,4 @@
----
-module: candidate.core.meta_learning
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/core/meta_learning/module.manifest.json
-matriz: [supporting]
----
-# candidate.core.meta_learning
+# labs.core.meta_learning
 
 **Star**: Supporting
 **MATRIZ Nodes**: supporting
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.core.meta_learning: INFO`
+- **Logging**: `labs.core.meta_learning: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

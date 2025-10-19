@@ -1,13 +1,4 @@
----
-module: candidate.core.symbolic_reasoning
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/core/symbolic_reasoning/module.manifest.json
-matriz: [thought]
----
-# candidate.core.symbolic_reasoning
+# labs.core.symbolic_reasoning
 
 **Star**: Supporting
 **MATRIZ Nodes**: thought
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.core.symbolic_reasoning: INFO`
+- **Logging**: `labs.core.symbolic_reasoning: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

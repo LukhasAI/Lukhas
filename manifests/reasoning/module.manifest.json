@@ -4,33 +4,26 @@
     "name": "reasoning",
     "path": "reasoning",
     "type": "package",
-    "lane": "root",
-    "quality_tier": "T2"
+    "lane": "reasoning"
   },
   "matriz_integration": {
     "status": "partial",
     "pipeline_nodes": [
-      "reasoner"
+      "thought"
     ],
     "cognitive_function": ""
   },
   "constellation_alignment": {
-    "primary_star": "\ud83d\udca0 Skill",
+    "primary_star": "Supporting",
     "star_aliases": [],
     "trinity_aspects": []
   },
   "capabilities": [
     {
-      "name": "reasoning",
-      "description": "Logical reasoning and inference"
-    },
-    {
-      "name": "inference",
-      "description": "Draw inferences from knowledge"
-    },
-    {
-      "name": "deduction",
-      "description": "Deductive reasoning"
+      "name": "cognitive_processing",
+      "type": "processing",
+      "description": "Performs reasoning, analysis, and decision-making",
+      "interfaces": []
     }
   ],
   "dependencies": {
@@ -45,7 +38,7 @@
   },
   "testing": {
     "has_tests": true,
-    "quality_tier": "T3_standard",
+    "quality_tier": "T4_experimental",
     "test_paths": [
       "reasoning/tests/test_reasoning_integration.py",
       "reasoning/tests/test_reasoning_unit.py"
@@ -72,8 +65,8 @@
     "policies": []
   },
   "metadata": {
-    "created": "2025-10-18T20:48:26Z",
-    "last_updated": "2025-10-18T20:48:26Z",
+    "created": "2025-10-19T01:05:13Z",
+    "last_updated": "2025-10-19T01:05:13Z",
     "manifest_generated": true,
     "owner": "unassigned",
     "documentation_url": "",

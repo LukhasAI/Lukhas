@@ -1,13 +1,4 @@
----
-module: candidate.core.symbolic_legacy.features.drift
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/core/symbolic_legacy/features/drift/module.manifest.json
-matriz: [risk]
----
-# candidate.core.symbolic_legacy.features.drift
+# labs.core.symbolic_legacy.features.drift
 
 **Star**: Supporting
 **MATRIZ Nodes**: risk
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.core.symbolic_legacy.features.drift: INFO`
+- **Logging**: `labs.core.symbolic_legacy.features.drift: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

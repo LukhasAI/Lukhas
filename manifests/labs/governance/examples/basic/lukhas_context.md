@@ -1,13 +1,4 @@
----
-module: candidate.governance.examples.basic
-star: 🛡️ Watch (Guardian)
-tier: T2_important
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/governance/examples/basic/module.manifest.json
-matriz: [risk]
----
-# candidate.governance.examples.basic
+# labs.governance.examples.basic
 
 **Star**: 🛡️ Watch (Guardian)
 **MATRIZ Nodes**: risk
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.governance.examples.basic: INFO`
+- **Logging**: `labs.governance.examples.basic: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

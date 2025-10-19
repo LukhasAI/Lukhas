@@ -1,13 +1,4 @@
----
-module: candidate.core.symbolic_legacy.processing
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/core/symbolic_legacy/processing/module.manifest.json
-matriz: [supporting]
----
-# candidate.core.symbolic_legacy.processing
+# labs.core.symbolic_legacy.processing
 
 **Star**: Supporting
 **MATRIZ Nodes**: supporting
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.core.symbolic_legacy.processing: INFO`
+- **Logging**: `labs.core.symbolic_legacy.processing: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

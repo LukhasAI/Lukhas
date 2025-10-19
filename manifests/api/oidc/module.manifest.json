@@ -1,10 +1,10 @@
 {
   "schema_version": "1.1.0",
   "module": {
-    "name": "lukhas.api.oidc",
+    "name": "api.oidc",
     "path": "api/oidc",
     "type": "package",
-    "lane": "lukhas",
+    "lane": "api",
     "colony": "actuation"
   },
   "matriz_integration": {
@@ -25,15 +25,6 @@
       "type": "orchestration",
       "description": "Executes actions and effects in the system",
       "interfaces": []
-    },
-    {
-      "name": "api_interface",
-      "type": "api",
-      "description": "Exposes external API endpoints",
-      "interfaces": [
-        "REST",
-        "HTTP"
-      ]
     },
     {
       "name": "authentication",
@@ -63,7 +54,7 @@
     "spans": [],
     "metrics": [],
     "logging": {
-      "logger_name": "lukhas.api.oidc",
+      "logger_name": "api.oidc",
       "default_level": "INFO"
     },
     "events": {
@@ -80,8 +71,8 @@
     "policies": []
   },
   "metadata": {
-    "created": "2025-10-18T18:23:40Z",
-    "last_updated": "2025-10-18T18:23:40Z",
+    "created": "2025-10-19T01:05:12Z",
+    "last_updated": "2025-10-19T01:05:12Z",
     "manifest_generated": true,
     "owner": "unassigned",
     "documentation_url": "",

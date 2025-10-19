@@ -1,10 +1,10 @@
 {
   "schema_version": "1.1.0",
   "module": {
-    "name": "lukhas.core.reliability.circuit_breaker",
+    "name": "core.reliability.circuit_breaker",
     "path": "core/reliability/circuit_breaker",
     "type": "package",
-    "lane": "lukhas"
+    "lane": "core"
   },
   "matriz_integration": {
     "status": "partial",
@@ -14,7 +14,7 @@
     "cognitive_function": ""
   },
   "constellation_alignment": {
-    "primary_star": "\ud83d\udd2c Horizon (Vision)",
+    "primary_star": "🔬 Horizon (Vision)",
     "star_aliases": [],
     "trinity_aspects": []
   },
@@ -50,7 +50,7 @@
     "spans": [],
     "metrics": [],
     "logging": {
-      "logger_name": "lukhas.core.reliability.circuit_breaker",
+      "logger_name": "core.reliability.circuit_breaker",
       "default_level": "INFO"
     },
     "events": {
@@ -67,8 +67,8 @@
     "policies": []
   },
   "metadata": {
-    "created": "2025-10-18T18:23:40Z",
-    "last_updated": "2025-10-18T18:23:40Z",
+    "created": "2025-10-19T01:05:12Z",
+    "last_updated": "2025-10-19T01:05:12Z",
     "manifest_generated": true,
     "owner": "unassigned",
     "documentation_url": "",

@@ -1,4 +1,4 @@
-# lukhas.bridge.api_gateway
+# bridge.api_gateway
 
 **Star**: Supporting
 **MATRIZ Nodes**: action
@@ -15,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `lukhas.bridge.api_gateway: INFO`
+- **Logging**: `bridge.api_gateway: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

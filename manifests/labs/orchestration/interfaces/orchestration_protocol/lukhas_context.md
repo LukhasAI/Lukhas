@@ -1,13 +1,4 @@
----
-module: candidate.orchestration.interfaces.orchestration_protocol
-star: 🔬 Horizon (Vision)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/orchestration/interfaces/orchestration_protocol/module.manifest.json
-matriz: [intent]
----
-# candidate.orchestration.interfaces.orchestration_protocol
+# labs.orchestration.interfaces.orchestration_protocol
 
 **Star**: 🔬 Horizon (Vision)
 **MATRIZ Nodes**: intent
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.orchestration.interfaces.orchestration_protocol: INFO`
+- **Logging**: `labs.orchestration.interfaces.orchestration_protocol: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

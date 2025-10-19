@@ -1,4 +1,4 @@
-# lukhas.orchestration.context_preservation
+# orchestration.context_preservation
 
 **Star**: Supporting
 **MATRIZ Nodes**: intent
@@ -15,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `lukhas.orchestration.context_preservation: INFO`
+- **Logging**: `orchestration.context_preservation: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

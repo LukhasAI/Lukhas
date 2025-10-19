@@ -4,33 +4,26 @@
     "name": "symbolic",
     "path": "symbolic",
     "type": "package",
-    "lane": "root",
-    "quality_tier": "T1"
+    "lane": "symbolic"
   },
   "matriz_integration": {
     "status": "partial",
     "pipeline_nodes": [
-      "processor"
+      "supporting"
     ],
     "cognitive_function": ""
   },
   "constellation_alignment": {
-    "primary_star": "\u269b\ufe0f Core",
+    "primary_star": "Supporting",
     "star_aliases": [],
     "trinity_aspects": []
   },
   "capabilities": [
     {
-      "name": "symbolic_processing",
-      "description": "Process symbolic representations"
-    },
-    {
-      "name": "symbolic_reasoning",
-      "description": "Reason using symbolic logic"
-    },
-    {
-      "name": "pattern_matching",
-      "description": "Match symbolic patterns"
+      "name": "infrastructure_support",
+      "type": "utility",
+      "description": "Provides foundational utilities and infrastructure",
+      "interfaces": []
     }
   ],
   "dependencies": {
@@ -45,7 +38,7 @@
   },
   "testing": {
     "has_tests": true,
-    "quality_tier": "T3_standard",
+    "quality_tier": "T4_experimental",
     "test_paths": [
       "symbolic/tests/test_symbolic_integration.py",
       "symbolic/tests/test_symbolic_unit.py"
@@ -72,8 +65,8 @@
     "policies": []
   },
   "metadata": {
-    "created": "2025-10-18T20:48:26Z",
-    "last_updated": "2025-10-18T20:48:26Z",
+    "created": "2025-10-19T01:05:13Z",
+    "last_updated": "2025-10-19T01:05:13Z",
     "manifest_generated": true,
     "owner": "unassigned",
     "documentation_url": "",

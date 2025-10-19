@@ -1,4 +1,4 @@
-# lukhas.bridge.llm_wrappers
+# bridge.llm_wrappers
 
 **Star**: Supporting
 **MATRIZ Nodes**: action
@@ -15,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `lukhas.bridge.llm_wrappers: INFO`
+- **Logging**: `bridge.llm_wrappers: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

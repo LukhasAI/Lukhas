@@ -1,13 +1,4 @@
----
-module: candidate.core.orchestration.brain.meta_cognitive
-star: Supporting
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/core/orchestration/brain/meta_cognitive/module.manifest.json
-matriz: [thought]
----
-# candidate.core.orchestration.brain.meta_cognitive
+# labs.core.orchestration.brain.meta_cognitive
 
 **Star**: Supporting
 **MATRIZ Nodes**: thought
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.core.orchestration.brain.meta_cognitive: INFO`
+- **Logging**: `labs.core.orchestration.brain.meta_cognitive: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

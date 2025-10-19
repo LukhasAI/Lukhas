@@ -1,13 +1,4 @@
----
-module: candidate.core.interfaces.as_agent.sample_payloads
-star: 🔬 Horizon (Vision)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/core/interfaces/as_agent/sample_payloads/module.manifest.json
-matriz: [action]
----
-# candidate.core.interfaces.as_agent.sample_payloads
+# labs.core.interfaces.as_agent.sample_payloads
 
 **Star**: 🔬 Horizon (Vision)
 **MATRIZ Nodes**: action
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.core.interfaces.as_agent.sample_payloads: INFO`
+- **Logging**: `labs.core.interfaces.as_agent.sample_payloads: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.1.0",
+  "module": {
+    "name": "bridge.api.analysis",
+    "path": "bridge/api/analysis",
+    "type": "package",
+    "lane": "bridge",
+    "colony": "actuation"
+  },
+  "matriz_integration": {
+    "status": "partial",
+    "pipeline_nodes": [
+      "action"
+    ],
+    "cognitive_function": ""
+  },
+  "constellation_alignment": {
+    "primary_star": "Supporting",
+    "star_aliases": [],
+    "trinity_aspects": []
+  },
+  "capabilities": [
+    {
+      "name": "action_execution",
+      "type": "orchestration",
+      "description": "Executes actions and effects in the system",
+      "interfaces": []
+    },
+    {
+      "name": "api_interface",
+      "type": "api",
+      "description": "Exposes external API endpoints",
+      "interfaces": [
+        "REST",
+        "HTTP"
+      ]
+    }
+  ],
+  "dependencies": {
+    "internal": [],
+    "external": [],
+    "circular_dependencies": []
+  },
+  "exports": {
+    "classes": [],
+    "functions": [],
+    "constants": []
+  },
+  "testing": {
+    "has_tests": true,
+    "quality_tier": "T3_standard",
+    "test_paths": [
+      "bridge/api/test_orchestration_system.py"
+    ]
+  },
+  "observability": {
+    "spans": [],
+    "metrics": [],
+    "logging": {
+      "logger_name": "bridge.api.analysis",
+      "default_level": "INFO"
+    },
+    "events": {
+      "publishes": [],
+      "subscribes": []
+    }
+  },
+  "security": {
+    "requires_auth": false,
+    "data_classification": "internal",
+    "secrets_used": [],
+    "network_calls": false,
+    "sandboxed": true,
+    "policies": []
+  },
+  "metadata": {
+    "created": "2025-10-19T01:05:12Z",
+    "last_updated": "2025-10-19T01:05:12Z",
+    "manifest_generated": true,
+    "owner": "unassigned",
+    "documentation_url": "",
+    "tags": []
+  }
+}

@@ -1,13 +1,4 @@
----
-module: candidate.core.orchestration.brain.attention
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/core/orchestration/brain/attention/module.manifest.json
-matriz: [attention]
----
-# candidate.core.orchestration.brain.attention
+# labs.core.orchestration.brain.attention
 
 **Star**: Supporting
 **MATRIZ Nodes**: attention
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.core.orchestration.brain.attention: INFO`
+- **Logging**: `labs.core.orchestration.brain.attention: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

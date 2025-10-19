@@ -1,13 +1,4 @@
----
-module: candidate.orchestration.agents.MetaCognitiveOrchestrator
-star: Supporting
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/orchestration/agents/MetaCognitiveOrchestrator/module.manifest.json
-matriz: [thought]
----
-# candidate.orchestration.agents.MetaCognitiveOrchestrator
+# labs.orchestration.agents.MetaCognitiveOrchestrator
 
 **Star**: Supporting
 **MATRIZ Nodes**: thought
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.orchestration.agents.MetaCognitiveOrchestrator: INFO`
+- **Logging**: `labs.orchestration.agents.MetaCognitiveOrchestrator: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

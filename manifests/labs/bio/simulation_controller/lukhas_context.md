@@ -1,13 +1,4 @@
----
-module: candidate.bio.simulation_controller
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: simulation
-manifest_path: manifests/labs/bio/simulation_controller/module.manifest.json
-matriz: [supporting]
----
-# candidate.bio.simulation_controller
+# labs.bio.simulation_controller
 
 **Star**: Supporting
 **MATRIZ Nodes**: supporting
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.bio.simulation_controller: INFO`
+- **Logging**: `labs.bio.simulation_controller: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

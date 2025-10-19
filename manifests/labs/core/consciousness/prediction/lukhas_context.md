@@ -1,13 +1,4 @@
----
-module: candidate.core.consciousness.prediction
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/labs/core/consciousness/prediction/module.manifest.json
-matriz: [thought]
----
-# candidate.core.consciousness.prediction
+# labs.core.consciousness.prediction
 
 **Star**: 🌊 Flow (Consciousness)
 **MATRIZ Nodes**: thought
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.core.consciousness.prediction: INFO`
+- **Logging**: `labs.core.consciousness.prediction: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

@@ -1,7 +1,7 @@
 # symbolic
 
 **Star**: Supporting
-**MATRIZ Nodes**: processor
+**MATRIZ Nodes**: supporting
 **Colony**: -
 
 ## What it does

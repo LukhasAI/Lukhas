@@ -1,13 +1,4 @@
----
-module: candidate.memory.memory_systems
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: memory
-manifest_path: manifests/labs/memory/memory_systems/module.manifest.json
-matriz: [memory]
----
-# candidate.memory.memory_systems
+# labs.memory.memory_systems
 
 **Star**: ✦ Trail (Memory)
 **MATRIZ Nodes**: memory
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.memory.memory_systems: INFO`
+- **Logging**: `labs.memory.memory_systems: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

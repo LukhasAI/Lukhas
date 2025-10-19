@@ -1,13 +1,4 @@
----
-module: candidate.branding_bridge
-star: Supporting
-tier: T2_important
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/branding_bridge/module.manifest.json
-matriz: [action]
----
-# candidate.branding_bridge
+# labs.branding_bridge
 
 **Star**: Supporting
 **MATRIZ Nodes**: action
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.branding_bridge: INFO`
+- **Logging**: `labs.branding_bridge: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

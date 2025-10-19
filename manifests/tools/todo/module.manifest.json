@@ -1,10 +1,10 @@
 {
   "schema_version": "1.1.0",
   "module": {
-    "name": "lukhas.tools.todo",
+    "name": "tools.todo",
     "path": "tools/todo",
     "type": "package",
-    "lane": "lukhas"
+    "lane": "tools"
   },
   "matriz_integration": {
     "status": "partial",
@@ -37,14 +37,19 @@
     "constants": []
   },
   "testing": {
-    "has_tests": false,
-    "quality_tier": "T4_experimental"
+    "has_tests": true,
+    "quality_tier": "T4_experimental",
+    "test_paths": [
+      "tools/test_orchestrator_load.py",
+      "tools/test_otel_5stage_spans.py",
+      "tools/test_sharding.py"
+    ]
   },
   "observability": {
     "spans": [],
     "metrics": [],
     "logging": {
-      "logger_name": "lukhas.tools.todo",
+      "logger_name": "tools.todo",
       "default_level": "INFO"
     },
     "events": {
@@ -61,8 +66,8 @@
     "policies": []
   },
   "metadata": {
-    "created": "2025-10-18T18:23:40Z",
-    "last_updated": "2025-10-18T18:23:40Z",
+    "created": "2025-10-19T01:05:13Z",
+    "last_updated": "2025-10-19T01:05:13Z",
     "manifest_generated": true,
     "owner": "unassigned",
     "documentation_url": "",

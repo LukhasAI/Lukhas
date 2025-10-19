@@ -1,13 +1,4 @@
----
-module: candidate.core.orchestration.apis
-star: Supporting
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/core/orchestration/apis/module.manifest.json
-matriz: [intent]
----
-# candidate.core.orchestration.apis
+# labs.core.orchestration.apis
 
 **Star**: Supporting
 **MATRIZ Nodes**: intent
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.core.orchestration.apis: INFO`
+- **Logging**: `labs.core.orchestration.apis: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

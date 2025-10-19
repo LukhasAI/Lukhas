@@ -1,10 +1,10 @@
 {
   "schema_version": "1.1.0",
   "module": {
-    "name": "lukhas.identity",
+    "name": "identity",
     "path": "identity",
     "type": "package",
-    "lane": "lukhas"
+    "lane": "identity"
   },
   "matriz_integration": {
     "status": "partial",
@@ -43,14 +43,28 @@
     "constants": []
   },
   "testing": {
-    "has_tests": false,
-    "quality_tier": "T3_standard"
+    "has_tests": true,
+    "quality_tier": "T3_standard",
+    "test_paths": [
+      "identity/tests/test_identity_integration.py",
+      "identity/tests/test_identity_unit.py",
+      "identity/tests/test_smoke.py",
+      "identity/tests/test_unit.py",
+      "tests/identity/test_lambda_id_utils.py",
+      "tests/identity/test_oidc_conformance.py",
+      "tests/identity/test_oidc_endpoints.py",
+      "tests/identity/test_oidc_integration.py",
+      "tests/identity/test_oidc_security_hardening.py",
+      "tests/identity/test_session_persistence.py",
+      "tests/identity/test_webauthn_abuse_protection.py",
+      "tests/identity/test_webauthn_production.py"
+    ]
   },
   "observability": {
     "spans": [],
     "metrics": [],
     "logging": {
-      "logger_name": "lukhas.identity",
+      "logger_name": "identity",
       "default_level": "INFO"
     },
     "events": {
@@ -67,8 +81,8 @@
     "policies": []
   },
   "metadata": {
-    "created": "2025-10-18T18:23:40Z",
-    "last_updated": "2025-10-18T18:23:40Z",
+    "created": "2025-10-19T01:05:12Z",
+    "last_updated": "2025-10-19T01:05:12Z",
     "manifest_generated": true,
     "owner": "unassigned",
     "documentation_url": "",

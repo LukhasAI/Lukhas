@@ -1,13 +1,4 @@
----
-module: candidate.consciousness.api.platform
-star: 🌊 Flow (Consciousness)
-tier: T3_standard
-owner: unassigned
-colony: actuation
-manifest_path: manifests/labs/consciousness/api/platform/module.manifest.json
-matriz: [thought]
----
-# candidate.consciousness.api.platform
+# labs.consciousness.api.platform
 
 **Star**: 🌊 Flow (Consciousness)
 **MATRIZ Nodes**: thought
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.consciousness.api.platform: INFO`
+- **Logging**: `labs.consciousness.api.platform: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

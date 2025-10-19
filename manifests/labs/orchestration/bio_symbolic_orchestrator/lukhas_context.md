@@ -1,13 +1,4 @@
----
-module: candidate.orchestration.bio_symbolic_orchestrator
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/orchestration/bio_symbolic_orchestrator/module.manifest.json
-matriz: [intent]
----
-# candidate.orchestration.bio_symbolic_orchestrator
+# labs.orchestration.bio_symbolic_orchestrator
 
 **Star**: Supporting
 **MATRIZ Nodes**: intent
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.orchestration.bio_symbolic_orchestrator: INFO`
+- **Logging**: `labs.orchestration.bio_symbolic_orchestrator: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

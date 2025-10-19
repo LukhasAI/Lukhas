@@ -1,13 +1,4 @@
----
-module: candidate.consciousness.guardian_integration
-star: 🛡️ Watch (Guardian)
-tier: T3_standard
-owner: unassigned
-colony: simulation
-manifest_path: manifests/labs/consciousness/guardian_integration/module.manifest.json
-matriz: [thought]
----
-# candidate.consciousness.guardian_integration
+# labs.consciousness.guardian_integration
 
 **Star**: 🛡️ Watch (Guardian)
 **MATRIZ Nodes**: thought
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.consciousness.guardian_integration: INFO`
+- **Logging**: `labs.consciousness.guardian_integration: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

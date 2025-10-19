@@ -1,13 +1,4 @@
----
-module: candidate.core.ethics.logic
-star: 🛡️ Watch (Guardian)
-tier: T4_experimental
-owner: unassigned
-colony: ethics
-manifest_path: manifests/labs/core/ethics/logic/module.manifest.json
-matriz: [risk]
----
-# candidate.core.ethics.logic
+# labs.core.ethics.logic
 
 **Star**: 🛡️ Watch (Guardian)
 **MATRIZ Nodes**: risk
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.core.ethics.logic: INFO`
+- **Logging**: `labs.core.ethics.logic: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

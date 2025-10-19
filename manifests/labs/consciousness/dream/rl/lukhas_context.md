@@ -1,13 +1,4 @@
----
-module: candidate.consciousness.dream.rl
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/labs/consciousness/dream/rl/module.manifest.json
-matriz: [thought]
----
-# candidate.consciousness.dream.rl
+# labs.consciousness.dream.rl
 
 **Star**: 🌊 Flow (Consciousness)
 **MATRIZ Nodes**: thought
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.consciousness.dream.rl: INFO`
+- **Logging**: `labs.consciousness.dream.rl: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

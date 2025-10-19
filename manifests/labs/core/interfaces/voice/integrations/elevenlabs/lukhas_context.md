@@ -1,13 +1,4 @@
----
-module: candidate.core.interfaces.voice.integrations.elevenlabs
-star: 🔬 Horizon (Vision)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/core/interfaces/voice/integrations/elevenlabs/module.manifest.json
-matriz: [action]
----
-# candidate.core.interfaces.voice.integrations.elevenlabs
+# labs.core.interfaces.voice.integrations.elevenlabs
 
 **Star**: 🔬 Horizon (Vision)
 **MATRIZ Nodes**: action
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.core.interfaces.voice.integrations.elevenlabs: INFO`
+- **Logging**: `labs.core.interfaces.voice.integrations.elevenlabs: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

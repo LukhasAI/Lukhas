@@ -1,10 +1,10 @@
 {
   "schema_version": "1.1.0",
   "module": {
-    "name": "lukhas.governance.guardian_serializers",
+    "name": "governance.guardian_serializers",
     "path": "governance/guardian_serializers",
     "type": "package",
-    "lane": "lukhas",
+    "lane": "governance",
     "colony": "ethics"
   },
   "matriz_integration": {
@@ -51,7 +51,7 @@
     "spans": [],
     "metrics": [],
     "logging": {
-      "logger_name": "lukhas.governance.guardian_serializers",
+      "logger_name": "governance.guardian_serializers",
       "default_level": "INFO"
     },
     "events": {
@@ -68,8 +68,8 @@
     "policies": []
   },
   "metadata": {
-    "created": "2025-10-18T18:23:40Z",
-    "last_updated": "2025-10-18T18:23:40Z",
+    "created": "2025-10-19T01:05:12Z",
+    "last_updated": "2025-10-19T01:05:12Z",
     "manifest_generated": true,
     "owner": "unassigned",
     "documentation_url": "",

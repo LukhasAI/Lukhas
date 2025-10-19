@@ -1,13 +1,4 @@
----
-module: candidate.core.orchestration.security.dast
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/core/orchestration/security/dast/module.manifest.json
-matriz: [intent]
----
-# candidate.core.orchestration.security.dast
+# labs.core.orchestration.security.dast
 
 **Star**: Supporting
 **MATRIZ Nodes**: intent
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.core.orchestration.security.dast: INFO`
+- **Logging**: `labs.core.orchestration.security.dast: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

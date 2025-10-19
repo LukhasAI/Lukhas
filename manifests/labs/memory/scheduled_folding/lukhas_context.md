@@ -1,13 +1,4 @@
----
-module: candidate.memory.scheduled_folding
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: memory
-manifest_path: manifests/labs/memory/scheduled_folding/module.manifest.json
-matriz: [memory]
----
-# candidate.memory.scheduled_folding
+# labs.memory.scheduled_folding
 
 **Star**: ✦ Trail (Memory)
 **MATRIZ Nodes**: memory
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.memory.scheduled_folding: INFO`
+- **Logging**: `labs.memory.scheduled_folding: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

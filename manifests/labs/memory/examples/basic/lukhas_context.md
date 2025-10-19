@@ -1,13 +1,4 @@
----
-module: candidate.memory.examples.basic
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: memory
-manifest_path: manifests/labs/memory/examples/basic/module.manifest.json
-matriz: [memory]
----
-# candidate.memory.examples.basic
+# labs.memory.examples.basic
 
 **Star**: ✦ Trail (Memory)
 **MATRIZ Nodes**: memory
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.memory.examples.basic: INFO`
+- **Logging**: `labs.memory.examples.basic: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

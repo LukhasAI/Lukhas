@@ -1,10 +1,10 @@
 {
   "schema_version": "1.1.0",
   "module": {
-    "name": "lukhas.governance",
+    "name": "governance",
     "path": "governance",
     "type": "package",
-    "lane": "lukhas"
+    "lane": "governance"
   },
   "matriz_integration": {
     "status": "partial",
@@ -14,7 +14,7 @@
     "cognitive_function": ""
   },
   "constellation_alignment": {
-    "primary_star": "\ud83d\udee1\ufe0f Watch (Guardian)",
+    "primary_star": "🛡️ Watch (Guardian)",
     "star_aliases": [],
     "trinity_aspects": []
   },
@@ -43,15 +43,29 @@
     "constants": []
   },
   "testing": {
-    "has_tests": false,
+    "has_tests": true,
     "quality_tier": "T2_important",
-    "test_paths": []
+    "test_paths": [
+      "governance/tests/test_governance_integration.py",
+      "governance/tests/test_governance_unit.py",
+      "governance/tests/test_smoke.py",
+      "governance/tests/test_unit.py",
+      "tests/governance/test_access_control.py",
+      "tests/governance/test_audit_system.py",
+      "tests/governance/test_consent_manager.py",
+      "tests/governance/test_governance.py",
+      "tests/governance/test_guardian_defaults.py",
+      "tests/governance/test_lane_consistency.py",
+      "tests/governance/test_policy_engine.py",
+      "tests/governance/test_threat_detection.py"
+    ],
+    "coverage_baseline": 50
   },
   "observability": {
     "spans": [],
     "metrics": [],
     "logging": {
-      "logger_name": "lukhas.governance",
+      "logger_name": "governance",
       "default_level": "INFO"
     },
     "events": {
@@ -68,10 +82,10 @@
     "policies": []
   },
   "metadata": {
-    "created": "2025-10-18T18:23:40Z",
-    "last_updated": "2025-10-18T19:14:56Z",
+    "created": "2025-10-19T01:05:12Z",
+    "last_updated": "2025-10-19T01:05:12Z",
     "manifest_generated": true,
-    "owner": "triage@lukhas",
+    "owner": "unassigned",
     "documentation_url": "",
     "tags": []
   }

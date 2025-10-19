@@ -1,13 +1,4 @@
----
-module: candidate.memory.planning
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/labs/memory/planning/module.manifest.json
-matriz: [memory]
----
-# candidate.memory.planning
+# labs.memory.planning
 
 **Star**: ✦ Trail (Memory)
 **MATRIZ Nodes**: memory
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.memory.planning: INFO`
+- **Logging**: `labs.memory.planning: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

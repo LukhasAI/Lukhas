@@ -1,13 +1,4 @@
----
-module: candidate.core.quantum_empathy
-star: 🔮 Oracle (Quantum)
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/core/quantum_empathy/module.manifest.json
-matriz: [supporting]
----
-# candidate.core.quantum_empathy
+# labs.core.quantum_empathy
 
 **Star**: 🔮 Oracle (Quantum)
 **MATRIZ Nodes**: supporting
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.core.quantum_empathy: INFO`
+- **Logging**: `labs.core.quantum_empathy: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

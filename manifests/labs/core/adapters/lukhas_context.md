@@ -1,13 +1,4 @@
----
-module: candidate.core.adapters
-star: Supporting
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/core/adapters/module.manifest.json
-matriz: [action]
----
-# candidate.core.adapters
+# labs.core.adapters
 
 **Star**: Supporting
 **MATRIZ Nodes**: action
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.core.adapters: INFO`
+- **Logging**: `labs.core.adapters: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

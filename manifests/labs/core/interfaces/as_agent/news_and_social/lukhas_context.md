@@ -1,13 +1,4 @@
----
-module: candidate.core.interfaces.as_agent.news_and_social
-star: 🔬 Horizon (Vision)
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/core/interfaces/as_agent/news_and_social/module.manifest.json
-matriz: [action]
----
-# candidate.core.interfaces.as_agent.news_and_social
+# labs.core.interfaces.as_agent.news_and_social
 
 **Star**: 🔬 Horizon (Vision)
 **MATRIZ Nodes**: action
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.core.interfaces.as_agent.news_and_social: INFO`
+- **Logging**: `labs.core.interfaces.as_agent.news_and_social: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

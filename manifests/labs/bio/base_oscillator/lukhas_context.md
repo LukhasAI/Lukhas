@@ -1,13 +1,4 @@
----
-module: candidate.bio.base_oscillator
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/bio/base_oscillator/module.manifest.json
-matriz: [supporting]
----
-# candidate.bio.base_oscillator
+# labs.bio.base_oscillator
 
 **Star**: Supporting
 **MATRIZ Nodes**: supporting
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.bio.base_oscillator: INFO`
+- **Logging**: `labs.bio.base_oscillator: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

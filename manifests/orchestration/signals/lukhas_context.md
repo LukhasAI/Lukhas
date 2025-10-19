@@ -1,4 +1,4 @@
-# lukhas.orchestration.signals
+# orchestration.signals
 
 **Star**: Supporting
 **MATRIZ Nodes**: intent
@@ -15,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `lukhas.orchestration.signals: INFO`
+- **Logging**: `orchestration.signals: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

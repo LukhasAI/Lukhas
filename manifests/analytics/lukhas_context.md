@@ -1,7 +1,7 @@
 # analytics
 
 **Star**: Supporting
-**MATRIZ Nodes**: observer
+**MATRIZ Nodes**: supporting
 **Colony**: -
 
 ## What it does

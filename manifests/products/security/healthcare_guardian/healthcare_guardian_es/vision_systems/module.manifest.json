@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.1.0",
+  "module": {
+    "name": "products.security.healthcare_guardian.healthcare_guardian_es.vision_systems",
+    "path": "products/security/healthcare_guardian/healthcare_guardian_es/vision_systems",
+    "type": "package",
+    "lane": "products",
+    "colony": "interface"
+  },
+  "matriz_integration": {
+    "status": "partial",
+    "pipeline_nodes": [
+      "risk"
+    ],
+    "cognitive_function": ""
+  },
+  "constellation_alignment": {
+    "primary_star": "🔬 Horizon (Vision)",
+    "star_aliases": [],
+    "trinity_aspects": []
+  },
+  "capabilities": [
+    {
+      "name": "risk_assessment",
+      "type": "processing",
+      "description": "Evaluates risks and safety constraints",
+      "interfaces": []
+    },
+    {
+      "name": "perception_processing",
+      "type": "processing",
+      "description": "Processes visual and perceptual inputs",
+      "interfaces": []
+    }
+  ],
+  "dependencies": {
+    "internal": [],
+    "external": [],
+    "circular_dependencies": []
+  },
+  "exports": {
+    "classes": [],
+    "functions": [],
+    "constants": []
+  },
+  "testing": {
+    "has_tests": false,
+    "quality_tier": "T3_standard"
+  },
+  "observability": {
+    "spans": [],
+    "metrics": [],
+    "logging": {
+      "logger_name": "products.security.healthcare_guardian.healthcare_guardian_es.vision_systems",
+      "default_level": "INFO"
+    },
+    "events": {
+      "publishes": [],
+      "subscribes": []
+    }
+  },
+  "security": {
+    "requires_auth": false,
+    "data_classification": "internal",
+    "secrets_used": [],
+    "network_calls": false,
+    "sandboxed": true,
+    "policies": []
+  },
+  "metadata": {
+    "created": "2025-10-19T01:05:13Z",
+    "last_updated": "2025-10-19T01:05:13Z",
+    "manifest_generated": true,
+    "owner": "unassigned",
+    "documentation_url": "",
+    "tags": []
+  }
+}

@@ -1,13 +1,4 @@
----
-module: candidate.emotion.empathy
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/emotion/empathy/module.manifest.json
-matriz: [supporting]
----
-# candidate.emotion.empathy
+# labs.emotion.empathy
 
 **Star**: Supporting
 **MATRIZ Nodes**: supporting
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.emotion.empathy: INFO`
+- **Logging**: `labs.emotion.empathy: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

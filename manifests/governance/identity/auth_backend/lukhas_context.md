@@ -1,4 +1,4 @@
-# lukhas.governance.identity.auth_backend
+# governance.identity.auth_backend
 
 **Star**: ⚛️ Anchor (Identity)
 **MATRIZ Nodes**: risk
@@ -15,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `lukhas.governance.identity.auth_backend: INFO`
+- **Logging**: `governance.identity.auth_backend: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

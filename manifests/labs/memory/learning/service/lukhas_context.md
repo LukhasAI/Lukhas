@@ -1,13 +1,4 @@
----
-module: candidate.memory.learning.service
-star: ✦ Trail (Memory)
-tier: T2_important
-owner: unassigned
-colony: memory
-manifest_path: manifests/labs/memory/learning/service/module.manifest.json
-matriz: [memory]
----
-# candidate.memory.learning.service
+# labs.memory.learning.service
 
 **Star**: ✦ Trail (Memory)
 **MATRIZ Nodes**: memory
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.memory.learning.service: INFO`
+- **Logging**: `labs.memory.learning.service: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

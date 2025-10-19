@@ -1,10 +1,10 @@
 {
   "schema_version": "1.1.0",
   "module": {
-    "name": "lukhas.consciousness.meta_cognitive_assessor",
+    "name": "consciousness.meta_cognitive_assessor",
     "path": "consciousness/meta_cognitive_assessor",
     "type": "package",
-    "lane": "lukhas",
+    "lane": "consciousness",
     "colony": "simulation"
   },
   "matriz_integration": {
@@ -52,7 +52,7 @@
     "spans": [],
     "metrics": [],
     "logging": {
-      "logger_name": "lukhas.consciousness.meta_cognitive_assessor",
+      "logger_name": "consciousness.meta_cognitive_assessor",
       "default_level": "INFO"
     },
     "events": {
@@ -69,10 +69,10 @@
     "policies": []
   },
   "metadata": {
-    "created": "2025-10-18T18:23:40Z",
-    "last_updated": "2025-10-18T19:14:56Z",
+    "created": "2025-10-19T01:05:12Z",
+    "last_updated": "2025-10-19T01:05:12Z",
     "manifest_generated": true,
-    "owner": "triage@lukhas",
+    "owner": "unassigned",
     "documentation_url": "",
     "tags": []
   }

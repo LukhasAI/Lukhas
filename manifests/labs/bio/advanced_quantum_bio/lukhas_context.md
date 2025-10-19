@@ -1,13 +1,4 @@
----
-module: candidate.bio.advanced_quantum_bio
-star: 🔮 Oracle (Quantum)
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/bio/advanced_quantum_bio/module.manifest.json
-matriz: [supporting]
----
-# candidate.bio.advanced_quantum_bio
+# labs.bio.advanced_quantum_bio
 
 **Star**: 🔮 Oracle (Quantum)
 **MATRIZ Nodes**: supporting
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.bio.advanced_quantum_bio: INFO`
+- **Logging**: `labs.bio.advanced_quantum_bio: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

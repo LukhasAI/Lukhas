@@ -1,13 +1,4 @@
----
-module: candidate.cognitive_core.reasoning.deep_inference_engine
-star: Supporting
-tier: T3_standard
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/cognitive_core/reasoning/deep_inference_engine/module.manifest.json
-matriz: [thought]
----
-# candidate.cognitive_core.reasoning.deep_inference_engine
+# labs.cognitive_core.reasoning.deep_inference_engine
 
 **Star**: Supporting
 **MATRIZ Nodes**: thought
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.cognitive_core.reasoning.deep_inference_engine: INFO`
+- **Logging**: `labs.cognitive_core.reasoning.deep_inference_engine: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

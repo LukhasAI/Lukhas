@@ -1,13 +1,4 @@
----
-module: candidate.observability.advanced_metrics
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/observability/advanced_metrics/module.manifest.json
-matriz: [supporting]
----
-# candidate.observability.advanced_metrics
+# labs.observability.advanced_metrics
 
 **Star**: Supporting
 **MATRIZ Nodes**: supporting
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.observability.advanced_metrics: INFO`
+- **Logging**: `labs.observability.advanced_metrics: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

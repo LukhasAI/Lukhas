@@ -1,13 +1,4 @@
----
-module: candidate.governance.healthcare
-star: 🛡️ Watch (Guardian)
-tier: T2_important
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/governance/healthcare/module.manifest.json
-matriz: [risk]
----
-# candidate.governance.healthcare
+# labs.governance.healthcare
 
 **Star**: 🛡️ Watch (Guardian)
 **MATRIZ Nodes**: risk
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.governance.healthcare: INFO`
+- **Logging**: `labs.governance.healthcare: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

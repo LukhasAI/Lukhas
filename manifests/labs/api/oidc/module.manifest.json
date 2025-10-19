@@ -1,10 +1,10 @@
 {
   "schema_version": "1.1.0",
   "module": {
-    "name": "candidate.api.oidc",
+    "name": "labs.api.oidc",
     "path": "labs/api/oidc",
     "type": "package",
-    "lane": "candidate",
+    "lane": "labs",
     "colony": "actuation"
   },
   "matriz_integration": {
@@ -15,7 +15,7 @@
     "cognitive_function": ""
   },
   "constellation_alignment": {
-    "primary_star": "\ud83d\udee1\ufe0f Watch (Guardian)",
+    "primary_star": "🛡️ Watch (Guardian)",
     "star_aliases": [],
     "trinity_aspects": []
   },
@@ -63,7 +63,7 @@
     "spans": [],
     "metrics": [],
     "logging": {
-      "logger_name": "candidate.api.oidc",
+      "logger_name": "labs.api.oidc",
       "default_level": "INFO"
     },
     "events": {
@@ -80,8 +80,8 @@
     "policies": []
   },
   "metadata": {
-    "created": "2025-10-11T22:12:48Z",
-    "last_updated": "2025-10-18T00:00:00Z",
+    "created": "2025-10-19T01:05:12Z",
+    "last_updated": "2025-10-19T01:05:12Z",
     "manifest_generated": true,
     "owner": "unassigned",
     "documentation_url": "",

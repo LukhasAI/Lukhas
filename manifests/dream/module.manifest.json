@@ -4,34 +4,33 @@
     "name": "dream",
     "path": "dream",
     "type": "package",
-    "lane": "root",
-    "colony": "simulation",
-    "quality_tier": "T2"
+    "lane": "dream",
+    "colony": "simulation"
   },
   "matriz_integration": {
     "status": "partial",
     "pipeline_nodes": [
-      "synthesizer"
+      "supporting"
     ],
     "cognitive_function": ""
   },
   "constellation_alignment": {
-    "primary_star": "\ud83c\udf38 Flow",
+    "primary_star": "🌊 Flow (Consciousness)",
     "star_aliases": [],
     "trinity_aspects": []
   },
   "capabilities": [
     {
-      "name": "synthesis",
-      "description": "Synthesize consciousness state"
+      "name": "infrastructure_support",
+      "type": "utility",
+      "description": "Provides foundational utilities and infrastructure",
+      "interfaces": []
     },
     {
-      "name": "dream_processing",
-      "description": "Process dream states"
-    },
-    {
-      "name": "pattern_integration",
-      "description": "Integrate patterns from experience"
+      "name": "consciousness_integration",
+      "type": "orchestration",
+      "description": "Integrates consciousness-aware patterns",
+      "interfaces": []
     }
   ],
   "dependencies": {
@@ -46,7 +45,7 @@
   },
   "testing": {
     "has_tests": true,
-    "quality_tier": "T3_standard",
+    "quality_tier": "T4_experimental",
     "test_paths": [
       "dream/tests/test_dream_integration.py",
       "dream/tests/test_dream_unit.py"
@@ -73,8 +72,8 @@
     "policies": []
   },
   "metadata": {
-    "created": "2025-10-18T20:48:26Z",
-    "last_updated": "2025-10-18T20:48:26Z",
+    "created": "2025-10-19T01:05:12Z",
+    "last_updated": "2025-10-19T01:05:12Z",
     "manifest_generated": true,
     "owner": "unassigned",
     "documentation_url": "",

@@ -1,10 +1,10 @@
 {
   "schema_version": "1.1.0",
   "module": {
-    "name": "lukhas.emotion",
+    "name": "emotion",
     "path": "emotion",
     "type": "package",
-    "lane": "lukhas"
+    "lane": "emotion"
   },
   "matriz_integration": {
     "status": "partial",
@@ -37,14 +37,18 @@
     "constants": []
   },
   "testing": {
-    "has_tests": false,
-    "quality_tier": "T4_experimental"
+    "has_tests": true,
+    "quality_tier": "T4_experimental",
+    "test_paths": [
+      "emotion/tests/test_emotion_integration.py",
+      "emotion/tests/test_emotion_unit.py"
+    ]
   },
   "observability": {
     "spans": [],
     "metrics": [],
     "logging": {
-      "logger_name": "lukhas.emotion",
+      "logger_name": "emotion",
       "default_level": "INFO"
     },
     "events": {
@@ -61,8 +65,8 @@
     "policies": []
   },
   "metadata": {
-    "created": "2025-10-18T18:23:40Z",
-    "last_updated": "2025-10-18T18:23:40Z",
+    "created": "2025-10-19T01:05:12Z",
+    "last_updated": "2025-10-19T01:05:12Z",
     "manifest_generated": true,
     "owner": "unassigned",
     "documentation_url": "",

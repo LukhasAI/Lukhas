@@ -1,13 +1,4 @@
----
-module: candidate.core.orchestration.config
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/core/orchestration/config/module.manifest.json
-matriz: [intent]
----
-# candidate.core.orchestration.config
+# labs.core.orchestration.config
 
 **Star**: Supporting
 **MATRIZ Nodes**: intent
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.core.orchestration.config: INFO`
+- **Logging**: `labs.core.orchestration.config: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

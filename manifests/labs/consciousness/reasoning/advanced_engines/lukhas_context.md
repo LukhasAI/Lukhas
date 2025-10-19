@@ -1,13 +1,4 @@
----
-module: candidate.consciousness.reasoning.advanced_engines
-star: 🌊 Flow (Consciousness)
-tier: T2_important
-owner: unassigned
-colony: simulation
-manifest_path: manifests/labs/consciousness/reasoning/advanced_engines/module.manifest.json
-matriz: [thought]
----
-# candidate.consciousness.reasoning.advanced_engines
+# labs.consciousness.reasoning.advanced_engines
 
 **Star**: 🌊 Flow (Consciousness)
 **MATRIZ Nodes**: thought
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.consciousness.reasoning.advanced_engines: INFO`
+- **Logging**: `labs.consciousness.reasoning.advanced_engines: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_

@@ -1,13 +1,4 @@
----
-module: candidate.rl
-star: Supporting
-tier: T4_experimental
-owner: unassigned
-colony: -
-manifest_path: manifests/labs/rl/module.manifest.json
-matriz: [supporting]
----
-# candidate.rl
+# labs.rl
 
 **Star**: Supporting
 **MATRIZ Nodes**: supporting
@@ -24,7 +15,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 ## Observability
 - **Spans**: _otlp-span-name_
 - **Metrics**: _counter.foo, histogram.bar_
-- **Logging**: `candidate.rl: INFO`
+- **Logging**: `labs.rl: INFO`
 
 ## Security
 - **Auth**: _OIDC|Token|None_
