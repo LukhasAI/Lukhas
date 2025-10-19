@@ -53,7 +53,7 @@ jobs:
           fi
 
           # Candidate files should only be in candidate lane
-          if git diff --name-only origin/main...HEAD | grep -E "^candidate/" | grep -v "^candidate/"; then
+          if git diff --name-only origin/main...HEAD | grep -E "^labs/" | grep -v "^labs/"; then
             echo "Files incorrectly placed in candidate lane"
             PLACEMENT_VIOLATIONS=$((PLACEMENT_VIOLATIONS + 1))
           fi

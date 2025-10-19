@@ -3,7 +3,7 @@ name: Dream EXPAND++
 on:
   push:
     paths:
-      - "candidate/consciousness/dream/expand/**"
+      - "labs/consciousness/dream/expand/**"
       - "tests/unit/dream/expand/**"
   workflow_dispatch:
   schedule:

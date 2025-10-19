@@ -23,27 +23,27 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Check candidate/ file count doesn't increase
+      - name: Check labs/ file count doesn't increase
         run: |
-          echo "🔍 Checking candidate/ file count..."
+          echo "🔍 Checking labs/ file count..."
 
           # Get file count on main branch
           git checkout origin/main
-          main_count=$(find candidate/ -type f -name "*.py" | wc -l)
-          echo "Main branch candidate/ files: $main_count"
+          main_count=$(find labs/ -type f -name "*.py" | wc -l)
+          echo "Main branch labs/ files: $main_count"
 
           # Get file count on current branch
           git checkout ${{ github.sha }}
-          current_count=$(find candidate/ -type f -name "*.py" | wc -l)
-          echo "Current branch candidate/ files: $current_count"
+          current_count=$(find labs/ -type f -name "*.py" | wc -l)
+          echo "Current branch labs/ files: $current_count"
 
           if [ $current_count -gt $main_count ]; then
-            echo "❌ candidate/ file count increased from $main_count to $current_count"
-            echo "📋 New files should go to flat-root, not candidate/"
+            echo "❌ labs/ file count increased from $main_count to $current_count"
+            echo "📋 New files should go to flat-root, not labs/"
             exit 1
           fi
 
-          echo "✅ candidate/ file count: $main_count → $current_count (no increase)"
+          echo "✅ labs/ file count: $main_count → $current_count (no increase)"
 
       - name: Check import failures empty
         run: |
@@ -123,7 +123,7 @@ jobs:
       - name: Final status
         run: |
           echo "🎉 All promotion guards passed!"
-          echo "✅ candidate/ file count stable"
+          echo "✅ labs/ file count stable"
           echo "✅ No import failures"
           echo "✅ MATRIZ validation clean"
           echo "✅ Coverage maintained"

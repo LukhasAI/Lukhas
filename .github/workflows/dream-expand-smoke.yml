@@ -2,14 +2,14 @@ name: dream-expand-smoke
 on:
   pull_request:
     paths:
-      - "candidate/consciousness/dream/expand/**"
+      - "labs/consciousness/dream/expand/**"
       - "benchmarks/dream/**"
       - "tests/benchmarks/**"
       - "tests/unit/dream/**"
   push:
     branches: [ main ]
     paths:
-      - "candidate/consciousness/dream/expand/**"
+      - "labs/consciousness/dream/expand/**"
       - "benchmarks/dream/**"
       - "tests/benchmarks/**"
       - "tests/unit/dream/**"

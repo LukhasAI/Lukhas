@@ -5,12 +5,12 @@ on:
     branches: [ feat/dream-phase-next ]
     paths:
       - 'benchmarks/dream/**'
-      - 'candidate/consciousness/dream/**'
+      - 'labs/consciousness/dream/**'
   pull_request:
     branches: [ main ]
     paths:
       - 'benchmarks/dream/**'
-      - 'candidate/consciousness/dream/**'
+      - 'labs/consciousness/dream/**'
   workflow_dispatch:
 
 jobs:

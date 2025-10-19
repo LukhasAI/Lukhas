@@ -8,7 +8,7 @@ on:
       - 'memory/**'
       - 'core/**'
       - 'bio/**'
-      - 'candidate/**'
+      - 'labs/**'
       - 'docs/matriz/**'
       - 'templates/module.lane.yaml'
       - 'scripts/matriz/**'

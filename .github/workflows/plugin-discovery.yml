@@ -6,7 +6,7 @@ on:
     paths:
       - '**/*.py'
       - 'labs/**/*.py'
-      - 'candidate/**/*.py'
+      - 'labs/**/*.py'
       - 'tests/**/*.py'
       - 'pyproject.toml'
       - 'requirements*.txt'
@@ -15,7 +15,7 @@ on:
     paths:
       - '**/*.py'
       - 'labs/**/*.py'
-      - 'candidate/**/*.py'
+      - 'labs/**/*.py'
       - 'tests/**/*.py'
       - 'pyproject.toml'
       - 'requirements*.txt'

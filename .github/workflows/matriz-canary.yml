@@ -5,7 +5,7 @@ on:
     branches: [main]
     paths:
       - 'matriz/**'
-      - 'candidate/core/orchestration/**'
+      - 'labs/core/orchestration/**'
       - 'core/matriz/**'
       - 'deployment/canary/**'
   workflow_dispatch:

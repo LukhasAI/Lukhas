@@ -4,14 +4,14 @@ on:
   # Fast signal when EXPAND code changes
   pull_request:
     paths:
-      - "candidate/consciousness/dream/expand/**"
+      - "labs/consciousness/dream/expand/**"
       - "benchmarks/dream/**"
       - "tests/unit/dream/expand/**"
       - "tests/benchmarks/**"
   push:
     branches: [ main ]
     paths:
-      - "candidate/consciousness/dream/expand/**"
+      - "labs/consciousness/dream/expand/**"
       - "benchmarks/dream/**"
       - "tests/unit/dream/expand/**"
       - "tests/benchmarks/**"

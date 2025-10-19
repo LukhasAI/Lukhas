@@ -34,7 +34,7 @@ try:
         path = str(rec.get("filename", ""))
         if path.startswith(("consciousness/", "identity/", "governance/", "memory/", "core/", "bio/", "MATRIZ/")):
             totals["core"] += 1
-        elif path.startswith("candidate/"):
+        elif path.startswith("labs/"):
             totals["candidate"] += 1
         else:
             totals["other"] += 1

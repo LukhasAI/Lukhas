@@ -101,7 +101,7 @@ jobs:
           VIOLATIONS=0
           
           # Check for cross-lane imports (simplified check)
-          if grep -r "from accepted" candidate/ 2>/dev/null | head -5; then
+          if grep -r "from accepted" labs/ 2>/dev/null | head -5; then
             echo "⚠️ Potential cross-lane import violations found"
             VIOLATIONS=$((VIOLATIONS + 1))
           fi
@@ -139,9 +139,9 @@ jobs:
           SMOKE_TESTS_PASSED=0
           SMOKE_TESTS_FAILED=0
           
-          if [[ -f candidate/aka_qualia/demo_smoke.py ]]; then
+          if [[ -f labs/aka_qualia/demo_smoke.py ]]; then
             echo "Running aka_qualia smoke test..."
-            if python3 -m pytest candidate/aka_qualia/demo_smoke.py -v --tb=short; then
+            if python3 -m pytest labs/aka_qualia/demo_smoke.py -v --tb=short; then
               SMOKE_TESTS_PASSED=$((SMOKE_TESTS_PASSED + 1))
             else
               SMOKE_TESTS_FAILED=$((SMOKE_TESTS_FAILED + 1))
@@ -150,7 +150,7 @@ jobs:
           
           # Look for other smoke tests
           find . -name "*smoke*.py" -type f | while read -r smoke_file; do
-            if [[ "$smoke_file" != "./candidate/aka_qualia/demo_smoke.py" ]]; then
+            if [[ "$smoke_file" != "./labs/aka_qualia/demo_smoke.py" ]]; then
               echo "Found additional smoke test: $smoke_file"
               if python3 -c "import sys; sys.path.insert(0, '.'); exec(open('$smoke_file').read())" 2>/dev/null; then
                 SMOKE_TESTS_PASSED=$((SMOKE_TESTS_PASSED + 1))
