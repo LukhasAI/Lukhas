@@ -241,7 +241,9 @@ oneiric-drift-test:
 
 # Lane guard: forbid lukhas -> candidate imports (belt-and-suspenders)
 lane-guard:
-	@bash tools/ci/lane_guard.sh
+	@echo "🔒 Running lane import guard..."
+	@PYTHONPATH=$$(pwd) .venv/bin/lint-imports --config .importlinter
+	@echo "✅ Lane guard clean"
 
 # Deep clean including virtual environment
 deep-clean: clean

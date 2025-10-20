@@ -1,0 +1,20 @@
+[importlinter]
+root_package = .
+
+[importlinter:contract:prod_no_candidate]
+name = Production must not import candidate or labs
+type = forbidden
+source_modules =
+    lukhas
+    matriz
+forbidden_modules =
+    candidate
+    labs
+
+[importlinter:contract:integration_no_candidate]
+name = Integration must not import candidate
+type = forbidden
+source_modules =
+    core
+forbidden_modules =
+    candidate
