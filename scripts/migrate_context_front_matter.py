@@ -27,6 +27,25 @@ FM_BOUNDARY = re.compile(r"^\s*---\s*$")
 
 
 def has_front_matter(text: str) -> bool:
+    """Check if text contains valid YAML front matter delimiters.
+
+    Validates that the text begins with a '---' delimiter and contains a closing
+    '---' delimiter within the first 200 lines. Used to skip files that have
+    already been migrated to the front-matter format.
+
+    Args:
+        text: Raw text content to check for front matter.
+
+    Returns:
+        bool: True if valid front matter block found (opening and closing '---'),
+            False if text is empty or lacks proper delimiters.
+
+    Example:
+        >>> has_front_matter("---\\nkey: value\\n---\\nBody text")
+        True
+        >>> has_front_matter("# Legacy Header\\nBody text")
+        False
+    """
     lines = text.splitlines()
     if not lines:
         return False
@@ -40,6 +59,25 @@ def has_front_matter(text: str) -> bool:
 
 
 def read_manifest(md_path: pathlib.Path) -> Optional[Dict]:
+    """Read and parse the sibling module.manifest.json file.
+
+    Looks for module.manifest.json in the same directory as the given markdown
+    file path. Used to extract tier, owner, and MATRIZ node information when
+    migrating legacy context files.
+
+    Args:
+        md_path: Path to the lukhas_context.md file (used to locate sibling manifest).
+
+    Returns:
+        dict: Parsed manifest JSON as dictionary if file exists and is valid,
+            None if file doesn't exist or cannot be parsed.
+
+    Example:
+        >>> read_manifest(Path("manifests/core/identity/lukhas_context.md"))
+        {'module': {'name': 'identity'}, 'testing': {'quality_tier': 'T1_critical'}, ...}
+        >>> read_manifest(Path("missing/lukhas_context.md"))
+        None
+    """
     mf = md_path.parent / "module.manifest.json"
     if not mf.exists():
         return None
@@ -50,7 +88,26 @@ def read_manifest(md_path: pathlib.Path) -> Optional[Dict]:
 
 
 def parse_legacy_header(text: str) -> Dict[str, Optional[str]]:
-    """Lightweight parse of first ~40 lines for legacy header fields."""
+    """Extract metadata from legacy context file header format.
+
+    Scans the first 40 lines of a context file to find legacy header fields
+    formatted as bold markdown keys (e.g., "**Star**: Identity"). Extracts
+    star, MATRIZ nodes, colony, and title information for migration to YAML
+    front matter.
+
+    Args:
+        text: Full text content of the context file.
+
+    Returns:
+        dict: Dictionary with keys 'star', 'matriz', 'colony', 'title', each
+            containing the extracted string value or None if not found.
+
+    Example:
+        >>> parse_legacy_header("# Identity\\n**Star**: Identity\\n**MATRIZ Nodes**: M, A")
+        {'star': 'Identity', 'matriz': 'M, A', 'colony': None, 'title': 'Identity'}
+        >>> parse_legacy_header("# No metadata")
+        {'star': None, 'matriz': None, 'colony': None, 'title': 'No metadata'}
+    """
     fields = {"star": None, "matriz": None, "colony": None, "title": None}
     lines = text.splitlines()
     for line in lines[:40]:
@@ -72,6 +129,30 @@ def parse_legacy_header(text: str) -> Dict[str, Optional[str]]:
 
 
 def sanitize_nodes(nodes_str: Optional[str]) -> List[str]:
+    """Parse and normalize MATRIZ node string to list of node codes.
+
+    Splits a comma or whitespace-separated string of MATRIZ node codes into
+    a cleaned list. Handles various legacy formats like "M, A, T" or "M A T"
+    and normalizes them to ["M", "A", "T"].
+
+    Args:
+        nodes_str: Raw string containing MATRIZ node codes, may be comma or
+            whitespace separated, or None.
+
+    Returns:
+        list[str]: List of cleaned, non-empty node code strings. Empty list
+            if input is None or contains no valid nodes.
+
+    Example:
+        >>> sanitize_nodes("M, A, T")
+        ['M', 'A', 'T']
+        >>> sanitize_nodes("M   A   T")
+        ['M', 'A', 'T']
+        >>> sanitize_nodes(None)
+        []
+        >>> sanitize_nodes("")
+        []
+    """
     if not nodes_str:
         return []
     # split on commas or whitespace
@@ -81,6 +162,32 @@ def sanitize_nodes(nodes_str: Optional[str]) -> List[str]:
 
 
 def to_front_matter(data: Dict[str, object]) -> str:
+    """Generate YAML front matter block from metadata dictionary.
+
+    Converts a metadata dictionary to a YAML front-matter block suitable for
+    prepending to context files. Outputs required keys (module, star, tier,
+    owner) and optional keys (colony, manifest_path), followed by matriz as
+    a YAML array.
+
+    Args:
+        data: Dictionary containing metadata keys. Expected keys include:
+            - module: Module name (str)
+            - star: Constellation star (str)
+            - tier: Quality tier (str, e.g., "T1_critical")
+            - owner: Module owner (str)
+            - matriz: List of MATRIZ node codes (list[str])
+            - colony: Optional colony name (str)
+            - manifest_path: Optional path to manifest file (str)
+
+    Returns:
+        str: Complete YAML front matter block including delimiters (---),
+            formatted as multi-line string with trailing newline.
+
+    Example:
+        >>> to_front_matter({"module": "identity", "star": "Identity", "tier": "T1_critical",
+        ...                  "owner": "security@lukhas", "matriz": ["M", "A"]})
+        '---\\nmodule: identity\\nstar: Identity\\ntier: T1_critical\\nowner: security@lukhas\\nmatriz: [M, A]\\n---\\n'
+    """
     # minimal YAML writer for simple scalars and str lists
     lines = ["---"]
     for k in ("module", "star", "tier", "owner", "colony", "manifest_path"):
@@ -99,7 +206,26 @@ def to_front_matter(data: Dict[str, object]) -> str:
 
 
 def remove_legacy_header(text: str) -> str:
-    """Drop the legacy three lines if present; keep rest intact."""
+    """Remove legacy header fields from context file body.
+
+    Strips legacy bold markdown header lines (Star, MATRIZ Nodes, Colony) and
+    trailing empty lines from the first 40 lines of text. Preserves all other
+    content including the title and body text. Used during migration to avoid
+    duplicate metadata after adding YAML front matter.
+
+    Args:
+        text: Full text content of the context file including legacy headers.
+
+    Returns:
+        str: Text with legacy header lines removed, leading whitespace trimmed,
+            and trailing newline preserved if original had content.
+
+    Example:
+        >>> remove_legacy_header("# Module\\n**Star**: Identity\\n\\nBody text")
+        '# Module\\n\\nBody text\\n'
+        >>> remove_legacy_header("**MATRIZ Nodes**: M, A\\n\\nContent")
+        'Content\\n'
+    """
     lines = text.splitlines()
     keep: List[str] = []
     skip_prefixes = (
@@ -119,6 +245,30 @@ def remove_legacy_header(text: str) -> str:
 
 
 def migrate_one(md_path: pathlib.Path) -> Optional[str]:
+    """Migrate a single context file to YAML front-matter format.
+
+    Orchestrates the migration of one lukhas_context.md file by combining
+    legacy header parsing, manifest reading, front-matter generation, and
+    legacy header removal. If the file already has front matter, returns None
+    to skip re-processing.
+
+    The function implements a fallback strategy: manifest values take precedence,
+    then legacy header values, then sensible defaults (e.g., T4_experimental,
+    unassigned).
+
+    Args:
+        md_path: Path to the lukhas_context.md file to migrate.
+
+    Returns:
+        str: New file content with YAML front matter prepended and legacy header
+            removed, or None if file already has front matter (skip migration).
+
+    Example:
+        >>> migrate_one(Path("manifests/core/identity/lukhas_context.md"))
+        '---\\nmodule: identity\\nstar: Identity\\ntier: T1_critical\\n...\\n---\\n# Identity\\n...'
+        >>> migrate_one(Path("already_migrated.md"))
+        None
+    """
     text = md_path.read_text(encoding="utf-8", errors="ignore")
     if has_front_matter(text):
         return None  # already good
@@ -149,6 +299,33 @@ def migrate_one(md_path: pathlib.Path) -> Optional[str]:
 
 
 def main():
+    """Migrate all legacy context files to YAML front-matter format.
+
+    Recursively scans the manifests directory for lukhas_context.md files,
+    checks if they already have front matter, and if not, extracts legacy
+    header fields and sibling manifest data to generate proper YAML front
+    matter. Updates files in place unless --dry-run is specified.
+
+    The migration preserves all body content while adding structured metadata
+    required for documentation tooling and quality gates.
+
+    Args:
+        CLI args (via argparse):
+            --root: Root directory to scan for context files. Defaults to "manifests".
+            --dry-run: If True, only print what would be changed without modifying files.
+
+    Raises:
+        SystemExit: Exits with code 1 if any files fail to process.
+
+    Example:
+        $ python scripts/migrate_context_front_matter.py --dry-run
+        [DRY] Would add front-matter: manifests/core/identity/lukhas_context.md
+        Changed: 15 | Failed: 0 | Total scanned: 145
+
+        $ python scripts/migrate_context_front_matter.py
+        [OK] Front-matter added: manifests/core/identity/lukhas_context.md
+        Changed: 15 | Failed: 0 | Total scanned: 145
+    """
     ap = argparse.ArgumentParser()
     ap.add_argument("--root", default=str(ROOT / "manifests"))
     ap.add_argument("--dry-run", action="store_true")

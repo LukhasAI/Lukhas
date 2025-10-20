@@ -160,7 +160,34 @@ COLONY_HINTS = [
 ]
 
 def validate_star(star: str, star_canon: Dict[str, Any], *, labels: Optional[set[str]] = None) -> str:
-    """Hard gate: refuse invalid stars, fail fast."""
+    """Validate constellation star label against canonical definitions with fail-fast gating.
+
+    Enforces strict validation of star labels to prevent invalid assignments
+    from entering the manifest generation pipeline. Uses canonical star
+    definitions from star_canon.json to ensure consistency across all modules.
+
+    Args:
+        star: Proposed star label to validate (e.g., "🛡️ Watch (Guardian)").
+        star_canon: Canon mapping dictionary containing valid star definitions
+            and aliases. Must include "stars" key with canonical labels.
+        labels: Optional pre-extracted set of valid star labels. If None,
+            labels will be extracted from star_canon. Defaults to None.
+
+    Returns:
+        str: The validated star label, unchanged if valid.
+
+    Raises:
+        SystemExit: When star is not found in canonical labels. Exits with
+            code 1 and prints error message to stderr with remediation hints.
+
+    Example:
+        >>> canon = {"stars": [{"label": "🛡️ Watch (Guardian)"}]}
+        >>> validate_star("🛡️ Watch (Guardian)", canon)
+        '🛡️ Watch (Guardian)'
+        >>> validate_star("Invalid Star", canon)
+        ❌ FATAL: Invalid star 'Invalid Star' not in canon...
+        SystemExit: 1
+    """
     labels = labels or set(extract_canon_labels(star_canon))
     if star not in labels:
         print(f"❌ FATAL: Invalid star '{star}' not in canon: {labels}", file=sys.stderr)
@@ -193,6 +220,29 @@ def guess_star(path: str, inv_star: Optional[str], star_canon: Dict[str, Any]) -
     return validate_star(STAR_DEFAULT, star_canon, labels=labels)
 
 def guess_colony(path: str) -> Optional[str]:
+    """Infer LUKHAS colony assignment from module path patterns.
+
+    Colonies organize modules by functional domain (actuation, simulation,
+    memory, ethics, interface, perception). Uses regex-based heuristics
+    from COLONY_HINTS to match path patterns to colony assignments.
+
+    Args:
+        path: Module filesystem path (repo-relative, e.g., "lukhas/api/endpoints").
+            Should include forward slashes as separators.
+
+    Returns:
+        str | None: Inferred colony name if a pattern matches (one of:
+            "actuation", "simulation", "memory", "ethics", "interface",
+            "perception"), otherwise None if no heuristic matches.
+
+    Example:
+        >>> guess_colony("lukhas/api/endpoints")
+        'actuation'
+        >>> guess_colony("candidate/memory/rag")
+        'memory'
+        >>> guess_colony("unknown/module")
+        None
+    """
     for pattern, colony in COLONY_HINTS:
         if re.search(pattern, path):
             return colony
@@ -202,9 +252,38 @@ def guess_colony(path: str) -> Optional[str]:
 
 
 def infer_capabilities(path: str, star: str, matriz_node: str, module_name: str) -> List[Dict[str, Any]]:
-    """
-    Infer capabilities from module path, star, and MATRIZ node.
-    Returns at least one capability to satisfy schema minItems: 1.
+    """Infer module capabilities from context using multi-source heuristics.
+
+    Generates capability declarations for manifest compliance (schema requires
+    minItems: 1). Combines MATRIZ node mappings, constellation star semantics,
+    and path-specific patterns to infer plausible capabilities when explicit
+    declarations are unavailable.
+
+    Args:
+        path: Module filesystem path for pattern matching (e.g., "lukhas/api/auth").
+        star: Constellation star assignment (e.g., "⚛️ Anchor (Identity)").
+        matriz_node: MATRIZ cognitive node (one of: memory, attention, thought,
+            risk, intent, action, supporting).
+        module_name: Module identifier for fallback TODO generation.
+
+    Returns:
+        list[dict]: Capability objects with keys: name (str), type (str),
+            description (str), interfaces (list[str]). Always returns at
+            least one capability to satisfy schema constraints.
+
+    Example:
+        >>> infer_capabilities(
+        ...     "lukhas/api/auth",
+        ...     "⚛️ Anchor (Identity)",
+        ...     "supporting",
+        ...     "auth"
+        ... )
+        [
+            {'name': 'infrastructure_support', 'type': 'utility', ...},
+            {'name': 'identity_management', 'type': 'authentication', ...},
+            {'name': 'api_interface', 'type': 'api', ...},
+            {'name': 'authentication', 'type': 'authentication', ...}
+        ]
     """
     capabilities = []
 
@@ -283,7 +362,29 @@ def infer_capabilities(path: str, star: str, matriz_node: str, module_name: str)
     return capabilities
 
 def map_priority_to_quality_tier(priority: str) -> str:
-    """Base tier from priority (before gating)."""
+    """Map priority labels to quality tier classifications (pre-gating).
+
+    Provides base tier assignment before validation gates are applied.
+    Final tier may be demoted by decide_quality_tier() if requirements
+    (tests, ownership) are not met for the proposed tier.
+
+    Args:
+        priority: Priority string from inventory (case-insensitive). Expected
+            values: "critical", "high", "medium", "low", or empty/None.
+
+    Returns:
+        str: Quality tier constant (one of: "T1_critical", "T2_important",
+            "T3_standard", "T4_experimental"). Defaults to T4_experimental
+            for unrecognized priorities.
+
+    Example:
+        >>> map_priority_to_quality_tier("critical")
+        'T1_critical'
+        >>> map_priority_to_quality_tier("LOW")
+        'T4_experimental'
+        >>> map_priority_to_quality_tier(None)
+        'T4_experimental'
+    """
     p = (priority or "").lower()
     if p == "critical":
         return "T1_critical"
@@ -295,9 +396,33 @@ def map_priority_to_quality_tier(priority: str) -> str:
 
 
 def decide_quality_tier(priority: Optional[str], has_tests: bool, owner: Optional[str]) -> str:
-    """
-    Gated tiering: T1 requires tests + owner.
-    Demote to T2/T3 if requirements not met.
+    """Apply quality gates to determine final tier assignment.
+
+    Enforces T1 requirements (tests + assigned owner) with automatic demotion
+    when criteria are not met. Implements defensive tier assignment to prevent
+    modules from claiming T1_critical without necessary quality infrastructure.
+
+    Args:
+        priority: Priority label from inventory ("critical", "high", "medium",
+            "low", or None). Determines base tier before gating.
+        has_tests: Whether module has discovered test coverage (bool). T1
+            modules MUST have tests.
+        owner: Module owner identifier. Must be non-empty and not "unassigned"
+            for T1 qualification. None or "unassigned" triggers demotion.
+
+    Returns:
+        str: Final quality tier after applying gates (one of: "T1_critical",
+            "T2_important", "T3_standard", "T4_experimental").
+
+    Example:
+        >>> decide_quality_tier("critical", True, "alice")
+        'T1_critical'
+        >>> decide_quality_tier("critical", False, "alice")
+        'T2_important'
+        >>> decide_quality_tier("critical", False, "unassigned")
+        'T3_standard'
+        >>> decide_quality_tier("medium", True, "bob")
+        'T3_standard'
     """
     base = map_priority_to_quality_tier(priority or "")
 
@@ -309,12 +434,31 @@ def decide_quality_tier(priority: Optional[str], has_tests: bool, owner: Optiona
     return base
 
 def discover_tests(module_fs_path: str) -> List[str]:
-    """
-    Given a module directory path (relative to repo root), return normalized test paths.
-    We look:
-      - module_dir/tests/...
-      - tests/<module_rel_path>/...
-      - sibling/ancestor tests matching test_*.py
+    """Discover test files for a module using multi-location search strategy.
+
+    Searches common test locations (module-local tests/, repo-level tests/,
+    sibling test files) to build comprehensive test path inventory. Uses
+    standard pytest naming conventions (test_*.py, *_test.py) and multiple
+    glob patterns to maximize discovery coverage.
+
+    Args:
+        module_fs_path: Module directory path relative to repository root
+            (e.g., "lukhas/api/auth" or "candidate/memory/rag"). Empty
+            string returns empty list.
+
+    Returns:
+        list[str]: Sorted list of discovered test file paths, normalized
+            relative to repository root. Empty list if no tests found or
+            path is empty/invalid.
+
+    Example:
+        >>> discover_tests("lukhas/identity")
+        [
+            'lukhas/identity/tests/test_oauth.py',
+            'tests/lukhas/identity/test_integration.py'
+        ]
+        >>> discover_tests("")
+        []
     """
     if not module_fs_path:
         return []
@@ -356,7 +500,37 @@ def discover_tests(module_fs_path: str) -> List[str]:
 
 
 def build_testing_block(module_fs_path: str, tier: Optional[str] = None) -> Dict[str, Any]:
-    """Emit schema-compliant testing block."""
+    """Build schema-compliant testing configuration block for manifest.
+
+    Generates testing metadata matching matriz_module_compliance.schema.json
+    requirements. Applies tier-specific constraints (T1/T2 MUST include
+    test_paths even when empty; T3/T4 only include when non-empty). Sets
+    baseline coverage targets for modules with tests.
+
+    Args:
+        module_fs_path: Module directory path for test discovery (repo-relative).
+            Passed to discover_tests() for file enumeration.
+        tier: Quality tier constant ("T1_critical", "T2_important",
+            "T3_standard", "T4_experimental", or None). Defaults to
+            "T4_experimental" if None.
+
+    Returns:
+        dict: Testing block with keys:
+            - has_tests (bool): Whether tests were discovered
+            - quality_tier (str): Tier assignment
+            - test_paths (list[str]): Test file paths (T1/T2 always included,
+              T3/T4 only when non-empty)
+            - coverage_baseline (int): Target coverage % (50% when has_tests=True)
+
+    Example:
+        >>> build_testing_block("lukhas/identity", "T1_critical")
+        {
+            'has_tests': True,
+            'quality_tier': 'T1_critical',
+            'test_paths': ['tests/test_identity.py'],
+            'coverage_baseline': 50
+        }
+    """
     paths = discover_tests(module_fs_path)
     has_tests = bool(paths)
 
@@ -378,9 +552,61 @@ def build_testing_block(module_fs_path: str, tier: Optional[str] = None) -> Dict
     return testing
 
 def now_iso() -> str:
+    """Generate ISO 8601 timestamp string in UTC with Zulu timezone indicator.
+
+    Produces timestamps suitable for manifest metadata fields (created,
+    last_updated). Strips microseconds for readability while preserving
+    second-level precision.
+
+    Returns:
+        str: UTC timestamp in ISO 8601 format with 'Z' suffix
+            (e.g., "2025-10-20T14:32:15Z"). Microseconds are zeroed.
+
+    Example:
+        >>> now_iso()
+        '2025-10-20T14:32:15Z'
+    """
     return datetime.datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
 
 def make_context_md(fqn: str, star: str, pipeline_nodes: List[str], colony: Optional[str], exports=None, contracts=None, logger=None) -> str:
+    """Generate lukhas_context.md template with architectural metadata placeholders.
+
+    Creates structured Markdown documentation template for module context files.
+    Includes constellation alignment, MATRIZ integration, contracts, observability,
+    security, and testing guidance. Template sections use TODO markers to guide
+    manual completion by module owners.
+
+    Args:
+        fqn: Fully qualified module name (e.g., "lukhas.identity.oauth").
+        star: Constellation star label (e.g., "⚛️ Anchor (Identity)").
+        pipeline_nodes: MATRIZ cognitive nodes list (e.g., ["memory", "attention"]).
+        colony: Colony assignment or None (e.g., "actuation", "memory").
+        exports: Reserved for future use (currently ignored).
+        contracts: Reserved for future use (currently ignored).
+        logger: Logger name for observability section. Defaults to fqn if None.
+
+    Returns:
+        str: Multi-line Markdown template with sections:
+            - Module header (star, MATRIZ nodes, colony)
+            - What it does (TODO placeholder)
+            - Contracts (publish/subscribe/exports)
+            - Observability (spans, metrics, logging)
+            - Security (auth, data classification, policies)
+            - Tests (paths, tier-based coverage targets)
+
+    Example:
+        >>> md = make_context_md(
+        ...     "lukhas.identity",
+        ...     "⚛️ Anchor (Identity)",
+        ...     ["supporting"],
+        ...     "actuation",
+        ...     logger="lukhas.identity.oauth"
+        ... )
+        >>> "# lukhas.identity" in md
+        True
+        >>> "T1≥70%" in md
+        True
+    """
     pn = ", ".join(pipeline_nodes or [])
     return f"""# {fqn}
 
