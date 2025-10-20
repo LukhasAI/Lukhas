@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+"""Module docstring."""
 from governance.security.audit_system import AuditEvent
 
 print("🔍 Testing hasattr on AuditEvent fields:")

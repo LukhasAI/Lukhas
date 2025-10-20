@@ -29,6 +29,7 @@ class ModuleManifestValidator:
     """MATRIZ module manifest validation with lane assignment verification."""
 
     def __init__(self):
+        """Initializes the ModuleManifestValidator."""
         self.validation_results = {
             "validation_timestamp": time.strftime("%Y-%m-%dT%H:%M:%S.%f+00:00"),
             "modules_scanned": 0,
@@ -266,6 +267,7 @@ class ModuleManifestValidator:
         return "\n".join(report)
 
 def main():
+    """The main function."""
     parser = argparse.ArgumentParser(description="MATRIZ Module Manifest Validator")
     parser.add_argument("--report",
                        help="Output detailed validation report to JSON file")

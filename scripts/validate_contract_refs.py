@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
-"""
-Validate that manifest-declared contracts exist and are well-formed.
+"""Validate that manifest-declared contracts exist and are well-formed.
+
+This script scans all `module.manifest.json` files in the repository and
+validates that the contracts they declare exist and are well-formed.
 
 Improvements:
 - Recursive discovery of contracts/ (supports nested directories)
@@ -21,6 +23,11 @@ ID_RE = re.compile(r"^[A-Za-z0-9_.:/-]+@v\d+$")
 
 
 def load_contract_index() -> Dict[str, pathlib.Path]:
+    """Loads all contracts from the `contracts` directory into a dictionary.
+
+    Returns:
+        A dictionary mapping contract IDs to their file paths.
+    """
     idx: Dict[str, pathlib.Path] = {}
     base = ROOT / "contracts"
     if not base.exists():
@@ -44,6 +51,7 @@ def load_contract_index() -> Dict[str, pathlib.Path]:
 
 
 def main():
+    """The main function."""
     contracts = load_contract_index()
     failures = 0
     checked: int = 0

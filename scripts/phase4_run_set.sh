@@ -1,7 +1,17 @@
 #!/usr/bin/env bash
+#
 # Run generator for a provided newline-delimited list (manifests or module paths).
-# Usage: bash scripts/phase4_run_set.sh <listfile>
-# Requires: jq, python3
+#
+# This script reads a list of module paths from a file and runs the
+# `generate_module_manifests.py` script for each one.
+#
+# Usage:
+#   bash scripts/phase4_run_set.sh <listfile>
+#
+# Requires:
+#   - jq
+#   - python3
+#
 set -euo pipefail
 
 LISTFILE="${1:-}"

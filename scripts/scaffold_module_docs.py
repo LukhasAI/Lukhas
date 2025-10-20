@@ -117,7 +117,12 @@ def main():
             continue
 
         # Build context for template rendering
-        module_name = manifest.get("module", mdir.name)
+        module_name_value = manifest.get("module")
+        module_name = (
+            module_name_value
+            if isinstance(module_name_value, str)
+            else mdir.name
+        )
         ctx = {
             "module_title": module_name.replace(".", " ").replace("_", " ").title(),
             "module_fqn": module_name,

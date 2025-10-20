@@ -28,7 +28,16 @@ HEADER_YAML = "# {spdx}\n# Author: {author}\n"
 
 
 def add_header(path: pathlib.Path, header_py: str, header_yaml: str) -> bool:
-    """Add SPDX header to file if missing."""
+    """Add SPDX header to file if missing.
+
+    Args:
+        path (pathlib.Path): The path to the file.
+        header_py (str): The Python header to add.
+        header_yaml (str): The YAML header to add.
+
+    Returns:
+        bool: True if the header was added, False otherwise.
+    """
     txt = path.read_text(encoding="utf-8")
 
     # Skip if header already exists
@@ -47,6 +56,7 @@ def add_header(path: pathlib.Path, header_py: str, header_yaml: str) -> bool:
 
 
 def main():
+    """The main function."""
     p = argparse.ArgumentParser(description="Add SPDX headers to source files")
     p.add_argument("--roots", nargs="+", required=True, help="Root directories to process")
     p.add_argument("--spdx", required=True, help="SPDX identifier string")

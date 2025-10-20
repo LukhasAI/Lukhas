@@ -708,6 +708,67 @@ jobs:
       - name: Compile production Python
         run: python -m compileall -q lukhas MATRIZ core
 
+  docstring-quality:
+    name: Documentation Quality Gates
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install pydocstyle interrogate
+
+      - name: Run interrogate (docstring coverage)
+        run: |
+          interrogate -v --fail-under 85 \
+            -o docs/audits/docstring_coverage.json \
+            scripts api matriz lukhas
+
+      - name: Run pydocstyle (style enforcement)
+        run: |
+          pydocstyle scripts api matriz lukhas \
+            | tee docs/audits/docstring_offenders.txt
+
+      - name: Upload docstring artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: docstring-quality-artifacts
+          path: |
+            docs/audits/docstring_coverage.json
+            docs/audits/docstring_offenders.txt
+          retention-days: 14
+
+  openapi-validation:
+    name: OpenAPI Schema Validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install OpenAPI tools
+        run: |
+          npm i -g @apidevtools/swagger-cli @stoplight/spectral-cli
+
+      - name: Validate OpenAPI specs
+        run: |
+          for spec in docs/openapi/*.openapi.yaml; do
+            echo "Validating $spec..."
+            swagger-cli validate "$spec"
+            spectral lint "$spec" --format junit \
+              --output "docs/audits/$(basename $spec .yaml)_lint.xml"
+          done
+
+      - name: Upload OpenAPI artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: openapi-validation-artifacts
+          path: docs/audits/*_lint.xml
+          retention-days: 14
   docs-polish:
     name: Documentation Quality Polish (T4+)
     runs-on: ubuntu-latest

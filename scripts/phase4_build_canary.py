@@ -18,9 +18,18 @@ from collections import defaultdict
 TOPS = {"consciousness","identity","governance","memory","core","labs","matriz","api"}
 
 def sha_bucket(s: str) -> int:
+    """Returns a deterministic integer from a string.
+
+    Args:
+        s (str): The string to hash.
+
+    Returns:
+        int: An integer derived from the SHA256 hash of the string.
+    """
     return int(hashlib.sha256(s.encode("utf-8")).hexdigest(), 16)
 
 def main():
+    """The main function."""
     p = argparse.ArgumentParser()
     p.add_argument("--size", type=float, default=0.10, help="fraction 0..1 of total to include (default 0.10)")
     p.add_argument("--out", required=True, help="output filepath for the list")

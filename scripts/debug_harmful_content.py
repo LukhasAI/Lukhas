@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+"""Module docstring."""
 import asyncio
 
 from governance.identity.core.sent.policy_engine import (

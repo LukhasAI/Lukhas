@@ -1,15 +1,29 @@
 #!/usr/bin/env python3
-"""
-Generate module manifests (+ optional lukhas_context.md)
-from docs/audits/COMPLETE_MODULE_INVENTORY.json
+"""Generate module manifests from an inventory file.
 
-Usage:
-  python scripts/generate_module_manifests.py \
-    --inventory docs/audits/COMPLETE_MODULE_INVENTORY.json \
-    --out manifests \
-    --schema schemas/matriz_module_compliance.schema.json \
-    --star-canon scripts/star_canon.json \
-    --write-context
+This script reads a JSON file containing a list of modules and generates
+a manifest file for each module. The manifest file is a JSON file that
+contains metadata about the module, such as its name, path, and
+dependencies.
+
+Args:
+    --inventory (str): Path to the JSON file containing the module inventory.
+        Defaults to `docs/audits/COMPLETE_MODULE_INVENTORY.json`.
+    --out (str): Path to the output directory where the manifest files will be
+        written. Defaults to `manifests`.
+    --schema (str): Path to the JSON schema file for the manifest files.
+    --star-canon (str): Path to the JSON file containing the star canon.
+        Defaults to `scripts/star_canon.json`.
+    --write-context (bool): If set, a `lukhas_context.md` file will be
+        written to each module's directory.
+    --limit (int): If set, the number of modules to process will be limited
+        to this value.
+    --star-from-rules (bool): If set, the star for each module will be
+        inferred from the rules in the `star_rules.json` file.
+    --star-rules (str): Path to the JSON file containing the star rules.
+        Defaults to `configs/star_rules.json`.
+    --star-confidence-min (float): The minimum confidence level for a star
+        to be promoted. Defaults to `0.70`.
 """
 import argparse
 import datetime
@@ -28,6 +42,14 @@ STAR_DEFAULT = "Supporting"
 
 # --- Star rules support (Phase 3) -------------------------------------------------
 def load_star_rules(path: pathlib.Path):
+    """Load the star rules from a JSON file.
+
+    Args:
+        path (pathlib.Path): The path to the JSON file.
+
+    Returns:
+        dict: The star rules, or None if the file could not be read.
+    """
     try:
         return json.loads(path.read_text(encoding="utf-8"))
     except Exception:
@@ -147,6 +169,16 @@ def validate_star(star: str, star_canon: Dict[str, Any], *, labels: Optional[set
 
 
 def guess_star(path: str, inv_star: Optional[str], star_canon: Dict[str, Any]) -> str:
+    """Guess the star for a module.
+
+    Args:
+        path (str): The path to the module.
+        inv_star (Optional[str]): The star from the inventory file.
+        star_canon (Dict[str, Any]): The star canon.
+
+    Returns:
+        str: The guessed star.
+    """
     labels = set(extract_canon_labels(star_canon))
     # Inventory-proposed star (normalize via aliases)
     if inv_star:
@@ -160,6 +192,14 @@ def guess_star(path: str, inv_star: Optional[str], star_canon: Dict[str, Any]) -
     return validate_star(STAR_DEFAULT, star_canon, labels=labels)
 
 def guess_colony(path: str) -> Optional[str]:
+    """Guess the colony for a module.
+
+    Args:
+        path (str): The path to the module.
+
+    Returns:
+        Optional[str]: The guessed colony, or None.
+    """
     for pattern, colony in COLONY_HINTS:
         if re.search(pattern, path):
             return colony
@@ -345,9 +385,24 @@ def build_testing_block(module_fs_path: str, tier: Optional[str] = None) -> Dict
     return testing
 
 def now_iso() -> str:
+    """Returns the current time in ISO 8601 format."""
     return datetime.datetime.utcnow().replace(microsecond=0).isoformat() + "Z"
 
 def make_context_md(fqn: str, star: str, pipeline_nodes: List[str], colony: Optional[str], exports=None, contracts=None, logger=None) -> str:
+    """Creates the content for a lukhas_context.md file.
+
+    Args:
+        fqn (str): The fully qualified name of the module.
+        star (str): The star of the module.
+        pipeline_nodes (List[str]): The pipeline nodes of the module.
+        colony (Optional[str]): The colony of the module.
+        exports: The exports of the module.
+        contracts: The contracts of the module.
+        logger: The logger of the module.
+
+    Returns:
+        str: The content of the lukhas_context.md file.
+    """
     pn = ", ".join(pipeline_nodes or [])
     return f"""# {fqn}
 
@@ -379,6 +434,7 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 """
 
 def main():
+    """The main function."""
     ap = argparse.ArgumentParser()
     ap.add_argument("--inventory", default="docs/audits/COMPLETE_MODULE_INVENTORY.json")
     ap.add_argument("--out", default="manifests")

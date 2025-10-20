@@ -19,6 +19,7 @@ import pathlib
 
 
 def main():
+    """The main function."""
     p = argparse.ArgumentParser(description="Generate coverage dashboard")
     p.add_argument("--metrics", required=True, help="Path to metrics.json")
     p.add_argument("--out", required=True, help="Output Markdown path")
@@ -34,6 +35,19 @@ def main():
     cov_emoji = "✅" if doc_coverage >= 85 else "⚠️" if doc_coverage >= 70 else "❌"
     style_emoji = "✅" if pydocstyle_errors == 0 else "⚠️" if pydocstyle_errors < 10 else "❌"
     spec_emoji = "✅" if spectral_errors == 0 else "⚠️" if spectral_errors < 5 else "❌"
+
+    next_steps = ""
+    if doc_coverage >= 85 and pydocstyle_errors == 0 and spectral_errors == 0:
+        next_steps = "### ✅ All targets met! No action required."
+    else:
+        steps = []
+        if doc_coverage < 85:
+            steps.append(f'- **Docstring Coverage**: Increase from {doc_coverage:.1f}% to ≥85%')
+        if pydocstyle_errors > 0:
+            steps.append(f'- **pydocstyle**: Fix {pydocstyle_errors} style violations')
+        if spectral_errors > 0:
+            steps.append(f'- **Spectral**: Fix {spectral_errors} OpenAPI lint errors')
+        next_steps = "### Improvements Needed\n\n" + "\n".join(steps)
 
     md = f"""# Documentation Coverage Dashboard
 
@@ -71,13 +85,7 @@ def main():
 
 ## 🎯 Next Steps
 
-{'### ✅ All targets met! No action required.' if doc_coverage >= 85 and pydocstyle_errors == 0 and spectral_errors == 0 else f"""
-### Improvements Needed
-
-{f'- **Docstring Coverage**: Increase from {doc_coverage:.1f}% to ≥85%' if doc_coverage < 85 else ''}
-{f'- **pydocstyle**: Fix {pydocstyle_errors} style violations' if pydocstyle_errors > 0 else ''}
-{f'- **Spectral**: Fix {spectral_errors} OpenAPI lint errors' if spectral_errors > 0 else ''}
-"""}
+{next_steps}
 
 ---
 

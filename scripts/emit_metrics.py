@@ -22,6 +22,7 @@ import pathlib
 
 
 def main():
+    """The main function."""
     p = argparse.ArgumentParser(description="Emit unified documentation metrics")
     p.add_argument("--coverage", required=True, help="Path to interrogate JSON output")
     p.add_argument("--offenders", required=True, help="Path to pydocstyle error file")

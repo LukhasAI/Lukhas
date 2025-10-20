@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""Module docstring."""
 import argparse, dataclasses, datetime as dt, json, re, sys
 from pathlib import Path
 

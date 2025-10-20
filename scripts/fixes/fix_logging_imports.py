@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""Module docstring."""
 import logging
 
 logger = logging.getLogger(__name__)
