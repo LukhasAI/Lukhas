@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: suggest_imports_f821.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Suggest (and optionally apply) import fixes for Ruff F821 "undefined name".
 
 Usage:

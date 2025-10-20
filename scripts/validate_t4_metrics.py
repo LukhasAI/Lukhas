@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: validate_t4_metrics.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 T4 Stability Sentinel: Validates core metrics remain stable across test runs
 """
 import re

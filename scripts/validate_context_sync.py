@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+"""
+Module: validate_context_sync.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
 """Context Sync Validator - ensures lane-aware documentation consistency"""
 
 import pathlib

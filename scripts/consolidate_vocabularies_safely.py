@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: consolidate_vocabularies_safely.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Safe vocabulary consolidation script.
 Analyzes all vocabulary files and creates a unified, deduplicated set.
 """

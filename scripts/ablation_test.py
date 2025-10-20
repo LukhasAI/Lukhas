@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: ablation_test.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Ablation test: Quarantine system on/off comparison for investor demo.
 Demonstrates the cost vs benefit of structural validation.
 """

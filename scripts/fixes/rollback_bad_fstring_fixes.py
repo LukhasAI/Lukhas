@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: rollback_bad_fstring_fixes.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Rollback Bad F-string Fixes
 Fix the malformed f-strings that were created by the original fixer
 """

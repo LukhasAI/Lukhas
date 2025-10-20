@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: fix_f_string_parenthesis_systematic.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 🔧 SYSTEMATIC F-STRING PARENTHESIS ERROR FIXER
 Fixes f-string errors where } comes after ( without matching )
 Pattern: f"text{var}" → f"text{var()}" when there's a ( without )

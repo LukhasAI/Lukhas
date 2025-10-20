@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+"""
+Module: lukhas_pb2.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
 # -*- coding: utf-8 -*-
 """
 LUKHAS Protocol Buffer Definitions

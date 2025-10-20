@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+"""
+Module: generate_meta_registry.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
 """T4/0.01% Meta-Registry Generator
 Fuses MODULE_REGISTRY + coverage + benchmarks into single analytics source.
 """

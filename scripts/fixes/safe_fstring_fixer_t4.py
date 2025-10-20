@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: safe_fstring_fixer_t4.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 🛡️ T4 SAFE F-STRING FIXER WITH VALIDATION SAFEGUARDS
 Surgical fixes with pre/post validation to prevent cascading errors
 """

@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: context_priority_analyzer.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 LUKHAS Context File Priority Analyzer
 Analyzes and prioritizes context file updates based on criticality
 """

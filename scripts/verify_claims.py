@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: verify_claims.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 T4/0.01% Excellence Claims Verification Script
 
 Validates performance measurements against published T4/0.01% excellence claims.

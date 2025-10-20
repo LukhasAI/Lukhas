@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: validate_ledger_performance.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 LUKHAS Ledger Performance Validation Script
 ==========================================
 

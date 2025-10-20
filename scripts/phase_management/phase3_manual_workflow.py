@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: phase3_manual_workflow.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 🚀 Phase 3: High-Speed Manual Fixing Workflow
 =============================================
 

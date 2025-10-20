@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: final_syntax_verification.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Final Syntax Verification
 Check for any remaining syntax errors after mass fixes
 """

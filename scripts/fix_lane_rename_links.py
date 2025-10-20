@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: fix_lane_rename_links.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Fix lane rename links: candidate/ → labs/
 
 Updates markdown links in docs/** and *.md files from old lane paths to new ones.

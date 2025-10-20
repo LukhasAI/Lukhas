@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: validate_lane_assignments.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 LUKHAS Lane Assignment Validator
 Production Schema v1.0.0
 

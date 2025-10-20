@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: migrate_agi_to_cognitive.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 AGI to Cognitive Migration Script
 
 Systematically migrates 33k+ AGI references to Cognitive across the entire codebase.

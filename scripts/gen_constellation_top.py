@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: gen_constellation_top.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Generate docs/CONSTELLATION_TOP.md + per-star pages from manifests.
 
 Inputs:

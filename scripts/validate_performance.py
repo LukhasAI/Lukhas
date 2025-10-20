@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: validate_performance.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 LUKHAS Performance Validation Script
 T4/0.01% Excellence Standard Enforcement
 

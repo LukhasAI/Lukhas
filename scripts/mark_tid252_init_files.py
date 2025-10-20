@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: mark_tid252_init_files.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Mark TID252 violations in __init__.py files with noqa comments.
 
 Relative imports in __init__.py files are idiomatic Python for package

@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: fix_fstring_brackets.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 F-String Bracket Mismatch Fix Script
 
 This script fixes common f-string bracket mismatches where there are extra

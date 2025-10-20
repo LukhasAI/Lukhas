@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: autonomous_nuclear_fixer.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 🚀 AUTONOMOUS NUCLEAR F-STRING FIXER
 Comprehensive autonomous fixes for remaining critical blockers
 """

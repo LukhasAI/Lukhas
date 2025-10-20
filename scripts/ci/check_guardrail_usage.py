@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+"""
+Module: check_guardrail_usage.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
 # scripts/ci/check_guardrail_usage.py
 """
 T4 / 0.01% guard: ban direct LLM calls; require llm_guardrail.

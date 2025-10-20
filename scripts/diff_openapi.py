@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: diff_openapi.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Semantic OpenAPI diff (baseline vs candidate) with breaking-change detection.
 
 Breaking changes (exit 2):

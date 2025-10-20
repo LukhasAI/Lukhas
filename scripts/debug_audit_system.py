@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+"""
+Module: debug_audit_system.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
 
 import asyncio
 import tempfile

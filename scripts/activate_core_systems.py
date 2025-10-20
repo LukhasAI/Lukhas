@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: activate_core_systems.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 LUKHAS Core Systems Activation Script
 ======================================
 Activates the Signal Bus and Endocrine System for full AGI operation.

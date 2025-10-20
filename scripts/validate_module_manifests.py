@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: validate_module_manifests.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 MATRIZ Module Manifest Validator - Comprehensive Lane Assignment Verification
 ============================================================================
 

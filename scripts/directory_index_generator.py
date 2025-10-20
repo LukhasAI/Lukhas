@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: directory_index_generator.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 LUKHAS Directory Index Generator
 Creates machine-readable JSON indexes for AI agent discovery and coordination
 """

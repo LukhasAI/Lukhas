@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: perp_research.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Perplexity Research Runner: scout → sift → synthesize → stress-test → score
 T4/0.01% Enhancement of LUKHAS 3-Layer Tone System
 

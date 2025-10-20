@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: gen_lukhas_pkg_shims.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Generate lukhas package shims from artifacts/lukhas_shim_map.json.
 Reads the data-driven map and creates only the hot-path packages tests need.
 """

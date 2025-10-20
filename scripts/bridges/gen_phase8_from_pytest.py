@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: gen_phase8_from_pytest.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Parse `pytest --collect-only` stderr, rank missing modules/symbols,
 and print the top offenders + ready-to-use bridge paths.
 """

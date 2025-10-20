@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: comprehensive_fstring_fix.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Comprehensive F-String Bracket Fix Script
 
 This script systematically fixes all f-string bracket issues in a file.

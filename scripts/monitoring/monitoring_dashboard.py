@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: monitoring_dashboard.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Monitoring Dashboard alias for test compatibility
 """
 

@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: fix_security_vulnerabilities.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 🛡️ LUKHAS Security Vulnerability Auto-Fixer
 ===========================================
 Automatically fixes security vulnerabilities found in the Safety CLI scan.

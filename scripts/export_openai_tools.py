@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: export_openai_tools.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Export OpenAI tool specs from LUKHAS manifests.
 
 Converts LUKHAS module manifests into OpenAI-compatible function calling schemas.

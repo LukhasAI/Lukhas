@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: governance_metrics.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 LUKHAS Documentation Governance Metrics Dashboard (T4/0.01%)
 
 Generates comprehensive governance metrics with:

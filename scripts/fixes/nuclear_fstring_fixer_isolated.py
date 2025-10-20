@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: nuclear_fstring_fixer_isolated.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 💥 NUCLEAR F-STRING FIXER - ISOLATED & DRY RUN CAPABLE
 More aggressive pattern matching with full isolation and dry run mode
 """

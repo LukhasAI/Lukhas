@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: targeted_syntax_fix.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Targeted syntax fixer for LUKHAS repository
 Focus on common fixable patterns while avoiding complex issues
 """

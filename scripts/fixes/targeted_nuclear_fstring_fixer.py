@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: targeted_nuclear_fstring_fixer.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 🎯 TARGETED NUCLEAR F-STRING FIXER
 Fixes the specific "unmatched )" pattern found in the codebase
 """

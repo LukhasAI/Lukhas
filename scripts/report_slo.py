@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: report_slo.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 T4/0.01% SLO Dashboard Generator
 =================================
 

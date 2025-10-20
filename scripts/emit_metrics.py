@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: emit_metrics.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Emit unified documentation quality metrics.
 
 Aggregates interrogate coverage, pydocstyle errors, and Spectral lint results

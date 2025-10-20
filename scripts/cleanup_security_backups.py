@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: cleanup_security_backups.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 🧹 LUKHAS Security Backup Cleanup
 =================================
 Consolidates and cleans up security backup directories created during

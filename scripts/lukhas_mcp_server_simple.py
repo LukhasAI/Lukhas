@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: lukhas_mcp_server_simple.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 LUKHAS MCP Server - Simplified Version
 Provides basic consciousness module access without heavy dependencies
 """

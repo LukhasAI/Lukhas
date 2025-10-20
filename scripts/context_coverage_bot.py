@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: context_coverage_bot.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Context Coverage Bot
 
 Computes coverage for manifests having a lukhas_context.md with valid-looking

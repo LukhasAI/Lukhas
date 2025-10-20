@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: reproducibility_analysis.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 T4/0.01% Excellence Reproducibility Analysis
 
 Analyzes reproducibility across multiple independent benchmark runs.

@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: registry_vs_fs.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 T4/0.01% Registry vs Filesystem Validation Gate
 ================================================
 

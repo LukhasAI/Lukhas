@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: test_mcp_integration.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 🧪 LUKHAS MCP Server Integration Test
 ===================================
 

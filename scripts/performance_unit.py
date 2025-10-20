@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: performance_unit.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 LUKHAS Unit Performance Testing Script for T4/0.01% Excellence Standards
 
 This script performs isolated component benchmarking for unit-level performance validation:

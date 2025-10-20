@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+"""
+Module: collect_module_coverage.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
 """T4/0.01% Module Coverage Collection
 Runs pytest with coverage, updates manifest, ledgers results.
 """

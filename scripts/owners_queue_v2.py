@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: owners_queue_v2.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 LUKHAS Owner Assignment Queue Generator (T4/0.01%)
 
 Creates batched GitHub issues for docs with owner: unknown.

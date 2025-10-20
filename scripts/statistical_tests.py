@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: statistical_tests.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 T4/0.01% Excellence Statistical Testing Framework
 
 Implements rigorous statistical analysis for performance validation including:

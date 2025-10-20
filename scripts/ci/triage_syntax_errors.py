@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: triage_syntax_errors.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 Triage and categorize syntax errors for systematic fixing.
 
 Categorizes errors into:

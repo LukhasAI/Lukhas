@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 """
+Module: validate_oidc_phase3.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+"""
 OIDC Phase 3 Validation Script - T4/0.01% Excellence Standards
 ============================================================
 
