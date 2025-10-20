@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+"""
+Module: lint_star_rules.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
 from __future__ import annotations
 
 import argparse

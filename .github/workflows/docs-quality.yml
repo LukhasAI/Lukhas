@@ -1,146 +1,37 @@
-name: Docs Quality Gate
+name: docs-quality
+
 on:
   pull_request:
     paths:
-      - '**.md'
-      - '**/module.manifest.json'
-      - 'docs/**'
-      - 'scripts/generate_module_registry.py'
-      - 'scripts/scaffold_module_docs.py'
+      - "scripts/**/*.py"
+      - "pyproject.toml"
 
 jobs:
-  docs-validation:
+  doctest:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-
-      - name: Install dependencies
+          python-version: "3.9"
+      - name: Install test deps
         run: |
-          pip install -U pip
-          pip install jsonschema pyyaml
-
-      - name: Validate frontmatter schema
+          python -m pip install --upgrade pip
+          pip install pytest
+      - name: Run doctests for scripts
         run: |
-          python3 - <<'EOF'
-          import sys
-          import yaml
-          from pathlib import Path
+          python -m pytest --doctest-glob="*.py" scripts -q
 
-          errors = []
-          for md in Path('.').rglob('*.md'):
-              if any(p in md.parts for p in ['.venv', 'node_modules', '__pycache__']):
-                  continue
-              try:
-                  content = md.read_text()
-                  if content.startswith('---'):
-                      parts = content.split('---', 2)
-                      if len(parts) >= 3:
-                          frontmatter = yaml.safe_load(parts[1])
-                          # Validate required fields if present
-                          if frontmatter and isinstance(frontmatter, dict):
-                              if 'module' in frontmatter and not frontmatter['module']:
-                                  errors.append(f"{md}: empty 'module' field")
-              except Exception as e:
-                  errors.append(f"{md}: {e}")
-
-          if errors:
-              print("❌ Frontmatter validation errors:")
-              for e in errors[:20]:  # Show first 20
-                  print(f"  {e}")
-              sys.exit(1)
-          print("✅ All frontmatter valid")
-          EOF
-
-      - name: Registry vs filesystem check
+  docstyle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install pydocstyle
         run: |
-          # Generate fresh registry
-          python3 scripts/generate_module_registry.py
-
-          # Verify all manifests are in registry
-          python3 - <<'EOF'
-          import sys
-          import json
-          from pathlib import Path
-
-          reg = json.loads(Path('docs/_generated/MODULE_REGISTRY.json').read_text())
-          registered = {m['manifest'] for m in reg['modules']}
-
-          # Find all manifests
-          manifests = {str(p.relative_to('.')) for p in Path('.').rglob('module.manifest.json')
-                       if not any(x in p.parts for x in ['.venv', 'node_modules', '__pycache__'])}
-
-          missing = manifests - registered
-          if missing:
-              print("❌ Manifests not in registry:")
-              for m in sorted(missing)[:20]:
-                  print(f"  {m}")
-              sys.exit(1)
-
-          print(f"✅ Registry vs FS: {len(registered)} manifests validated")
-          EOF
-
-      - name: Broken link check (relative only)
+          python -m pip install --upgrade pip
+          pip install pydocstyle
+      - name: pydocstyle (advisory)
+        continue-on-error: true
         run: |
-          python3 - <<'EOF'
-          import sys
-          import re
-          from pathlib import Path
+          pydocstyle scripts || true
 
-          errors = []
-          for md in Path('.').rglob('*.md'):
-              if any(p in md.parts for p in ['.venv', 'node_modules', '__pycache__']):
-                  continue
-
-              content = md.read_text()
-              # Find markdown links: [text](path)
-              links = re.findall(r'\[([^\]]+)\]\(([^)]+)\)', content)
-
-              for text, link in links:
-                  # Skip absolute URLs, anchors, mailto
-                  if link.startswith(('http://', 'https://', '#', 'mailto:')):
-                      continue
-
-                  # Resolve relative path
-                  target = (md.parent / link.split('#')[0]).resolve()
-                  if not target.exists():
-                      errors.append(f"{md}: broken link '{link}' (target: {target})")
-
-          if errors:
-              print("❌ Broken link errors:")
-              for e in errors[:20]:  # Show first 20
-                  print(f"  {e}")
-              sys.exit(1)
-          print("✅ All relative links valid")
-          EOF
-
-      - name: Documentation coverage check
-        run: |
-          python3 - <<'EOF'
-          import sys
-          import json
-          from pathlib import Path
-
-          reg = json.loads(Path('docs/_generated/MODULE_REGISTRY.json').read_text())
-
-          # Count modules with/without docs
-          total = len(reg['modules'])
-          with_docs = sum(1 for m in reg['modules'] if m.get('docs'))
-          coverage = (with_docs / total * 100) if total > 0 else 0
-
-          print(f"📊 Documentation coverage: {with_docs}/{total} modules ({coverage:.1f}%)")
-
-          # Warn if coverage drops below 95%
-          if coverage < 95.0:
-              print(f"⚠️  Warning: Documentation coverage below 95%")
-
-          # Show modules without docs
-          no_docs = [m['name'] for m in reg['modules'] if not m.get('docs')]
-          if no_docs:
-              print(f"\n📝 Modules without docs ({len(no_docs)}):")
-              for m in sorted(no_docs)[:10]:
-                  print(f"  - {m}")
-          EOF

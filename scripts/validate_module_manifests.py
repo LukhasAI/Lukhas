@@ -45,7 +45,11 @@ class ModuleManifestValidator:
         }
 
     def find_lukhas_modules(self) -> List[Path]:
-        """Find all LUKHAS AI module directories (post-Phase 5B flat structure)."""
+        """Find all LUKHAS AI module directories.
+
+        Returns:
+            list[Path]: Candidate module paths resolved from manifests/ tree.
+        """
         # After Phase 5B flattening, modules are at root level
         # Check manifests/ directory for all manifested modules
         manifests_root = Path("manifests")
@@ -68,7 +72,14 @@ class ModuleManifestValidator:
         return sorted(set(modules))
 
     def load_module_manifest(self, module_path: Path) -> Optional[Dict[str, Any]]:
-        """Load module lane manifest if it exists."""
+        """Load a module's lane manifest if present.
+
+        Args:
+            module_path (Path): Module directory path.
+
+        Returns:
+            dict | None: Parsed manifest dict or None if missing/unreadable.
+        """
         manifest_path = module_path / "module.lane.yaml"
 
         if not manifest_path.exists():
@@ -82,7 +93,15 @@ class ModuleManifestValidator:
             return None
 
     def validate_manifest_structure(self, manifest: Dict[str, Any], module_path: Path) -> List[str]:
-        """Validate manifest structure and required fields."""
+        """Validate manifest structure and required fields.
+
+        Args:
+            manifest (dict): Manifest document to validate.
+            module_path (Path): Module path for context.
+
+        Returns:
+            list[str]: List of human-readable error messages.
+        """
         errors = []
 
         required_fields = ['name', 'lane', 'owner', 'description']
@@ -125,7 +144,15 @@ class ModuleManifestValidator:
         return errors
 
     def validate_lane_assignment_logic(self, manifest: Dict[str, Any], module_name: str) -> List[str]:
-        """Validate that lane assignment makes sense for the module."""
+        """Validate lane assignment semantics for a module.
+
+        Args:
+            manifest (dict): Manifest under evaluation.
+            module_name (str): Module name (used for heuristics).
+
+        Returns:
+            list[str]: List of validation errors, empty if none.
+        """
         errors = []
         lane = manifest.get('lane')
 
@@ -147,7 +174,15 @@ class ModuleManifestValidator:
         return errors
 
     def validate_dependencies(self, manifest: Dict[str, Any], all_modules: Set[str]) -> List[str]:
-        """Validate module dependencies are valid and don't create cycles."""
+        """Validate that dependencies reference known modules and basic structure.
+
+        Args:
+            manifest (dict): Manifest to inspect.
+            all_modules (set[str]): Known module names for existence checks.
+
+        Returns:
+            list[str]: List of dependency-related validation errors.
+        """
         errors = []
 
         if 'dependencies' not in manifest:
@@ -171,7 +206,11 @@ class ModuleManifestValidator:
         return errors
 
     def validate_all_modules(self) -> Dict[str, Any]:
-        """Validate all LUKHAS AI modules."""
+        """Validate all modules discovered in manifests/.
+
+        Returns:
+            dict: Aggregate results including counts and error breakdowns.
+        """
         logger.info("🔍 Starting module manifest validation")
 
         modules = self.find_lukhas_modules()
@@ -222,7 +261,11 @@ class ModuleManifestValidator:
         return self.validation_results
 
     def generate_summary_report(self) -> str:
-        """Generate human-readable validation summary."""
+        """Generate a human-readable validation summary.
+
+        Returns:
+            str: Multi-line Markdown/plaintext report with key metrics.
+        """
         results = self.validation_results
 
         report = []
@@ -266,6 +309,15 @@ class ModuleManifestValidator:
         return "\n".join(report)
 
 def main():
+    """Run module manifest validation and optionally write a JSON report.
+
+    Args:
+        --report: Output JSON filepath for detailed results.
+        --fix: Attempt auto-fixes for common issues (future; currently no-op).
+
+    Returns:
+        int: Process exit code, 0 if all manifests are valid, otherwise 1.
+    """
     parser = argparse.ArgumentParser(description="MATRIZ Module Manifest Validator")
     parser.add_argument("--report",
                        help="Output detailed validation report to JSON file")

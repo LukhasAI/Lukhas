@@ -251,6 +251,30 @@ known-first-party = ["lukhas", "candidate", "MATRIZ"]
 "**/__init__.py" = ["F401", "F403", "I001", "TID252"]
 "tests/**/*.py" = ["F401", "F403"]
 
+[tool.interrogate]
+ignore-init-method = true
+ignore-init-module = true
+ignore-magic = true
+ignore-semiprivate = true
+ignore-private = true
+ignore-property-decorators = true
+fail-under = 85
+verbose = 1
+whitelist-regex = [
+  "^scripts/",
+]
+exclude = [
+  ".venv", "node_modules", "build", "dist",
+  "manifests", "docs/openapi", "tests", "legacy",
+  "lukhas", "matriz", "api"
+]
+
+[tool.pydocstyle]
+convention = "google"
+add-ignore = ["D104", "D203"]
+match-dir = "(?!(.venv|node_modules|build|dist|manifests|docs|tests|legacy|lukhas|matriz|api)).*"
+match = "(?!test_).*\\.py"
+
 [tool.mypy]
 python_version = "3.11"
 strict = true
