@@ -26,6 +26,15 @@ import pathlib
 
 
 def main():
+    """Generate the Markdown coverage dashboard from metrics JSON.
+
+    Args:
+        --metrics: Path to the unified metrics JSON (from emit_metrics.py).
+        --out: Output Markdown filepath for the dashboard.
+
+    Returns:
+        None: Writes the dashboard file and prints a success message.
+    """
     p = argparse.ArgumentParser(description="Generate coverage dashboard")
     p.add_argument("--metrics", required=True, help="Path to metrics.json")
     p.add_argument("--out", required=True, help="Output Markdown path")

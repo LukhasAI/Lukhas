@@ -25,9 +25,27 @@ from collections import defaultdict
 TOPS = {"consciousness","identity","governance","memory","core","labs","matriz","api"}
 
 def sha_bucket(s: str) -> int:
+    """Return a deterministic integer bucket for a string using SHA256.
+
+    Args:
+        s (str): Input string to hash.
+
+    Returns:
+        int: Integer derived from SHA256 hex digest for stable ordering.
+    """
     return int(hashlib.sha256(s.encode("utf-8")).hexdigest(), 16)
 
 def main():
+    """Build a deterministic canary list of manifest paths.
+
+    Args:
+        --size: Fraction (0..1) of total manifests to include.
+        --out: Output path for the selected list (one path per line).
+        --root: Root directory containing manifests (default: manifests).
+
+    Returns:
+        None
+    """
     p = argparse.ArgumentParser()
     p.add_argument("--size", type=float, default=0.10, help="fraction 0..1 of total to include (default 0.10)")
     p.add_argument("--out", required=True, help="output filepath for the list")

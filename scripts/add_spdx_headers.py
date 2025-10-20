@@ -35,7 +35,26 @@ HEADER_YAML = "# {spdx}\n# Author: {author}\n"
 
 
 def add_header(path: pathlib.Path, header_py: str, header_yaml: str) -> bool:
-    """Add SPDX header to file if missing."""
+    """Add SPDX header to a source file if missing.
+
+    Args:
+        path (pathlib.Path): File to update.
+        header_py (str): Header block for Python files.
+        header_yaml (str): Header block for YAML files.
+
+    Returns:
+        bool: True if the file was modified, False if already compliant.
+
+    Raises:
+        UnicodeDecodeError: If the file cannot be decoded as UTF-8.
+
+    Example:
+        >>> # doctest: +SKIP
+        >>> from pathlib import Path
+        >>> p = Path('tmp_demo.py'); _ = p.write_text('print("hi")')
+        >>> add_header(p, '"""\\nSPDX-License-Identifier: MIT\\nAuthor: Test\\n"""', '# SPDX-License-Identifier: MIT\n# Author: Test\n')
+        True
+    """
     txt = path.read_text(encoding="utf-8")
 
     # Skip if header already exists

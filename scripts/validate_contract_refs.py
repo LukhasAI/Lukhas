@@ -28,6 +28,16 @@ ID_RE = re.compile(r"^[A-Za-z0-9_.:/-]+@v\d+$")
 
 
 def load_contract_index() -> Dict[str, pathlib.Path]:
+    """Build an index of available contract IDs to file paths.
+
+    Returns:
+        Dict[str, pathlib.Path]: Mapping of contract ID (e.g., "foo.bar@v1") to
+        the file path containing that contract JSON.
+
+    Notes:
+        - If a contract JSON omits the "id" field, the filename stem is used.
+        - If no version suffix is present, "@v1" is appended.
+    """
     idx: Dict[str, pathlib.Path] = {}
     base = ROOT / "contracts"
     if not base.exists():
@@ -51,6 +61,14 @@ def load_contract_index() -> Dict[str, pathlib.Path]:
 
 
 def main():
+    """Validate manifest-declared contract references and IDs.
+
+    Scans module.manifest.json files for contract references and ensures the
+    referenced contracts exist and that legacy event contract IDs are well-formed.
+
+    Returns:
+        None: Exits with code 1 on failures, 0 otherwise.
+    """
     contracts = load_contract_index()
     failures = 0
     checked: int = 0

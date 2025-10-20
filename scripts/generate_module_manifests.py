@@ -35,6 +35,14 @@ STAR_DEFAULT = "Supporting"
 
 # --- Star rules support (Phase 3) -------------------------------------------------
 def load_star_rules(path: pathlib.Path):
+    """Load star rule configuration JSON.
+
+    Args:
+        path (pathlib.Path): Path to a JSON rules file.
+
+    Returns:
+        dict | None: Parsed rules dict if readable, otherwise None.
+    """
     try:
         return json.loads(path.read_text(encoding="utf-8"))
     except Exception:
@@ -49,13 +57,28 @@ def infer_star_from_rules(
     capabilities: list,
     owner: str,
 ) -> (str, float):
-    """Return (star, confidence) suggestion from rules.
+    """Infer constellation star suggestion from rules.
 
-    Heuristic scoring using weights in rules_cfg.weights across:
-      - path regex hits (rules[])
-      - capability overrides
-      - node overrides
-      - owner priors
+    Uses weighted heuristics in ``rules_cfg`` to compute a best star label
+    and a confidence score.
+
+    Args:
+        rules_cfg (dict): Loaded rules configuration.
+        module_name (str): Module name (e.g., "consciousness").
+        path (str): Path context to evaluate against regex rules.
+        matriz_node (str): MATRIZ node name for node overrides.
+        capabilities (list): Capability dictionaries declared by the module.
+        owner (str): Module owner for owner prior rules.
+
+    Returns:
+        tuple[str, float]: The suggested star label and confidence in [0, 1].
+
+    Notes:
+        Heuristic scoring weights consider:
+        - Path regex hits (rules[])
+        - Capability overrides
+        - Node overrides
+        - Owner priors
     """
     if not rules_cfg:
         return (STAR_DEFAULT, 0.0)
@@ -154,6 +177,16 @@ def validate_star(star: str, star_canon: Dict[str, Any], *, labels: Optional[set
 
 
 def guess_star(path: str, inv_star: Optional[str], star_canon: Dict[str, Any]) -> str:
+    """Guess constellation star label with canonical normalization.
+
+    Args:
+        path (str): Module path hint for heuristics.
+        inv_star (str | None): Star from inventory, if any.
+        star_canon (dict): Canon mapping for normalization and aliases.
+
+    Returns:
+        str: Canonical star label (e.g., "🛡️ Watch (Guardian)").
+    """
     labels = set(extract_canon_labels(star_canon))
     # Inventory-proposed star (normalize via aliases)
     if inv_star:
@@ -386,6 +419,22 @@ _TODO: short description (2–3 sentences). Add links to demos, notebooks, or da
 """
 
 def main():
+    """Generate manifests and optional context files from inventory JSON.
+
+    Args:
+        --inventory: Path to the COMPLETE_MODULE_INVENTORY.json file.
+        --out: Output directory for manifests.
+        --schema: Optional schema path for validation.
+        --star-canon: Canon mapping file for constellation stars.
+        --write-context: If set, also write lukhas_context.md files.
+        --limit: Optional maximum number of items to process.
+        --star-from-rules: Use star_rules.json to override default star.
+        --star-rules: Path to rules file.
+        --star-confidence-min: Minimum confidence to accept rule-suggested star.
+
+    Returns:
+        None
+    """
     ap = argparse.ArgumentParser()
     ap.add_argument("--inventory", default="docs/audits/COMPLETE_MODULE_INVENTORY.json")
     ap.add_argument("--out", default="manifests")

@@ -29,6 +29,39 @@ import pathlib
 
 
 def main():
+    """Aggregate documentation quality metrics and emit JSON.
+
+    Args:
+        --coverage: Path to Interrogate JSON output file.
+        --offenders: Path to pydocstyle offenders text file.
+        --spectral-junit: Path to Spectral JUnit XML results.
+        --out: Output path for the consolidated metrics JSON.
+
+    Returns:
+        None: Prints the JSON to stdout and writes it to ``--out``.
+
+    Raises:
+        FileNotFoundError: If any required input file path is missing.
+
+    Example:
+        >>> # doctest: +SKIP
+        >>> from pathlib import Path
+        >>> Path('docs/audits').mkdir(parents=True, exist_ok=True)
+        >>> Path('docs/audits/docstring_coverage.json').write_text('{"overall": 86}')
+        20
+        >>> Path('docs/audits/docstring_offenders.txt').write_text('')
+        0
+        >>> Path('docs/audits/openapi_lint_junit.xml').write_text('<testsuite></testsuite>')
+        24
+        >>> import sys
+        >>> sys.argv = [
+        ...   'emit_metrics',
+        ...   '--coverage','docs/audits/docstring_coverage.json',
+        ...   '--offenders','docs/audits/docstring_offenders.txt',
+        ...   '--spectral-junit','docs/audits/openapi_lint_junit.xml',
+        ...   '--out','docs/audits/metrics.json']
+        >>> main()
+    """
     p = argparse.ArgumentParser(description="Emit unified documentation metrics")
     p.add_argument("--coverage", required=True, help="Path to interrogate JSON output")
     p.add_argument("--offenders", required=True, help="Path to pydocstyle error file")
