@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: security_audit.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 LUKHAS Security Audit Script - T4/0.01% Excellence
 =================================================
 

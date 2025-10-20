@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: generate_i2_excellence_evidence.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 I.2 Tiered Authentication T4/0.01% Excellence Evidence Generator
 ==============================================================
 

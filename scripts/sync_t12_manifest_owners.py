@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: sync_t12_manifest_owners.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Sync owners in module.manifest.json for T1/T2 modules.
 
 For each manifest (excluding .archive):

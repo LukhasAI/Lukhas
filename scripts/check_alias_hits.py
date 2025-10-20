@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: check_alias_hits.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Check compat layer alias hits and enforce optional thresholds.
 
 Usage:

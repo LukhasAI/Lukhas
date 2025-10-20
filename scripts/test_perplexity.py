@@ -1,11 +1,4 @@
 #!/usr/bin/env python3
-"""
-Module: test_perplexity.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
 """Test Perplexity API with minimal request."""
 
 import json

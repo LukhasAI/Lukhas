@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: revert_from_ledger.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 T4/0.01% Ledger-based Revert Utility
 ====================================
 

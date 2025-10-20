@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: bench_t4_excellence.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 T4/0.01% Excellence Performance Validation Suite
 ================================================
 

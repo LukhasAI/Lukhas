@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: update_context_files.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Update all claude.me and lukhas_context.md files with latest system metrics and information.
 
 This script updates context files across the entire LUKHAS repository with:

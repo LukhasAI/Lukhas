@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: build_docs_map.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Build documentation mapping with confidence scoring.
 
 Scans all .md files and assigns them to modules based on:

@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: auto_improve.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 LUKHAS Auto-Improvement System
 Orchestrates code quality improvements using local LLMs, self-healing, and Guardian validation
 Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guardian)

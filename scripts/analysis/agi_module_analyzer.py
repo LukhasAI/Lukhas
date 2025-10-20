@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: agi_module_analyzer.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 AGI Module Analyzer & Distiller
 Advanced analysis tool for complex AGI codebases using AI-powered analysis
 Understands that AGI requires modular complexity, not simplification to basic chatbots

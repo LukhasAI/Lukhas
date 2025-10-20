@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: smoke_check.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Simple smoke checks for local/dev environments.
 
 Checks:

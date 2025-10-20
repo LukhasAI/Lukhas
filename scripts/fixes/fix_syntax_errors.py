@@ -1,11 +1,4 @@
 #!/usr/bin/env python3
-"""
-Module: fix_syntax_errors.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
 import logging
 
 logger = logging.getLogger(__name__)

@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: docs_normalize_frontmatter.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 LUKHAS Documentation Front‑Matter Normalizer (T4/0.01% edition)
 
 Goals

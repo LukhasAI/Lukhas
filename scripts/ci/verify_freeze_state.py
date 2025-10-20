@@ -1,11 +1,4 @@
 #!/usr/bin/env python3
-"""
-Module: verify_freeze_state.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
 """T4/0.01% Freeze Verification Script
 
 Verifies immutability and integrity of production freeze tags by:

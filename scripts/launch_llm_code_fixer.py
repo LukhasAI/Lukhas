@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: launch_llm_code_fixer.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 🚀 LUKHAS LLM Code Quality Launcher
 ====================================
 

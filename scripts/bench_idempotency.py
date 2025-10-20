@@ -1,10 +1,3 @@
-"""
-Module: bench_idempotency.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
 import time
 import redis
 import numpy as np

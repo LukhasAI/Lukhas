@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: validate_performance_budgets.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Performance Budget Enforcement - T4/0.01% Excellence
 ====================================================
 

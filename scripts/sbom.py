@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: sbom.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Generate Software Bill of Materials (SBOM) in CycloneDX JSON format.
 
 Usage:

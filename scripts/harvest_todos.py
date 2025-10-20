@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: harvest_todos.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Harvest real TODO/FIXME items into a CSV for triage, skipping known fake/linter "TODO" noise.
 
 Outputs: docs/audits/todos.csv with columns:

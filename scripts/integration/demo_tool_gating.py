@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: demo_tool_gating.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 LUKHAS  OpenAI Integration Demo ⚛️🧠🛡️
 Demonstrates tool gating and audit logging with OpenAI completions.
 """

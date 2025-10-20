@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: report_manifest_stats.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Report stats over generated manifests.
 
 Outputs:

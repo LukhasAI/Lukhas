@@ -1,11 +1,4 @@
 #!/usr/bin/env python3
-"""
-Module: status.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
 """List active repo-local locks."""
 
 import json

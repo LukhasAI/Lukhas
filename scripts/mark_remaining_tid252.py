@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: mark_remaining_tid252.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Mark remaining TID252 violations with noqa comments.
 
 For non-__init__.py files where relative imports may need future refactoring.

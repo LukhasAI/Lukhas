@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: check_openapi_headers.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 OpenAPI rate-limit headers guard.
 
 Validates that the generated OpenAPI spec includes X-RateLimit-* headers

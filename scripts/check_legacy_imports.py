@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: check_legacy_imports.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Fail if legacy import roots are present outside allowlisted paths.
 
 Env:

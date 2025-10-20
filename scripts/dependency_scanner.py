@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: dependency_scanner.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 LUKHAS Dependency Scanner
 Scans actual Python imports to build real dependency matrix
 """

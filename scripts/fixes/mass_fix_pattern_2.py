@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: mass_fix_pattern_2.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Mass Fix Pattern 2: Malformed Function Definitions and Calls
 Fix patterns like: def function(): and function_call()
 """

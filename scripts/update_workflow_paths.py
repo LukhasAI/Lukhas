@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: update_workflow_paths.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Update GitHub workflow files to remove lukhas/ path references.
 
 This script updates workflow files to match the Phase 5B flat structure

@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: audit_tests.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Test Collection Audit Script
 T4-Approved: Simple exit code validation only, no auto-fix
 

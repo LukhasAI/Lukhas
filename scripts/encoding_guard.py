@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: encoding_guard.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 LUKHAS Documentation Encoding Guard (T4/0.01%)
 
 Scans all .md files for non-UTF-8 encoding and provides --apply mode to rewrite.

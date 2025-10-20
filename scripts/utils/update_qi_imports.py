@@ -1,11 +1,4 @@
 #!/usr/bin/env python3
-"""
-Module: update_qi_imports.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
 import os
 import re
 

@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: docs_dedupe.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 LUKHAS Documentation Deduplication Tool
 
 Detects exact and near-duplicate documents and generates a redirect/move plan.

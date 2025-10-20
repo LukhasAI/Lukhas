@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: fix_fstring_errors.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Custom F-String Error Fixer
 Targets the most common f-string syntax errors in the LUKHAS codebase
 """

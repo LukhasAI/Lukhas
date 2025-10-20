@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: fix_f_strings.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Quick f-string fixer for single brace errors
 Fixes patterns like f"text{variable}" where } is missing
 """

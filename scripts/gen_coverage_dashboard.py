@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: gen_coverage_dashboard.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Generate documentation coverage dashboard from metrics JSON.
 
 Creates a Markdown dashboard with current docstring coverage, pydocstyle errors,

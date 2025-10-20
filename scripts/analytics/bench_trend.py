@@ -1,11 +1,4 @@
 #!/usr/bin/env python3
-"""
-Module: bench_trend.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
 """T4/0.01% Benchmark Trend Analytics
 
 Reads benchmark ledger and generates daily performance delta trends in CSV format.

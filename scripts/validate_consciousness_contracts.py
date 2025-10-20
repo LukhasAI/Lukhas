@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: validate_consciousness_contracts.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 LUKHAS Consciousness Contract Validator
 Validates consciousness component contracts against schema
 """

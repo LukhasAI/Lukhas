@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: test_security_framework.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 LUKHAS Security Framework Integration Test
 Validates that all security components work together correctly.
 """

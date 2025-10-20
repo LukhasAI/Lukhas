@@ -1,11 +1,4 @@
 #!/usr/bin/env python3
-"""
-Module: coverage_gate.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
 """T4/0.01% Coverage Gate
 Enforces per-module coverage targets with lane-based defaults.
 """

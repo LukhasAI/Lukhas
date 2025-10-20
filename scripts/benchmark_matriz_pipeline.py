@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: benchmark_matriz_pipeline.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 MATRIZ Pipeline Performance Benchmark
 T4/0.01% Tail Latency Validation
 

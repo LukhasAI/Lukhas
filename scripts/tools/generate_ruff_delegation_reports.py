@@ -1,11 +1,4 @@
 #!/usr/bin/env python3
-"""
-Module: generate_ruff_delegation_reports.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
 
 """Generate delegation-ready reports from Ruff JSON output.
 

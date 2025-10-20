@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: phase4_build_canary.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Build a deterministic canary set of manifest targets for Phase 4.
 
 Usage:

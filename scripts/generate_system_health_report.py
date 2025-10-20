@@ -1,11 +1,4 @@
 #!/usr/bin/env python3
-"""
-Module: generate_system_health_report.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
 """Generate a simple system health report from existing test summaries.
 
 The script parses pass/fail counts from a markdown summary (default:

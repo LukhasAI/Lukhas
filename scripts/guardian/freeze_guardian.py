@@ -1,11 +1,4 @@
 #!/usr/bin/env python3
-"""
-Module: freeze_guardian.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
 """T4/0.01% Freeze Guardian Daemon
 
 Real-time monitoring daemon that watches for drift in frozen artifacts and ledgers.

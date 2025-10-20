@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: generate_module_health.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Generate module structure health report.
 
 Cross-references:

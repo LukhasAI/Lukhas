@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: brand_validator.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 LUKHAS Brand Validator - Ensures consistent naming across the codebase
 Prevents deprecated terminology and enforces Lambda (Λ) usage rules
 """

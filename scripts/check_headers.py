@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: check_headers.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Check Python files for required license headers.
 
 Verifies that all Python files in production code have proper Apache-2.0 headers.

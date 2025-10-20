@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: audit_baseline.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 T4/0.01% Excellence Audit Baseline Validation Script
 
 Independent verification of LUKHAS AI performance claims with regulatory-grade evidence.

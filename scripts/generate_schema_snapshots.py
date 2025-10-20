@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: generate_schema_snapshots.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Schema Snapshot Generation - T4/0.01% Excellence
 ===============================================
 

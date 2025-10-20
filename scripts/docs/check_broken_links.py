@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: check_broken_links.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Check for broken relative links in markdown files.
 
 Validates that all relative markdown links point to existing files.

@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: analyze_contract_coverage.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Analyze contract coverage across all modules, with focus on T1 modules.
 Reports broken references and missing contracts.
 """

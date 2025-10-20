@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: fix_imports.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 LUKHAS Import Fix Script
 Automatically fixes broken import statements in the governance module
 """

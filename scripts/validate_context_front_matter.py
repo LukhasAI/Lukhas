@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: validate_context_front_matter.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Validate lukhas_context.md front-matter against module.manifest.json.
 
 - Required keys: star, tier, matriz (list), owner

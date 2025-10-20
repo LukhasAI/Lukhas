@@ -1,11 +1,4 @@
 #!/usr/bin/env python3
-"""
-Module: fix_pep604_typing.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
 """Rewrite PEP 604 unions (`X | None`) to `Optional[X]` for Python 3.9."""
 
 from __future__ import annotations

@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: create_issues_from_csv.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Generate a shell script with GitHub CLI commands from docs/audits/todos.csv.
 (We do NOT call gh directly; we produce a reviewable script.)
 

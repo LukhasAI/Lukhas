@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: mass_f821_elimination_phase2.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Mass F821 Elimination - Phase 2: Targeted File-by-File Mechanical Fixing
 ========================================================================
 

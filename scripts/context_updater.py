@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: context_updater.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 LUKHAS Context File Updater
 Updates claude.me and lukhas_context.md files with current architecture reality
 """

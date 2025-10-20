@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: generate_complete_inventory.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Generate Complete Module Inventory for MATRIZ Audit
 
 Scans all Python packages (directories with __init__.py) and creates

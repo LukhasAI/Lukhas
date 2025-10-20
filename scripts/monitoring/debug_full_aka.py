@@ -1,11 +1,4 @@
 #!/usr/bin/env python3
-"""
-Module: debug_full_aka.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
 
 """Debug full AkaQualia pipeline"""
 

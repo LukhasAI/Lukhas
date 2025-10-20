@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: migrate_memory_to_dna.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Backfill legacy memory into DNA Helix with checkpoints.
 Idempotent by version; safe to resume.
 """

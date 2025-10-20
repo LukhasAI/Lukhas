@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: demo_plugin_registry.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Demo script showing the enhanced plugin registry capabilities.
 Demonstrates T4/0.01% constructor-aware instantiation and entry point discovery.
 """
