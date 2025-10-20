@@ -1644,3 +1644,14 @@ plan-colony-renames: ## Generate colony rename plan (dry-run, no execution)
 coord-snapshot:
 	@echo "📸 Running coordination snapshot..."
 	@bash scripts/coordination/daily_snapshot.sh
+
+# -----------------------------------------------------------------------------
+# API Documentation Helpers
+# -----------------------------------------------------------------------------
+.PHONY: api-previews api-catalog
+api-previews: ## Build ReDoc previews for OpenAPI specs
+	@mkdir -p docs/openapi/site
+	npx -y redoc-cli build docs/openapi/*.openapi.yaml -o docs/openapi/site/index.html || true
+
+api-catalog: ## Regenerate endpoint catalog JSON from OpenAPI specs
+	@python3 scripts/gen_endpoint_catalog.py --specs 'docs/openapi/*.openapi.yaml' --out docs/apis/endpoint_catalog.json
