@@ -45,31 +45,30 @@ class ModuleManifestValidator:
         }
 
     def find_lukhas_modules(self) -> List[Path]:
-        """Find all LUKHAS AI module directories.
+        """Find all LUKHAS AI module directories with root-over-labs preference.
 
         Returns:
-            list[Path]: Candidate module paths resolved from manifests/ tree.
+            list[Path]: Unique module paths. Prefers root path if present,
+            otherwise uses labs/<path> when only labs exists.
         """
-        # After Phase 5B flattening, modules are at root level
-        # Check manifests/ directory for all manifested modules
         manifests_root = Path("manifests")
         if not manifests_root.exists():
             logger.error("manifests/ directory not found")
             return []
 
-        modules = []
-        # Scan all directories in manifests/ - these are our modules
+        preferred: dict[str, Path] = {}
         for item in manifests_root.rglob("module.manifest.json"):
-            # Get the module path from manifest location
-            # manifests/consciousness/core/module.manifest.json → consciousness/core
             module_rel_path = item.parent.relative_to(manifests_root)
-            module_path = Path(str(module_rel_path))
+            root_path = Path(str(module_rel_path))
+            labs_path = Path("labs") / module_rel_path
+            key = module_rel_path.as_posix().split("/")[-1]
+            # Prefer root path when available; else use labs path
+            if root_path.exists():
+                preferred[key] = root_path
+            elif labs_path.exists():
+                preferred.setdefault(key, labs_path)
 
-            # Check if actual module exists at root
-            if module_path.exists() or Path(f"labs/{module_path}").exists():
-                modules.append(module_path)
-
-        return sorted(set(modules))
+        return sorted(set(preferred.values()))
 
     def load_module_manifest(self, module_path: Path) -> Optional[Dict[str, Any]]:
         """Load a module's lane manifest if present.
