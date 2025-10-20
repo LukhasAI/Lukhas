@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: ai_consolidator.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 AI-Powered AGI Code Consolidator
 Uses Claude API to intelligently analyze and consolidate Cognitive modules
 Preserves complex functionality while reducing redundancy

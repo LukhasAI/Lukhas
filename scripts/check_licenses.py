@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: check_licenses.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Check licenses of Python dependencies.
 
 Scans installed packages and reports license compliance.

@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: resolve_conflicts.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Script to systematically resolve merge conflicts in PR #118.
 The conflicts appear to be Jules adding parentheses to tuple unpacking,
 and main branch already has the improved syntax.

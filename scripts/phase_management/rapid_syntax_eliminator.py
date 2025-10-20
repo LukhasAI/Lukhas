@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: rapid_syntax_eliminator.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 🎯 Rapid-Fire Syntax Error Elimination
 =====================================
 

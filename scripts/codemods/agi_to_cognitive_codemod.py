@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: agi_to_cognitive_codemod.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 AGI Core → Cognitive Core Migration Codemod
 
 Updates all references from cognitive_core to cognitive_core and modernizes

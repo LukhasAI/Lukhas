@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: generate_error_report_v2.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Generate comprehensive JSON report of all pytest collection errors with full tracebacks.
 """
 from __future__ import annotations

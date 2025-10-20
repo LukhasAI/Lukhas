@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: fix_orphaned_noqa.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Fix Orphaned noqa Comments from PR 375
 ======================================
 Removes orphaned # noqa: F821 and # noqa: invalid-syntax comments

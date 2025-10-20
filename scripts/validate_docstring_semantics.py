@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: validate_docstring_semantics.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Validate docstring semantic completeness (advisory).
 
 Performs heuristic checks for missing module docstrings and function docstrings

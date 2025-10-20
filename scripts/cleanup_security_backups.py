@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: cleanup_security_backups.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 🧹 LUKHAS Security Backup Cleanup
 =================================
 Consolidates and cleans up security backup directories created during
@@ -97,7 +90,7 @@ def main():
     print("\n📊 Cleanup Summary:")
     print(f"  🗑️  Removed directories: {removed_count}")
     print(f"  💾 Preserved backups: {consolidated_dir}")
-    print(f"  📋 Important files preserved: {len(requirements_backups)} * 3} requirements.txt files")
+    print(f"  📋 Important files preserved: {len(requirements_backups) * 3} requirements.txt files")
 
     # Show space saved
     if removed_count > 0:

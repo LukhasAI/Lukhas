@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: validate_m1_memory.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 M.1 Memory Storage/Retrieval T4/0.01% Excellence Validation
 ===========================================================
 

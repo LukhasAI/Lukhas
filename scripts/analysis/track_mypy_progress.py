@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: track_mypy_progress.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Mypy Error Progress Tracker
 Quick script to check current mypy error status and compare with enumeration
 """

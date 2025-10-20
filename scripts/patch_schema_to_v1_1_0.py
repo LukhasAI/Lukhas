@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: patch_schema_to_v1_1_0.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Patch schemas/matriz_module_compliance.schema.json → v1.1.0
 
 - Add "🌊 Flow (Consciousness)" to constellation enum

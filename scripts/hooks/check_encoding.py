@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: check_encoding.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Pre-commit hook: Check markdown files for UTF-8 encoding.
 """
 

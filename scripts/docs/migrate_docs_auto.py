@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: migrate_docs_auto.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Migrate documentation files to module-local docs/ directories.
 
 Uses git mv for history preservation.

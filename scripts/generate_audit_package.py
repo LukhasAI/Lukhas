@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: generate_audit_package.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 T4/0.01% Excellence Audit Evidence Package Generator
 
 Creates comprehensive, tamper-evident audit evidence packages for independent verification.

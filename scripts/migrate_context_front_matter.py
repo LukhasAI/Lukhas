@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: migrate_context_front_matter.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Migrate legacy lukhas_context.md files to YAML front-matter.
 
 For each lukhas_context.md under manifests/**:

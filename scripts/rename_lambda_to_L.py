@@ -1,11 +1,4 @@
 #!/usr/bin/env python3
-"""
-Module: rename_lambda_to_L.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
 """Safe, opt-in script to replace 'Lambda'/'lambda' tokens with 'L'/'l'.
 
 Usage:

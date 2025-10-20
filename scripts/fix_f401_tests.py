@@ -1,11 +1,4 @@
 #!/usr/bin/env python3
-"""
-Module: fix_f401_tests.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
 # Fix F401 "imported but unused" only under tests/** using Ruff JSON as ground truth.
 # Requires: ruff JSON report at docs/audits/ruff.json (or --ruff)
 from __future__ import annotations

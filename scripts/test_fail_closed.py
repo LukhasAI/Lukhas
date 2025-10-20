@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: test_fail_closed.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 T4/0.01% Excellence Chaos Engineering & Fail-Closed Validation
 
 Tests system behavior under extreme stress conditions and validates fail-closed safety mechanisms.

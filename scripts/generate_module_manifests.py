@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: generate_module_manifests.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Generate module manifests (+ optional lukhas_context.md)
 from docs/audits/COMPLETE_MODULE_INVENTORY.json
 

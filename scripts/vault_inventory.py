@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: vault_inventory.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 LUKHAS Vault Inventory Generator (T4/0.01%)
 
 Parametric inventory system for THE_VAULT with multi-format support:

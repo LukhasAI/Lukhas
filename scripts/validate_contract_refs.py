@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: validate_contract_refs.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Validate that manifest-declared contracts exist and are well-formed.
 
 Improvements:

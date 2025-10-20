@@ -1,11 +1,4 @@
 #!/usr/bin/env python3
-"""
-Module: validate_openapi.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
 """Validate OpenAPI spec against OpenAPI 3.1 schema."""
 import json
 from pathlib import Path

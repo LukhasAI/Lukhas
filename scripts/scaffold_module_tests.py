@@ -1,11 +1,4 @@
 #!/usr/bin/env python3
-"""
-Module: scaffold_module_tests.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
 """T4/0.01% Module Test Scaffolder
 Deterministic, idempotent, append-only ledger, dry-run by default.
 """

@@ -1,11 +1,4 @@
 #!/usr/bin/env python3
-"""
-Module: notion_sync.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
 """T4/0.01% Notion/Dashboard Sync Integration
 
 Syncs META_REGISTRY.json and coverage trends to external dashboards.

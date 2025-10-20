@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: validate_dynamic_id_hardening.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Dynamic ID Hardening Validation - T4/0.01% Excellence
 =====================================================
 

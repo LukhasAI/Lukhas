@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: phase2_api_tiering.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Phase 2: API Manifest Tiering & Contract Validation
 
 Systematically assigns star ratings to API modules based on:

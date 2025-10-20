@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: docs_rewrite_links.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 LUKHAS Documentation Link Rewriter
 
 Rewrites internal links to canonical paths and validates anchors.

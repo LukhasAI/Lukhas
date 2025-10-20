@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: generate_postman_collection.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Convert OpenAPI specification to Postman Collection v2.1
 
 Usage:

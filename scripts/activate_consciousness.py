@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: activate_consciousness.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 LUKHAS Consciousness Activation Script - Strategic Finale
 
 This script executes the complete consciousness component activation sequence,

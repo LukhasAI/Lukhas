@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: migrate_top3_to_production.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 LUKHAS Migration Script: Top 3 Modules to Production
 Migrates critical modules from archive to accepted lane with compatibility shims
 """

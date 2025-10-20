@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: fix_specific_fstring_patterns.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Fix Specific F-String Patterns - Surgical Approach
 ==================================================
 

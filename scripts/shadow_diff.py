@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: shadow_diff.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Shadow diff harness for Lukhas ⇄ OpenAI parity.
 
 Sends a small suite of façade requests to both Lukhas and OpenAI (when credentials

@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: migrate_trinity_to_constellation.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Trinity to Constellation Framework Migration Script
 
 Systematically migrates 14k+ Trinity references to Constellation across the entire codebase.

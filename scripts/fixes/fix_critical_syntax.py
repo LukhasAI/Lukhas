@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: fix_critical_syntax.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Critical Syntax Fixer for LUKHAS Workspace
 Fixes the most common and critical syntax errors preventing basic operation.
 """

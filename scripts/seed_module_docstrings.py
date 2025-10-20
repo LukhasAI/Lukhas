@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: seed_module_docstrings.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Seed module-level docstrings for Python files lacking them.
 
 This script scans provided directories (default: scripts) and inserts a

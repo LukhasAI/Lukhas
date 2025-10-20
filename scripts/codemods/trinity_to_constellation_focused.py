@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: trinity_to_constellation_focused.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Focused Trinity to Constellation migration script
 Targets specific files with Trinity references for careful replacement
 """

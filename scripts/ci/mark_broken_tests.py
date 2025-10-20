@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: mark_broken_tests.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Mark tests with ModuleNotFoundError as skipped with proper markers.
 
 T4/0.01% Approach: Document broken tests rather than hide them.

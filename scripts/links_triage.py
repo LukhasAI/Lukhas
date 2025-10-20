@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: links_triage.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 LUKHAS Broken Links Triage Bot
 
 Categorizes broken links by type and generates batched GitHub issues.

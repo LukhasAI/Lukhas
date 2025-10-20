@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: relocate_lukhas_manifests.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Relocate manifests from manifests/lukhas/ to manifests/ (flat structure).
 
 This script moves manifests created in manifests/lukhas/<module_path>/ 

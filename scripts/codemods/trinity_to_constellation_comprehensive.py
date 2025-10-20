@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: trinity_to_constellation_comprehensive.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Comprehensive Trinity → Constellation Framework Codemod
 
 This script systematically updates Constellation Framework references to Constellation Framework

@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: kpi_badge.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Generate a simple SVG badge from backup KPI JSON.
 
 Usage:

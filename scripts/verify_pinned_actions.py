@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: verify_pinned_actions.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 GitHub Actions Security - Pinned Actions Verification
 ===================================================
 

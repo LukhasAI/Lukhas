@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: performance_e2e_simple.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Simplified LUKHAS End-to-End Performance Testing Script for CI Testing
 
 This version avoids complex imports to test the CI workflow structure.

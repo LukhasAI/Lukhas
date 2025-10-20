@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: security-autopilot.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 LUKHAS AI Security Autopilot
 ============================
 Future-proof automated security vulnerability management system.

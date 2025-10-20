@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: add_spdx_headers.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Add SPDX license headers to source files (advisory).
 
 Injects SPDX-License-Identifier and Author headers to files lacking them.

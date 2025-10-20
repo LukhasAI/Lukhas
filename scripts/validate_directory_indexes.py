@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: validate_directory_indexes.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 LUKHAS Directory Index Validator
 Validates directory indexes and integrates with context sync system
 """

@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: comprehensive_syntax_fixer.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Comprehensive Syntax Fixer for LUKHAS Project
 Fixes the most common syntax errors systematically
 """

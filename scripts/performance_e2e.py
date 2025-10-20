@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: performance_e2e.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 LUKHAS End-to-End Performance Testing Script for T4/0.01% Excellence Standards
 
 This script performs full system integration testing for E2E performance validation:

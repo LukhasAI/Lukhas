@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: tier_system_analysis.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Tier System Analysis: Production-Ready Design Patterns
 ====================================================
 

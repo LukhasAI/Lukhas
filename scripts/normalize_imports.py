@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: normalize_imports.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Normalize relative imports to absolute imports.
 
 Requires: pip install libcst

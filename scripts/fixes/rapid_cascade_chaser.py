@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: rapid_cascade_chaser.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 🏃‍♂️ RAPID CASCADE CHASER
 Follow and fix the cascade blockers in real-time as they move
 """

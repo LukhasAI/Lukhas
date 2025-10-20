@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: gen_rules_coverage.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Render a readable coverage report for star rules.
 
 Inputs:

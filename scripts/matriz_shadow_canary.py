@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: matriz_shadow_canary.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 MATRIZ Shadow Canary System - T4/0.01% Excellence
 =================================================
 

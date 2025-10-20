@@ -1,11 +1,4 @@
 #!/usr/bin/env python3
-"""
-Module: coverage_trend.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
 """T4/0.01% Coverage Trend Analytics
 
 Reads coverage ledger and generates daily delta trends in CSV format.

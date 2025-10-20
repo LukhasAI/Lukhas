@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: docs_generate.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 LUKHAS Documentation Generation Tool
 
 Generates SITE_MAP.md and refreshes canonical indices.

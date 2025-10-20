@@ -1,11 +1,4 @@
 #!/usr/bin/env python3
-"""
-Module: validate_guardian_policy.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
 """Basic schema validation for Guardian policy YAML."""
 
 import json

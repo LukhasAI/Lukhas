@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: docs_lint.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 LUKHAS Documentation Linter (CI-Ready)
 
 Validates front-matter, regenerates site map, and checks internal links.

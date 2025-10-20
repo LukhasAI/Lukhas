@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: update_framework_integration_refs.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Update trinity_framework_integration references to constellation_framework_integration
 """
 import os

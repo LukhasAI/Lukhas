@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: analyze_ruff_errors.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 LUKHAS Ruff Error Analysis Tool
 Categorizes and prioritizes syntax errors from ruff check JSON output
 """

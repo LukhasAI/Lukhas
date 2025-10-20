@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: validate_guardian_performance.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Guardian Integration Performance Validation Script
 Phase 3 Implementation - T4/0.01% Excellence Standards
 

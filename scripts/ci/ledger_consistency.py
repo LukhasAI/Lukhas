@@ -1,11 +1,4 @@
 #!/usr/bin/env python3
-"""
-Module: ledger_consistency.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
 """T4/0.01% Ledger Consistency Gate
 
 Ensures that any module.manifest.json changed in a commit has at least one

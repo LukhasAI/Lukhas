@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: gate_legacy_imports.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 CI gate to ratchet down legacy lukhas.* import usage.
 Fails build if:
   - Current alias hits exceed sprint budget

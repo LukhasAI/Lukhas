@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: report_compat_hits.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 Track compat layer usage via runtime telemetry.
 
 Reads docs/audits/compat_alias_hits.json and reports total hits.

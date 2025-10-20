@@ -1,12 +1,5 @@
 #!/usr/bin/env python3
 """
-Module: run_phase2_validation.py
-
-This module is part of the LUKHAS repository.
-Add detailed documentation and examples as needed.
-"""
-
-"""
 LUKHAS AI Phase 2 Comprehensive Validation Runner
 ===============================================
 
