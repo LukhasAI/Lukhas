@@ -353,3 +353,6 @@ docs/openapi/*.json
 
 # Local worktrees and sandboxes
 /Lukhas-cc-*/
+# Phase 4 ephemeral artifacts
+manifests_phase4.tar.gz
+docs/audits/phase4_canary_meta.json

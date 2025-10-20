@@ -137,7 +137,8 @@
       "Bash(xargs -I{} git rm -r {})",
       "Bash(jq -r '.keep_candidates[] | \"\"\"\"\\(.path) (\\(.total_size) bytes)\"\"\"\"' docs/audits/lukhas_shim_audit.json)",
       "Bash(npm update tar-fs tmp)",
-      "Bash(git show c809aacc7 --format=\"%ai\" --no-patch)"
+      "Bash(git show c809aacc7 --format=\"%ai\" --no-patch)",
+      "Bash(git rebase --continue)"
     ],
     "defaultMode": "bypassPermissions"
   }
