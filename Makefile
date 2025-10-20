@@ -1655,3 +1655,31 @@ api-previews: ## Build ReDoc previews for OpenAPI specs
 
 api-catalog: ## Regenerate endpoint catalog JSON from OpenAPI specs
 	@python3 scripts/gen_endpoint_catalog.py --specs 'docs/openapi/*.openapi.yaml' --out docs/apis/endpoint_catalog.json
+# -----------------------------------------------------------------------------
+# Phase 4 Manifests Pipeline Helpers
+# -----------------------------------------------------------------------------
+.PHONY: phase4-preflight phase4-canary phase4-manifests phase4-validate phase4-all
+phase4-preflight: ## Run Phase 4 preflight checks locally
+	@python3 scripts/check_star_canon_sync.py || true
+	@python3 scripts/validate_contract_refs.py || true
+	@[ -f scripts/build_import_map.py ] && python3 scripts/build_import_map.py || true
+	@echo "✅ Phase 4 preflight complete. See docs/audits for artifacts."
+
+phase4-canary: ## Build Phase 4 canary list (10%)
+	@mkdir -p docs/audits
+	@python3 scripts/phase4_build_canary.py --size 0.10 --out docs/audits/phase4_canary_list.txt
+	@head -n 20 docs/audits/phase4_canary_list.txt || true
+
+phase4-manifests: ## Generate manifests from inventory
+	@[ -f docs/audits/COMPLETE_MODULE_INVENTORY.json ] || { echo "Missing docs/audits/COMPLETE_MODULE_INVENTORY.json"; exit 1; }
+	@python3 scripts/generate_module_manifests.py --inventory docs/audits/COMPLETE_MODULE_INVENTORY.json --out manifests --star-canon scripts/star_canon.json || true
+	@python3 scripts/phase4_generate_lane_yaml.py --manifests manifests --prefer-labs --overwrite || true
+
+phase4-validate: ## Validate manifests and write report
+	@python3 scripts/validate_module_manifests.py --report docs/audits/manifest_validation_phase4.json || true
+	@python3 scripts/validate_contract_refs.py || true
+	@python3 scripts/check_star_canon_sync.py || true
+	@echo "✅ Validation complete. See docs/audits/manifest_validation_phase4.json"
+
+phase4-all: phase4-preflight phase4-canary phase4-manifests phase4-validate ## Run full Phase 4 flow
+	@echo "✅ Phase 4 local run complete."
