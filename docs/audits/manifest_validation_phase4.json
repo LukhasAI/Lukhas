@@ -1,0 +1,43 @@
+{
+  "validation_timestamp": "2025-10-20T10:29:55.f+00:00",
+  "modules_scanned": 643,
+  "modules_with_manifests": 634,
+  "modules_missing_manifests": 9,
+  "lane_distribution": {
+    "candidate": 496,
+    "integration": 46,
+    "production": 92
+  },
+  "validation_errors": [],
+  "missing_manifests": [
+    "observability",
+    "branding_bridge",
+    "contradiction_integrator",
+    "drift",
+    "matriz",
+    "ring",
+    "examples",
+    "flags",
+    "nodes"
+  ],
+  "invalid_manifests": [
+    {
+      "module": "bio",
+      "errors": [
+        "Experimental module 'bio' should not be in production lane"
+      ]
+    },
+    {
+      "module": "emotion",
+      "errors": [
+        "Experimental module 'emotion' should not be in production lane"
+      ]
+    },
+    {
+      "module": "rl",
+      "errors": [
+        "Experimental module 'rl' should not be in production lane"
+      ]
+    }
+  ]
+}

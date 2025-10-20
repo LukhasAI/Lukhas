@@ -45,7 +45,11 @@ def main():
     p.add_argument("--root", default="manifests", help="root folder to scan (default manifests)")
     args = p.parse_args()
 
-    manifests = list(Path(args.root).rglob("module.manifest.json"))
+    # Discover manifests, excluding archived snapshots
+    manifests = [
+        p for p in Path(args.root).rglob("module.manifest.json")
+        if "/.archive/" not in str(p)
+    ]
     if not manifests:
         raise SystemExit(f"No manifests found under {args.root}")
 
