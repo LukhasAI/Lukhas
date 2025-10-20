@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+"""Module docstring."""
 import argparse
 import ast
 import sys

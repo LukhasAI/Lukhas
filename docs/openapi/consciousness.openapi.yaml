@@ -1,0 +1,93 @@
+openapi: 3.1.0
+info:
+  title: LUKHAS Consciousness API
+  version: 1.0.0
+  description: |
+    MATRIZ cognitive processing for LUKHAS AI platform.
+  contact:
+    name: LUKHAS AI Support
+    url: https://lukhas.ai/support
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Development server
+  - url: https://api.lukhas.ai/v1
+    description: Production server
+
+tags:
+  - name: consciousness
+    description: MATRIZ cognitive processing
+
+paths:
+  /consciousness/chat:
+    post:
+      summary: Chat with the consciousness
+      operationId: chat
+      tags:
+        - consciousness
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatRequest'
+      responses:
+        '200':
+          description: Chat successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    ChatRequest:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: The user's message
+    ChatResponse:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: The consciousness's response
+    Error:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+          description: Machine-readable error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: object
+          additionalProperties: true
+          description: Additional error context
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []

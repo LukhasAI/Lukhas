@@ -1,0 +1,101 @@
+openapi: 3.1.0
+info:
+  title: LUKHAS Governance API
+  version: 1.0.0
+  description: |
+    Guardian & ethics enforcement for LUKHAS AI platform.
+  contact:
+    name: LUKHAS AI Support
+    url: https://lukhas.ai/support
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Development server
+  - url: https://api.lukhas.ai/v1
+    description: Production server
+
+tags:
+  - name: governance
+    description: Guardian & ethics enforcement
+
+paths:
+  /governance/compliance:
+    post:
+      summary: Check for compliance
+      operationId: checkCompliance
+      tags:
+        - governance
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComplianceCheckRequest'
+      responses:
+        '200':
+          description: Compliance check successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComplianceCheckResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    ComplianceCheckRequest:
+      type: object
+      required:
+        - system
+        - level
+      properties:
+        system:
+          type: string
+          description: The system to check
+        level:
+          type: string
+          description: The compliance level to check for
+    ComplianceCheckResponse:
+      type: object
+      required:
+        - compliant
+        - details
+      properties:
+        compliant:
+          type: boolean
+          description: Whether the system is compliant
+        details:
+          type: string
+          description: The compliance details
+    Error:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+          description: Machine-readable error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: object
+          additionalProperties: true
+          description: Additional error context
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []

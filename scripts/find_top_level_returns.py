@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+"""
+Module: find_top_level_returns.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
 import ast
 import sys
 from pathlib import Path

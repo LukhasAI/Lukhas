@@ -24,6 +24,7 @@ import re
 
 
 def main():
+    """The main function."""
     p = argparse.ArgumentParser(description="Validate docstring semantics")
     p.add_argument("--roots", nargs="+", required=True, help="Root directories to analyze")
     p.add_argument("--report", required=True, help="Output Markdown report path")

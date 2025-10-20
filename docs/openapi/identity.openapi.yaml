@@ -1,0 +1,137 @@
+openapi: 3.1.0
+info:
+  title: LUKHAS Identity API
+  version: 1.0.0
+  description: |
+    Authentication and ΛiD (Lambda Identity) system for LUKHAS AI platform.
+
+    Provides secure access control, namespace isolation, and credential management.
+  contact:
+    name: LUKHAS AI Support
+    url: https://lukhas.ai/support
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Development server
+  - url: https://api.lukhas.ai/v1
+    description: Production server
+
+tags:
+  - name: authentication
+    description: User authentication and token management
+  - name: identity
+    description: ΛiD identity operations
+
+paths:
+  /auth/login:
+    post:
+      summary: Authenticate user
+      operationId: loginUser
+      tags:
+        - authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+            examples:
+              basic:
+                summary: Basic password login
+                value:
+                  username: "user@lukhas.ai"
+                  password: "secure_password"
+              passkey:
+                summary: WebAuthn passkey login
+                value:
+                  username: "user@lukhas.ai"
+                  credential_id: "AQIDBAUGBwgJ..."
+      responses:
+        '200':
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthToken'
+              examples:
+                success:
+                  value:
+                    access_token: "eyJhbGciOiJIUzI1NiIs..."
+                    token_type: "bearer"
+                    expires_in: 3600
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                invalid_credentials:
+                  value:
+                    error: "invalid_credentials"
+                    message: "Username or password incorrect"
+
+components:
+  schemas:
+    LoginRequest:
+      type: object
+      required:
+        - username
+      properties:
+        username:
+          type: string
+          format: email
+          description: User email address
+        password:
+          type: string
+          format: password
+          description: User password (required for password auth)
+        credential_id:
+          type: string
+          description: WebAuthn credential ID (required for passkey auth)
+
+    AuthToken:
+      type: object
+      required:
+        - access_token
+        - token_type
+        - expires_in
+      properties:
+        access_token:
+          type: string
+          description: JWT access token
+        token_type:
+          type: string
+          enum: [bearer]
+        expires_in:
+          type: integer
+          description: Token lifetime in seconds
+
+    Error:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+          description: Machine-readable error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: object
+          additionalProperties: true
+          description: Additional error context
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []

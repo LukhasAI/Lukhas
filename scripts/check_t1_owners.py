@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
-from __future__ import annotations
+"""
+Module: check_t1_owners.py
 
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
+from __future__ import annotations
 import json
 import sys
 from pathlib import Path

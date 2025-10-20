@@ -1,3 +1,4 @@
+"""Module docstring."""
 from colony.adapters.consensus_to_dna import (
     persist_consensus_to_dna,
 )

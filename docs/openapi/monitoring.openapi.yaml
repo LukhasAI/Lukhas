@@ -1,0 +1,66 @@
+openapi: 3.1.0
+info:
+  title: LUKHAS Monitoring API
+  version: 1.0.0
+  description: |
+    Metrics & health endpoints for LUKHAS AI platform.
+  contact:
+    name: LUKHAS AI Support
+    url: https://lukhas.ai/support
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Development server
+  - url: https://api.lukhas.ai/v1
+    description: Production server
+
+tags:
+  - name: monitoring
+    description: Metrics & health endpoints
+
+paths:
+  /monitoring/health:
+    get:
+      summary: Get system health
+      operationId: getHealth
+      tags:
+        - monitoring
+      responses:
+        '200':
+          description: System is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+        '503':
+          description: System is unhealthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+
+components:
+  schemas:
+    StatusResponse:
+      type: object
+      required:
+        - status
+      properties:
+        status:
+          type: string
+          description: The system status
+        message:
+          type: string
+          description: A message describing the status
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []

@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+"""
+Module: check_reruns.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
 import json
 import pathlib
 import sys

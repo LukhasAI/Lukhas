@@ -90,7 +90,7 @@ def main():
     print("\n📊 Cleanup Summary:")
     print(f"  🗑️  Removed directories: {removed_count}")
     print(f"  💾 Preserved backups: {consolidated_dir}")
-    print(f"  📋 Important files preserved: {len(requirements_backups)} * 3} requirements.txt files")
+    print(f"  📋 Important files preserved: {len(requirements_backups) * 3} requirements.txt files")
 
     # Show space saved
     if removed_count > 0:

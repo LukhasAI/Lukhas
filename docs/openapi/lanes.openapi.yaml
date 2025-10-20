@@ -1,0 +1,73 @@
+openapi: 3.1.0
+info:
+  title: LUKHAS Lanes API
+  version: 1.0.0
+  description: |
+    Development/Integration/Production APIs for LUKHAS AI platform.
+  contact:
+    name: LUKHAS AI Support
+    url: https://lukhas.ai/support
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Development server
+  - url: https://api.lukhas.ai/v1
+    description: Production server
+
+tags:
+  - name: lanes
+    description: Development/Integration/Production APIs
+
+paths:
+  /lanes/candidate:
+    get:
+      summary: Get candidate components
+      operationId: getCandidateComponents
+      tags:
+        - lanes
+      responses:
+        '200':
+          description: A list of candidate components
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Error:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+          description: Machine-readable error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: object
+          additionalProperties: true
+          description: Additional error context
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []

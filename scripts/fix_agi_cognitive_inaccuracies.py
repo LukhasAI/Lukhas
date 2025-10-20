@@ -13,6 +13,9 @@ from typing import Tuple
 
 
 class AGICognitiveAccuracyFixer:
+    """
+    A class to fix inaccurate AGI->Cognitive document changes.
+    """
     def __init__(self, root_path: str = "."):
         self.root_path = Path(root_path).resolve()
         self.corrections = [
