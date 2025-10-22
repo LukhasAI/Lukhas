@@ -15,6 +15,7 @@ manifests/candidate/consciousness/creativity/personality/voice/module.manifest.j
 manifests/candidate/consciousness/dream/oneiric/oneiric_core/analysis/module.manifest.json
 manifests/candidate/consciousness/dream/oneiric/oneiric_core/utils/module.manifest.json
 manifests/candidate/consciousness/examples/module.manifest.json
+manifests/candidate/consciousness/guardian_integration/module.manifest.json
 manifests/candidate/consciousness/systems/module.manifest.json
 manifests/candidate/core/module.manifest.json
 manifests/candidate/core/agi/adaptive/module.manifest.json
@@ -46,6 +47,7 @@ manifests/candidate/emotion/examples/module.manifest.json
 manifests/candidate/emotion/regulation/module.manifest.json
 manifests/candidate/governance/ethics_legacy/policy_engines/module.manifest.json
 manifests/candidate/governance/ethics_legacy/safety/module.manifest.json
+manifests/candidate/governance/guardian_serializer/module.manifest.json
 manifests/candidate/governance/identity/core/glyph/module.manifest.json
 manifests/candidate/governance/identity/utils/module.manifest.json
 manifests/candidate/governance/monitoring/module.manifest.json
@@ -134,6 +136,18 @@ manifests/labs/orchestration/brain/core/capability_levels/module.manifest.json
 manifests/labs/orchestration/migrate_orchestrators/module.manifest.json
 manifests/labs/orchestration/module_orchestrator/module.manifest.json
 manifests/labs/orchestration/signals/module.manifest.json
+manifests/lukhas/bio/module.manifest.json
+manifests/lukhas/bridge/adapters/openai_embedding_provider/module.manifest.json
+manifests/lukhas/consciousness/consciousness_stream/module.manifest.json
+manifests/lukhas/consciousness/consciousness_wrapper/module.manifest.json
+manifests/lukhas/core/module.manifest.json
+manifests/lukhas/core/consciousness_stream/module.manifest.json
+manifests/lukhas/core/matriz/optimized_orchestrator/module.manifest.json
+manifests/lukhas/core/matriz/pipeline_stage/module.manifest.json
+manifests/lukhas/ledger/event_bus/module.manifest.json
+manifests/lukhas/memory/backends/memory_store/module.manifest.json
+manifests/lukhas/memory/retention/module.manifest.json
+manifests/lukhas/trace/TraceRepairEngine/module.manifest.json
 manifests/memory/tombstones/module.manifest.json
 manifests/monitoring/module.manifest.json
 manifests/observability/intelligent_alerting/module.manifest.json
