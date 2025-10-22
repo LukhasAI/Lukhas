@@ -1,0 +1,85 @@
+openapi: 3.1.0
+info:
+  title: LUKHAS Monitoring API
+  version: 1.0.0
+  description: |
+    Health and metrics endpoints for the LUKHAS platform.
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Development
+  - url: https://api.lukhas.ai/v1
+    description: Production
+tags:
+  - name: monitoring
+    description: Health checks and metrics
+paths:
+  /monitoring/health:
+    get:
+      summary: Get service health
+      operationId: getHealth
+      tags: [monitoring]
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+              examples:
+                ok:
+                  value:
+                    status: ok
+                    version: 1.0.0
+                    uptime_seconds: 12345
+        '503':
+          description: Service is unhealthy
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                degraded:
+                  value:
+                    error: degraded
+                    message: dependency unavailable
+  /monitoring/metrics:
+    get:
+      summary: Get Prometheus metrics
+      operationId: getMetrics
+      tags: [monitoring]
+      responses:
+        '200':
+          description: Prometheus metrics in text format
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                sample:
+                  value: |
+                    # HELP http_requests_total Total HTTP requests
+                    # TYPE http_requests_total counter
+                    http_requests_total{code="200"} 1024
+components:
+  schemas:
+    Health:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+          enum: [ok, degraded]
+        version:
+          type: string
+        uptime_seconds:
+          type: integer
+          minimum: 0
+    Error:
+      type: object
+      required: [error, message]
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+

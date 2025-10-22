@@ -148,9 +148,11 @@ def healthz() -> dict[str, Any]:
     - Always returns HTTP 200 for readiness consumers.
     - When LUKHAS_VOICE_REQUIRED=true and the lightweight probe fails,
       include 'voice' in `degraded_reasons` and set `voice_mode` to 'degraded'.
+    - Exposes MATRIZ version, enabled modules, and lane configuration.
     """
     status: dict[str, Any] = {"status": "ok"}
 
+    # Voice subsystem check
     required = os.getenv("LUKHAS_VOICE_REQUIRED", "false").strip().lower() == "true"
     voice_ok = voice_core_available()
     status["voice_mode"] = "normal" if voice_ok else "degraded"
@@ -165,6 +167,30 @@ def healthz() -> dict[str, Any]:
         else:
             # Fallback: overwrite with new list
             status["degraded_reasons"] = ["voice"]
+
+    # MATRIZ cognitive engine status
+    matriz_version = env_get("MATRIZ_VERSION", "unknown")
+    matriz_rollout = env_get("MATRIZ_ROLLOUT", "disabled")
+    status["matriz"] = {
+        "version": matriz_version,
+        "rollout": matriz_rollout,
+        "enabled": matriz_rollout != "disabled"
+    }
+
+    # Lane configuration
+    lane = env_get("LUKHAS_LANE", "prod")
+    status["lane"] = lane
+
+    # Phase 4 module system (if available)
+    try:
+        import json
+        from pathlib import Path
+        manifest_dir = Path("manifests")
+        if manifest_dir.exists():
+            manifest_count = len(list(manifest_dir.rglob("module.manifest.json")))
+            status["modules"] = {"manifest_count": manifest_count}
+    except Exception:
+        pass
 
     return status
 

@@ -29,6 +29,24 @@ class ModuleManifestValidator:
     """MATRIZ module manifest validation with lane assignment verification."""
 
     def __init__(self):
+        """Initialize validator with empty validation results accumulator.
+
+        Sets up internal state tracking for validation metrics including
+        module counts, lane distribution, and error accumulation. Results
+        are populated during validate_all_modules() execution and accessed
+        via generate_summary_report().
+
+        Args:
+            None
+
+        Returns:
+            None
+
+        Example:
+            >>> validator = ModuleManifestValidator()
+            >>> validator.validation_results['modules_scanned']
+            0
+        """
         self.validation_results = {
             "validation_timestamp": time.strftime("%Y-%m-%dT%H:%M:%S.%f+00:00"),
             "modules_scanned": 0,
@@ -45,30 +63,55 @@ class ModuleManifestValidator:
         }
 
     def find_lukhas_modules(self) -> List[Path]:
-        """Find all LUKHAS AI module directories (post-Phase 5B flat structure)."""
-        # After Phase 5B flattening, modules are at root level
-        # Check manifests/ directory for all manifested modules
+        """Find all LUKHAS AI module directories with root-over-labs preference.
+
+        Discovers modules by scanning manifests/ directory for module.manifest.json
+        files. When duplicate module names exist in both root and labs/ paths,
+        prefers the root path as canonical. This deduplication strategy supports
+        workspace migration from labs/ to root-level module organization.
+
+        Args:
+            None (uses manifests/ directory in current working directory)
+
+        Returns:
+            list[Path]: Sorted unique module paths after deduplication.
+                Empty list if manifests/ directory does not exist or contains
+                no module.manifest.json files.
+
+        Example:
+            >>> validator = ModuleManifestValidator()
+            >>> modules = validator.find_lukhas_modules()
+            >>> all(isinstance(p, Path) for p in modules)
+            True
+        """
         manifests_root = Path("manifests")
         if not manifests_root.exists():
             logger.error("manifests/ directory not found")
             return []
 
-        modules = []
-        # Scan all directories in manifests/ - these are our modules
+        preferred: dict[str, Path] = {}
         for item in manifests_root.rglob("module.manifest.json"):
-            # Get the module path from manifest location
-            # manifests/consciousness/core/module.manifest.json → consciousness/core
             module_rel_path = item.parent.relative_to(manifests_root)
-            module_path = Path(str(module_rel_path))
+            root_path = Path(str(module_rel_path))
+            labs_path = Path("labs") / module_rel_path
+            key = module_rel_path.as_posix().split("/")[-1]
+            # Prefer root path when available; else use labs path
+            if root_path.exists():
+                preferred[key] = root_path
+            elif labs_path.exists():
+                preferred.setdefault(key, labs_path)
 
-            # Check if actual module exists at root
-            if module_path.exists() or Path(f"labs/{module_path}").exists():
-                modules.append(module_path)
-
-        return sorted(set(modules))
+        return sorted(set(preferred.values()))
 
     def load_module_manifest(self, module_path: Path) -> Optional[Dict[str, Any]]:
-        """Load module lane manifest if it exists."""
+        """Load a module's lane manifest if present.
+
+        Args:
+            module_path (Path): Module directory path.
+
+        Returns:
+            dict | None: Parsed manifest dict or None if missing/unreadable.
+        """
         manifest_path = module_path / "module.lane.yaml"
 
         if not manifest_path.exists():
@@ -82,7 +125,15 @@ class ModuleManifestValidator:
             return None
 
     def validate_manifest_structure(self, manifest: Dict[str, Any], module_path: Path) -> List[str]:
-        """Validate manifest structure and required fields."""
+        """Validate manifest structure and required fields.
+
+        Args:
+            manifest (dict): Manifest document to validate.
+            module_path (Path): Module path for context.
+
+        Returns:
+            list[str]: List of human-readable error messages.
+        """
         errors = []
 
         required_fields = ['name', 'lane', 'owner', 'description']
@@ -125,7 +176,15 @@ class ModuleManifestValidator:
         return errors
 
     def validate_lane_assignment_logic(self, manifest: Dict[str, Any], module_name: str) -> List[str]:
-        """Validate that lane assignment makes sense for the module."""
+        """Validate lane assignment semantics for a module.
+
+        Args:
+            manifest (dict): Manifest under evaluation.
+            module_name (str): Module name (used for heuristics).
+
+        Returns:
+            list[str]: List of validation errors, empty if none.
+        """
         errors = []
         lane = manifest.get('lane')
 
@@ -147,7 +206,15 @@ class ModuleManifestValidator:
         return errors
 
     def validate_dependencies(self, manifest: Dict[str, Any], all_modules: Set[str]) -> List[str]:
-        """Validate module dependencies are valid and don't create cycles."""
+        """Validate that dependencies reference known modules and basic structure.
+
+        Args:
+            manifest (dict): Manifest to inspect.
+            all_modules (set[str]): Known module names for existence checks.
+
+        Returns:
+            list[str]: List of dependency-related validation errors.
+        """
         errors = []
 
         if 'dependencies' not in manifest:
@@ -171,7 +238,43 @@ class ModuleManifestValidator:
         return errors
 
     def validate_all_modules(self) -> Dict[str, Any]:
-        """Validate all LUKHAS AI modules."""
+        """Validate all modules discovered in manifests/ with comprehensive checks.
+
+        Orchestrates multi-stage validation pipeline for all discovered modules:
+        1. Module discovery via find_lukhas_modules()
+        2. Manifest loading and existence verification
+        3. Structure validation (required fields, types)
+        4. Lane assignment logic validation
+        5. Dependency resolution validation
+        6. Results aggregation and error accumulation
+
+        Updates internal validation_results state with counts, distributions,
+        and error details for subsequent reporting.
+
+        Args:
+            None (operates on modules discovered in manifests/ directory)
+
+        Returns:
+            dict: Validation results with structure:
+                - validation_timestamp (str): ISO 8601 timestamp
+                - modules_scanned (int): Total modules discovered
+                - modules_with_manifests (int): Modules with valid YAML
+                - modules_missing_manifests (int): Missing module.lane.yaml
+                - lane_distribution (dict): Counts by lane (candidate/integration/production)
+                - validation_errors (list): Deprecated, always empty
+                - missing_manifests (list[str]): Module names without manifests
+                - invalid_manifests (list[dict]): Modules with errors, each containing:
+                    - module (str): Module name
+                    - errors (list[str]): Human-readable error messages
+
+        Example:
+            >>> validator = ModuleManifestValidator()
+            >>> results = validator.validate_all_modules()
+            >>> 'modules_scanned' in results
+            True
+            >>> results['modules_scanned'] >= 0
+            True
+        """
         logger.info("🔍 Starting module manifest validation")
 
         modules = self.find_lukhas_modules()
@@ -222,7 +325,33 @@ class ModuleManifestValidator:
         return self.validation_results
 
     def generate_summary_report(self) -> str:
-        """Generate human-readable validation summary."""
+        """Generate human-readable validation summary report from results.
+
+        Transforms validation_results dictionary into formatted Markdown/plaintext
+        report suitable for console output or documentation. Includes module
+        counts, lane distribution with percentages, missing manifests list,
+        invalid manifests with detailed errors, and overall status assessment.
+
+        Args:
+            None (uses internal validation_results populated by validate_all_modules())
+
+        Returns:
+            str: Multi-line formatted report containing:
+                - Header with total module counts
+                - Lane distribution table with percentages
+                - Missing manifests list (if any)
+                - Invalid manifests with error details (if any)
+                - Overall status (success or issue count)
+
+        Example:
+            >>> validator = ModuleManifestValidator()
+            >>> validator.validate_all_modules()
+            >>> report = validator.generate_summary_report()
+            >>> "MATRIZ Module Manifest Validation Report" in report
+            True
+            >>> "Lane Distribution:" in report
+            True
+        """
         results = self.validation_results
 
         report = []
@@ -266,6 +395,15 @@ class ModuleManifestValidator:
         return "\n".join(report)
 
 def main():
+    """Run module manifest validation and optionally write a JSON report.
+
+    Args:
+        --report: Output JSON filepath for detailed results.
+        --fix: Attempt auto-fixes for common issues (future; currently no-op).
+
+    Returns:
+        int: Process exit code, 0 if all manifests are valid, otherwise 1.
+    """
     parser = argparse.ArgumentParser(description="MATRIZ Module Manifest Validator")
     parser.add_argument("--report",
                        help="Output detailed validation report to JSON file")

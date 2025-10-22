@@ -19,6 +19,15 @@ import pathlib
 
 
 def main():
+    """Generate the Markdown coverage dashboard from metrics JSON.
+
+    Args:
+        --metrics: Path to the unified metrics JSON (from emit_metrics.py).
+        --out: Output Markdown filepath for the dashboard.
+
+    Returns:
+        None: Writes the dashboard file and prints a success message.
+    """
     p = argparse.ArgumentParser(description="Generate coverage dashboard")
     p.add_argument("--metrics", required=True, help="Path to metrics.json")
     p.add_argument("--out", required=True, help="Output Markdown path")
@@ -26,14 +35,26 @@ def main():
 
     metrics = json.loads(pathlib.Path(args.metrics).read_text())
 
-    doc_coverage = metrics.get('doc_coverage', 0)
-    pydocstyle_errors = metrics.get('pydocstyle_errors', 0)
-    spectral_errors = metrics.get('spectral_errors', 0)
+    doc_coverage = metrics.get("doc_coverage", 0)
+    pydocstyle_errors = metrics.get("pydocstyle_errors", 0)
+    spectral_errors = metrics.get("spectral_errors", 0)
 
     # Determine status emojis
     cov_emoji = "✅" if doc_coverage >= 85 else "⚠️" if doc_coverage >= 70 else "❌"
     style_emoji = "✅" if pydocstyle_errors == 0 else "⚠️" if pydocstyle_errors < 10 else "❌"
     spec_emoji = "✅" if spectral_errors == 0 else "⚠️" if spectral_errors < 5 else "❌"
+
+    if doc_coverage >= 85 and pydocstyle_errors == 0 and spectral_errors == 0:
+        next_steps = "### ✅ All targets met! No action required."
+    else:
+        lines = ["### Improvements Needed", ""]
+        if doc_coverage < 85:
+            lines.append(f"- **Docstring Coverage**: Increase from {doc_coverage:.1f}% to ≥85%")
+        if pydocstyle_errors > 0:
+            lines.append(f"- **pydocstyle**: Fix {pydocstyle_errors} style violations")
+        if spectral_errors > 0:
+            lines.append(f"- **Spectral**: Fix {spectral_errors} OpenAPI lint errors")
+        next_steps = "\n".join(lines)
 
     md = f"""# Documentation Coverage Dashboard
 
@@ -71,13 +92,7 @@ def main():
 
 ## 🎯 Next Steps
 
-{'### ✅ All targets met! No action required.' if doc_coverage >= 85 and pydocstyle_errors == 0 and spectral_errors == 0 else f"""
-### Improvements Needed
-
-{f'- **Docstring Coverage**: Increase from {doc_coverage:.1f}% to ≥85%' if doc_coverage < 85 else ''}
-{f'- **pydocstyle**: Fix {pydocstyle_errors} style violations' if pydocstyle_errors > 0 else ''}
-{f'- **Spectral**: Fix {spectral_errors} OpenAPI lint errors' if spectral_errors > 0 else ''}
-"""}
+{next_steps}
 
 ---
 

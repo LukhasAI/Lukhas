@@ -1,0 +1,12 @@
+name: lukhas.memory
+lane: production
+owner: triage@lukhas
+description: ''
+slo:
+  p95_ms:
+    tick: 100
+    reflect: 200
+    decide: 300
+    e2e: 500
+gates: []
+artifacts: []

@@ -1,0 +1,6 @@
+[pydocstyle]
+convention = google
+add-ignore = D104,D203
+# Only check scripts/ in this pass; skip noisy/legacy dirs
+match-dir = (?!(\.venv|node_modules|build|dist|manifests|docs|tests|legacy|lukhas|matriz|api)).*
+match = (?!test_).*\.py

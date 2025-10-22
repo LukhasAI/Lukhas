@@ -24,6 +24,17 @@ import re
 
 
 def main():
+    """Heuristically validate docstring semantic completeness.
+
+    Args:
+        --roots: One or more root directories to scan for Python files.
+        --report: Output Markdown report path.
+        --no-llm: Skip any LLM-based checks (heuristics only).
+        --llm: Optional model name for future semantic checks.
+
+    Returns:
+        None: Writes a report summarizing missing module/function docstrings.
+    """
     p = argparse.ArgumentParser(description="Validate docstring semantics")
     p.add_argument("--roots", nargs="+", required=True, help="Root directories to analyze")
     p.add_argument("--report", required=True, help="Output Markdown report path")

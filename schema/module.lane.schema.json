@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lukhas.ai/schema/module.lane.schema.json",
+  "title": "Module Lane Schema",
+  "type": "object",
+  "properties": {
+    "name": {"type": "string"},
+    "lane": {"type": "string", "enum": ["candidate", "integration", "production"]},
+    "owner": {"type": "string"},
+    "description": {"type": "string"},
+    "slo": {
+      "type": "object",
+      "properties": {
+        "p95_ms": {
+          "type": "object",
+          "properties": {
+            "tick": {"type": "number"},
+            "reflect": {"type": "number"},
+            "decide": {"type": "number"},
+            "e2e": {"type": "number"}
+          },
+          "required": ["tick", "reflect", "decide", "e2e"],
+          "additionalProperties": false
+        }
+      },
+      "required": ["p95_ms"],
+      "additionalProperties": true
+    },
+    "gates": {"type": "array"},
+    "artifacts": {"type": "array"}
+  },
+  "required": ["name", "lane", "owner", "slo"],
+  "additionalProperties": true
+}

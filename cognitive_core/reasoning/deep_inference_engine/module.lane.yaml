@@ -1,0 +1,12 @@
+name: lukhas.cognitive_core.reasoning.deep_inference_engine
+lane: production
+owner: unassigned
+description: ''
+slo:
+  p95_ms:
+    tick: 100
+    reflect: 200
+    decide: 300
+    e2e: 500
+gates: []
+artifacts: []

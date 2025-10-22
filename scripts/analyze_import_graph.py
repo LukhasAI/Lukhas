@@ -1,4 +1,11 @@
 #!/usr/bin/env python3
+"""
+Module: analyze_import_graph.py
+
+This module is part of the LUKHAS repository.
+Add detailed documentation and examples as needed.
+"""
+
 import ast
 import sys
 from collections import defaultdict

@@ -1,5 +1,18 @@
 # .pre-commit-config.yaml
 repos:
+  # Basic hygiene hooks - keep files pristine
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: end-of-file-fixer
+        exclude: ^(\.git/|__pycache__|\.pytest_cache/)
+      - id: trailing-whitespace
+        exclude: ^(\.git/|__pycache__|\.pytest_cache/)
+      - id: check-yaml
+        exclude: ^(candidate/|\.github/)
+      - id: check-added-large-files
+        args: [--maxkb=1000]
+
   - repo: https://github.com/psf/black
     rev: 24.8.0
     hooks:

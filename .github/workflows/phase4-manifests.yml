@@ -1,0 +1,175 @@
+name: Phase 4 — Manifests Regeneration Pipeline
+
+on:
+  workflow_dispatch:
+    inputs:
+      canary_fraction:
+        description: "Fraction (0..1) for canary sample"
+        required: false
+        default: "0.10"
+      write_context:
+        description: "Also write lukhas_context.md for modules"
+        required: false
+        default: "false"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  preflight:
+    name: Pre-flight Checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install tooling
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml jsonschema
+      - name: Step 0.1 — Pin digests (if script present)
+        continue-on-error: true
+        run: |
+          if [ -f scripts/pin_phase4_digests.py ]; then \
+            python scripts/pin_phase4_digests.py --out docs/audits/phase4_digests.json; \
+          else \
+            echo "No pin_phase4_digests.py; skipping."; \
+          fi
+      - name: Step 0.2 — Verify Star Canon
+        run: |
+          python scripts/check_star_canon_sync.py
+      - name: Step 0.3 — Rollback worktree plan (no-op)
+        run: |
+          echo "To rollback: git worktree add ../Lukhas-phase4-rollback $GITHUB_SHA"
+      - name: Step 0.4 — Contract references health
+        run: |
+          python scripts/validate_contract_refs.py || true
+      - name: Step 0.5 — Context front-matter sanity
+        run: |
+          python scripts/validate_context_front_matter.py || true
+      - name: Step 0.6 — Import map snapshot
+        run: |
+          if [ -f scripts/build_import_map.py ]; then \
+            python scripts/build_import_map.py; \
+          else \
+            echo "No build_import_map.py; skipping."; \
+          fi
+      - name: Upload preflight artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase4-preflight
+          path: |
+            docs/audits/phase4_digests.json
+            docs/audits/import_map.json
+          if-no-files-found: ignore
+
+  canary:
+    name: Canary Build (Stratified)
+    runs-on: ubuntu-latest
+    needs: [preflight]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Build 10% canary list
+        run: |
+          mkdir -p docs/audits
+          python scripts/phase4_build_canary.py \
+            --size ${{ inputs.canary_fraction }} \
+            --out docs/audits/phase4_canary_list.txt
+          head -n 20 docs/audits/phase4_canary_list.txt || true
+      - name: Upload canary list
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase4-canary-list
+          path: docs/audits/phase4_canary_list.txt
+
+  approval:
+    name: Manual Approval Gate
+    runs-on: ubuntu-latest
+    needs: [canary]
+    steps:
+      - name: Await approval
+        uses: trstringer/manual-approval@v1
+        with:
+          secret: ${{ github.TOKEN }}
+          approvers: ${{ github.actor }}
+          minimum-approvals: 1
+          issue-title: "Phase 4 Full Regeneration Approval"
+          issue-body: "Approve to proceed with full manifest regeneration."
+
+  regenerate:
+    name: Full Regeneration (Manifests)
+    runs-on: ubuntu-latest
+    needs: [approval]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+      - name: Generate all manifests
+        run: |
+          python scripts/generate_module_manifests.py \
+            --inventory docs/audits/COMPLETE_MODULE_INVENTORY.json \
+            --out manifests \
+            --star-canon scripts/star_canon.json \
+            $([ "${{ inputs.write_context }}" = "true" ] && echo "--write-context" )
+      - name: Generate missing manifests (best-effort)
+        continue-on-error: true
+        run: |
+          python scripts/validate_module_manifests.py --fix || true
+      - name: Tar manifests
+        run: |
+          tar -czf manifests_phase4.tar.gz manifests
+      - name: Upload manifests bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: manifests-phase4
+          path: manifests_phase4.tar.gz
+
+  validate:
+    name: Validation Suite
+    runs-on: ubuntu-latest
+    needs: [regenerate]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml jsonschema import-linter
+      - name: Validate module manifests
+        run: |
+          python scripts/validate_module_manifests.py --report docs/audits/manifest_validation_phase4.json || true
+      - name: Contract references
+        run: |
+          python scripts/validate_contract_refs.py || true
+      - name: Star canon sanity
+        run: |
+          python scripts/check_star_canon_sync.py || true
+      - name: Lane guard (imports)
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+        run: |
+          # PRODUCTION must not import candidate or labs
+          lint-imports --config .importlinter
+      - name: Upload validation artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase4-validation
+          path: |
+            docs/audits/manifest_validation_phase4.json
+          if-no-files-found: ignore
+
