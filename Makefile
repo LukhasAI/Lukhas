@@ -17,7 +17,7 @@
 .PHONY: meta-registry ledger-check trends validate-t4 validate-t4-strict tag-prod freeze-verify freeze-guardian freeze-guardian-once dashboard-sync init-dev-branch
 .PHONY: docs-map docs-migrate-auto docs-migrate-dry docs-lint validate-structure module-health vault-audit vault-audit-vault star-rules-lint star-rules-coverage promotions
 .PHONY: lint-json lint-fix lint-delta f401-tests import-map imports-abs imports-graph ruff-heatmap ruff-ratchet f821-suggest f706-detect f811-detect todos todos-issues codemod-dry codemod-apply check-legacy-imports
-.PHONY: state-sweep shadow-diff plan-colony-renames
+.PHONY: state-sweep shadow-diff plan-colony-renames integration-manifest
 
 # Note: Additional PHONY targets are declared in mk/*.mk include files
 
@@ -611,18 +611,30 @@ types-enforce-trend: types-enforce types-trend
 # T4 TEST FRAMEWORK - Deterministic Policy & Golden Discipline
 # ==============================================================================
 
-.PHONY: audit test-tier1 test-all test-fast test-report test-clean spec-lint contract-check specs-sync test-goldens
+.PHONY: audit test-tier1 test-all test-fast test-report test-clean spec-lint contract-check specs-sync test-goldens hidden-gems
 
 # T4 audit - zero collection errors required
-audit:
-	@echo "🔍 Running T4 test collection audit..."
-	@$(PYTHON) scripts/audit_tests.py
+audit: ## Generate audit snapshot (one-command auditor UX)
+	@make audit-snapshot
+	@echo "✅ Audit snapshot generated"
+	@echo "📖 Open AUDIT_README.md for entry point"
 
 audit-pack: ## Generate comprehensive audit packet for external review
 	@bash scripts/make_audit_packet.sh
 
 audit-snapshot: ## Generate live audit snapshot (OpenAPI, Ruff, Health)
 	@bash scripts/audit_snapshot.sh
+
+hidden-gems: ## Analyze isolated modules and find hidden gems (0.01% quality)
+	@python3 scripts/analyze_hidden_gems.py
+	@echo ""
+	@echo "📖 See docs/audits/hidden_gems_top20.md for actionable insights"
+
+integration-manifest: ## Generate comprehensive integration manifest for all 193 hidden gems
+	@python3 scripts/generate_integration_manifest.py
+	@echo ""
+	@echo "📋 Integration manifest: docs/audits/integration_manifest.json"
+	@echo "📖 Integration guide: docs/audits/INTEGRATION_GUIDE.md"
 
 test-clean:
 	@find . -name '__pycache__' -type d -prune -exec rm -rf {} + || true
