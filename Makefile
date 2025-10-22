@@ -1687,7 +1687,7 @@ phase4-all: phase4-preflight phase4-canary phase4-manifests phase4-validate ## R
 	@echo "✅ Phase 4 local run complete."
 
 # RC Soak Operations (48-72h monitoring window)
-.PHONY: rc-soak-start rc-soak-snapshot rc-synthetic-load rc-soak-stop
+.PHONY: rc-soak-start rc-soak-snapshot rc-synthetic-load rc-soak-stop rc-soak-quick
 
 rc-soak-start: ## Start RC soak server (48-72h monitoring window)
 	@echo "🚀 Starting RC soak (48-72h window)..."
@@ -1720,3 +1720,11 @@ rc-soak-stop: ## Stop RC soak server
 	else \
 		echo "⚠️  No PID file found. Server may not be running."; \
 	fi
+
+rc-soak-quick: ## Quick RC soak validation (5 min, low QPS)
+	@echo "🚀 Starting quick RC soak validation..."
+	@LUKHAS_API_URL=${LUKHAS_API_URL:-http://localhost:8000} \
+	PROMETHEUS_URL=${PROMETHEUS_URL:-http://localhost:9090} \
+	bash scripts/ops/rc_synthetic_load.sh 50 2
+	@bash scripts/ops/rc_soak_snapshot.sh
+	@echo "✅ Quick soak complete. Check docs/audits/health/$(shell date +%Y-%m-%d)/"
