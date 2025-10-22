@@ -621,6 +621,9 @@ audit:
 audit-pack: ## Generate comprehensive audit packet for external review
 	@bash scripts/make_audit_packet.sh
 
+audit-snapshot: ## Generate live audit snapshot (OpenAPI, Ruff, Health)
+	@bash scripts/audit_snapshot.sh
+
 test-clean:
 	@find . -name '__pycache__' -type d -prune -exec rm -rf {} + || true
 
