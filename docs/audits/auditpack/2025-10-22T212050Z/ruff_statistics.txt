@@ -1,0 +1,14 @@
+81	RUF100	[*] unused-noqa
+37	I001  	[*] unsorted-imports
+34	E402  	[ ] module-import-not-at-top-of-file
+32	F821  	[ ] undefined-name
+ 8	E722  	[ ] bare-except
+ 7	F841  	[*] unused-variable
+ 6	F402  	[ ] import-shadowed-by-loop-var
+ 3	      	[ ] syntax-error
+ 3	F401  	[ ] unused-import
+ 3	F706  	[ ] return-outside-function
+ 2	E902  	[ ] io-error
+ 2	F704  	[ ] yield-outside-function
+ 1	W293  	[*] blank-line-with-whitespace
+ 1	F405  	[ ] undefined-local-with-import-star-usage

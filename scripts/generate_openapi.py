@@ -24,10 +24,8 @@ def main():
     if str(repo_root) not in sys.path:
         sys.path.insert(0, str(repo_root))
 
-    # Import FastAPI app factory
-    from adapters.openai.api import get_app
-
-    app = get_app()
+    # Import FastAPI app
+    from serve.main import app
     spec = app.openapi()
 
     # Polish metadata

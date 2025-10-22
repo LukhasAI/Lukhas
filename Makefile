@@ -618,6 +618,9 @@ audit:
 	@echo "🔍 Running T4 test collection audit..."
 	@$(PYTHON) scripts/audit_tests.py
 
+audit-pack: ## Generate comprehensive audit packet for external review
+	@bash scripts/make_audit_packet.sh
+
 test-clean:
 	@find . -name '__pycache__' -type d -prune -exec rm -rf {} + || true
 
