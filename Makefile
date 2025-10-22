@@ -1685,3 +1685,38 @@ phase4-validate: ## Validate manifests and write report
 
 phase4-all: phase4-preflight phase4-canary phase4-manifests phase4-validate ## Run full Phase 4 flow
 	@echo "✅ Phase 4 local run complete."
+
+# RC Soak Operations (48-72h monitoring window)
+.PHONY: rc-soak-start rc-soak-snapshot rc-synthetic-load rc-soak-stop
+
+rc-soak-start: ## Start RC soak server (48-72h monitoring window)
+	@echo "🚀 Starting RC soak (48-72h window)..."
+	@mkdir -p docs/audits/health/$(shell date +%Y-%m-%d)
+	@mkdir -p /tmp/lukhas-logs
+	@echo "📝 Logs will be written to /tmp/lukhas-logs/rc-soak.log"
+	@nohup uvicorn lukhas.adapters.openai.api:get_app --factory --port 8000 > /tmp/lukhas-logs/rc-soak.log 2>&1 &
+	@echo $$! > /tmp/lukhas-logs/rc-soak.pid
+	@echo "✅ RC soak started (PID: $$(cat /tmp/lukhas-logs/rc-soak.pid))"
+	@echo "📊 Access: http://localhost:8000"
+	@echo "📈 Metrics: http://localhost:8000/metrics"
+	@echo "📋 Health: http://localhost:8000/health"
+
+rc-soak-snapshot: ## Capture RC soak health snapshot (daily during 48-72h window)
+	@echo "📸 Capturing RC soak snapshot..."
+	@bash scripts/ops/rc_soak_snapshot.sh
+	@echo "✅ Snapshot saved to docs/audits/health/$$(date +%Y-%m-%d)/latest.{json,md}"
+
+rc-synthetic-load: ## Generate synthetic load for RC soak testing (default: 100 requests)
+	@echo "🔥 Generating synthetic load..."
+	@bash scripts/ops/rc_synthetic_load.sh $(REQUESTS)
+	@echo "✅ Load generation complete"
+
+rc-soak-stop: ## Stop RC soak server
+	@echo "🛑 Stopping RC soak..."
+	@if [ -f /tmp/lukhas-logs/rc-soak.pid ]; then \
+		kill $$(cat /tmp/lukhas-logs/rc-soak.pid) 2>/dev/null || true; \
+		rm /tmp/lukhas-logs/rc-soak.pid; \
+		echo "✅ RC soak stopped"; \
+	else \
+		echo "⚠️  No PID file found. Server may not be running."; \
+	fi
