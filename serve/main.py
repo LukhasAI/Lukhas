@@ -140,16 +140,8 @@ def voice_core_available() -> bool:
         return False
 
 
-@app.get("/healthz")
-def healthz() -> dict[str, Any]:
-    """Health check endpoint for monitoring.
-
-    Behavior:
-    - Always returns HTTP 200 for readiness consumers.
-    - When LUKHAS_VOICE_REQUIRED=true and the lightweight probe fails,
-      include 'voice' in `degraded_reasons` and set `voice_mode` to 'degraded'.
-    - Exposes MATRIZ version, enabled modules, and lane configuration.
-    """
+def _get_health_status() -> dict[str, Any]:
+    """Get health status for both /health and /healthz endpoints."""
     status: dict[str, Any] = {"status": "ok"}
 
     # Voice subsystem check
@@ -193,6 +185,93 @@ def healthz() -> dict[str, Any]:
         pass
 
     return status
+
+
+@app.get("/healthz")
+def healthz() -> dict[str, Any]:
+    """Health check endpoint for monitoring.
+
+    Behavior:
+    - Always returns HTTP 200 for readiness consumers.
+    - When LUKHAS_VOICE_REQUIRED=true and the lightweight probe fails,
+      include 'voice' in `degraded_reasons` and set `voice_mode` to 'degraded'.
+    - Exposes MATRIZ version, enabled modules, and lane configuration.
+    """
+    return _get_health_status()
+
+
+@app.get("/health", include_in_schema=False)
+def health_alias() -> dict[str, Any]:
+    """Health check alias for ops scripts compatibility."""
+    return _get_health_status()
+
+
+# OpenAI-compatible v1 API endpoints for RC soak testing
+@app.post("/v1/embeddings", tags=["OpenAI Compatible"])
+async def create_embeddings(request: dict) -> dict[str, Any]:
+    """OpenAI-compatible embeddings endpoint (stub for RC soak testing)."""
+    input_text = request.get("input", "")
+    model = request.get("model", "text-embedding-ada-002")
+
+    # Return minimal valid OpenAI response
+    # In production, this would call actual embedding service
+    import hashlib
+    import time
+
+    # Generate deterministic embedding vector (stub)
+    embedding = [0.0] * 1536  # Standard embedding dimension
+
+    return {
+        "object": "list",
+        "data": [
+            {
+                "object": "embedding",
+                "embedding": embedding,
+                "index": 0
+            }
+        ],
+        "model": model,
+        "usage": {
+            "prompt_tokens": len(str(input_text).split()),
+            "total_tokens": len(str(input_text).split())
+        }
+    }
+
+
+@app.post("/v1/chat/completions", tags=["OpenAI Compatible"])
+async def create_chat_completion(request: dict) -> dict[str, Any]:
+    """OpenAI-compatible chat completions endpoint (stub for RC soak testing)."""
+    messages = request.get("messages", [])
+    model = request.get("model", "gpt-4")
+    max_tokens = request.get("max_tokens", 100)
+
+    # Return minimal valid OpenAI response
+    # In production, this would call actual LLM service
+    import time
+
+    response_text = "This is a stub response for RC soak testing."
+
+    return {
+        "id": f"chatcmpl-{int(time.time())}",
+        "object": "chat.completion",
+        "created": int(time.time()),
+        "model": model,
+        "choices": [
+            {
+                "index": 0,
+                "message": {
+                    "role": "assistant",
+                    "content": response_text
+                },
+                "finish_reason": "stop"
+            }
+        ],
+        "usage": {
+            "prompt_tokens": sum(len(str(m.get("content", "")).split()) for m in messages),
+            "completion_tokens": len(response_text.split()),
+            "total_tokens": sum(len(str(m.get("content", "")).split()) for m in messages) + len(response_text.split())
+        }
+    }
 
 
 # Expose raw OpenAPI for artifacting

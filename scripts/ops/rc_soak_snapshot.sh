@@ -2,7 +2,7 @@
 # RC Soak Health Snapshot
 # Captures system health metrics and generates JSON + Markdown reports
 
-set -euo pipefail
+set -eo pipefail
 
 DATE=$(date +%Y-%m-%d)
 TIME=$(date +%H:%M:%S)
@@ -16,7 +16,7 @@ echo "📸 Capturing RC soak snapshot at ${TIMESTAMP}..."
 # Helper: Check service health
 check_service() {
     local url=$1
-    if curl -sf "${url}" > /dev/null 2>&1; then
+    if curl -sf --max-time 2 "${url}" > /dev/null 2>&1; then
         echo "true"
     else
         echo "false"
@@ -26,8 +26,13 @@ check_service() {
 # Collect Prometheus metrics
 get_prometheus_metric() {
     local query=$1
-    curl -s "http://localhost:9090/api/v1/query?query=${query}" 2>/dev/null \
-        | jq -r '.data.result[0].value[1] // "N/A"'
+    local result
+    result=$(curl -s --max-time 2 "http://localhost:9090/api/v1/query?query=${query}" 2>/dev/null || echo "")
+    if [[ -z "$result" ]]; then
+        echo "N/A"
+    else
+        echo "$result" | jq -r '.data.result[0].value[1] // "N/A"' 2>/dev/null || echo "N/A"
+    fi
 }
 
 # System uptime
@@ -45,7 +50,7 @@ GRAFANA_UP=$(check_service "http://localhost:3000/api/health")
 FACADE_UP=$(check_service "http://localhost:8000/health")
 
 # Facade health details
-FACADE_HEALTH=$(curl -sf "http://localhost:8000/health" 2>/dev/null || echo '{"status":"DOWN"}')
+FACADE_HEALTH=$(curl -sf --max-time 2 "http://localhost:8000/health" 2>/dev/null || echo '{"status":"DOWN"}')
 
 # Prometheus metrics (if available)
 GUARDIAN_DENIALS_24H=$(get_prometheus_metric 'increase(guardian_policy_denials_total[24h])')

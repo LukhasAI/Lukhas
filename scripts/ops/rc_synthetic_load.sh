@@ -14,6 +14,22 @@ echo "   Requests: ${REQUESTS}"
 echo "   Concurrent: ${CONCURRENT}"
 echo ""
 
+# Determine which health endpoint to use (prefer /healthz, fallback to /health)
+HEALTH_ENDPOINT="/healthz"
+echo "🔍 Checking health endpoint..."
+if curl -sf "${BASE_URL}/healthz" > /dev/null 2>&1; then
+    echo "✅ Using /healthz endpoint"
+    HEALTH_ENDPOINT="/healthz"
+elif curl -sf "${BASE_URL}/health" > /dev/null 2>&1; then
+    echo "✅ Using /health endpoint (fallback)"
+    HEALTH_ENDPOINT="/health"
+else
+    echo "❌ Neither /healthz nor /health responding at ${BASE_URL}"
+    echo "   Server may not be running. Start with: make rc-soak-start"
+    exit 1
+fi
+echo ""
+
 # Counters
 SUCCESS=0
 FAILURES=0
@@ -79,7 +95,7 @@ for i in $(seq 1 "${REQUESTS}"); do
     
     # Add health check every 20 requests
     if (( i % 20 == 0 )); then
-        curl -sf "${BASE_URL}/health" > /dev/null 2>&1 || echo -n "!"
+        curl -sf "${BASE_URL}${HEALTH_ENDPOINT}" > /dev/null 2>&1 || echo -n "!"
     fi
     
     # Small delay to simulate realistic traffic
