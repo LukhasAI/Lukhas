@@ -1,17 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git rev-parse --short HEAD)",
-      "Bash(export SEED=c6482b15c)",
-      "Bash(.venv/bin/pip show import-linter)",
-      "Bash(.venv/bin/lint-imports --version)",
-      "Bash(pip3 install:*)",
-      "Bash(openapi-spec-validator:*)",
-      "Bash(git config:*)",
-      "Bash(do echo \"=== Checking $b ===\" git log main..\"$b\" --oneline)",
-      "Bash(git show-ref:*)",
-      "Bash(curl:*)",
-      "Bash(do sed -i '' 's/get_app()/app/g' \"$file\")"
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": [],
