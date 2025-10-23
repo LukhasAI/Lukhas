@@ -256,6 +256,76 @@ make facade-smoke      # Run OpenAI façade smoke tests
 
 ---
 
+## 🤖 Codex Execution Packages
+
+### OpenAI Façade Fast-Track
+
+**Location**: [`docs/codex/FACADE_FAST_TRACK.md`](./docs/codex/FACADE_FAST_TRACK.md)
+
+**Purpose**: Drop-in execution package for implementing OpenAI-compatible API endpoints with zero guesswork
+
+**What It Contains**:
+- ✅ Complete step-by-step playbook (9 phases)
+- ✅ Preflight detection scripts (find entrypoint, check for modules)
+- ✅ Production-safe patches (surgical diffs only)
+- ✅ Tool usage examples (Read, Write, Edit, Bash, Glob, Grep)
+- ✅ Verification commands (curl smoke tests, pytest, acceptance gates)
+- ✅ T4 commit templates
+- ✅ Error recovery strategies
+
+**Endpoints Delivered**:
+- `GET /v1/models` - Model catalog (OpenAI list envelope)
+- `POST /v1/embeddings` - Deterministic hash-based embeddings
+- `POST /v1/responses` - Non-stream response generation
+- `GET /health` - Ops tooling alias for `/healthz`
+
+**Optional Wave B** (only if modules exist):
+- Wire `quota_resolver` into rate limit headers
+- Enable SSE streaming via `async_orchestrator`
+
+**Tools Referenced**:
+- 📖 `Read(file_path)` - Read file contents before editing
+- ✏️ `Write(file_path, content)` - Create new files (routers)
+- 🔧 `Edit(file_path, old, new)` - Surgical patches to existing files
+- 🔍 `Glob(pattern)` - Find files by pattern
+- 🔎 `Grep(pattern)` - Search file contents
+- ⚡ `Bash(command)` - Execute shell commands, tests, git
+- 🚀 `Task(prompt, agent)` - Launch specialized agents
+
+**Success Metrics**:
+- Smoke pass rate: 61% → 90%+
+- All /v1/* endpoints operational
+- Embeddings: Unique deterministic vectors
+- RC soak: >95% success, no 404s
+
+### Integration Manifest Execution
+
+**Location**: [`docs/audits/INTEGRATION_MANIFEST_SUMMARY.md`](./docs/audits/INTEGRATION_MANIFEST_SUMMARY.md)
+
+**Purpose**: Systematic integration of 193 hidden gems into production MATRIZ structure
+
+**What It Contains**:
+- ✅ JSON manifest (325KB) - Codex-friendly structured data
+- ✅ Integration guide (6,987 lines) - Step-by-step instructions per module
+- ✅ 9-step workflow per module (REVIEW → COMMIT)
+- ✅ MATRIZ location mapping rules
+- ✅ Complexity scoring (low/medium/high)
+- ✅ Effort estimates (2-24 hours per module)
+
+**Tools Referenced**:
+- 📋 `jq` queries - Filter manifest by complexity, score, location
+- 📂 `git mv` - Preserve history when moving modules
+- 🧪 `pytest` - Integration and smoke tests
+- 📝 `git commit` - T4 format with detailed artifacts
+
+**Commands**:
+```bash
+make integration-manifest  # Generate manifest
+jq '.modules[] | select(.complexity == "low")' docs/audits/integration_manifest.json
+```
+
+---
+
 ## Agent Workflow Patterns
 
 ### Before Starting Work
