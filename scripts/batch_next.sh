@@ -6,6 +6,11 @@ DONE_FILE="${BATCH_FILE}.done"
 REPO_ROOT="${LUKHAS_REPO:-$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)}"
 cd "$REPO_ROOT"
 
+# Activate virtualenv if available
+if [ -f ".venv/bin/activate" ]; then
+  source .venv/bin/activate
+fi
+
 # Pick first line not in DONE
 NEXT_LINE="$(comm -23 <(sort -u "$BATCH_FILE") <(sort -u "$DONE_FILE" 2>/dev/null || true) | head -n 1 || true)"
 [ -n "$NEXT_LINE" ] || { echo "✅ No more items in $BATCH_FILE"; exit 0; }
