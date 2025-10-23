@@ -8,6 +8,9 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence
 
+# ΛTAG: hidden_gems_summary_formatting
+SummaryPayload = Dict[str, Any]
+
 # ΛTAG: hidden_gems_summary
 
 _REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -110,37 +113,75 @@ def summarize_by_lane(gems: Sequence[HiddenGem]) -> Dict[str, Dict[str, float]]:
     return summary
 
 
+# ΛTAG: hidden_gems_summary_payload
+def build_summary_payload(gems: Sequence[HiddenGem], *, top_n: int = 5) -> SummaryPayload:
+    """Return a machine-readable snapshot for the provided hidden gems."""
+
+    if not gems:
+        return {
+            "total_modules": 0,
+            "total_effort_hours": 0.0,
+            "lanes": {},
+            "top_modules": [],
+        }
+
+    lane_summary = summarize_by_lane(gems)
+    total_effort = sum(gem.effort_hours for gem in gems)
+    total_modules = len(gems)
+    top_modules = sorted(gems, key=lambda gem: gem.score, reverse=True)[: top_n or 0]
+
+    return {
+        "total_modules": total_modules,
+        "total_effort_hours": total_effort,
+        "lanes": {
+            lane: {
+                "count": int(stats["count"]),
+                "effort_hours": float(stats["effort"]),
+            }
+            for lane, stats in sorted(lane_summary.items())
+        },
+        "top_modules": [
+            {
+                "module": gem.module,
+                "score": float(gem.score),
+                "effort_hours": float(gem.effort_hours),
+                "target_location": gem.target_location,
+            }
+            for gem in top_modules
+        ],
+    }
+
+
 def format_summary(gems: Sequence[HiddenGem], *, top_n: int = 5) -> str:
     """Create a human-readable summary for the filtered hidden gems."""
 
     if not gems:
         return "No hidden gems match the provided filters."
 
-    lane_summary = summarize_by_lane(gems)
-    total_effort = sum(gem.effort_hours for gem in gems)
-    total_modules = len(gems)
+    payload = build_summary_payload(gems, top_n=top_n)
 
     lines = [
         "Hidden Gems Integration Summary",
         "--------------------------------",
-        f"Total modules: {total_modules}",
-        f"Total effort hours: {total_effort:.1f}",
+        f"Total modules: {payload['total_modules']}",
+        f"Total effort hours: {payload['total_effort_hours']:.1f}",
         "",
         "By lane:",
     ]
 
-    for lane, stats in sorted(lane_summary.items()):
+    for lane, stats in payload["lanes"].items():
         lines.append(
-            f"- {lane}: {int(stats['count'])} modules · {stats['effort']:.1f} effort hours"
+            f"- {lane}: {int(stats['count'])} modules · {stats['effort_hours']:.1f} effort hours"
         )
 
     lines.append("")
-    lines.append(f"Top {min(top_n, total_modules)} modules by score:")
+    top_modules = payload["top_modules"]
+    display_count = len(top_modules)
+    lines.append(f"Top {display_count} modules by score:")
 
-    top_modules = sorted(gems, key=lambda gem: gem.score, reverse=True)[:top_n]
     for gem in top_modules:
         lines.append(
-            f"- {gem.score:.1f} · {gem.module} → {gem.target_location} ({gem.effort_hours:.1f}h)"
+            f"- {gem['score']:.1f} · {gem['module']} → {gem['target_location']} ({gem['effort_hours']:.1f}h)"
         )
 
     return "\n".join(lines)
@@ -187,6 +228,12 @@ def _build_parser() -> argparse.ArgumentParser:
         default=5,
         help="Number of top modules by score to display",
     )
+    parser.add_argument(
+        "--format",
+        choices=("text", "json"),
+        default="text",
+        help="Output format: human-readable text (default) or JSON snapshot",
+    )
     return parser
 
 
@@ -201,8 +248,12 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     gems = extract_hidden_gems(
         manifest_payload, min_score=args.min_score, complexity=args.complexity
     )
-    summary = format_summary(gems, top_n=args.top)
-    print(summary)
+    if args.format == "json":
+        payload = build_summary_payload(gems, top_n=args.top)
+        print(json.dumps(payload, indent=2, sort_keys=True))
+    else:
+        summary = format_summary(gems, top_n=args.top)
+        print(summary)
     return 0
 
 

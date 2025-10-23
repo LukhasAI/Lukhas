@@ -6,9 +6,11 @@ import pytest
 from scripts.hidden_gems_summary import (
     HiddenGem,
     ManifestFormatError,
+    build_summary_payload,
     extract_hidden_gems,
     format_summary,
     load_manifest,
+    main,
     summarize_by_lane,
 )
 
@@ -83,3 +85,56 @@ def test_summarize_and_format_summary_output() -> None:
     assert "matriz: 1 modules" in rendered
     assert "labs.module_a" in rendered
     assert "labs.module_b" in rendered
+
+
+def test_build_summary_payload_returns_machine_readable_snapshot() -> None:
+    gems = [
+        HiddenGem(
+            module="labs.module_a",
+            score=95.0,
+            complexity="low",
+            effort_hours=4.5,
+            target_location="core/module_a.py",
+        ),
+        HiddenGem(
+            module="labs.module_b",
+            score=90.0,
+            complexity="low",
+            effort_hours=2.0,
+            target_location="matriz/module_b.py",
+        ),
+    ]
+
+    payload = build_summary_payload(gems, top_n=1)
+
+    assert payload["total_modules"] == 2
+    assert payload["lanes"]["core"]["count"] == 1
+    assert payload["lanes"]["matriz"]["effort_hours"] == pytest.approx(2.0)
+    assert payload["top_modules"][0]["module"] == "labs.module_a"
+
+
+def test_cli_json_output(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    manifest_path = tmp_path / "manifest.json"
+    manifest_path.write_text(
+        json.dumps(
+            {
+                "modules": [
+                    {
+                        "module": "labs.module_a",
+                        "score": 95.0,
+                        "complexity": "low",
+                        "effort_hours": 4.5,
+                        "target_location": "core/module_a.py",
+                    }
+                ]
+            }
+        )
+    )
+
+    exit_code = main(["--manifest", str(manifest_path), "--format", "json", "--top", "1"])
+    captured = capsys.readouterr()
+
+    assert exit_code == 0
+    payload = json.loads(captured.out)
+    assert payload["total_modules"] == 1
+    assert payload["top_modules"][0]["module"] == "labs.module_a"
