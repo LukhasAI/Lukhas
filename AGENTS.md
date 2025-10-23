@@ -1,5 +1,5 @@
 # LUKHAS Agent Coordination System
-**Status**: Active | **Updated**: 2025-10-15 | **Schema**: 3.0 (Generic - Matriz & Navigation Focus)
+**Status**: Active | **Updated**: 2025-10-23 | **Schema**: 3.1 (Codex Integration + Parallel Workflows)
 
 ---
 
@@ -300,29 +300,64 @@ make facade-smoke      # Run OpenAI façade smoke tests
 
 ### Integration Manifest Execution
 
-**Location**: [`docs/audits/INTEGRATION_MANIFEST_SUMMARY.md`](./docs/audits/INTEGRATION_MANIFEST_SUMMARY.md)
+**Location**: [`docs/AGENT_CODEX_HIDDEN_GEMS_INTEGRATION.md`](./docs/AGENT_CODEX_HIDDEN_GEMS_INTEGRATION.md)
 
-**Purpose**: Systematic integration of 193 hidden gems into production MATRIZ structure
+**Purpose**: Systematic integration of 193 hidden gems into production MATRIZ structure with **parallel 3-lane execution**
+
+**Status Update (2025-10-23)**:
+- ✅ **Phase 1 Complete**: 27 modules integrated (14% complete)
+- ✅ **Automation Enhanced**: 6 PRs merged for tooling improvements
+- ✅ **Parallel Ready**: 3-lane batch system operational
+- ⚠️ **Phase 4 Manual**: MATRIZ schema generation needs automation
 
 **What It Contains**:
-- ✅ JSON manifest (325KB) - Codex-friendly structured data
-- ✅ Integration guide (6,987 lines) - Step-by-step instructions per module
-- ✅ 9-step workflow per module (REVIEW → COMMIT)
+- ✅ Parallel execution strategy - 3-lane (3x speedup) or 7-agent (7x speedup)
+- ✅ Phase automation analysis - Phases 3, 5, 6 automated
+- ✅ Enhanced hidden_gems_summary.py - JSON output + lane filtering
+- ✅ Batch integration scripts - pytest fallback, error handling
+- ✅ Integration guide - Step-by-step per module
 - ✅ MATRIZ location mapping rules
 - ✅ Complexity scoring (low/medium/high)
 - ✅ Effort estimates (2-24 hours per module)
 
+**Recent Enhancements** (6 PRs merged):
+- 🔧 **PR #486**: JSON reporting for hidden_gems_summary.py
+- 🎯 **PR #485**: Lane filtering (--lane matriz|core|serve)
+- 🛡️ **PR #479**: CLI hardening with defensive error handling
+- 🧪 **PR #484**: pytest fallback for batch integration
+- ⚙️ **PR #482**: Makefile batch_next_auto fix
+- 📝 **PR #477**: Execute permissions restored
+
 **Tools Referenced**:
-- 📋 `jq` queries - Filter manifest by complexity, score, location
+- 📊 `hidden_gems_summary.py` - Enhanced with JSON output, lane filtering
+- 📋 `batch_next.sh` - Automated Phases 3, 5, 6 per module
+- 🔄 `batch_next_auto.sh` - Auto-select smallest remaining batch
+- 📈 `batch_status.py` - Real-time progress dashboard
 - 📂 `git mv` - Preserve history when moving modules
 - 🧪 `pytest` - Integration and smoke tests
 - 📝 `git commit` - T4 format with detailed artifacts
 
-**Commands**:
+**Parallel Execution Commands**:
 ```bash
-make integration-manifest  # Generate manifest
-jq '.modules[] | select(.complexity == "low")' docs/audits/integration_manifest.json
+# Generate batch files for 3 lanes
+python scripts/hidden_gems_summary.py \
+  --manifest .lukhas_runs/hidden_gems_manifest.json \
+  --lane matriz --format json > matriz_modules.json
+
+# Run 3 parallel integration lanes
+make batch-next-matriz   # Terminal 1: MATRIZ lane
+make batch-next-core     # Terminal 2: CORE lane
+make batch-next-serve    # Terminal 3: SERVE lane
+make batch-status        # Terminal 4: Monitor progress
+
+# Auto-pick smallest batch
+make batch-next          # Automatically selects from matriz/core/serve
 ```
+
+**Performance Estimates**:
+- Sequential: 166 modules × 15 min = 41.5 hours
+- 3-Lane Parallel: 166 ÷ 3 × 15 min = **13.8 hours** (3x speedup)
+- 7-Agent Parallel: 166 ÷ 7 × 15 min = **5.9 hours** (7x speedup)
 
 ---
 
@@ -415,6 +450,13 @@ make test-tier1        # Critical system tests
 make lint              # Linting & type checking
 make format            # Code formatting
 make audit             # Comprehensive audit
+
+# Batch Integration Targets (NEW - 2025-10-23)
+make batch-status      # Show integration batch progress dashboard
+make batch-next-matriz # Integrate next module from MATRIZ batch
+make batch-next-core   # Integrate next module from CORE batch
+make batch-next-serve  # Integrate next module from SERVE batch
+make batch-next        # Auto-pick smallest remaining batch
 ```
 
 ### Context Navigation
