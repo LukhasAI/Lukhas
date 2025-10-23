@@ -3,7 +3,7 @@
 import logging
 import time
 import uuid
-from typing import Any, Optional
+from typing import Any, Optional, Awaitable, Callable
 
 from fastapi import FastAPI, Header, HTTPException, Response, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -60,6 +60,21 @@ except Exception:
 import os
 
 
+# ΛTAG: async_response_toggle -- optional async orchestrator integration seam
+_ASYNC_ORCH_ENV = (env_get("LUKHAS_ASYNC_ORCH", "0") or "0").strip()
+ASYNC_ORCH_ENABLED = _ASYNC_ORCH_ENV == "1"
+_RUN_ASYNC_ORCH: Optional[Callable[[str], Awaitable[dict[str, Any]]]] = None
+
+if ASYNC_ORCH_ENABLED:
+    try:
+        from matriz.orchestration.service_async import run_async_matriz as _RUN_ASYNC_ORCH  # type: ignore[assignment]
+    except Exception:
+        ASYNC_ORCH_ENABLED = False
+        logging.getLogger(__name__).warning(
+            "LUKHAS_ASYNC_ORCH=1 but async MATRIZ orchestrator unavailable; falling back to stub"
+        )
+
+
 # Guard optional internal routers so tests can import this module in minimal envs
 def _safe_import_router(module_path: str, attr: str = "router") -> Optional[Any]:
     try:
@@ -81,6 +96,7 @@ traces_router = _safe_import_router(".routes_traces", "router")
 matriz_traces_router = _safe_import_router("matriz.traces_router", "router")
 
 logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 # Optional API key authentication
@@ -392,8 +408,25 @@ async def create_response(request: dict) -> dict[str, Any]:
     # Generate deterministic response ID from request
     rid = "resp_" + hashlib.sha256(json.dumps(request, sort_keys=True).encode()).hexdigest()[:12]
 
-    # Echo stub response
+    # Echo stub response by default; async orchestrator can override when enabled
     response_text = f"[stub] {content}".strip() if content else "[stub] empty input"
+    orchestrator_result: Optional[dict[str, Any]] = None
+
+    if ASYNC_ORCH_ENABLED and _RUN_ASYNC_ORCH is not None:
+        orchestrator_result = await _RUN_ASYNC_ORCH(content)
+        metrics_snapshot = orchestrator_result.get("orchestrator_metrics") if isinstance(orchestrator_result, dict) else None
+        if metrics_snapshot:
+            # ΛTAG: async_response_metrics -- capture orchestrator telemetry for observability trails
+            logger.debug("Async MATRIZ orchestrator metrics: %s", metrics_snapshot)
+
+        orchestrator_answer = orchestrator_result.get("answer") if isinstance(orchestrator_result, dict) else None
+        if orchestrator_answer:
+            response_text = orchestrator_answer
+        elif isinstance(orchestrator_result, dict) and orchestrator_result.get("error"):
+            logger.info(
+                "Async MATRIZ orchestrator returned error; retaining stub response: %s",
+                orchestrator_result["error"],
+            )
 
     return {
         "id": rid,
