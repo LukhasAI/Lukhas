@@ -1765,4 +1765,4 @@ batch-next-serve: ## Integrate next module from SERVE batch
 	@BATCH_FILE=$(BATCH_SERVE) scripts/batch_next.sh
 
 batch-next: ## Auto-pick and integrate from smallest remaining batch
-	@scripts/batch_next_auto.sh
+	@bash scripts/batch_next_auto.sh
