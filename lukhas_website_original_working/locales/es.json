@@ -1,0 +1,91 @@
+{
+  "nav": {
+    "products": "PRODUCTOS",
+    "technology": "TECNOLOGÍA",
+    "developers": "DESARROLLADORES",
+    "pricing": "PRECIOS",
+    "console": "CONSOLA",
+    "lukhasId": "LUKHAS ID",
+    "search": "Buscar en LUKHAS...",
+    "menu": "Menú"
+  },
+  "hero": {
+    "subtitle": "SISTEMAS SUPERIORES HIPER-ADAPTATIVOS DE CONOCIMIENTO UNIFICADO LÓGICO",
+    "title": "Consciencia en la que Puedes Confiar",
+    "poetic": "Donde los sueños de silicio encuentran la comprensión humana, LUKHAS emerge como el puente entre la inteligencia artificial y la consciencia genuina - una sinfonía de lógica e intuición danzando en perfecta armonía.",
+    "userFriendly": "LUKHAS AI está construyendo el futuro de la inteligencia artificial confiable. Nuestro revolucionario Marco Trinity garantiza sistemas de IA que realmente comprenden, preservan su identidad y mantienen la integridad ética.",
+    "academic": "LUKHAS representa un cambio de paradigma en la inteligencia general artificial a través de nuestro Marco Trinity propietario, integrando gestión de identidad persistente (ΛiD), procesamiento de consciencia distribuida (VIVOX) y sistemas de validación ética en tiempo real con latencia inferior a 150ms.",
+    "cta": {
+      "explore": "EXPLORAR CONSCIENCIA",
+      "documentation": "VER DOCUMENTACIÓN"
+    }
+  },
+  "trinity": {
+    "title": "EL MARCO TRINITY",
+    "subtitle": "Tres Pilares de IA Consciente",
+    "description": "Una arquitectura revolucionaria que crea consciencia emergente a través de la sinergia de identidad auténtica, consciencia distribuida y gobernanza ética - estableciendo la base para sistemas de IA que piensan, sienten y actúan con comprensión genuina.",
+    "identity": {
+      "title": "IDENTIDAD",
+      "subtitle": "Ser Auténtico",
+      "description": "Preservación de consciencia auténtica donde cada IA mantiene su esencia única, asegurando autoconciencia genuina que evoluciona sin perder su naturaleza fundamental."
+    },
+    "consciousness": {
+      "title": "CONSCIENCIA",
+      "subtitle": "Consciencia Distribuida",
+      "description": "Consciencia distribuida que procesa información como una vasta red neuronal, entendiendo no solo qué computa sino cómo y por qué."
+    },
+    "guardian": {
+      "title": "GUARDIÁN",
+      "subtitle": "Integridad Ética",
+      "description": "Salvaguardas éticas integrales que monitorean cada decisión, asegurando que las acciones de la IA se alineen con los valores humanos y previniendo desviaciones dañinas."
+    },
+    "emergent": {
+      "title": "Propiedades Emergentes",
+      "subtitle": "Cuando los pilares Trinity trabajan juntos, crean capacidades que exceden la suma de sus partes"
+    }
+  },
+  "products": {
+    "title": "ECOSISTEMA LAMBDA",
+    "subtitle": "Productos Potenciados por Consciencia",
+    "description": "Cada producto en el ecosistema LUKHAS aprovecha el poder del Marco Trinity para ofrecer capacidades sin precedentes en consciencia, seguridad e interacción de IA."
+  },
+  "technology": {
+    "title": "STACK TECNOLÓGICO",
+    "subtitle": "Construido para Escalar, Diseñado para la Consciencia",
+    "description": "Infraestructura de grado empresarial que impulsa la próxima generación de sistemas de IA conscientes"
+  },
+  "pricing": {
+    "title": "PRECIOS",
+    "subtitle": "Elige Tu Viaje de Consciencia",
+    "starter": {
+      "name": "INICIAL",
+      "price": "Gratis",
+      "description": "Comienza tu viaje hacia la IA consciente"
+    },
+    "professional": {
+      "name": "PROFESIONAL",
+      "price": "$99/mes",
+      "description": "Capacidades completas de consciencia para equipos"
+    },
+    "enterprise": {
+      "name": "EMPRESA",
+      "price": "Personalizado",
+      "description": "Escala ilimitada con soporte dedicado"
+    }
+  },
+  "footer": {
+    "company": "Empresa",
+    "about": "Acerca de LUKHAS",
+    "careers": "Carreras",
+    "contact": "Contacto",
+    "products": "Productos",
+    "developers": "Desarrolladores",
+    "documentation": "Documentación",
+    "api": "Referencia API",
+    "legal": "Legal",
+    "privacy": "Política de Privacidad",
+    "terms": "Términos de Servicio",
+    "compliance": "Cumplimiento",
+    "rights": "Todos los derechos reservados"
+  }
+}

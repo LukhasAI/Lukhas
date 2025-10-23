@@ -1,0 +1,283 @@
+// ---------- Datasource / Generator ----------
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------- Enums ----------
+enum IdentifierType { 
+  email 
+  phone 
+  other 
+}
+
+enum ChallengeType { 
+  grid 
+  swipe 
+  sequence 
+  oddOneOut 
+  wordPair 
+}
+
+enum Role { 
+  owner 
+  admin 
+  developer 
+  analyst 
+  viewer 
+}
+
+// ---------- Core ----------
+model User {
+  id                 String   @id @db.VarChar(40) // "lid_" + ULID (uppercase, <= 31), room for prefix
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  // Optional profile
+  displayName        String?  @db.VarChar(120)
+  tier               String   @default("free") // 'free'|'plus'|'team'|'enterprise'|'core'
+  locale             String?  @db.VarChar(8)
+
+  // Relations
+  identifiers        VerifiedIdentifier[]
+  passkeys           PasskeyCredential[]
+  aliases            LidAlias[]
+  emojiSecret        EmojiSecret?
+  refreshFamilies    RefreshTokenFamily[]
+  securityEvents     SecurityEvent[]
+  gridChallenges     GridChallenge[]
+  guardians          Guardian[]
+  recoveryTickets    RecoveryTicket[]
+  onboardingSessions OnboardingSession[]
+  qrgSessions        QrgSession[]
+  walletPasses       WalletPass[]
+}
+
+// Verified phone/email etc. (NOT public)
+model VerifiedIdentifier {
+  id             String          @id @default(cuid())
+  userId         String
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type           IdentifierType
+  valueHash      String          @db.VarChar(128) // salted hash of normalized value
+  valueNorm      String          @db.VarChar(320) // normalized (e.g., e164 for phone, casefolded email)
+  provider       String?         @db.VarChar(80)  // e.g., "gmail.com", "twilio", "carrier"
+  verifiedAt     DateTime?
+  primary        Boolean         @default(false)
+  createdAt      DateTime        @default(now())
+
+  @@unique([type, valueHash])
+  @@index([userId, type])
+}
+
+// Public alias mapping (PII-free)
+model LidAlias {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  aliasKey       String   @db.VarChar(64) // normalized key (ΛiD# stripped, separators removed, uppercased)
+  aliasDisplay   String   @db.VarChar(128) // "ΛiD#REALM/ZONE/H-XXXX-XXXX-C"
+  realm          String   @db.VarChar(12)
+  zone           String   @db.VarChar(3)
+  idType         IdentifierType // which verified identifier the token was derived from
+  verifiedAt     DateTime?
+  createdAt      DateTime @default(now())
+
+  @@unique([aliasKey])
+  @@index([userId])
+}
+
+// WebAuthn passkeys (device or roaming keys)
+model PasskeyCredential {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  credentialId   Bytes    @unique  // binary credential ID
+  publicKey      Bytes
+  aaguid         String?  @db.VarChar(64)
+  transports     String?  @db.VarChar(64)     // csv list
+  signCount      Int      @default(0)
+  deviceBinding  String?  @db.VarChar(64)     // optional device cookie hash
+  createdAt      DateTime @default(now())
+  lastUsedAt     DateTime?
+}
+
+// Rotating refresh token families (reuse detection)
+model RefreshTokenFamily {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  familyId       String   @db.VarChar(64) // stable family key
+  currentId      String   @db.VarChar(64) // current refresh id
+  reuseDetected  DateTime?
+  revokedAt      DateTime?
+  createdAt      DateTime @default(now())
+
+  tokens         RefreshToken[]
+  @@index([userId, familyId])
+}
+
+model RefreshToken {
+  id             String   @id @default(cuid())
+  familyId       String
+  family         RefreshTokenFamily @relation(fields: [familyId], references: [id], onDelete: Cascade)
+
+  tokenId        String   @db.VarChar(64)
+  rotatedAt      DateTime?
+  revokedAt      DateTime?
+  ipHash         String?  @db.VarChar(64)
+  uaHash         String?  @db.VarChar(64)
+  deviceId       String?  @db.VarChar(64)
+  createdAt      DateTime @default(now())
+
+  @@unique([familyId, tokenId])
+}
+
+// Emoji/word secret (step-up)
+model EmojiSecret {
+  id             String   @id @default(cuid())
+  userId         String   @unique
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  secretHash     String   @db.VarChar(256) // Argon2id
+  salt           Bytes
+  enabled        Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  rotatedAt      DateTime?
+}
+
+// Ephemeral challenge (server-side state; delete after TTL)
+model GridChallenge {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  type           ChallengeType
+  payloadHash    String   @db.VarChar(128)  // hash of expected answer (order or set)
+  issuedAt       DateTime @default(now())
+  expiresAt      DateTime
+  tries          Int      @default(0)
+  consumedAt     DateTime?
+
+  @@index([userId, expiresAt])
+}
+
+// Audit trail
+model SecurityEvent {
+  id             String   @id @default(cuid())
+  userId         String?
+  user           User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  kind           String   @db.VarChar(64)   // e.g., "auth.stepup.ok"
+  meta           Json
+  createdAt      DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+// Guardians for social recovery
+model Guardian {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type           IdentifierType
+  contact        String   @db.VarChar(320)
+  publicKey      String?  @db.Text
+  addedAt        DateTime @default(now())
+  revokedAt      DateTime?
+  
+  recoveryApprovals RecoveryApproval[]
+  
+  @@unique([userId, contact])
+}
+
+// Recovery tickets
+model RecoveryTicket {
+  id                String   @id @default(uuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  state             String   @db.VarChar(16) // 'open','approved','completed','expired'
+  requiredApprovals Int      @default(0)
+  approvalsCount    Int      @default(0)
+  reason            String   @db.VarChar(24) // 'lost_device','compromised','other'
+  createdAt         DateTime @default(now())
+  expiresAt         DateTime
+  meta              Json     @default("{}")
+  
+  approvals         RecoveryApproval[]
+  
+  @@index([userId, createdAt])
+}
+
+// Recovery approvals
+model RecoveryApproval {
+  id             String   @id @default(cuid())
+  ticketId       String
+  ticket         RecoveryTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  guardianId     String?
+  guardian       Guardian? @relation(fields: [guardianId], references: [id], onDelete: SetNull)
+  channel        String   @db.VarChar(16) // 'email','phone','guardian','admin'
+  approved       Boolean
+  createdAt      DateTime @default(now())
+  
+  @@index([ticketId])
+}
+
+// Onboarding sessions (ephemeral)
+model OnboardingSession {
+  id              String   @id @default(uuid())
+  userId          String?
+  user            User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  realm           String   @db.VarChar(12)
+  zone            String   @db.VarChar(3)
+  idType          IdentifierType
+  identifierNorm  String   @db.VarChar(320)
+  codeHash        String   @db.VarChar(128)
+  attempts        Int      @default(0)
+  createdAt       DateTime @default(now())
+  expiresAt       DateTime
+  
+  @@index([identifierNorm])
+}
+
+// QRG sessions for JWS-signed approvals
+model QrgSession {
+  id         String   @id @default(uuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  txId       String   @db.VarChar(64)
+  scope      String   @db.VarChar(128)
+  nonce      String   @db.VarChar(64)
+  jws        String   @db.Text
+  status     String   @db.VarChar(16) // 'open','approved','expired','consumed'
+  issuedAt   DateTime @default(now())
+  expiresAt  DateTime
+  consumedAt DateTime?
+  
+  @@index([userId, txId])
+  @@index([status, expiresAt])
+}
+
+// Wallet passes for out-of-band approvals
+model WalletPass {
+  id             String   @id @default(uuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  platform       String   @db.VarChar(16) // 'apple','google'
+  serialNumber   String   @unique @db.VarChar(64)
+  deviceId       String?  @db.VarChar(64)
+  status         String   @default("active") @db.VarChar(16) // 'active','used','expired','revoked'
+  lastRotatedAt  DateTime @default(now())
+  createdAt      DateTime @default(now())
+  expiresAt      DateTime?
+  revokedAt      DateTime?
+  
+  @@index([userId, status])
+  @@index([serialNumber])
+}

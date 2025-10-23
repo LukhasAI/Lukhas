@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUKHΛS - Privacy-First Cookie Preferences</title>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0c14;
+            color: #EAECEF;
+            margin: 0;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+        
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 2rem 0;
+        }
+        
+        .demo-title {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #a7b4ff 0%, #3a64ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .demo-subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 3rem;
+            font-size: 1.125rem;
+        }
+        
+        .demo-button {
+            background: #3a64ff;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: filter 0.2s ease;
+        }
+        
+        .demo-button:hover {
+            filter: brightness(1.05);
+        }
+        
+        /* Cookie Banner Styles */
+        .lukhas-cookie-wrap {
+            position: fixed;
+            inset: auto 1rem 1rem 1rem;
+            z-index: 9999;
+            max-width: 720px;
+            margin: 0 auto;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: linear-gradient(180deg, rgba(10,12,20,0.92) 0%, rgba(10,12,20,0.88) 100%);
+            color: #EAECEF;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+            backdrop-filter: saturate(1.1) blur(8px);
+            display: none;
+        }
+        
+        .lukhas-cookie-wrap.show {
+            display: block;
+            animation: slideUp 0.3s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .cookie-content {
+            padding: 16px 18px;
+        }
+        
+        .cookie-title {
+            margin: 0 0 8px 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .cookie-intro {
+            margin: 0;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+        
+        .cookie-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 14px;
+            align-items: center;
+        }
+        
+        .cookie-preferences {
+            margin-top: 12px;
+        }
+        
+        .cookie-prefs-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 10px;
+        }
+        
+        .pref-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 12px;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 10px 12px;
+            background: rgba(255,255,255,0.02);
+        }
+        
+        .pref-label {
+            font-weight: 600;
+            display: block;
+        }
+        
+        .pref-desc {
+            margin: 4px 0 0 0;
+            font-size: 13px;
+            opacity: 0.85;
+        }
+        
+        .cookie-footer {
+            margin-top: 10px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            font-size: 13px;
+            opacity: 0.85;
+            flex-wrap: wrap;
+        }
+        
+        .flex-spacer {
+            flex: 1;
+        }
+        
+        /* Button Styles */
+        .btn {
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.04);
+            color: #EAECEF;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s ease;
+        }
+        
+        .btn:hover {
+            background: rgba(255,255,255,0.08);
+        }
+        
+        .btn.primary {
+            background: #3a64ff;
+            border-color: #3a64ff;
+            color: white;
+        }
+        
+        .btn.primary:hover {
+            filter: brightness(1.05);
+        }
+        
+        .btn.subtle {
+            background: rgba(255,255,255,0.06);
+        }
+        
+        .btn.ghost {
+            background: transparent;
+            border-color: rgba(255,255,255,0.16);
+        }
+        
+        .link {
+            color: #a7b4ff;
+            text-decoration: none;
+        }
+        
+        .link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Checkbox Styles */
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #3a64ff;
+            cursor: pointer;
+        }
+        
+        input[type="checkbox"]:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(58, 100, 255, 0.9);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            z-index: 10000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        /* Features grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            text-align: left;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #a7b4ff;
+        }
+        
+        .feature-desc {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .feature-list li {
+            padding: 0.25rem 0;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .feature-list li::before {
+            content: "✓ ";
+            color: #3a64ff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1 class="demo-title">LUKHΛS Privacy-First Cookies</h1>
+        <p class="demo-subtitle">
+            Clean, accessible, EU-compliant cookie consent that respects user choice
+        </p>
+        
+        <button class="demo-button" onclick="showCookieBanner()">
+            Show Cookie Banner
+        </button>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3 class="feature-title">🛡️ Privacy-First Design</h3>
+                <p class="feature-desc">Default to essential cookies only. Optional categories are off by default.</p>
+                <ul class="feature-list">
+                    <li>Essential cookies always on</li>
+                    <li>Optional cookies off by default</li>
+                    <li>Clear "Essential only" option</li>
+                    <li>No dark patterns</li>
+                </ul>
+            </div>
+            
+            <div class="feature-card">
+                <h3 class="feature-title">♿ Fully Accessible</h3>
+                <p class="feature-desc">WCAG 2.2 compliant with proper ARIA labels and keyboard navigation.</p>
+                <ul class="feature-list">
+                    <li>Semantic HTML structure</li>
+                    <li>Proper ARIA labels</li>
+                    <li>Keyboard navigation support</li>
+                    <li>Screen reader optimized</li>
+                </ul>
+            </div>
+            
+            <div class="feature-card">
+                <h3 class="feature-title">🇪🇺 EU Compliant</h3>
+                <p class="feature-desc">Built for GDPR, DSA, and EU AI Act compliance with proper legal language.</p>
+                <ul class="feature-list">
+                    <li>GDPR-compliant defaults</li>
+                    <li>Clear legal basis disclosure</li>
+                    <li>Versioned consent storage</li>
+                    <li>User rights respected</li>
+                </ul>
+            </div>
+            
+            <div class="feature-card">
+                <h3 class="feature-title">🌍 Multi-Language</h3>
+                <p class="feature-desc">English and Spanish support with consistent terminology.</p>
+                <ul class="feature-list">
+                    <li>English and Spanish strings</li>
+                    <li>Consistent brand voice</li>
+                    <li>Cultural adaptations</li>
+                    <li>Easy to extend</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cookie Banner -->
+    <div id="cookieBanner" class="lukhas-cookie-wrap" role="dialog" aria-modal="true" aria-labelledby="cookie-title">
+        <div class="cookie-content">
+            <h2 id="cookie-title" class="cookie-title">Your data, your call.</h2>
+            <p class="cookie-intro">
+                LUKHΛS uses only essential cookies by default. Optional cookies help with reliability, 
+                basic analytics, and (only if you opt in) research to improve our systems. We never 
+                sell your data. You can change your choices any time.
+            </p>
+
+            <div id="quickActions" class="cookie-actions">
+                <button class="btn ghost" onclick="showPreferences()" aria-expanded="false">
+                    Preferences
+                </button>
+                <div class="flex-spacer"></div>
+                <button class="btn subtle" onclick="acceptEssentialOnly()">
+                    Essential only
+                </button>
+                <button class="btn primary" onclick="acceptAll()">
+                    Allow all
+                </button>
+            </div>
+
+            <div id="cookiePreferences" class="cookie-preferences" style="display: none;">
+                <ul class="cookie-prefs-list">
+                    <li class="pref-row">
+                        <div>
+                            <label for="essential-checkbox" class="pref-label">Essential</label>
+                            <p class="pref-desc">Required for security and core site functionality. Always on.</p>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="essential-checkbox" checked disabled 
+                                   aria-describedby="essential-desc">
+                        </div>
+                    </li>
+                    
+                    <li class="pref-row">
+                        <div>
+                            <label for="functional-checkbox" class="pref-label">Functional</label>
+                            <p class="pref-desc">Remembers your settings (theme, language) and improves basic UX.</p>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="functional-checkbox" 
+                                   aria-describedby="functional-desc">
+                        </div>
+                    </li>
+                    
+                    <li class="pref-row">
+                        <div>
+                            <label for="analytics-checkbox" class="pref-label">Analytics</label>
+                            <p class="pref-desc">Privacy-preserving, aggregated usage metrics to help us understand what's working.</p>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="analytics-checkbox" 
+                                   aria-describedby="analytics-desc">
+                        </div>
+                    </li>
+                    
+                    <li class="pref-row">
+                        <div>
+                            <label for="research-checkbox" class="pref-label">Research</label>
+                            <p class="pref-desc">Optional signals to help improve LUKHΛS models. Processed with safeguards and never used for ads.</p>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="research-checkbox" 
+                                   aria-describedby="research-desc">
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="cookie-actions">
+                    <button class="btn ghost" onclick="hidePreferences()">
+                        Cancel
+                    </button>
+                    <div class="flex-spacer"></div>
+                    <button class="btn subtle" onclick="acceptEssentialOnly()">
+                        Essential only
+                    </button>
+                    <button class="btn primary" onclick="acceptSelected()">
+                        Allow selected
+                    </button>
+                </div>
+            </div>
+
+            <div class="cookie-footer">
+                <span>Learn more:</span>
+                <a class="link" href="/legal/privacy.html">Privacy Policy</a>
+                <a class="link" href="/legal/terms-eu.html">EU Terms</a>
+                <a class="link" href="/legal/cookie-policy.html">Cookie Policy</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast" class="toast"></div>
+
+    <script>
+        // Cookie consent state
+        const STORAGE_KEY = "lukhas_consent_v1";
+        const VERSION = "1.0.0";
+        
+        let showingPreferences = false;
+        
+        // Show cookie banner
+        function showCookieBanner() {
+            const banner = document.getElementById('cookieBanner');
+            banner.classList.add('show');
+            banner.focus();
+        }
+        
+        // Hide cookie banner
+        function hideCookieBanner() {
+            const banner = document.getElementById('cookieBanner');
+            banner.classList.remove('show');
+        }
+        
+        // Show preferences panel
+        function showPreferences() {
+            document.getElementById('quickActions').style.display = 'none';
+            document.getElementById('cookiePreferences').style.display = 'block';
+            showingPreferences = true;
+            
+            // Update aria-expanded
+            const prefButton = document.querySelector('[aria-expanded]');
+            if (prefButton) prefButton.setAttribute('aria-expanded', 'true');
+        }
+        
+        // Hide preferences panel
+        function hidePreferences() {
+            document.getElementById('quickActions').style.display = 'flex';
+            document.getElementById('cookiePreferences').style.display = 'none';
+            showingPreferences = false;
+            
+            // Update aria-expanded
+            const prefButton = document.querySelector('[aria-expanded]');
+            if (prefButton) prefButton.setAttribute('aria-expanded', 'false');
+        }
+        
+        // Accept essential only
+        function acceptEssentialOnly() {
+            saveConsent({
+                essential: true,
+                functional: false,
+                analytics: false,
+                research: false
+            });
+            hideCookieBanner();
+            showToast("Cookie preferences saved - Essential only");
+        }
+        
+        // Accept all cookies
+        function acceptAll() {
+            saveConsent({
+                essential: true,
+                functional: true,
+                analytics: true,
+                research: true
+            });
+            hideCookieBanner();
+            showToast("Cookie preferences saved - All categories allowed");
+        }
+        
+        // Accept selected cookies
+        function acceptSelected() {
+            const choices = {
+                essential: true,
+                functional: document.getElementById('functional-checkbox').checked,
+                analytics: document.getElementById('analytics-checkbox').checked,
+                research: document.getElementById('research-checkbox').checked
+            };
+            
+            saveConsent(choices);
+            hideCookieBanner();
+            
+            const enabledCount = Object.values(choices).filter(Boolean).length;
+            showToast(`Cookie preferences saved - ${enabledCount} categories enabled`);
+        }
+        
+        // Save consent to localStorage
+        function saveConsent(choices) {
+            const consentRecord = {
+                version: VERSION,
+                updatedAt: new Date().toISOString(),
+                region: "EU",
+                choices: choices
+            };
+            
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(consentRecord));
+                console.log('Consent saved:', consentRecord);
+                
+                // Optional: Send to analytics endpoint (without PII)
+                // sendConsentAnalytics(choices);
+            } catch (error) {
+                console.error('Failed to save consent:', error);
+            }
+        }
+        
+        // Show toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Optional: Send consent analytics (no PII)
+        function sendConsentAnalytics(choices) {
+            // Example implementation - replace with your endpoint
+            /*
+            fetch('/api/consent-analytics', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    categories: Object.keys(choices).filter(key => choices[key]),
+                    version: VERSION,
+                    timestamp: new Date().toISOString()
+                })
+            }).catch(() => {
+                // Fail silently for analytics
+            });
+            */
+        }
+        
+        // Check if consent is needed on page load
+        function checkConsentNeeded() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (!saved) return true;
+                
+                const consent = JSON.parse(saved);
+                return !consent.version || consent.version !== VERSION;
+            } catch {
+                return true;
+            }
+        }
+        
+        // Keyboard navigation support
+        document.addEventListener('keydown', (e) => {
+            const banner = document.getElementById('cookieBanner');
+            if (!banner.classList.contains('show')) return;
+            
+            if (e.key === 'Escape') {
+                hideCookieBanner();
+            }
+        });
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('LUKHΛS Privacy-First Cookie Banner loaded');
+            
+            // Auto-show if needed (disabled for demo)
+            // if (checkConsentNeeded()) {
+            //     setTimeout(showCookieBanner, 1000);
+            // }
+        });
+    </script>
+</body>
+</html>
