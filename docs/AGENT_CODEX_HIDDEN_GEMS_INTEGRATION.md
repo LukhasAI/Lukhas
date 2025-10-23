@@ -345,15 +345,48 @@ Each agent runs independently:
 
 ### Phase Dependency Analysis
 
-| Phase | Can Run in Parallel? | Dependencies | Recommended Approach |
-|-------|---------------------|--------------|---------------------|
-| **Phase 1: Fix Issues** | ✅ Yes | None (already complete) | DONE ✅ |
-| **Phase 2: Module Discovery** | ✅ Yes | None | Run once to generate batch files |
-| **Phase 3: Module Movement** | ✅ **YES - 3 lanes** | Phase 2 complete | **Parallelizable across 3 lanes** |
-| **Phase 4: MATRIZ Schemas** | ✅ **YES - per module** | Phase 3 (per module) | **Generate during integration** |
-| **Phase 5: Testing** | ✅ **YES - per module** | Phases 3, 4 (per module) | **Built into batch_next.sh** |
-| **Phase 6: Validation** | ✅ **YES - per module** | Phase 5 (per module) | **Part of acceptance gates** |
-| **Phase 7: Monitoring** | ✅ Yes | Continuous | **Runs in background** |
+| Phase | Can Run in Parallel? | Dependencies | Automation Status |
+|-------|---------------------|--------------|-------------------|
+| **Phase 1: Fix Issues** | ✅ Yes | None | ✅ **COMPLETE** |
+| **Phase 2: Module Discovery** | ✅ Yes | None | ⚙️ **Run once** to generate batch files |
+| **Phase 3: Module Movement** | ✅ **YES - 3 lanes** | Phase 2 complete | ✅ **AUTOMATED** in batch_next.sh (lines 30-43) |
+| **Phase 4: MATRIZ Schemas** | ⚠️ Partial | Phase 3 (per module) | ⚠️ **MANUAL** - needs generation script |
+| **Phase 5: Testing** | ✅ **YES - per module** | Phase 3 | ✅ **AUTOMATED** in batch_next.sh (lines 56-67) |
+| **Phase 6: Validation** | ✅ **YES - per module** | Phase 5 | ✅ **AUTOMATED** in batch_next.sh (line 68) |
+| **Phase 7: Monitoring** | ✅ Yes | Continuous | ✅ **AUTOMATED** via batch-status |
+
+### What batch_next.sh Actually Automates
+
+The existing `batch_next.sh` script **automates Phases 3, 5, and 6** for each module:
+
+```bash
+# Phase 3: Module Movement (AUTOMATED ✅)
+git checkout -b "feat/integrate-$MODULE"
+git mv "$SRC" "$DST"                         # Preserves git history
+grep -RIn -- "$SRC"                          # Shows references needing update
+
+# Phase 5: Testing (AUTOMATED ✅)
+# Creates placeholder test if missing
+pytest "tests/integration/test_$MODULE.py"   # Module-specific test
+pytest tests/smoke/ -q                       # Smoke tests
+
+# Phase 6: Validation (AUTOMATED ✅)
+make codex-acceptance-gates                  # Quality gates (if defined)
+
+# Commit and track
+git commit -m "feat(integration): integrate $MODULE"
+echo "$MODULE" >> "$BATCH_FILE.done"
+```
+
+### What's NOT Automated (Phase 4)
+
+**Phase 4: MATRIZ Schema Generation** is currently manual. You need to:
+1. Analyze the module structure
+2. Create MATRIZ schema JSON
+3. Add signal definitions
+4. Map to Constellation Framework stars
+
+This is the **main bottleneck** for full automation.
 
 ### How to Run 166 Modules in Parallel
 
