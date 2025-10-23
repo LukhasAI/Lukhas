@@ -2,7 +2,7 @@
 
 ## 📋 Executive Summary
 
-**Status**: Phase 1 Complete ✅ | Phase 2 Ready to Start 🔄
+**Status**: Phase 1 Complete ✅ | Automation Tools Enhanced ✅ | Phase 2 Ready to Start 🔄
 
 This guide provides Agent Codex with systematic instructions to complete the integration of all 193 hidden gems modules and achieve full MATRIZ readiness across the LUKHAS ecosystem.
 
@@ -17,11 +17,22 @@ This guide provides Agent Codex with systematic instructions to complete the int
 - ✅ **8 syntax errors fixed** across memory and consciousness modules
 - ✅ **Automation pipeline** ready (Makefile with 20+ targets)
 
+### Automation Tools Enhanced (2025-10-23 PM)
+- ✅ **PR #486**: JSON reporting for hidden gems summary CLI (MERGED)
+- ✅ **PR #485**: Lane filtering support in hidden gems summary (MERGED)
+- ✅ **PR #479**: CLI hardening with error handling (MERGED)
+- ✅ **PR #484**: pytest fallback for batch integration script (MERGED)
+- ✅ **PR #482**: Makefile batch_next_auto invocation fix (MERGED)
+- ✅ **PR #477**: Execute permissions restored for batch scripts (MERGED)
+- ⚠️ **PR #478**: Logger fixes for reflection modules (HAS MERGE CONFLICTS - needs resolution)
+- ❌ **PRs #475, #476, #480, #481, #483**: Closed as duplicates
+
 ### Next Steps for Agent Codex
-1. Review PR #478 (codex's logger fixes) - merge or adapt
+1. ⚠️ **Resolve PR #478 merge conflicts** (logger fixes in reflection modules)
 2. Begin Phase 2: Batch integration of next 25 modules
-3. Use `Makefile.hidden_gems` for automation
-4. Follow established patterns from Phase 1
+3. Use enhanced `hidden_gems_summary.py` with new JSON/lane filtering features
+4. Use `Makefile.hidden_gems` for automation
+5. Follow established patterns from Phase 1
 
 ## Current Status (Updated: 2025-10-23)
 
@@ -47,10 +58,42 @@ This guide provides Agent Codex with systematic instructions to complete the int
   - 31 original schemas
   - 5 quantum visual symbol schemas
 
-### Recent PRs (from codex agent)
+### Recent PRs (from codex agent) - Status Updated 2025-10-23 PM
+
+**✅ MERGED PRs:**
+- **PR #486**: Added JSON reporting capability to hidden_gems_summary.py
+  - New `--format json` flag for machine-readable output
+  - `build_summary_payload()` function for structured data
+  - Comprehensive test coverage
+- **PR #485**: Lane filtering for hidden gems summary
+  - `--lane` flag to filter modules by target lane (core, matriz, serve)
+  - `filter_hidden_gems_by_lane()` helper function
+  - Enhanced output messaging for filtered results
+- **PR #479**: CLI hardening with defensive error handling
+  - ManifestFormatError exception class
+  - Graceful error messages for missing/invalid manifests
+  - urllib3 warning stubs for test compatibility
+- **PR #484**: pytest fallback for batch integration script
+  - Reusable pytest runner with virtualenv fallback
+  - Handles environments where pytest isn't on PATH
+  - Regression tests for batch workflow
+- **PR #482**: Makefile fix to invoke batch_next_auto via bash
+  - Ensures script runs correctly regardless of execute permissions
+- **PR #477**: Restored execute permissions for batch automation scripts
+  - batch_status.py and batch_next_auto.sh marked executable
+
+**⚠️ PENDING (CONFLICTS):**
 - **PR #478** (OPEN): Logger fixes for reflection modules + MemoryManager fallback
-  - Complements our work with context-aware logging adapter
-  - Should be merged after our changes
+  - Status: CONFLICTING (needs merge conflict resolution)
+  - Introduces context-aware logging adapter for stdlib compatibility
+  - Adds MemoryManager fallback in memory/__init__.py
+  - **Action Required**: Rebase on latest main to resolve conflicts
+
+**❌ CLOSED (DUPLICATES):**
+- PRs #475, #476 (duplicates of #477)
+- PRs #480 (duplicate of #479)
+- PRs #481 (duplicate of #482)
+- PRs #483 (duplicate of #486, older implementation)
 
 ## ✅ Phase 1 COMPLETED: Fixed All Module Issues
 
@@ -183,6 +226,94 @@ During Phase 1, we implemented a **world-class quantum visual symbol system** in
 - Perception Tokens: Auxiliary reasoning tokens (Dec 2024)
 - Field-theoretic consciousness models
 - Quantum-inspired algorithms for symbolic processing
+
+## 🛠️ Enhanced Automation Tools (2025-10-23 PM)
+
+The hidden gems integration tooling has been significantly enhanced with new capabilities:
+
+### Hidden Gems Summary CLI
+
+**Location**: [scripts/hidden_gems_summary.py](scripts/hidden_gems_summary.py)
+
+**New Features:**
+
+1. **JSON Output Format** (PR #486)
+   ```bash
+   # Get structured JSON output for programmatic consumption
+   python scripts/hidden_gems_summary.py --format json
+
+   # Output includes:
+   {
+     "total_modules": 166,
+     "total_effort_hours": 523.5,
+     "lanes": {
+       "core": {"count": 45, "effort_hours": 180.0},
+       "matriz": {"count": 89, "effort_hours": 267.0}
+     },
+     "top_modules": [...]
+   }
+   ```
+
+2. **Lane Filtering** (PR #485)
+   ```bash
+   # Focus on specific lanes
+   python scripts/hidden_gems_summary.py --lane core
+   python scripts/hidden_gems_summary.py --lane matriz
+   python scripts/hidden_gems_summary.py --lane serve
+
+   # Combine with other filters
+   python scripts/hidden_gems_summary.py --lane matriz --min-score 90 --complexity low
+   ```
+
+3. **Enhanced Error Handling** (PR #479)
+   - Graceful handling of missing/invalid manifests
+   - Clear error messages with actionable guidance
+   - Robust CLI execution with comprehensive tests
+
+### Batch Integration Scripts
+
+**Location**: [scripts/batch_next.sh](scripts/batch_next.sh)
+
+**Enhancements:**
+
+1. **pytest Fallback** (PR #484)
+   - Automatically uses virtualenv pytest if CLI not available
+   - Handles different Python environment setups
+   - Tested fallback paths for reliability
+
+2. **Execution Reliability** (PRs #477, #482)
+   - Scripts properly marked as executable
+   - Makefile targets invoke via bash explicitly
+   - No permission-related failures
+
+### Usage Examples
+
+```bash
+# 1. Get JSON summary of remaining modules
+python scripts/hidden_gems_summary.py \
+  --manifest .lukhas_runs/hidden_gems_manifest.json \
+  --format json \
+  --top 25 > next_batch.json
+
+# 2. Filter by lane and complexity
+python scripts/hidden_gems_summary.py \
+  --lane matriz \
+  --complexity low \
+  --min-score 85 \
+  --format json
+
+# 3. Generate batch integration plan
+python scripts/hidden_gems_summary.py \
+  --lane core \
+  --top 10 \
+  --format text
+
+# 4. Run batch integration (uses enhanced pytest fallback)
+make batch-next
+
+# 5. Check batch status
+make batch-status
+```
 
 ## Phase 2: Integrate Remaining 166 Modules
 
