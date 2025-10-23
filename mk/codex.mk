@@ -91,17 +91,7 @@ codex-acceptance-gates: ## Run 7 T4 acceptance gate probes
 	# Gate 6: Smoke pass rate ≥ 90%
 	@echo "✓ Gate 6: smoke ≥ 90%"; \
 	OUT="$$(pytest tests/smoke/ -q 2>&1 | tail -1)"; \
-	python3 - "$$OUT" <<'PY' || { echo "❌ Gate 6 failed (rate < 90%)"; exit 1; }
-import re,sys
-line=sys.argv[1] if len(sys.argv) > 1 else ""
-passed = int(re.search(r'(\d+)\s+passed', line).group(1)) if re.search(r'(\d+)\s+passed', line) else 0
-failed = int(re.search(r'(\d+)\s+failed', line).group(1)) if re.search(r'(\d+)\s+failed', line) else 0
-errors = int(re.search(r'(\d+)\s+errors', line).group(1)) if re.search(r'(\d+)\s+errors', line) else 0
-total = passed + failed + errors
-rate = (passed/total)*100 if total else 100.0
-assert rate >= 90.0, f"smoke pass rate {rate:.1f}% < 90%"
-print(f"PASS rate {rate:.1f}%")
-PY
+	echo "$$OUT" | python3 -c 'import re,sys; line=sys.stdin.read().strip(); passed = int(re.search(r"(\d+)\s+passed", line).group(1)) if re.search(r"(\d+)\s+passed", line) else 0; failed = int(re.search(r"(\d+)\s+failed", line).group(1)) if re.search(r"(\d+)\s+failed", line) else 0; errors = int(re.search(r"(\d+)\s+errors", line).group(1)) if re.search(r"(\d+)\s+errors", line) else 0; total = passed + failed + errors; rate = (passed/total)*100 if total else 100.0; assert rate >= 90.0, f"smoke pass rate {rate:.1f}% < 90%"; print(f"PASS rate {rate:.1f}%")' || { echo "❌ Gate 6 failed (rate < 90%)"; exit 1; }
 	# Gate 7: No new 404s on /v1/*
 	@echo "✓ Gate 7: /v1/* 200s via endpoint tests (implicit)"
 	@echo "✅ All 7 gates passed (where probes exist)."
