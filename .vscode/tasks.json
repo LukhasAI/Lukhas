@@ -389,6 +389,42 @@
       "options": {
         "cwd": "${workspaceFolder}"
       }
+    },
+    {
+      "label": "LUKHAS: Facade Session",
+      "type": "shell",
+      "command": "make codex-bootcheck && git checkout -b feat/facade && echo '[FAÇADE] Run FACADE_FAST_TRACK sequentially'",
+      "presentation": {
+        "panel": "dedicated",
+        "group": "facade"
+      }
+    },
+    {
+      "label": "LUKHAS: Hidden Gem 1",
+      "type": "shell",
+      "command": "git checkout -b feat/integrate-async-orchestrator && echo '[HIDDEN GEM 1] async_orchestrator → matriz/orchestration/'",
+      "presentation": {
+        "panel": "dedicated",
+        "group": "gems"
+      }
+    },
+    {
+      "label": "LUKHAS: Hidden Gem 2",
+      "type": "shell",
+      "command": "git checkout -b feat/integrate-webauthn-adapter && echo '[HIDDEN GEM 2] webauthn_adapter → core/identity/adapters/'",
+      "presentation": {
+        "panel": "dedicated",
+        "group": "gems"
+      }
+    },
+    {
+      "label": "LUKHAS: Bugfix",
+      "type": "shell",
+      "command": "git checkout -b fix/matriz-node-typeerror && echo '[BUGFIX] Surgical patch only'",
+      "presentation": {
+        "panel": "dedicated",
+        "group": "bugfix"
+      }
     }
   ]
 }
