@@ -1743,3 +1743,26 @@ rc-soak-quick: ## Quick RC soak validation (5 min, low QPS)
 	@echo "🚀 Starting quick RC soak validation..."
 	@LUKHAS_API_URL=${LUKHAS_API_URL:-http://localhost:8000} \
 	PROMETHEUS_URL=${PROMETHEUS_URL:-http://localhost:9090} \
+
+# ------------- T4 Batch Integration Helpers -------------
+
+# ------------- T4 Batch Integration Helpers -------------
+.PHONY: batch-status batch-next-matriz batch-next-core batch-next-serve batch-next
+BATCH_MATRIZ=/tmp/batch_matriz.tsv
+BATCH_CORE=/tmp/batch_core.tsv
+BATCH_SERVE=/tmp/batch_serve.tsv
+
+batch-status: ## Show integration batch progress dashboard
+	@scripts/batch_status.py $(BATCH_MATRIZ) $(BATCH_CORE) $(BATCH_SERVE)
+
+batch-next-matriz: ## Integrate next module from MATRIZ batch
+	@BATCH_FILE=$(BATCH_MATRIZ) scripts/batch_next.sh
+
+batch-next-core: ## Integrate next module from CORE batch
+	@BATCH_FILE=$(BATCH_CORE) scripts/batch_next.sh
+
+batch-next-serve: ## Integrate next module from SERVE batch
+	@BATCH_FILE=$(BATCH_SERVE) scripts/batch_next.sh
+
+batch-next: ## Auto-pick and integrate from smallest remaining batch
+	@scripts/batch_next_auto.sh
