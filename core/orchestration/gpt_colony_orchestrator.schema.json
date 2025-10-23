@@ -1,0 +1,62 @@
+{
+  "module": "core.orchestration.gpt_colony_orchestrator",
+  "version": "1.0.0",
+  "type": "colony_orchestrator_node",
+  "matriz_compatible": true,
+  "description": "GPT colony orchestrator coordinating multiple LLM agents in collaborative task execution",
+
+  "capabilities": {
+    "sends": [
+      {
+        "signal": "colony.task.result",
+        "schema": "ColonyTaskResult",
+        "frequency": "per_task",
+        "latency_target_ms": 5000
+      },
+      {
+        "signal": "colony.agent.spawned",
+        "schema": "AgentSpawnEvent",
+        "frequency": "on_spawn",
+        "priority": "normal"
+      }
+    ],
+    "receives": [
+      {
+        "signal": "colony.task.request",
+        "schema": "ColonyTaskRequest",
+        "handler": "execute_task",
+        "required": true
+      },
+      {
+        "signal": "colony.agent.spawn_request",
+        "schema": "AgentSpawnRequest",
+        "handler": "spawn_agent",
+        "required": true
+      }
+    ]
+  },
+
+  "main_classes": [
+    {
+      "name": "GPTColonyOrchestrator",
+      "type": "orchestrator",
+      "methods": ["execute_task", "spawn_agent", "coordinate_colony"],
+      "async": true
+    }
+  ],
+
+  "dependencies": [],
+
+  "performance": {
+    "max_latency_ms": 5000,
+    "target_latency_p95_ms": 3000,
+    "memory_limit_mb": 300,
+    "cpu_cores": 4
+  },
+
+  "constellation_integration": {
+    "stars": ["consciousness", "memory"],
+    "validates": false,
+    "blocks_on_failure": false
+  }
+}

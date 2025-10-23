@@ -41,7 +41,7 @@ from typing import Any, Callable, Optional
 
 # Guardian System Components
 try:
-    from governance.consent_ledger.ledger_v1 import (
+    from core.governance.consent_ledger.ledger_v1 import (
         ConsentLedgerV1,
         PolicyVerdict,
     )
@@ -51,7 +51,7 @@ except ImportError:
     logging.warning("ConsentLedgerV1 not available - using fallback")
 
 try:
-    from governance.guardian.drift_detector import (
+    from labs.governance.guardian.drift_detector import (
         AdvancedDriftDetector,
         DriftSeverity,
         DriftType,
@@ -63,7 +63,7 @@ except ImportError:
     logging.warning("AdvancedDriftDetector not available - using fallback")
 
 try:
-    from governance.identity.core.sent.policy_engine import (
+    from labs.governance.identity.core.sent.policy_engine import (
         ComprehensiveEthicsPolicyEngine,
         EthicalFramework,
         PolicyAction,
@@ -75,7 +75,7 @@ except ImportError:
     logging.warning("ComprehensiveEthicsPolicyEngine not available - using fallback")
 
 try:
-    from governance.security.audit_system import (
+    from labs.governance.security.audit_system import (
         AuditCategory,
         AuditEventType,
         AuditLevel,

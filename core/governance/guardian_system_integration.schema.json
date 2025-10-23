@@ -1,0 +1,89 @@
+{
+  "module": "core.governance.guardian_system_integration",
+  "version": "1.0.0",
+  "type": "guardian_node",
+  "matriz_compatible": true,
+  "description": "Guardian System integration for Constitutional AI compliance, drift detection, consent management, and audit trails",
+
+  "capabilities": {
+    "sends": [
+      {
+        "signal": "guardian.validation.request",
+        "schema": "GuardianValidationRequest",
+        "frequency": "per_interaction",
+        "latency_target_ms": 250
+      },
+      {
+        "signal": "guardian.alert.raised",
+        "schema": "GuardianAlert",
+        "frequency": "on_violation",
+        "priority": "high"
+      },
+      {
+        "signal": "audit.event.logged",
+        "schema": "AuditEvent",
+        "frequency": "continuous",
+        "retention_days": 365
+      }
+    ],
+    "receives": [
+      {
+        "signal": "system.action.pre_execute",
+        "schema": "ActionRequest",
+        "handler": "validate_action",
+        "required": true
+      },
+      {
+        "signal": "consent.request.check",
+        "schema": "ConsentCheckRequest",
+        "handler": "check_consent",
+        "required": false
+      },
+      {
+        "signal": "drift.detection.trigger",
+        "schema": "DriftCheckRequest",
+        "handler": "detect_drift",
+        "required": false
+      }
+    ]
+  },
+
+  "main_classes": [
+    {
+      "name": "GuardianSystemIntegrationHub",
+      "type": "orchestrator",
+      "methods": ["validate_action", "check_consent", "detect_drift", "log_audit_event"],
+      "async": true
+    },
+    {
+      "name": "GuardianValidationRequest",
+      "type": "dataclass",
+      "fields": ["request_id", "user_id", "action", "resource", "context"]
+    },
+    {
+      "name": "GuardianValidationResponse",
+      "type": "dataclass",
+      "fields": ["result", "confidence", "consent_result", "drift_result", "ethics_result"]
+    }
+  ],
+
+  "dependencies": [
+    "core.governance.consent_ledger.ledger_v1",
+    "governance.guardian.drift_detector",
+    "governance.identity.core.sent.policy_engine",
+    "governance.security.audit_system"
+  ],
+
+  "performance": {
+    "max_latency_ms": 250,
+    "target_latency_p95_ms": 150,
+    "memory_limit_mb": 100,
+    "cpu_cores": 1
+  },
+
+  "constellation_integration": {
+    "stars": ["guardian", "ethics", "identity", "memory"],
+    "validates": true,
+    "blocks_on_failure": true
+  }
+}

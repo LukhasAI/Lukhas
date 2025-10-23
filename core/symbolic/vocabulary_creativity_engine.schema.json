@@ -1,0 +1,56 @@
+{
+  "module": "core.symbolic.vocabulary_creativity_engine",
+  "version": "1.0.0",
+  "type": "symbolic_creativity_node",
+  "matriz_compatible": true,
+  "description": "Vocabulary and symbolic creativity engine for generating novel linguistic and conceptual representations",
+
+  "capabilities": {
+    "sends": [
+      {
+        "signal": "symbolic.creation.result",
+        "schema": "SymbolicCreation",
+        "frequency": "per_generation",
+        "latency_target_ms": 500
+      },
+      {
+        "signal": "vocabulary.expansion",
+        "schema": "VocabularyExpansion",
+        "frequency": "on_learning",
+        "priority": "low"
+      }
+    ],
+    "receives": [
+      {
+        "signal": "symbolic.generate.request",
+        "schema": "GenerationRequest",
+        "handler": "generate_symbol",
+        "required": true
+      }
+    ]
+  },
+
+  "main_classes": [
+    {
+      "name": "VocabularyCreativityEngine",
+      "type": "engine",
+      "methods": ["generate_symbol", "expand_vocabulary"],
+      "async": true
+    }
+  ],
+
+  "dependencies": [],
+
+  "performance": {
+    "max_latency_ms": 500,
+    "target_latency_p95_ms": 300,
+    "memory_limit_mb": 100,
+    "cpu_cores": 1
+  },
+
+  "constellation_integration": {
+    "stars": ["dream", "consciousness"],
+    "validates": false,
+    "blocks_on_failure": false
+  }
+}

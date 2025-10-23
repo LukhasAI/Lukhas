@@ -1,0 +1,62 @@
+{
+  "module": "matriz.consciousness.reflection.reflection_layer",
+  "version": "1.0.0",
+  "type": "reflection_layer_node",
+  "matriz_compatible": true,
+  "description": "Consciousness reflection layer for introspective and metacognitive processing",
+
+  "capabilities": {
+    "sends": [
+      {
+        "signal": "reflection.insight.generated",
+        "schema": "ReflectionInsight",
+        "frequency": "per_reflection",
+        "latency_target_ms": 300
+      },
+      {
+        "signal": "reflection.metacognition.event",
+        "schema": "MetacognitionEvent",
+        "frequency": "on_metacognition",
+        "priority": "normal"
+      }
+    ],
+    "receives": [
+      {
+        "signal": "reflection.request",
+        "schema": "ReflectionRequest",
+        "handler": "reflect",
+        "required": true
+      },
+      {
+        "signal": "metacognition.request",
+        "schema": "MetacognitionRequest",
+        "handler": "metacognize",
+        "required": false
+      }
+    ]
+  },
+
+  "main_classes": [
+    {
+      "name": "ReflectionLayer",
+      "type": "layer",
+      "methods": ["reflect", "metacognize"],
+      "async": true
+    }
+  ],
+
+  "dependencies": [],
+
+  "performance": {
+    "max_latency_ms": 300,
+    "target_latency_p95_ms": 200,
+    "memory_limit_mb": 150,
+    "cpu_cores": 2
+  },
+
+  "constellation_integration": {
+    "stars": ["consciousness", "memory", "ethics"],
+    "validates": true,
+    "blocks_on_failure": false
+  }
+}

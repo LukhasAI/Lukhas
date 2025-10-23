@@ -1,0 +1,56 @@
+{
+  "module": "core.bridge.dream_commerce",
+  "version": "1.0.0",
+  "type": "bridge_node",
+  "matriz_compatible": true,
+  "description": "Dream commerce bridge connecting dream-state processing with external commerce and monetization systems",
+
+  "capabilities": {
+    "sends": [
+      {
+        "signal": "commerce.dream.transaction",
+        "schema": "DreamTransaction",
+        "frequency": "per_transaction",
+        "latency_target_ms": 1000
+      },
+      {
+        "signal": "commerce.dream.insight_monetized",
+        "schema": "MonetizedInsight",
+        "frequency": "on_monetization",
+        "priority": "low"
+      }
+    ],
+    "receives": [
+      {
+        "signal": "commerce.dream.request",
+        "schema": "DreamCommerceRequest",
+        "handler": "process_dream_commerce",
+        "required": true
+      }
+    ]
+  },
+
+  "main_classes": [
+    {
+      "name": "DreamCommerceBridge",
+      "type": "bridge",
+      "methods": ["process_dream_commerce", "monetize_insight"],
+      "async": true
+    }
+  ],
+
+  "dependencies": [],
+
+  "performance": {
+    "max_latency_ms": 1000,
+    "target_latency_p95_ms": 750,
+    "memory_limit_mb": 100,
+    "cpu_cores": 1
+  },
+
+  "constellation_integration": {
+    "stars": ["dream"],
+    "validates": false,
+    "blocks_on_failure": false
+  }
+}

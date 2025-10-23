@@ -46,7 +46,7 @@ except ImportError:
     GlyphEngine = None
 
 try:
-    from governance.identity.core.id_service.lambd_id_validator import LambdIDValidator
+    from labs.governance.identity.core.id_service.lambd_id_validator import LambdIDValidator
 except ImportError:
     # Fallback for testing/development
     LambdIDValidator = None
