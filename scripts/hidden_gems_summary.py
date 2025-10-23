@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import logging
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
@@ -12,6 +13,9 @@ from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence
 
 _REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_MANIFEST_PATH = _REPO_ROOT / "docs" / "audits" / "integration_manifest.json"
+
+# ΛTAG: hidden_gems_logger
+logger = logging.getLogger(__name__)
 
 
 class ManifestFormatError(ValueError):
@@ -146,6 +150,57 @@ def format_summary(gems: Sequence[HiddenGem], *, top_n: int = 5) -> str:
     return "\n".join(lines)
 
 
+# ΛTAG: hidden_gems_payload
+def build_summary_payload(
+    gems: Sequence[HiddenGem], *, top_n: int = 5
+) -> Dict[str, Any]:
+    """Create a structured payload describing the current hidden gem selection."""
+
+    lane_summary = summarize_by_lane(gems)
+    total_effort = sum(gem.effort_hours for gem in gems)
+    total_modules = len(gems)
+
+    lanes = [
+        {
+            "lane": lane,
+            "count": int(stats["count"]),
+            "effort_hours": stats["effort"],
+        }
+        for lane, stats in sorted(lane_summary.items())
+    ]
+
+    top_modules = [
+        {
+            "module": gem.module,
+            "score": gem.score,
+            "target": gem.target_location,
+            "effort_hours": gem.effort_hours,
+        }
+        for gem in sorted(gems, key=lambda item: item.score, reverse=True)[:top_n]
+    ]
+
+    return {
+        "total_modules": total_modules,
+        "total_effort_hours": total_effort,
+        "lanes": lanes,
+        "top_modules": top_modules,
+    }
+
+
+# ΛTAG: hidden_gems_renderer
+def render_summary(
+    gems: Sequence[HiddenGem], *, top_n: int = 5, output_format: str = "text"
+) -> str:
+    """Render the summary in the requested output format."""
+
+    if output_format == "json":
+        payload = build_summary_payload(gems, top_n=top_n)
+        return json.dumps(payload, indent=2, sort_keys=True)
+    if output_format == "text":
+        return format_summary(gems, top_n=top_n)
+    raise ManifestFormatError(f"Unsupported output format: {output_format}")
+
+
 def _resolve_manifest_path(path_argument: Optional[Path]) -> Path:
     """Resolve the manifest path argument, falling back to the default location."""
 
@@ -187,6 +242,18 @@ def _build_parser() -> argparse.ArgumentParser:
         default=5,
         help="Number of top modules by score to display",
     )
+    parser.add_argument(
+        "--format",
+        choices=["text", "json"],
+        default="text",
+        help="Output format for the summary",
+    )
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=None,
+        help="Optional path to write the rendered summary to disk",
+    )
     return parser
 
 
@@ -201,8 +268,12 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     gems = extract_hidden_gems(
         manifest_payload, min_score=args.min_score, complexity=args.complexity
     )
-    summary = format_summary(gems, top_n=args.top)
-    print(summary)
+    summary = render_summary(gems, top_n=args.top, output_format=args.format)
+    if args.output:
+        args.output.write_text(summary + "\n")
+        logger.info("Hidden gems summary written to %s", args.output)
+    else:
+        print(summary)
     return 0
 
 
