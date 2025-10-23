@@ -63,17 +63,119 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
-from dashboard.core.fallback_system import DashboardFallbackSystem
 
-from bio.core.symbolic_fallback_systems import BioSymbolicFallbackManager, FallbackLevel
-from ethics.compliance_validator import ComplianceValidator
-from core.colonies.base_colony import BaseColony
-from core.colonies.ethics_swarm_colony import EthicalDecisionRequest, EthicalDecisionType, EthicsSwarmColony
-from core.colonies.governance_colony_enhanced import GovernanceColony
-from core.quantized_thought_cycles import QuantizedThoughtProcessor
 
-# Import existing components
-from memory.systems.memory_safety_features import MemorySafetySystem
+class _FallbackComponent:
+    """Generic fallback used when optional guardian subsystems are missing."""
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        self._init_args = args
+        self._init_kwargs = kwargs
+
+    def __call__(self, *args: Any, **kwargs: Any) -> None:
+        return None
+
+    def __getattr__(self, name: str) -> Any:
+        def _noop(*args: Any, **kwargs: Any) -> None:
+            return None
+
+        return _noop
+
+
+def _warn_placeholder(component: str, error: Exception) -> None:
+    logging.getLogger(__name__).warning("Using placeholder for %s: %s", component, error)
+
+
+try:
+    from dashboard.core.fallback_system import DashboardFallbackSystem
+except ImportError as import_error:
+    _warn_placeholder("dashboard.core.fallback_system", import_error)
+
+    class DashboardFallbackSystem(_FallbackComponent):
+        pass
+
+
+try:
+    from bio.core.symbolic_fallback_systems import BioSymbolicFallbackManager, FallbackLevel
+except ImportError as import_error:
+    _warn_placeholder("bio.core.symbolic_fallback_systems", import_error)
+
+    class FallbackLevel(Enum):  # type: ignore[no-redef]
+        MINIMAL = "minimal"
+        MODERATE = "moderate"
+        SEVERE = "severe"
+        CRITICAL = "critical"
+
+    class BioSymbolicFallbackManager(_FallbackComponent):
+        pass
+
+
+try:
+    from ethics.compliance_validator import ComplianceValidator
+except ImportError as import_error:
+    _warn_placeholder("ethics.compliance_validator", import_error)
+
+    class ComplianceValidator(_FallbackComponent):
+        pass
+
+
+try:
+    from core.colonies.base_colony import BaseColony
+except ImportError as import_error:
+    _warn_placeholder("core.colonies.base_colony", import_error)
+
+    class BaseColony(_FallbackComponent):
+        pass
+
+
+try:
+    from core.colonies.ethics_swarm_colony import (
+        EthicalDecisionRequest,
+        EthicalDecisionType,
+        EthicsSwarmColony,
+    )
+except ImportError as import_error:
+    _warn_placeholder("core.colonies.ethics_swarm_colony", import_error)
+
+    @dataclass
+    class EthicalDecisionRequest:  # type: ignore[no-redef]
+        request_id: str = "placeholder"
+        context: dict[str, Any] = field(default_factory=dict)
+
+    class EthicalDecisionType(Enum):  # type: ignore[no-redef]
+        STANDARD = "standard"
+        ESCALATED = "escalated"
+
+    class EthicsSwarmColony(_FallbackComponent):
+        pass
+
+
+try:
+    from core.colonies.governance_colony_enhanced import GovernanceColony
+except ImportError as import_error:
+    _warn_placeholder("core.colonies.governance_colony_enhanced", import_error)
+
+    class GovernanceColony(_FallbackComponent):
+        pass
+
+
+try:
+    from core.quantized_thought_cycles import QuantizedThoughtProcessor
+except ImportError as import_error:
+    _warn_placeholder("core.quantized_thought_cycles", import_error)
+
+    class QuantizedThoughtProcessor(_FallbackComponent):
+        pass
+
+
+try:
+    from memory.systems.memory_safety_features import MemorySafetySystem
+except ImportError as import_error:
+    _warn_placeholder("memory.systems.memory_safety_features", import_error)
+
+    class MemorySafetySystem(_FallbackComponent):
+        pass
+
 
 logger = logging.getLogger("ΛTRACE.integrated_safety")
 
@@ -221,7 +323,8 @@ class SafetyEventBus:
             "total_events": len(self.event_history),
             "events_by_type": dict(self.event_metrics),
             "subscribers_by_type": {
-                event_type.value: len(subscribers) for event_type, subscribers in self.safety_channels.items()
+                event_type.value: len(subscribers)
+                for event_type, subscribers in self.safety_channels.items()
             },
         }
 
@@ -280,7 +383,8 @@ class SafetyColony(BaseColony):
         validation_time = (datetime.now(timezone.utc) - start_time).total_seconds()
         self.validation_metrics["total_validations"] += 1
         self.validation_metrics["average_time"] = (
-            self.validation_metrics["average_time"] * (self.validation_metrics["total_validations"] - 1)
+            self.validation_metrics["average_time"]
+            * (self.validation_metrics["total_validations"] - 1)
             + validation_time
         ) / self.validation_metrics["total_validations"]
 
@@ -426,7 +530,9 @@ class IntegratedSafetySystem:
         }
 
         # Circuit breakers
-        self.circuit_breakers = defaultdict(lambda: {"failures": 0, "last_failure": None, "is_open": False})
+        self.circuit_breakers = defaultdict(
+            lambda: {"failures": 0, "last_failure": None, "is_open": False}
+        )
 
         # Subscribe colonies to events
         asyncio.create_task(self._initialize_subscriptions())
@@ -526,7 +632,8 @@ class IntegratedSafetySystem:
         # Update metrics
         self.safety_metrics["validations_performed"] += 1
         self.safety_metrics["average_response_time"] = (
-            self.safety_metrics["average_response_time"] * (self.safety_metrics["validations_performed"] - 1)
+            self.safety_metrics["average_response_time"]
+            * (self.safety_metrics["validations_performed"] - 1)
             + validation_time
         ) / self.safety_metrics["validations_performed"]
 
@@ -593,7 +700,9 @@ class IntegratedSafetySystem:
             logger.error(f"Memory safety validation error: {e}")
             return False, 0.0
 
-    async def _validate_ethics(self, action: dict[str, Any], context: Optional[dict[str, Any]]) -> dict[str, Any]:
+    async def _validate_ethics(
+        self, action: dict[str, Any], context: Optional[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Validate action through ethics colony"""
         try:
             # Create ethical decision request
@@ -627,7 +736,9 @@ class IntegratedSafetySystem:
             logger.error(f"Ethics validation error: {e}")
             return {"approved": False, "score": 0.0, "violations": [str(e)]}
 
-    async def _validate_compliance(self, action: dict[str, Any], context: Optional[dict[str, Any]]) -> dict[str, Any]:
+    async def _validate_compliance(
+        self, action: dict[str, Any], context: Optional[dict[str, Any]]
+    ) -> dict[str, Any]:
         """Validate action through compliance system"""
         try:
             # Check compliance
@@ -651,7 +762,9 @@ class IntegratedSafetySystem:
             logger.error(f"Compliance validation error: {e}")
             return {"compliant": False, "score": 0.0, "violations": [str(e)]}
 
-    def _generate_recommendations(self, violations: list[dict[str, Any]], results: dict[str, Any]) -> list[str]:
+    def _generate_recommendations(
+        self, violations: list[dict[str, Any]], results: dict[str, Any]
+    ) -> list[str]:
         """Generate recommendations based on validation results"""
         recommendations = []
 
@@ -738,7 +851,9 @@ class IntegratedSafetySystem:
             self.safety_level = threat_level
             logger.warning(f"System safety level escalated to: {self.safety_level.value}")
 
-    async def _determine_mitigation_strategy(self, threat: dict[str, Any], threat_level: SafetyLevel) -> dict[str, Any]:
+    async def _determine_mitigation_strategy(
+        self, threat: dict[str, Any], threat_level: SafetyLevel
+    ) -> dict[str, Any]:
         """Determine appropriate mitigation strategy"""
         strategies = {
             SafetyLevel.NORMAL: {
@@ -766,7 +881,9 @@ class IntegratedSafetySystem:
 
         return strategies.get(threat_level, strategies[SafetyLevel.NORMAL])
 
-    async def _deploy_mitigation(self, strategy: dict[str, Any], threat: dict[str, Any]) -> list[dict[str, Any]]:
+    async def _deploy_mitigation(
+        self, strategy: dict[str, Any], threat: dict[str, Any]
+    ) -> list[dict[str, Any]]:
         """Deploy mitigation strategy across colonies"""
         results = []
 
@@ -793,14 +910,18 @@ class IntegratedSafetySystem:
 
         return results
 
-    async def _verify_mitigation_effectiveness(self, mitigation_results: list[dict[str, Any]]) -> float:
+    async def _verify_mitigation_effectiveness(
+        self, mitigation_results: list[dict[str, Any]]
+    ) -> float:
         """Verify the effectiveness of mitigation efforts"""
         if not mitigation_results:
             return 0.0
 
         # Simple effectiveness calculation
         successful = sum(
-            1 for r in mitigation_results if r.get("status") == "activated" or r.get("result", {}).get("success")
+            1
+            for r in mitigation_results
+            if r.get("status") == "activated" or r.get("result", {}).get("success")
         )
 
         return successful / len(mitigation_results)
@@ -811,7 +932,9 @@ class IntegratedSafetySystem:
 
         # Reset if enough time has passed
         if breaker["is_open"] and breaker["last_failure"]:
-            time_since_failure = (datetime.now(timezone.utc) - breaker["last_failure"]).total_seconds()
+            time_since_failure = (
+                datetime.now(timezone.utc) - breaker["last_failure"]
+            ).total_seconds()
             if time_since_failure > 300:  # 5 minute reset
                 breaker["failures"] = 0
                 breaker["is_open"] = False
@@ -940,7 +1063,8 @@ class IntegratedSafetySystem:
         # Success rate
         if self.safety_metrics["threats_detected"] > 0:
             self.safety_metrics["mitigation_success_rate"] = (
-                self.safety_metrics["mitigations_successful"] / self.safety_metrics["threats_detected"]
+                self.safety_metrics["mitigations_successful"]
+                / self.safety_metrics["threats_detected"]
             )
 
     def get_system_status(self) -> dict[str, Any]:
@@ -958,7 +1082,9 @@ class IntegratedSafetySystem:
                 }
                 for component, breaker in self.circuit_breakers.items()
             },
-            "colonies_status": {name: "active" if colony else "inactive" for name, colony in self.colonies.items()},
+            "colonies_status": {
+                name: "active" if colony else "inactive" for name, colony in self.colonies.items()
+            },
         }
 
 

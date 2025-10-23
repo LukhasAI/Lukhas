@@ -1,3 +1,5 @@
+import importlib
+
 from core.trace import mk_crumb
 from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
 
@@ -25,15 +27,21 @@ class GovernanceAdapter(MatrizNode):
             guardian_log=[f"governance_processed_{topic}"],
         )
 
+
 # Added for test compatibility (matriz.adapters.governance_adapter.UgovernanceAdapter)
 try:
-    from candidate.matriz.adapters.governance_adapter import UgovernanceAdapter  # noqa: F401
-except ImportError:
+    _candidate_module = importlib.import_module("candidate.matriz.adapters.governance_adapter")
+    UgovernanceAdapter = getattr(_candidate_module, "UgovernanceAdapter")  # type: ignore[assignment]
+except Exception:  # pragma: no cover - fallback for missing candidate module
+
     class UgovernanceAdapter:
-        """Stub for UgovernanceAdapter."""
+        """Stub for UgovernanceAdapter when candidate lane is unavailable."""
+
         def __init__(self, *args, **kwargs):
             for key, value in kwargs.items():
                 setattr(self, key, value)
+
+
 try:
     __all__  # type: ignore[name-defined]
 except NameError:

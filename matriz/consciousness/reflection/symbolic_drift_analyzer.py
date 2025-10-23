@@ -74,7 +74,7 @@ try:
 except ImportError:
     # Mock imports for standalone testing
     DreamMemoryManager = None
-    DriftPhase = Enum("DriftPhase", "EARLY MIDDLE LATE CASCADE", timezone)
+    DriftPhase = Enum("DriftPhase", "EARLY MIDDLE LATE CASCADE")
     DriftScore = None
     EthicalDriftDetector = None
     Glyph = None

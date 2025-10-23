@@ -20,10 +20,63 @@ import logging
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from core.bridges.memory_consciousness_bridge import get_memory_consciousness_bridge
-from core.bridges.memory_learning_bridge import MemoryLearningBridge
-from core.common import get_logger
-from memory.core.base_manager import BaseMemoryManager
+
+class _FallbackComponent:
+    """Generic fallback used when optional subsystems are unavailable."""
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        self._init_args = args
+        self._init_kwargs = kwargs
+
+    def __call__(self, *args: Any, **kwargs: Any) -> None:
+        return None
+
+    def __getattr__(self, name: str) -> Any:
+        def _noop(*args: Any, **kwargs: Any) -> None:
+            return None
+
+        return _noop
+
+
+def _warn_placeholder(component: str, error: Exception) -> None:
+    logging.getLogger(__name__).warning("Using placeholder for %s: %s", component, error)
+
+
+try:
+    from core.bridges.memory_consciousness_bridge import get_memory_consciousness_bridge
+except ImportError as import_error:
+    _warn_placeholder("core.bridges.memory_consciousness_bridge", import_error)
+
+    def get_memory_consciousness_bridge(*args: Any, **kwargs: Any) -> None:  # type: ignore[override]
+        return None
+
+
+try:
+    from core.bridges.memory_learning_bridge import MemoryLearningBridge
+except ImportError as import_error:
+    _warn_placeholder("core.bridges.memory_learning_bridge", import_error)
+
+    class MemoryLearningBridge(_FallbackComponent):
+        pass
+
+
+try:
+    from core.common import get_logger
+except ImportError as import_error:
+    _warn_placeholder("core.common.get_logger", import_error)
+
+    def get_logger(name: str) -> logging.Logger:
+        return logging.getLogger(name)
+
+
+try:
+    from memory.core.base_manager import BaseMemoryManager
+except ImportError as import_error:
+    _warn_placeholder("memory.core.base_manager", import_error)
+
+    class BaseMemoryManager(_FallbackComponent):
+        pass
+
 
 # Task 3C: Add connectivity imports
 try:
@@ -43,18 +96,59 @@ try:
 except ImportError:
     SymbolicMemoryMapper = None
     logging.warning("SymbolicMemoryMapper not available")
-from consciousness.reflection.unified_memory_manager import (
-    DriftMemoryManager,
-    EnhancedMemoryManager,
-    QIMemoryManager,
-)
-from dream.core.dream_memory_manager import DreamMemoryManager
-from memory.distributed_state_manager import (
-    DistributedStateManager,
-    MultiNodeStateManager,
-)
-from memory.qi_manager import EnhancedMemoryManager
-from memory.voice_memory_manager import MemoryManager
+
+
+try:
+    from consciousness.reflection.unified_memory_manager import (
+        DriftMemoryManager,
+        EnhancedMemoryManager,
+        QIMemoryManager,
+    )
+except ImportError as import_error:
+    _warn_placeholder("consciousness.reflection.unified_memory_manager", import_error)
+
+    class DriftMemoryManager(_FallbackComponent):
+        pass
+
+    class EnhancedMemoryManager(_FallbackComponent):  # type: ignore[no-redef]
+        pass
+
+    class QIMemoryManager(_FallbackComponent):
+        pass
+
+
+try:
+    from dream.core.dream_memory_manager import DreamMemoryManager
+except ImportError as import_error:
+    _warn_placeholder("dream.core.dream_memory_manager", import_error)
+
+    class DreamMemoryManager(_FallbackComponent):
+        pass
+
+
+try:
+    from memory.distributed_state_manager import (
+        DistributedStateManager,
+        MultiNodeStateManager,
+    )
+except ImportError as import_error:
+    _warn_placeholder("memory.distributed_state_manager", import_error)
+
+    class DistributedStateManager(_FallbackComponent):
+        pass
+
+    class MultiNodeStateManager(_FallbackComponent):
+        pass
+
+
+try:
+    from memory.voice_memory_manager import MemoryManager
+except ImportError as import_error:
+    _warn_placeholder("memory.voice_memory_manager", import_error)
+
+    class MemoryManager(_FallbackComponent):
+        pass
+
 
 # Agent 1 Task 6: Golden Helix Memory Mapper integration
 try:
@@ -220,8 +314,12 @@ class MemoryHub:
                 if self.memory_planner:
                     self.register_service("memory_planner", self.memory_planner)
                     # Create default allocation pools
-                    self.memory_planner.create_allocation_pool("default", 1024 * 1024)  # 1MB default pool
-                    self.memory_planner.create_allocation_pool("large", 10 * 1024 * 1024)  # 10MB large pool
+                    self.memory_planner.create_allocation_pool(
+                        "default", 1024 * 1024
+                    )  # 1MB default pool
+                    self.memory_planner.create_allocation_pool(
+                        "large", 10 * 1024 * 1024
+                    )  # 10MB large pool
                     logger.info("Memory planning components initialized with default pools")
             except Exception as e:
                 logger.error(f"Failed to initialize memory planning: {e}")
@@ -458,11 +556,15 @@ class MemoryHub:
                     "consolidation_orchestrator",
                     "sleep_cycle_manager",
                 ]:
-                    module = __import__(f"memory.consolidation.{service_name}", fromlist=[class_name])
+                    module = __import__(
+                        f"memory.consolidation.{service_name}", fromlist=[class_name]
+                    )
                 elif service_name == "replay_buffer":
                     module = __import__("memory.replay.replay_buffer", fromlist=[class_name])
                 elif service_name == "resonant_memory_access":
-                    module = __import__("memory.resonance.resonant_memory_access", fromlist=[class_name])
+                    module = __import__(
+                        "memory.resonance.resonant_memory_access", fromlist=[class_name]
+                    )
                 elif service_name in ["integration_bridge", "adaptive_memory_engine"]:
                     module = __import__(f"memory.systems.{service_name}", fromlist=[class_name])
 
@@ -544,7 +646,9 @@ class MemoryHub:
 
             for service_name in key_services:
                 if service_name in self.services:
-                    discovery.register_service_globally(service_name, self.services[service_name], "memory")
+                    discovery.register_service_globally(
+                        service_name, self.services[service_name], "memory"
+                    )
 
             logger.debug(f"Registered {len(key_services)} memory services with global discovery")
         except Exception as e:
@@ -620,7 +724,9 @@ class MemoryHub:
             except Exception as e:
                 logger.error(f"Failed to connect to SymbolicHub: {e}")
         else:
-            logger.warning("SymbolicHub or SymbolicMemoryMapper not available - skipping connection")
+            logger.warning(
+                "SymbolicHub or SymbolicMemoryMapper not available - skipping connection"
+            )
 
         # Setup distributed state management
         try:
@@ -742,7 +848,9 @@ class MemoryHub:
             logger.error(f"Failed to encode memory in helix: {e}")
             return ""
 
-    async def mutate_helix_memory(self, memory_id: str, mutation: dict[str, Any], strategy: str) -> bool:
+    async def mutate_helix_memory(
+        self, memory_id: str, mutation: dict[str, Any], strategy: str
+    ) -> bool:
         """Apply mutation to helix memory"""
         if not GOLDEN_HELIX_AVAILABLE:
             logger.warning("Golden Helix Memory Mapper not available")
@@ -893,7 +1001,9 @@ class MemoryHub:
             logger.error(f"Failed to create episodic memory: {e}")
             return {"success": False, "error": str(e)}
 
-    async def retrieve_episodic_memory(self, memory_id: str, include_related: bool = False) -> dict[str, Any]:
+    async def retrieve_episodic_memory(
+        self, memory_id: str, include_related: bool = False
+    ) -> dict[str, Any]:
         """Retrieve episodic memory by ID through colony integration"""
         if not EPISODIC_MEMORY_COLONY_AVAILABLE:
             logger.warning("Episodic memory colony not available")
@@ -913,7 +1023,9 @@ class MemoryHub:
             logger.error(f"Failed to retrieve episodic memory: {e}")
             return {"success": False, "error": str(e)}
 
-    async def search_episodic_memories(self, query: dict[str, Any], limit: int = 50) -> list[dict[str, Any]]:
+    async def search_episodic_memories(
+        self, query: dict[str, Any], limit: int = 50
+    ) -> list[dict[str, Any]]:
         """Search episodic memories through colony integration"""
         if not EPISODIC_MEMORY_COLONY_AVAILABLE:
             logger.warning("Episodic memory colony not available")
@@ -993,7 +1105,9 @@ class MemoryHub:
             return {"available": False, "error": str(e)}
 
     # Memory Tracker interface methods
-    async def start_memory_tracking(self, root_module=None, session_id: Optional[str] = None) -> dict[str, Any]:
+    async def start_memory_tracking(
+        self, root_module=None, session_id: Optional[str] = None
+    ) -> dict[str, Any]:
         """Start memory tracking through integration"""
         if not MEMORY_TRACKER_AVAILABLE:
             logger.warning("Memory tracker not available")
@@ -1027,7 +1141,9 @@ class MemoryHub:
             logger.error(f"Failed to stop memory tracking: {e}")
             return {"success": False, "error": str(e)}
 
-    async def get_memory_tracking_summary(self, session_id: Optional[str] = None, top_ops: int = 20) -> dict[str, Any]:
+    async def get_memory_tracking_summary(
+        self, session_id: Optional[str] = None, top_ops: int = 20
+    ) -> dict[str, Any]:
         """Get memory tracking summary through integration"""
         if not MEMORY_TRACKER_AVAILABLE:
             logger.warning("Memory tracker not available")

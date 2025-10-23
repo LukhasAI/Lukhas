@@ -14,15 +14,17 @@ import hashlib
 import time
 import uuid
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Set
+from typing import Any, Dict, List, Optional, Set, Tuple
+
 import numpy as np
 
-from .visual_symbol import VisualSymbol, EmergentSymbol, SymbolicPhase
+from .visual_symbol import EmergentSymbol, SymbolicPhase, VisualSymbol
 
 
 @dataclass
 class QSymbol:
     """Compressed symbolic representation of perception-action cycles"""
+
     q_id: str = field(default_factory=lambda: f"Q-{uuid.uuid4().hex[:8]}")
     origin_symbols: List[str] = field(default_factory=list)
     compression_ratio: float = 1.0
@@ -46,6 +48,7 @@ class QSymbol:
 @dataclass
 class SymbolicDrift:
     """Tracks how symbols evolve over time"""
+
     symbol_id: str
     drift_trajectory: List[Dict[str, float]] = field(default_factory=list)
     drift_rate: float = 0.01
@@ -60,16 +63,17 @@ class SymbolicDrift:
         current = {
             "coherence": symbol.state.quantum_field.coherence,
             "entropy": symbol.state.quantum_field.entropy,
-            "trust": symbol.state.quantum_field.trust
+            "trust": symbol.state.quantum_field.trust,
         }
 
-        drift = np.sqrt(sum((current[k] - original.get(k, 0))**2 for k in current))
+        drift = np.sqrt(sum((current[k] - original.get(k, 0)) ** 2 for k in current))
         return drift
 
 
 @dataclass
 class ContradictionEntropy:
     """Resolves paradoxes through entropy management"""
+
     contradictions: List[Tuple[str, str]] = field(default_factory=list)
     entropy_level: float = 0.0
     resolution_threshold: float = 0.7
@@ -93,6 +97,7 @@ class ContradictionEntropy:
 @dataclass
 class BootstrapParadox:
     """Implements self-creating symbolic systems"""
+
     seed_symbols: Set[str] = field(default_factory=set)
     emergent_symbols: Dict[str, EmergentSymbol] = field(default_factory=dict)
     generation: int = 0
@@ -113,7 +118,7 @@ class BootstrapParadox:
         if emergence_id not in self.emergent_symbols:
             emergent = EmergentSymbol(
                 origin_symbols=[s.state.symbol_id for s in symbols],
-                observation_threshold=self.emergence_threshold
+                observation_threshold=self.emergence_threshold,
             )
             self.emergent_symbols[emergence_id] = emergent
             return emergent
@@ -139,11 +144,7 @@ class RecursiveSymbolicEngine:
         self.observation_count = 0
         self.emergence_events: List[Dict[str, Any]] = []
 
-    def observe_recursive(
-        self,
-        symbol: VisualSymbol,
-        depth: int = 0
-    ) -> Dict[str, Any]:
+    def observe_recursive(self, symbol: VisualSymbol, depth: int = 0) -> Dict[str, Any]:
         """Recursively observe symbol, triggering emergence"""
         if depth >= self.recursion_depth:
             return {"recursion_limit": True}
@@ -157,12 +158,14 @@ class RecursiveSymbolicEngine:
             )
 
         tracker = self.drift_trackers[symbol.state.symbol_id]
-        tracker.drift_trajectory.append({
-            "coherence": symbol.state.quantum_field.coherence,
-            "entropy": symbol.state.quantum_field.entropy,
-            "trust": symbol.state.quantum_field.trust,
-            "time": time.time()
-        })
+        tracker.drift_trajectory.append(
+            {
+                "coherence": symbol.state.quantum_field.coherence,
+                "entropy": symbol.state.quantum_field.entropy,
+                "trust": symbol.state.quantum_field.trust,
+                "time": time.time(),
+            }
+        )
 
         drift = tracker.measure_drift(symbol)
 
@@ -171,7 +174,7 @@ class RecursiveSymbolicEngine:
             "symbol_id": symbol.state.symbol_id,
             "depth": depth,
             "drift": drift,
-            "observation": self.observation_count
+            "observation": self.observation_count,
         }
 
         # Recursive observation of entangled symbols
@@ -197,28 +200,25 @@ class RecursiveSymbolicEngine:
         # Compression can trigger emergence
         emergent = self.bootstrap.bootstrap_cycle(symbols)
         if emergent and emergent.current_observations >= emergent.observation_threshold:
-            self.emergence_events.append({
-                "time": time.time(),
-                "q_symbol": q_id,
-                "emergent": emergent,
-                "generation": self.bootstrap.generation
-            })
+            self.emergence_events.append(
+                {
+                    "time": time.time(),
+                    "q_symbol": q_id,
+                    "emergent": emergent,
+                    "generation": self.bootstrap.generation,
+                }
+            )
 
         return q_symbol
 
-    def detect_contradiction(
-        self,
-        symbol_a: VisualSymbol,
-        symbol_b: VisualSymbol
-    ) -> bool:
+    def detect_contradiction(self, symbol_a: VisualSymbol, symbol_b: VisualSymbol) -> bool:
         """Detect if two symbols are contradictory"""
         # Contradictions arise from opposite quantum states
         phase_diff = abs(symbol_a.state.quantum_field.phase - symbol_b.state.quantum_field.phase)
 
         if phase_diff > np.pi * 0.9:  # Nearly opposite phases
             self.contradiction_entropy.add_contradiction(
-                symbol_a.state.symbol_id,
-                symbol_b.state.symbol_id
+                symbol_a.state.symbol_id, symbol_b.state.symbol_id
             )
             return True
 
@@ -232,15 +232,17 @@ class RecursiveSymbolicEngine:
             # Create emergent symbol from resolution
             emergent = EmergentSymbol(
                 origin_symbols=[c[0] for c in self.contradiction_entropy.contradictions],
-                observation_threshold=3  # Faster emergence for resolutions
+                observation_threshold=3,  # Faster emergence for resolutions
             )
 
-            self.emergence_events.append({
-                "time": time.time(),
-                "type": "contradiction_resolution",
-                "resolved_id": resolved_id,
-                "emergent": emergent
-            })
+            self.emergence_events.append(
+                {
+                    "time": time.time(),
+                    "type": "contradiction_resolution",
+                    "resolved_id": resolved_id,
+                    "emergent": emergent,
+                }
+            )
 
             return emergent
 
@@ -258,9 +260,9 @@ class RecursiveSymbolicEngine:
 
         # Higher coherence and observations, moderate entropy
         potential = (
-            avg_coherence * 0.4 +
-            min(1.0, avg_observations / 100) * 0.3 +
-            (0.5 - abs(entropy - 0.5)) * 0.3
+            avg_coherence * 0.4
+            + min(1.0, avg_observations / 100) * 0.3
+            + (0.5 - abs(entropy - 0.5)) * 0.3
         )
 
         return potential
@@ -269,7 +271,7 @@ class RecursiveSymbolicEngine:
         """Evolve entire symbolic landscape"""
         # Apply drift to all tracked symbols
         for tracker in self.drift_trackers.values():
-            tracker.drift_rate *= (1.0 + np.random.normal(0, 0.01))
+            tracker.drift_rate *= 1.0 + np.random.normal(0, 0.01)
             tracker.drift_rate = max(0.001, min(0.1, tracker.drift_rate))
 
         # Age Q-symbols
@@ -278,13 +280,15 @@ class RecursiveSymbolicEngine:
             q_symbol.stability_metric = min(1.0, q_symbol.stability_metric + 0.01)
 
         # Natural entropy increase
-        self.contradiction_entropy.entropy_level *= (1.0 + time_step * 0.1)
-        self.contradiction_entropy.entropy_level = min(1.0, self.contradiction_entropy.entropy_level)
+        self.contradiction_entropy.entropy_level *= 1.0 + time_step * 0.1
+        self.contradiction_entropy.entropy_level = min(
+            1.0, self.contradiction_entropy.entropy_level
+        )
 
     def to_matriz_node(self) -> Dict[str, Any]:
         """Convert engine state to MATRIZ format"""
         return {
-            "node_id": f"rse_{int(time.time()*1000)}",
+            "node_id": f"rse_{int(time.time() * 1000)}",
             "node_type": "recursive_symbolic_engine",
             "timestamp": int(time.time() * 1000),
             "data": {
@@ -293,16 +297,20 @@ class RecursiveSymbolicEngine:
                 "contradiction_entropy": self.contradiction_entropy.entropy_level,
                 "bootstrap_generation": self.bootstrap.generation,
                 "emergence_events": len(self.emergence_events),
-                "observation_count": self.observation_count
+                "observation_count": self.observation_count,
             },
             "state": {
                 "confidence": 1.0 - self.contradiction_entropy.entropy_level,
                 "salience": min(1.0, len(self.emergence_events) / 10),
-                "novelty": 1.0 / (1.0 + self.observation_count * 0.01)
+                "novelty": 1.0 / (1.0 + self.observation_count * 0.01),
             },
             "provenance": {
                 "producer": "symbolic.core.recursive_emergence",
-                "capabilities": ["symbolic_compression", "emergence_detection", "contradiction_resolution"],
-                "tenant": "lukhas_agi"
-            }
+                "capabilities": [
+                    "symbolic_compression",
+                    "emergence_detection",
+                    "contradiction_resolution",
+                ],
+                "tenant": "lukhas_agi",
+            },
         }

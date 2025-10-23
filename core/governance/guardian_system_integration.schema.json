@@ -4,7 +4,6 @@
   "type": "guardian_node",
   "matriz_compatible": true,
   "description": "Guardian System integration for Constitutional AI compliance, drift detection, consent management, and audit trails",
-
   "capabilities": {
     "sends": [
       {
@@ -17,13 +16,15 @@
         "signal": "guardian.alert.raised",
         "schema": "GuardianAlert",
         "frequency": "on_violation",
-        "priority": "high"
+        "priority": "high",
+        "latency_target_ms": 100
       },
       {
         "signal": "audit.event.logged",
         "schema": "AuditEvent",
         "frequency": "continuous",
-        "retention_days": 365
+        "retention_days": 365,
+        "latency_target_ms": 500
       }
     ],
     "receives": [
@@ -47,42 +48,60 @@
       }
     ]
   },
-
   "main_classes": [
     {
       "name": "GuardianSystemIntegrationHub",
       "type": "orchestrator",
-      "methods": ["validate_action", "check_consent", "detect_drift", "log_audit_event"],
+      "methods": [
+        "validate_action",
+        "check_consent",
+        "detect_drift",
+        "log_audit_event"
+      ],
       "async": true
     },
     {
       "name": "GuardianValidationRequest",
       "type": "dataclass",
-      "fields": ["request_id", "user_id", "action", "resource", "context"]
+      "fields": [
+        "request_id",
+        "user_id",
+        "action",
+        "resource",
+        "context"
+      ]
     },
     {
       "name": "GuardianValidationResponse",
       "type": "dataclass",
-      "fields": ["result", "confidence", "consent_result", "drift_result", "ethics_result"]
+      "fields": [
+        "result",
+        "confidence",
+        "consent_result",
+        "drift_result",
+        "ethics_result"
+      ]
     }
   ],
-
   "dependencies": [
     "core.governance.consent_ledger.ledger_v1",
     "governance.guardian.drift_detector",
     "governance.identity.core.sent.policy_engine",
     "governance.security.audit_system"
   ],
-
   "performance": {
     "max_latency_ms": 250,
     "target_latency_p95_ms": 150,
     "memory_limit_mb": 100,
     "cpu_cores": 1
   },
-
   "constellation_integration": {
-    "stars": ["guardian", "ethics", "identity", "memory"],
+    "stars": [
+      "guardian",
+      "ethics",
+      "identity",
+      "memory"
+    ],
     "validates": true,
     "blocks_on_failure": true
   }

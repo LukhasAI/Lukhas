@@ -41,6 +41,7 @@ Key Consolidated Features:
 
 All operations respect user consent, tier access, and LUKHAS identity requirements.
 """
+
 # === CONSOLIDATED IMPORTS ===
 # from AID.core.lambda_identity import IdentitySystem  # TODO: Install or implement AID
 # from core.common.CORE.dream.dream_processor import DreamEngine  # TODO: Install or implement CORE
@@ -57,20 +58,40 @@ All operations respect user consent, tier access, and LUKHAS identity requiremen
 # from MODULES_GOLDEN.vision.core import VisionModule
 # from MODULES_GOLDEN.voice.core import VoiceModule
 import asyncio
+import logging
 import os
 import sys
 import time
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from interfaces.voice_interface import *
-from safety.voice_safety_guard import *
-from systems.synthesis import *
-from systems.voice_synthesis import *
 
-from integrations.elevenlabs import *
-from integrations.openai import *
-from governance.identity.interface import IdentityClient
+def _load_optional_module(module_name: str) -> None:
+    """Import optional integration modules without hard failures."""
+
+    try:
+        module = __import__(module_name, fromlist=["*"])
+    except ImportError as exc:
+        logging.getLogger(__name__).warning("Optional module %s unavailable: %s", module_name, exc)
+        return
+
+    public_names = getattr(module, "__all__", None)
+    if public_names is None:
+        public_names = [name for name in dir(module) if not name.startswith("_")]
+
+    for attr in public_names:
+        globals().setdefault(attr, getattr(module, attr))
+
+
+for _optional_module in (
+    "interfaces.voice_interface",
+    "safety.voice_safety_guard",
+    "systems.synthesis",
+    "systems.voice_synthesis",
+    "integrations.elevenlabs",
+    "integrations.openai",
+):
+    _load_optional_module(_optional_module)
 
 # === PRIMARY ORCHESTRATION SERVICE CONTENT ===
 
@@ -242,9 +263,13 @@ class OrchestrationService:
 
         try:
             # Process coordination request
-            coordination_results = self._process_coordination(coordination_request, coordination_type)
+            coordination_results = self._process_coordination(
+                coordination_request, coordination_type
+            )
 
-            coordination_id = f"coord_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            coordination_id = (
+                f"coord_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            )
 
             # Log coordination activity
             self.identity_client.log_activity(
@@ -315,7 +340,9 @@ class OrchestrationService:
             # Execute workflow
             workflow_results = self._execute_workflow_steps(workflow_definition, execution_mode)
 
-            workflow_id = f"workflow_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            workflow_id = (
+                f"workflow_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            )
 
             # Store active workflow
             self.active_workflows[workflow_id] = {
@@ -395,7 +422,9 @@ class OrchestrationService:
             # Process resource management
             resource_results = self._manage_module_resources(resource_request, management_action)
 
-            resource_id = f"resource_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            resource_id = (
+                f"resource_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}_{user_id}"
+            )
 
             # Log resource management
             self.identity_client.log_activity(
@@ -686,7 +715,9 @@ class OrchestrationService:
             )
             return {"success": False, "error": error_msg}
 
-    async def broadcast_system_event(self, user_id: str, event_type: str, event_data: dict[str, Any]) -> dict[str, Any]:
+    async def broadcast_system_event(
+        self, user_id: str, event_type: str, event_data: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Broadcast system-wide events to all modules.
 
@@ -819,7 +850,9 @@ class OrchestrationService:
 
         except Exception as e:
             error_msg = f"Message bus stats error: {e!s}"
-            self.identity_client.log_activity("message_bus_stats_error", user_id, {"error": error_msg})
+            self.identity_client.log_activity(
+                "message_bus_stats_error", user_id, {"error": error_msg}
+            )
             return {"success": False, "error": error_msg}
 
     def get_system_status(self, user_id: str, include_detailed: bool = False) -> dict[str, Any]:
@@ -856,7 +889,9 @@ class OrchestrationService:
                 "timestamp": datetime.now(timezone.utc).isoformat(),
             }
 
-            if include_detailed and self.identity_client.verify_user_access(user_id, "LAMBDA_TIER_3"):
+            if include_detailed and self.identity_client.verify_user_access(
+                user_id, "LAMBDA_TIER_3"
+            ):
                 status_data.update(
                     {
                         "detailed_module_metrics": self._get_detailed_module_metrics(),
@@ -892,7 +927,9 @@ class OrchestrationService:
             )
             return {"success": False, "error": error_msg}
 
-    def _process_coordination(self, request: dict[str, Any], coordination_type: str) -> dict[str, Any]:
+    def _process_coordination(
+        self, request: dict[str, Any], coordination_type: str
+    ) -> dict[str, Any]:
         """Process module coordination request."""
         modules = request.get("modules", [])
         actions = request.get("actions", [])
@@ -902,14 +939,18 @@ class OrchestrationService:
         elif coordination_type == "parallel":
             return self._execute_parallel_coordination(modules, actions)
         elif coordination_type == "conditional":
-            return self._execute_conditional_coordination(modules, actions, request.get("conditions", {}))
+            return self._execute_conditional_coordination(
+                modules, actions, request.get("conditions", {})
+            )
         else:
             return {
                 "success": False,
                 "error": f"Unknown coordination type: {coordination_type}",
             }
 
-    def _execute_sequential_coordination(self, modules: list[str], actions: list[dict]) -> dict[str, Any]:
+    def _execute_sequential_coordination(
+        self, modules: list[str], actions: list[dict]
+    ) -> dict[str, Any]:
         """Execute actions sequentially across modules."""
         results = []
         total_time = 0.0
@@ -940,7 +981,9 @@ class OrchestrationService:
             "execution_time": total_time,
         }
 
-    def _execute_parallel_coordination(self, modules: list[str], actions: list[dict]) -> dict[str, Any]:
+    def _execute_parallel_coordination(
+        self, modules: list[str], actions: list[dict]
+    ) -> dict[str, Any]:
         """Execute actions in parallel across modules."""
         results = []
         start_time = datetime.now(timezone.utc)
@@ -1011,7 +1054,9 @@ class OrchestrationService:
             "execution_time": total_time,
         }
 
-    def _execute_workflow_steps(self, workflow_definition: dict[str, Any], execution_mode: str) -> dict[str, Any]:
+    def _execute_workflow_steps(
+        self, workflow_definition: dict[str, Any], execution_mode: str
+    ) -> dict[str, Any]:
         """Execute workflow steps."""
         steps = workflow_definition.get("steps", [])
         results = []
@@ -1044,7 +1089,9 @@ class OrchestrationService:
             "total_time": total_time,
         }
 
-    def _manage_module_resources(self, resource_request: dict[str, Any], management_action: str) -> dict[str, Any]:
+    def _manage_module_resources(
+        self, resource_request: dict[str, Any], management_action: str
+    ) -> dict[str, Any]:
         """Manage computational resources."""
         modules = resource_request.get("modules", [])
         resource_amounts = resource_request.get("amounts", {})
@@ -1088,7 +1135,9 @@ class OrchestrationService:
             "modules_affected": len(modules),
         }
 
-    def _route_inter_module_event(self, event_data: dict[str, Any], routing_strategy: str) -> dict[str, Any]:
+    def _route_inter_module_event(
+        self, event_data: dict[str, Any], routing_strategy: str
+    ) -> dict[str, Any]:
         """Route events between modules."""
         event_type = event_data.get("type", "unknown")
         target_modules = []
@@ -1145,7 +1194,9 @@ class OrchestrationService:
         return {
             "average_load": avg_load,
             "total_modules": len(self.module_status),
-            "high_load_modules": len([m for m, info in self.module_status.items() if info["load"] > 0.7]),
+            "high_load_modules": len(
+                [m for m, info in self.module_status.items() if info["load"] > 0.7]
+            ),
         }
 
     def _get_performance_metrics(self) -> dict[str, Any]:
@@ -1161,7 +1212,9 @@ class OrchestrationService:
     # Performance Orchestration Methods - Constellation Framework Enhanced
     # ===============================================================
 
-    async def start_performance_monitoring(self, user_id: str, modules: Optional[list[str]] = None) -> dict[str, Any]:
+    async def start_performance_monitoring(
+        self, user_id: str, modules: Optional[list[str]] = None
+    ) -> dict[str, Any]:
         """
         Start comprehensive performance monitoring with Constellation Framework integration.
         Monitors consciousness awareness, bio-oscillator synchronization, and quantum coherence.
@@ -1430,10 +1483,12 @@ class OrchestrationService:
                         "bio_rhythms_synchronized": True,
                         "quantum_coherence_optimized": True,
                         "memory_fold_cascade_prevention_enhanced": True,
-                        "overall_improvement": optimization_result.get("improvements", {}).get("overall_score", 0),
-                        "consciousness_level_improvement": optimization_result.get("improvements", {}).get(
-                            "consciousness_enhancement", 0
+                        "overall_improvement": optimization_result.get("improvements", {}).get(
+                            "overall_score", 0
                         ),
+                        "consciousness_level_improvement": optimization_result.get(
+                            "improvements", {}
+                        ).get("consciousness_enhancement", 0),
                         "workflow_context_aware": workflow_context is not None,
                     },
                 )
@@ -1449,9 +1504,9 @@ class OrchestrationService:
                         "guardian_safety_performance_improved": True,
                     },
                     "consciousness_metrics": {
-                        "awareness_level_improvement": optimization_result.get("improvements", {}).get(
-                            "consciousness_enhancement", 0
-                        ),
+                        "awareness_level_improvement": optimization_result.get(
+                            "improvements", {}
+                        ).get("consciousness_enhancement", 0),
                         "bio_oscillator_stability_enhanced": True,
                         "quantum_coherence_boost": optimization_result.get("improvements", {}).get(
                             "quantum_coherence_boost", 0
@@ -1554,7 +1609,9 @@ class OrchestrationService:
                         "consciousness_aware_workflows": len(
                             [w for w in self.active_workflows.values() if "consciousness" in str(w)]
                         ),
-                        "bio_rhythmic_workflows": len([w for w in self.active_workflows.values() if "bio" in str(w)]),
+                        "bio_rhythmic_workflows": len(
+                            [w for w in self.active_workflows.values() if "bio" in str(w)]
+                        ),
                         "quantum_enhanced_workflows": len(
                             [w for w in self.active_workflows.values() if "quantum" in str(w)]
                         ),
@@ -1591,14 +1648,20 @@ class OrchestrationService:
                         "performance_status": performance_status.get("performance_status"),
                         "overall_score": performance_status.get("overall_score", 0),
                         "constellation_framework_integration": True,
-                        "consciousness_awareness_level": performance_status.get("consciousness_awareness_level", 0),
-                        "bio_oscillator_frequency": performance_status.get("bio_oscillator_frequency", 40.0),
+                        "consciousness_awareness_level": performance_status.get(
+                            "consciousness_awareness_level", 0
+                        ),
+                        "bio_oscillator_frequency": performance_status.get(
+                            "bio_oscillator_frequency", 40.0
+                        ),
                         "quantum_coherence": performance_status.get("quantum_coherence", 0.87),
-                        "cascade_prevention_rate": performance_status.get("cascade_prevention_rate", 0.997),
+                        "cascade_prevention_rate": performance_status.get(
+                            "cascade_prevention_rate", 0.997
+                        ),
                         "active_workflows": len(self.active_workflows),
-                        "consciousness_workflows": orchestration_info["consciousness_orchestration_layer"][
-                            "consciousness_aware_workflows"
-                        ],
+                        "consciousness_workflows": orchestration_info[
+                            "consciousness_orchestration_layer"
+                        ]["consciousness_aware_workflows"],
                         "include_module_details": include_module_details,
                         "sgi_evolution_health": "optimal",
                     },
@@ -1615,9 +1678,15 @@ class OrchestrationService:
 
                 # Add performance achievement indicators
                 result["performance_targets_status"] = {
-                    "memory_operations_under_10ms": result.get("core_metrics", {}).get("latency_ms", 100) < 10,
+                    "memory_operations_under_10ms": result.get("core_metrics", {}).get(
+                        "latency_ms", 100
+                    )
+                    < 10,
                     "quantum_simulation_under_100ms": True,  # Simulated quantum performance
-                    "consciousness_updates_under_50ms": result.get("core_metrics", {}).get("latency_ms", 100) < 50,
+                    "consciousness_updates_under_50ms": result.get("core_metrics", {}).get(
+                        "latency_ms", 100
+                    )
+                    < 50,
                     "bio_oscillator_40hz_stable": abs(
                         result.get("bio_metrics", {}).get("oscillator_frequency", 40) - 40.0
                     )
@@ -1645,7 +1714,9 @@ class OrchestrationService:
             )
             return {"success": False, "error": error_msg}
 
-    def _update_module_status_post_optimization(self, modules: list[str], optimization_result: dict[str, Any]) -> None:
+    def _update_module_status_post_optimization(
+        self, modules: list[str], optimization_result: dict[str, Any]
+    ) -> None:
         """Update module status based on optimization results."""
         improvements = optimization_result.get("improvements", {})
 
@@ -1657,13 +1728,21 @@ class OrchestrationService:
                 current_load = self.module_status[module]["load"]
                 new_load = max(0.0, current_load * (1 - load_reduction_factor))
                 self.module_status[module]["load"] = new_load
-                self.module_status[module]["last_optimized"] = datetime.now(timezone.utc).isoformat()
+                self.module_status[module]["last_optimized"] = datetime.now(
+                    timezone.utc
+                ).isoformat()
 
     def _assess_cross_module_health(self) -> dict[str, Any]:
         """Assess health of cross-module communication and coordination."""
         total_modules = len(self.module_status)
-        available_modules = len([m for m in self.module_status.values() if m["status"] == "available"])
-        average_load = sum(m["load"] for m in self.module_status.values()) / total_modules if total_modules > 0 else 0
+        available_modules = len(
+            [m for m in self.module_status.values() if m["status"] == "available"]
+        )
+        average_load = (
+            sum(m["load"] for m in self.module_status.values()) / total_modules
+            if total_modules > 0
+            else 0
+        )
 
         health_score = (available_modules / total_modules) * 100 if total_modules > 0 else 0
         load_score = max(0, 100 - (average_load * 100))
@@ -1723,8 +1802,14 @@ class OrchestrationService:
     def _assess_consciousness_cross_module_health(self) -> dict[str, Any]:
         """Assess consciousness-aware health of cross-module communication and coordination."""
         total_modules = len(self.module_status)
-        available_modules = len([m for m in self.module_status.values() if m["status"] == "available"])
-        average_load = sum(m["load"] for m in self.module_status.values()) / total_modules if total_modules > 0 else 0
+        available_modules = len(
+            [m for m in self.module_status.values() if m["status"] == "available"]
+        )
+        average_load = (
+            sum(m["load"] for m in self.module_status.values()) / total_modules
+            if total_modules > 0
+            else 0
+        )
 
         # Consciousness-specific health metrics
         consciousness_modules = [
@@ -1740,7 +1825,8 @@ class OrchestrationService:
         }
 
         consciousness_availability = (
-            len([m for m in consciousness_health.values() if m["status"] == "available"]) / len(consciousness_modules)
+            len([m for m in consciousness_health.values() if m["status"] == "available"])
+            / len(consciousness_modules)
             if consciousness_modules
             else 0
         )
@@ -1763,7 +1849,9 @@ class OrchestrationService:
             "general_total_modules": total_modules,
             "general_average_load": average_load,
             "communication_status": ("enabled" if self.communication_enabled else "disabled"),
-            "consciousness_integration_health": ("optimal" if overall_consciousness_health > 85 else "degraded"),
+            "consciousness_integration_health": (
+                "optimal" if overall_consciousness_health > 85 else "degraded"
+            ),
         }
 
     def _assess_bio_oscillator_synchronization(self) -> dict[str, Any]:
@@ -1798,7 +1886,9 @@ class OrchestrationService:
 
         avg_deviation = np.mean(frequency_deviations)
         sync_percentage = (
-            len([s for s in oscillator_status.values() if s["synchronized"]]) / len(consciousness_modules) * 100
+            len([s for s in oscillator_status.values() if s["synchronized"]])
+            / len(consciousness_modules)
+            * 100
         )
 
         return {
@@ -1806,7 +1896,9 @@ class OrchestrationService:
             "target_frequency_hz": target_frequency,
             "average_deviation_hz": round(avg_deviation, 3),
             "synchronization_percentage": round(sync_percentage, 1),
-            "modules_synchronized": len([s for s in oscillator_status.values() if s["synchronized"]]),
+            "modules_synchronized": len(
+                [s for s in oscillator_status.values() if s["synchronized"]]
+            ),
             "total_modules": len(consciousness_modules),
             "oscillator_status_by_module": oscillator_status,
             "synchronization_health": ("optimal" if sync_percentage > 80 else "requires_attention"),
@@ -1851,9 +1943,13 @@ class OrchestrationService:
             "average_coherence_level": round(avg_coherence, 4),
             "modules_above_threshold": above_threshold_count,
             "total_quantum_modules": len(quantum_modules),
-            "threshold_achievement_percentage": round(above_threshold_count / len(quantum_modules) * 100, 1),
+            "threshold_achievement_percentage": round(
+                above_threshold_count / len(quantum_modules) * 100, 1
+            ),
             "coherence_status_by_module": coherence_status,
-            "quantum_health": ("optimal" if avg_coherence >= target_coherence else "requires_enhancement"),
+            "quantum_health": (
+                "optimal" if avg_coherence >= target_coherence else "requires_enhancement"
+            ),
             "entanglement_stability": 0.90,  # Simulated entanglement stability
             "superposition_efficiency": round(avg_coherence * 0.92, 4),  # Related to coherence
         }
@@ -1899,7 +1995,9 @@ class OrchestrationService:
             "average_prevention_rate": round(avg_prevention_rate, 5),
             "components_above_target": above_target_count,
             "total_memory_components": len(memory_components),
-            "target_achievement_percentage": round(above_target_count / len(memory_components) * 100, 1),
+            "target_achievement_percentage": round(
+                above_target_count / len(memory_components) * 100, 1
+            ),
             "cascade_prevention_status_by_component": cascade_prevention_status,
             "memory_stability_health": (
                 "optimal" if avg_prevention_rate >= target_prevention_rate else "requires_attention"
@@ -1921,23 +2019,32 @@ class OrchestrationService:
                 "bio_oscillator_impact": 0,
                 "quantum_coherence_impact": 0,
                 "memory_fold_impact": 0,
-                "recommendations": ["No active workflows - optimal consciousness performance expected"],
+                "recommendations": [
+                    "No active workflows - optimal consciousness performance expected"
+                ],
             }
 
         # Estimate consciousness-specific impacts
-        consciousness_workflows = len([w for w in self.active_workflows.values() if "consciousness" in str(w)])
+        consciousness_workflows = len(
+            [w for w in self.active_workflows.values() if "consciousness" in str(w)]
+        )
         bio_workflows = len([w for w in self.active_workflows.values() if "bio" in str(w)])
         quantum_workflows = len([w for w in self.active_workflows.values() if "quantum" in str(w)])
         memory_workflows = len([w for w in self.active_workflows.values() if "memory" in str(w)])
 
         # Calculate consciousness-specific impact scores
-        consciousness_impact = min(100, consciousness_workflows * 20)  # Higher impact for consciousness workflows
+        consciousness_impact = min(
+            100, consciousness_workflows * 20
+        )  # Higher impact for consciousness workflows
         bio_oscillator_impact = min(100, bio_workflows * 15)
         quantum_coherence_impact = min(100, quantum_workflows * 18)
         memory_fold_impact = min(100, memory_workflows * 22)  # Memory workflows have high impact
 
         overall_consciousness_impact = (
-            consciousness_impact + bio_oscillator_impact + quantum_coherence_impact + memory_fold_impact
+            consciousness_impact
+            + bio_oscillator_impact
+            + quantum_coherence_impact
+            + memory_fold_impact
         ) / 4
 
         if overall_consciousness_impact < 20:
@@ -1999,7 +2106,9 @@ class OrchestrationService:
         guardian_performance = max(0, min(1, guardian_performance))
 
         # Calculate overall Constellation health
-        overall_trinity_health = (identity_performance + consciousness_performance + guardian_performance) / 3
+        overall_trinity_health = (
+            identity_performance + consciousness_performance + guardian_performance
+        ) / 3
 
         # Assess individual component health levels
         def get_health_level(score):
@@ -2053,7 +2162,8 @@ class OrchestrationService:
                 },
             },
             "constellation_integration_score": round(
-                (identity_performance * consciousness_performance * guardian_performance) ** (1 / 3) * 100,
+                (identity_performance * consciousness_performance * guardian_performance) ** (1 / 3)
+                * 100,
                 2,
             ),
             "framework_alignment_achieved": overall_trinity_health >= 0.8,
@@ -2069,13 +2179,19 @@ class OrchestrationService:
         recommendations = []
 
         if identity_perf < 0.8:
-            recommendations.append("⚛️ Identity: Optimize symbolic processing and persona adaptation systems")
+            recommendations.append(
+                "⚛️ Identity: Optimize symbolic processing and persona adaptation systems"
+            )
 
         if consciousness_perf < 0.8:
-            recommendations.append("🧠 Consciousness: Enhance bio-oscillator sync and quantum coherence maintenance")
+            recommendations.append(
+                "🧠 Consciousness: Enhance bio-oscillator sync and quantum coherence maintenance"
+            )
 
         if guardian_perf < 0.8:
-            recommendations.append("🛡️ Guardian: Improve ethics validation speed and safety monitoring coverage")
+            recommendations.append(
+                "🛡️ Guardian: Improve ethics validation speed and safety monitoring coverage"
+            )
 
         # Check for component imbalances
         max_perf = max(identity_perf, consciousness_perf, guardian_perf)
@@ -2087,7 +2203,9 @@ class OrchestrationService:
             )
 
         if not recommendations:
-            recommendations.append("Constellation Framework: All components operating at optimal levels")
+            recommendations.append(
+                "Constellation Framework: All components operating at optimal levels"
+            )
 
         return recommendations
 
@@ -2130,7 +2248,9 @@ async def send_module_message(
 # =====================================================================
 
 
-async def start_consciousness_monitoring(user_id: str, modules: Optional[list[str]] = None) -> dict[str, Any]:
+async def start_consciousness_monitoring(
+    user_id: str, modules: Optional[list[str]] = None
+) -> dict[str, Any]:
     """Simplified API for starting Constellation Framework-aware performance monitoring with consciousness integration."""
     service = OrchestrationService()
     await service.start_orchestration()
@@ -2148,14 +2268,18 @@ async def optimize_consciousness_performance(
     return await service.optimize_system_performance(user_id, strategy, modules)
 
 
-async def get_constellation_performance_status(user_id: str, detailed: bool = False) -> dict[str, Any]:
+async def get_constellation_performance_status(
+    user_id: str, detailed: bool = False
+) -> dict[str, Any]:
     """Simplified API for Constellation Framework performance status with consciousness metrics."""
     service = OrchestrationService()
     await service.start_orchestration()
     return await service.get_orchestrated_performance_status(user_id, detailed)
 
 
-async def optimize_bio_quantum_performance(user_id: str, modules: Optional[list[str]] = None) -> dict[str, Any]:
+async def optimize_bio_quantum_performance(
+    user_id: str, modules: Optional[list[str]] = None
+) -> dict[str, Any]:
     """Simplified API for bio-quantum synchronized performance optimization."""
     service = OrchestrationService()
     await service.start_orchestration()
@@ -2195,7 +2319,9 @@ async def get_performance_status(user_id: str, detailed: bool = False) -> dict[s
     return await get_constellation_performance_status(user_id, detailed)
 
 
-async def broadcast_event(user_id: str, event_type: str, event_data: dict[str, Any]) -> dict[str, Any]:
+async def broadcast_event(
+    user_id: str, event_type: str, event_data: dict[str, Any]
+) -> dict[str, Any]:
     """Simplified API for system event broadcasting."""
     service = OrchestrationService()
     await service.start_orchestration()
@@ -2231,10 +2357,14 @@ if __name__ == "__main__":
         print("\n🚀 Testing Constellation Framework Performance Orchestration...")
         if orchestration.performance_enabled:
             monitoring_result = await orchestration.start_performance_monitoring(test_user)
-            print(f"⚛️🧠🛡️ Constellation performance monitoring: {monitoring_result.get('success', False)}")
+            print(
+                f"⚛️🧠🛡️ Constellation performance monitoring: {monitoring_result.get('success', False)}"
+            )
 
             # Test consciousness-aware optimization
-            optimization_result = await orchestration.optimize_system_performance(test_user, "consciousness_aware")
+            optimization_result = await orchestration.optimize_system_performance(
+                test_user, "consciousness_aware"
+            )
             print(f"🧠 Consciousness optimization: {optimization_result.get('success', False)}")
 
             # Test bio-quantum optimization
@@ -2250,8 +2380,12 @@ if __name__ == "__main__":
                 )
                 overall_score = constellation_health.get("overall_trinity_health_score", 0)
                 print(f"   Constellation Framework Health: {overall_score}%")
-                print(f"   Bio-Oscillator: {status_result.get('bio_metrics', {}).get('oscillator_frequency', 40)}Hz")
-                print(f"   Quantum Coherence: {status_result.get('quantum_metrics', {}).get('coherence', 0):.3f}")
+                print(
+                    f"   Bio-Oscillator: {status_result.get('bio_metrics', {}).get('oscillator_frequency', 40)}Hz"
+                )
+                print(
+                    f"   Quantum Coherence: {status_result.get('quantum_metrics', {}).get('coherence', 0):.3f}"
+                )
                 print(
                     f"   Cascade Prevention: {status_result.get('bio_metrics', {}).get('cascade_prevention_rate', 0.997) * 100:.1f}%"
                 )

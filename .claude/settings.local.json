@@ -13,7 +13,9 @@
       "Bash(echo:*)",
       "Bash(done)",
       "Bash(for file in matriz/consciousness/reflection/{id_reasoning_engine,swarm,orchestration_service,memory_hub,symbolic_drift_analyzer,integrated_safety_system}.py)",
-      "Bash(do echo \"=== $file ===\" grep -n \"from core.common import get_logger\\|import logging\\|import structlog\" \"$file\")"
+      "Bash(do echo \"=== $file ===\" grep -n \"from core.common import get_logger\\|import logging\\|import structlog\" \"$file\")",
+      "Bash(python3 -m pytest:*)",
+      "Bash(python3:*)"
     ],
     "deny": [],
     "ask": [],

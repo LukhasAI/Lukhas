@@ -1,3 +1,5 @@
+import importlib
+
 from core.trace import mk_crumb
 from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
 
@@ -25,15 +27,21 @@ class IdentityAdapter(MatrizNode):
             guardian_log=[f"identity_processed_{topic}"],
         )
 
+
 # Added for test compatibility (matriz.adapters.identity_adapter.UidentityAdapter)
 try:
-    from candidate.matriz.adapters.identity_adapter import UidentityAdapter  # noqa: F401
-except ImportError:
+    _candidate_module = importlib.import_module("candidate.matriz.adapters.identity_adapter")
+    UidentityAdapter = getattr(_candidate_module, "UidentityAdapter")  # type: ignore[assignment]
+except Exception:  # pragma: no cover - fallback for missing candidate module
+
     class UidentityAdapter:
-        """Stub for UidentityAdapter."""
+        """Stub for UidentityAdapter when candidate lane is unavailable."""
+
         def __init__(self, *args, **kwargs):
             for key, value in kwargs.items():
                 setattr(self, key, value)
+
+
 try:
     __all__  # type: ignore[name-defined]
 except NameError:

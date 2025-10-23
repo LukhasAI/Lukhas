@@ -11,64 +11,64 @@ This module defines the symbolic vocabulary for the Lukhas Vision Module,
 providing the symbolic language elements used for visual analysis,
 image interpretation, and visual communication.
 """
-from dataclasses import dataclass
+
+from __future__ import annotations
+
+"""Vision Module Symbolic Vocabulary Engine
+
+This module provides the core engine for processing and managing vision-related
+symbolic vocabulary, handling visual analysis symbols, and color relationships.
+"""
+
+from dataclasses import dataclass, field
+from enum import Enum
 from typing import Any
 
-# Try importing from new quantum visual symbol system first
-try:
-    from symbolic.core import VisualSymbol, create_visual_symbol
-    VisionSymbolicVocabulary = None  # Will be replaced by new system
-    QUANTUM_SYMBOLS_AVAILABLE = True
-except ImportError:
-    QUANTUM_SYMBOLS_AVAILABLE = False
-    try:
-        # Fallback to original vision vocabulary
-        from symbolic.vocabularies.vision_vocabulary import VisionSymbolicVocabulary, VisualSymbol
-    except ImportError:
-        # Create compatibility class if neither exists
-        @dataclass
-        class VisualSymbol:
-            symbol: str = ""
-            meaning: str = ""
-            visual_weight: float = 0.0
-            analysis_properties: dict[str, Any] = None
-            usage_contexts: list[str] = None
-            color_associations: list[tuple[int, int, int]] = None
 
-            def __post_init__(self):
-                if self.analysis_properties is None:
-                    self.analysis_properties = {}
-                if self.usage_contexts is None:
-                    self.usage_contexts = []
-                if self.color_associations is None:
-                    self.color_associations = []
-
-        VisionSymbolicVocabulary = None
-
-# Compatibility helper
-if QUANTUM_SYMBOLS_AVAILABLE:
-    # Using quantum visual symbols - create wrapper for compatibility
-    def _create_compat_symbol(**kwargs):
-        """Create visual symbol with quantum features"""
-        symbol = kwargs.get('symbol', '')
-        meaning = kwargs.get('meaning', '')
-        # Pass other properties for compatibility
-        return create_visual_symbol(symbol, meaning, kwargs)
-else:
-    # Using basic visual symbols
-    def _create_compat_symbol(**kwargs):
-        """Create basic visual symbol"""
-        return VisualSymbol(**kwargs)
-
-try:
-    from ..core import AnalysisType, VisionProvider
-except ImportError:
-    AnalysisType = None
-    VisionProvider = None
+class AnalysisType(Enum):
+    DESCRIPTION = "description"
+    OBJECT_DETECTION = "object_detection"
+    SCENE_ANALYSIS = "scene_analysis"
+    TEXT_EXTRACTION = "text_extraction"
+    FACE_DETECTION = "face_detection"
+    EMOTION_RECOGNITION = "emotion_recognition"
+    COLOR_ANALYSIS = "color_analysis"
+    COMPOSITION_ANALYSIS = "composition_analysis"
+    AESTHETIC_EVALUATION = "aesthetic_evaluation"
+    SYMBOLIC_INTERPRETATION = "symbolic_interpretation"
 
 
+class VisionProvider(Enum):
+    OPENAI_GPT4_VISION = "gpt4_vision"
+    GOOGLE_VISION = "google_vision"
+    AZURE_COMPUTER_VISION = "azure_vision"
+    HUGGINGFACE_VISION = "huggingface"
+    LOCAL_OPENCV = "opencv"
+    MOCK = "mock"
+
+
+# Base imports only - removed unstable external dependencies
 @dataclass
-class VocabularyCreativityEngine:
+class VisualSymbol:
+    """Base visual symbol representation."""
+
+    symbol: str = ""
+    meaning: str = ""
+    visual_weight: float = 0.0
+    analysis_properties: dict[str, Any] = field(default_factory=dict)
+    usage_contexts: list[str] = field(default_factory=list)
+    color_associations: list[tuple[int, int, int]] = field(default_factory=list)
+
+
+# Create a basic visual symbol
+def create_symbol(**kwargs: Any) -> VisualSymbol:
+    """Create a basic visual symbol instance"""
+    return VisualSymbol(**kwargs)
+
+
+# VocabularySymbol dataclass for storing symbol information
+@dataclass
+class VocabularySymbol:
     """Represents a vision-related symbolic element."""
 
     symbol: str
@@ -79,6 +79,7 @@ class VocabularyCreativityEngine:
     color_associations: list[tuple[int, int, int]]
 
 
+# Main engine class
 class VocabularyCreativityEngine:
     """Symbolic vocabulary for visual analysis and interpretation."""
 
@@ -1044,15 +1045,14 @@ class VocabularyCreativityEngine:
 
         return f"{analysis_symbol} {provider_symbol} {confidence_symbol}"
 
-        for obj in detected_objects:
-            if obj.lower() in object_symbolism:
-                symbolic_elements.extend(object_symbolism[obj.lower()])
+        # Remove unused code block - to be implemented if needed
+        return []
 
-        return list(set(symbolic_elements))  # Remove duplicates
-
-    def get_quality_indicators(self, success: bool, confidence: float, processing_time: float) -> str:
+    def get_quality_indicators(
+        self, success: bool, confidence: float, processing_time: float
+    ) -> str:
         """Get quality indicator symbols based on analysis results."""
-        symbols = []
+        symbols: list[str] = []
 
         if success:
             symbols.append("✅")
@@ -1081,7 +1081,7 @@ class VocabularyCreativityEngine:
 
     def get_all_symbols(self) -> dict[str, VisualSymbol]:
         """Get all vision symbolic elements."""
-        all_symbols = {}
+        all_symbols: dict[str, VisualSymbol] = {}
         all_symbols.update(self.analysis_symbols)
         all_symbols.update(self.object_symbols)
         all_symbols.update(self.color_symbols)
@@ -1094,7 +1094,7 @@ class VocabularyCreativityEngine:
 
     def get_context_symbols(self, context: str) -> list[str]:
         """Get symbols relevant to a specific visual context."""
-        relevant_symbols = []
+        relevant_symbols: list[str] = []
         all_symbols = self.get_all_symbols()
 
         for symbol, data in all_symbols.items():
@@ -1133,8 +1133,11 @@ class VocabularyCreativityEngine:
         return harmony_score / total_comparisons if total_comparisons > 0 else 0.0
 
 
-# Global vocabulary instance
-vision_vocabulary = VisionSymbolicVocabulary()
-
 # Export main classes
-__all__ = ["VisionSymbolicVocabulary", "VisualSymbol", "vision_vocabulary"]
+__all__ = [
+    "VisualSymbol",
+    "VocabularyCreativityEngine",
+    "AnalysisType",
+    "VisionProvider",
+    "create_symbol",
+]
