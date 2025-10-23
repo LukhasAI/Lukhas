@@ -27,10 +27,44 @@ LUKHAS scripts module implementing specialized scripts functionality with 831 co
 - ✅ Core functionality
 - ✅ API integration
 - ✅ Testing support
+- ✅ **Codex T4 Layout Launcher** - tmux workspace for parallel development sessions
 
 ## Quick Start
 
 **Getting Started**: LUKHAS scripts module implementing specialized scripts functionality with 831 components for integrated system operations. This module integrates with the LUKHAS system to provide essential functionality.
+
+### Codex T4 Layout Launcher
+
+Launch a tmux workspace with 4 synchronized development terminals:
+
+```bash
+# Make executable (first time only)
+chmod +x scripts/codex_layout.sh
+
+# Launch tmux workspace
+bash scripts/codex_layout.sh
+```
+
+**Workspace Layout:**
+- **Pane A (top-left)**: Facade development - sequential FACADE_FAST_TRACK phases
+- **Pane B (bottom-left)**: Hidden Gem 1 - async_orchestrator integration
+- **Pane C (top-right)**: Hidden Gem 2 - webauthn_adapter integration  
+- **Pane D (bottom-right)**: Bugfix/Docs - surgical patches
+
+**Alternative: VS Code Tasks**
+
+Open VS Code → Terminal → Run Task... and select:
+- `LUKHAS: Facade Session` - Start facade workflow
+- `LUKHAS: Hidden Gem 1` - Integrate async orchestrator
+- `LUKHAS: Hidden Gem 2` - Integrate webauthn adapter
+- `LUKHAS: Bugfix` - Quick surgical fixes
+
+When all sessions complete:
+```bash
+pytest -q
+make codex-acceptance-gates
+make lane-guard
+```
 
 
 ### Installation
