@@ -14,18 +14,35 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Optional
 
-from consciousness.reflection.openai_modulated_service import (
-    OpenAICapability,
-    OpenAIModulatedService,
-)
-from core.colonies.consensus_mechanisms import ColonyConsensus
+try:
+    from labs.consciousness.reflection.openai_modulated_service import (
+        OpenAICapability,
+        OpenAIModulatedService,
+    )
+except ImportError:
+    OpenAICapability = None
+    OpenAIModulatedService = None
+
+try:
+    from core.colonies.consensus_mechanisms import ColonyConsensus
+except ImportError:
+    ColonyConsensus = None
 
 # Import our components
-from core.colonies.enhanced_colony import (
-    ConsensusResult,
-    EnhancedReasoningColony,
-)
-from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+try:
+    from core.colonies.enhanced_colony import (
+        ConsensusResult,
+        EnhancedReasoningColony,
+    )
+except ImportError:
+    ConsensusResult = None
+    EnhancedReasoningColony = None
+try:
+    from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+except ImportError:
+    Signal = None
+    SignalBus = None
+    SignalType = None
 
 logger = logging.getLogger(__name__)
 

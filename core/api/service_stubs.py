@@ -1,9 +1,9 @@
-log = logging.getLogger(__name__)
 """
 Service implementations for LUKHAS core modules
 Provides real implementations connected to core systems
 """
 import asyncio
+import logging
 import random
 from collections import defaultdict, deque
 from datetime import datetime, timezone

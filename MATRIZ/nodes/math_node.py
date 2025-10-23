@@ -20,7 +20,7 @@ import re
 import time
 from typing import Any, Optional, Union
 
-from MATRIZ.core.node_interface import (
+from matriz.core.node_interface import (
     CognitiveNode,
     NodeState,
     NodeTrigger,

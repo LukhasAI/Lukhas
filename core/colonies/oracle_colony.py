@@ -32,8 +32,17 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from consciousness.reflection.openai_core_service import ModelType, OpenAICoreService, OpenAIRequest
-from core.colonies.base_colony import BaseColony
+try:
+    from labs.consciousness.reflection.openai_core_service import ModelType, OpenAICoreService, OpenAIRequest
+except ImportError:
+    ModelType = None
+    OpenAICoreService = None
+    OpenAIRequest = None
+
+try:
+    from core.colonies.base_colony import BaseColony
+except ImportError:
+    BaseColony = object
 
 logger = logging.getLogger("ΛTRACE.oracle_colony")
 

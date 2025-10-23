@@ -14,10 +14,13 @@ image interpretation, and visual communication.
 from dataclasses import dataclass
 from typing import Any
 
-from core.symbolic import VisualSymbol
-from symbolic.vocabularies.vision_vocabulary import VisionSymbolicVocabulary
+from symbolic.vocabularies.vision_vocabulary import VisionSymbolicVocabulary, VisualSymbol
 
-from ..core import AnalysisType, VisionProvider
+try:
+    from ..core import AnalysisType, VisionProvider
+except ImportError:
+    AnalysisType = None
+    VisionProvider = None
 
 
 @dataclass

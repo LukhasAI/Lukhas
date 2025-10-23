@@ -57,8 +57,15 @@ from core.identity_integration import TierMappingConfig, get_identity_client, re
 from core.tier_unification_adapter import EmotionalTierAdapter, get_unified_adapter
 
 # LUKHAS Core Imports
-from memory.emotional import EmotionalMemory
-from memory.governance.ethical_drift_governor import EthicalDriftGovernor, create_ethical_governor
+try:
+    from memory.emotional import EmotionalMemory
+except ImportError:
+    EmotionalMemory = None
+try:
+    from memory.governance.ethical_drift_governor import EthicalDriftGovernor, create_ethical_governor
+except ImportError:
+    EthicalDriftGovernor = None
+    create_ethical_governor = None
 
 # Configure logger
 logger = logging.getLogger(__name__)

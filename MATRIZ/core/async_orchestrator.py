@@ -18,7 +18,7 @@ from dataclasses import asdict, dataclass, field
 from enum import Enum
 from typing import Any, Dict, List, Optional
 
-from MATRIZ.core.node_interface import CognitiveNode
+from matriz.core.node_interface import CognitiveNode
 
 try:
     from prometheus_client import Counter, Histogram

@@ -102,9 +102,20 @@ except ImportError:
 
 
 # Lukhas Core Integration
-from dream.dream_feedback_propagator import DreamFeedbackPropagator
-from ethics.meta_ethics_governor import CulturalContext, EthicalDecision, get_meg
-from memory.emotional import EmotionalMemory
+try:
+    from labs.consciousness.dream.core.dream_feedback_controller import DreamFeedbackPropagator
+except ImportError:
+    DreamFeedbackPropagator = None
+try:
+    from ethics.meta_ethics_governor import CulturalContext, EthicalDecision, get_meg
+except ImportError:
+    CulturalContext = None
+    EthicalDecision = None
+    get_meg = None
+try:
+    from memory.emotional import EmotionalMemory
+except ImportError:
+    EmotionalMemory = None
 
 # JULES05_NOTE: Loop-safe guard added
 MAX_RECURSION_DEPTH = 10
@@ -1025,7 +1036,7 @@ class HyperspaceDreamSimulator:
             ],
         }
 
-    def _generate_recommendations(self, scenario: SimulationScenario, optimal_timeline_id: Optional[str]) -> list[str]:
+    async def _generate_recommendations(self, scenario: SimulationScenario, optimal_timeline_id: Optional[str]) -> list[str]:
         """Generate recommendations based on scenario analysis"""
 
         recommendations = []

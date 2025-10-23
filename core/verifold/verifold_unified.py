@@ -45,10 +45,17 @@ try:
 except ImportError:
     PQ_AVAILABLE = False
 
-from core.tier_unification_adapter import TierMappingConfig
+try:
+    from core.tier_unification_adapter import TierMappingConfig
+except ImportError:
+    TierMappingConfig = None
 
 # Core LUKHAS imports
-from governance.identity.interface import IdentityClient, verify_access
+try:
+    from governance.identity.interface import IdentityClient, verify_access
+except ImportError:
+    IdentityClient = None
+    verify_access = None
 
 logger = structlog.get_logger(__name__)
 

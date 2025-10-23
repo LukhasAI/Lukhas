@@ -5,7 +5,13 @@
       "Bash(git commit:*)",
       "Bash(git mv:*)",
       "Bash(xargs:*)",
-      "Read(//private/tmp/**)"
+      "Read(//private/tmp/**)",
+      "Bash(python -m pytest:*)",
+      "Bash(find:*)",
+      "Bash(for file in matriz/core/memory_system.py matriz/core/example_node.py matriz/nodes/validator_node.py matriz/nodes/math_node.py matriz/adapters/gmail_headers/__init__.py matriz/adapters/cloud_consolidation.py)",
+      "Bash(do sed -i '' 's/from MATRIZ\\./from matriz./g' \"$file\")",
+      "Bash(echo:*)",
+      "Bash(done)"
     ],
     "deny": [],
     "ask": [],

@@ -13,13 +13,29 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
-from ethics.core.shared_ethics_engine import SharedEthicsEngine
-from ethics.seedra.seedra_core import SEEDRACore
+try:
+    from labs.governance.ethics.shared_ethics_engine import SharedEthicsEngine
+except ImportError:
+    SharedEthicsEngine = None
+
+try:
+    from ethics.seedra.seedra_core import SEEDRACore
+except ImportError:
+    SEEDRACore = None
 
 # Import existing infrastructure
-from core.swarm import SwarmHub
-from orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
-from symbolic.core.symbolic_language import SymbolicLanguageFramework
+try:
+    from core.swarm import SwarmHub
+except ImportError:
+    SwarmHub = None
+try:
+    from orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
+except ImportError:
+    TrioOrchestrator = None
+try:
+    from symbolic.core.symbolic_language import SymbolicLanguageFramework
+except ImportError:
+    SymbolicLanguageFramework = None
 
 
 class DecisionAuditLevel(Enum):
