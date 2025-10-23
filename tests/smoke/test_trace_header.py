@@ -12,7 +12,7 @@ import re
 import pytest
 from fastapi.testclient import TestClient
 
-from adapters.openai.api import get_app
+from serve.main import app
 
 from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
 
@@ -21,7 +21,7 @@ AUTH_HEADERS = GOLDEN_AUTH_HEADERS
 
 @pytest.fixture
 def client() -> TestClient:
-    return TestClient(get_app())
+    return TestClient(app)
 
 
 def test_trace_header_present_and_hex(client: TestClient) -> None:

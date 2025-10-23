@@ -1,10 +1,10 @@
 from starlette.testclient import TestClient
-from adapters.openai.api import get_app
+from serve.main import app
 
 from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
 
 def test_responses_minimal():
-    client = TestClient(get_app())
+    client = TestClient(app)
     payload = {"input": "hello lukhas", "tools": []}
     r = client.post("/v1/responses", json=payload, headers=GOLDEN_AUTH_HEADERS)
     assert r.status_code == 200
@@ -13,7 +13,7 @@ def test_responses_minimal():
     assert body.get("model")  # e.g., "lukhas-matriz"
 
 def test_models_list():
-    client = TestClient(get_app())
+    client = TestClient(app)
     r = client.get("/v1/models", headers=GOLDEN_AUTH_HEADERS)
     assert r.status_code == 200
     ids = [m.get("id") for m in r.json().get("data", [])]

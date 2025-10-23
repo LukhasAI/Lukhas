@@ -17,7 +17,7 @@ import uuid
 import pytest
 from fastapi.testclient import TestClient
 
-from adapters.openai.api import get_app
+from serve.main import app
 
 from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
 
@@ -25,7 +25,7 @@ from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
 @pytest.fixture
 def client() -> TestClient:
     """Provide a fresh TestClient for each idempotency test."""
-    return TestClient(get_app())
+    return TestClient(app)
 
 
 def _auth_headers(extra: dict[str, str] | None = None) -> dict[str, str]:

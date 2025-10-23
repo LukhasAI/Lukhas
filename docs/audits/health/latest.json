@@ -1,14 +1,14 @@
 {
   "summary": {
-    "version": "audit-2025-10-22T210824Z",
-    "git_sha": "bd7c5a7b",
-    "ts": 1761167366,
-    "timestamp_iso": "2025-10-22T21:09:26Z",
+    "version": "audit-2025-10-22T210824Z-2-g5f432276a",
+    "git_sha": "5f432276",
+    "ts": 1761170285,
+    "timestamp_iso": "2025-10-22T21:58:05Z",
     "ruff": {
       "stats": {
         "E402": 1112,
         "W293": 775,
-        "I001": 464,
+        "I001": 432,
         "RUF100": 197,
         "F841": 172,
         "E712": 153,
@@ -39,7 +39,7 @@
         "F822": 1
       },
       "count": {
-        "total": 4841
+        "total": 4809
       }
     },
     "tests": {
@@ -82,12 +82,12 @@
       "task": "ruff_stats",
       "ok": false,
       "rc": 1,
-      "stdout": "1112\tE402  \t[ ] module-import-not-at-top-of-file\n1090\t      \t[ ] syntax-error\n 775\tW293  \t[ ] blank-line-with-whitespace\n 464\tI001  \t[*] unsorted-imports\n 197\tRUF100\t[*] unused-noqa\n 172\tF841  \t[*] unused-variable\n 153\tE712  \t[*] true-false-comparison\n 140\tE722  \t[ ] bare-except\n 131\tF541  \t[*] f-string-missing-placeholders\n 111\tW292  \t[ ] missing-newline-at-end-of-file\n  79\tE702  \t[ ] multiple-statements-on-one-line-semicolon\n  73\tF821  \t[ ] undefined-name\n  54\tW291  \t[ ] trailing-whitespace\n  51\tE701  \t[ ] multiple-statements-on-one-line-colon\n  49\tF401  \t[ ] unused-import\n  42\tQ000  \t[*] bad-quotes-inline-string\n  38\tE741  \t[ ] ambiguous-variable-name\n  17\tF811  \t[ ] redefined-while-unused\n  13\tF706  \t[ ] return-outside-function\n  11\tF402  \t[ ] import-shadowed-by-loop-var\n   9\tF405  \t[ ] undefined-local-with-import-star-usage\n   8\tE401  \t[*] multiple-imports-on-one-line\n   6\tF823  \t[ ] undefined-local\n   5\tF403  \t[ ] undefined-local-with-import-star\n   4\tE731  \t[*] lambda-assignment\n   3\tE902  \t[ ] io-error\n   2\tE721  \t[ ] type-comparison\n   2\tF404  \t[ ] late-future-import\n   2\tF704  \t[ ] yield-outside-function\n   1\tB009  \t[*] get-attr-with-constant\n   1\tSIM117\t[*] multiple-with-statements\n   1\tF822  \t[ ] undefined-export",
+      "stdout": "1112\tE402  \t[ ] module-import-not-at-top-of-file\n1090\t      \t[ ] syntax-error\n 775\tW293  \t[ ] blank-line-with-whitespace\n 432\tI001  \t[*] unsorted-imports\n 197\tRUF100\t[*] unused-noqa\n 172\tF841  \t[*] unused-variable\n 153\tE712  \t[*] true-false-comparison\n 140\tE722  \t[ ] bare-except\n 131\tF541  \t[*] f-string-missing-placeholders\n 111\tW292  \t[ ] missing-newline-at-end-of-file\n  79\tE702  \t[ ] multiple-statements-on-one-line-semicolon\n  73\tF821  \t[ ] undefined-name\n  54\tW291  \t[ ] trailing-whitespace\n  51\tE701  \t[ ] multiple-statements-on-one-line-colon\n  49\tF401  \t[ ] unused-import\n  42\tQ000  \t[*] bad-quotes-inline-string\n  38\tE741  \t[ ] ambiguous-variable-name\n  17\tF811  \t[ ] redefined-while-unused\n  13\tF706  \t[ ] return-outside-function\n  11\tF402  \t[ ] import-shadowed-by-loop-var\n   9\tF405  \t[ ] undefined-local-with-import-star-usage\n   8\tE401  \t[*] multiple-imports-on-one-line\n   6\tF823  \t[ ] undefined-local\n   5\tF403  \t[ ] undefined-local-with-import-star\n   4\tE731  \t[*] lambda-assignment\n   3\tE902  \t[ ] io-error\n   2\tE721  \t[ ] type-comparison\n   2\tF404  \t[ ] late-future-import\n   2\tF704  \t[ ] yield-outside-function\n   1\tB009  \t[*] get-attr-with-constant\n   1\tSIM117\t[*] multiple-with-statements\n   1\tF822  \t[ ] undefined-export",
       "stderr": "/core/quantum_financial/test_quantum_financial_consciousness_engine.py:144: expected a comma-separated list of codes (e.g., `# noqa: F401, F841`).\nwarning: Invalid `# noqa` directive on tests/unit/candidate/core/quantum_financial/test_quantum_financial_consciousness_engine.py:145: expected a comma-separated list of codes (e.g., `# noqa: F401, F841`).\nwarning: Invalid `# noqa` directive on tests/unit/candidate/core/quantum_financial/test_quantum_financial_consciousness_engine.py:164: expected a comma-separated list of codes (e.g., `# noqa: F401, F841`).\nwarning: Invalid `# noqa` directive on tests/unit/candidate/core/quantum_financial/test_quantum_financial_consciousness_engine.py:165: expected a comma-separated list of codes (e.g., `# noqa: F401, F841`).\nwarning: Invalid `# noqa` directive on tests/unit/candidate/core/quantum_financial/test_quantum_financial_consciousness_engine.py:183: expected a comma-separated list of codes (e.g., `# noqa: F401, F841`).\nwarning: Invalid `# noqa` directive on tests/unit/candidate/core/quantum_financial/test_quantum_financial_consciousness_engine.py:188: expected a comma-separated list of codes (e.g., `# noqa: F401, F841`).\nwarning: Invalid `# noqa` directive on tests/unit/candidate/core/quantum_financial/test_quantum_financial_consciousness_engine.py:189: expected a comma-separated list of codes (e.g., `# noqa: F401, F841`).\nwarning: Invalid `# noqa` directive on tests/unit/candidate/core/quantum_financial/test_quantum_financial_consciousness_engine.py:208: expected a comma-separated list of codes (e.g., `# noqa: F401, F841`).\nwarning: Invalid `# noqa` directive on tests/unit/candidate/core/quantum_financial/test_quantum_financial_consciousness_engine.py:209: expected a comma-separated list of codes (e.g., `# noqa: F401, F841`).\nwarning: Invalid `# noqa` directive on tests/unit/candidate/core/quantum_financial/test_quantum_financial_consciousness_engine.py:227: expected a comma-separated list of codes (e.g., `# noqa: F401, F841`).",
       "parsed": {
         "E402": 1112,
         "W293": 775,
-        "I001": 464,
+        "I001": 432,
         "RUF100": 197,
         "F841": 172,
         "E712": 153,
@@ -122,10 +122,10 @@
       "task": "ruff_count",
       "ok": true,
       "rc": 0,
-      "stdout": "4841",
+      "stdout": "4809",
       "stderr": "",
       "parsed": {
-        "total": 4841
+        "total": 4809
       }
     },
     "pytest_smoke": {

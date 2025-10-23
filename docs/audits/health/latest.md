@@ -1,11 +1,11 @@
 # LUKHAS System Health Audit (auto-generated)
 
-**Version:** `audit-2025-10-22T210824Z` | **Commit:** `bd7c5a7b`  
-**Timestamp:** `2025-10-22T21:09:26Z`
+**Version:** `audit-2025-10-22T210824Z-2-g5f432276a` | **Commit:** `5f432276`  
+**Timestamp:** `2025-10-22T21:58:05Z`
 
 ## Summary
 
-- **Ruff Total:** 4841 issues
+- **Ruff Total:** 4809 issues
 - **Smoke Tests:** 0/0 passing (0.0%)
 - **Unit Core Tests:** None
 - **OpenAPI:** {'valid': True, 'paths': 12}
@@ -15,7 +15,7 @@
 ```
   1112  E402
    775  W293
-   464  I001
+   432  I001
    197  RUF100
    172  F841
    153  E712
@@ -66,4 +66,4 @@
 ⚪ **API not running** - Start API to get live Guardian/RL stats
 
 ---
-*Generated: 2025-10-22T21:09:26Z*
+*Generated: 2025-10-22T21:58:05Z*

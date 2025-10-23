@@ -33,7 +33,7 @@ def permissive_policy_mode(monkeypatch):
 @pytest.fixture
 def app():
     """Create test FastAPI application."""
-    return get_app()
+    return app
 
 
 @pytest.fixture

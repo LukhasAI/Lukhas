@@ -6,7 +6,7 @@ when memory systems are available. Validates graceful degradation.
 """
 import pytest
 from starlette.testclient import TestClient
-from adapters.openai.api import get_app, MEMORY_AVAILABLE
+from serve.main import app, MEMORY_AVAILABLE
 
 # Skip entire module if memory systems not available
 pytestmark = pytest.mark.skipif(
@@ -18,7 +18,7 @@ pytestmark = pytest.mark.skipif(
 @pytest.fixture
 def client():
     """Test client with override for dependencies."""
-    return TestClient(get_app())
+    return TestClient(app)
 
 
 @pytest.fixture

@@ -11,7 +11,7 @@ from __future__ import annotations
 import pytest
 from fastapi.testclient import TestClient
 
-from adapters.openai.api import get_app
+from serve.main import app
 
 
 @pytest.fixture
@@ -22,7 +22,6 @@ def strict_client(monkeypatch):
     In strict mode, routes require valid authentication and RBAC checks.
     """
     monkeypatch.setenv("LUKHAS_POLICY_MODE", "strict")
-    app = get_app()
     return TestClient(app)
 
 

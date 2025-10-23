@@ -8,7 +8,7 @@ import os
 
 from fastapi.testclient import TestClient
 
-from adapters.openai.api import get_app
+from serve.main import app
 
 
 def _client():
@@ -16,7 +16,7 @@ def _client():
     os.environ["LUKHAS_POLICY_MODE"] = "permissive"
     # Use token with all required scopes
     # Token format in auth.py extracts org/scopes, but stub mode accepts any token
-    return TestClient(get_app())
+    return TestClient(app)
 
 
 def test_headers_on_success():

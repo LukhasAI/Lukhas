@@ -1,407 +1,46 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Lukhas OpenAI Facade",
-    "description": "OpenAI-compatible API powered by LUKHAS MATRIZ cognitive engine",
-    "version": "0.1.0",
+    "title": "LUKHAS API",
+    "description": "Governed tool loop, auditability, feedback LUT, and safety modes.",
+    "contact": {
+      "name": "LUKHAS AI Team",
+      "url": "https://github.com/LukhasAI/Lukhas"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    },
+    "version": "1.0.0",
     "x-service-version": "dev"
   },
+  "servers": [
+    {
+      "url": "https://api.ai",
+      "description": "Production"
+    },
+    {
+      "url": "http://localhost:8000",
+      "description": "Local Development"
+    }
+  ],
   "paths": {
-    "/v1/indexes": {
+    "/traces/latest": {
       "get": {
         "tags": [
-          "indexes"
+          "traces"
         ],
-        "summary": "List Indexes",
-        "description": "List all indexes with metadata.\n\nReturns:\n    IndexListResponse with list of all indexes",
-        "operationId": "list_indexes_v1_indexes_get",
+        "summary": "Get latest MATRIZ trace",
+        "description": "Retrieve the most recent trace from the MATRIZ traces directory.\n\nReturns:\n    JSON trace data with trace_id, or 404 if no traces available",
+        "operationId": "get_latest_trace_traces_latest_get",
         "responses": {
           "200": {
             "description": "Successful Response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/IndexListResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "404": {
-            "description": "Not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "500": {
-            "description": "Internal server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "indexes"
-        ],
-        "summary": "Create Index",
-        "description": "Create a new embedding index.\n\nArgs:\n    payload: Index creation request\n\nReturns:\n    IndexResponse with created index metadata\n\nRaises:\n    HTTPException: 400 if index name already exists",
-        "operationId": "create_index_v1_indexes_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/IndexCreateRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "201": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IndexResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "404": {
-            "description": "Not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "500": {
-            "description": "Internal server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "type": "object",
+                  "title": "Response Get Latest Trace Traces Latest Get"
                 }
               }
             },
@@ -435,22 +74,22 @@
         }
       }
     },
-    "/v1/indexes/{index_id}": {
+    "/traces/{trace_id}": {
       "get": {
         "tags": [
-          "indexes"
+          "traces"
         ],
-        "summary": "Get Index",
-        "description": "Get index details by ID.\n\nArgs:\n    index_id: Index identifier\n\nReturns:\n    IndexResponse with index metadata\n\nRaises:\n    HTTPException: 404 if index not found",
-        "operationId": "get_index_v1_indexes__index_id__get",
+        "summary": "Get trace by ID",
+        "description": "Retrieve a specific trace by its ID.\n\nArgs:\n    trace_id: The trace identifier\n\nReturns:\n    JSON trace data, or 404 if trace not found",
+        "operationId": "get_trace_by_id_traces__trace_id__get",
         "parameters": [
           {
-            "name": "index_id",
+            "name": "trace_id",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string",
-              "title": "Index Id"
+              "title": "Trace Id"
             }
           }
         ],
@@ -460,388 +99,8 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/IndexResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "404": {
-            "description": "Not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "500": {
-            "description": "Internal server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "indexes"
-        ],
-        "summary": "Delete Index",
-        "description": "Delete an entire index.\n\nArgs:\n    index_id: Index identifier\n\nReturns:\n    IndexDeleteResponse with deletion status",
-        "operationId": "delete_index_v1_indexes__index_id__delete",
-        "parameters": [
-          {
-            "name": "index_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Index Id"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IndexDeleteResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "404": {
-            "description": "Not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "500": {
-            "description": "Internal server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "type": "object",
+                  "title": "Response Get Trace By Id Traces  Trace Id  Get"
                 }
               }
             },
@@ -911,529 +170,73 @@
         }
       }
     },
-    "/v1/indexes/{index_id}/vectors": {
-      "post": {
+    "/traces/": {
+      "get": {
         "tags": [
-          "indexes"
+          "traces"
         ],
-        "summary": "Add Vectors",
-        "description": "Add vectors to an index.\n\nArgs:\n    index_id: Index identifier\n    payload: Vector addition request\n\nReturns:\n    VectorAddResponse with add statistics\n\nRaises:\n    HTTPException: 404 if index not found\n    HTTPException: 400 if dimension mismatch",
-        "operationId": "add_vectors_v1_indexes__index_id__vectors_post",
+        "summary": "List available traces with metadata",
+        "description": "List traces across sources with paging and filters. Ordering: mtime desc, name asc. Query params: offset>=0, 1<=limit<=200, optional source filter (env|live|golden), q substring matches id or filename.",
+        "operationId": "list_traces_traces__get",
         "parameters": [
           {
-            "name": "index_id",
-            "in": "path",
-            "required": true,
+            "name": "offset",
+            "in": "query",
+            "required": false,
             "schema": {
-              "type": "string",
-              "title": "Index Id"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/VectorAddRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/VectorAddResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "404": {
-            "description": "Not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "500": {
-            "description": "Internal server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/indexes/{index_id}/search": {
-      "post": {
-        "tags": [
-          "indexes"
-        ],
-        "summary": "Search Vectors",
-        "description": "Search for nearest neighbors in an index.\n\nArgs:\n    index_id: Index identifier\n    payload: Search request with query vector\n\nReturns:\n    VectorSearchResponse with nearest neighbors\n\nRaises:\n    HTTPException: 404 if index not found\n    HTTPException: 400 if query vector dimension mismatch",
-        "operationId": "search_vectors_v1_indexes__index_id__search_post",
-        "parameters": [
-          {
-            "name": "index_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Index Id"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/VectorSearchRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/VectorSearchResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "404": {
-            "description": "Not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "500": {
-            "description": "Internal server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/indexes/{index_id}/vectors/{vector_id}": {
-      "delete": {
-        "tags": [
-          "indexes"
-        ],
-        "summary": "Delete Vector",
-        "description": "Delete a vector from an index.\n\nArgs:\n    index_id: Index identifier\n    vector_id: Vector identifier to delete\n\nReturns:\n    VectorDeleteResponse with deletion status\n\nRaises:\n    HTTPException: 404 if index not found",
-        "operationId": "delete_vector_v1_indexes__index_id__vectors__vector_id__delete",
-        "parameters": [
-          {
-            "name": "index_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Index Id"
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
             }
           },
           {
-            "name": "vector_id",
-            "in": "path",
-            "required": true,
+            "name": "limit",
+            "in": "query",
+            "required": false,
             "schema": {
-              "type": "string",
-              "title": "Vector Id"
+              "type": "integer",
+              "maximum": 200,
+              "minimum": 1,
+              "default": 100,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "source",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "env",
+                    "live",
+                    "golden"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Source"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Q"
             }
           }
         ],
@@ -1443,151 +246,8 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/VectorDeleteResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "404": {
-            "description": "Not found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "500": {
-            "description": "Internal server error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "type": "object",
+                  "title": "Response List Traces Traces  Get"
                 }
               }
             },
@@ -1660,205 +320,16 @@
     "/healthz": {
       "get": {
         "summary": "Healthz",
-        "description": "Liveness probe - is the service running?",
+        "description": "Health check endpoint for monitoring.\n\nBehavior:\n- Always returns HTTP 200 for readiness consumers.\n- When LUKHAS_VOICE_REQUIRED=true and the lightweight probe fails,\n  include 'voice' in `degraded_reasons` and set `voice_mode` to 'degraded'.\n- Exposes MATRIZ version, enabled modules, and lane configuration.",
         "operationId": "healthz_healthz_get",
         "responses": {
           "200": {
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/readyz": {
-      "get": {
-        "summary": "Readyz",
-        "description": "Readiness probe - can the service handle requests?",
-        "operationId": "readyz_readyz_get",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/metrics": {
-      "get": {
-        "summary": "Metrics",
-        "description": "Prometheus-format metrics endpoint.",
-        "operationId": "metrics_metrics_get",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/models": {
-      "get": {
-        "summary": "Models",
-        "description": "List available models.",
-        "operationId": "models_v1_models_get",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/Body_models_v1_models_get"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "type": "object",
+                  "title": "Response Healthz Healthz Get"
                 }
               }
             },
@@ -1894,42 +365,32 @@
     },
     "/v1/embeddings": {
       "post": {
-        "summary": "Embeddings",
-        "description": "Generate embeddings for text input.",
-        "operationId": "embeddings_v1_embeddings_post",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          }
+        "tags": [
+          "OpenAI Compatible"
         ],
+        "summary": "Create Embeddings",
+        "description": "OpenAI-compatible embeddings endpoint (stub for RC soak testing).",
+        "operationId": "create_embeddings_v1_embeddings_post",
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Body_embeddings_v1_embeddings_post"
+                "type": "object",
+                "title": "Request"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "object",
+                  "title": "Response Create Embeddings V1 Embeddings Post"
+                }
               }
             },
             "headers": {
@@ -1998,150 +459,34 @@
         }
       }
     },
-    "/v1/responses": {
+    "/v1/chat/completions": {
       "post": {
-        "summary": "Responses",
-        "description": "Generate AI responses using MATRIZ orchestrator.",
-        "operationId": "responses_v1_responses_post",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          }
+        "tags": [
+          "OpenAI Compatible"
         ],
+        "summary": "Create Chat Completion",
+        "description": "OpenAI-compatible chat completions endpoint (stub for RC soak testing).",
+        "operationId": "create_chat_completion_v1_chat_completions_post",
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Body_responses_v1_responses_post"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
+                "type": "object",
+                "title": "Request"
               }
             }
           },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            },
-            "headers": {
-              "X-Trace-Id": {
-                "$ref": "#/components/headers/X-Trace-Id"
-              },
-              "X-Service-Version": {
-                "$ref": "#/components/headers/X-Service-Version"
-              },
-              "X-RateLimit-Limit": {
-                "$ref": "#/components/headers/X-RateLimit-Limit"
-              },
-              "X-RateLimit-Remaining": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining"
-              },
-              "X-RateLimit-Reset": {
-                "$ref": "#/components/headers/X-RateLimit-Reset"
-              },
-              "X-RateLimit-Limit-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
-              },
-              "X-RateLimit-Remaining-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
-              },
-              "X-RateLimit-Reset-Requests": {
-                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/dreams": {
-      "post": {
-        "summary": "Dreams",
-        "description": "Generate dream scenarios (consciousness exploration).",
-        "operationId": "dreams_v1_dreams_post",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "title": "Authorization"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/Body_dreams_v1_dreams_post"
-              }
-            }
-          }
+          "required": true
         },
         "responses": {
           "200": {
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "type": "object",
+                  "title": "Response Create Chat Completion V1 Chat Completions Post"
+                }
               }
             },
             "headers": {
@@ -2213,83 +558,6 @@
   },
   "components": {
     "schemas": {
-      "Body_dreams_v1_dreams_post": {
-        "properties": {
-          "required_scopes": {
-            "items": {},
-            "type": "array",
-            "title": "Required Scopes"
-          }
-        },
-        "type": "object",
-        "title": "Body_dreams_v1_dreams_post"
-      },
-      "Body_embeddings_v1_embeddings_post": {
-        "properties": {
-          "required_scopes": {
-            "items": {},
-            "type": "array",
-            "title": "Required Scopes"
-          }
-        },
-        "type": "object",
-        "title": "Body_embeddings_v1_embeddings_post"
-      },
-      "Body_models_v1_models_get": {
-        "properties": {
-          "required_scopes": {
-            "items": {},
-            "type": "array",
-            "title": "Required Scopes"
-          }
-        },
-        "type": "object",
-        "title": "Body_models_v1_models_get"
-      },
-      "Body_responses_v1_responses_post": {
-        "properties": {
-          "required_scopes": {
-            "items": {},
-            "type": "array",
-            "title": "Required Scopes"
-          }
-        },
-        "type": "object",
-        "title": "Body_responses_v1_responses_post"
-      },
-      "ErrorResponse": {
-        "properties": {
-          "error": {
-            "type": "string",
-            "title": "Error",
-            "description": "Error message"
-          },
-          "code": {
-            "type": "string",
-            "title": "Code",
-            "description": "Error code"
-          },
-          "details": {
-            "anyOf": [
-              {
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Details",
-            "description": "Additional error details"
-          }
-        },
-        "type": "object",
-        "required": [
-          "error",
-          "code"
-        ],
-        "title": "ErrorResponse",
-        "description": "Standard error response."
-      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -2302,159 +570,6 @@
         },
         "type": "object",
         "title": "HTTPValidationError"
-      },
-      "IndexCreateRequest": {
-        "properties": {
-          "name": {
-            "type": "string",
-            "maxLength": 128,
-            "minLength": 1,
-            "title": "Name",
-            "description": "Unique name for the index"
-          },
-          "metric": {
-            "type": "string",
-            "title": "Metric",
-            "description": "Distance metric: 'angular' (cosine similarity) or 'euclidean'",
-            "default": "angular"
-          },
-          "trees": {
-            "type": "integer",
-            "maximum": 100.0,
-            "minimum": 1.0,
-            "title": "Trees",
-            "description": "Number of trees for Annoy index (more trees = better accuracy, slower build)",
-            "default": 10
-          },
-          "dimension": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "maximum": 16384.0,
-                "minimum": 1.0
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Dimension",
-            "description": "Vector dimension (auto-detected on first add if not specified)"
-          }
-        },
-        "type": "object",
-        "required": [
-          "name"
-        ],
-        "title": "IndexCreateRequest",
-        "description": "Request to create a new index."
-      },
-      "IndexDeleteResponse": {
-        "properties": {
-          "index_id": {
-            "type": "string",
-            "title": "Index Id",
-            "description": "Deleted index identifier"
-          },
-          "success": {
-            "type": "boolean",
-            "title": "Success",
-            "description": "Whether deletion was successful"
-          }
-        },
-        "type": "object",
-        "required": [
-          "index_id",
-          "success"
-        ],
-        "title": "IndexDeleteResponse",
-        "description": "Response after deleting an index."
-      },
-      "IndexListResponse": {
-        "properties": {
-          "indexes": {
-            "items": {
-              "$ref": "#/components/schemas/IndexResponse"
-            },
-            "type": "array",
-            "title": "Indexes",
-            "description": "List of all indexes"
-          },
-          "total_count": {
-            "type": "integer",
-            "title": "Total Count",
-            "description": "Total number of indexes"
-          },
-          "total_vectors": {
-            "type": "integer",
-            "title": "Total Vectors",
-            "description": "Total vectors across all indexes"
-          }
-        },
-        "type": "object",
-        "required": [
-          "indexes",
-          "total_count",
-          "total_vectors"
-        ],
-        "title": "IndexListResponse",
-        "description": "Response containing list of indexes."
-      },
-      "IndexResponse": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "title": "Id",
-            "description": "Unique index identifier"
-          },
-          "name": {
-            "type": "string",
-            "title": "Name",
-            "description": "Index name"
-          },
-          "metric": {
-            "type": "string",
-            "title": "Metric",
-            "description": "Distance metric"
-          },
-          "dimension": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Dimension",
-            "description": "Vector dimension"
-          },
-          "vector_count": {
-            "type": "integer",
-            "title": "Vector Count",
-            "description": "Number of vectors in index"
-          },
-          "created_at": {
-            "type": "number",
-            "title": "Created At",
-            "description": "Creation timestamp (Unix epoch)"
-          },
-          "updated_at": {
-            "type": "number",
-            "title": "Updated At",
-            "description": "Last update timestamp (Unix epoch)"
-          }
-        },
-        "type": "object",
-        "required": [
-          "id",
-          "name",
-          "metric",
-          "vector_count",
-          "created_at",
-          "updated_at"
-        ],
-        "title": "IndexResponse",
-        "description": "Response containing index metadata."
       },
       "ValidationError": {
         "properties": {
@@ -2488,207 +603,6 @@
           "type"
         ],
         "title": "ValidationError"
-      },
-      "VectorAddRequest": {
-        "properties": {
-          "vectors": {
-            "items": {
-              "type": "object"
-            },
-            "type": "array",
-            "maxItems": 1000,
-            "minItems": 1,
-            "title": "Vectors",
-            "description": "List of vectors to add"
-          }
-        },
-        "type": "object",
-        "required": [
-          "vectors"
-        ],
-        "title": "VectorAddRequest",
-        "description": "Request to add vectors to an index."
-      },
-      "VectorAddResponse": {
-        "properties": {
-          "index_id": {
-            "type": "string",
-            "title": "Index Id",
-            "description": "Index identifier"
-          },
-          "added_count": {
-            "type": "integer",
-            "title": "Added Count",
-            "description": "Number of vectors successfully added"
-          },
-          "failed_count": {
-            "type": "integer",
-            "title": "Failed Count",
-            "description": "Number of vectors that failed to add",
-            "default": 0
-          },
-          "errors": {
-            "anyOf": [
-              {
-                "items": {
-                  "type": "string"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Errors",
-            "description": "Error messages for failed vectors"
-          }
-        },
-        "type": "object",
-        "required": [
-          "index_id",
-          "added_count"
-        ],
-        "title": "VectorAddResponse",
-        "description": "Response after adding vectors."
-      },
-      "VectorDeleteResponse": {
-        "properties": {
-          "index_id": {
-            "type": "string",
-            "title": "Index Id",
-            "description": "Index identifier"
-          },
-          "vector_id": {
-            "type": "string",
-            "title": "Vector Id",
-            "description": "Deleted vector identifier"
-          },
-          "success": {
-            "type": "boolean",
-            "title": "Success",
-            "description": "Whether deletion was successful"
-          }
-        },
-        "type": "object",
-        "required": [
-          "index_id",
-          "vector_id",
-          "success"
-        ],
-        "title": "VectorDeleteResponse",
-        "description": "Response after deleting a vector."
-      },
-      "VectorSearchRequest": {
-        "properties": {
-          "vector": {
-            "items": {
-              "type": "number"
-            },
-            "type": "array",
-            "maxItems": 16384,
-            "minItems": 1,
-            "title": "Vector",
-            "description": "Query vector"
-          },
-          "k": {
-            "type": "integer",
-            "maximum": 1000.0,
-            "minimum": 1.0,
-            "title": "K",
-            "description": "Number of nearest neighbors to return",
-            "default": 10
-          },
-          "include_vectors": {
-            "type": "boolean",
-            "title": "Include Vectors",
-            "description": "Include vector embeddings in response",
-            "default": false
-          }
-        },
-        "type": "object",
-        "required": [
-          "vector"
-        ],
-        "title": "VectorSearchRequest",
-        "description": "Request to search for nearest neighbors."
-      },
-      "VectorSearchResponse": {
-        "properties": {
-          "index_id": {
-            "type": "string",
-            "title": "Index Id",
-            "description": "Index identifier"
-          },
-          "query_time_ms": {
-            "type": "number",
-            "title": "Query Time Ms",
-            "description": "Query processing time in milliseconds"
-          },
-          "results": {
-            "items": {
-              "$ref": "#/components/schemas/VectorSearchResult"
-            },
-            "type": "array",
-            "title": "Results",
-            "description": "Search results (nearest neighbors)"
-          },
-          "k": {
-            "type": "integer",
-            "title": "K",
-            "description": "Requested number of neighbors"
-          }
-        },
-        "type": "object",
-        "required": [
-          "index_id",
-          "query_time_ms",
-          "results",
-          "k"
-        ],
-        "title": "VectorSearchResponse",
-        "description": "Response containing search results."
-      },
-      "VectorSearchResult": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "title": "Id",
-            "description": "Item identifier"
-          },
-          "score": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Score",
-            "description": "Similarity score"
-          },
-          "vector": {
-            "anyOf": [
-              {
-                "items": {
-                  "type": "number"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Vector",
-            "description": "Vector embedding (if requested)"
-          }
-        },
-        "type": "object",
-        "required": [
-          "id"
-        ],
-        "title": "VectorSearchResult",
-        "description": "Single search result."
       }
     },
     "headers": {
@@ -2758,15 +672,5 @@
         }
       }
     }
-  },
-  "servers": [
-    {
-      "url": "https://api.lukhas.ai",
-      "description": "Production"
-    },
-    {
-      "url": "http://localhost:8000",
-      "description": "Local Development"
-    }
-  ]
+  }
 }

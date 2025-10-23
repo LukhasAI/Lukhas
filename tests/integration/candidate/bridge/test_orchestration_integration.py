@@ -112,7 +112,7 @@ def test_api_gateway():
         config = {"host": "127.0.0.1", "port": 8080, "target_latency_ms": 100}
 
         gateway = UnifiedAPIGateway(config)
-        app = gateway.get_app()
+        app = gateway.app
 
         print("✅ API Gateway initialized successfully")
         print(f"   - Host: {gateway.host}")

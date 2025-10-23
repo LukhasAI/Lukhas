@@ -1,44 +1,48 @@
 # LUKHAS System Health Audit (auto-generated)
 
-**Version:** `v0.9.0-rc-24-g8844e266b` | **Commit:** `8844e266`  
-**Timestamp:** `2025-10-14T22:26:27Z`
+**Version:** `audit-2025-10-22T210824Z-2-g5f432276a` | **Commit:** `5f432276`  
+**Timestamp:** `2025-10-22T21:58:05Z`
 
 ## Summary
 
-- **Ruff Total:** 5970 issues
-- **Smoke Tests:** 70/74 passing (94.6%)
-- **Unit Core Tests:** {'summary': '\nERROR tests/unit/bridge/adapters/test_gmail_adapter.py\nERROR tests/unit/bridge/adapters/test_oauth_manager.py\nERROR tests/unit/bridge/adapters/test_oauth_manager_advanced.py\nERROR tests/unit/bridge/api_gateway/test_unified_api_gateway.py\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 5 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n========================= 5 skipped, 5 errors in 0.56s ========================='}
+- **Ruff Total:** 4809 issues
+- **Smoke Tests:** 0/0 passing (0.0%)
+- **Unit Core Tests:** None
 - **OpenAPI:** {'valid': True, 'paths': 12}
 
 ## Ruff Statistics
 
 ```
-  1782  W293
-  1320  E402
-   347  F841
-   290  I001
-   253  RUF100
+  1112  E402
+   775  W293
+   432  I001
+   197  RUF100
+   172  F841
    153  E712
    140  E722
-   117  F541
+   131  F541
    111  W292
     79  E702
-    53  W291
-    50  E701
+    73  F821
+    54  W291
+    51  E701
+    49  F401
+    42  Q000
     38  E741
-    38  F401
-    21  F821
-    18  F811
+    17  F811
+    13  F706
     11  F402
-    10  F706
-     8  F405
-     6  E401
-     6  F403
+     9  F405
+     8  E401
      6  F823
+     5  F403
      4  E731
+     3  E902
      2  E721
-     2  E902
      2  F404
+     2  F704
+     1  B009
+     1  SIM117
      1  F822
 ```
 
@@ -46,21 +50,11 @@
 
 ###  Smoke Tests
 
-- **Status:** 70/74 passing (94.6%)
-- **Passed:** 70
-- **Failed:** 4
+- **Status:** {'summary': 'ERROR tests/smoke/test_openai_facade.py\nERROR tests/smoke/test_rate_limit_headers.py\nERROR tests/smoke/test_rate_limiting.py\nERROR tests/smoke/test_responses.py\nERROR tests/smoke/test_responses_stream.py\nERROR tests/smoke/test_security_headers.py\nERROR tests/smoke/test_trace_header.py\nERROR tests/smoke/test_tracing.py\n!!!!!!!!!!!!!!!!!!! Interrupted: 23 errors during collection !!!!!!!!!!!!!!!!!!!'}
 
 ### Core Unit Tests
 
-```
-
-ERROR tests/unit/bridge/adapters/test_gmail_adapter.py
-ERROR tests/unit/bridge/adapters/test_oauth_manager.py
-ERROR tests/unit/bridge/adapters/test_oauth_manager_advanced.py
-ERROR tests/unit/bridge/api_gateway/test_unified_api_gateway.py
-!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 5 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
-========================= 5 skipped, 5 errors in 0.56s =========================
-```
+- **Status:** {}
 
 ## Compat Hits
 
@@ -72,4 +66,4 @@ ERROR tests/unit/bridge/api_gateway/test_unified_api_gateway.py
 ⚪ **API not running** - Start API to get live Guardian/RL stats
 
 ---
-*Generated: 2025-10-14T22:26:27Z*
+*Generated: 2025-10-22T21:58:05Z*

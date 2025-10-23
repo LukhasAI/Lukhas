@@ -11,14 +11,14 @@ Validates that:
 import pytest
 from fastapi.testclient import TestClient
 
-from adapters.openai.api import get_app
+from serve.main import app
 from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
 
 
 @pytest.fixture
 def client():
     """Create a test client for the OpenAI façade."""
-    app = get_app()
+    # app imported directly from serve.main
     return TestClient(app)
 
 

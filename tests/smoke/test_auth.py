@@ -17,7 +17,7 @@ pytestmark = pytest.mark.skip(reason="adapters.openai removed during Phase 5B fl
 
 # Original imports (now non-existent):
 # from fastapi.testclient import TestClient
-# from adapters.openai.api import get_app
+# from serve.main import app
 # from adapters.openai.auth import TokenClaims, verify_token_with_policy, require_bearer
 # from fastapi import HTTPException
 # from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
@@ -26,7 +26,7 @@ pytestmark = pytest.mark.skip(reason="adapters.openai removed during Phase 5B fl
 @pytest.fixture
 def client():
     """Create test client for OpenAI façade."""
-    return TestClient(get_app())
+    return TestClient(app)
 
 
 def test_missing_authorization_returns_401(client):

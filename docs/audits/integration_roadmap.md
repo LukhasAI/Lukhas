@@ -1,0 +1,215 @@
+# Integration Roadmap - Priority Order
+
+**Generated**: 2025-10-23 00:17:08
+**Total hidden gems**: 193
+
+---
+
+## Phase 1: Identity & Auth
+
+- [ ] `labs/core/identity_aware_base_colony.py` → Wire into serve.identity_api for authentication/namespace isolation
+- [ ] `labs/core/identity/constitutional_ai_compliance.py` → Wire into serve.identity_api for authentication/namespace isolation
+- [ ] `labs/governance/identity/unified_login_interface.py` → Wire into serve.identity_api for authentication/namespace isolation
+- [ ] `labs/governance/identity/auth_backend/websocket_server.py` → Wire into serve.identity_api for authentication/namespace isolation
+- [ ] `labs/governance/identity/core/sent/policy_engine.py` → Wire into serve.identity_api for authentication/namespace isolation
+- [ ] `labs/governance/identity/auth/qrg_generators.py` → Wire into serve.identity_api for authentication/namespace isolation
+- [ ] `labs/governance/identity/auth_web/websocket_server.py` → Wire into serve.identity_api for authentication/namespace isolation
+- [ ] `labs/governance/identity/qrg_integration.py` → Wire into serve.identity_api for authentication/namespace isolation
+- [ ] `labs/governance/identity/core/brain_identity_integration.py` → Wire into serve.identity_api for authentication/namespace isolation
+- [ ] `labs/core/identity/matriz_consciousness_identity.py` → Wire into serve.identity_api for authentication/namespace isolation
+- [ ] `labs/core/identity/test_consciousness_identity_patterns.py` → Wire into serve.identity_api for authentication/namespace isolation
+- [ ] `labs/core/identity/consciousness_namespace_isolation.py` → Wire into serve.identity_api for authentication/namespace isolation
+- [ ] `labs/core/identity/manager.py` → Wire into serve.identity_api for authentication/namespace isolation
+- [ ] `labs/core/identity/lambda_id_core.py` → Wire into serve.identity_api for authentication/namespace isolation
+- [ ] `labs/governance/auth_guardian_integration.py` → Promote to core module or wire into existing core system
+- [ ] `labs/governance/auth_glyph_registry.py` → Promote to core module or wire into existing core system
+- [ ] `labs/governance/auth_cross_module_integration.py` → Promote to core module or wire into existing core system
+- [ ] `labs/governance/identity/deployment_package.py` → Wire into serve.identity_api for authentication/namespace isolation
+- [ ] `labs/governance/identity/lambda_id_auth.py` → Wire into serve.identity_api for authentication/namespace isolation
+- [ ] `labs/governance/identity/zkproof/multimodal_zk_engine.py` → Wire into serve.identity_api for authentication/namespace isolation
+- [ ] `labs/governance/identity/tools/onboarding_cli.py` → Wire into serve.identity_api for authentication/namespace isolation
+- [ ] `labs/governance/identity/core/unified_auth_manager.py` → Wire into serve.identity_api for authentication/namespace isolation
+- [ ] `labs/governance/identity/core/colonies/biometric_verification_colony.py` → Wire into serve.identity_api for authentication/namespace isolation
+- [ ] `labs/governance/identity/core/colonies/consciousness_verification_colony.py` → Wire into serve.identity_api for authentication/namespace isolation
+- [ ] `labs/governance/identity/core/colonies/dream_verification_colony.py` → Wire into serve.identity_api for authentication/namespace isolation
+- [ ] `labs/governance/identity/core/health/identity_health_monitor.py` → Wire into serve.identity_api for authentication/namespace isolation
+- [ ] `labs/governance/identity/core/tagging/identity_tag_resolver.py` → Wire into serve.identity_api for authentication/namespace isolation
+- [ ] `labs/governance/identity/core/glyph/distributed_glyph_generation.py` → Wire into serve.identity_api for authentication/namespace isolation
+- [ ] `labs/governance/identity/biometric/biometric_fusion_engine.py` → Wire into serve.identity_api for authentication/namespace isolation
+- [ ] `labs/governance/identity/quantum/dynamic_qrglyph_engine.py` → Wire into serve.identity_api for authentication/namespace isolation
+
+## Phase 2: Bio-Inspired Systems
+
+- [ ] `labs/consciousness/unified/symbolic_bio_symbolic_orchestrator.py` → Integrate as standalone engine component
+- [ ] `labs/bio/memory/symbolic_proteome.py` → Promote to core module or wire into existing core system
+- [ ] `labs/governance/identity/core/colonies/biometric_verification_colony.py` → Wire into serve.identity_api for authentication/namespace isolation
+- [ ] `labs/governance/identity/biometric/biometric_fusion_engine.py` → Wire into serve.identity_api for authentication/namespace isolation
+- [ ] `core/bio_symbolic_processor.py` → Wire into MATRIZ cognitive pipeline
+
+## Phase 3: Memory & Consciousness
+
+- [ ] `labs/consciousness/reflection/privacy_preserving_memory_vault.py` → Promote to core module or wire into existing core system
+- [ ] `labs/core/glyph/glyph_memory_integration.py` → Integrate as standalone engine component
+- [ ] `labs/memory/core/unified_memory_orchestrator.py` → Integrate as standalone engine component
+- [ ] `labs/memory/temporal/hyperspace_dream_simulator.py` → Revive as memory.dream_trace for consciousness tracing
+- [ ] `labs/memory/folds/memory_fold.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/memory_hub.py` → Promote to core module or wire into existing core system
+- [ ] `matriz/core/memory_system.py` → Integrate as standalone engine component
+- [ ] `labs/memory/systems/replay_system.py` → Promote to core module or wire into existing core system
+- [ ] `memory/fold_lineage_tracker.py` → Evaluate for integration or mark for deletion
+- [ ] `labs/bio/memory/symbolic_proteome.py` → Promote to core module or wire into existing core system
+- [ ] `labs/memory/repair/advanced_trauma_repair.py` → Integrate as standalone engine component
+- [ ] `labs/memory/access/tier_system.py` → Integrate as standalone engine component
+- [ ] `labs/memory/protection/symbolic_quarantine_sanctum.py` → Test thoroughly, then promote to production lane
+- [ ] `labs/memory/tools/memory_drift_auditor.py` → Test thoroughly, then promote to production lane
+- [ ] `labs/memory/learning/adaptive_meta_learning_system.py` → Integrate as standalone engine component
+- [ ] `labs/memory/learning/meta_learning/federated_integration.py` → Promote to core module or wire into existing core system
+- [ ] `labs/memory/learning/federated/FederatedIntegration.py` → Promote to core module or wire into existing core system
+- [ ] `labs/memory/dna_helix/dna_healix.py` → Promote to core module or wire into existing core system
+- [ ] `labs/memory/fold_system/distributed_memory_fold.py` → Promote to core module or wire into existing core system
+- [ ] `labs/memory/systems/simple_store.py` → Integrate as standalone engine component
+- [ ] `labs/memory/systems/neurosymbolic_integration.py` → Test thoroughly, then promote to production lane
+- [ ] `labs/memory/neocortical/neocortical_network.py` → Promote to core module or wire into existing core system
+- [ ] `labs/consciousness/reflection/unified_memory_manager.py` → Integrate as standalone engine component
+
+## Phase 4: Core Systems
+
+- [ ] `labs/core/colonies/ethics_swarm_colony.py` → Integrate as standalone engine component
+- [ ] `labs/governance/guardian_system_integration.py` → Integrate as standalone engine component
+- [ ] `matriz/core/async_orchestrator.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/awareness/awareness_engine_elevated.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/id_reasoning_engine.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/swarm.py` → Promote to core module or wire into existing core system
+- [ ] `labs/governance/consent_ledger/ledger_v1.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/lambda_dependa_bot.py` → Integrate as standalone engine component
+- [ ] `serve/reference_api/public_api_reference.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/orchestration_service.py` → Promote to core module or wire into existing core system
+- [ ] `labs/consciousness/cognitive/adapter.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/dream/oneiric/oneiric_core/engine/dream_engine_fastapi.py` → Integrate as standalone engine component
+- [ ] `labs/core/integration/executive_decision_integrator.py` → Integrate as standalone engine component
+- [ ] `labs/core/symbolic/vocabulary_creativity_engine.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/core/engine_poetic.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reasoning/id_reasoning_engine.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/dreamseed_unified.py` → Integrate as standalone engine component
+- [ ] `labs/orchestration/gpt_colony_orchestrator.py` → Integrate as standalone engine component
+- [ ] `labs/governance/security/access_control.py` → Integrate as standalone engine component
+- [ ] `core/oracle_nervous_system.py` → Integrate as standalone engine component
+- [ ] `core/utils/orchestration_energy_aware_execution_planner.py` → Promote to core module or wire into existing core system
+- [ ] `core/symbolic/symbolic_anomaly_explorer.py` → Promote to core module or wire into existing core system
+- [ ] `matriz/interfaces/api_server.py` → Integrate as standalone engine component
+- [ ] `bridge/api/api.py` → Integrate as standalone engine component
+- [ ] `labs/core/orchestration/brain/GlobalInstitutionalCompliantEngine.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/reflection_layer.py` → Promote to core module or wire into existing core system
+- [ ] `labs/core/governance/constitutional_compliance_engine.py` → Integrate as standalone engine component
+- [ ] `bridge/api_legacy/core/dream_commerce.py` → Integrate as standalone engine component
+- [ ] `labs/core/governance/guardian_system_2.py` → Integrate as standalone engine component
+- [ ] `labs/core/api/service_stubs.py` → Integrate as standalone engine component
+- [ ] `labs/core/verifold/verifold_unified.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/symbolic_drift_analyzer.py` → Promote to core module or wire into existing core system
+- [ ] `api/integrated_consciousness_api.py` → Promote to core module or wire into existing core system
+- [ ] `labs/consciousness/core/engine_complete.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/core/engine.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/cognitive_architecture_controller.py` → Integrate as standalone engine component
+- [ ] `labs/core/colonies/oracle_colony.py` → Promote to core module or wire into existing core system
+- [ ] `labs/core/observability/alerting_system.py` → Integrate as standalone engine component
+- [ ] `labs/core/compliance/democratic_oversight.py` → Integrate as standalone engine component
+- [ ] `labs/core/compliance/global_compliance_manager.py` → Integrate as standalone engine component
+- [ ] `labs/core/audit/audit_decision_embedding_engine.py` → Promote to core module or wire into existing core system
+- [ ] `labs/core/orchestration/golden_trio/trio_orchestrator.py` → Integrate as standalone engine component
+- [ ] `labs/core/orchestration/brain/autonomous_github_manager.py` → Integrate as standalone engine component
+- [ ] `labs/core/orchestration/brain/abstract_reasoning/interface.py` → Promote to core module or wire into existing core system
+- [ ] `labs/core/symbolic/vision_vocabulary.py` → Promote to core module or wire into existing core system
+- [ ] `labs/core/symbolic/symbolic_validator.py` → Test thoroughly, then promote to production lane
+- [ ] `labs/consciousness/creativity/haiku_generator.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/states/simulation_controller.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/states/async_client.py` → Promote to core module or wire into existing core system
+- [ ] `labs/consciousness/systems/unified_consciousness_engine.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/interfaces/natural_language_interface.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/integrated_safety_system.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/EthicalReasoningSystem.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/visionary_orchestrator.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/master_orchestrator.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/content_enterprise_orchestrator.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/meta_cognitive_orchestrator_alt.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/ethical_reasoning_system.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/actor_system.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/symbolic_weaver.py` → Test thoroughly, then promote to production lane
+- [ ] `labs/governance/security/privacy_guardian.py` → Test thoroughly, then promote to production lane
+- [ ] `labs/governance/security/audit_system.py` → Integrate as standalone engine component
+- [ ] `labs/governance/ethics/guardian_reflector.py` → Integrate as standalone engine component
+- [ ] `labs/governance/ethics/ethical_decision_maker.py` → Promote to core module or wire into existing core system
+- [ ] `core/matriz_signal_emitters.py` → Wire into MATRIZ cognitive pipeline
+- [ ] `core/tier_aware_colony_proxy.py` → Integrate as standalone engine component
+- [ ] `bridge/api/validation.py` → Evaluate for integration or mark for deletion
+- [ ] `labs/consciousness/systems/integrator.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/core.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/colony_orchestrator.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/event_replay_snapshot.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/states/shared_state.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/circuit_breaker.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/openai_core_service.py` → Promote to core module or wire into existing core system
+- [ ] `labs/consciousness/systems/advanced_consciousness_engine.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/dream/colony_dream_coordinator.py` → Integrate as standalone engine component
+- [ ] `labs/core/resource_optimization_integration.py` → Promote to core module or wire into existing core system
+- [ ] `labs/core/core_hub.py` → Integrate as standalone engine component
+- [ ] `labs/core/orchestration/async_orchestrator.py` → Integrate as standalone engine component
+- [ ] `labs/core/api/api_system.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/dream/reality_synthesis_engine.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/service.py` → Test thoroughly, then promote to production lane
+- [ ] `labs/consciousness/reflection/metalearningenhancementsystem.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/MetaLearningEnhancement.py` → Integrate as standalone engine component
+- [ ] `core/integration/system_coordinator.py` → Integrate as standalone engine component
+- [ ] `labs/orchestration/openai_modulated_service.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/practical_optimizations.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/client.py` → Test thoroughly, then promote to production lane
+- [ ] `labs/core/symbolic/dream_delivery_manager.py` → Integrate as standalone engine component
+- [ ] `core/orchestration/brain/demo.py` → Integrate as standalone engine component
+- [ ] `labs/core/id.py` → Integrate as standalone engine component
+- [ ] `labs/core/endocrine/hormone_system.py` → Integrate as standalone engine component
+- [ ] `labs/core/ethics/logic/dsl_lite.py` → Test thoroughly, then promote to production lane
+- [ ] `labs/core/orchestration/brain/canadian_awareness_engine.py` → Integrate as standalone engine component
+- [ ] `labs/core/orchestration/brain/das_awareness_engine.py` → Integrate as standalone engine component
+- [ ] `labs/core/orchestration/brain/uk_awareness_engine.py` → Integrate as standalone engine component
+- [ ] `labs/core/orchestration/brain/australian_awareness_engine.py` → Integrate as standalone engine component
+- [ ] `labs/core/governance/matriz_consciousness_governance.py` → Integrate as standalone engine component
+- [ ] `labs/core/agi_preparedness/capability_evaluation_framework.py` → Test thoroughly, then promote to production lane
+- [ ] `labs/bridge/explainability_interface_layer.py` → Integrate as standalone engine component
+- [ ] `labs/bridge/api/controllers.py` → Integrate as standalone engine component
+- [ ] `labs/bridge/api/api.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/constellation/framework_integration.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reasoning/decision/bridge.py` → Promote to core module or wire into existing core system
+- [ ] `labs/consciousness/testing/chaos_engineering_framework.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/expansion/consciousness_expansion_engine.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/states/world_models.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/states/qi_mesh_integrator.py` → Promote to core module or wire into existing core system
+- [ ] `labs/consciousness/systems/dream_engine/dream_reflection_loop.py` → Promote to core module or wire into existing core system
+- [ ] `labs/consciousness/dream/parallel_reality_simulator.py` → Promote to core module or wire into existing core system
+- [ ] `labs/consciousness/quantum/collapse_governance_system.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/federated_meta_learning.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/system.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/controller.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/awareness_system.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/meta_learning.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/distributed_state_manager.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/learning_system.py` → Integrate as standalone engine component
+- [ ] `labs/consciousness/reflection/agent_coordination.py` → Promote to core module or wire into existing core system
+- [ ] `labs/orchestration/context_bus.py` → Integrate as standalone engine component
+- [ ] `labs/governance/security/consent_manager.py` → Integrate as standalone engine component
+- [ ] `labs/governance/ethics/compliance_monitor.py` → Integrate as standalone engine component
+- [ ] `labs/governance/guardian/compliance_audit_system.py` → Integrate as standalone engine component
+- [ ] `labs/governance/guardian/drift_detector.py` → Test thoroughly, then promote to production lane
+- [ ] `labs/governance/guardian/system_health_monitor.py` → Integrate as standalone engine component
+- [ ] `labs/governance/monitoring/threat_monitor.py` → Test thoroughly, then promote to production lane
+- [ ] `labs/emotion/tools/emotional_echo_detector.py` → Test thoroughly, then promote to production lane
+- [ ] `labs/emotion/regulation/security_control_validation.py` → Integrate as standalone engine component
+- [ ] `core/constellation_alignment_system.py` → Wire into MATRIZ cognitive pipeline
+- [ ] `core/matriz_consciousness_integration.py` → Integrate as standalone engine component
+- [ ] `core/consciousness_signal_router.py` → Wire into MATRIZ cognitive pipeline
+- [ ] `core/integration/neuro_symbolic_fusion_layer.py` → Promote to core module or wire into existing core system
+- [ ] `core/orchestration/brain/brain_integration.py` → Integrate as standalone engine component
+- [ ] `core/symbolic/neuro_symbolic_fusion_layer.py` → Promote to core module or wire into existing core system
+- [ ] `core/symbolic/lambda_sage.py` → Integrate as standalone engine component
+- [ ] `bridge/api/orchestration_endpoints.py` → Integrate as standalone engine component
+- [ ] `consciousness/__init__.py` → Integrate as standalone engine component
+- [ ] `matriz/nodes/validator_node.py` → Wire into MATRIZ cognitive pipeline
+

@@ -24,7 +24,7 @@ from adapters.openai.api import get_app
 def client(monkeypatch):
     """Create test client with permissive policy mode."""
     monkeypatch.setenv("LUKHAS_POLICY_MODE", "permissive")
-    app = get_app()
+    app = app
     return TestClient(app)
 
 
@@ -32,7 +32,7 @@ def client(monkeypatch):
 def strict_client(monkeypatch):
     """Create test client with strict policy mode."""
     monkeypatch.setenv("LUKHAS_POLICY_MODE", "strict")
-    app = get_app()
+    app = app
     return TestClient(app)
 
 
