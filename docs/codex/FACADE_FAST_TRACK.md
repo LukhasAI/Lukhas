@@ -5,6 +5,45 @@
 **Status**: Production-safe, surgical patches only
 **Updated**: 2025-10-23
 
+**Doctrine**: **Zero Guesswork.** Every action must be based on explicit reads, verified state, or a defined pattern. No assumptions.
+
+### Context Integrity Check (run before any patches)
+
+```bash
+pwd; git status --porcelain || true
+test "$(pwd)" = "/Users/agi_dev/LOCAL-REPOS/Lukhas" || { echo "wrong repo root"; exit 1; }
+test -f docs/codex/README.md && test -f claude.me || { echo "missing context files"; exit 1; }
+```
+
+### Mission Trace (short-term objective memory)
+
+Create/update `.codex_trace.json`:
+
+```json
+{
+  "session_id": "<auto>",
+  "task": "Façade Fast-Track",
+  "phase": 0,
+  "last_verified_state": "<timestamp>",
+  "expected_artifacts": ["serve/openai_routes.py","serve/main.py","tests/smoke/*"]
+}
+```
+
+### Acceptance Gates (7+1)
+
+1. Endpoint schema compliance
+2. JSON response validation
+3. Smoke test pass rate ≥ 90%
+4. Lane guard boundaries intact
+5. Rate-limit headers present
+6. Log coverage > 85%
+7. No new 404s on /v1/*
++1. Diagnostic self-report matches commit summary
+
+### Operational Awareness
+
+Before executing **Wave A**, summarize your objective in **one sentence** and append it to `.codex_trace.json`.
+
 ---
 
 ## 🎯 Goal
@@ -526,6 +565,11 @@ pytest tests/smoke/ -q 2>&1 | tail -1
 **TOOL**: `Bash`
 
 ```bash
+# Pre-Commit Gate
+pytest tests/smoke/ -q || { echo "Smoke suite failing"; exit 1; }
+make lane-guard || { echo "Lane guard failed"; exit 1; }
+python3 -m py_compile serve/openai_routes.py serve/main.py || { echo "Syntax check failed"; exit 1; }
+
 # Stage Wave A changes
 git add serve/openai_routes.py serve/main.py
 
@@ -787,6 +831,25 @@ Bash(command="git checkout -- serve/main.py")
 
 # Try alternative approach (Read full file, then Edit with different anchor)
 ```
+
+---
+
+## 🧠 Reflection & Recovery
+
+### Phase Reflection Protocol
+
+After each step or phase (Preflight, Patch A, Patch B, Verify, Tests):
+1. **Summarize outcome** in one sentence
+2. **Compare to Mission Trace** `.expected_artifacts`
+3. **If logic deviation > 10%** from expected state → revert and re-execute
+
+### Controlled Recovery Mode
+
+1. Log failure summary to `.codex_trace.json`
+2. `git restore --staged . && git checkout -- .`
+3. Re-read the last two modified files
+4. Retry using explicit `Edit` anchors (exact strings)
+5. Escalate to manual audit if the same failure repeats twice
 
 ---
 

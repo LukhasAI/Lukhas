@@ -4,6 +4,45 @@
 **Total Modules**: 193
 **Total Effort**: ~1748 hours
 
+**Doctrine**: **Zero Guesswork.** Every action must be based on explicit reads, verified state, or a defined pattern. No assumptions.
+
+### Context Integrity Check (run once per session)
+
+```bash
+pwd; git status --porcelain || true
+test "$(pwd)" = "/Users/agi_dev/LOCAL-REPOS/Lukhas" || { echo "wrong repo root"; exit 1; }
+test -f docs/audits/INTEGRATION_MANIFEST_SUMMARY.md && test -f docs/audits/integration_manifest.json || { echo "missing integration context"; exit 1; }
+```
+
+### Mission Trace (short-term objective memory)
+
+When starting an integration run, create/update `.codex_trace.json`:
+
+```json
+{
+  "session_id": "<auto>",
+  "task": "Hidden Gems Integration",
+  "phase": 0,
+  "last_verified_state": "<timestamp>",
+  "expected_artifacts": ["tests/integration/*","docs/architecture/*","moved modules with updated imports"]
+}
+```
+
+### Acceptance Gates — Integration
+
+1. Module relocated to target lane/path with history preserved
+2. Imports updated; `make lane-guard` passes
+3. New or adapted **integration tests** added and passing
+4. Smoke suite unchanged or improved (≥ baseline)
+5. Registry/exports wired; module discoverable by MATRIZ/core
+6. Docs updated (architecture notes, registry references)
+7. No circular imports or runtime import errors
++1. Commit message matches diagnostic self-report (artifacts listed)
+
+### Operational Awareness
+
+Before integrating each module, write a one-sentence intent to `.codex_trace.json` under that module's entry.
+
 ## Complexity Breakdown
 
 - **Low**: 144 modules (~2-4 hours each)
@@ -6957,6 +6996,25 @@ Complete list with integration instructions.
 7. TEST: Run pytest tests/integration/ and tests/smoke/ to verify
 8. DOCUMENT: Update docs/architecture/ with new component location and purpose
 9. COMMIT: git commit -m "feat(matriz): integrate validator_node from labs"
+
+---
+
+## 🧠 Reflection & Recovery
+
+### Phase Reflection Protocol (per module)
+
+After each of the 9 steps listed for a module:
+1. **Summarize outcome** in one sentence
+2. **Compare against** `expected_artifacts` in `.codex_trace.json`
+3. **If deviation >10%** from expected state → revert and re-execute that step
+
+### Controlled Recovery Mode (per module)
+
+1. Log failure summary to `.codex_trace.json` under the module name
+2. `git restore --staged . && git checkout -- .`
+3. Re-read the last two modified files and the module's section in the guide
+4. Retry with explicit `Edit` anchors (exact strings from Read output)
+5. If failure repeats twice, escalate to manual audit
 
 ---
 
