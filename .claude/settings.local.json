@@ -4,7 +4,8 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(git mv:*)",
-      "Bash(xargs:*)"
+      "Bash(xargs:*)",
+      "Read(//private/tmp/**)"
     ],
     "deny": [],
     "ask": [],

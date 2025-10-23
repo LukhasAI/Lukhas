@@ -1,10 +1,5 @@
-"""
-Core Identity Bridge - Canonical Public API
-Bridge to candidate.core.identity (single source of truth)
+"""Core identity modules for LUKHAS."""
 
-Identity management components for LUKHAS system.
-Constellation Framework: ⚛️🧠🛡️
-"""
-from labs.core.identity import IdentityManager
+from core.identity import constitutional_ai_compliance
 
-__all__ = ["IdentityManager"]
+__all__ = ["constitutional_ai_compliance"]

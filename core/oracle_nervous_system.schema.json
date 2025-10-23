@@ -1,0 +1,56 @@
+{
+  "module": "core.oracle_nervous_system",
+  "version": "1.0.0",
+  "type": "nervous_system_node",
+  "matriz_compatible": true,
+  "description": "Oracle nervous system coordinating sensory input processing and reflexive responses across LUKHAS",
+
+  "capabilities": {
+    "sends": [
+      {
+        "signal": "nervous.response.generated",
+        "schema": "NervousResponse",
+        "frequency": "per_stimulus",
+        "latency_target_ms": 50
+      },
+      {
+        "signal": "nervous.reflex.triggered",
+        "schema": "ReflexTrigger",
+        "frequency": "on_stimulus",
+        "priority": "high"
+      }
+    ],
+    "receives": [
+      {
+        "signal": "nervous.stimulus.input",
+        "schema": "StimulusInput",
+        "handler": "process_stimulus",
+        "required": true
+      }
+    ]
+  },
+
+  "main_classes": [
+    {
+      "name": "OracleNervousSystem",
+      "type": "nervous_system",
+      "methods": ["process_stimulus", "trigger_reflex"],
+      "async": true
+    }
+  ],
+
+  "dependencies": [],
+
+  "performance": {
+    "max_latency_ms": 50,
+    "target_latency_p95_ms": 30,
+    "memory_limit_mb": 100,
+    "cpu_cores": 2
+  },
+
+  "constellation_integration": {
+    "stars": ["consciousness", "bio"],
+    "validates": false,
+    "blocks_on_failure": false
+  }
+}

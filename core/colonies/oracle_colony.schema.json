@@ -1,0 +1,62 @@
+{
+  "module": "core.colonies.oracle_colony",
+  "version": "1.0.0",
+  "type": "colony_node",
+  "matriz_compatible": true,
+  "description": "Oracle colony for coordinating oracle-based agents in distributed decision-making and prediction",
+
+  "capabilities": {
+    "sends": [
+      {
+        "signal": "colony.oracle.prediction",
+        "schema": "OraclePrediction",
+        "frequency": "per_prediction",
+        "latency_target_ms": 500
+      },
+      {
+        "signal": "colony.oracle.consensus",
+        "schema": "OracleConsensus",
+        "frequency": "on_consensus",
+        "priority": "high"
+      }
+    ],
+    "receives": [
+      {
+        "signal": "colony.oracle.query",
+        "schema": "OracleQuery",
+        "handler": "query_oracle",
+        "required": true
+      },
+      {
+        "signal": "colony.agent.spawn",
+        "schema": "AgentSpawnRequest",
+        "handler": "spawn_oracle_agent",
+        "required": false
+      }
+    ]
+  },
+
+  "main_classes": [
+    {
+      "name": "OracleColony",
+      "type": "colony",
+      "methods": ["query_oracle", "spawn_oracle_agent", "reach_consensus"],
+      "async": true
+    }
+  ],
+
+  "dependencies": [],
+
+  "performance": {
+    "max_latency_ms": 500,
+    "target_latency_p95_ms": 300,
+    "memory_limit_mb": 200,
+    "cpu_cores": 2
+  },
+
+  "constellation_integration": {
+    "stars": ["consciousness", "vision"],
+    "validates": false,
+    "blocks_on_failure": false
+  }
+}
