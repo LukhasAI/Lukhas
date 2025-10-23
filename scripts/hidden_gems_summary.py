@@ -110,10 +110,34 @@ def summarize_by_lane(gems: Sequence[HiddenGem]) -> Dict[str, Dict[str, float]]:
     return summary
 
 
-def format_summary(gems: Sequence[HiddenGem], *, top_n: int = 5) -> str:
+def filter_hidden_gems_by_lane(
+    gems: Sequence[HiddenGem], lane: Optional[str]
+) -> List[HiddenGem]:
+    """Filter hidden gems to a specific lane if requested."""
+
+    # ΛTAG: hidden_gem_lane_filter
+    if lane is None:
+        return list(gems)
+
+    normalized = lane.strip().lower()
+    if not normalized:
+        return list(gems)
+
+    return [gem for gem in gems if gem.lane.lower() == normalized]
+
+
+def format_summary(
+    gems: Sequence[HiddenGem], *, top_n: int = 5, lane_filter: Optional[str] = None
+) -> str:
     """Create a human-readable summary for the filtered hidden gems."""
 
     if not gems:
+        if lane_filter:
+            normalized = lane_filter.strip() or lane_filter
+            return (
+                "No hidden gems match the provided filters for lane "
+                f"'{normalized}'."
+            )
         return "No hidden gems match the provided filters."
 
     lane_summary = summarize_by_lane(gems)
@@ -125,9 +149,15 @@ def format_summary(gems: Sequence[HiddenGem], *, top_n: int = 5) -> str:
         "--------------------------------",
         f"Total modules: {total_modules}",
         f"Total effort hours: {total_effort:.1f}",
-        "",
-        "By lane:",
     ]
+
+    if lane_filter:
+        normalized = lane_filter.strip()
+        if normalized:
+            lines.append("")
+            lines.append(f"Lane filter: {normalized}")
+
+    lines.extend(["", "By lane:"])
 
     for lane, stats in sorted(lane_summary.items()):
         lines.append(
@@ -187,6 +217,12 @@ def _build_parser() -> argparse.ArgumentParser:
         default=5,
         help="Number of top modules by score to display",
     )
+    parser.add_argument(
+        "--lane",
+        type=str,
+        default=None,
+        help="Filter results to a specific lane (e.g., core, matriz, serve)",
+    )
     return parser
 
 
@@ -201,7 +237,8 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     gems = extract_hidden_gems(
         manifest_payload, min_score=args.min_score, complexity=args.complexity
     )
-    summary = format_summary(gems, top_n=args.top)
+    filtered_gems = filter_hidden_gems_by_lane(gems, args.lane)
+    summary = format_summary(filtered_gems, top_n=args.top, lane_filter=args.lane)
     print(summary)
     return 0
 

@@ -1,11 +1,13 @@
 import json
 from pathlib import Path
+from typing import List
 
 import pytest
 
 from scripts.hidden_gems_summary import (
     HiddenGem,
     ManifestFormatError,
+    filter_hidden_gems_by_lane,
     extract_hidden_gems,
     format_summary,
     load_manifest,
@@ -83,3 +85,37 @@ def test_summarize_and_format_summary_output() -> None:
     assert "matriz: 1 modules" in rendered
     assert "labs.module_a" in rendered
     assert "labs.module_b" in rendered
+
+
+def test_filter_hidden_gems_by_lane_and_formatting() -> None:
+    gems = [
+        HiddenGem(
+            module="labs.module_a",
+            score=95.0,
+            complexity="low",
+            effort_hours=4.5,
+            target_location="core/module_a.py",
+        ),
+        HiddenGem(
+            module="labs.module_b",
+            score=90.0,
+            complexity="low",
+            effort_hours=2.0,
+            target_location="matriz/module_b.py",
+        ),
+    ]
+
+    filtered = filter_hidden_gems_by_lane(gems, "Matriz")
+
+    assert [gem.module for gem in filtered] == ["labs.module_b"]
+
+    rendered = format_summary(filtered, top_n=1, lane_filter="Matriz")
+    assert "Lane filter: Matriz" in rendered
+    assert "labs.module_b" in rendered
+
+
+def test_filter_hidden_gems_by_lane_handles_missing_results() -> None:
+    gems: List[HiddenGem] = []
+
+    rendered = format_summary(gems, lane_filter="watch")
+    assert "lane 'watch'" in rendered
