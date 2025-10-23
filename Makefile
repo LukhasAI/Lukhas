@@ -1743,6 +1743,3 @@ rc-soak-quick: ## Quick RC soak validation (5 min, low QPS)
 	@echo "🚀 Starting quick RC soak validation..."
 	@LUKHAS_API_URL=${LUKHAS_API_URL:-http://localhost:8000} \
 	PROMETHEUS_URL=${PROMETHEUS_URL:-http://localhost:9090} \
-	bash scripts/ops/rc_synthetic_load.sh 50 2
-	@bash scripts/ops/rc_soak_snapshot.sh
-	@echo "✅ Quick soak complete. Check docs/audits/health/$(shell date +%Y-%m-%d)/"

@@ -269,4 +269,54 @@ To create a new Codex execution package:
 
 ---
 
+## T4 Utility Make Targets
+
+- `make codex-bootcheck`
+  Runs repository sanity checks (repo root, required context files), validates `.codex_trace.json` (if present), executes smoke tests, and enforces lane guard. Use this before any Codex session to ensure a clean baseline.
+
+- `make codex-precommit-install`
+  Installs a lightweight pre-commit hook that blocks commits when smoke tests fail, lane-guard breaks, or staged Python files fail syntax checks.
+
+- `make codex-precommit-uninstall`
+  Removes the pre-commit hook.
+
+**Doctrine**: Zero Guesswork — these utilities reduce drift and prevent accidental regression before changes land.
+
+## T4 Acceptance Gates
+
+- `make codex-acceptance-gates`
+  Runs a fast, probe-style set of 7 checks aligned with the Acceptance Gates:
+  1) models list shape, 2) responses stub shape, 3) embeddings uniqueness, 4) rate-limit headers, 5) health headers, 6) smoke ≥ 90%, 7) /v1/* 200s via endpoint tests.
+
+- `make codex-commitmsg-install` / `make codex-commitmsg-uninstall`
+  Installs a `commit-msg` hook to enforce the **+1** gate: your commit message must reference the `.codex_trace.json` `task`. Keeps diagnostic self-reports aligned with commits.
+
+**Workflow tip**:
+
+```bash
+make codex-precommit-install
+make codex-commitmsg-install
+# Now every commit is blocked unless smoke, lane-guard, acceptance gates, and syntax pass
+# — and the commit message aligns with the current mission trace.
+```
+
+**Quick test flight**:
+
+```bash
+# Install hooks
+make codex-precommit-install
+make codex-commitmsg-install
+
+# Sanity run:
+make codex-acceptance-gates
+
+# Try a commit:
+git add -A
+git commit -m "feat(api): implement OpenAI facade — task: Façade Fast-Track"
+# If the commit message doesn't include your current .codex_trace.json task,
+# the commit-msg hook will explain what to add.
+```
+
+---
+
 **Codex execution packages provide zero-guesswork, surgical playbooks for implementing features with explicit tool commands, verification steps, and measurable success criteria.**
