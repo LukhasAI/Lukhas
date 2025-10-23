@@ -12,6 +12,13 @@ from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
+try:
+    from typing import Tuple, Dict, List
+except ImportError:
+    # For Python 3.8 compatibility
+    Tuple = tuple
+    Dict = dict
+    List = list
 
 try:
     from labs.governance.ethics.shared_ethics_engine import SharedEthicsEngine

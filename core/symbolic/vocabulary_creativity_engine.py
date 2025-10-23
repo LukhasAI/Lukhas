@@ -14,7 +14,51 @@ image interpretation, and visual communication.
 from dataclasses import dataclass
 from typing import Any
 
-from symbolic.vocabularies.vision_vocabulary import VisionSymbolicVocabulary, VisualSymbol
+# Try importing from new quantum visual symbol system first
+try:
+    from symbolic.core import VisualSymbol, create_visual_symbol
+    VisionSymbolicVocabulary = None  # Will be replaced by new system
+    QUANTUM_SYMBOLS_AVAILABLE = True
+except ImportError:
+    QUANTUM_SYMBOLS_AVAILABLE = False
+    try:
+        # Fallback to original vision vocabulary
+        from symbolic.vocabularies.vision_vocabulary import VisionSymbolicVocabulary, VisualSymbol
+    except ImportError:
+        # Create compatibility class if neither exists
+        @dataclass
+        class VisualSymbol:
+            symbol: str = ""
+            meaning: str = ""
+            visual_weight: float = 0.0
+            analysis_properties: dict[str, Any] = None
+            usage_contexts: list[str] = None
+            color_associations: list[tuple[int, int, int]] = None
+
+            def __post_init__(self):
+                if self.analysis_properties is None:
+                    self.analysis_properties = {}
+                if self.usage_contexts is None:
+                    self.usage_contexts = []
+                if self.color_associations is None:
+                    self.color_associations = []
+
+        VisionSymbolicVocabulary = None
+
+# Compatibility helper
+if QUANTUM_SYMBOLS_AVAILABLE:
+    # Using quantum visual symbols - create wrapper for compatibility
+    def _create_compat_symbol(**kwargs):
+        """Create visual symbol with quantum features"""
+        symbol = kwargs.get('symbol', '')
+        meaning = kwargs.get('meaning', '')
+        # Pass other properties for compatibility
+        return create_visual_symbol(symbol, meaning, kwargs)
+else:
+    # Using basic visual symbols
+    def _create_compat_symbol(**kwargs):
+        """Create basic visual symbol"""
+        return VisualSymbol(**kwargs)
 
 try:
     from ..core import AnalysisType, VisionProvider

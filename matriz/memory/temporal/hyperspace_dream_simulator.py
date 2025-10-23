@@ -109,7 +109,9 @@ except ImportError:
 try:
     from ethics.meta_ethics_governor import CulturalContext, EthicalDecision, get_meg
 except ImportError:
-    CulturalContext = None
+    # Create mock CulturalContext enum if import fails
+    class CulturalContext(Enum):
+        UNIVERSAL = "universal"
     EthicalDecision = None
     get_meg = None
 try:

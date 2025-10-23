@@ -105,8 +105,8 @@ try:
     logger.info("Successfully imported LUKHAS core infrastructure components for ReflectionLayer.")
 except ImportError as e:
     logger.warning(
-        "LUKHAS infrastructure import failed. Some features may be limited or non-functional.",
-        error=str(e),
+        "LUKHAS infrastructure import failed. Some features may be limited or non-functional.: error=%s",
+        str(e)
     )
     # Define placeholders for critical missing components if necessary for basic loading,
     # though their absence will likely lead to runtime errors if features
@@ -125,8 +125,8 @@ try:
     logger.info("Successfully imported Guardian system components (RemediatorAgent).")
 except ImportError as e:
     logger.warning(
-        "Guardian system import (RemediatorAgent) failed. Using placeholder.",
-        error=str(e),
+        "Guardian system import (RemediatorAgent) failed. Using placeholder.: error=%s",
+        str(e)
     )
 
     # Fallback SeverityLevel Enum
@@ -299,7 +299,7 @@ class ReflectionLayer:
                 dream_engine_available=self.dream_replayer is not None,
             )
         except Exception as e:
-            self.logger.warning("Infrastructure initialization partial", error=str(e))
+            self.logger.warning("Infrastructure initialization partial: error=%s", str(e))
 
     def _initialize_symbolic_vocabulary(self) -> dict[str, list[str]]:
         """Initialize symbolic language patterns for reflection generation"""
@@ -766,7 +766,7 @@ class ReflectionLayer:
                     )
                     return True
             except Exception as e:
-                self.logger.warning("VoiceHandler failed, trying fallback", error=str(e))
+                self.logger.warning("VoiceHandler failed, trying fallback: error=%s", str(e))
 
         # Try voice renderer fallback
         if hasattr(self, "voice_renderer"):
@@ -787,7 +787,7 @@ class ReflectionLayer:
                 )
                 return True
             except Exception as e:
-                self.logger.warning("Voice renderer failed", error=str(e))
+                self.logger.warning("Voice renderer failed: error=%s", str(e))
 
         # Final fallback: text-only output
         self.logger.info(
@@ -1024,7 +1024,7 @@ class ReflectionLayer:
             )
 
         except Exception as e:
-            self.logger.error("Reflection cycle processing failed", error=str(e), exc_info=True)
+            self.logger.error("Reflection cycle processing failed: error=%s", str(e), exc_info=True)
             # ΛCAUTION: Failure in reflection cycle processing can impact
             # self-awareness and adaptive capabilities.
 
@@ -1257,7 +1257,7 @@ class ReflectionLayer:
             return intent_alignment
 
         except Exception as e:
-            self.logger.warning("Failed to calculate intent alignment", error=str(e))
+            self.logger.warning("Failed to calculate intent alignment: error=%s", str(e))
             return 0.8  # Safe fallback
 
     def _get_actual_emotional_stability(self) -> float:
@@ -1288,7 +1288,7 @@ class ReflectionLayer:
             return emotional_stability
 
         except Exception as e:
-            self.logger.warning("Failed to calculate emotional stability", error=str(e))
+            self.logger.warning("Failed to calculate emotional stability: error=%s", str(e))
             return 0.7  # Conservative fallback
 
     def _get_actual_ethical_compliance(self) -> float:
@@ -1330,7 +1330,7 @@ class ReflectionLayer:
         except ImportError:
             self.logger.warning("EthicsGuardian not available for compliance assessment")
         except Exception as e:
-            self.logger.warning("Failed to calculate ethical compliance", error=str(e))
+            self.logger.warning("Failed to calculate ethical compliance: error=%s", str(e))
 
         # Fallback: analyze ethical concerns in reflections
         return self._calculate_ethical_compliance_fallback()
@@ -1417,7 +1417,7 @@ class ReflectionLayer:
                 self.logger.warning("No voice systems available - vocalization will be text-only")
                 return None
         except Exception as e:
-            self.logger.error("Failed to initialize voice systems", error=str(e))
+            self.logger.error("Failed to initialize voice systems: error=%s", str(e))
             return None
 
     def _initialize_dream_engine(self):
@@ -1434,7 +1434,7 @@ class ReflectionLayer:
                     self.logger.info("💭 Basic DreamEngine successfully initialized")
                     return dream_engine
                 except Exception as e:
-                    self.logger.warning("Basic DreamEngine initialization failed", error=str(e))
+                    self.logger.warning("Basic DreamEngine initialization failed: error=%s", str(e))
 
             # Try DreamDeliveryManager as fallback
             if DREAM_DELIVERY_AVAILABLE:
@@ -1447,13 +1447,13 @@ class ReflectionLayer:
                     self.logger.info("💭 DreamDeliveryManager successfully initialized as fallback")
                     return dream_delivery
                 except Exception as e:
-                    self.logger.warning("DreamDeliveryManager initialization failed", error=str(e))
+                    self.logger.warning("DreamDeliveryManager initialization failed: error=%s", str(e))
 
             self.logger.warning("All dream engines failed to initialize")
             return "dream_engine_placeholder"
 
         except Exception as e:
-            self.logger.error("Failed to initialize dream engine systems", error=str(e))
+            self.logger.error("Failed to initialize dream engine systems: error=%s", str(e))
             return "dream_engine_placeholder"
 
     async def _perform_dream_simulation(
@@ -1598,7 +1598,7 @@ class ReflectionLayer:
                 # ΛPHASE_NODE: Autonomous Reflection Loop Cancelled.
                 break  # Exit loop if cancelled
             except Exception as e:
-                self.logger.error("Autonomous reflection loop error", error=str(e), exc_info=True)
+                self.logger.error("Autonomous reflection loop error: error=%s", str(e), exc_info=True)
                 # ΛCAUTION: Error in autonomous loop, system's self-reflection
                 # capability might be compromised.
                 await asyncio.sleep(60)  # Shorter retry interval on error

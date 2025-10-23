@@ -50,7 +50,7 @@ from core.common import get_logger
 # Initialize module logger
 logger = get_logger(__name__)
 # Standardized init log. #ΛTEMPORAL_HOOK (Log event at init time)
-logger.info("ΛTRACE_MODULE_INIT", module_path=__file__, status="initializing")
+logger.info("ΛTRACE_MODULE_INIT: module_path=%s status=initializing", __file__)
 
 # Quantum Security Imports (placeholder for actual quantum crypto libraries)
 # These are conceptual; actual implementation would use specific
@@ -68,13 +68,10 @@ try:
     )
     from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
     CRYPTO_AVAILABLE = True
-    logger.info("ΛTRACE_CRYPTO_LOADED", library="cryptography", status="success")
+    logger.info("ΛTRACE_CRYPTO_LOADED: library=cryptography status=success")
 except ImportError:
     logger.warning(
-        "ΛTRACE_CRYPTO_UNAVAILABLE",
-        library="cryptography",
-        fallback="mock_implementations",
-        tag="dependency_issue")  # ΛCAUTION
+        "ΛTRACE_CRYPTO_UNAVAILABLE: library=cryptography fallback=mock_implementations tag=dependency_issue")  # ΛCAUTION
 
 # ΛEXPOSE: Defines access tiers within the LUKHAS ID system.
 

@@ -11,7 +11,9 @@
       "Bash(for file in matriz/core/memory_system.py matriz/core/example_node.py matriz/nodes/validator_node.py matriz/nodes/math_node.py matriz/adapters/gmail_headers/__init__.py matriz/adapters/cloud_consolidation.py)",
       "Bash(do sed -i '' 's/from MATRIZ\\./from matriz./g' \"$file\")",
       "Bash(echo:*)",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(for file in matriz/consciousness/reflection/{id_reasoning_engine,swarm,orchestration_service,memory_hub,symbolic_drift_analyzer,integrated_safety_system}.py)",
+      "Bash(do echo \"=== $file ===\" grep -n \"from core.common import get_logger\\|import logging\\|import structlog\" \"$file\")"
     ],
     "deny": [],
     "ask": [],
