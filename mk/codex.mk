@@ -15,7 +15,11 @@ codex-bootcheck: ## Verify repo state before Codex session
 	  echo "ℹ️  .codex_trace.json not found (skipping JSON checks)"; \
 	fi; \
 	echo "🧪 running smoke tests..."; \
-	pytest tests/smoke/ -q 2>&1 | tail -1; \
+	if command -v pytest >/dev/null 2>&1; then \
+	  pytest tests/smoke/ -q 2>&1 | tail -1; \
+	else \
+	  python3 -m tools.pytest_shim --path tests/smoke 2>&1 | tail -1; \
+	fi; \
 	echo "🛡  running lane guard..."; \
 	$(MAKE) -s lane-guard 2>&1 >/dev/null || echo "⚠️  lane-guard skipped (configuration needed)"; \
 	echo "✅ codex-bootcheck passed."
@@ -90,8 +94,8 @@ codex-acceptance-gates: ## Run 7 T4 acceptance gate probes
 	else echo "⚠️  Gate 5 probe not found; skipping"; fi
 	# Gate 6: Smoke pass rate ≥ 90%
 	@echo "✓ Gate 6: smoke ≥ 90%"; \
-	OUT="$$(pytest tests/smoke/ -q 2>&1 | tail -1)"; \
-	echo "$$OUT" | python3 -c 'import re,sys; line=sys.stdin.read().strip(); passed = int(re.search(r"(\d+)\s+passed", line).group(1)) if re.search(r"(\d+)\s+passed", line) else 0; failed = int(re.search(r"(\d+)\s+failed", line).group(1)) if re.search(r"(\d+)\s+failed", line) else 0; errors = int(re.search(r"(\d+)\s+errors", line).group(1)) if re.search(r"(\d+)\s+errors", line) else 0; total = passed + failed + errors; rate = (passed/total)*100 if total else 100.0; assert rate >= 90.0, f"smoke pass rate {rate:.1f}% < 90%"; print(f"PASS rate {rate:.1f}%")' || { echo "❌ Gate 6 failed (rate < 90%)"; exit 1; }
+	if command -v pytest >/dev/null 2>&1; then OUT="$$(pytest tests/smoke/ -q 2>&1 | tail -1)"; else OUT="$$(python3 -m tools.pytest_shim --path tests/smoke 2>&1 | tail -1)"; fi; \
+	echo "$$OUT" | python3 -c 'import re,sys; line=sys.stdin.read().strip(); passed = int(re.search(r"(\\d+)\\s+passed", line).group(1)) if re.search(r"(\\d+)\\s+passed", line) else 0; failed = int(re.search(r"(\\d+)\\s+failed", line).group(1)) if re.search(r"(\\d+)\\s+failed", line) else 0; errors = int(re.search(r"(\\d+)\\s+errors", line).group(1)) if re.search(r"(\\d+)\\s+errors", line) else 0; total = passed + failed + errors; rate = (passed/total)*100 if total else 100.0; assert rate >= 90.0, f"smoke pass rate {rate:.1f}% < 90%"; print(f"PASS rate {rate:.1f}%")' || { echo "❌ Gate 6 failed (rate < 90%)"; exit 1; }
 	# Gate 7: No new 404s on /v1/*
 	@echo "✓ Gate 7: /v1/* 200s via endpoint tests (implicit)"
 	@echo "✅ All 7 gates passed (where probes exist)."
