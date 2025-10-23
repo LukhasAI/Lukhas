@@ -74,6 +74,9 @@ consciousness_router = _safe_import_router(".consciousness_api", "router")
 feedback_router = _safe_import_router(".feedback_routes", "router")
 guardian_router = _safe_import_router(".guardian_api", "router")
 identity_router = _safe_import_router(".identity_api", "router")
+webauthn_router = None
+if (env_get("LUKHAS_WEBAUTHN", "0") or "0").strip() == "1":
+    webauthn_router = _safe_import_router(".webauthn_routes", "router")
 openai_router = _safe_import_router(".openai_routes", "router")
 orchestration_router = _safe_import_router(".orchestration_routes", "router")
 routes_router = _safe_import_router(".routes", "router")
@@ -165,6 +168,8 @@ if OPENTELEMETRY_AVAILABLE and getattr(obs_stack, "opentelemetry_enabled", False
     FastAPIInstrumentor.instrument_app(app)
 if identity_router is not None:
     app.include_router(identity_router)
+if webauthn_router is not None:
+    app.include_router(webauthn_router)
 if consciousness_router is not None:
     app.include_router(consciousness_router)
 if guardian_router is not None:
