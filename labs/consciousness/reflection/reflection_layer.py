@@ -1,7 +1,10 @@
 import logging
 from datetime import timezone
 
-logger = logging.getLogger(__name__)
+from labs.consciousness.reflection._logging_utils import ContextLogger
+
+_base_logger = logging.getLogger(__name__)
+logger = ContextLogger(_base_logger)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: reflection_layer.py
 # MODULE: core.Adaptative_AGI.GUARDIAN.reflection_layer
@@ -105,8 +108,8 @@ try:
     logger.info("Successfully imported LUKHAS core infrastructure components for ReflectionLayer.")
 except ImportError as e:
     logger.warning(
-        "LUKHAS infrastructure import failed. Some features may be limited or non-functional.",
-        error=str(e),
+        "LUKHAS infrastructure import failed. Some features may be limited or non-functional. error=%s",
+        str(e),
     )
     # Define placeholders for critical missing components if necessary for basic loading,
     # though their absence will likely lead to runtime errors if features
@@ -125,8 +128,8 @@ try:
     logger.info("Successfully imported Guardian system components (RemediatorAgent).")
 except ImportError as e:
     logger.warning(
-        "Guardian system import (RemediatorAgent) failed. Using placeholder.",
-        error=str(e),
+        "Guardian system import (RemediatorAgent) failed. Using placeholder. error=%s",
+        str(e),
     )
 
     # Fallback SeverityLevel Enum
@@ -1024,7 +1027,11 @@ class ReflectionLayer:
             )
 
         except Exception as e:
-            self.logger.error("Reflection cycle processing failed", error=str(e), exc_info=True)
+            self.logger.error(
+                "Reflection cycle processing failed error=%s",
+                str(e),
+                exc_info=True,
+            )
             # ΛCAUTION: Failure in reflection cycle processing can impact
             # self-awareness and adaptive capabilities.
 
@@ -1132,7 +1139,11 @@ class ReflectionLayer:
         self.logger.debug("Fetching reflection history", hours=hours)
         cutoff = datetime.now(timezone.utc) - timedelta(hours=hours)
         history = [r for r in self.active_reflections if r.timestamp > cutoff]
-        self.logger.info("Reflection history retrieved", count=len(history), hours=hours)
+        self.logger.info(
+            "Reflection history retrieved count=%s hours=%s",
+            len(history),
+            hours,
+        )
         return history
 
     def get_consciousness_trend(self, hours: int = 24) -> dict[str, Any]:
@@ -1598,7 +1609,11 @@ class ReflectionLayer:
                 # ΛPHASE_NODE: Autonomous Reflection Loop Cancelled.
                 break  # Exit loop if cancelled
             except Exception as e:
-                self.logger.error("Autonomous reflection loop error", error=str(e), exc_info=True)
+                self.logger.error(
+                    "Autonomous reflection loop error error=%s",
+                    str(e),
+                    exc_info=True,
+                )
                 # ΛCAUTION: Error in autonomous loop, system's self-reflection
                 # capability might be compromised.
                 await asyncio.sleep(60)  # Shorter retry interval on error
@@ -1612,8 +1627,8 @@ def create_reflection_layer(
 ) -> ReflectionLayer:
     """Factory function to create and initialize Reflection Layer"""
     logger.info(
-        "Creating ReflectionLayer instance via factory function.",
-        guardian_config_present=bool(guardian_config),
+        "Creating ReflectionLayer instance via factory function. guardian_config_present=%s",
+        bool(guardian_config),
     )
     return ReflectionLayer(guardian_config)
 
@@ -1655,7 +1670,10 @@ if __name__ == "__main__":
             "score": 0.7,
         },
     }
-    logger.info("Processing demo reflection cycle in __main__.", trigger_data=demo_trigger_data)
+    logger.info(
+        "Processing demo reflection cycle in __main__. trigger_data=%s",
+        demo_trigger_data,
+    )
     demo_reflections = asyncio.run(reflection_layer_instance.process_reflection_cycle(demo_trigger_data))
     logger.info(f"🧠 Generated {len(demo_reflections)} reflections in __main__ demo cycle.")
     # Basic print for console visibility during direct run
@@ -1670,7 +1688,7 @@ if __name__ == "__main__":
     # Get trends
     logger.info("Getting demo consciousness trends in __main__.")
     demo_trends = reflection_layer_instance.get_consciousness_trend()
-    logger.info("📊 Consciousness trends in __main__", trends=demo_trends)
+    logger.info("📊 Consciousness trends in __main__ trends=%s", demo_trends)
     print(f"📊 Consciousness trends in __main__: {demo_trends.get('status', 'error')}")
 
 # ═══════════════════════════════════════════════════════════════════════════

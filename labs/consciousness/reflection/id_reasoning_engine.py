@@ -46,9 +46,12 @@ from typing import Any, Optional
 # time - Event) #AIDENTITY_BRIDGE (Module identity) #ΛECHO (Logger
 # configuration echoes global settings)
 from core.common import get_logger
+from labs.consciousness.reflection._logging_utils import ContextLogger
 
-# Initialize module logger
-logger = get_logger(__name__)
+
+# Initialize module logger with context support
+_base_logger = get_logger(__name__)
+logger = ContextLogger(_base_logger)
 # Standardized init log. #ΛTEMPORAL_HOOK (Log event at init time)
 logger.info("ΛTRACE_MODULE_INIT", module_path=__file__, status="initializing")
 

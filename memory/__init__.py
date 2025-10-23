@@ -1,6 +1,7 @@
 """Bridge: memory (namespace) with preserved submodule search path."""
 from __future__ import annotations
 
+import logging
 from importlib import import_module
 from typing import Iterable
 
@@ -11,6 +12,9 @@ _CANDIDATES: tuple[str, ...] = (
     "labs.memory",
     "memory",
 )
+
+
+logger = logging.getLogger(__name__)
 
 
 def _public_names(module: object) -> Iterable[str]:
@@ -49,3 +53,31 @@ if _backend is not None:
                 search_locations.append(_location)
     if search_locations:
         __path__ = search_locations  # type: ignore[assignment]
+
+
+try:
+    from labs.memory import MemoryManager  # type: ignore[attr-defined]
+except (ImportError, AttributeError) as exc:
+    logger.warning(
+        "ΛTRACE_MEMORY_FALLBACK: MemoryManager fallback activated. reason=%s",
+        str(exc),
+    )
+
+    # ΛTAG: memory_bridge
+    # TODO: Replace fallback with integrated MemoryManager once dependency chain is stabilized.
+    class MemoryManager:  # type: ignore[empty-body]
+        """Minimal stub MemoryManager to maintain import compatibility."""
+
+        def __init__(self, *args, **kwargs) -> None:
+            logger.info(
+                "ΛTRACE_MEMORY_FALLBACK: Stub MemoryManager initialized args=%s kwargs=%s",
+                args,
+                kwargs,
+            )
+
+else:
+    logger.info("ΛTRACE_MEMORY_BRIDGE: Using labs.memory MemoryManager implementation.")
+
+
+if "MemoryManager" not in __all__:
+    __all__.append("MemoryManager")
