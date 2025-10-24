@@ -1,6 +1,19 @@
 """
 Minimal Hybrid Registry stub for CI smoke (TEMP-STUB, replace with PQC per MATRIZ-007).
 
+==============================================================================
+  WARNING: TEMP-STUB SECURITY RESTRICTION - DO NOT PROMOTE TO PRODUCTION
+==============================================================================
+This registry service uses HMAC for checkpoint signing as a temporary stub
+implementation. It MUST NOT be promoted to production lanes (core/lukhas)
+until PQC migration is complete.
+
+Tracking: MATRIZ-007 (PQC Migration)
+Status: Development lane only (candidate/)
+Target: Replace HMAC with Dilithium2 before production promotion
+Branch protection policies enforce this restriction.
+==============================================================================
+
 Endpoints:
 - POST   /api/v1/registry/validate   -> validates NodeSpec against docs/schemas/nodespec_schema.json
 - POST   /api/v1/registry/register   -> validates + registers node (requires provenance_manifest.glymph_enabled == True)
