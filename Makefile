@@ -1766,3 +1766,31 @@ batch-next-serve: ## Integrate next module from SERVE batch
 
 batch-next: ## Auto-pick and integrate from smallest remaining batch
 	@scripts/batch_next_auto.sh
+
+# ------------- T4 Multi-Agent Relay Targets -------------
+.PHONY: nodespec-validate registry-up registry-test gates-all
+
+nodespec-validate: ## Validate NodeSpec v1 schema and examples
+	@echo "🔍 Validating NodeSpec v1..."
+	@python - <<'PY'
+import json, jsonschema
+s=json.load(open('docs/schemas/nodespec_schema.json'))
+for e in ['docs/schemas/examples/memory_adapter.json','docs/schemas/examples/dream_processor.json']:
+  jsonschema.validate(json.load(open(e)), s)
+print('✅ NodeSpec examples OK')
+PY
+
+registry-up: ## Start Hybrid Registry service (port 8080)
+	@echo "🚀 Starting Hybrid Registry..."
+	uvicorn services.registry.main:app --reload --port 8080
+
+registry-test: ## Run Hybrid Registry tests
+	@echo "🧪 Running registry tests..."
+	pytest services/registry/tests -q
+
+gates-all: ## Run project-wide T4 gates (best-effort)
+	@echo "🚪 Running T4 acceptance gates..."
+	@pytest -q || true
+	@make nodespec-validate || true
+	@make registry-test || true
+	@echo "✅ Gates check complete"

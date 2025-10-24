@@ -1,0 +1,40 @@
+name: Agents Relay Lint
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+jobs:
+  lint-pr-body:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check handoff macros & gates checklist
+        run: |
+          body=$(jq -r .pull_request.body "$GITHUB_EVENT_PATH")
+
+          # Skip if no handoff macros expected (not a T4 PR)
+          if ! grep -qi "TG-0" <<<" $body" && ! grep -qi "MATRIZ-" <<<" $body"; then
+            echo "Not a T4 PR (no TG-* or MATRIZ-* ticket), skipping handoff validation"
+            exit 0
+          fi
+
+          need_macros=("HANDOFF A→B" "HANDOFF B→C" "HANDOFF C→D" "HANDOFF D→A")
+          for m in "${need_macros[@]}"; do
+            if ! grep -q "$m" <<<" $body"; then
+              echo "::warning::Missing handoff macro: $m (recommended for T4 PRs)"
+            fi
+          done
+
+          # Require gate lines to appear for T4 PRs
+          need_gates=("Schema" "Unit tests" "Integration" "Security" "Performance" "Dream" "Governance" "Meta self-report")
+          gates_missing=0
+          for g in "${need_gates[@]}"; do
+            if ! grep -qi "$g" <<<" $body"; then
+              echo "::warning::Missing gate reference: $g (recommended for T4 PRs)"
+              gates_missing=$((gates_missing + 1))
+            fi
+          done
+
+          if [ $gates_missing -gt 4 ]; then
+            echo "::error::Too many missing gates ($gates_missing/8). Please use T4 PR template or document gate status."
+            exit 1
+          fi
