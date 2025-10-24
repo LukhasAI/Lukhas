@@ -1,0 +1,213 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LUKHAS Matriz NodeSpec v1",
+  "type": "object",
+  "required": [
+    "node_type",
+    "metadata",
+    "identity",
+    "interfaces",
+    "contracts",
+    "provenance_manifest",
+    "security"
+  ],
+  "properties": {
+    "node_type": {
+      "type": "string",
+      "description": "Canonical node name, e.g., matriz.memory.adapter"
+    },
+    "metadata": {
+      "type": "object",
+      "required": [
+        "name",
+        "version",
+        "schema_version",
+        "created_at"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "schema_version": {
+          "type": "string"
+        },
+        "authors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "identity": {
+      "type": "object",
+      "required": [
+        "owner_id",
+        "lane",
+        "tier",
+        "roles"
+      ],
+      "properties": {
+        "owner_id": {
+          "type": "string",
+          "description": "GLYMPH or cryptographic handle, e.g. GLYMPH:<hash>"
+        },
+        "lane": {
+          "type": "string",
+          "enum": [
+            "candidate",
+            "core",
+            "lukhas",
+            "products"
+          ]
+        },
+        "tier": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 7,
+          "description": "0=untrusted .. 7=kernel"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "capabilities_policy": {
+          "type": "object",
+          "properties": {
+            "allow": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "deny": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "interfaces": {
+      "type": "object",
+      "required": [
+        "inputs",
+        "outputs",
+        "signals"
+      ],
+      "properties": {
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "outputs": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "signals": {
+          "type": "object",
+          "properties": {
+            "emits": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            },
+            "subscribes": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "contracts": {
+      "type": "object",
+      "properties": {
+        "performance_hints": {
+          "type": "object",
+          "properties": {
+            "p50": {
+              "type": "number"
+            },
+            "p95": {
+              "type": "number"
+            },
+            "p99": {
+              "type": "number"
+            },
+            "concurrency": {
+              "type": "integer"
+            },
+            "timeout_ms": {
+              "type": "integer"
+            }
+          }
+        },
+        "throughput_ops_sec": {
+          "type": "object"
+        }
+      }
+    },
+    "provenance_manifest": {
+      "type": "object",
+      "properties": {
+        "glymph_enabled": {
+          "type": "boolean"
+        },
+        "signing_scheme": {
+          "type": "string",
+          "description": "e.g. dilithium2"
+        },
+        "pqc_compat": {
+          "type": "boolean"
+        }
+      }
+    },
+    "security": {
+      "type": "object",
+      "properties": {
+        "encryption": {
+          "type": "object",
+          "description": "e.g. envelope: XChaCha20-Poly1305, KEM: kyber-768"
+        },
+        "auth_requirements": {
+          "type": "object",
+          "description": "mtls/pqc knobs"
+        },
+        "attestation": {
+          "type": "object",
+          "description": "remote attestation, proof freshness"
+        }
+      }
+    },
+    "graceful_degradation": {
+      "type": "object"
+    },
+    "compatibility": {
+      "type": "object"
+    },
+    "extraplanetary_policy": {
+      "type": "object",
+      "description": "DTN, checkpoint cadence, power budget"
+    }
+  },
+  "additionalProperties": false
+}

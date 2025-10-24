@@ -1,0 +1,5 @@
+fastapi
+uvicorn
+jsonschema
+pydantic
+h11
