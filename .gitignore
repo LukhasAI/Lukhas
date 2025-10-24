@@ -356,3 +356,14 @@ docs/openapi/*.json
 # Phase 4 ephemeral artifacts
 manifests_phase4.tar.gz
 docs/audits/phase4_canary_meta.json
+
+# Recovery and experimental directories (local only - 9.2 GB)
+# Keep these local for reference, do not commit
+lukhas_carousel_recovered/
+lukhas_recovered_work/
+lukhas_studio_recovered/
+lukhas_website_v2_updated/
+lukhas_website_with_carousel_and_palette/
+
+# Experimental website variants (contain framework conflicts)
+# V2 uses Constellation/MATRIZ vs Trinity/MATADA in main
