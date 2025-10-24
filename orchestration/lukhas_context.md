@@ -27,8 +27,64 @@ from orchestration import *
 - **Tags**: consciousness, coordination, orchestration, workflow
 - **Dependencies**: None
 
+## 🔬 LUKHAS Context System for Orchestration
+
+### Context System Integration
+
+The orchestration module leverages the **LUKHAS T4-Grade Context System** for race-free workflow coordination, distributed lock management, and fault-tolerant multi-agent orchestration.
+
+**Implementation**: [../labs/context/](../labs/context/)
+**Documentation**: [../LUKHAS_CONTEXT_ANALYSIS_T4.md](../LUKHAS_CONTEXT_ANALYSIS_T4.md)
+
+### Orchestration Integration Example
+
+```typescript
+import { DistributedLockManager } from '../labs/context/distributed/DistributedLockManager';
+import { AtomicContextPreserver } from '../labs/context/preservation/AtomicContextPreserver';
+import { ModelRouterWithCircuitBreaker } from '../labs/context/routing/ModelRouterWithCircuitBreaker';
+
+// Multi-agent orchestration with T4 context
+class OrchestrationWithContext {
+  private lockManager: DistributedLockManager;
+  private contextPreserver: AtomicContextPreserver;
+  private router: ModelRouterWithCircuitBreaker;
+
+  async orchestrateWorkflow(workflow: Workflow) {
+    // Distributed coordination across agents
+    return await this.lockManager.withLock(`workflow:${workflow.id}`, async () => {
+      // Atomic context preservation with 2PC
+      await this.contextPreserver.preserveContext(
+        workflow.id,
+        { workflow, agents: workflow.participants },
+        workflow.participants
+      );
+
+      // Circuit breaker for fault tolerance
+      const results = await Promise.all(
+        workflow.agents.map(agent =>
+          this.router.route({
+            modelId: agent.id,
+            input: agent.task,
+            timeout: 30000
+          })
+        )
+      );
+
+      return results;
+    });
+  }
+}
+```
+
+### Context Benefits
+
+- **Distributed Coordination**: Multi-region lock management for workflow orchestration
+- **Fault Tolerance**: Circuit breaker prevents cascade failures in multi-agent systems
+- **Atomic Workflows**: 2PC ensures all-or-nothing workflow execution
+- **Performance**: <10ms coordination latency for distributed orchestration
+
 ---
 
-**Status**: L2 Integration
+**Status**: L2 Integration | **Context System**: T4-Grade Integration
 **Version**: 3.0.0
-**Last Updated**: 2025-10-18
+**Last Updated**: 2025-10-24
