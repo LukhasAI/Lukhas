@@ -2,8 +2,4 @@ fastapi
 uvicorn
 jsonschema
 pydantic
-python-multipart
-pyjwt
-cryptography
-pytest
-httpx
+h11
