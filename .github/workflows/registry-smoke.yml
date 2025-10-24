@@ -1,0 +1,48 @@
+name: Registry Smoke (PR)
+
+on:
+  pull_request:
+    paths:
+      - 'services/registry/**'
+      - 'scripts/**'
+      - 'docs/schemas/**'
+      - '.github/workflows/registry-smoke.yml'
+
+jobs:
+  registry_smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install system deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y netcat jq
+      - name: Install python deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r services/registry/requirements.txt || true
+      - name: Start registry (uvicorn)
+        run: |
+          nohup uvicorn services.registry.main:app --host 127.0.0.1 --port 8080 > uvicorn.log 2>&1 &
+          echo $! > uvicorn.pid
+      - name: Wait for registry port
+        run: ./scripts/wait_for_port.sh 127.0.0.1 8080 30
+      - name: Run registry smoke
+        env:
+          REGISTRY_BASE_URL: http://127.0.0.1:8080
+        run: ./scripts/ci_verify_registry.sh
+      - name: Upload uvicorn log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: uvicorn-log
+          path: uvicorn.log
+      - name: Teardown
+        if: always()
+        run: |
+          kill $(cat uvicorn.pid) || true
+          rm -f uvicorn.pid
