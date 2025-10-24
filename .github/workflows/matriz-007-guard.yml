@@ -1,0 +1,37 @@
+name: MATRIZ-007 Promotion Guard
+
+# Runs on PRs (use pull_request_target so checks run in context with GITHUB_TOKEN permissions)
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  issues: read
+  contents: read
+
+jobs:
+  check_matriz_007:
+    name: MATRIZ-007 Completion Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: python -m pip install --upgrade pip && pip install requests PyYAML
+
+      - name: Run MATRIZ-007 Promotion Guard
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: "490"               # MATRIZ-007: change if your issue number differs
+          WEEK_SECTION_HEADING: "Week 6"    # section title to search for (flexible match)
+        run: |
+          python3 .github/actions/promotion-guard/check_matriz_007.py

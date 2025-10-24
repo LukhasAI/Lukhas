@@ -20,6 +20,7 @@ REQUIRED_CHECKS=(
     "nodespec-validate"
     "registry-ci"
     "pqc-sign-verify"
+    "MATRIZ-007 Completion Check"
 )
 
 echo "Setting required status checks:"
@@ -44,7 +45,7 @@ gh api --method PUT "/repos/${REPO}/branches/${BRANCH}/protection" \
 {
   "required_status_checks": {
     "strict": true,
-    "contexts": ["nodespec-validate", "registry-ci", "pqc-sign-verify"]
+    "contexts": ["nodespec-validate", "registry-ci", "pqc-sign-verify", "MATRIZ-007 Completion Check"]
   },
   "enforce_admins": true,
   "required_pull_request_reviews": {
@@ -103,9 +104,10 @@ echo ""
 echo "Branch protection configuration complete!"
 echo ""
 echo "Configured protections:"
-echo "  ✓ Required status checks: nodespec-validate, registry-ci, pqc-sign-verify"
+echo "  ✓ Required status checks: nodespec-validate, registry-ci, pqc-sign-verify, MATRIZ-007"
 echo "  ✓ Enforce admin restrictions: enabled"
 echo "  ✓ Code owner reviews required: yes"
 echo "  ✓ Stale review dismissal: enabled"
 echo ""
 echo "Note: PQC checks may show as 'pending' until PQC runner is provisioned (issue #492)"
+echo "Note: MATRIZ-007 check will block until issue #490 is closed and Week 6 complete"
