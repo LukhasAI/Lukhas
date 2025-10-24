@@ -1,412 +1,370 @@
 ---
 title: lukhas_context
-slug: lukhas_context
+slug: consciousness.lukhas_context
 owner: T4
 lane: labs
-star:
+star: "🧠 Consciousness Foundation"
 stability: experimental
-last_reviewed: 2025-10-18
-constellation_stars:
-related_modules:
-manifests:
-links:
-status: wip
-type: documentation
+last_reviewed: 2025-10-24
+constellation_stars: "🧠 Foundation · ✦ Trail · 🛡️ Watch · ⚛️ Anchor"
+related_modules: "matriz, memory, identity, governance, dream"
+manifests: "module.manifest.json"
+links: "../matriz/node_contract.py, ../matriz/lukhas_context.md"
+contracts: "[ConsciousnessState, MatrizMessage, DecisionEngine]"
+domain: consciousness, decision, awareness
+stars: "[Foundation]"
+status: active
+tier: T2
+updated: 2025-10-24
+version: 1.0.0
 ---
-# LUKHAS AI Context - Vendor-Neutral AI Guidance
-*This file provides domain-specific context for any AI development tool*
-*Also available as claude.me for Claude Desktop compatibility*
+# Consciousness Research Foundation 🧠
+## Base Consciousness Architecture & MATRIZ Thought Stage Integration
+
+*Consciousness Foundation - Decision engine and awareness systems for MATRIZ cognitive processing*
 
 ---
-
-
-# Consciousness Research Foundation
-*Base Consciousness Architecture - Decision Engine Foundation*
 
 ## Consciousness Foundation Overview
 
-Consciousness Research Foundation represents the **foundational consciousness research and architecture systems** that provide the base consciousness processing capabilities for the entire LUKHAS AGI system. This is the foundational layer that enables consciousness development in CANDIDATE and consciousness integration in LUKHAS.
+**Consciousness Module Location**: [consciousness/](.)
 
-### **Foundation Scope**
-- **Purpose**: Foundational consciousness research and decision engine architecture
-- **Architecture**: Base consciousness processing systems and research frameworks
-- **Integration**: Constellation Framework foundation enabling MATRIZ Thought stage and multi-star coordination
-- **Research**: Core consciousness research patterns and experimental frameworks
+The Consciousness Foundation is the **base consciousness architecture and decision engine layer** for the entire LUKHAS ecosystem. MATRIZ THOUGHT, AWARENESS, and REFLECTION GLYPH operations integrate with consciousness systems for decision-making and awareness processing.
 
-### **Foundation Architecture**
-```
-Consciousness Research Foundation
-├── research/                   # Consciousness research foundations
-│   ├── consciousness_theory.py     # Consciousness theory research
-│   ├── decision_theory.py          # Decision-making theory foundation
-│   ├── awareness_models.py         # Awareness modeling research
-│   └── [Research foundation components...]
-├── foundation/                 # Base consciousness architecture
-│   ├── consciousness_base.py       # Base consciousness processing
-│   ├── decision_engine_core.py     # Core decision engine foundation
-│   ├── awareness_foundation.py     # Awareness foundation systems
-│   └── [Foundation architecture components...]
-├── experimental/              # Experimental consciousness systems
-│   ├── consciousness_experiments.py # Consciousness research experiments
-│   ├── decision_experiments.py     # Decision-making experiments
-│   ├── awareness_experiments.py    # Awareness research experiments
-│   └── [Experimental systems...]
-└── integration/               # Foundation integration systems
-    ├── candidate_foundation.py     # CANDIDATE consciousness foundation
-    ├── lukhas_foundation.py        # LUKHAS consciousness foundation
-    └── [Integration foundations...]
-```
+### **Consciousness Foundation Integration** 🧠
 
-## 🧠 Consciousness Research Systems
+- **Purpose**: Base consciousness architecture, decision engine foundation, and awareness processing
+- **Architecture**: Decision theory foundation with MATRIZ Thought stage coordination
+- **Integration**: MATRIZ Thought/Awareness/Reflection stages, memory-augmented consciousness, Guardian ethics validation
+- **Contract**: Processes consciousness-related MatrizMessage per [node_contract.py](../matriz/node_contract.py:1)
 
-### **Consciousness Theory Research** (`research/consciousness_theory.py`)
-**Consciousness theory foundation** - Theoretical consciousness research and modeling
+### **System Scope**
 
-#### **Consciousness Theory Features**
-- **Consciousness Theory Development**: Foundational consciousness theory research and development
-- **Consciousness Modeling**: Consciousness model development and theoretical frameworks
-- **Research Framework**: Consciousness research methodology and experimental design
-- **Theory Integration**: Consciousness theory integration with practical systems
-
-#### **Consciousness Research Patterns**
-```python
-# Consciousness research foundation pattern
-class ConsciousnessResearchFoundation:
-    async def conduct_consciousness_research(self, research_context):
-        # 1. Consciousness Theory Analysis
-        consciousness_theory = await self.analyze_consciousness_theory(research_context)
-
-        # 2. Consciousness Model Development
-        consciousness_models = await self.develop_consciousness_models(
-            consciousness_theory
-        )
-
-        # 3. Research Experimental Design
-        experimental_design = await self.design_consciousness_experiments(
-            consciousness_models
-        )
-
-        # 4. Foundation System Integration
-        foundation_integration = await self.integrate_research_with_foundation(
-            experimental_design
-        )
-
-        # 5. Research Validation
-        return await self.validate_consciousness_research(foundation_integration)
-```
-
-### **Decision Theory Foundation** (`research/decision_theory.py`)
-**Decision-making theory research** - Foundational decision engine theory and research
-
-#### **Decision Theory Research**
-- **Decision Theory Development**: Decision-making theory research and foundational development
-- **Decision Model Research**: Decision model development and theoretical frameworks
-- **Decision Engine Foundation**: Decision engine theoretical foundation and architecture
-- **Decision Research Integration**: Decision theory integration with consciousness systems
-
-### **Awareness Models Research** (`research/awareness_models.py`)
-**Awareness modeling research** - Awareness system theoretical foundation and research
-
-#### **Awareness Research Features**
-- **Awareness Model Development**: Awareness model research and theoretical development
-- **Awareness Theory Research**: Awareness theory research and foundational frameworks
-- **Awareness System Foundation**: Awareness system theoretical foundation and architecture
-- **Awareness Research Integration**: Awareness research integration with consciousness systems
-
-## 🏗️ Foundation Architecture Systems
-
-### **Consciousness Base** (`foundation/consciousness_base.py`)
-**Base consciousness processing** - Foundational consciousness processing architecture
-
-#### **Consciousness Foundation Architecture**
-```python
-# Consciousness foundation architecture pattern
-async def establish_consciousness_foundation(self, foundation_context):
-    # 1. Base Consciousness Architecture
-    base_consciousness = await self.establish_base_consciousness_architecture(
-        foundation_context
-    )
-
-    # 2. Decision Engine Foundation
-    decision_foundation = await self.establish_decision_engine_foundation(
-        base_consciousness
-    )
-
-    # 3. Awareness Foundation Integration
-    awareness_foundation = await self.integrate_awareness_foundation(
-        decision_foundation
-    )
-
-    # 4. Foundation System Validation
-    foundation_validation = await self.validate_consciousness_foundation(
-        awareness_foundation
-    )
-
-    # 5. Foundation Integration Preparation
-    return await self.prepare_foundation_integration(foundation_validation)
-```
-
-### **Decision Engine Core** (`foundation/decision_engine_core.py`)
-**Core decision engine foundation** - Foundational decision-making architecture
-
-#### **Decision Engine Foundation**
-- **Decision Engine Architecture**: Core decision engine foundational architecture
-- **Decision Processing Foundation**: Decision processing foundational systems and frameworks
-- **Decision Integration Foundation**: Decision engine integration foundation with consciousness
-- **Decision Foundation Validation**: Decision engine foundation validation and testing
-
-### **Awareness Foundation** (`foundation/awareness_foundation.py`)
-**Awareness foundation systems** - Foundational awareness architecture and processing
-
-#### **Awareness Foundation Features**
-- **Awareness System Architecture**: Foundational awareness system architecture and frameworks
-- **Awareness Processing Foundation**: Awareness processing foundational systems
-- **Awareness Integration Foundation**: Awareness integration foundation with consciousness systems
-- **Awareness Foundation Research**: Awareness foundation research and development
-
-## 🔬 Experimental Consciousness Systems
-
-### **Consciousness Experiments** (`experimental/consciousness_experiments.py`)
-**Consciousness research experiments** - Experimental consciousness research and validation
-
-#### **Consciousness Experimental Features**
-```python
-# Consciousness experimental research pattern
-async def conduct_consciousness_experiments(self, experimental_context):
-    # 1. Experimental Design Development
-    experimental_design = await self.develop_consciousness_experimental_design(
-        experimental_context
-    )
-
-    # 2. Consciousness Experiment Execution
-    experiment_execution = await self.execute_consciousness_experiments(
-        experimental_design
-    )
-
-    # 3. Experimental Data Analysis
-    experimental_analysis = await self.analyze_consciousness_experimental_data(
-        experiment_execution
-    )
-
-    # 4. Research Validation
-    research_validation = await self.validate_consciousness_experimental_results(
-        experimental_analysis
-    )
-
-    # 5. Foundation Integration
-    return await self.integrate_experiments_with_foundation(research_validation)
-```
-
-### **Decision Experiments** (`experimental/decision_experiments.py`)
-**Decision-making experiments** - Experimental decision research and validation
-
-#### **Decision Experimental Research**
-- **Decision Experiment Design**: Decision-making experimental design and research methodology
-- **Decision Experimental Execution**: Decision experiment execution and data collection
-- **Decision Experimental Analysis**: Decision experimental data analysis and validation
-- **Decision Research Integration**: Decision experimental integration with foundation systems
-
-### **Awareness Experiments** (`experimental/awareness_experiments.py`)
-**Awareness research experiments** - Experimental awareness research and validation
-
-#### **Awareness Experimental Features**
-- **Awareness Experiment Design**: Awareness experimental design and research methodology
-- **Awareness Experimental Execution**: Awareness experiment execution and data collection
-- **Awareness Experimental Analysis**: Awareness experimental data analysis and validation
-- **Awareness Research Integration**: Awareness experimental integration with foundation systems
-
-## 🔗 Foundation Integration Systems
-
-### **CANDIDATE Foundation** (`integration/candidate_foundation.py`)
-**CANDIDATE consciousness foundation** - Foundation systems enabling CANDIDATE consciousness development
-
-#### **CANDIDATE Foundation Integration**
-```python
-# CANDIDATE foundation integration pattern
-async def integrate_candidate_consciousness_foundation(self, candidate_context):
-    # 1. CANDIDATE Foundation Preparation
-    candidate_preparation = await self.prepare_candidate_consciousness_foundation(
-        candidate_context
-    )
-
-    # 2. Foundation Architecture Integration
-    architecture_integration = await self.integrate_foundation_architecture_with_candidate(
-        candidate_preparation
-    )
-
-    # 3. Research Integration
-    research_integration = await self.integrate_consciousness_research_with_candidate(
-        architecture_integration
-    )
-
-    # 4. Experimental Integration
-    experimental_integration = await self.integrate_consciousness_experiments_with_candidate(
-        research_integration
-    )
-
-    # 5. Foundation Validation
-    return await self.validate_candidate_consciousness_foundation(
-        experimental_integration
-    )
-```
-
-### **LUKHAS Foundation** (`integration/lukhas_foundation.py`)
-**LUKHAS consciousness foundation** - Foundation systems enabling LUKHAS consciousness integration
-
-#### **LUKHAS Foundation Integration**
-- **LUKHAS Foundation Architecture**: Foundation architecture enabling LUKHAS consciousness integration
-- **LUKHAS Foundation Research**: Research foundation systems for LUKHAS consciousness coordination
-- **LUKHAS Foundation Validation**: Foundation validation systems for LUKHAS consciousness integration
-- **LUKHAS Foundation Coordination**: Foundation coordination with LUKHAS Constellation Framework systems
-
-## 📊 Foundation Systems Status
-
-### **Research Foundation Health**
-- ✅ **Consciousness Theory**: Consciousness theory research with modeling and framework development
-- ✅ **Decision Theory**: Decision-making theory research with foundational architecture
-- ✅ **Awareness Models**: Awareness model research with theoretical foundation development
-- ✅ **Research Integration**: Research integration with foundation architecture systems
-
-### **Foundation Architecture Health**
-- ✅ **Consciousness Base**: Base consciousness processing with foundational architecture
-- ✅ **Decision Engine Core**: Core decision engine foundation with processing architecture
-- ✅ **Awareness Foundation**: Awareness foundation systems with processing integration
-- ✅ **Architecture Validation**: Foundation architecture validation and integration systems
-
-### **Experimental System Health**
-- ✅ **Consciousness Experiments**: Consciousness experimental research with validation systems
-- ✅ **Decision Experiments**: Decision experimental research with foundation integration
-- ✅ **Awareness Experiments**: Awareness experimental research with validation integration
-- 🔄 **Advanced Experiments**: Enhanced experimental research and validation development
-
-## 🎯 Foundation Development Priorities
-
-### **Research Enhancement**
-1. **Advanced Consciousness Theory**: Enhanced consciousness theory research and modeling
-2. **Decision Theory Development**: Advanced decision-making theory research and integration
-3. **Awareness Research**: Enhanced awareness model research and theoretical development
-4. **Research Integration**: Advanced research integration with foundation systems
-
-### **Foundation Architecture**
-1. **Consciousness Base Enhancement**: Enhanced base consciousness processing architecture
-2. **Decision Engine Foundation**: Advanced decision engine foundational architecture
-3. **Awareness Foundation Development**: Enhanced awareness foundation systems and integration
-4. **Architecture Integration**: Advanced foundation architecture integration and validation
-
-### **Experimental Systems**
-1. **Advanced Consciousness Experiments**: Enhanced consciousness experimental research and validation
-2. **Decision Experimental Enhancement**: Advanced decision experimental research and integration
-3. **Awareness Experimental Development**: Enhanced awareness experimental research and validation
-4. **Experimental Integration**: Advanced experimental integration with foundation systems
-
-## 🔬 LUKHAS Context System for Consciousness
-
-### Context System Integration
-
-The Consciousness Research Foundation integrates with the **LUKHAS T4-Grade Context System** to ensure race-free consciousness processing, distributed decision coordination, and fault-tolerant awareness systems.
-
-**Implementation**: [../labs/context/](../labs/context/)
-**Full Documentation**: [../LUKHAS_CONTEXT_ANALYSIS_T4.md](../LUKHAS_CONTEXT_ANALYSIS_T4.md)
-
-### Consciousness-Specific Context Integration
-
-```typescript
-import { AsyncMemoryStore } from '../labs/context/cache/AsyncMemoryStore';
-import { AtomicContextPreserver } from '../labs/context/preservation/AtomicContextPreserver';
-import { ModelRouterWithCircuitBreaker } from '../labs/context/routing/ModelRouterWithCircuitBreaker';
-import { CPUBudgetEnforcer } from '../labs/context/cpu/CPUBudgetEnforcer';
-import { DistributedLockManager } from '../labs/context/distributed/DistributedLockManager';
-import { DryRunContext } from '../labs/context/dryrun/DryRunContext';
-
-// Consciousness Foundation with T4 Context
-class ConsciousnessFoundationWithContext {
-  private cache: AsyncMemoryStore;
-  private contextPreserver: AtomicContextPreserver;
-  private router: ModelRouterWithCircuitBreaker;
-  private cpuEnforcer: CPUBudgetEnforcer;
-  private lockManager: DistributedLockManager;
-
-  async processConsciousnessState(state: ConsciousnessState) {
-    // 1. Distributed Lock for Multi-Region Consciousness Coordination
-    return await this.lockManager.withLock(`consciousness:${state.id}`, async () => {
-
-      // 2. Atomic Context Preservation (2PC with rollback)
-      const preserved = await this.contextPreserver.preserveContext(
-        state.id,
-        { state, timestamp: Date.now() },
-        ['awareness', 'decision', 'theory']
-      );
-
-      // 3. CPU Budget Enforcement for Decision Engine
-      const result = await this.cpuEnforcer.execute('decision', async (signal) => {
-
-        // 4. Circuit Breaker for Model Routing (prevent cascade failures)
-        const modelResult = await this.router.route({
-          modelId: 'consciousness-processor',
-          input: state,
-          timeout: 5000
-        });
-
-        // 5. Race-Free Cache Storage
-        await this.cache.set(`state:${state.id}`, {
-          input: state,
-          output: modelResult,
-          preserved
-        });
-
-        return modelResult;
-      }, 10000); // 10s CPU budget
-
-      return result;
-    });
-  }
-
-  async experimentWithDryRun(experiment: ConsciousnessExperiment) {
-    // Dry-run experiments with zero side effects
-    const dryRunResult = await DryRunContext.run(async () => {
-      return await this.processConsciousnessState(experiment.state);
-    });
-
-    if (!dryRunResult.success) {
-      console.error('Experiment failed in dry-run:', dryRunResult.error);
-      return null;
-    }
-
-    // Validate no side effects occurred
-    if (dryRunResult.capturedMetrics.sideEffectAttempts > 0) {
-      console.warn('Side effects detected in experiment:',
-        dryRunResult.capturedMetrics.sideEffectAttempts);
-    }
-
-    return dryRunResult.result;
-  }
-}
-```
-
-### Context Benefits for Consciousness
-
-- **Zero Orphaned Contexts**: AtomicContextPreserver with 2PC ensures 100% atomicity (95% chaos tested)
-- **Fault Tolerance**: CircuitBreaker prevents consciousness cascade failures
-- **Distributed Coordination**: Multi-region lock management for consciousness synchronization
-- **CPU Budget Adherence**: Decision engine processing respects adaptive timeouts (2x P99)
-- **Experimental Safety**: DryRunContext ensures zero side effects in consciousness research
-- **Race-Free Processing**: AsyncLock prevents consciousness state corruption
-
-### Consciousness Processing Benchmarks
-
-| Processing Layer | Metric | Result |
-|------------------|--------|--------|
-| Consciousness State Cache | Concurrent ops/sec | 10,000+ |
-| Context Preservation | 2PC success rate | 100% (95% chaos) |
-| Model Router | Timeout accuracy | 100% |
-| Decision Engine | CPU budget adherence | 100% |
-| Dry-Run Experiments | Side effect leaks | 0 |
-| Distributed Locks | Coordination latency | <10ms |
+- **Lane**: Labs (Experimental) - Foundation research
+- **Processing**: Decision engine, awareness modeling, reflection systems
+- **MATRIZ Integration**: THOUGHT, AWARENESS, REFLECTION GLYPH processing
+- **Constellation Role**: Consciousness Foundation - Decision and awareness layer
 
 ---
 
-**Consciousness Foundation**: Research + Architecture + Experiments + T4 Context | **Integration**: CANDIDATE + LUKHAS foundation enablement
-**Research**: Consciousness theory + Decision theory + Awareness models + T4 Guarantees | **Architecture**: Base + Core + Foundation systems + Context Protection
-**Status**: Active consciousness research foundation with experimental validation, T4-grade context integration, and distributed coordination
+## Core Consciousness Components
 
-*Foundational consciousness research and architecture with T4-grade context system - enabling CANDIDATE development and LUKHAS integration*
+### **1. Decision Engine Foundation**
+
+**Purpose**: Core decision-making engine for MATRIZ DECISION GLYPH
+
+**MATRIZ Integration:**
+```python
+from consciousness import DecisionEngine, make_decision
+from matriz.node_contract import MatrizMessage, MatrizResult, GLYPH
+
+class ConsciousnessDecisionProcessor(MatrizNode):
+    """MATRIZ DECISION GLYPH processor with consciousness foundation"""
+
+    name = "consciousness-decision-processor"
+    version = "1.0.0"
+
+    def handle(self, msg: MatrizMessage) -> MatrizResult:
+        # Validate DECISION GLYPH
+        if msg.glyph.kind != "DECISION":
+            return MatrizResult(
+                ok=False,
+                reasons=["Requires DECISION GLYPH"],
+                payload={},
+                trace={},
+                guardian_log=["Wrong GLYPH kind"]
+            )
+
+        # Extract decision context
+        decision_context = msg.payload.get("decision_context", {})
+        options = msg.payload.get("options", [])
+        constraints = msg.payload.get("constraints", {})
+
+        # Make decision using consciousness engine
+        decision = make_decision(
+            context=decision_context,
+            options=options,
+            constraints=constraints,
+            metadata={
+                "msg_id": str(msg.msg_id),
+                "glyph_kind": msg.glyph.kind
+            }
+        )
+
+        # Return decision result
+        return MatrizResult(
+            ok=True,
+            reasons=[f"Decision made: {decision.choice}"],
+            payload={
+                "decision": decision.choice,
+                "confidence": decision.confidence,
+                "reasoning": decision.reasoning,
+                "alternatives": decision.alternatives
+            },
+            trace={
+                "decision_engine": "consciousness_foundation",
+                "decision_id": decision.id,
+                "processing_ms": decision.processing_time_ms
+            },
+            guardian_log=[
+                "Consciousness decision engine",
+                f"Confidence: {decision.confidence:.2f}",
+                f"Options evaluated: {len(options)}"
+            ]
+        )
+```
+
+### **2. Awareness Processing**
+
+**Purpose**: Awareness modeling for MATRIZ AWARENESS GLYPH
+
+**Awareness States:**
+```python
+from consciousness import AwarenessProcessor, AwarenessState
+
+# Process AWARENESS GLYPH
+class ConsciousnessAwarenessProcessor(MatrizNode):
+    name = "consciousness-awareness-processor"
+    version = "1.0.0"
+
+    def handle(self, msg: MatrizMessage) -> MatrizResult:
+        if msg.glyph.kind != "AWARENESS":
+            return MatrizResult(
+                ok=False,
+                reasons=["Requires AWARENESS GLYPH"],
+                payload={}, trace={}, guardian_log=[]
+            )
+
+        # Process awareness state
+        awareness = AwarenessState(
+            focus=msg.payload.get("focus"),
+            attention_level=msg.payload.get("attention_level", 0.8),
+            meta_awareness=msg.payload.get("meta_awareness", False)
+        )
+
+        # Evaluate awareness
+        result = awareness.evaluate(
+            context=msg.payload.get("context", {}),
+            memory_folds=msg.glyph.tags.get("memory_folds", [])
+        )
+
+        return MatrizResult(
+            ok=True,
+            reasons=["Awareness state processed"],
+            payload={
+                "awareness_level": result.level,
+                "focus_areas": result.focus_areas,
+                "meta_cognition": result.meta_cognitive_insights
+            },
+            trace={"awareness_processor": "consciousness_foundation"},
+            guardian_log=["Awareness processing complete"]
+        )
+```
+
+### **3. Reflection Systems**
+
+**Purpose**: Meta-cognitive reflection for MATRIZ REFLECTION GLYPH
+
+**Reflection Processing:**
+```python
+from consciousness import ReflectionEngine, reflect_on_process
+
+class ConsciousnessReflectionProcessor(MatrizNode):
+    name = "consciousness-reflection-processor"
+    version = "1.0.0"
+
+    def handle(self, msg: MatrizMessage) -> MatrizResult:
+        if msg.glyph.kind != "REFLECTION":
+            return MatrizResult(
+                ok=False,
+                reasons=["Requires REFLECTION GLYPH"],
+                payload={}, trace={}, guardian_log=[]
+            )
+
+        # Reflect on cognitive process
+        reflection = reflect_on_process(
+            process_trace=msg.payload.get("process_trace", {}),
+            outcomes=msg.payload.get("outcomes", []),
+            context=msg.payload.get("context", {})
+        )
+
+        return MatrizResult(
+            ok=True,
+            reasons=["Reflection complete"],
+            payload={
+                "insights": reflection.insights,
+                "improvements": reflection.improvement_suggestions,
+                "meta_learning": reflection.meta_learning_points
+            },
+            trace={"reflection_engine": "consciousness_foundation"},
+            guardian_log=[
+                "Reflection processing",
+                f"Insights generated: {len(reflection.insights)}"
+            ]
+        )
+```
+
+---
+
+## MATRIZ Thought Stage Integration
+
+### **Thought Stage Processing Flow**
+
+```
+MATRIZ Pipeline:
+Memory → Attention → THOUGHT → Risk → Intent → Action
+   M         A         T        R       I        A
+                       │
+                 Consciousness 🧠
+                 Decision Engine
+                       │
+               ┌───────┴───────┐
+               │               │
+            Reasoning      Reflection
+            Chains         Systems
+```
+
+### **THOUGHT GLYPH Processing**
+
+```python
+from consciousness import ThoughtProcessor, process_thought_chain
+
+class ConsciousnessThoughtProcessor(MatrizNode):
+    """MATRIZ Thought stage with consciousness foundation"""
+
+    name = "consciousness-thought-processor"
+    version = "1.0.0"
+
+    def handle(self, msg: MatrizMessage) -> MatrizResult:
+        if msg.glyph.kind != "THOUGHT":
+            return MatrizResult(
+                ok=False,
+                reasons=["Requires THOUGHT GLYPH"],
+                payload={}, trace={}, guardian_log=[]
+            )
+
+        # Process thought chain with consciousness
+        thought_result = process_thought_chain(
+            thought_input=msg.payload.get("thought_input"),
+            reasoning_depth=msg.payload.get("reasoning_depth", 5),
+            memory_context=msg.glyph.tags.get("memory_folds", [])
+        )
+
+        return MatrizResult(
+            ok=True,
+            reasons=["Thought process complete"],
+            payload={
+                "conclusions": thought_result.conclusions,
+                "reasoning_chain": thought_result.reasoning_steps,
+                "confidence": thought_result.confidence
+            },
+            trace={
+                "thought_processor": "consciousness_foundation",
+                "reasoning_depth": len(thought_result.reasoning_steps)
+            },
+            guardian_log=[
+                "Thought processing",
+                f"Reasoning steps: {len(thought_result.reasoning_steps)}",
+                f"Confidence: {thought_result.confidence:.2f}"
+            ]
+        )
+```
+
+---
+
+## Consciousness-Memory Integration
+
+### **Memory-Augmented Consciousness**
+
+```
+Consciousness Foundation 🧠
+    │
+    ├─→ Trail Star ✦ (Memory)
+    │   └─ Memory folds for context
+    │
+    ├─→ MATRIZ Thought Stage
+    │   └─ Reasoning with memory context
+    │
+    └─→ Watch Star 🛡️ (Guardian)
+        └─ Ethics validation for decisions
+```
+
+**Integration Pattern:**
+```python
+from consciousness import memory_augmented_decision
+from memory import retrieve_from_fold
+
+def decide_with_memory_context(msg: MatrizMessage) -> MatrizResult:
+    # Retrieve memory context
+    memory_context = retrieve_from_fold(
+        fold_name=msg.glyph.tags.get("fold_name", "default"),
+        query={
+            "glyph_kind": "MEMORY",
+            "relevant_to": msg.payload.get("decision_topic")
+        }
+    )
+
+    # Make memory-augmented decision
+    decision = memory_augmented_decision(
+        options=msg.payload.get("options"),
+        memory_context=memory_context,
+        constraints=msg.payload.get("constraints", {})
+    )
+
+    return MatrizResult(
+        ok=True,
+        reasons=[f"Decision: {decision.choice}"],
+        payload={"decision": decision.choice, "confidence": decision.confidence},
+        trace={"memory_context_used": len(memory_context)},
+        guardian_log=["Memory-augmented decision"]
+    )
+```
+
+---
+
+## Production Readiness
+
+**Consciousness Module Status**: 60% production ready
+
+### ✅ Completed
+
+- [x] Decision engine foundation
+- [x] Awareness processing systems
+- [x] Reflection and meta-cognition
+- [x] MATRIZ Thought stage integration
+- [x] DECISION/THOUGHT/AWARENESS/REFLECTION GLYPH support
+- [x] Memory-augmented consciousness
+- [x] Guardian ethics integration
+
+### 🔄 In Progress
+
+- [ ] Advanced reasoning algorithms
+- [ ] Distributed consciousness architecture
+- [ ] Real-time consciousness streaming
+
+### 📋 Pending
+
+- [ ] Production deployment configuration
+- [ ] Enterprise consciousness templates
+- [ ] Comprehensive benchmarking
+
+---
+
+## Related Documentation
+
+### **Consciousness Contexts**
+- [../matriz/lukhas_context.md](../matriz/lukhas_context.md:1) - MATRIZ cognitive engine
+- [../memory/lukhas_context.md](../memory/lukhas_context.md:1) - Memory-augmented consciousness
+- [../guardian/lukhas_context.md](../guardian/lukhas_context.md:1) - Ethics validation
+- [../dream/lukhas_context.md](../dream/lukhas_context.md:1) - Dream systems
+
+### **Technical Specifications**
+- [../matriz/node_contract.py](../matriz/node_contract.py:1) - FROZEN v1.0.0 MatrizNode interface
+- [../matriz/matriz_node_v1.json](../matriz/matriz_node_v1.json:1) - JSON Schema v1.1
+- [../audit/MATRIZ_READINESS.md](../audit/MATRIZ_READINESS.md:1) - Production readiness
+
+---
+
+**Consciousness Module**: Decision engine & awareness | **Foundation**: 🧠 Consciousness base
+**Integration**: MATRIZ Thought stage | **Production**: 60% ready | **Tier**: T2
+**Contract**: THOUGHT/DECISION/AWARENESS/REFLECTION GLYPH | **Memory**: Augmented decisions

@@ -1,420 +1,601 @@
 ---
 title: lukhas_context
-slug: lukhas_context
+slug: memory.lukhas_context
 owner: T4
 lane: labs
-star:
+star: "✦ Trail Star"
 stability: experimental
-last_reviewed: 2025-10-18
-constellation_stars:
-related_modules:
-manifests:
-links:
-status: wip
-type: documentation
+last_reviewed: 2025-10-24
+constellation_stars: "✦ Trail · ⚛️ Anchor · 🛡️ Watch"
+related_modules: "matriz, guardian, identity, consciousness"
+manifests: "module.manifest.json"
+links: "../matriz/node_contract.py, ../matriz/core/memory_system.py"
+contracts: "[MemoryFold, MatrizMessage, CognitiveMemory]"
+domain: memory, storage, persistence
+stars: "[Trail]"
+status: active
+tier: T2
+updated: 2025-10-24
+version: 1.0.0
 ---
-# LUKHAS AI Context - Vendor-Neutral AI Guidance
-*This file provides domain-specific context for any AI development tool*
-*Also available as claude.me for Claude Desktop compatibility*
+# Memory System - ✦ Trail Star
+## Fold-Based Memory & MATRIZ Cognitive Persistence
+
+*Trail Star of Constellation Framework - Memory persistence for all MATRIZ cognitive operations*
 
 ---
 
+## Memory System Overview
 
-# Memory Protection Foundation
-*Sanctum Vault - Memory Security Architecture - Protection Systems*
+**Memory Module Location**: [memory/](.)
 
-## Memory Foundation Overview
+The Memory system is the **fold-based memory persistence and cognitive state management layer** for the entire LUKHAS ecosystem. Every MATRIZ cognitive operation involving MEMORY GLYPH uses fold-based storage, ensuring complete provenance tracking and temporal relationship preservation.
 
-Memory Protection Foundation represents the **foundational memory security and protection systems** implementing Sanctum Vault architecture and comprehensive memory protection mechanisms. This is the foundational layer that enables secure memory development in CANDIDATE and memory integration in LUKHAS with advanced protection and security systems.
+### **Trail Star Integration** ✦
 
-### **Foundation Scope**
-- **Purpose**: Memory security foundation and Sanctum Vault protection architecture
-- **Architecture**: Memory protection systems with security and vault coordination
-- **Integration**: Trail Star ✦ foundation enabling fold-based memory systems and MATRIZ Memory stage (part of dynamic 8-star Constellation Framework)
-- **Security**: Advanced memory protection, security validation, and vault systems
+- **Purpose**: Fold-based memory persistence, cognitive DNA storage, and temporal relationship tracking
+- **Architecture**: Sanctum Vault protection with memory fold hierarchy and MATRIZ Memory stage coordination
+- **Integration**: MATRIZ Memory stage storage, Guardian audit trail persistence, ΛiD-scoped memory access
+- **Contract**: Stores MatrizResult traces and cognitive DNA per [node_contract.py](../matriz/node_contract.py:1)
 
-### **Memory Protection Architecture**
-```
-Memory Protection Foundation
-├── sanctum/                    # Sanctum Vault systems
-│   ├── sanctum_vault.py            # Core Sanctum Vault protection
-│   ├── vault_security.py           # Vault security systems
-│   ├── memory_protection.py        # Memory protection coordination
-│   └── [Sanctum Vault components...]
-├── security/                   # Memory security systems
-│   ├── memory_encryption.py        # Memory encryption systems
-│   ├── access_control.py           # Memory access control
-│   ├── security_validation.py      # Memory security validation
-│   └── [Security system components...]
-├── protection/                 # Memory protection systems
-│   ├── data_protection.py          # Data protection systems
-│   ├── memory_integrity.py         # Memory integrity validation
-│   ├── protection_monitoring.py    # Protection monitoring systems
-│   └── [Protection components...]
-└── integration/               # Foundation integration systems
-    ├── candidate_foundation.py     # CANDIDATE memory foundation
-    ├── lukhas_foundation.py        # LUKHAS memory foundation
-    └── [Integration foundations...]
-```
+### **System Scope**
 
-## 🛡️ Sanctum Vault Systems
+- **Lane**: Labs (Experimental) → L2 (Integration)
+- **Storage**: Fold-based hierarchy, encrypted at rest, temporal indexing
+- **MATRIZ Integration**: Required for MEMORY GLYPH operations and cognitive DNA persistence
+- **Constellation Role**: Trail Star ✦ - Memory and persistence foundation
 
-### **Sanctum Vault Core** (`sanctum/sanctum_vault.py`)
-**Core Sanctum Vault protection** - Primary memory vault and protection coordination
+---
 
-#### **Sanctum Vault Features**
-- **Sanctum Vault Architecture**: Core Sanctum Vault memory protection and security architecture
-- **Vault Memory Protection**: Advanced memory protection through vault systems and coordination
-- **Secure Memory Storage**: Secure memory storage with vault protection and encryption
-- **Vault Access Control**: Sanctum Vault access control and security validation systems
+## Core Memory Components
 
-#### **Sanctum Vault Patterns**
+### **1. Memory Folds - Hierarchical Storage**
+
+**Purpose**: Hierarchical fold-based memory storage with temporal relationships
+
+**Fold Structure:**
 ```python
-# Sanctum Vault protection pattern
-class SanctumVaultFoundation:
-    async def establish_sanctum_vault_protection(self, vault_context):
-        # 1. Sanctum Vault Architecture Establishment
-        vault_architecture = await self.establish_sanctum_vault_architecture(
-            vault_context
-        )
-
-        # 2. Memory Protection System Integration
-        memory_protection = await self.integrate_memory_protection_systems(
-            vault_architecture
-        )
-
-        # 3. Vault Security Validation
-        security_validation = await self.validate_sanctum_vault_security(
-            memory_protection
-        )
-
-        # 4. Vault Access Control Implementation
-        access_control = await self.implement_sanctum_vault_access_control(
-            security_validation
-        )
-
-        # 5. Foundation Vault Integration
-        return await self.integrate_foundation_vault_systems(access_control)
-```
-
-### **Vault Security Systems** (`sanctum/vault_security.py`)
-**Vault security coordination** - Advanced security systems for Sanctum Vault protection
-
-#### **Vault Security Capabilities**
-- **Vault Security Architecture**: Sanctum Vault security architecture and protection systems
-- **Security Protocol Implementation**: Advanced security protocols for vault protection
-- **Vault Encryption Systems**: Sanctum Vault encryption and security validation systems
-- **Security Monitoring Integration**: Security monitoring and validation for vault systems
-
-### **Memory Protection Coordination** (`sanctum/memory_protection.py`)
-**Memory protection systems** - Comprehensive memory protection through Sanctum Vault
-
-#### **Memory Protection Features**
-```python
-# Memory protection coordination pattern
-async def coordinate_memory_protection_systems(self, protection_context):
-    # 1. Memory Protection Analysis
-    protection_analysis = await self.analyze_memory_protection_requirements(
-        protection_context
-    )
-
-    # 2. Sanctum Vault Protection Implementation
-    vault_protection = await self.implement_sanctum_vault_protection(
-        protection_analysis
-    )
-
-    # 3. Memory Security Validation
-    security_validation = await self.validate_memory_security_systems(
-        vault_protection
-    )
-
-    # 4. Protection Monitoring Integration
-    monitoring_integration = await self.integrate_protection_monitoring(
-        security_validation
-    )
-
-    # 5. Foundation Protection Coordination
-    return await self.coordinate_foundation_protection_systems(
-        monitoring_integration
-    )
-```
-
-## 🔐 Memory Security Systems
-
-### **Memory Encryption** (`security/memory_encryption.py`)
-**Memory encryption systems** - Advanced memory encryption and security validation
-
-#### **Memory Encryption Features**
-- **Memory Encryption Architecture**: Advanced memory encryption systems and security coordination
-- **Encryption Key Management**: Memory encryption key management and security validation
-- **Data Encryption Processing**: Memory data encryption and secure processing systems
-- **Encryption Security Integration**: Encryption security integration with Sanctum Vault systems
-
-### **Access Control Systems** (`security/access_control.py`)
-**Memory access control** - Comprehensive memory access control and validation
-
-#### **Access Control Capabilities**
-- **Memory Access Control Architecture**: Advanced memory access control systems and validation
-- **Access Permission Management**: Memory access permission management and security coordination
-- **Access Control Validation**: Memory access control validation and security verification
-- **Cross-System Access Control**: Access control coordination across memory protection systems
-
-### **Security Validation** (`security/security_validation.py`)
-**Memory security validation** - Advanced security validation and verification systems
-
-#### **Security Validation Features**
-```python
-# Memory security validation pattern
-async def validate_memory_security_systems(self, security_context):
-    # 1. Security Architecture Validation
-    architecture_validation = await self.validate_memory_security_architecture(
-        security_context
-    )
-
-    # 2. Encryption Security Verification
-    encryption_verification = await self.verify_memory_encryption_security(
-        architecture_validation
-    )
-
-    # 3. Access Control Validation
-    access_validation = await self.validate_memory_access_control_security(
-        encryption_verification
-    )
-
-    # 4. Sanctum Vault Security Integration
-    vault_security_integration = await self.integrate_sanctum_vault_security_validation(
-        access_validation
-    )
-
-    # 5. Comprehensive Security Assessment
-    return await self.conduct_comprehensive_memory_security_assessment(
-        vault_security_integration
-    )
-```
-
-## 🛡️ Memory Protection Systems
-
-### **Data Protection** (`protection/data_protection.py`)
-**Data protection systems** - Comprehensive memory data protection and security
-
-#### **Data Protection Features**
-- **Data Protection Architecture**: Advanced memory data protection systems and coordination
-- **Data Security Validation**: Memory data security validation and protection verification
-- **Data Integrity Protection**: Memory data integrity protection and validation systems
-- **Data Protection Monitoring**: Data protection monitoring and security coordination
-
-### **Memory Integrity** (`protection/memory_integrity.py`)
-**Memory integrity validation** - Advanced memory integrity verification and protection
-
-#### **Memory Integrity Capabilities**
-- **Memory Integrity Architecture**: Memory integrity validation and verification systems
-- **Integrity Validation Systems**: Advanced integrity validation and protection coordination
-- **Memory Consistency Checking**: Memory consistency checking and integrity verification
-- **Integrity Protection Integration**: Integrity protection integration with Sanctum Vault systems
-
-### **Protection Monitoring** (`protection/protection_monitoring.py`)
-**Protection monitoring systems** - Comprehensive memory protection monitoring and observability
-
-#### **Protection Monitoring Features**
-```python
-# Memory protection monitoring pattern
-async def monitor_memory_protection_systems(self, monitoring_context):
-    # 1. Protection System Health Monitoring
-    health_monitoring = await self.monitor_memory_protection_system_health(
-        monitoring_context
-    )
-
-    # 2. Security Monitoring Integration
-    security_monitoring = await self.integrate_memory_security_monitoring(
-        health_monitoring
-    )
-
-    # 3. Sanctum Vault Monitoring
-    vault_monitoring = await self.monitor_sanctum_vault_protection_systems(
-        security_monitoring
-    )
-
-    # 4. Protection Performance Analytics
-    performance_analytics = await self.analyze_protection_system_performance(
-        vault_monitoring
-    )
-
-    # 5. Monitoring Integration Coordination
-    return await self.coordinate_protection_monitoring_integration(
-        performance_analytics
-    )
-```
-
-## 🔗 Foundation Integration Systems
-
-### **CANDIDATE Foundation** (`integration/candidate_foundation.py`)
-**CANDIDATE memory foundation** - Foundation systems enabling CANDIDATE memory development
-
-#### **CANDIDATE Memory Foundation Integration**
-```python
-# CANDIDATE memory foundation integration pattern
-async def integrate_candidate_memory_foundation(self, candidate_context):
-    # 1. CANDIDATE Memory Foundation Preparation
-    candidate_preparation = await self.prepare_candidate_memory_foundation(
-        candidate_context
-    )
-
-    # 2. Sanctum Vault Foundation Integration
-    vault_integration = await self.integrate_sanctum_vault_with_candidate(
-        candidate_preparation
-    )
-
-    # 3. Memory Protection Foundation
-    protection_foundation = await self.establish_memory_protection_foundation_for_candidate(
-        vault_integration
-    )
-
-    # 4. Security Foundation Integration
-    security_integration = await self.integrate_memory_security_foundation_with_candidate(
-        protection_foundation
-    )
-
-    # 5. Foundation Validation
-    return await self.validate_candidate_memory_foundation(security_integration)
-```
-
-### **LUKHAS Foundation** (`integration/lukhas_foundation.py`)
-**LUKHAS memory foundation** - Foundation systems enabling LUKHAS memory integration
-
-#### **LUKHAS Memory Foundation Integration**
-- **LUKHAS Memory Foundation Architecture**: Foundation architecture enabling LUKHAS memory integration
-- **LUKHAS Sanctum Vault Integration**: Sanctum Vault foundation integration with LUKHAS systems
-- **LUKHAS Memory Protection Foundation**: Memory protection foundation for LUKHAS integration
-- **LUKHAS Foundation Coordination**: Foundation coordination with LUKHAS Constellation Framework (8 Stars) systems
-
-## 📊 Foundation Systems Status
-
-### **Sanctum Vault Health**
-- ✅ **Sanctum Vault Core**: Core Sanctum Vault protection with security and coordination
-- ✅ **Vault Security**: Advanced vault security systems with encryption and validation
-- ✅ **Memory Protection**: Comprehensive memory protection through Sanctum Vault systems
-- ✅ **Vault Integration**: Sanctum Vault integration with foundation architecture systems
-
-### **Security System Health**
-- ✅ **Memory Encryption**: Advanced memory encryption with security validation and coordination
-- ✅ **Access Control**: Comprehensive memory access control with security verification
-- ✅ **Security Validation**: Memory security validation with verification and assessment
-- ✅ **Security Integration**: Security integration with Sanctum Vault protection systems
-
-### **Protection System Health**
-- ✅ **Data Protection**: Advanced memory data protection with security and validation
-- ✅ **Memory Integrity**: Memory integrity validation with verification and protection
-- ✅ **Protection Monitoring**: Comprehensive protection monitoring with observability
-- 🔄 **Advanced Protection**: Enhanced protection systems and security development
-
-## 🎯 Foundation Development Priorities
-
-### **Sanctum Vault Enhancement**
-1. **Advanced Vault Architecture**: Enhanced Sanctum Vault protection and security architecture
-2. **Vault Security Systems**: Advanced vault security systems with encryption and validation
-3. **Memory Vault Protection**: Enhanced memory protection through Sanctum Vault systems
-4. **Vault Integration**: Advanced Sanctum Vault integration with foundation systems
-
-### **Security System Enhancement**
-1. **Advanced Memory Encryption**: Enhanced memory encryption systems with security validation
-2. **Access Control Development**: Advanced memory access control with security verification
-3. **Security Validation Enhancement**: Enhanced security validation and verification systems
-4. **Security Integration**: Advanced security integration with protection systems
-
-### **Protection System Development**
-1. **Advanced Data Protection**: Enhanced memory data protection with security coordination
-2. **Memory Integrity Enhancement**: Advanced memory integrity validation and protection
-3. **Protection Monitoring Development**: Enhanced protection monitoring and observability
-4. **Protection Integration**: Advanced protection integration with foundation systems
-
-## 🔬 LUKHAS Context System for Memory Protection
-
-### Context System Integration
-
-The Memory Protection Foundation leverages the **LUKHAS T4-Grade Context System** to provide comprehensive memory security with race-free operations, corruption detection, and distributed vault coordination.
-
-**Implementation**: [../labs/context/](../labs/context/)
-**Full Documentation**: [../LUKHAS_CONTEXT_ANALYSIS_T4.md](../LUKHAS_CONTEXT_ANALYSIS_T4.md)
-
-### Memory-Specific Context Integration
-
-```typescript
-import { AsyncMemoryStore } from '../labs/context/cache/AsyncMemoryStore';
-import { ChecksumVerifier } from '../labs/context/checksum/ChecksumVerifier';
-import { MemoryBudgetEnforcer } from '../labs/context/memory/MemoryBudgetEnforcer';
-import { PersistentStore } from '../labs/context/persistence/PersistentStore';
-import { WriteAheadLog } from '../labs/context/persistence/WriteAheadLog';
-
-// Sanctum Vault with T4 Context Protection
-class SanctumVaultWithContext {
-  private cache: AsyncMemoryStore;
-  private checksumVerifier: ChecksumVerifier;
-  private memoryEnforcer: MemoryBudgetEnforcer;
-  private wal: WriteAheadLog;
-  private persistentStore: PersistentStore;
-
-  async protectMemory(key: string, data: any, priority: 'critical' | 'high' | 'normal') {
-    // 1. Memory Budget Enforcement
-    const allocated = await this.memoryEnforcer.allocate(key, dataSize, priority);
-    if (!allocated) throw new Error('Sanctum Vault memory budget exceeded');
-
-    // 2. Checksum Verification (100% corruption detection)
-    const verified = await this.checksumVerifier.verifiedWrite(key, data, async (value, checksum) => {
-      // 3. Write-Ahead Log (ACID durability)
-      await this.wal.write('SET', key, { value, checksum });
-
-      // 4. Race-Free Cache Storage
-      await this.cache.set(key, { value, checksum });
-
-      // 5. Persistent Storage with Crash Recovery
-      await this.persistentStore.set(key, { value, checksum });
-    });
-
-    return verified;
-  }
-
-  async recoverMemory(key: string): Promise<any> {
-    // Crash recovery with checksum validation
-    const entry = await this.persistentStore.get(key);
-    if (!entry) return null;
-
-    const valid = await this.checksumVerifier.verifiedRead(key, entry, async (data) => {
-      return data.value;
-    });
-
-    if (!valid) {
-      // Attempt recovery from WAL
-      const recovered = await this.wal.recover(key);
-      return recovered;
+from memory import MemoryFold, create_memory_fold
+from matriz.node_contract import MatrizMessage, MatrizResult
+
+# Create memory fold for cognitive session
+session_fold = create_memory_fold(
+    fold_name="cognitive_session_20251024",
+    fold_type="SESSION",
+    parent_fold=None,  # Root fold
+    metadata={
+        "session_id": "session_abc123",
+        "user_lambda_id": "user_12345_lambda_xyz",
+        "start_time": "2025-10-24T10:00:00Z"
     }
+)
 
-    return entry.value;
-  }
-}
+# Store MATRIZ result in fold
+result_stored = session_fold.store_matriz_result(
+    msg_id="550e8400-e29b-41d4-a716-446655440000",
+    result=MatrizResult(
+        ok=True,
+        reasons=["Cognitive processing complete"],
+        payload={"result": "success"},
+        trace={
+            "node": "math-node",
+            "processing_ms": 42,
+            "cognitive_dna": {...}
+        },
+        guardian_log=["Guardian validated", "Processing approved"]
+    ),
+    temporal_links=[
+        {"type": "FOLLOWS", "target_msg_id": "prev_msg_id"}
+    ],
+    causal_links=[
+        {"type": "CAUSED_BY", "target_msg_id": "prev_msg_id"}
+    ]
+)
 ```
 
-### Context Benefits for Memory Protection
+**Fold Hierarchy:**
+```
+Root Fold
+├── Session Fold (cognitive_session_20251024)
+│   ├── Memory Fold (working_memory)
+│   │   ├── MEMORY GLYPH results
+│   │   └── Temporal relationships
+│   ├── Reasoning Fold (reasoning_chain)
+│   │   ├── THOUGHT GLYPH results
+│   │   └── Causal relationships
+│   └── Decision Fold (decisions)
+│       ├── DECISION GLYPH results
+│       └── Intent relationships
+└── Archive Fold (historical_sessions)
+    └── Compressed session folds
+```
 
-- **100% Corruption Detection**: ChecksumVerifier ensures Sanctum Vault data integrity
-- **Zero OOM Crashes**: MemoryBudgetEnforcer with priority-based eviction (critical > high > normal)
-- **ACID Durability**: WriteAheadLog with fsync for crash recovery (<1s for 1K ops)
-- **Race-Free Operations**: AsyncLock prevents memory corruption in concurrent access
-- **Persistent Recovery**: PersistentStore with automatic crash recovery validation
+### **2. Cognitive DNA Persistence**
 
-### Memory Protection Benchmarks
+**Purpose**: Store complete cognitive DNA and provenance traces
 
-| Protection Layer | Metric | Result |
-|------------------|--------|--------|
-| Sanctum Vault Cache | Concurrent ops/sec | 10,000+ |
-| Corruption Detection | Detection rate | 100% |
-| Memory Enforcement | OOM crashes | 0 |
-| Crash Recovery | Recovery time (1K ops) | <1s |
-| Checksum Verification | False negatives | 0% |
+**MATRIZ Integration:**
+```python
+from memory import store_cognitive_dna, retrieve_cognitive_dna
+from matriz.node_contract import MatrizMessage, MatrizResult
+
+# Store cognitive DNA after MATRIZ processing
+def handle(msg: MatrizMessage) -> MatrizResult:
+    # Process MATRIZ message
+    result = process_matriz_message(msg)
+
+    # Store cognitive DNA in memory fold
+    dna_stored = store_cognitive_dna(
+        msg_id=str(msg.msg_id),
+        glyph=msg.glyph,
+        result=result,
+        cognitive_dna={
+            "processing_nodes": ["math-node", "validator-node"],
+            "temporal_sequence": [
+                {"node": "math-node", "ts": "2025-10-24T10:00:00.100Z"},
+                {"node": "validator-node", "ts": "2025-10-24T10:00:00.142Z"}
+            ],
+            "causal_chain": [
+                {"from": "query", "to": "math-node", "type": "TRIGGERS"},
+                {"from": "math-node", "to": "validator-node", "type": "VALIDATES"}
+            ],
+            "guardian_validations": [
+                {"node": "math-node", "decision": "approved"},
+                {"node": "validator-node", "decision": "approved"}
+            ]
+        },
+        fold_name="cognitive_session_20251024"
+    )
+
+    # Add DNA storage to trace
+    result.trace["cognitive_dna_stored"] = True
+    result.trace["fold_name"] = "cognitive_session_20251024"
+
+    return result
+
+# Retrieve cognitive DNA for analysis
+dna_retrieved = retrieve_cognitive_dna(
+    msg_id="550e8400-e29b-41d4-a716-446655440000",
+    fold_name="cognitive_session_20251024"
+)
+```
+
+### **3. Temporal & Causal Relationships**
+
+**Purpose**: Track temporal sequence and causal relationships between cognitive operations
+
+**Relationship Types:**
+```python
+from memory import TemporalLink, CausalLink, create_relationship
+
+# Temporal relationships (time-based ordering)
+temporal_link = TemporalLink(
+    source_msg_id="550e8400-e29b-41d4-a716-446655440000",
+    target_msg_id="660e9511-f30c-52e5-b827-557766551111",
+    relationship="FOLLOWS",  # source FOLLOWS target
+    timestamp="2025-10-24T10:00:00.200Z"
+)
+
+# Causal relationships (cause-effect)
+causal_link = CausalLink(
+    source_msg_id="550e8400-e29b-41d4-a716-446655440000",
+    target_msg_id="660e9511-f30c-52e5-b827-557766551111",
+    relationship="CAUSED_BY",  # source CAUSED_BY target
+    confidence=0.95,
+    reasoning="Math operation result triggered validation"
+)
+
+# Store relationships in memory fold
+create_relationship(
+    fold_name="cognitive_session_20251024",
+    temporal_links=[temporal_link],
+    causal_links=[causal_link]
+)
+```
+
+**Relationship Graph:**
+```
+Cognitive DNA Relationship Graph:
+    Query Input
+        │
+        ├─[TEMPORAL: FOLLOWS]─→ Math Processing
+        └─[CAUSAL: TRIGGERS]──→ Math Processing
+                                    │
+                                    ├─[TEMPORAL: FOLLOWS]─→ Validation
+                                    └─[CAUSAL: VALIDATES]──→ Validation
+                                                                │
+                                                                └─[TEMPORAL: FOLLOWS]─→ Decision
+```
+
+### **4. ΛiD-Scoped Memory Access**
+
+**Purpose**: Identity-scoped memory access with ΛiD authentication
+
+**Access Control:**
+```python
+from memory import access_memory_fold_with_lambda_id
+from identity import lambda_id_authenticate
+
+# ΛiD-authenticated memory access
+def access_user_memory(lambda_id: str, fold_name: str):
+    # Authenticate ΛiD
+    auth_result = lambda_id_authenticate(
+        lambda_id=lambda_id,
+        credentials={"access_token": "bearer_xyz"},
+        required_scopes=["memory:read"]
+    )
+
+    if not auth_result.success:
+        raise PermissionError(f"ΛiD authentication failed: {auth_result.reason}")
+
+    # Access memory fold with ΛiD scope
+    memory_fold = access_memory_fold_with_lambda_id(
+        fold_name=fold_name,
+        lambda_id=lambda_id,
+        access_mode="read"
+    )
+
+    # Retrieve results with ΛiD scope
+    results = memory_fold.retrieve_results(
+        filter_by_lambda_id=lambda_id,
+        time_range={"start": "2025-10-24T00:00:00Z", "end": "2025-10-24T23:59:59Z"}
+    )
+
+    return results
+```
+
+**Scope Enforcement:**
+- **USER scope**: Access own memory folds only
+- **SERVICE scope**: Access service-specific memory folds
+- **ADMIN scope**: Access all memory folds (Guardian-approved)
+
+### **5. Sanctum Vault Protection**
+
+**Purpose**: Encrypted memory storage with Sanctum Vault security
+
+**Vault Integration:**
+```python
+from memory.sanctum import SanctumVault, encrypt_memory_fold
+
+# Create Sanctum Vault for memory protection
+vault = SanctumVault(
+    vault_name="cognitive_memory_vault",
+    encryption_key="vault_key_xyz",
+    access_policy="strict"
+)
+
+# Store memory fold in Sanctum Vault
+encrypted_fold = encrypt_memory_fold(
+    fold=session_fold,
+    vault=vault,
+    encryption_method="AES-256-GCM"
+)
+
+# Retrieve from Sanctum Vault (requires authentication)
+decrypted_fold = vault.retrieve_fold(
+    fold_id=encrypted_fold.id,
+    lambda_id="user_12345_lambda_xyz",
+    decryption_key="vault_key_xyz"
+)
+```
+
+**Sanctum Vault Features:**
+- **Encryption at rest**: AES-256-GCM encryption
+- **Access control**: ΛiD-based access with Guardian validation
+- **Integrity validation**: Cryptographic checksums
+- **Audit logging**: Complete access audit trail
 
 ---
 
-**Memory Protection Foundation**: Sanctum Vault + Security + Protection systems + T4 Context | **Integration**: CANDIDATE + LUKHAS foundation enablement
-**Sanctum Vault**: Core protection + Security + Memory coordination + T4 Guarantees | **Security**: Encryption + Access control + Validation + Corruption detection
-**Status**: Active memory protection foundation with Sanctum Vault security and T4-grade comprehensive protection
+## MATRIZ Memory Stage Integration
 
-*Foundational memory protection and security with T4-grade context system - enabling CANDIDATE development and LUKHAS integration with Sanctum Vault*
+### **Memory Stage Processing Flow**
+
+```
+MATRIZ Pipeline:
+MEMORY → Attention → Thought → Risk → Intent → Action
+  M         A         T        R       I        A
+  │
+Trail ✦
+Memory Fold
+  │
+┌─┴─────────────┐
+│               │
+Cognitive DNA   Temporal
+Persistence     Relationships
+```
+
+### **MEMORY GLYPH Processing**
+
+```python
+from memory import MemoryProcessor, store_memory_glyph
+from matriz.node_contract import MatrizMessage, MatrizResult, GLYPH
+
+class MemoryProcessor(MatrizNode):
+    """MATRIZ Memory stage processor with fold-based storage"""
+
+    name = "memory-processor"
+    version = "1.0.0"
+
+    def handle(self, msg: MatrizMessage) -> MatrizResult:
+        # 1. Validate MEMORY GLYPH
+        if msg.glyph.kind != "MEMORY":
+            return MatrizResult(
+                ok=False,
+                reasons=["MemoryProcessor only handles MEMORY GLYPH"],
+                payload={},
+                trace={},
+                guardian_log=["Wrong GLYPH kind for MemoryProcessor"]
+            )
+
+        # 2. Extract fold context from GLYPH tags
+        fold_name = msg.glyph.tags.get("fold_name", "default_session")
+        lambda_id = msg.glyph.tags.get("lambda_id")
+
+        # 3. Authenticate if ΛiD provided
+        if lambda_id:
+            auth_result = lambda_id_authenticate(
+                lambda_id=lambda_id,
+                credentials={"guardian_token": msg.guardian_token},
+                required_scopes=["memory:write"]
+            )
+
+            if not auth_result.success:
+                return MatrizResult(
+                    ok=False,
+                    reasons=["Memory write requires authentication"],
+                    payload={},
+                    trace={},
+                    guardian_log=["ΛiD authentication failed"]
+                )
+
+        # 4. Access or create memory fold
+        memory_fold = self.get_or_create_fold(
+            fold_name=fold_name,
+            lambda_id=lambda_id
+        )
+
+        # 5. Process MEMORY operation
+        operation = msg.payload.get("operation")  # "store", "retrieve", "update"
+
+        if operation == "store":
+            result = self.store_memory(memory_fold, msg)
+        elif operation == "retrieve":
+            result = self.retrieve_memory(memory_fold, msg)
+        elif operation == "update":
+            result = self.update_memory(memory_fold, msg)
+        else:
+            return MatrizResult(
+                ok=False,
+                reasons=[f"Unknown memory operation: {operation}"],
+                payload={},
+                trace={},
+                guardian_log=["Invalid operation"]
+            )
+
+        # 6. Store cognitive DNA for this operation
+        store_cognitive_dna(
+            msg_id=str(msg.msg_id),
+            glyph=msg.glyph,
+            result=result,
+            cognitive_dna={
+                "operation": operation,
+                "fold_name": fold_name,
+                "lambda_id": lambda_id
+            },
+            fold_name=fold_name
+        )
+
+        # 7. Add memory persistence to result
+        result.guardian_log.append(f"Memory operation: {operation}")
+        result.guardian_log.append(f"Fold: {fold_name}")
+        result.trace["memory_fold"] = fold_name
+        result.trace["cognitive_dna_stored"] = True
+
+        return result
+```
+
+---
+
+## Memory Fold Operations
+
+### **1. Store Operation**
+
+```python
+from memory import store_in_fold
+
+# Store MATRIZ result in memory fold
+stored = store_in_fold(
+    fold_name="cognitive_session_20251024",
+    msg_id="550e8400-e29b-41d4-a716-446655440000",
+    data={
+        "glyph_kind": "MEMORY",
+        "payload": {"key": "value"},
+        "result": MatrizResult(...)
+    },
+    temporal_links=[...],
+    causal_links=[...],
+    ttl_hours=24  # Time-to-live: 24 hours
+)
+```
+
+### **2. Retrieve Operation**
+
+```python
+from memory import retrieve_from_fold
+
+# Retrieve by message ID
+result = retrieve_from_fold(
+    fold_name="cognitive_session_20251024",
+    msg_id="550e8400-e29b-41d4-a716-446655440000"
+)
+
+# Retrieve by query
+results = retrieve_from_fold(
+    fold_name="cognitive_session_20251024",
+    query={
+        "glyph_kind": "MEMORY",
+        "time_range": {"start": "2025-10-24T10:00:00Z", "end": "2025-10-24T11:00:00Z"},
+        "lambda_id": "user_12345_lambda_xyz"
+    },
+    limit=100
+)
+```
+
+### **3. Update Operation**
+
+```python
+from memory import update_in_fold
+
+# Update existing memory entry
+updated = update_in_fold(
+    fold_name="cognitive_session_20251024",
+    msg_id="550e8400-e29b-41d4-a716-446655440000",
+    updates={
+        "payload": {"key": "updated_value"},
+        "metadata": {"updated_at": "2025-10-24T10:30:00Z"}
+    }
+)
+```
+
+### **4. Fold Compression & Archival**
+
+```python
+from memory import compress_fold, archive_fold
+
+# Compress old fold to reduce storage
+compressed = compress_fold(
+    fold_name="cognitive_session_20251023",
+    compression_algorithm="zstd",
+    compression_level=9
+)
+
+# Archive to cold storage
+archived = archive_fold(
+    fold_name="cognitive_session_20251023",
+    archive_location="s3://lukhas-memory-archive/2025/10/",
+    delete_after_archive=True
+)
+```
+
+---
+
+## Constellation Framework Integration
+
+### **Trail Star ✦ Coordination**
+
+The Memory system (Trail Star) coordinates with other Constellation stars:
+
+```
+Memory Trail Star ✦
+    │
+    ├─→ Anchor Star ⚛️ (Identity)
+    │   └─ ΛiD-scoped memory access
+    │
+    ├─→ Watch Star 🛡️ (Guardian)
+    │   └─ Guardian audit trail persistence
+    │
+    ├─→ MATRIZ Memory Stage
+    │   └─ Cognitive DNA storage
+    │
+    └─→ Consciousness
+        └─ Memory-augmented consciousness
+```
+
+### **Memory-MATRIZ-Guardian Integration**
+
+```python
+from memory import store_with_guardian_audit
+from guardian import emit_guardian_decision
+
+# Store MATRIZ result with Guardian audit
+def store_with_full_audit(msg: MatrizMessage, result: MatrizResult):
+    # Guardian decision
+    decision = emit_guardian_decision(
+        operation="memory_storage",
+        decision="approved",
+        reason="Memory storage within limits",
+        glyph_kind=msg.glyph.kind,
+        msg_id=str(msg.msg_id),
+        lane=msg.lane,
+        metadata={"fold_name": "cognitive_session_20251024"}
+    )
+
+    # Store with Guardian audit
+    stored = store_with_guardian_audit(
+        fold_name="cognitive_session_20251024",
+        msg_id=str(msg.msg_id),
+        result=result,
+        guardian_decision=decision,
+        audit_trail={
+            "guardian_decision_id": decision.id,
+            "lambda_id": msg.glyph.tags.get("lambda_id"),
+            "timestamp": datetime.utcnow().isoformat()
+        }
+    )
+
+    return stored
+```
+
+---
+
+## Production Readiness
+
+**Memory Module Status**: 75% production ready
+
+### ✅ Completed
+
+- [x] Fold-based memory hierarchy
+- [x] Cognitive DNA persistence
+- [x] Temporal and causal relationship tracking
+- [x] ΛiD-scoped memory access
+- [x] Sanctum Vault encryption
+- [x] MATRIZ Memory stage integration
+- [x] Guardian audit trail storage
+- [x] Fold compression and archival
+- [x] Complete provenance tracking
+
+### 🔄 In Progress
+
+- [ ] Distributed memory architecture
+- [ ] Advanced query optimization
+- [ ] Memory defragmentation
+- [ ] Real-time replication
+
+### 📋 Pending
+
+- [ ] Comprehensive performance benchmarking
+- [ ] Load testing for high-volume storage
+- [ ] Disaster recovery procedures
+- [ ] Enterprise backup strategies
+
+**Performance Targets:**
+- **Memory Access**: <100ms average working memory retrieval
+- **Fold Operations**: <50ms for store/retrieve operations
+- **Maximum Folds**: 1000 active folds per session
+- **Compression**: 70% reduction for archived folds
+
+---
+
+## Related Documentation
+
+### **Memory Contexts**
+- [../matriz/lukhas_context.md](../matriz/lukhas_context.md:1) - MATRIZ cognitive engine
+- [../matriz/core/memory_system.py](../matriz/core/memory_system.py:1) - CognitiveMemory implementation
+- [../guardian/lukhas_context.md](../guardian/lukhas_context.md:1) - Guardian audit persistence
+- [../identity/lukhas_context.md](../identity/lukhas_context.md:1) - ΛiD-scoped access
+
+### **Technical Specifications**
+- [../matriz/node_contract.py](../matriz/node_contract.py:1) - FROZEN v1.0.0 MatrizNode interface
+- [../matriz/matriz_node_v1.json](../matriz/matriz_node_v1.json:1) - JSON Schema v1.1 (MEMORY GLYPH)
+- [../audit/MATRIZ_READINESS.md](../audit/MATRIZ_READINESS.md:1) - Production readiness
+
+### **Security Documentation**
+- [../branding/MATRIZ_BRAND_GUIDE.md](../branding/MATRIZ_BRAND_GUIDE.md:1) - Official naming conventions
+- [../security/lukhas_context.md](../security/lukhas_context.md:1) - Memory security architecture
+
+---
+
+**Memory Module**: Fold-based persistence & Sanctum Vault | **Trail Star**: ✦ Memory foundation
+**Integration**: MATRIZ Memory stage | **Production**: 75% ready | **Tier**: T2
+**Contract**: MEMORY GLYPH storage required | **Encryption**: AES-256-GCM at rest
