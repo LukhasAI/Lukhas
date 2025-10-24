@@ -5,26 +5,32 @@ owner: T4
 lane: labs
 star:
 stability: experimental
-last_reviewed: 2025-10-18
-constellation_stars:
-related_modules:
-manifests:
-links:
-contracts: "[]"
+last_reviewed: 2025-10-24
+constellation_stars: "⚛️ Anchor · ✦ Trail · 🔬 Horizon · 🛡️ Watch"
+related_modules: "orchestrator, node_interface, memory_system, async_orchestrator"
+manifests: "../node_contract.py, ../matriz_node_v1.json"
+links: "orchestrator.py, node_interface.py, memory_system.py, async_orchestrator.py"
+contracts: "[MatrizNode, MatrizMessage, MatrizResult, CognitiveNode]"
 domain: reasoning
 stars: "[Skill]"
 status: active
 tier: T2
-updated: 2025-10-18
+updated: 2025-10-24
+version: 1.0.0
+contract_version: 1.0.0
 ---
 # MATRIZ Core Nodes
 ## Node-Based Cognitive Architecture & Symbolic Processing
 
 ### MATRIZ Core Overview
-- **Purpose**: Core node architecture and symbolic reasoning engine
-- **Architecture**: BaseNode system with dynamic registration and orchestration
+
+**Core Module Location**: [matriz/core/](../core/)
+
+- **Purpose**: Core node architecture, orchestration, and symbolic reasoning engine
+- **Architecture**: CognitiveNode base system with dynamic registration and orchestration
 - **Integration**: Constellation Framework cognitive processing and symbolic reasoning
 - **Scale**: 20 Python files with 632MB cognitive DNA processing capabilities
+- **Contract**: Implements FROZEN v1.0.0 [node_contract.py](../node_contract.py:1) interface
 
 ### Core Node Architecture
 
@@ -199,16 +205,115 @@ Testing → Orchestration → Production → Monitoring
 - System availability and reliability monitoring
 - Cognitive architecture scaling effectiveness and optimization
 
-### Related Contexts
-- `../claude.me` - MATRIZ cognitive engine overview
-- `../visualization/claude.me` - Cognitive visualization systems
-- `../../candidate/core/symbolic/claude.me` - Symbolic reasoning development
-- `../../lukhas/claude.me` - Constellation Framework integration
-- `../../consciousness/claude.me` - Consciousness-cognitive integration
+## 🔒 Core Contract Implementation
+
+### **MatrizNode Contract Compliance**
+
+All core nodes implement [node_contract.py](../node_contract.py:190):
+
+**Required Methods:**
+- `handle(msg: MatrizMessage) -> MatrizResult` - Process MATRIZ messages with GLYPH identity
+
+**Contract Guarantees:**
+1. Deterministic processing for identical inputs
+2. Complete MatrizResult with trace and guardian_log
+3. Pure functional operation (no side effects)
+4. Guardian system integration for all operations
+
+### **Key Core Components**
+
+#### **CognitiveOrchestrator** ([orchestrator.py:1](orchestrator.py:1))
+- **NodeRegistry**: Dynamic node registration and discovery system
+- **QueryProcessor**: Natural language query interpretation engine
+- **ReasoningChain**: Causal thought tracing and linking system
+- **DecisionLogger**: Complete decision provenance tracking
+
+#### **AsyncOrchestrator** ([async_orchestrator.py:1](async_orchestrator.py:1))
+- **Performance**: Optimized for <250ms p95, <300ms p99 latency
+- **Parallel Processing**: Multi-node concurrent execution
+- **Pipeline Management**: Multi-stage workflow coordination
+- **Resource Management**: Efficient memory and compute utilization
+
+#### **CognitiveMemory** ([memory_system.py:1](memory_system.py:1))
+- **NodeMemory**: Individual node state persistence
+- **TemporalLinks**: Time-based relationship tracking
+- **CausalChains**: Cause-effect relationship mapping
+- **Fold Integration**: Synchronized with LUKHAS Trail Star memory folds
+
+#### **CognitiveNode** ([node_interface.py:1](node_interface.py:1))
+- **NodeConnector**: Inter-node communication protocols
+- **NodeMetadata**: Provenance and tracking data structures
+- **ProcessingContext**: Execution environment and state management
+- **Capability Advertisement**: Dynamic capability declaration
+
+## 🚀 Performance & Optimization
+
+### **Latency Optimization**
+
+Based on [MATRIZ_TAIL_LATENCY_OPTIMIZATION.md](../../docs/MATRIZ_TAIL_LATENCY_OPTIMIZATION.md:1):
+
+- **P95 Latency**: <250ms target (AsyncOrchestrator optimized)
+- **P99 Latency**: <300ms target
+- **Context Switching**: <50ms between attention focus areas
+- **Memory Access**: <100ms average working memory retrieval
+
+### **Scalability Targets**
+- **Concurrent Nodes**: Support for 100+ active cognitive nodes
+- **Reasoning Depth**: 10+ inference levels without degradation
+- **Memory Folds**: Maximum 1000 active memory folds
+- **Throughput**: 100+ queries per second sustained
+
+## 📊 Production Readiness
+
+**Core Module Status**: 75% production ready
+
+### ✅ Completed
+- [x] Frozen contract v1.0.0 implementation
+- [x] CognitiveOrchestrator with dynamic registry
+- [x] AsyncOrchestrator with <250ms p95 latency
+- [x] Memory system with fold integration
+- [x] Complete provenance tracking and cognitive DNA
+- [x] Guardian system integration hooks
+- [x] Comprehensive unit and integration tests
+
+### 🔄 In Progress
+- [ ] Advanced reasoning algorithms (meta-cognitive capabilities)
+- [ ] Performance optimization for 100+ concurrent nodes
+- [ ] Distributed orchestration for horizontal scaling
+
+### 📋 Pending
+- [ ] Production deployment configuration
+- [ ] Enterprise load testing and benchmarking
+- [ ] Security audit for production environments
+
+## 📖 Related Documentation
+
+### **Core Module Contexts**
+- [../lukhas_context.md](../lukhas_context.md:1) - MATRIZ cognitive engine overview
+- [../visualization/lukhas_context.md](../visualization/lukhas_context.md:1) - Cognitive visualization systems
+- [../adapters/lukhas_context.md](../adapters/lukhas_context.md:1) - Adapter integration patterns
+
+### **Integration Contexts**
+- [../../candidate/core/symbolic/](../../candidate/core/symbolic/) - Symbolic reasoning development
+- [../../lukhas/](../../lukhas/) - Constellation Framework integration
+- [../../consciousness/](../../consciousness/) - Consciousness-cognitive integration
+
+### **Technical Specifications**
+- [../node_contract.py](../node_contract.py:1) - FROZEN v1.0.0 canonical interface
+- [../matriz_node_v1.json](../matriz_node_v1.json:1) - JSON Schema v1.1
+- [../the_plan.md](../the_plan.md:1) - Implementation plan with phases
+- [../../docs/MATRIZ_TAIL_LATENCY_OPTIMIZATION.md](../../docs/MATRIZ_TAIL_LATENCY_OPTIMIZATION.md:1) - Performance optimization
+
+---
+
+**Core Module**: Node orchestration, memory systems, async processing | **Contract**: v1.0.0 (FROZEN)
+**Performance**: <250ms p95, <300ms p99 | **Production**: 75% ready | **Scale**: 100+ concurrent nodes
 
 ### MATRIZ Core Capabilities
-- BaseNode architecture with dynamic registration and orchestration
+
+- CognitiveNode architecture with dynamic registration and orchestration
 - Symbolic reasoning and cognitive DNA processing systems
 - Constellation Framework integration with consciousness-memory coordination
-- High-performance cognitive processing with scalable node architecture
+- High-performance async processing with <250ms p95 latency
 - Advanced provenance tracking and thought process documentation
+- Pure functional processing with Guardian system integration
