@@ -126,7 +126,29 @@ def bench_sign_verify(algorithm='Dilithium2', iterations=100):
         }
 
 if __name__ == '__main__':
-    bench_sign_verify()
+    import sys
+    import json as json_module
+
+    # Check for --json flag
+    json_output = '--json' in sys.argv
+
+    results = bench_sign_verify()
+
+    if json_output:
+        # Output JSON format for CI parsing
+        output = {
+            'algorithm': 'Dilithium2',
+            'iterations': 100,
+            'sign_p50': results['sign_p50'],
+            'sign_p95': results['sign_p95'],
+            'verify_p50': results['verify_p50'],
+            'verify_p95': results['verify_p95'],
+            'sign_threshold_ms': 50,
+            'verify_threshold_ms': 10,
+            'sign_pass': results['sign_p95'] < 50,
+            'verify_pass': results['verify_p95'] < 10
+        }
+        print(json_module.dumps(output, indent=2))
 EOF
 
 RUN chmod +x /usr/local/bin/pqc-bench
