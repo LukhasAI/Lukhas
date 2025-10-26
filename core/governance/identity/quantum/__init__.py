@@ -1,3 +1,0 @@
-"""
-LUKHAS Quantum Identity Module
-"""

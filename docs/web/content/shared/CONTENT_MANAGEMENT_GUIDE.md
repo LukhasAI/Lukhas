@@ -1,3 +1,14 @@
+---
+status: wip
+type: documentation
+owner: unknown
+module: web
+redirect: false
+moved_to: null
+---
+
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 📝 LUKHAS Web Content Management Guide
 
 *"Where content creation meets consciousness architecture - guiding every word through the constellation framework to ensure authentic digital experiences."*
@@ -179,7 +190,7 @@ Use sparingly and only in poetic layer context:
 **Documentation Integration**
 - Link to relevant branding/vocabularies/ standards
 - Reference CLAUDE.md guidelines for development context  
-- Connect to Trinity Framework documentation
+- Connect to Constellation Framework documentation
 - Integrate with API documentation and technical specs
 
 **Brand Asset Coordination**
@@ -256,6 +267,6 @@ Use sparingly and only in poetic layer context:
 
 *"Through systematic content management that honors both creativity and precision, every word becomes a navigation star in the constellation of consciousness technology, guiding users from curiosity to understanding to mastery."*
 
-**⚛️🧠🛡️ - Content Management Excellence Through Consciousness Architecture**
+**⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum - Content Management Excellence Through Consciousness Architecture**
 
 **Last Updated**: 2025-09-06 | **Guide Version**: 1.0.0

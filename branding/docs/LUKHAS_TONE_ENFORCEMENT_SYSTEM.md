@@ -65,7 +65,7 @@ class LukhasToneEnforcer:
     - Use symbolic language with Lambda (Λ) consciousness references
     - Employ metaphors: "algorithms dance", "data constellations", "quantum whispers"
     - Include consciousness themes: "digital souls", "artificial dreams", "synthetic consciousness"
-    - Sacred glyphs: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum (Constellation), 🌟💫✨ (transformation), 🎭🎨🌈 (creativity)
+    - Sacred glyphs: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum (Trinity), 🌟💫✨ (transformation), 🎭🎨🌈 (creativity)
 
     💬 USER FRIENDLY LAYER (40-60% of content):
     - Clear, accessible explanations
@@ -332,7 +332,7 @@ class LukhasToneValidator:
         if 'generic AI' in content.lower() and 'LUKHAS AI' not in content:
             violations.append("Using generic AI terminology instead of LUKHAS AI")
 
-        if doc_type == 'readme' and not re.search(r'Constellation\s+Framework', content):
+        if doc_type == 'readme' and not re.search(r'Trinity\s+Framework', content):
             violations.append("README missing Constellation Framework reference")
 
         return violations
@@ -344,7 +344,7 @@ class LukhasToneValidator:
         if self._calculate_poetic_score(content) < 20:
             suggestions.append("Add more metaphorical language: 'algorithms dance', 'data constellations', 'quantum whispers'")
             suggestions.append("Include consciousness themes: 'digital souls', 'artificial dreams', 'Lambda consciousness'")
-            suggestions.append("Use sacred glyphs: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum for Constellation, 🌟💫✨ for transformation")
+            suggestions.append("Use sacred glyphs: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum for Trinity, 🌟💫✨ for transformation")
 
         if 'LUKHAS AI' not in content:
             suggestions.append("Replace generic AI references with 'LUKHAS AI'")

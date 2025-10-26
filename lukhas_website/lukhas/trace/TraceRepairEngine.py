@@ -318,11 +318,11 @@ class TraceRepairEngine:
         # 4. Update guardian system settings
 
         if score > self.severe_threshold:
-            improvement_factor = 0.6  # 60% of original (40% improvement)
-        elif score > self.critical_threshold:
             improvement_factor = 0.5  # 50% of original (50% improvement)
+        elif score > self.critical_threshold:
+            improvement_factor = 0.4  # 40% of original (60% improvement)
         else:
-            improvement_factor = 0.3  # 30% of original (70% improvement)
+            improvement_factor = 0.2  # 20% of original (80% improvement)
 
         post_score = score * improvement_factor
 

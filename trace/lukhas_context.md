@@ -23,7 +23,7 @@ The trace module provides drift monitoring and harmonization for LUKHAS AI syste
 - **Drift Tracker**: Real-time drift monitoring (DriftTracker)
 - **Drift Harmonizer**: Automated drift correction (DriftHarmonizer)
 - **Drift Analysis**: Comprehensive drift analysis (DriftAnalysis)
-- **Constellation Compliance**: Framework compliance validation
+- **Trinity Compliance**: Framework compliance validation
 - **Realignment Strategies**: Automated correction approaches
 
 ### Constellation Framework Integration
@@ -121,7 +121,7 @@ strategy: RealignmentStrategy = harmonizer.suggest_realignment(
     analysis=analysis
 )
 
-# Get core triad balance
+# Get Trinity triad balance
 balance = harmonizer.get_triad_balance()
 
 # Get drift summary
@@ -162,7 +162,7 @@ RealignmentStrategy.ADAPTIVE      # Context-aware correction
 ```python
 from trace.drift_harmonizer import validate_triad_compliance
 
-# Validate triad compliance
+# Validate Trinity compliance
 compliance = validate_triad_compliance(
     system_state={
         "consciousness": 0.85,

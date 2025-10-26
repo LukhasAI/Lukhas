@@ -1,3 +1,0 @@
-"""
-LUKHAS Biometric Identity Module
-"""

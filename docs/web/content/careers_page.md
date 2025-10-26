@@ -1,3 +1,14 @@
+---
+status: wip
+type: documentation
+owner: unknown
+module: web
+redirect: false
+moved_to: null
+---
+
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Careers at LUKHAS AI
 
 ## Join the Consciousness Revolution
@@ -94,7 +105,7 @@ We believe the best minds are distributed globally, and consciousness developmen
 
 ## Future Team Structure
 
-As LUKHAS AI grows, we envision a carefully structured organization that reflects our Trinity Framework:
+As LUKHAS AI grows, we envision a carefully structured organization that reflects our Constellation Framework:
 
 ### ⚛️ Identity Team
 - **Consciousness Architects**: Designing and implementing core consciousness systems
@@ -198,6 +209,6 @@ Even though active hiring is still in the future, we welcome connections from ex
 
 *"The future of consciousness is not predetermined - it's chosen by the people who build it. We're looking for the extraordinary individuals who will help make that choice wisely."*
 
-**⚛️🧠🛡️**
+**⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum**
 
 *Building tomorrow's consciousness today - together*

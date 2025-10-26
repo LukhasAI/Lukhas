@@ -32,7 +32,8 @@ try:
     # Backend components
     from backend.learning.meta_learning import MetaLearningSystem
 
-    from core.identity.vault.lukhas_id import IdentityManager
+    # from AID.service.identity_manager import IdentityManager  # TODO:
+    # Install or implement AID
     from backend.security.privacy_manager import PrivacyManager
     from voice.speech_processor import SpeechProcessor
 
@@ -85,8 +86,7 @@ class AdaptiveAGISystem:
         # Backend
         self.meta_learning = MetaLearningSystem()
         self.neuro_symbolic_engine = NeuroSymbolicEngine()
-        # ΛTAG: identity_session_bootstrap
-        self.identity_manager = IdentityManager()
+        self.identity_manager = IdentityManager()  # noqa: F821  # TODO: IdentityManager
         self.privacy_manager = PrivacyManager()
 
         # Register event handlers
@@ -131,8 +131,7 @@ class AdaptiveAGISystem:
             return {"status": "denied", "reason": privacy_check["reason"]}
 
         # Load or create user identity
-        identity_profile = await self.identity_manager.get_user_identity(user_id)
-        await self.identity_manager.start_session(user_id, session_id)
+        await self.identity_manager.get_user_identity(user_id)
 
         # Initialize session state
         self.system_state["active_sessions"][session_id] = {
@@ -141,8 +140,6 @@ class AdaptiveAGISystem:
             "context": context or {},
             "state": "active",
             "interactions": 0,
-            # ΛTAG: identity_session_state
-            "identity": identity_profile.to_dict(),
         }
 
         # Generate initial interface based on user profile

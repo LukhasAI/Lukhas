@@ -33,15 +33,11 @@ from .orchestrator import (  # (relative imports in __init__.py are idiomatic)
     CognitiveOrchestrator,
     ExecutionTrace,
 )
-from .async_orchestrator import AsyncCognitiveOrchestrator  # Export async orchestrator
-from .memory_system import MemorySystem  # Export memory system
 
 __all__ = [
     "CognitiveNode",
     "CognitiveOrchestrator",
     "ExecutionTrace",
-    "AsyncCognitiveOrchestrator",
-    "MemorySystem",
     "NodeLink",
     "NodeProvenance",
     "NodeReflection",

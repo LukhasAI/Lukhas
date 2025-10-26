@@ -65,7 +65,7 @@ except ImportError:
 
 # Security and reflection imports
 
-import streamlit as st
+# import streamlit as st  # TODO: Install or implement streamlit
 
 # Add the current directory to the Python path for imports
 sys.path.insert(0, str(Path(__file__).parent))
@@ -289,7 +289,7 @@ def run_legacy_streamlit_mode():
     This consolidates the original notion_sync.py Streamlit features.
     """
     try:
-        import streamlit as st
+        #         import streamlit as st  # TODO: Install or implement streamlit
 
         # Load configuration
         config_path = Path("config.json")
@@ -421,25 +421,6 @@ def run_legacy_streamlit_mode():
             notion_link = f"https://www.notion.so/{NOTION_PAGE_ID.replace('-', '')}"
             if st.button("🔗 Copy Notion Page Link"):
                 st.code(notion_link)
-
-            # Status Dashboard
-            st.subheader("📊 Sync Status")
-            if 'last_sync_time' not in st.session_state:
-                st.session_state.last_sync_time = "Not yet synced"
-            if 'last_sync_status' not in st.session_state:
-                st.session_state.last_sync_status = "N/A"
-
-            col1, col2 = st.columns(2)
-            with col1:
-                st.metric("Last Sync Time", st.session_state.last_sync_time)
-            with col2:
-                st.metric("Last Sync Status", st.session_state.last_sync_status)
-
-            if st.button("🔄 Refresh Status"):
-                # In a real app, this would query a backend for the status
-                st.session_state.last_sync_time = datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')
-                st.session_state.last_sync_status = "Refreshed"
-                st.rerun()
 
             # GPT Assistant
             if OPENAI_AVAILABLE:
@@ -576,7 +557,7 @@ def run_legacy_streamlit_mode():
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    format="%(asctime)s - %(name)s - %(levelname)s - [LUKHAS%(lambda_id)s] - %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",
 )
 
@@ -585,7 +566,7 @@ logging.basicConfig(
 
 class LambdaLoggerAdapter(logging.LoggerAdapter):
     def process(self, msg, kwargs):
-        return f"[{self.extra['lambda_id']}] {msg}", kwargs
+        return f"[{LAMBDA_ID}] {msg}", kwargs
 
 
 logger = LambdaLoggerAdapter(logging.getLogger(__name__), {"lambda_id": LAMBDA_ID})

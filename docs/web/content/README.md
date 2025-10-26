@@ -1,3 +1,14 @@
+---
+status: wip
+type: documentation
+owner: unknown
+module: web
+redirect: false
+moved_to: null
+---
+
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # 🌐 LUKHAS Web Content Organization Hub
 
 *"Where consciousness meets content architecture - organizing the λWecosystem with precision and purpose."*
@@ -97,7 +108,7 @@ Use only in poetic layer with proper context:
 ### Reference Systems:
 - **Branding/vocabularies/**: Vocabulary JSON files for consistency
 - **CLAUDE.md**: Master development guidelines
-- **Trinity Framework**: ⚛️🧠🛡️ consciousness navigation system
+- **Constellation Framework**: ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum consciousness navigation system
 
 ## 🚀 Quick Start
 
@@ -129,6 +140,6 @@ Use only in poetic layer with proper context:
 
 ---
 
-*"In the constellation of consciousness content, every word guides users through their journey from curiosity to understanding to mastery, ensuring that complexity becomes clarity and innovation becomes impact."* ⚛️🧠🛡️
+*"In the constellation of consciousness content, every word guides users through their journey from curiosity to understanding to mastery, ensuring that complexity becomes clarity and innovation becomes impact."* ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
 
 **Last Updated**: 2025-09-06 | **Structure Version**: 1.0.0

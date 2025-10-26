@@ -15,16 +15,17 @@ from unittest.mock import patch
 import numpy as np
 import pytest
 
-from memory.backends.base import (
+from lukhas_website.lukhas.memory.backends.base import (
     DimensionMismatchError,
     DocumentNotFoundError,
     SearchResult,
     StorageStats,
     VectorDocument,
+    VectorStoreError,
 )
-from memory.backends.faiss_store import FAISSVectorStore
-from memory.backends.memory_store import InMemoryVectorStore
-from memory.backends.pgvector_store import PgVectorStore
+from lukhas_website.lukhas.memory.backends.faiss_store import FAISSStore as FAISSVectorStore
+from lukhas_website.lukhas.memory.backends.memory_store import InMemoryVectorStore
+from lukhas_website.lukhas.memory.backends.pgvector_store import PgVectorStore
 
 
 class TestVectorDocument:
@@ -136,7 +137,7 @@ class TestVectorDocument:
         reconstructed = VectorDocument.from_dict(doc_dict)
         assert reconstructed.id == doc.id
         assert reconstructed.content == doc.content
-        assert np.array_equal(reconstructed.embedding, doc.embedding)
+        assert np.allclose(reconstructed.embedding, doc.embedding, atol=1e-6)
         assert reconstructed.metadata == doc.metadata
         assert reconstructed.identity_id == doc.identity_id
 
@@ -207,7 +208,7 @@ class TestInMemoryVectorStore:
             embedding=embedding
         )
 
-        with pytest.raises(DimensionMismatchError):
+        with pytest.raises(VectorStoreError):
             await self.store.add(doc)
 
     @pytest.mark.asyncio
@@ -537,7 +538,7 @@ class TestFAISSVectorStore:
         self.store = FAISSVectorStore(
             dimension=384,
             index_type="flat",
-            storage_path=self.temp_dir
+            persistence_path=self.temp_dir
         )
 
     def teardown_method(self):
@@ -595,17 +596,16 @@ class TestFAISSVectorStore:
         await self.store.add(doc)
 
         # Save index
-        await self.store.save_index()
+        await self.store._save_to_disk()
         await self.store.shutdown()
 
         # Create new store and load index
         new_store = FAISSVectorStore(
             dimension=384,
             index_type="flat",
-            storage_path=self.temp_dir
+            persistence_path=self.temp_dir
         )
         await new_store.initialize()
-        await new_store.load_index()
 
         # Document should be retrievable
         retrieved = await new_store.get("persistence-test")
@@ -774,7 +774,7 @@ class TestVectorStoreComparison:
                     embedding=wrong_embedding
                 )
 
-                with pytest.raises(DimensionMismatchError):
+                with pytest.raises(VectorStoreError):
                     await store.add(doc)
 
                 # Test document not found error

@@ -41,8 +41,29 @@ for _cand in _CANDIDATES:
 # Add expected symbols as stubs if not found
 # No pre-defined stubs
 
-def __getattr__(name: str):
-    """Lazy attribute access fallback."""
-    if _SRC and hasattr(_SRC, name):
-        return getattr(_SRC, name)
-    raise AttributeError(f"module '{__name__}' has no attribute '{name}'")
+# Add expected symbols as stubs if not found
+if "PolicyEngine" not in globals():
+
+    class PolicyEngine:
+        def __init__(self, constitution_evaluator=None, constitution_rules=None):
+            self.constitution_evaluator = constitution_evaluator
+            self.constitution_rules = constitution_rules
+
+        def evaluate_trigger(self, trigger):
+            if not isinstance(trigger, dict):
+                raise TypeError("trigger must be a mapping")
+
+            if self.constitution_evaluator:
+                if not self.constitution_evaluator(trigger):
+                    return False
+
+            if self.constitution_rules:
+                for rule in self.constitution_rules:
+                    if rule.startswith("require:"):
+                        required_label = rule.split(":")[1]
+                        if required_label not in trigger.get("constitution", []):
+                            return False
+                    elif rule in trigger.get("constitution", []):
+                        return False
+
+            return True

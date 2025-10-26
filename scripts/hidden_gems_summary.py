@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import sys
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
@@ -198,18 +197,11 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     args = parser.parse_args(argv)
 
     manifest_path = _resolve_manifest_path(args.manifest)
-
-    try:
-        # ΛTAG: hidden_gems_cli_validation
-        manifest_payload = load_manifest(manifest_path)
-        gems = extract_hidden_gems(
-            manifest_payload, min_score=args.min_score, complexity=args.complexity
-        )
-        summary = format_summary(gems, top_n=args.top)
-    except ManifestFormatError as exc:
-        print(f"Error: {exc}", file=sys.stderr)
-        return 1
-
+    manifest_payload = load_manifest(manifest_path)
+    gems = extract_hidden_gems(
+        manifest_payload, min_score=args.min_score, complexity=args.complexity
+    )
+    summary = format_summary(gems, top_n=args.top)
     print(summary)
     return 0
 

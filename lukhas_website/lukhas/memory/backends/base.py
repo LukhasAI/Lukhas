@@ -14,7 +14,7 @@ from typing import Any, Dict, List, Optional
 
 import numpy as np
 
-from governance.schema_registry import get_lane_enum
+from lukhas_website.lukhas.governance.schema_registry import get_lane_enum
 
 
 class VectorDimension(Enum):
@@ -430,7 +430,7 @@ class AbstractVectorStore(ABC):
         """
         filters = {"fold_id": fold_id}
         # Default implementation using search - backends can optimize
-        dummy_vector = np.zeros(1536, dtype=np.float32)  # Will be filtered out
+        dummy_vector = np.zeros(self.dimension, dtype=np.float32)  # Will be filtered out
         results = await self.search(dummy_vector, k=limit, filters=filters)
         return [result.document for result in results]
 
@@ -446,7 +446,7 @@ class AbstractVectorStore(ABC):
             List of documents for the identity
         """
         filters = {"identity_id": identity_id}
-        dummy_vector = np.zeros(1536, dtype=np.float32)
+        dummy_vector = np.zeros(self.dimension, dtype=np.float32)
         results = await self.search(dummy_vector, k=limit, filters=filters)
         return [result.document for result in results]
 
@@ -462,7 +462,7 @@ class AbstractVectorStore(ABC):
             List of documents in the lane
         """
         filters = {"lane": lane}
-        dummy_vector = np.zeros(1536, dtype=np.float32)
+        dummy_vector = np.zeros(self.dimension, dtype=np.float32)
         results = await self.search(dummy_vector, k=limit, filters=filters)
         return [result.document for result in results]
 

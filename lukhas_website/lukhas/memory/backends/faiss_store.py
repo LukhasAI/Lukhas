@@ -31,7 +31,11 @@ except ImportError:
 import numpy as np
 
 from core.common.logger import get_logger
-from observability.service_metrics import get_metrics_collector
+from lukhas_website.lukhas.observability.service_metrics import (
+    get_metrics_collector,
+    MetricType,
+    ServiceType,
+)
 
 from .base import (
     AbstractVectorStore,
@@ -112,14 +116,16 @@ class FAISSStore(AbstractVectorStore):
                 self._initialized = True
                 logger.info(
                     "FAISS store initialized",
-                    index_type=self.index_type,
-                    dimension=self.dimension,
-                    use_gpu=self.use_gpu,
-                    documents_loaded=len(self.documents)
+                    extra={
+                        "index_type": self.index_type,
+                        "dimension": self.dimension,
+                        "use_gpu": self.use_gpu,
+                        "documents_loaded": len(self.documents),
+                    },
                 )
 
         except Exception as e:
-            logger.error("Failed to initialize FAISS store", error=str(e))
+            logger.error("Failed to initialize FAISS store", extra={"error": str(e)})
             raise VectorStoreError(f"Failed to initialize: {e}") from e
 
     async def shutdown(self) -> None:
@@ -223,26 +229,31 @@ class FAISSStore(AbstractVectorStore):
                     )
 
             duration_ms = (time.perf_counter() - start_time) * 1000
-            metrics.record_histogram("faiss_add_duration_ms", duration_ms)
-            metrics.increment_counter("faiss_add_total")
+            metrics.record_operation_latency(ServiceType.MEMORY, "add", duration_ms)
 
             logger.debug(
                 "Document added to FAISS",
-                document_id=document.id,
-                index_size=self.index.ntotal,
-                duration_ms=duration_ms
+                extra={
+                    "document_id": document.id,
+                    "index_size": self.index.ntotal,
+                    "duration_ms": duration_ms,
+                },
             )
 
             return True
 
         except Exception as e:
             duration_ms = (time.perf_counter() - start_time) * 1000
-            metrics.increment_counter("faiss_add_errors")
+            metrics.record_operation_latency(
+                ServiceType.MEMORY, "add", duration_ms, success=False
+            )
             logger.error(
                 "Failed to add document to FAISS",
-                document_id=document.id,
-                error=str(e),
-                duration_ms=duration_ms
+                extra={
+                    "document_id": document.id,
+                    "error": str(e),
+                    "duration_ms": duration_ms,
+                },
             )
             raise VectorStoreError(f"Failed to add document: {e}") from e
 
@@ -296,29 +307,41 @@ class FAISSStore(AbstractVectorStore):
             duration_ms = (time.perf_counter() - start_time) * 1000
             success_count = sum(results)
 
-            metrics.record_histogram("faiss_bulk_add_duration_ms", duration_ms)
-            metrics.increment_counter("faiss_bulk_add_total")
-            metrics.record_gauge("faiss_bulk_add_success_count", success_count)
+            metrics.record_operation_latency(
+                ServiceType.MEMORY, "bulk_add", duration_ms
+            )
+            metrics.record_metric(
+                "bulk_add_success_count",
+                success_count,
+                ServiceType.MEMORY,
+                MetricType.GAUGE,
+            )
 
             logger.info(
                 "Bulk add completed",
-                total_documents=len(documents),
-                successful=success_count,
-                failed=len(documents) - success_count,
-                index_size=self.index.ntotal,
-                duration_ms=duration_ms
+                extra={
+                    "total_documents": len(documents),
+                    "successful": success_count,
+                    "failed": len(documents) - success_count,
+                    "index_size": self.index.ntotal,
+                    "duration_ms": duration_ms,
+                },
             )
 
             return results
 
         except Exception as e:
             duration_ms = (time.perf_counter() - start_time) * 1000
-            metrics.increment_counter("faiss_bulk_add_errors")
+            metrics.record_operation_latency(
+                ServiceType.MEMORY, "bulk_add", duration_ms, success=False
+            )
             logger.error(
                 "Failed bulk add operation",
-                document_count=len(documents),
-                error=str(e),
-                duration_ms=duration_ms
+                extra={
+                    "document_count": len(documents),
+                    "error": str(e),
+                    "duration_ms": duration_ms,
+                },
             )
             raise VectorStoreError(f"Failed bulk add: {e}") from e
 
@@ -337,8 +360,7 @@ class FAISSStore(AbstractVectorStore):
                 document.touch()
 
             duration_ms = (time.perf_counter() - start_time) * 1000
-            metrics.record_histogram("faiss_get_duration_ms", duration_ms)
-            metrics.increment_counter("faiss_get_total")
+            metrics.record_operation_latency(ServiceType.MEMORY, "get", duration_ms)
 
             return document
 
@@ -346,12 +368,16 @@ class FAISSStore(AbstractVectorStore):
             raise
         except Exception as e:
             duration_ms = (time.perf_counter() - start_time) * 1000
-            metrics.increment_counter("faiss_get_errors")
+            metrics.record_operation_latency(
+                ServiceType.MEMORY, "get", duration_ms, success=False
+            )
             logger.error(
                 "Failed to get document from FAISS",
-                document_id=document_id,
-                error=str(e),
-                duration_ms=duration_ms
+                extra={
+                    "document_id": document_id,
+                    "error": str(e),
+                    "duration_ms": duration_ms,
+                },
             )
             raise VectorStoreError(f"Failed to get document: {e}") from e
 
@@ -378,25 +404,27 @@ class FAISSStore(AbstractVectorStore):
                 await self._rebuild_index_if_needed()
 
             duration_ms = (time.perf_counter() - start_time) * 1000
-            metrics.record_histogram("faiss_delete_duration_ms", duration_ms)
-            metrics.increment_counter("faiss_delete_total")
+            metrics.record_operation_latency(ServiceType.MEMORY, "delete", duration_ms)
 
             logger.debug(
                 "Document deleted from FAISS",
-                document_id=document_id,
-                duration_ms=duration_ms
+                extra={"document_id": document_id, "duration_ms": duration_ms},
             )
 
             return True
 
         except Exception as e:
             duration_ms = (time.perf_counter() - start_time) * 1000
-            metrics.increment_counter("faiss_delete_errors")
+            metrics.record_operation_latency(
+                ServiceType.MEMORY, "delete", duration_ms, success=False
+            )
             logger.error(
                 "Failed to delete document from FAISS",
-                document_id=document_id,
-                error=str(e),
-                duration_ms=duration_ms
+                extra={
+                    "document_id": document_id,
+                    "error": str(e),
+                    "duration_ms": duration_ms,
+                },
             )
             raise VectorStoreError(f"Failed to delete document: {e}") from e
 
@@ -459,29 +487,39 @@ class FAISSStore(AbstractVectorStore):
                                 break
 
             duration_ms = (time.perf_counter() - start_time) * 1000
-            metrics.record_histogram("faiss_search_duration_ms", duration_ms)
-            metrics.increment_counter("faiss_search_total")
-            metrics.record_gauge("faiss_search_results_count", len(results))
+            metrics.record_operation_latency(ServiceType.MEMORY, "search", duration_ms)
+            metrics.record_metric(
+                "search_results_count",
+                len(results),
+                ServiceType.MEMORY,
+                MetricType.GAUGE,
+            )
 
             logger.debug(
                 "FAISS search completed",
-                k=k,
-                results_count=len(results),
-                duration_ms=duration_ms,
-                filters=filters
+                extra={
+                    "k": k,
+                    "results_count": len(results),
+                    "duration_ms": duration_ms,
+                    "filters": filters,
+                },
             )
 
             return results
 
         except Exception as e:
             duration_ms = (time.perf_counter() - start_time) * 1000
-            metrics.increment_counter("faiss_search_errors")
+            metrics.record_operation_latency(
+                ServiceType.MEMORY, "search", duration_ms, success=False
+            )
             logger.error(
                 "Failed FAISS search",
-                k=k,
-                filters=filters,
-                error=str(e),
-                duration_ms=duration_ms
+                extra={
+                    "k": k,
+                    "filters": filters,
+                    "error": str(e),
+                    "duration_ms": duration_ms,
+                },
             )
             raise VectorStoreError(f"Failed FAISS search: {e}") from e
 
@@ -528,19 +566,24 @@ class FAISSStore(AbstractVectorStore):
             results.sort(key=lambda x: x.score, reverse=True)
 
             duration_ms = (time.perf_counter() - start_time) * 1000
-            metrics.record_histogram("faiss_text_search_duration_ms", duration_ms)
-            metrics.increment_counter("faiss_text_search_total")
+            metrics.record_operation_latency(
+                ServiceType.MEMORY, "search_by_text", duration_ms
+            )
 
             return results
 
         except Exception as e:
             duration_ms = (time.perf_counter() - start_time) * 1000
-            metrics.increment_counter("faiss_text_search_errors")
+            metrics.record_operation_latency(
+                ServiceType.MEMORY, "search_by_text", duration_ms, success=False
+            )
             logger.error(
                 "Failed text search in FAISS",
-                query_text=query_text,
-                error=str(e),
-                duration_ms=duration_ms
+                extra={
+                    "query_text": query_text,
+                    "error": str(e),
+                    "duration_ms": duration_ms,
+                },
             )
             raise VectorStoreError(f"Failed text search: {e}") from e
 
@@ -570,6 +613,28 @@ class FAISSStore(AbstractVectorStore):
 
         return True
 
+    async def list_expired_documents(
+        self,
+        as_of: datetime,
+        batch_size: int = 1000
+    ) -> List[VectorDocument]:
+        """
+        List expired documents for lifecycle processing.
+        Args:
+            as_of: Timestamp to check expiration against
+            batch_size: Maximum number of documents to return
+        Returns:
+            List of expired documents
+        """
+        expired_docs = []
+        with self._lock:
+            for doc in self.documents.values():
+                if doc.expires_at and doc.expires_at < as_of:
+                    expired_docs.append(doc)
+                    if len(expired_docs) >= batch_size:
+                        break
+        return expired_docs
+
     async def cleanup_expired(self) -> int:
         """Remove expired documents"""
         start_time = time.perf_counter()
@@ -595,25 +660,31 @@ class FAISSStore(AbstractVectorStore):
                     await self._rebuild_index_if_needed()
 
             duration_ms = (time.perf_counter() - start_time) * 1000
-            metrics.record_histogram("faiss_cleanup_duration_ms", duration_ms)
-            metrics.increment_counter("faiss_cleanup_total")
-            metrics.record_gauge("faiss_cleanup_deleted_count", deleted_count)
+            metrics.record_operation_latency(
+                ServiceType.MEMORY, "cleanup_expired", duration_ms
+            )
+            metrics.record_metric(
+                "cleanup_deleted_count",
+                deleted_count,
+                ServiceType.MEMORY,
+                MetricType.GAUGE,
+            )
 
             logger.info(
                 "Expired documents cleaned up",
-                deleted_count=deleted_count,
-                duration_ms=duration_ms
+                extra={"deleted_count": deleted_count, "duration_ms": duration_ms},
             )
 
             return deleted_count
 
         except Exception as e:
             duration_ms = (time.perf_counter() - start_time) * 1000
-            metrics.increment_counter("faiss_cleanup_errors")
+            metrics.record_operation_latency(
+                ServiceType.MEMORY, "cleanup_expired", duration_ms, success=False
+            )
             logger.error(
                 "Failed to cleanup expired documents",
-                error=str(e),
-                duration_ms=duration_ms
+                extra={"error": str(e), "duration_ms": duration_ms},
             )
             return 0
 
@@ -640,22 +711,23 @@ class FAISSStore(AbstractVectorStore):
                     )
 
             duration_ms = (time.perf_counter() - start_time) * 1000
-            metrics.record_histogram("faiss_optimize_duration_ms", duration_ms)
-            metrics.increment_counter("faiss_optimize_total")
+            metrics.record_operation_latency(
+                ServiceType.MEMORY, "optimize_index", duration_ms
+            )
 
             logger.info(
                 "FAISS index optimization completed",
-                index_type=self.index_type,
-                duration_ms=duration_ms
+                extra={"index_type": self.index_type, "duration_ms": duration_ms},
             )
 
         except Exception as e:
             duration_ms = (time.perf_counter() - start_time) * 1000
-            metrics.increment_counter("faiss_optimize_errors")
+            metrics.record_operation_latency(
+                ServiceType.MEMORY, "optimize_index", duration_ms, success=False
+            )
             logger.error(
                 "Failed to optimize FAISS index",
-                error=str(e),
-                duration_ms=duration_ms
+                extra={"error": str(e), "duration_ms": duration_ms},
             )
             raise VectorStoreError(f"Failed to optimize index: {e}") from e
 
@@ -716,13 +788,15 @@ class FAISSStore(AbstractVectorStore):
 
             logger.info(
                 "FAISS index rebuilt",
-                document_count=len(vectors),
-                duration_ms=duration_ms,
-                build_count=self._build_count
+                extra={
+                    "document_count": len(vectors),
+                    "duration_ms": duration_ms,
+                    "build_count": self._build_count,
+                },
             )
 
         except Exception as e:
-            logger.error("Failed to rebuild FAISS index", error=str(e))
+            logger.error("Failed to rebuild FAISS index", extra={"error": str(e)})
             raise VectorStoreError(f"Failed to rebuild index: {e}") from e
 
     async def _save_to_disk(self) -> None:
@@ -764,12 +838,16 @@ class FAISSStore(AbstractVectorStore):
 
             logger.info(
                 "FAISS data saved to disk",
-                index_path=str(index_path),
-                document_count=len(self.documents)
+                extra={
+                    "index_path": str(index_path),
+                    "document_count": len(self.documents),
+                },
             )
 
         except Exception as e:
-            logger.error("Failed to save FAISS data to disk", error=str(e))
+            logger.error(
+                "Failed to save FAISS data to disk", extra={"error": str(e)}
+            )
 
     async def _load_from_disk(self) -> None:
         """Load FAISS index and metadata from disk"""
@@ -807,12 +885,14 @@ class FAISSStore(AbstractVectorStore):
 
             logger.info(
                 "FAISS data loaded from disk",
-                document_count=len(self.documents),
-                index_size=self.index.ntotal if self.index else 0
+                extra={
+                    "document_count": len(self.documents),
+                    "index_size": self.index.ntotal if self.index else 0,
+                },
             )
 
         except Exception as e:
-            logger.error("Failed to load FAISS data from disk", error=str(e))
+            logger.error("Failed to load FAISS data from disk", extra={"error": str(e)})
 
     async def get_stats(self) -> StorageStats:
         """Get comprehensive storage statistics"""
@@ -863,7 +943,7 @@ class FAISSStore(AbstractVectorStore):
                 )
 
         except Exception as e:
-            logger.error("Failed to get FAISS stats", error=str(e))
+            logger.error("Failed to get FAISS stats", extra={"error": str(e)})
             return StorageStats(
                 total_documents=0, total_size_bytes=0, active_documents=0, expired_documents=0,
                 avg_search_latency_ms=0.0, avg_upsert_latency_ms=0.0,

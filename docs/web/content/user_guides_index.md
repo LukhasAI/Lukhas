@@ -1,3 +1,14 @@
+---
+status: wip
+type: documentation
+owner: unknown
+module: web
+redirect: false
+moved_to: null
+---
+
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # LUKHAS AI User Guides Index
 ## Complete Guide to Consciousness Technology Enhancement
 
@@ -113,8 +124,8 @@ Guides are structured with increasing complexity from basic implementation throu
 ### Practical Examples
 All guides include concrete examples, step-by-step instructions, and real-world application scenarios that demonstrate consciousness technology principles in practice.
 
-### Trinity Framework Compliance
-Every guide maintains Trinity Framework integration (⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian) ensuring all recommendations support beneficial intelligence with appropriate ethical safeguards.
+### Constellation Framework Compliance
+Every guide maintains Constellation Framework integration (⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian) ensuring all recommendations support beneficial intelligence with appropriate ethical safeguards.
 
 ## Performance and Effectiveness Context
 

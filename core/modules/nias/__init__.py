@@ -19,8 +19,6 @@ from core.interfaces.as_agent.sys.nias.narration_controller import (
     load_user_settings,
 )
 
-from typing import Protocol
-
 # Re-export for backward compatibility
 __all__ = [
     "ConsentFilter",
@@ -37,46 +35,15 @@ __all__ = [
 logger = logging.getLogger(__name__)
 
 
-# --- Voice Narration System Stub ---
-
-class VoiceNarrator(Protocol):
-    """Interface for a voice narration system"""
-    def narrate(self, text: str, metadata: dict[str, Any]) -> None:
-        ...
-
-class StubVoiceNarrator:
-    """Stub implementation of the voice narrator"""
-    def __init__(self, config: dict[str, Any]):
-        self.config = config
-        logger.info(f"StubVoiceNarrator initialized with config: {config}")
-
-    def narrate(self, text: str, metadata: dict[str, Any]) -> None:
-        """Narrates the given text, logging to console"""
-        dream_id = metadata.get("dream_id", "unknown")
-        logger.info(f"🎙 Narrating dream: {dream_id}")
-        print(f"[NIAS Narration] {text}")
-
-# Configuration for future TTS integration
-TTS_CONFIG = {
-    "engine": "elevenlabs",
-    "voice_id": "JULES-AI-NARRATOR",
-    "api_key": "env_var:TTS_API_KEY",
-}
-
-# Instantiate the narrator
-voice_narrator: VoiceNarrator = StubVoiceNarrator(TTS_CONFIG)
-
-
 def narrate_dreams(dreams: list[dict[str, Any]]) -> None:
     """
     Narrate dreams using the NIAS voice system.
     This is a compatibility wrapper for the dream voice pipeline.
     """
     for dream in dreams:
-        voice_narrator.narrate(
-            text=dream.get('content', 'Empty dream'),
-            metadata={"dream_id": dream.get("id", "unknown")}
-        )
+        logger.info(f"🎙 Narrating dream: {dream.get('id', 'unknown')}")
+        # TODO: Integrate with actual voice narration system
+        print(f"[NIAS Narration] {dream.get('content', 'Empty dream')}")
 
 
 class NIASCore:

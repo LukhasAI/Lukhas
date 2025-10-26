@@ -25,7 +25,7 @@ os.environ['LUKHAS_EXPERIMENTAL'] = '1'
 os.environ['LUKHAS_LANE'] = 'labs'
 os.environ['ENABLE_LLM_GUARDRAIL'] = '1'
 
-from trace.TraceRepairEngine import RepairMethod, TraceRepairEngine
+from lukhas_website.lukhas.trace.TraceRepairEngine import RepairMethod, TraceRepairEngine
 from monitoring.drift_manager import DriftManager
 
 

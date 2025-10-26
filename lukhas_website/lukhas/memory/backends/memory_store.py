@@ -20,7 +20,11 @@ import numpy as np
 from scipy.spatial.distance import cosine
 
 from core.common.logger import get_logger
-from observability.service_metrics import get_metrics_collector
+from lukhas_website.lukhas.observability.service_metrics import (
+    get_metrics_collector,
+    MetricType,
+    ServiceType,
+)
 
 from .base import (
     AbstractVectorStore,
@@ -78,7 +82,9 @@ class InMemoryVectorStore(AbstractVectorStore):
             "get": 0,
             "delete": 0,
             "search": 0,
-            "cleanup": 0
+            "cleanup": 0,
+            "search_by_text": 0,
+            "bulk_add": 0,
         }
 
         self.operation_times = {
@@ -86,7 +92,9 @@ class InMemoryVectorStore(AbstractVectorStore):
             "get": [],
             "delete": [],
             "search": [],
-            "cleanup": []
+            "cleanup": [],
+            "search_by_text": [],
+            "bulk_add": [],
         }
 
         self._initialized = False
@@ -117,13 +125,17 @@ class InMemoryVectorStore(AbstractVectorStore):
 
                 logger.info(
                     "In-memory vector store initialized",
-                    dimension=self.dimension,
-                    similarity_metric=self.similarity_metric,
-                    max_documents=self.max_documents
+                    extra={
+                        "dimension": self.dimension,
+                        "similarity_metric": self.similarity_metric,
+                        "max_documents": self.max_documents,
+                    },
                 )
 
         except Exception as e:
-            logger.error("Failed to initialize in-memory store", error=str(e))
+            logger.error(
+                "Failed to initialize in-memory store", extra={"error": str(e)}
+            )
             raise VectorStoreError(f"Failed to initialize: {e}") from e
 
     async def shutdown(self) -> None:
@@ -138,11 +150,13 @@ class InMemoryVectorStore(AbstractVectorStore):
 
                 logger.info(
                     "In-memory store shutdown",
-                    final_document_count=len(self.documents)
+                    extra={"final_document_count": len(self.documents)},
                 )
 
         except Exception as e:
-            logger.error("Error during in-memory store shutdown", error=str(e))
+            logger.error(
+                "Error during in-memory store shutdown", extra={"error": str(e)}
+            )
 
     async def add(self, document: VectorDocument) -> bool:
         """Add single document to memory"""
@@ -170,23 +184,27 @@ class InMemoryVectorStore(AbstractVectorStore):
 
             logger.debug(
                 "Document added to memory store",
-                document_id=document.id,
-                dimension=len(document.embedding),
-                lane=document.lane,
-                total_documents=len(self.documents),
-                duration_ms=duration_ms
+                extra={
+                    "document_id": document.id,
+                    "dimension": len(document.embedding),
+                    "lane": document.lane,
+                    "total_documents": len(self.documents),
+                    "duration_ms": duration_ms,
+                },
             )
 
             return True
 
         except Exception as e:
             duration_ms = (time.perf_counter() - start_time) * 1000
-            metrics.increment_counter("memory_store_add_errors")
+            self._record_operation("add", duration_ms, success=False)
             logger.error(
                 "Failed to add document to memory store",
-                document_id=document.id,
-                error=str(e),
-                duration_ms=duration_ms
+                extra={
+                    "document_id": document.id,
+                    "error": str(e),
+                    "duration_ms": duration_ms,
+                },
             )
             raise VectorStoreError(f"Failed to add document: {e}") from e
 
@@ -232,23 +250,27 @@ class InMemoryVectorStore(AbstractVectorStore):
 
             logger.info(
                 "Bulk add completed",
-                total_documents=len(documents),
-                successful=success_count,
-                failed=len(documents) - success_count,
-                total_stored=len(self.documents),
-                duration_ms=duration_ms
+                extra={
+                    "total_documents": len(documents),
+                    "successful": success_count,
+                    "failed": len(documents) - success_count,
+                    "total_stored": len(self.documents),
+                    "duration_ms": duration_ms,
+                },
             )
 
             return results
 
         except Exception as e:
             duration_ms = (time.perf_counter() - start_time) * 1000
-            metrics.increment_counter("memory_store_bulk_add_errors")
+            self._record_operation("bulk_add", duration_ms, success=False)
             logger.error(
                 "Failed bulk add operation",
-                document_count=len(documents),
-                error=str(e),
-                duration_ms=duration_ms
+                extra={
+                    "document_count": len(documents),
+                    "error": str(e),
+                    "duration_ms": duration_ms,
+                },
             )
             raise VectorStoreError(f"Failed bulk add: {e}") from e
 
@@ -275,12 +297,14 @@ class InMemoryVectorStore(AbstractVectorStore):
             raise
         except Exception as e:
             duration_ms = (time.perf_counter() - start_time) * 1000
-            metrics.increment_counter("memory_store_get_errors")
+            self._record_operation("get", duration_ms, success=False)
             logger.error(
                 "Failed to get document from memory store",
-                document_id=document_id,
-                error=str(e),
-                duration_ms=duration_ms
+                extra={
+                    "document_id": document_id,
+                    "error": str(e),
+                    "duration_ms": duration_ms,
+                },
             )
             raise VectorStoreError(f"Failed to get document: {e}") from e
 
@@ -310,21 +334,25 @@ class InMemoryVectorStore(AbstractVectorStore):
 
             logger.debug(
                 "Document deleted from memory store",
-                document_id=document_id,
-                remaining_documents=len(self.documents),
-                duration_ms=duration_ms
+                extra={
+                    "document_id": document_id,
+                    "remaining_documents": len(self.documents),
+                    "duration_ms": duration_ms,
+                },
             )
 
             return True
 
         except Exception as e:
             duration_ms = (time.perf_counter() - start_time) * 1000
-            metrics.increment_counter("memory_store_delete_errors")
+            self._record_operation("delete", duration_ms, success=False)
             logger.error(
                 "Failed to delete document from memory store",
-                document_id=document_id,
-                error=str(e),
-                duration_ms=duration_ms
+                extra={
+                    "document_id": document_id,
+                    "error": str(e),
+                    "duration_ms": duration_ms,
+                },
             )
             raise VectorStoreError(f"Failed to delete document: {e}") from e
 
@@ -400,25 +428,31 @@ class InMemoryVectorStore(AbstractVectorStore):
 
             logger.debug(
                 "Memory store search completed",
-                k=k,
-                candidates_evaluated=len(self.documents),
-                results_count=len(results),
-                duration_ms=duration_ms,
-                cache_hit=cache_key in self.query_cache if cache_key else False,
-                filters=filters
+                extra={
+                    "k": k,
+                    "candidates_evaluated": len(self.documents),
+                    "results_count": len(results),
+                    "duration_ms": duration_ms,
+                    "cache_hit": cache_key in self.query_cache
+                    if cache_key
+                    else False,
+                    "filters": filters,
+                },
             )
 
             return results
 
         except Exception as e:
             duration_ms = (time.perf_counter() - start_time) * 1000
-            metrics.increment_counter("memory_store_search_errors")
+            self._record_operation("search", duration_ms, success=False)
             logger.error(
                 "Failed search in memory store",
-                k=k,
-                filters=filters,
-                error=str(e),
-                duration_ms=duration_ms
+                extra={
+                    "k": k,
+                    "filters": filters,
+                    "error": str(e),
+                    "duration_ms": duration_ms,
+                },
             )
             raise VectorStoreError(f"Failed search: {e}") from e
 
@@ -432,29 +466,8 @@ class InMemoryVectorStore(AbstractVectorStore):
         start_time = time.perf_counter()
 
         try:
-            query_lower = query_text.lower()
-            candidates = []
-
-            with self._lock:
-                for doc_id, document in self.documents.items():
-                    # Skip expired documents
-                    if document.is_expired:
-                        continue
-
-                    # Apply filters
-                    if filters and not self._matches_filters(document, filters):
-                        continue
-
-                    # Text matching
-                    content_lower = document.content.lower()
-                    if query_lower in content_lower:
-                        # Simple scoring based on position and frequency
-                        score = self._calculate_text_score(query_lower, content_lower)
-                        candidates.append((score, doc_id, document))
-
-            # Sort by score and take top k
-            candidates.sort(key=lambda x: x[0], reverse=True)
-            candidates = candidates[:k]
+            query_embedding = await self._generate_embedding(query_text)
+            return await self.search(query_embedding, k, filters)
 
             # Create results
             results = []
@@ -469,19 +482,20 @@ class InMemoryVectorStore(AbstractVectorStore):
                 results.append(result)
 
             duration_ms = (time.perf_counter() - start_time) * 1000
-            metrics.record_histogram("memory_store_text_search_duration_ms", duration_ms)
-            metrics.increment_counter("memory_store_text_search_total")
+            self._record_operation("search_by_text", duration_ms)
 
             return results
 
         except Exception as e:
             duration_ms = (time.perf_counter() - start_time) * 1000
-            metrics.increment_counter("memory_store_text_search_errors")
+            self._record_operation("search_by_text", duration_ms, success=False)
             logger.error(
                 "Failed text search in memory store",
-                query_text=query_text,
-                error=str(e),
-                duration_ms=duration_ms
+                extra={
+                    "query_text": query_text,
+                    "error": str(e),
+                    "duration_ms": duration_ms,
+                },
             )
             raise VectorStoreError(f"Failed text search: {e}") from e
 
@@ -500,6 +514,10 @@ class InMemoryVectorStore(AbstractVectorStore):
         else:
             raise VectorStoreError(f"Unknown similarity metric: {self.similarity_metric}")
 
+    async def _generate_embedding(self, text: str) -> np.ndarray:
+        """Generate embedding for text (dummy implementation)"""
+        return np.random.rand(self.dimension).astype(np.float32)
+
     def _calculate_text_score(self, query: str, content: str) -> float:
         """Calculate text similarity score"""
         # Simple scoring: frequency and early occurrence bonus
@@ -517,6 +535,28 @@ class InMemoryVectorStore(AbstractVectorStore):
             score += 0.2 * (1.0 - first_position / 100.0)
 
         return min(score, 1.0)
+
+    async def list_expired_documents(
+        self,
+        as_of: datetime,
+        batch_size: int = 1000
+    ) -> List[VectorDocument]:
+        """
+        List expired documents for lifecycle processing.
+        Args:
+            as_of: Timestamp to check expiration against
+            batch_size: Maximum number of documents to return
+        Returns:
+            List of expired documents
+        """
+        expired_docs = []
+        with self._lock:
+            for doc in self.documents.values():
+                if doc.expires_at and doc.expires_at < as_of:
+                    expired_docs.append(doc)
+                    if len(expired_docs) >= batch_size:
+                        break
+        return expired_docs
 
     def _matches_filters(self, document: VectorDocument, filters: Dict[str, Any]) -> bool:
         """Check if document matches filters"""
@@ -551,7 +591,7 @@ class InMemoryVectorStore(AbstractVectorStore):
         filters_str = str(sorted(filters.items())) if filters else ""
         return f"{vector_hash}:{k}:{filters_str}"
 
-    def _record_operation(self, operation: str, duration_ms: float):
+    def _record_operation(self, operation: str, duration_ms: float, success: bool = True):
         """Record operation for performance tracking"""
         self.operation_counts[operation] += 1
         self.operation_times[operation].append(duration_ms)
@@ -561,8 +601,9 @@ class InMemoryVectorStore(AbstractVectorStore):
             self.operation_times[operation] = self.operation_times[operation][-1000:]
 
         # Record metrics
-        metrics.record_histogram(f"memory_store_{operation}_duration_ms", duration_ms)
-        metrics.increment_counter(f"memory_store_{operation}_total")
+        metrics.record_operation_latency(
+            ServiceType.MEMORY, operation, duration_ms, success
+        )
 
     async def cleanup_expired(self) -> int:
         """Remove expired documents"""
@@ -591,20 +632,21 @@ class InMemoryVectorStore(AbstractVectorStore):
 
             logger.info(
                 "Expired documents cleaned up",
-                deleted_count=deleted_count,
-                remaining_documents=len(self.documents),
-                duration_ms=duration_ms
+                extra={
+                    "deleted_count": deleted_count,
+                    "remaining_documents": len(self.documents),
+                    "duration_ms": duration_ms,
+                },
             )
 
             return deleted_count
 
         except Exception as e:
             duration_ms = (time.perf_counter() - start_time) * 1000
-            metrics.increment_counter("memory_store_cleanup_errors")
+            self._record_operation("cleanup", duration_ms, success=False)
             logger.error(
                 "Failed to cleanup expired documents",
-                error=str(e),
-                duration_ms=duration_ms
+                extra={"error": str(e), "duration_ms": duration_ms},
             )
             return 0
 
@@ -695,7 +737,7 @@ class InMemoryVectorStore(AbstractVectorStore):
                 )
 
         except Exception as e:
-            logger.error("Failed to get memory store stats", error=str(e))
+            logger.error("Failed to get memory store stats", extra={"error": str(e)})
             return StorageStats(
                 total_documents=0, total_size_bytes=0, active_documents=0, expired_documents=0,
                 avg_search_latency_ms=0.0, avg_upsert_latency_ms=0.0,

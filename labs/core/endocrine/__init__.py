@@ -1,7 +1,10 @@
-"""Compatibility layer for the LUKHAS endocrine system in labs lane."""
-from __future__ import annotations
+"""
+LUKHAS Endocrine System
+Simulates hormonal signaling for system-wide behavioral modulation
+"""
+import streamlit as st
 
-from core.endocrine.hormone_system import (
+from .hormone_system import (
     EndocrineSystem,
     HormoneInteraction,
     HormoneLevel,
@@ -23,6 +26,5 @@ __all__ = [
     "trigger_stress",
 ]
 
-# ΛTAG: endocrine-compat
-# Initialize the shared endocrine system instance to mirror core behaviour.
+# Initialize the global endocrine system on import
 _system = get_endocrine_system()

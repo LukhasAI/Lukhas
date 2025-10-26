@@ -1,3 +1,0 @@
-"""
-LUKHAS Memory Module
-"""

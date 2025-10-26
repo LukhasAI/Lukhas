@@ -41,11 +41,6 @@ try:
 except ImportError:
     integrated_safety_system = None
 
-try:
-    from matriz.consciousness.reflection import MetaLearningEnhancement
-except ImportError:
-    MetaLearningEnhancement = None
-
 __all__ = [
     "dreamseed_unified",
     "id_reasoning_engine",
@@ -55,5 +50,4 @@ __all__ = [
     "swarm",
     "symbolic_drift_analyzer",
     "integrated_safety_system",
-    "MetaLearningEnhancement",
 ]

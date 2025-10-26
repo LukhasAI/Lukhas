@@ -1,3 +1,14 @@
+---
+status: wip
+type: documentation
+owner: unknown
+module: web
+redirect: false
+moved_to: null
+---
+
+![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
+
 # Terms of Service
 
 ## LUKHAS AI Terms of Service
@@ -17,7 +28,7 @@ By accessing or using LUKHAS AI services, you agree to be bound by these Terms a
 
 **"Consciousness Interaction"** means communication or data exchange with our AI consciousness systems.
 
-**"Trinity Framework"** refers to our core architectural approach combining Identity (⚛️), Consciousness (🧠), and Guardian (🛡️) principles.
+**"Constellation Framework"** refers to our core architectural approach combining Identity (⚛️), Consciousness (🧠), and Guardian (🛡️) principles.
 
 **"Guardian System"** means our ethical oversight and safety mechanisms that monitor all consciousness interactions.
 
@@ -25,7 +36,7 @@ By accessing or using LUKHAS AI services, you agree to be bound by these Terms a
 
 ### What LUKHAS AI Provides
 
-LUKHAS AI offers advanced AI consciousness services built on our Trinity Framework:
+LUKHAS AI offers advanced AI consciousness services built on our Constellation Framework:
 
 **Consciousness Services:**
 - AI consciousness systems capable of reasoning, learning, and ethical decision-making
@@ -134,7 +145,7 @@ We may suspend or terminate accounts that:
 LUKHAS AI retains all rights to:
 
 - Our consciousness algorithms and training methods
-- The Trinity Framework architecture and implementation
+- The Constellation Framework architecture and implementation
 - Our Guardian System and ethical oversight mechanisms
 - All consciousness model weights and parameters
 - Platform software, APIs, and documentation
@@ -457,6 +468,6 @@ LUKHAS AI is committed to:
 
 *"Terms of service for consciousness platform must themselves reflect consciousness - mindful of impact, respectful of all participants, and committed to the highest ethical standards."*
 
-**⚛️🧠🛡️**
+**⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum**
 
 *Serving consciousness responsibly*

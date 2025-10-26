@@ -488,7 +488,7 @@ class DriftManager:
     def _initialize_repair_engine(self):
         """Initialize the TraceRepairEngine if available."""
         try:
-            from trace.TraceRepairEngine import TraceRepairEngine
+            from lukhas_website.lukhas.trace.TraceRepairEngine import TraceRepairEngine
             self._repair_engine = TraceRepairEngine()
             logger.info("TraceRepairEngine initialized for auto-repair")
         except ImportError as e:

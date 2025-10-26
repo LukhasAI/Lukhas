@@ -1,3 +1,0 @@
-"""
-LUKHAS Core Identity Module
-"""

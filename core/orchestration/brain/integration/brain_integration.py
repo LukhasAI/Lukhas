@@ -18,13 +18,8 @@ import os
 import threading
 import time
 import uuid
-from collections import deque
 from datetime import datetime, timezone
-from typing import Any, Callable, Optional
-
-# ΛTAG: consciousness_legacy_imports
-from core.consciousness.drift_detector import ConsciousnessDriftDetector
-from core.symbolic.glyph_specialist import GlyphConsensusResult, GlyphSpecialist
+from typing import Any, Optional
 
 # Configure logging
 logger = logging.getLogger("Enhanced.BrainIntegration")
@@ -36,7 +31,7 @@ logger.setLevel(logging.INFO)
 
 # Import MultiBrainSymphony components with fallback paths
 try:
-    from core.orchestration.brain.integration.MultiBrainSymphony import (
+    from .MultiBrainSymphony import (  # noqa: TID252 TODO: convert to absolute import
         DreamBrainSpecialist,
         LearningBrainSpecialist,
         MemoryBrainSpecialist,
@@ -60,7 +55,7 @@ except ImportError:
 
 # Import core components with fallbacks
 try:
-    from core.orchestration.brain.spine.fold_engine import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination
+    from orchestration.brain.spine.fold_engine import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for multi-AI agent coordination
         AGIMemory,
         MemoryFold,
         MemoryPriority,
@@ -90,130 +85,6 @@ try:
     )
 except ImportError:
     DreamReflectionLoop = None
-
-
-class ConsciousnessLegacyConsensus:
-    """Legacy consciousness consensus orchestrated through GLYPH specialist."""
-
-    def __init__(
-        self,
-        glyph_specialist: GlyphSpecialist,
-        drift_detector: ConsciousnessDriftDetector,
-        telemetry_logger: logging.Logger,
-        drift_threshold: float = 0.3,
-    ) -> None:
-        self._glyph_specialist = glyph_specialist
-        self._drift_detector = drift_detector
-        self._telemetry_logger = telemetry_logger
-        self._drift_threshold = drift_threshold
-        self._last_result: Optional[dict[str, Any]] = None
-
-    def ingest_layer_snapshot(
-        self,
-        layer_id: str,
-        driftScore: float,
-        affect_delta: float,
-        glyph_markers: Optional[list[str]] = None,
-        metadata: Optional[dict[str, Any]] = None,
-    ) -> dict[str, Any]:
-        """Record a snapshot and evaluate consensus."""
-
-        snapshot = self._drift_detector.record_snapshot(
-            layer_id=layer_id,
-            driftScore=driftScore,
-            affect_delta=affect_delta,
-            glyph_markers=glyph_markers or [],
-            metadata=metadata,
-        )
-        signals = self._drift_detector.build_glyph_signals()
-        if not signals:
-            self._last_result = self._build_result(None, signals_count=0)
-            return self._last_result
-
-        consensus_result = self._glyph_specialist.evaluate(signals)
-        result = self._build_result(consensus_result, signals_count=len(signals))
-
-        if not consensus_result.consensus or consensus_result.driftScore > self._drift_threshold:
-            self._emit_alert(result, snapshot)
-        else:
-            self._telemetry_logger.info(
-                "# ΛTAG: consciousness_legacy -- consensus stable",
-                extra={
-                    "layer_id": layer_id,
-                    "driftScore": result["driftScore"],
-                    "affect_delta": result["affect_delta"],
-                    "agreement_ratio": result["agreement_ratio"],
-                },
-            )
-
-        self._last_result = result
-        return result
-
-    def evaluate(self) -> dict[str, Any]:
-        """Evaluate consensus using existing signals."""
-        signals = self._drift_detector.build_glyph_signals()
-        if not signals:
-            self._last_result = self._build_result(None, signals_count=0)
-            return self._last_result
-
-        consensus_result = self._glyph_specialist.evaluate(signals)
-        result = self._build_result(consensus_result, signals_count=len(signals))
-        if not consensus_result.consensus or consensus_result.driftScore > self._drift_threshold:
-            self._emit_alert(result, None)
-        self._last_result = result
-        return result
-
-    def latest_result(self) -> Optional[dict[str, Any]]:
-        """Return the most recent consensus payload."""
-        return self._last_result
-
-    def update_threshold(self, drift_threshold: float) -> None:
-        """Update both local and GLYPH drift thresholds."""
-        self._drift_threshold = drift_threshold
-        self._glyph_specialist.update_threshold(drift_threshold)
-
-    def _build_result(
-        self,
-        consensus_result: Optional[GlyphConsensusResult],
-        *,
-        signals_count: int,
-    ) -> dict[str, Any]:
-        if consensus_result is None:
-            return {
-                "status": "no_data",
-                "driftScore": 0.0,
-                "affect_delta": 0.0,
-                "agreement_ratio": 0.0,
-                "dissenting_layers": [],
-                "glyph_signature": [],
-                "signals_count": signals_count,
-                "drift_threshold": self._drift_threshold,
-                "timestamp": datetime.now(timezone.utc).isoformat(),
-            }
-
-        status = "aligned" if consensus_result.consensus else "drift_alert"
-        return {
-            "status": status,
-            "driftScore": consensus_result.driftScore,
-            "affect_delta": consensus_result.affect_delta,
-            "agreement_ratio": consensus_result.agreement_ratio,
-            "dissenting_layers": consensus_result.dissenting_layers,
-            "glyph_signature": consensus_result.glyph_signature,
-            "signals_count": signals_count,
-            "drift_threshold": self._drift_threshold,
-            "timestamp": consensus_result.evaluated_at.isoformat(),
-        }
-
-    def _emit_alert(self, result: dict[str, Any], snapshot: Optional[Any]) -> None:
-        """Emit telemetry alert for drift events."""
-        alert_payload = result.copy()
-        if snapshot is not None:
-            alert_payload["layer_id"] = snapshot.layer_id
-            alert_payload["affect_snapshot"] = snapshot.affect_delta
-        self._telemetry_logger.warning(
-            "# ΛTAG: consciousness_legacy_alert -- drift threshold exceeded",
-            extra=alert_payload,
-        )
 
 
 class EnhancedEmotionalProcessor:
@@ -490,380 +361,6 @@ class EnhancedMemorySystem:
 
         return associations
 
-
-class MultiBrain:
-    """MultiBrain specialist orchestrator for distributed cognitive processing."""
-
-    SUPPORTED_SPECIALIST_TYPES = {"symbolic", "neural", "quantum", "bio", "general"}
-    _TELEMETRY_WINDOW = 25
-
-    def __init__(self, *, loop: Optional[asyncio.AbstractEventLoop] = None):
-        self.loop = loop
-        self.specialists: dict[str, list[dict[str, Any]]] = {}
-        self.telemetry: dict[str, dict[str, Any]] = {}
-        self.routing_history: deque[dict[str, Any]] = deque(maxlen=128)
-        self._lock = threading.RLock()
-
-    # ΛTAG: multi_brain_registry
-    def register_specialist(
-        self,
-        specialist_type: str,
-        specialist: Any,
-        *,
-        capabilities: Optional[set[str]] = None,
-        max_parallel_tasks: int = 1,
-        metadata: Optional[dict[str, Any]] = None,
-    ) -> str:
-        """Register a specialist instance for coordinated routing."""
-
-        normalized_type = (specialist_type or "general").lower()
-        if normalized_type not in self.SUPPORTED_SPECIALIST_TYPES:
-            logger.warning("Unknown specialist type '%s', defaulting to general", normalized_type)
-            normalized_type = "general"
-
-        specialist_id = f"{normalized_type}-{uuid.uuid4().hex}"
-        entry = {
-            "id": specialist_id,
-            "instance": specialist,
-            "capabilities": set(capabilities or set()),
-            "max_parallel_tasks": max(1, int(max_parallel_tasks or 1)),
-            "current_load": 0,
-            "metadata": metadata or {},
-            "registered_at": datetime.now(timezone.utc).isoformat(),
-        }
-
-        telemetry_snapshot = {
-            "latency_ms": deque(maxlen=self._TELEMETRY_WINDOW),
-            "throughput": deque(maxlen=self._TELEMETRY_WINDOW),
-            "accuracy": deque(maxlen=self._TELEMETRY_WINDOW),
-            "driftScore": 0.0,  # ΛTAG: driftScore
-            "affect_delta": 0.0,  # ΛTAG: affect_delta
-            "collapseHash": None,
-            "last_update": datetime.now(timezone.utc).isoformat(),
-        }
-
-        with self._lock:
-            self.specialists.setdefault(normalized_type, []).append(entry)
-            self.telemetry[specialist_id] = telemetry_snapshot
-
-        logger.info("Registered MultiBrain specialist %s (%s)", specialist_id, normalized_type)
-        return specialist_id
-
-    def update_specialist_metrics(
-        self,
-        specialist_id: str,
-        *,
-        latency_ms: Optional[float] = None,
-        throughput: Optional[float] = None,
-        accuracy: Optional[float] = None,
-        drift_score: Optional[float] = None,
-        affect_delta: Optional[float] = None,
-        collapse_hash: Optional[str] = None,
-    ) -> None:
-        """Update telemetry for a specialist."""
-
-        with self._lock:
-            telemetry = self.telemetry.get(specialist_id)
-            if telemetry is None:
-                raise KeyError(f"Specialist '{specialist_id}' not found")
-
-            if latency_ms is not None:
-                telemetry["latency_ms"].append(float(latency_ms))
-            if throughput is not None:
-                telemetry["throughput"].append(float(throughput))
-            if accuracy is not None:
-                telemetry["accuracy"].append(float(accuracy))
-            if drift_score is not None:
-                telemetry["driftScore"] = float(drift_score)
-            if affect_delta is not None:
-                telemetry["affect_delta"] = float(affect_delta)
-            if collapse_hash is not None:
-                telemetry["collapseHash"] = collapse_hash
-            telemetry["last_update"] = datetime.now(timezone.utc).isoformat()
-
-    def broadcast_message(
-        self,
-        message: dict[str, Any],
-        *,
-        origin: Optional[str] = None,
-        include_types: Optional[set[str]] = None,
-    ) -> list[dict[str, Any]]:
-        """Broadcast a message to matching specialists."""
-
-        responses: list[dict[str, Any]] = []
-        target_types = include_types or set(self.specialists.keys())
-
-        with self._lock:
-            for specialist_type in target_types:
-                for entry in self.specialists.get(specialist_type, []):
-                    response = self._deliver_message(entry, message, origin=origin)
-                    responses.append(response)
-
-        return responses
-
-    def relay_between_specialists(
-        self,
-        origin_type: str,
-        target_type: str,
-        message: dict[str, Any],
-    ) -> list[dict[str, Any]]:
-        """Relay a message from one specialist type to another."""
-
-        payload = {
-            "origin_type": origin_type,
-            "timestamp": datetime.now(timezone.utc).isoformat(),
-            "message": message,
-        }
-        return self.broadcast_message(payload, origin=origin_type, include_types={target_type})
-
-    def route_task(self, task: dict[str, Any]) -> dict[str, Any]:
-        """Select a specialist for the provided task."""
-
-        task_type = str(task.get("type", "general")).lower()
-        complexity = str(task.get("complexity", "medium")).lower()
-        context = {str(value).lower() for value in task.get("context", [])}
-        created_at = datetime.now(timezone.utc).isoformat()
-
-        candidate_types = self._resolve_candidate_types(task_type, context)
-        decision_trace: dict[str, Any] = {
-            "task_type": task_type,
-            "complexity": complexity,
-            "context": sorted(context),
-            "candidates": [],
-        }
-
-        chosen: Optional[tuple[str, dict[str, Any]]] = None
-        highest_score = float("-inf")
-
-        with self._lock:
-            available_candidates: list[tuple[str, dict[str, Any]]] = []
-            for candidate_type in candidate_types:
-                available_candidates.extend(
-                    (candidate_type, entry)
-                    for entry in self.specialists.get(candidate_type, [])
-                )
-
-            if not available_candidates:
-                # Fallback to any available specialist if routing map is empty
-                for specialist_type, entries in self.specialists.items():
-                    available_candidates.extend((specialist_type, entry) for entry in entries)
-
-            for specialist_type, entry in available_candidates:
-                telemetry = self.telemetry.get(entry["id"], {})
-                score = self._score_specialist(
-                    specialist_type,
-                    entry,
-                    telemetry,
-                    complexity=complexity,
-                    context=context,
-                )
-
-                decision_trace["candidates"].append(
-                    {
-                        "specialist_id": entry["id"],
-                        "specialist_type": specialist_type,
-                        "score": round(score, 4),
-                        "current_load": entry["current_load"],
-                        "capabilities": sorted(entry["capabilities"]),
-                    }
-                )
-
-                if score > highest_score:
-                    chosen = (specialist_type, entry)
-                    highest_score = score
-
-            if chosen:
-                chosen_type, chosen_entry = chosen
-                chosen_entry["current_load"] = min(
-                    chosen_entry["current_load"] + 1,
-                    chosen_entry["max_parallel_tasks"],
-                )
-                decision = {
-                    "specialist_id": chosen_entry["id"],
-                    "specialist_type": chosen_type,
-                    "timestamp": created_at,
-                    "decision_trace": decision_trace,
-                }
-                self.routing_history.append(
-                    {
-                        "task": task,
-                        "decision": decision,
-                    }
-                )
-                # ΛTAG: multi_brain_route
-                logger.info(
-                    "MultiBrain routed task '%s' to %s (%s) [score=%.3f]",
-                    task_type,
-                    chosen_entry["id"],
-                    chosen_type,
-                    highest_score,
-                )
-                return decision
-
-        logger.info(
-            "MultiBrain routed task '%s' using general fallback (no specialists available)",
-            task_type,
-        )
-        # TODO: Add reinforcement learning feedback loop for routing quality adjustments
-        fallback_decision = {
-            "specialist_id": None,
-            "specialist_type": "general",
-            "timestamp": created_at,
-            "decision_trace": decision_trace,
-        }
-        self.routing_history.append({"task": task, "decision": fallback_decision})
-        return fallback_decision
-
-    def complete_task(self, specialist_id: str) -> None:
-        """Reduce load counter when a specialist finishes a task."""
-
-        with self._lock:
-            for entries in self.specialists.values():
-                for entry in entries:
-                    if entry["id"] == specialist_id:
-                        entry["current_load"] = max(0, entry["current_load"] - 1)
-                        return
-
-    def get_specialist_snapshot(self, specialist_id: str) -> dict[str, Any]:
-        """Return telemetry snapshot for the given specialist."""
-
-        with self._lock:
-            telemetry = self.telemetry.get(specialist_id)
-            if telemetry is None:
-                raise KeyError(f"Specialist '{specialist_id}' not found")
-
-            return {
-                "specialist_id": specialist_id,
-                "latency_ms": list(telemetry["latency_ms"]),
-                "throughput": list(telemetry["throughput"]),
-                "accuracy": list(telemetry["accuracy"]),
-                "avg_latency_ms": self._average(telemetry["latency_ms"]),
-                "avg_throughput": self._average(telemetry["throughput"]),
-                "avg_accuracy": self._average(telemetry["accuracy"]),
-                "driftScore": telemetry.get("driftScore"),
-                "affect_delta": telemetry.get("affect_delta"),
-                "collapseHash": telemetry.get("collapseHash"),
-                "last_update": telemetry.get("last_update"),
-            }
-
-    def _deliver_message(
-        self,
-        entry: dict[str, Any],
-        message: dict[str, Any],
-        *,
-        origin: Optional[str],
-    ) -> dict[str, Any]:
-        handler: Optional[Callable[..., Any]] = None
-        if hasattr(entry["instance"], "handle_message"):
-            handler = getattr(entry["instance"], "handle_message")
-        elif hasattr(entry["instance"], "process_signal"):
-            handler = getattr(entry["instance"], "process_signal")
-
-        if handler is None:
-            return {
-                "specialist_id": entry["id"],
-                "status": "unhandled",
-                "reason": "no_handler",
-            }
-
-        try:
-            response = handler(message, origin=origin)
-            if asyncio.iscoroutine(response):
-                response = self._resolve_async(response)
-            logger.debug(
-                "MultiBrain delivered message to %s (origin=%s)",
-                entry["id"],
-                origin,
-            )
-            return {
-                "specialist_id": entry["id"],
-                "status": "ok",
-                "response": response,
-            }
-        except Exception as exc:  # pylint: disable=broad-except
-            logger.exception("Specialist %s message handling failed", entry["id"], exc_info=exc)
-            return {
-                "specialist_id": entry["id"],
-                "status": "error",
-                "error": str(exc),
-            }
-
-    def _resolve_async(self, awaitable: Any) -> Any:
-        if self.loop and self.loop.is_running():
-            future = asyncio.run_coroutine_threadsafe(awaitable, self.loop)
-            return future.result()
-
-        try:
-            running_loop = asyncio.get_running_loop()
-        except RuntimeError:
-            running_loop = None
-
-        if running_loop and running_loop.is_running():
-            # Execute in a dedicated loop to avoid interfering with the caller loop
-            new_loop = asyncio.new_event_loop()
-            try:
-                return new_loop.run_until_complete(awaitable)
-            finally:
-                new_loop.close()
-
-        return asyncio.run(awaitable)
-
-    def _resolve_candidate_types(self, task_type: str, context: set[str]) -> set[str]:
-        mapping = {
-            "reasoning": {"symbolic"},
-            "analysis": {"symbolic", "neural"},
-            "pattern": {"neural"},
-            "optimization": {"quantum", "symbolic"},
-            "adaptation": {"bio", "neural"},
-            "memory": {"symbolic", "bio"},
-        }
-        if context & {"bio", "somatic"}:
-            mapping.setdefault(task_type, set()).add("bio")
-        if context & {"quantum", "qpu"}:
-            mapping.setdefault(task_type, set()).add("quantum")
-
-        return mapping.get(task_type, {task_type} & self.SUPPORTED_SPECIALIST_TYPES)
-
-    def _score_specialist(
-        self,
-        specialist_type: str,
-        entry: dict[str, Any],
-        telemetry: dict[str, Any],
-        *,
-        complexity: str,
-        context: set[str],
-    ) -> float:
-        capability_bonus = len(entry["capabilities"] & context)
-        load_penalty = entry["current_load"] / max(1, entry["max_parallel_tasks"])
-        latency_penalty = self._average(telemetry.get("latency_ms", [])) * 0.01 if telemetry else 0.0
-        accuracy_bonus = self._average(telemetry.get("accuracy", [])) * 0.5 if telemetry else 0.25
-        throughput_bonus = self._average(telemetry.get("throughput", [])) * 0.1 if telemetry else 0.0
-        drift_penalty = telemetry.get("driftScore", 0.0) * 0.2 if telemetry else 0.0
-
-        base_score = 1.0
-        if complexity == "high" and specialist_type in {"quantum", "symbolic"}:
-            base_score += 1.0
-        elif complexity == "low":
-            base_score += 0.2
-
-        return (
-            base_score
-            + capability_bonus
-            + accuracy_bonus
-            + throughput_bonus
-            - load_penalty
-            - latency_penalty
-            - drift_penalty
-        )
-
-    @staticmethod
-    def _average(values: Any) -> float:
-        values_list = list(values)
-        if not values_list:
-            return 0.0
-        return sum(values_list) / len(values_list)
-
-
 class EnhancedBrainIntegration:
     """
     Enhanced Brain Integration System combining Multi-Brain Symphony with
@@ -881,13 +378,6 @@ class EnhancedBrainIntegration:
         # Initialize core components
         self.emotional_processor = EnhancedEmotionalProcessor()
         self.memory_system = EnhancedMemorySystem(self.emotional_processor)
-        self.multi_brain = MultiBrain()
-        self.multi_brain.register_specialist(
-            "general",
-            self,
-            capabilities={"coordination", "fallback"},
-            metadata={"role": "enhanced_brain_integration"},
-        )
 
         # Initialize Multi-Brain Symphony if available
         if SYMPHONY_AVAILABLE:
@@ -898,12 +388,6 @@ class EnhancedBrainIntegration:
                 )
                 self.symphony_available = True
                 logger.info("🎼 Multi-Brain Symphony orchestrator integrated")
-                self.multi_brain.register_specialist(
-                    "symbolic",
-                    self.symphony_orchestrator,
-                    capabilities={"coordination", "symbolic", "symphony"},
-                    metadata={"role": "symphony_orchestrator"},
-                )
             except Exception as e:
                 logger.error(f"Failed to initialize symphony: {e}")
                 self.symphony_orchestrator = None
@@ -932,20 +416,6 @@ class EnhancedBrainIntegration:
             logger.warning(f"Dream engine not available: {e}")
             self.dream_engine = None
 
-        # ΛTAG: consciousness_legacy_setup
-        legacy_config = self.config.get("consciousness_legacy", {})
-        drift_threshold = float(legacy_config.get("drift_threshold", 0.3))
-        retention = int(legacy_config.get("retention", 12))
-        self.consciousness_drift_detector = ConsciousnessDriftDetector(retention=retention)
-        self.glyph_specialist = GlyphSpecialist(drift_threshold=drift_threshold)
-        self.consciousness_legacy = ConsciousnessLegacyConsensus(
-            glyph_specialist=self.glyph_specialist,
-            drift_detector=self.consciousness_drift_detector,
-            telemetry_logger=logger,
-            drift_threshold=drift_threshold,
-        )
-        self.last_consciousness_consensus: Optional[dict[str, Any]] = None
-
         # Background processing
         self.consolidation_running = False
         self.consolidation_thread = None
@@ -956,23 +426,13 @@ class EnhancedBrainIntegration:
             "emotional_updates": 0,
             "memory_operations": 0,
             "voice_outputs": 0,
-            "dream_consolidations": 0,
-            "consciousness_consensus_events": 0,
-            "consciousness_drift_alerts": 0,
+            "dream_consolidations": 0
         }
 
         logger.info("✅ Enhanced Brain Integration System initialized successfully")
 
     async def process_with_symphony(self, input_data: dict[str, Any]) -> dict[str, Any]:
         """Process input through Multi-Brain Symphony if available, fallback to standard processing"""
-
-        routing_decision = self.multi_brain.route_task(
-            {
-                "type": input_data.get("type", "general"),
-                "complexity": input_data.get("complexity", "medium"),
-                "context": input_data.get("context", []),
-            }
-        )
 
         if self.symphony_available and self.symphony_orchestrator:
             try:
@@ -988,16 +448,12 @@ class EnhancedBrainIntegration:
 
                 self.stats["symphony_processes"] += 1
 
-                if routing_decision.get("specialist_id"):
-                    self.multi_brain.complete_task(routing_decision["specialist_id"])
-
                 return {
                     "status": "success",
                     "processing_type": "symphony_enhanced",
                     "symphony_result": symphony_result,
                     "integrated_result": integrated_result,
-                    "coordination_quality": symphony_result.get("coordination_quality", 0.0),
-                    "routing_decision": routing_decision,
+                    "coordination_quality": symphony_result.get("coordination_quality", 0.0)
                 }
 
             except Exception as e:
@@ -1089,14 +545,6 @@ class EnhancedBrainIntegration:
             emotion = "anger"
             intensity = 0.8
 
-        routing_decision = self.multi_brain.route_task(
-            {
-                "type": input_data.get("type", "general"),
-                "complexity": input_data.get("complexity", "medium"),
-                "context": input_data.get("context", []),
-            }
-        )
-
         # Update emotional state
         self.emotional_processor.update_emotional_state(emotion, intensity)
 
@@ -1112,31 +560,12 @@ class EnhancedBrainIntegration:
         self.stats["memory_operations"] += 1
         self.stats["emotional_updates"] += 1
 
-        if routing_decision.get("specialist_id"):
-            self.multi_brain.complete_task(routing_decision["specialist_id"])
-
         return {
             "status": "success",
             "processing_type": "standard",
             "emotional_state": self.emotional_processor.current_state,
             "memory_result": memory_result,
-            "voice_modulation": self.emotional_processor.get_voice_modulation_params(),
-            "routing_decision": routing_decision,
-        }
-
-    def handle_message(self, message: dict[str, Any], origin: Optional[str] = None) -> dict[str, Any]:
-        """Allow MultiBrain to deliver coordination messages back to the integrator."""
-
-        logger.info(
-            "EnhancedBrainIntegration received message from %s: %s",
-            origin,
-            message.get("topic", "general"),
-        )
-        return {
-            "status": "received",
-            "origin": origin,
-            "timestamp": datetime.now(timezone.utc).isoformat(),
-            "echo": message,
+            "voice_modulation": self.emotional_processor.get_voice_modulation_params()
         }
 
     def speak_with_emotion(self, text: str, override_emotion: Optional[str] = None) -> dict[str, Any]:
@@ -1205,38 +634,6 @@ class EnhancedBrainIntegration:
             return True
         return False
 
-    # ΛTAG: consciousness_legacy_api
-    def record_consciousness_layer_state(
-        self,
-        layer_id: str,
-        *,
-        driftScore: float,
-        affect_delta: float,
-        glyph_markers: Optional[list[str]] = None,
-        metadata: Optional[dict[str, Any]] = None,
-    ) -> dict[str, Any]:
-        """Record a consciousness layer snapshot and run legacy consensus."""
-
-        result = self.consciousness_legacy.ingest_layer_snapshot(
-            layer_id=layer_id,
-            driftScore=driftScore,
-            affect_delta=affect_delta,
-            glyph_markers=glyph_markers,
-            metadata=metadata,
-        )
-        self.stats["consciousness_consensus_events"] += 1
-        if result["status"] == "drift_alert":
-            self.stats["consciousness_drift_alerts"] += 1
-        self.last_consciousness_consensus = result
-        return result
-
-    def evaluate_consciousness_consensus(self) -> dict[str, Any]:
-        """Evaluate consensus from previously recorded layer snapshots."""
-
-        result = self.consciousness_legacy.evaluate()
-        self.last_consciousness_consensus = result
-        return result
-
     def get_comprehensive_status(self) -> dict[str, Any]:
         """Get comprehensive status of all brain systems"""
 
@@ -1253,11 +650,7 @@ class EnhancedBrainIntegration:
             "memory_stats": self.memory_system.stats,
             "processing_stats": self.stats,
             "consolidation_active": self.consolidation_running,
-            "timestamp": datetime.now(timezone.utc).isoformat(),
-            "consciousness_legacy": {
-                "last_consensus": self.last_consciousness_consensus,
-                "drift_summary": self.consciousness_drift_detector.summarize_layers(),
-            },
+            "timestamp": datetime.now(timezone.utc).isoformat()
         }
 
         # Add symphony status if available

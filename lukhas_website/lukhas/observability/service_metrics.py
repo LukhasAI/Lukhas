@@ -248,12 +248,14 @@ class ServiceMetricsCollector:
         """Record operation latency for T4/0.01% excellence tracking"""
         with self._lock:
             # Record basic latency metric
+            labels = {"success": str(success)}
             self.record_metric(
                 f"{operation}_latency_ms",
                 latency_ms,
                 service,
                 MetricType.HISTOGRAM,
-                {"operation": operation, "success": str(success)}
+                labels,
+                operation=operation,
             )
 
             # Update T4 compliance metrics

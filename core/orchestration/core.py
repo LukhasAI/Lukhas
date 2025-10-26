@@ -92,14 +92,14 @@ try:
 except ImportError:
     ComplianceEngine = None
 
-# Bio Core integration - prefer native bio.core module with candidate fallback
+# Bio Core - Use candidate.bio.core directly to avoid circular imports
 try:
-    from bio.core import BioCore
-except ImportError:
-    try:
-        from candidate.bio.core import BioEngine as BioCore  # type: ignore
-    except ImportError:
-        BioCore = None
+    # Import from the module file directly
+    import bio.core  # noqa: F401  # TODO: bio.core; consider usin...
+
+    BioCore = candidate.bio.core.BioEngine  # noqa: F821  # TODO: candidate
+except (ImportError, AttributeError):
+    BioCore = None
 
 
 class OrchestrationCore:

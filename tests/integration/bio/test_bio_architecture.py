@@ -3,6 +3,8 @@ Integration tests for the LUKHAS Bio-Symbolic Architecture and its integration
 with the consciousness system.
 """
 
+import sys
+print(sys.path)
 from unittest.mock import patch
 
 import pytest
@@ -99,9 +101,9 @@ class TestBioSymbolicArchitecture:
         A simple test to ensure the bio-consciousness mapping is accessible and correct.
         This is implicitly tested in the orchestrator test, but an explicit check is good.
         """
-        from consciousness.bio_integration import BIO_CONSCIOUSNESS_MAP, BioAwareConsciousnessState
+        from bio.consciousness_integration import BIO_CONSCIOUSNESS_MAP, BioAwareConsciousnessState
 
         # Check a few mappings
-        assert BIO_CONSCIOUSNESS_MAP[SymbolicGlyph.POWER_CRITICAL] == BioAwareConsciousnessState.STRESSED_ADAPTATION
-        assert BIO_CONSCIOUSNESS_MAP[SymbolicGlyph.DREAM_EXPLORE] == BioAwareConsciousnessState.CREATIVE_EXPLORATION
-        assert BIO_CONSCIOUSNESS_MAP[SymbolicGlyph.CIRCADIAN] == BioAwareConsciousnessState.RESTORATIVE_INTEGRATION
+        assert BIO_CONSCIOUSNESS_MAP[SymbolicGlyph.POWER_CRITICAL.value] == BioAwareConsciousnessState.STRESSED_ADAPTATION
+        assert BIO_CONSCIOUSNESS_MAP[SymbolicGlyph.DREAM_EXPLORE.value] == BioAwareConsciousnessState.CREATIVE_EXPLORATION
+        assert BIO_CONSCIOUSNESS_MAP[SymbolicGlyph.CIRCADIAN.value] == BioAwareConsciousnessState.RESTORATIVE_INTEGRATION
