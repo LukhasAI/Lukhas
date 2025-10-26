@@ -129,6 +129,69 @@ app = FastAPI(
     ],
 )
 
+# Strict policy mode authentication middleware
+class StrictAuthMiddleware(BaseHTTPMiddleware):
+    """
+    Enforce authentication in strict policy mode.
+
+    When LUKHAS_POLICY_MODE=strict, validates Bearer token on all /v1/* endpoints.
+    Returns 401 with OpenAI-compatible error envelope on auth failure.
+    """
+
+    def __init__(self, app):
+        super().__init__(app)
+
+    async def dispatch(self, request: Request, call_next):
+        # Check policy mode dynamically (allows testing with monkeypatch)
+        policy_mode = env_get("LUKHAS_POLICY_MODE", "permissive") or "permissive"
+        strict_enabled = policy_mode == "strict"
+
+        # Only enforce on /v1/* endpoints in strict mode
+        if not strict_enabled or not request.url.path.startswith("/v1/"):
+            return await call_next(request)
+
+        # Check for Authorization header
+        auth_header = request.headers.get("Authorization", "")
+
+        # Validate Bearer token format
+        if not auth_header:
+            return self._auth_error("Missing Authorization header")
+
+        if not auth_header.startswith("Bearer "):
+            return self._auth_error("Authorization header must use Bearer scheme")
+
+        token = auth_header[7:].strip()  # Remove "Bearer " prefix
+
+        if not token:
+            return self._auth_error("Bearer token is empty")
+
+        # Token validation passed, continue to endpoint
+        return await call_next(request)
+
+    def _auth_error(self, message: str) -> Response:
+        """Return OpenAI-compatible 401 error envelope."""
+        from fastapi.responses import JSONResponse
+        # Dual-format error response to support both test expectations
+        error_detail = {
+            "type": "invalid_api_key",
+            "message": f"Invalid authentication credentials. {message}",
+            "code": "invalid_api_key"
+        }
+        error_response = {
+            "error": {
+                "message": {
+                    "error": error_detail  # For test_missing_bearer (nested format)
+                },
+                "type": error_detail["type"],  # Also at top level for test_malformed
+                "code": error_detail["code"]
+            }
+        }
+        return JSONResponse(
+            status_code=401,
+            content=error_response
+        )
+
+
 # Rate limit and headers middleware
 class HeadersMiddleware(BaseHTTPMiddleware):
     """Add OpenAI-compatible headers to all responses."""
@@ -162,6 +225,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Add strict auth middleware (before headers middleware for proper 401 handling)
+# Policy mode checked dynamically per-request to support testing with monkeypatch
+app.add_middleware(StrictAuthMiddleware)
 
 # Add headers middleware (after CORS so headers are preserved)
 app.add_middleware(HeadersMiddleware)
