@@ -1,7 +1,7 @@
-"""Compatibility layer for the LUKHAS endocrine system in labs lane."""
+"""Core endocrine system integration for hormonal modulation."""
 from __future__ import annotations
 
-from core.endocrine.hormone_system import (
+from .hormone_system import (
     EndocrineSystem,
     HormoneInteraction,
     HormoneLevel,
@@ -23,6 +23,6 @@ __all__ = [
     "trigger_stress",
 ]
 
-# ΛTAG: endocrine-compat
-# Initialize the shared endocrine system instance to mirror core behaviour.
+# ΛTAG: endocrine
+# Initialize the global endocrine system on import to prime receptors.
 _system = get_endocrine_system()
