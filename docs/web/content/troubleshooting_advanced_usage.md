@@ -1,14 +1,3 @@
----
-status: wip
-type: documentation
-owner: unknown
-module: web
-redirect: false
-moved_to: null
----
-
-![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
-
 # Troubleshooting and Advanced Usage Guide
 ## Mastering Consciousness Technology and Resolving Complex Integration Challenges
 
@@ -16,7 +5,7 @@ moved_to: null
 
 Advanced usage encompasses not just individual product expertise but understanding consciousness technology as an integrated system that adapts to complex, evolving human needs. The troubleshooting approaches outlined here address both technical issues and the subtle dynamics of human-AI collaboration that require careful attention to achieve optimal results.
 
-All solutions maintain constitutional AI governance principles and Constellation Framework compliance, ensuring that even complex problem resolution serves beneficial intelligence and preserves human autonomy throughout the troubleshooting process.
+All solutions maintain constitutional AI governance principles and Trinity Framework compliance, ensuring that even complex problem resolution serves beneficial intelligence and preserves human autonomy throughout the troubleshooting process.
 
 ## Systematic Troubleshooting Framework
 

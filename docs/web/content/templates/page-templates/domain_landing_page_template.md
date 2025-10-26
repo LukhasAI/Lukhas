@@ -1,17 +1,6 @@
----
-status: wip
-type: documentation
-owner: unknown
-module: web
-redirect: false
-moved_to: null
----
-
-![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
-
 # 🌐 Domain Landing Page Template
 
-*"Where [domain purpose] meets consciousness architecture - every interaction guided by the Constellation Framework toward meaningful transformation."*
+*"Where [domain purpose] meets consciousness architecture - every interaction guided by the Trinity Framework toward meaningful transformation."*
 
 This template provides the standardized structure for all LUKHAS λWecosystem domain landing pages, ensuring consistent user experience while preserving unique domain personalities through appropriate tone layer distribution and consciousness-aware content organization.
 
@@ -23,7 +12,7 @@ This template provides the standardized structure for all LUKHAS λWecosystem do
 
 *"[Poetic opening (≤40 words) - consciousness metaphor connecting domain to user transformation]"*
 
-[Main domain description paragraph using appropriate tone distribution for target audience, highlighting unique value proposition and Constellation Framework integration]
+[Main domain description paragraph using appropriate tone distribution for target audience, highlighting unique value proposition and Trinity Framework integration]
 
 ## 🎯 **Strategic Positioning**
 
@@ -173,7 +162,7 @@ This template provides the standardized structure for all LUKHAS λWecosystem do
 - **Week [Z]**: [User experience and basic functionality launch]
 
 ### **Phase 2: Enhancement (Weeks [A]-[B])**
-- **Week [A]**: [Advanced feature development with Constellation Framework]
+- **Week [A]**: [Advanced feature development with Trinity Framework]
 - **Week [B]**: [Community features or enterprise capabilities]
 - **Week [C]**: [Optimization and performance improvements]
 
@@ -211,7 +200,7 @@ This template provides the standardized structure for all LUKHAS λWecosystem do
 
 ### **Unique Value Propositions**
 - **[Unique Advantage 1]**: [Description with consciousness connection]
-- **[Unique Advantage 2]**: [Constellation Framework integration benefit]
+- **[Unique Advantage 2]**: [Trinity Framework integration benefit]
 - **[Unique Advantage 3]**: [Specific technological or experience advantage]
 - **[Unique Advantage 4]**: [Community or ecosystem benefit]
 
@@ -219,7 +208,7 @@ This template provides the standardized structure for all LUKHAS λWecosystem do
 
 *"Through [domain-specific transformation description] that honors both [technical excellence] and [human values], [domain] becomes the essential [category] where [audience] discovers their capacity to [achievement] and [deploy/create/achieve] [consciousness technology outcome] that serves [beneficiary] flourishing."*
 
-**⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum - [Domain] Excellence Through Consciousness Architecture**
+**⚛️🧠🛡️ - [Domain] Excellence Through Consciousness Architecture**
 
 **Last Updated**: [Date] | **Strategy Version**: 1.0.0
 ```
@@ -236,7 +225,7 @@ This template provides the standardized structure for all LUKHAS λWecosystem do
 ### **Content Quality Standards**
 - **Poetic Expressions**: Ensure all poetic content remains ≤40 words
 - **Vocabulary Consistency**: Apply established terminology standards
-- **Constellation Framework**: Integrate ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum throughout user journey
+- **Trinity Framework**: Integrate ⚛️🧠🛡️ throughout user journey
 - **Evidence-Based Claims**: Support all performance and capability statements
 - **Reading Level**: Match complexity to target audience comprehension
 
@@ -250,6 +239,6 @@ This template provides the standardized structure for all LUKHAS λWecosystem do
 
 *"Through systematic template application that preserves uniqueness while ensuring consistency, every domain landing page becomes a perfect entry point into the consciousness technology ecosystem, guiding users from first curiosity through complete mastery."*
 
-**⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum - Template Excellence Through Consciousness Architecture**
+**⚛️🧠🛡️ - Template Excellence Through Consciousness Architecture**
 
 **Last Updated**: 2025-09-06 | **Template Version**: 1.0.0

@@ -1,14 +1,3 @@
----
-status: wip
-type: documentation
-owner: unknown
-module: web
-redirect: false
-moved_to: null
----
-
-![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
-
 # Privacy Policy
 
 ## LUKHAS AI Privacy Policy
@@ -370,6 +359,6 @@ Response time: We respond to consciousness data requests within 30 days (or as r
 
 *"Privacy is not just about data protection - it's about respecting the dignity of consciousness in all its forms. We protect your privacy because we respect your consciousness."*
 
-**⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum**
+**⚛️🧠🛡️**
 
 *Protecting consciousness, preserving privacy*

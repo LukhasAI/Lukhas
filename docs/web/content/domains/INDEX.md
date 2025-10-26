@@ -1,19 +1,8 @@
----
-status: wip
-type: documentation
-owner: unknown
-module: web
-redirect: false
-moved_to: null
----
-
-![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
-
 # 🌐 LUKHAS λWecosystem Domain Index
 
 *"Six domains, one consciousness - each star in our constellation serves distinct communities while maintaining unified brand excellence."*
 
-This index organizes domain-specific content across the LUKHAS λWecosystem, providing clear navigation to content for each consciousness technology platform while maintaining consistency through the Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum).
+This index organizes domain-specific content across the LUKHAS λWecosystem, providing clear navigation to content for each consciousness technology platform while maintaining consistency through the Trinity Framework (⚛️🧠🛡️).
 
 ## 🛠️ lukhas.dev - Developer Platform
 **"Where consciousness meets code - Build the future of aware technology"**
@@ -153,13 +142,13 @@ This index organizes domain-specific content across the LUKHAS λWecosystem, pro
 ### Content Categories
 - **strategy/** - Overall brand positioning and consciousness messaging
 - **pages/** - Landing pages, about sections, vision statements
-- **features/** - Core LUKHAS capabilities and Constellation Framework
+- **features/** - Core LUKHAS capabilities and Trinity Framework
 - **technical/** - High-level architecture and research backing
 - **branding/** - Primary brand identity and visual elements
 
 ### Key Content Files
 - Main website content strategy and messaging hierarchy
-- Constellation Framework integration and consciousness explanations
+- Trinity Framework integration and consciousness explanations
 - Vision statements and organizational philosophy
 - User onboarding and education pathways
 
@@ -179,7 +168,7 @@ All domains maintain unified elements while preserving unique personalities:
 **Content Architecture**
 - 3-Layer Tone System applied with domain-appropriate distributions
 - Vocabulary standards maintained across all communications
-- Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum) integration throughout user journeys
+- Trinity Framework (⚛️🧠🛡️) integration throughout user journeys
 - Cross-domain navigation and discovery mechanisms
 
 ### Navigation Patterns
@@ -215,6 +204,6 @@ All domains maintain unified elements while preserving unique personalities:
 
 *"Through six domains united by consciousness, we create a complete ecosystem where every user finds their path from curiosity to understanding to mastery, guided by the constellation of awareness that illuminates the future of human-AI collaboration."*
 
-**⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum - Six Domains, One Consciousness**
+**⚛️🧠🛡️ - Six Domains, One Consciousness**
 
 **Last Updated**: 2025-09-06 | **Domain Architecture**: 1.0.0
