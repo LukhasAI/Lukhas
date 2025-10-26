@@ -85,6 +85,16 @@ repos:
 
   - repo: local
     hooks:
+      # MATRIZ Import Check Hook
+      - id: check-matriz-imports
+        name: Check for legacy 'matriz' imports (warning by default)
+        entry: bash scripts/consolidation/check_matriz_imports_precommit.sh
+        language: script
+        types: [python]
+        pass_filenames: false
+        always_run: true
+        description: "Warn (or block if PRE_COMMIT_BLOCK_MATRIZ=1) on staged legacy 'matriz' imports. Use this to prevent new lowercase imports."
+
       # Simulation Lane Safety Hooks
       - id: import-linter
         name: Import Isolation Guard (Simulation Lane)

@@ -100,25 +100,62 @@ git add -A
 git commit -m "chore(imports): migrate matriz -> MATRIZ in tests/ (AST)"
 ```
 
-## CI Policy
+## CI & Pre-commit Integration (Preventing Future Regressions)
 
-**Recommended Rule:** Warn on legacy imports, block new additions
+To lock in the MATRIZ consolidation and prevent accidental reintroduction of lowercase `matriz` imports, we add two guardrails:
 
-```yaml
-# .github/workflows/check-matriz.yml
-name: Check MATRIZ imports
-on: [pull_request]
-jobs:
-  matriz-check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Detect legacy matriz imports
-        run: |
-          git diff origin/main... | grep -E "^\+.*from\s+matriz\.|^\+.*import\s+matriz\b" && \
-          echo "❌ New lowercase 'matriz' imports detected. Use 'MATRIZ' (uppercase)." && \
-          exit 1 || echo "✅ No new lowercase imports"
+### 1. GitHub Actions (PR Warning Job)
+- **Path:** `.github/workflows/matriz-import-check.yml`
+- **Behavior:** Scans the repository on PR open/sync and reports legacy `matriz` imports
+- **Mode:** *Warning by default.* To enforce blocking, set `BLOCK_LEGACY=1` in the workflow or repo-level variables, which will make the job fail on any occurrences
+- **Output:** Uploads `/tmp/matriz_imports_report.txt` as artifact for debugging
+
+### 2. Pre-commit Hook (Local, Staged-File Checks)
+- **Hook:** `scripts/consolidation/check_matriz_imports_precommit.sh`
+- **Config:** `.pre-commit-config.yaml` adds a local hook that inspects staged Python files
+- **Behavior:** Warns by default; to block local commits, developers can set `PRE_COMMIT_BLOCK_MATRIZ=1` in their shell environment (or CI can set this for gated branches)
+
+### How to Flip to Blocking Enforcement
+
+**For CI:**
+- Open `.github/workflows/matriz-import-check.yml`
+- Change `BLOCK_LEGACY: "0"` → `"1"` (or set repo variable `BLOCK_LEGACY=1`)
+- PRs with legacy imports will fail
+
+**For local commits:**
+- Set `export PRE_COMMIT_BLOCK_MATRIZ=1` in developer shells or CI environment
+- Pre-commit hook will block commits with lowercase imports
+
+### Setup Instructions for Developers
+
+```bash
+# Install pre-commit (one-time)
+pip install pre-commit
+
+# Install the git hook
+pre-commit install
+
+# Optional: run against all files for initial check / to see warnings
+pre-commit run --all-files
 ```
+
+### Nightly Audit (Optional)
+
+Run repo-wide grep nightly and create a ticket with the current inventory of `matriz` occurrences. This keeps migration progress visible.
+
+### Rationale
+
+- **Warning-mode** ensures no surprise CI failures at rollout; helps track remaining import sites
+- After migration sweep of critical components, flip CI to blocking to prevent new regressions
+- Non-destructive checks can be removed/modified if enforcement needs to be paused
+
+### Recommended Timeline
+
+1. **Keep warning-mode for 2-4 weeks**
+2. **Run nightly audit** to track progress
+3. **Migrate active imports** in critical paths (serve/, core/, tests/)
+4. **Flip CI to blocking** to prevent new lowercase imports
+5. **Tighten pre-commit enforcement** by encouraging `PRE_COMMIT_BLOCK_MATRIZ=1`
 
 ## Testing
 
