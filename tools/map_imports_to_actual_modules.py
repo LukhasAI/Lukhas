@@ -85,7 +85,7 @@ def main():
                     print(f"     📄 {match['path']}")
         else:
             truly_missing.append(module_path)
-            print(f"  ❌ No matches found")
+            print("  ❌ No matches found")
 
     print("\n" + "=" * 80)
     print("SUMMARY")

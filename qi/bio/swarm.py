@@ -40,7 +40,9 @@ except ImportError:
 
 # Import consciousness integration
 try:
-    from consciousness.systems.consciousness_colony_integration import DistributedConsciousnessEngine
+    from consciousness.systems.consciousness_colony_integration import (
+        DistributedConsciousnessEngine,
+    )
 
     CONSCIOUSNESS_AVAILABLE = True
 except ImportError:

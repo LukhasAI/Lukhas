@@ -16,7 +16,7 @@ def test_no_labs_leak_after_importing_lukhas():
         if m == "labs" or m.startswith("labs."):
             del sys.modules[m]
 
-    import lukhas  # noqa: F401
+    import lukhas
 
     leaked = [m for m in sys.modules if m == "labs" or m.startswith("labs.")]
 
@@ -29,7 +29,7 @@ def test_no_labs_leak_after_importing_lukhas():
 
 def test_matriz_imports_cleanly():
     """Test that matriz package imports without labs dependencies."""
-    import matriz  # noqa: F401
+    import matriz
 
     # matriz should be able to import independently
     assert "matriz" in sys.modules

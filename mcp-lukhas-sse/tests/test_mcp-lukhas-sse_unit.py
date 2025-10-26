@@ -17,7 +17,7 @@ try:
     pass  # Placeholder
     pass  #     pass  #
 except ImportError:
-    pytest.skip(f"Module mcp-lukhas-sse not available", allow_module_level=True)
+    pytest.skip("Module mcp-lukhas-sse not available", allow_module_level=True)
 
 
 class TestMcpLukhasSseModule(unittest.TestCase):
@@ -82,7 +82,7 @@ class TestLukhasMCPRestWrapper(unittest.TestCase):
             pass  # from mcp_lukhas_sse.chatgpt_rest_wrapper import LukhasMCPRestWrapper
             self.assertIsNotNone(LukhasMCPRestWrapper)  # noqa: F821  # TODO: LukhasMCPRestWrapper
         except ImportError:
-            pytest.skip(f"Component LukhasMCPRestWrapper not available")
+            pytest.skip("Component LukhasMCPRestWrapper not available")
 
     def test_lukhasmcprestwrapper_instantiation(self):
         """Test LukhasMCPRestWrapper can be instantiated."""
@@ -99,7 +99,7 @@ class Testlist_directory(unittest.TestCase):
             pass  # from mcp_lukhas_sse.chatgpt_rest_wrapper import list_directory
             self.assertIsNotNone(list_directory)  # noqa: F821  # TODO: list_directory
         except ImportError:
-            pytest.skip(f"Component list_directory not available")
+            pytest.skip("Component list_directory not available")
 
     def test_list_directory_instantiation(self):
         """Test list_directory can be instantiated."""
@@ -116,7 +116,7 @@ class Testread_file(unittest.TestCase):
             pass  # from mcp_lukhas_sse.chatgpt_rest_wrapper import read_file
             self.assertIsNotNone(read_file)  # noqa: F821  # TODO: read_file
         except ImportError:
-            pytest.skip(f"Component read_file not available")
+            pytest.skip("Component read_file not available")
 
     def test_read_file_instantiation(self):
         """Test read_file can be instantiated."""

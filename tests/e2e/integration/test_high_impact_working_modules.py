@@ -71,7 +71,12 @@ def test_core_common_comprehensive():
 
     # Test exceptions module
     try:
-        from core.common.exceptions import ConsciousnessError, GuardianError, LukhaSException, MemoryError
+        from core.common.exceptions import (
+            ConsciousnessError,
+            GuardianError,
+            LukhaSException,
+            MemoryError,
+        )
 
         # Test exception scenarios
         exception_scenarios = [
@@ -198,6 +203,7 @@ def test_core_symbolism_comprehensive():
     """Test comprehensive coverage for core symbolism modules."""
     try:
         from labs.core.symbolism.tags import SymbolicTag, TagProcessor
+
         from core.symbolism.methylation_model import MethylationModel
 
         # Test tag processing

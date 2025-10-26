@@ -17,7 +17,6 @@ import json
 import time
 
 import pytest
-
 from aka_qualia.memory import create_memory_client
 from aka_qualia.memory_noop import NoopMemory
 from aka_qualia.memory_sql import SqlMemory

@@ -1,14 +1,15 @@
-import unittest
-from datetime import datetime
 import os
 import sys
+import unittest
+from datetime import datetime
 from typing import Optional
 
 # Add the project root to the path to allow imports
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../../..')))
 
 from adapters.openai.policy_models import Context
-from adapters.openai.policy_pdp import PolicyLoader, PDP
+from adapters.openai.policy_pdp import PDP, PolicyLoader
+
 
 class TestGuardianPDP(unittest.TestCase):
 

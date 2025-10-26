@@ -4,9 +4,8 @@ This test verifies that the detect_and_handle_noop() function correctly
 identifies chmod-only changes and skips committing them.
 """
 import os
-import tempfile
-import subprocess
 import shutil
+import subprocess
 from pathlib import Path
 
 

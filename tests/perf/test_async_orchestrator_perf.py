@@ -9,8 +9,8 @@ import statistics as stats
 import time
 
 import pytest
-
 from labs.core.orchestration.async_orchestrator import AsyncOrchestrator
+
 from core.registry import register
 from nodes.example_nodes import DecisionNode, IntentNode, ThoughtNode
 

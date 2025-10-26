@@ -29,12 +29,18 @@ from ..cognitive_core.reasoning.contradiction_integrator import (
 )
 from ..cognitive_core.reasoning.deep_inference_engine import DeepInferenceEngine, InferenceResult
 from .enhanced_awareness_engine import EnhancedAwarenessEngine
-from .enhanced_thought_engine import EnhancedThoughtEngine, ThoughtComplexity, ThoughtContext, ThoughtResult
+from .enhanced_thought_engine import (
+    EnhancedThoughtEngine,
+    ThoughtComplexity,
+    ThoughtContext,
+    ThoughtResult,
+)
 
 # Import MATRIZ base classes
 try:
+    from matriz.core.node_interface import NodeState
+
     from core.matrix.nodes.base import BaseMatrixNode
-    from MATRIZ.core.node_interface import NodeState
     MATRIZ_AVAILABLE = True
 except ImportError:
     # Fallback for when MATRIZ is not available

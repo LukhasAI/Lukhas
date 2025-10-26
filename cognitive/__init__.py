@@ -12,14 +12,14 @@ import os
 if os.getenv("MATRIZ_COMPAT_IMPORTS", "1") == "1":
     try:
         # Import from core.matrix.nodes when available
-        from core.matrix.nodes import *  # noqa: F401,F403
+        from core.matrix.nodes import *
     except ImportError:
         # Graceful degradation if nodes aren't implemented yet
         pass
 
     # Add any other cognitive module aliases here as needed
-    # from consciousness import *  # noqa: F401,F403
-    # from memory import *  # noqa: F401,F403
+    # from consciousness import *
+    # from memory import *
 
 else:
     # Strict mode: avoid exporting aliases

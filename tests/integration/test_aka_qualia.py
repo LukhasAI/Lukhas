@@ -11,7 +11,6 @@ Tests enforce monotonicity, range validation, and falsifiable claims.
 """
 
 import pytest
-
 from aka_qualia.core import AkaQualia
 
 # Import the components under test

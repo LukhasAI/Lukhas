@@ -31,11 +31,11 @@ def _load_optional(module_path: str, attribute: Optional[str] = None) -> Optiona
 
 # Observability integrations
 if TYPE_CHECKING:
+    from guardian import GuardianSystem
     from opentelemetry import metrics as otel_metrics
     from opentelemetry.sdk.trace.export import BatchSpanProcessor
 
     from consciousness import ConsciousnessCore
-    from guardian import GuardianSystem
     from memory import MemoryFoldSystem
 
 

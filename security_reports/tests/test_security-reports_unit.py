@@ -17,7 +17,7 @@ try:
     pass  # Placeholder
     pass  #     pass  #
 except ImportError:
-    pytest.skip(f"Module security-reports not available", allow_module_level=True)
+    pytest.skip("Module security-reports not available", allow_module_level=True)
 
 
 class TestSecurityReportsModule(unittest.TestCase):

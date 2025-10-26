@@ -18,7 +18,6 @@ from typing import Any, Optional
 
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
 
 # ΛTAG: lens, component_imports
 from products.intelligence.lens.lens_core import ΛLens as LensCore
@@ -33,6 +32,7 @@ from products.intelligence.lens.parsers import (
 from products.intelligence.lens.renderers import Web2DRenderer, XRRenderer
 from products.intelligence.lens.symbols import SymbolGenerator
 from products.intelligence.lens.widgets import WidgetFactory
+from pydantic import BaseModel
 
 
 # Pydantic models

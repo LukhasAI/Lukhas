@@ -16,7 +16,6 @@ import uuid
 
 import pytest
 from fastapi.testclient import TestClient
-
 from serve.main import app
 
 from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
@@ -107,20 +106,20 @@ def test_idempotency_same_body_cached_within_300s(client: TestClient) -> None:
     idempotency_key = f"test-cached-{uuid.uuid4()}"
     headers = _auth_headers({"Idempotency-Key": idempotency_key})
     payload = {"model": "lukhas-response", "input": "idempotency cache test"}
-    
+
     # First request
     r1 = client.post("/v1/responses", headers=headers, json=payload)
     assert r1.status_code == 200
     response1_data = r1.json()
-    
+
     # Second request (should be cached)
     start_time = time.time()
     r2 = client.post("/v1/responses", headers=headers, json=payload)
     cached_response_time = time.time() - start_time
-    
+
     assert r2.status_code == 200
     response2_data = r2.json()
-    
+
     # Verify cache hit (responses match)
     assert response1_data == response2_data, "Cached response data mismatch"
     assert cached_response_time < 0.1, f"Cached response too slow: {cached_response_time:.3f}s"
@@ -143,16 +142,16 @@ def test_idempotency_different_body_recomputes_not_cached(client: TestClient) ->
     headers = _auth_headers({"Idempotency-Key": idempotency_key})
     payload1 = {"model": "lukhas-response", "input": "first body"}
     payload2 = {"model": "lukhas-response", "input": "second body COMPLETELY DIFFERENT"}
-    
+
     # First request
     r1 = client.post("/v1/responses", headers=headers, json=payload1)
     assert r1.status_code == 200
     response1_data = r1.json()
-    
+
     # Second request with different body
     r2 = client.post("/v1/responses", headers=headers, json=payload2)
     assert r2.status_code in (200, 409), f"Unexpected status: {r2.status_code}"
-    
+
     if r2.status_code == 200:
         response2_data = r2.json()
         # Verify recompute (data should differ for different inputs)
@@ -178,20 +177,20 @@ def test_idempotency_ttl_expiry_recomputes_after_cache_expiry(client: TestClient
     idempotency_key = f"test-ttl-expiry-{uuid.uuid4()}"
     headers = _auth_headers({"Idempotency-Key": idempotency_key})
     payload = {"model": "lukhas-response", "input": "ttl expiry test"}
-    
+
     # First request
     r1 = client.post("/v1/responses", headers=headers, json=payload)
     assert r1.status_code == 200
-    
+
     # Wait for TTL expiry
     # TODO: Replace with configurable TTL or time mocking for faster tests
     # For now, we test graceful handling without strict TTL validation
     time.sleep(2)  # Assumes TTL ≤ 2s for testing (or mocked time)
-    
+
     # Second request after potential TTL expiry
     r2 = client.post("/v1/responses", headers=headers, json=payload)
     assert r2.status_code == 200, "Request failed after TTL period"
-    
+
     # Verify graceful handling (both requests succeed)
     # Strict TTL assertion would require configurable/mockable TTL
     assert r1.json() or r2.json(), "Both responses empty (unexpected)"

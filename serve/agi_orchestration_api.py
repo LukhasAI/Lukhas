@@ -17,7 +17,11 @@ from pydantic import BaseModel
 try:
     from cognitive_core.orchestration.capability_matrix import CapabilityDimension, CapabilityMatrix
     from cognitive_core.orchestration.consensus_engine import ConsensusEngine, ConsensusMethod
-    from cognitive_core.orchestration.cost_optimizer import CostConstraints, CostOptimizer, OptimizationStrategy
+    from cognitive_core.orchestration.cost_optimizer import (
+        CostConstraints,
+        CostOptimizer,
+        OptimizationStrategy,
+    )
     from cognitive_core.orchestration.model_router import ModelRouter, RoutingRequest, TaskType
 
     AGI_ORCHESTRATION_AVAILABLE = True

@@ -25,7 +25,7 @@ except Exception:  # pragma: no cover - fallback stub
         def run_local_server(self, *args, **kwargs):
             return _Credentials()
 
-    class flow:  # noqa: N801 - mimic module attribute
+    class flow:  # - mimic module attribute
         """Flow namespace compatible with google_auth_oauthlib.flow."""
 
         InstalledAppFlow = _InstalledAppFlow

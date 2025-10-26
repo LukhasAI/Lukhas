@@ -103,13 +103,13 @@ def main():
 
         if add_skip_marker(test_file, missing_modules):
             marked_count += 1
-            print(f"    ✓ Added skip marker")
+            print("    ✓ Added skip marker")
         else:
-            print(f"    ⊘ Already marked or inaccessible")
+            print("    ⊘ Already marked or inaccessible")
         print()
 
     print(f"📝 Marked {marked_count} test files with skip markers")
-    print(f"📄 See docs/v0.03/KNOWN_ISSUES.md for details")
+    print("📄 See docs/v0.03/KNOWN_ISSUES.md for details")
 
     return 0
 

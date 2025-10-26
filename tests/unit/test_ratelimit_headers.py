@@ -6,8 +6,10 @@ valid numeric values that make sense for OpenAI-style client libraries.
 
 Phase 3: Added for rate-limit header validation.
 """
-from fastapi.testclient import TestClient
 import re
+
+from fastapi.testclient import TestClient
+
 from adapters.openai.api import get_app
 
 HEX32 = re.compile(r"^[0-9a-f]{32}$")

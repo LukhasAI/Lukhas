@@ -8,7 +8,6 @@ import uuid
 from unittest.mock import MagicMock, patch
 
 import pytest
-
 from labs.core.distributed_tracing import (
     AIAgentTracer,
     DistributedTracer,

@@ -264,7 +264,7 @@ def test_key_format_consistent():
         # Principal is everything after the first route colon
         principal = key[len(route)+1:]
         assert len(principal) > 0, \
-            f"Principal portion should not be empty"
+            "Principal portion should not be empty"
 
 
 def test_x_forwarded_for_takes_precedence():

@@ -5,7 +5,6 @@ import os
 
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import Response
-
 from qi.trace.trace_graph import (
     STATE,
     _load_prov,

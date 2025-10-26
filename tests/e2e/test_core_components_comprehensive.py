@@ -276,7 +276,13 @@ class TestTierSystem:
     def test_access_control_decisions(self):
         """Test access control decision logic with different scenarios."""
         try:
-            from identity.tier_system import AccessContext, AccessType, DynamicTierSystem, PermissionScope, TierLevel
+            from identity.tier_system import (
+                AccessContext,
+                AccessType,
+                DynamicTierSystem,
+                PermissionScope,
+                TierLevel,
+            )
 
             tier_system = DynamicTierSystem()
 

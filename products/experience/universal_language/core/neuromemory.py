@@ -15,7 +15,6 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
-
 from universal_language.core import Symbol
 
 logger = logging.getLogger(__name__)

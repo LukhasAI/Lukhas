@@ -26,7 +26,6 @@ import time
 from typing import Any
 
 import pytest
-
 from aka_qualia.core import AkaQualia
 from aka_qualia.models import (
     AgencyFeel,

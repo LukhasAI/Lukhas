@@ -3,7 +3,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 
-from star_canon_utils import extract_canon_labels, normalize_star_label  # noqa: E402
+from star_canon_utils import extract_canon_labels, normalize_star_label
 
 
 def test_extract_canon_labels_prefers_explicit_labels():

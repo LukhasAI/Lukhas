@@ -8,7 +8,7 @@ import asyncio
 import logging
 import time
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 # Golden Trio imports
 try:
@@ -22,7 +22,24 @@ try:
 except ImportError:
     Learningengine = None
 
-# from abas.integration.abas_integration_hub import ABASIntegrationHub
+# ABAS (Adaptive Bio‑Aware System) hub — provide a safe stub if not installed
+try:
+    from abas.integration.abas_integration_hub import ABASIntegrationHub  # type: ignore
+except Exception:
+    class ABASIntegrationHub:  # minimal stub
+        """Stub for ABAS Integration Hub with no‑op registration APIs.
+
+        Provides import‑time safety and a predictable surface for orchestration wiring.
+        """
+
+        def __init__(self, *_, **__):
+            self.components: dict[str, Any] = {}
+
+        async def register_component(self, name: str, component: Any) -> None:
+            self.components[name] = component
+
+        def get_component(self, name: str) -> Optional[Any]:
+            return self.components.get(name)
 try:
     from nias.integration.nias_integration_hub import NIASIntegrationHub
 except ImportError:
@@ -102,7 +119,29 @@ except ImportError:
     BaseOscillator = None
     QIHub = None
 
-# from qi.system_orchestrator import QIAGISystem  # TODO: Implement quantum Cognitive system
+# Quantum Intelligence Orchestrator — safe stub if not available
+try:
+    from qi.system_orchestrator import QIAGISystem  # type: ignore
+except Exception:
+    class QIAGISystem:  # minimal stub
+        """Quantum‑Inspired AGI Orchestrator stub.
+
+        Exposes a small control surface used by SystemIntegrationHub.
+        """
+
+        def __init__(self, config: Optional[dict] = None):
+            self.config = config or {}
+            self.running = False
+
+        async def start(self) -> None:
+            self.running = True
+
+        async def stop(self) -> None:
+            self.running = False
+
+        async def orchestrate(self, payload: dict) -> dict:
+            # Return a predictable noop response
+            return {"status": "ok", "received": payload}
 
 logger = logging.getLogger(__name__)
 

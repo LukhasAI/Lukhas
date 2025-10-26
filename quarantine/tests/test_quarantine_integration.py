@@ -8,17 +8,16 @@
 Integration tests for quarantine module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     pass  #     pass  #
     import quarantine
 except ImportError:
-    pytest.skip(f"Module quarantine not available", allow_module_level=True)
+    pytest.skip("Module quarantine not available", allow_module_level=True)
 
 
 class TestQuarantineIntegration(unittest.TestCase):

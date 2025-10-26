@@ -5,10 +5,10 @@ import importlib
 import pkgutil
 from pathlib import Path
 
-import pytest
-
 import matriz.adapters
+import pytest
 from matriz.node_contract import MatrizNode, MatrizResult
+
 from tests.util.mk_msg import mk_test_message
 
 

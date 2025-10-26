@@ -14,7 +14,7 @@ def get_f821_violations():
     """Get F821 undefined-name violations from ruff."""
     try:
         result = subprocess.run([
-            "python3", "-m", "ruff", "check", ".", 
+            "python3", "-m", "ruff", "check", ".",
             "--select", "F821",
             "--output-format=json"
         ], capture_output=True, text=True, cwd="/Users/cognitive_dev/LOCAL-REPOS/Lukhas")
@@ -94,8 +94,8 @@ def fix_logger_declarations(file_path):
         # Check if logger is used but not declared
         if "logger." in content:
             # Check if logger is already imported/declared
-            if ("import logging" not in content and 
-                "logger = " not in content and 
+            if ("import logging" not in content and
+                "logger = " not in content and
                 "from" not in content or "logger" not in content):
 
                 # Add basic logger setup at the top after imports
@@ -103,7 +103,7 @@ def fix_logger_declarations(file_path):
                 import_end = 0
 
                 for i, line in enumerate(lines):
-                    if (line.startswith("import ") or 
+                    if (line.startswith("import ") or
                         line.startswith("from ") or
                         line.strip() == "" or
                         line.strip().startswith("#")):
@@ -236,7 +236,7 @@ def main():
                 fixed_files.add(file_path)
                 total_fixed += 1
 
-    # Fix logger issues  
+    # Fix logger issues
     if "logger" in patterns:
         print(f"\n📝 Fixing logger issues in {len(patterns['logger'])} files...")
         for file_path in patterns["logger"][:30]:  # Smaller batch

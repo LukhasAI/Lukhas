@@ -12,7 +12,12 @@ from unittest.mock import AsyncMock
 import pytest
 
 from consciousness.creativity_engine import CreativityEngine
-from consciousness.types import DEFAULT_CREATIVITY_CONFIG, ConsciousnessState, CreativeTask, CreativitySnapshot
+from consciousness.types import (
+    DEFAULT_CREATIVITY_CONFIG,
+    ConsciousnessState,
+    CreativeTask,
+    CreativitySnapshot,
+)
 
 
 class TestCreativityEngine:

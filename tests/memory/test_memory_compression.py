@@ -10,7 +10,6 @@ from unittest.mock import Mock
 
 import numpy as np
 import pytest
-
 from labs.memory.compression import (
     ZSTD_AVAILABLE,
     AdaptiveCompressionManager,

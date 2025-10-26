@@ -20,7 +20,6 @@ from datetime import datetime
 from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
-
 from labs.bridge.llm_wrappers.openai_modulated_service import (
     CompletionRequest,
     EmbeddingRequest,

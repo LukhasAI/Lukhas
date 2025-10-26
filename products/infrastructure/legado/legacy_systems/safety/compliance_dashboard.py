@@ -25,7 +25,7 @@ try:  # pragma: no cover - optional integration
     from core.interfaces.voice.core.sayit import (
         trace_tools,  # assuming trace_tools.py is importable
     )
-except Exception:  # noqa: BLE001 - fallback when integration not present
+except Exception:  # - fallback when integration not present
 
     class _TraceToolsFallback:
         """Minimal analytics fallback for environments without voice interfaces."""
@@ -46,7 +46,7 @@ try:  # pragma: no cover - exercised in environments with streamlit available
     import streamlit as st  # type: ignore
 
     STREAMLIT_AVAILABLE = True
-except Exception:  # noqa: BLE001 - optional dependency fallback
+except Exception:  # - optional dependency fallback
     STREAMLIT_AVAILABLE = False
 
     class _StreamlitFallback:

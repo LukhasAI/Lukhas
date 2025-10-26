@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
-import sys, os
+import os
+import sys
 from pathlib import Path
+
 
 def load(path):
     p = Path(path)

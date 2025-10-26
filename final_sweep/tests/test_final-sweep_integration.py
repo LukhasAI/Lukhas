@@ -17,7 +17,7 @@ try:
     pass  # Placeholder
     pass  #     pass  #
 except ImportError:
-    pytest.skip(f"Module final-sweep not available", allow_module_level=True)
+    pytest.skip("Module final-sweep not available", allow_module_level=True)
 
 
 class TestFinalSweepIntegration(unittest.TestCase):

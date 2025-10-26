@@ -14,7 +14,13 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
 
-from plugins.plugin_base import HealthStatus, LukhasPlugin, PluginManifest, PluginPriority, PluginStatus
+from plugins.plugin_base import (
+    HealthStatus,
+    LukhasPlugin,
+    PluginManifest,
+    PluginPriority,
+    PluginStatus,
+)
 
 # Add Lukhas  to path
 lukhas_path = Path("/Users/agi_dev/LOCAL-REPOS/Lukhas")

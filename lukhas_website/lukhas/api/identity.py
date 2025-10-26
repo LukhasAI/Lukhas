@@ -44,7 +44,10 @@ try:
         TieredAuthenticator,
         create_tiered_authenticator,
     )
-    from ..identity.webauthn_enhanced import EnhancedWebAuthnService, create_enhanced_webauthn_service
+    from ..identity.webauthn_enhanced import (
+        EnhancedWebAuthnService,
+        create_enhanced_webauthn_service,
+    )
     IDENTITY_SYSTEM_AVAILABLE = True
 except ImportError:
     IDENTITY_SYSTEM_AVAILABLE = False

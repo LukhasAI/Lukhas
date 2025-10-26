@@ -25,7 +25,7 @@ class TestCoreCompatAlias:
         importlib.invalidate_caches()
 
         # Should work without environment variables (always available)
-        import core  # noqa: F401
+        import core
         assert core is not None
 
     def test_deprecation_warning_toggle(self, monkeypatch):
@@ -41,7 +41,7 @@ class TestCoreCompatAlias:
 
         with warnings.catch_warnings(record=True) as w:
             warnings.simplefilter("always")
-            import core  # noqa: F401
+            import core
 
             # Should issue ImportWarning when enabled
             assert len(w) >= 1
@@ -76,7 +76,7 @@ class TestCoreCompatAlias:
 
         with warnings.catch_warnings(record=True) as w:
             warnings.simplefilter("always")
-            import core  # noqa: F401
+            import core
 
             # Should NOT issue ImportWarning by default
             legacy_warnings = [warning for warning in w if "Legacy 'core' import" in str(warning.message)]

@@ -14,12 +14,12 @@ from enum import Enum
 from typing import Any, Optional
 
 from .bio_symbolic_processor import (
-    get_bio_symbolic_processor,  # noqa: TID252 TODO: convert to absolute import
+    get_bio_symbolic_processor,  # TODO: convert to absolute import
 )
 from .consciousness_signal_router import (
-    get_consciousness_router,  # noqa: TID252 TODO: convert to absolute import
+    get_consciousness_router,  # TODO: convert to absolute import
 )
-from .matriz_consciousness_signals import (  # noqa: TID252 TODO: convert to absolute import
+from .matriz_consciousness_signals import (  # TODO: convert to absolute import
     BioSymbolicData,
     ConsciousnessSignal,
     ConsciousnessSignalFactory,
@@ -276,7 +276,7 @@ class ConsciousnessEmitter(ConsciousnessModuleEmitter):
         """Emit consciousness state change signal"""
 
         from .matriz_consciousness_signals import (
-            ConsciousnessStateDelta,  # noqa: TID252 TODO: convert to absolute import
+            ConsciousnessStateDelta,  # TODO: convert to absolute import
         )
 
         state_delta = ConsciousnessStateDelta(

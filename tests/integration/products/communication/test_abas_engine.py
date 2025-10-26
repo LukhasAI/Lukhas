@@ -1,7 +1,6 @@
 """Tests for ABAS engine ethics integration."""
 
 import pytest
-
 from products.communication.abas_candidate.core.abas_engine import ABASRegistry
 
 

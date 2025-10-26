@@ -26,8 +26,8 @@ class TestConfigEndToEnd:
 
             # Test data pipeline
             test_input = {
-                'test_data': 'integration_test',
-                'timestamp': '2025-01-01T00:00:00Z'
+                "test_data": "integration_test",
+                "timestamp": "2025-01-01T00:00:00Z"
             }
 
             result = component.process(test_input)
@@ -42,8 +42,9 @@ class TestConfigEndToEnd:
     def test_consciousness_system_integration(self):
         """Test integration with full consciousness system."""
         try:
-            from config import ConfigCore
             from consciousness import ConsciousnessCore
+
+            from config import ConfigCore
             from memory import MemoryCore
 
             # Initialize full system stack
@@ -54,7 +55,7 @@ class TestConfigEndToEnd:
             # Test integrated processing
             with consciousness.awareness_context():
                 with memory.session_context():
-                    result = component.process({'integration': 'test'})
+                    result = component.process({"integration": "test"})
 
             assert result is not None
 
@@ -72,10 +73,10 @@ class TestConfigExternalIntegration:
             component = ConfigCore()
 
             # Test database operations (mocked)
-            with patch('config.database.connect') as mock_db:
-                mock_db.return_value.execute.return_value = {'success': True}
+            with patch("config.database.connect") as mock_db:
+                mock_db.return_value.execute.return_value = {"success": True}
 
-                result = component.process({'db_operation': 'test'})
+                result = component.process({"db_operation": "test"})
 
                 # Verify database interaction
                 mock_db.assert_called()
@@ -91,11 +92,11 @@ class TestConfigExternalIntegration:
             component = ConfigCore()
 
             # Mock external API calls
-            with patch('requests.post') as mock_post:
+            with patch("requests.post") as mock_post:
                 mock_post.return_value.status_code = 200
-                mock_post.return_value.json.return_value = {'status': 'success'}
+                mock_post.return_value.json.return_value = {"status": "success"}
 
-                result = component.process({'api_call': 'test'})
+                result = component.process({"api_call": "test"})
 
                 # Verify API interaction
                 assert result is not None
@@ -117,7 +118,7 @@ class TestConfigScalabilityIntegration:
             component = ConfigCore()
 
             def process_item(item_id):
-                return component.process({'item_id': item_id})
+                return component.process({"item_id": item_id})
 
             # Test concurrent processing
             with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
@@ -143,7 +144,7 @@ class TestConfigScalabilityIntegration:
             results = []
 
             for i in range(batch_size):
-                result = component.process({'batch_item': i})
+                result = component.process({"batch_item": i})
                 results.append(result)
 
             # Verify batch processing
@@ -164,11 +165,11 @@ class TestConfigErrorRecoveryIntegration:
             component = ConfigCore()
 
             # Simulate external service failure
-            with patch('config.external_service.call') as mock_service:
+            with patch("config.external_service.call") as mock_service:
                 mock_service.side_effect = ConnectionError("Service unavailable")
 
                 # Should handle gracefully
-                result = component.process({'requires_external': True})
+                result = component.process({"requires_external": True})
 
                 # Should return fallback result or raise expected exception
                 assert result is not None or mock_service.side_effect
@@ -184,10 +185,10 @@ class TestConfigErrorRecoveryIntegration:
             component = ConfigCore()
 
             # Simulate repeated failures to trigger circuit breaker
-            with patch('config.circuit_breaker.is_open') as mock_cb:
+            with patch("config.circuit_breaker.is_open") as mock_cb:
                 mock_cb.return_value = True
 
-                result = component.process({'circuit_test': True})
+                result = component.process({"circuit_test": True})
 
                 # Should handle circuit breaker state
                 assert result is not None
@@ -206,10 +207,10 @@ class TestConfigMonitoringIntegration:
             component = ConfigCore()
 
             # Test with tracing context
-            with patch('opentelemetry.trace.get_current_span') as mock_span:
+            with patch("opentelemetry.trace.get_current_span") as mock_span:
                 mock_span.return_value.set_attribute = Mock()
 
-                result = component.process({'trace_test': True})
+                result = component.process({"trace_test": True})
 
                 # Verify tracing attributes were set
                 mock_span.return_value.set_attribute.assert_called()
@@ -225,8 +226,8 @@ class TestConfigMonitoringIntegration:
             component = ConfigCore()
 
             # Test metrics collection
-            with patch('prometheus_client.Counter.inc') as mock_counter:
-                component.process({'metrics_test': True})
+            with patch("prometheus_client.Counter.inc") as mock_counter:
+                component.process({"metrics_test": True})
 
                 # Verify metrics were recorded
                 mock_counter.assert_called()
@@ -248,10 +249,10 @@ def config_component():
 def test_data():
     """Fixture providing test data for config integration tests."""
     return {
-        'test_input': {
-            'module': 'config',
-            'test_type': 'integration',
-            'timestamp': '2025-01-01T00:00:00Z'
+        "test_input": {
+            "module": "config",
+            "test_type": "integration",
+            "timestamp": "2025-01-01T00:00:00Z"
         },
-        'expected_output_keys': ['result', 'status', 'timestamp']
+        "expected_output_keys": ["result", "status", "timestamp"]
     }

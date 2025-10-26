@@ -191,7 +191,7 @@ def validate_star(star: str, star_canon: Dict[str, Any], *, labels: Optional[set
     labels = labels or set(extract_canon_labels(star_canon))
     if star not in labels:
         print(f"❌ FATAL: Invalid star '{star}' not in canon: {labels}", file=sys.stderr)
-        print(f"💡 Update star_canon.json or fix star inference heuristics", file=sys.stderr)
+        print("💡 Update star_canon.json or fix star inference heuristics", file=sys.stderr)
         sys.exit(1)
     return star
 

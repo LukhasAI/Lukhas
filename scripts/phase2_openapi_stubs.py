@@ -18,7 +18,7 @@ import argparse
 import json
 import pathlib
 from datetime import datetime
-from typing import Any, Dict, List
+from typing import Any, Dict
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
@@ -85,12 +85,12 @@ FLAGSHIP_APIS = {
 
 def generate_openapi_stub(api_name: str, api_def: Dict[str, Any]) -> Dict[str, Any]:
     """Generate OpenAPI 3.0 stub for a flagship API."""
-    
+
     paths: Dict[str, Any] = {}
     for endpoint in api_def["endpoints"]:
         path = api_def["base_path"] + endpoint["path"]
         method = endpoint["method"]
-        
+
         paths[path] = {
             method: {
                 "summary": endpoint["summary"],
@@ -118,7 +118,7 @@ def generate_openapi_stub(api_name: str, api_def: Dict[str, Any]) -> Dict[str, A
                 "security": [{"BearerAuth": []}],
             },
         }
-    
+
     spec = {
         "openapi": "3.0.0",
         "info": {
@@ -149,7 +149,7 @@ def generate_openapi_stub(api_name: str, api_def: Dict[str, Any]) -> Dict[str, A
             {"name": api_name.capitalize(), "description": api_def["description"]},
         ],
     }
-    
+
     return spec
 
 
@@ -157,27 +157,27 @@ def main():
     parser = argparse.ArgumentParser(description="Phase 2: Generate OpenAPI Stubs")
     parser.add_argument("--output", default="docs/openapi/stubs", help="Output directory")
     args = parser.parse_args()
-    
+
     output_dir = pathlib.Path(args.output)
     output_dir.mkdir(parents=True, exist_ok=True)
-    
+
     print(f"Generating OpenAPI stubs for {len(FLAGSHIP_APIS)} flagship APIs\n")
-    
+
     created = []
     for api_name, api_def in FLAGSHIP_APIS.items():
         spec = generate_openapi_stub(api_name, api_def)
-        
+
         stub_path = output_dir / f"lukhas-{api_name}-api.json"
         stub_path.write_text(json.dumps(spec, indent=2) + "\n", encoding="utf-8")
-        
+
         print(f"[OK] {stub_path.name}")
         print(f"     {api_def['title']}")
         print(f"     Star: {api_def['star']}")
         print(f"     Endpoints: {len(api_def['endpoints'])}")
         print()
-        
+
         created.append(stub_path.name)
-    
+
     # Create index README
     readme = output_dir / "README.md"
     readme_content = f"""# LUKHAS OpenAPI Stubs
@@ -188,13 +188,13 @@ def main():
 ## Flagship APIs ({len(created)})
 
 """
-    
+
     for api_name, api_def in FLAGSHIP_APIS.items():
         readme_content += f"- **{api_def['title']}** (`lukhas-{api_name}-api.json`)\n"
         readme_content += f"  - {api_def['description']}\n"
         readme_content += f"  - Constellation: {api_def['star']}\n"
         readme_content += f"  - Endpoints: {len(api_def['endpoints'])}\n\n"
-    
+
     readme_content += """## Usage
 
 ```bash
@@ -213,10 +213,10 @@ These stubs are designed for:
 3. **API contract testing** (Dredd, Postman)
 4. **Documentation generation** (Redoc, Swagger UI)
 """
-    
+
     readme.write_text(readme_content, encoding="utf-8")
     print(f"[OK] {readme.name}\n")
-    
+
     print(f"{'=' * 60}")
     print(f"Summary: {len(created)} OpenAPI stubs created")
     print(f"Output: {output_dir}")

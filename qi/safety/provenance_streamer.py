@@ -7,7 +7,6 @@ from collections.abc import Iterator
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, StreamingResponse
-
 from qi.ops.metrics_middleware import (
     PROV_STREAM_BYTES,
     PROV_STREAM_LAT,

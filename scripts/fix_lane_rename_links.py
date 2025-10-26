@@ -25,7 +25,7 @@ def fix_markdown_links(text: str, old_lane: str, new_lane: str) -> Tuple[str, in
     """
     # Pattern matches: [text](candidate/...) or ![alt](candidate/...)
     pattern = rf'(\[!?\[[^\]]*\]\()({old_lane}/[^\)]*)\)'
-    
+
     changes = 0
     def replacer(match):
         nonlocal changes
@@ -34,7 +34,7 @@ def fix_markdown_links(text: str, old_lane: str, new_lane: str) -> Tuple[str, in
         new_path = path.replace(f"{old_lane}/", f"{new_lane}/", 1)
         changes += 1
         return f"{prefix}{new_path})"
-    
+
     new_text = re.sub(pattern, replacer, text)
     return new_text, changes
 
@@ -51,16 +51,16 @@ def fix_file(file_path: Path, old_lane: str, new_lane: str, dry_run: bool = Fals
     except Exception as e:
         print(f"[WARN] Failed to read {file_path}: {e}")
         return 0
-    
+
     new_text, changes = fix_markdown_links(text, old_lane, new_lane)
-    
+
     if changes > 0:
         if dry_run:
             print(f"[DRY-RUN] Would fix {changes} link(s) in: {file_path}")
         else:
             file_path.write_text(new_text, encoding="utf-8")
             print(f"[FIXED] {changes} link(s) in: {file_path}")
-    
+
     return changes
 
 
@@ -79,14 +79,14 @@ def find_markdown_files(root: Path, exclude_patterns: List[str] = None) -> List[
         ".git", "node_modules", "__pycache__", ".venv", "venv",
         "._cleanup_archive", "archive", "backup"
     ]
-    
+
     markdown_files = []
     for md_file in root.rglob("*.md"):
         # Check if file should be excluded
         if any(pattern in str(md_file) for pattern in exclude_patterns):
             continue
         markdown_files.append(md_file)
-    
+
     return sorted(markdown_files)
 
 
@@ -120,21 +120,21 @@ def main():
         nargs="+",
         help="Additional path patterns to exclude"
     )
-    
+
     args = parser.parse_args()
-    
+
     # Resolve root path
     root = args.root.resolve()
     if not root.exists():
         print(f"[ERROR] Root directory not found: {root}")
         return 1
-    
+
     print(f"[INFO] Searching for markdown files in: {root}")
     print(f"[INFO] Renaming links: {args.old_lane}/ → {args.new_lane}/")
     if args.dry_run:
         print("[INFO] DRY-RUN MODE: No files will be modified")
     print()
-    
+
     # Build exclude list
     exclude_patterns = [
         ".git", "node_modules", "__pycache__", ".venv", "venv",
@@ -142,29 +142,29 @@ def main():
     ]
     if args.exclude:
         exclude_patterns.extend(args.exclude)
-    
+
     # Find all markdown files
     markdown_files = find_markdown_files(root, exclude_patterns)
     print(f"[INFO] Found {len(markdown_files)} markdown files to check")
     print()
-    
+
     # Fix links in each file
     total_changes = 0
     files_changed = 0
-    
+
     for md_file in markdown_files:
         changes = fix_file(md_file, args.old_lane, args.new_lane, args.dry_run)
         if changes > 0:
             total_changes += changes
             files_changed += 1
-    
+
     print()
     print(f"[SUMMARY] Total changes: {total_changes} in {files_changed} file(s)")
-    
+
     if args.dry_run:
         print("[INFO] Run without --dry-run to apply changes")
         return 0
-    
+
     if total_changes > 0:
         print("[SUCCESS] Link fixes applied")
         print("[NEXT] Run scripts/check_links.py to verify links")

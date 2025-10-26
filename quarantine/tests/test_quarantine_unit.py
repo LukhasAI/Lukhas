@@ -8,16 +8,16 @@
 Unit tests for quarantine module.
 """
 
-import pytest
 import unittest
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module components
 try:
     pass  #     pass  #
     import quarantine
 except ImportError:
-    pytest.skip(f"Module quarantine not available", allow_module_level=True)
+    pytest.skip("Module quarantine not available", allow_module_level=True)
 
 
 class TestQuarantineModule(unittest.TestCase):

@@ -57,8 +57,8 @@ def get_files_with_datetime_issues():
     """Get files that have DTZ005/DTZ003 violations."""
     try:
         result = subprocess.run([
-            "python3", "-m", "ruff", "check", ".", 
-            "--select", "DTZ005,DTZ003", 
+            "python3", "-m", "ruff", "check", ".",
+            "--select", "DTZ005,DTZ003",
             "--output-format=json"
         ], capture_output=True, text=True, cwd="/Users/cognitive_dev/LOCAL-REPOS/Lukhas")
 

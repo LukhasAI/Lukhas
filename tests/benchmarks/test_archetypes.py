@@ -3,7 +3,6 @@ Tests for archetypal taxonomy system.
 Validates archetypal classification and analysis.
 """
 import pytest
-
 from benchmarks.dream.archetypes import (
     ARCHETYPES,
     CANONICAL_EMOTIONS,

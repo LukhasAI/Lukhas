@@ -48,9 +48,10 @@ def test_prometheus_exporter_starts_and_exposes_metrics(monkeypatch):
 
     # Import modules to register metrics first
     try:
+        import storage.events  # Register event metrics
+
         import core.breakthrough  # Register breakthrough metrics
         import memory.folds  # Register memory metrics
-        import storage.events  # Register event metrics
     except ImportError:
         pytest.skip("Phase 3 modules not available")
 
@@ -150,8 +151,9 @@ def test_metrics_families_present_in_output():
     """Test that all expected metric families are defined (even if zero)."""
     # Import modules that define metrics
     try:
-        from core import breakthrough
         from storage import events
+
+        from core import breakthrough
     except ImportError:
         pytest.skip("Phase 3 modules not available")
 

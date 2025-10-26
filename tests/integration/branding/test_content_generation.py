@@ -68,7 +68,9 @@ class MockDatabase:
 sys.modules["database_integration"] = type("MockModule", (), {"db": MockDatabase()})
 
 # Now import the content generator (after mock setup)
-from branding.engines.lukhas_content_platform.automated_content_generator import AutomatedContentGenerator  # noqa: E402
+from branding.engines.lukhas_content_platform.automated_content_generator import (
+    AutomatedContentGenerator,
+)
 
 
 def test_single_domain_content():

@@ -39,7 +39,13 @@ from core.ethics.logic.dsl_lite import (
     parse_bytes,
     parse_seconds,
 )
-from core.ethics.logic.ethics_engine import EthicsAction, EthicsEngine, EthicsRule, Priority, RuleSet
+from core.ethics.logic.ethics_engine import (
+    EthicsAction,
+    EthicsEngine,
+    EthicsRule,
+    Priority,
+    RuleSet,
+)
 
 
 class TestDSLPredicates:

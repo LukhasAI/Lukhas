@@ -18,9 +18,9 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
+from ai_orchestration.lukhas_ai_orchestrator import LUKHASAIOrchestrator
 from bench_core import PerformanceBenchmark
 
-from ai_orchestration.lukhas_ai_orchestrator import LUKHASAIOrchestrator
 from governance.guardian_system import GuardianSystem
 from memory.memory_event import MemoryEventFactory
 

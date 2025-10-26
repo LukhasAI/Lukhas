@@ -20,10 +20,9 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from typing import Any, Optional
 
+from consent.service import ConsentService
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
-
-from consent.service import ConsentService
 
 from . import ResourceMetadata, ServiceAdapter
 from .drive import create_drive_adapter

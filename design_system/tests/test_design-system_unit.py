@@ -17,7 +17,7 @@ try:
     pass  # Placeholder
     pass  #     pass  #
 except ImportError:
-    pytest.skip(f"Module design-system not available", allow_module_level=True)
+    pytest.skip("Module design-system not available", allow_module_level=True)
 
 
 class TestDesignSystemModule(unittest.TestCase):

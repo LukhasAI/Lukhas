@@ -70,7 +70,7 @@ if IdentityContext is None:
 
 
 try:
-    from .auth_middleware import AuthContext, AuthUser, get_current_user  # noqa: F401
+    from .auth_middleware import AuthContext, AuthUser, get_current_user
 except Exception:
     # The submodule provides robust fallbacks; if it fails, ensure placeholders exist.
     if "AuthUser" not in globals():

@@ -21,7 +21,14 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
-from .service import CapabilityToken, ConsentLedgerEntry, ConsentRevokeRequest, ConsentService, DataCategory, Purpose
+from .service import (
+    CapabilityToken,
+    ConsentLedgerEntry,
+    ConsentRevokeRequest,
+    ConsentService,
+    DataCategory,
+    Purpose,
+)
 
 
 # Request/Response Models

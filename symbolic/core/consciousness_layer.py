@@ -11,10 +11,11 @@ Purpose: Integrate visual symbols with consciousness framework
 import time
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional
+
 import numpy as np
 
-from .visual_symbol import VisualSymbol
 from .quantum_perception import QuantumPerceptionField
+from .visual_symbol import VisualSymbol
 
 
 @dataclass

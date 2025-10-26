@@ -3,7 +3,6 @@ Tests for conflict scenario corpus.
 Ensures strategies handle direct emotional clashes properly.
 """
 import pytest
-
 from benchmarks.dream.conflict import (
     get_conflict_case,
     get_conflict_corpus,

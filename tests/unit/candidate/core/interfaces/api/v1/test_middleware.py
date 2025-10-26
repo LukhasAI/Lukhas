@@ -39,6 +39,7 @@ def auth_components():
     sys.modules.setdefault("interfaces.api.v1.rest.routers", routers_module)
 
     import labs  # ensure base package is registered
+
     import core
     import core.interfaces
     import core.interfaces.api

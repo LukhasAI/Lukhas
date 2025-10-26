@@ -13,10 +13,10 @@ full traceability through the MATRIZ node format.
 
 import streamlit as st
 
-from .fact_node import FactNode  # noqa: TID252 (relative imports in __init__.py are idiomatic)
-from .math_node import MathNode  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+from .fact_node import FactNode  # (relative imports in __init__.py are idiomatic)
+from .math_node import MathNode  # (relative imports in __init__.py are idiomatic)
 from .validator_node import (
-    ValidatorNode,  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+    ValidatorNode,  # (relative imports in __init__.py are idiomatic)
 )
 
 __all__ = [

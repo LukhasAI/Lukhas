@@ -31,7 +31,9 @@ except ImportError:
     REDDIT_AVAILABLE = False
 
 try:
-    from linkedin_api import Linkedin  # LinkedIn API  # noqa: F401  # TODO: linkedin_api.Linkedin; conside...
+    from linkedin_api import (
+        Linkedin,  # LinkedIn API  # noqa: F401  # TODO: linkedin_api.Linkedin; conside...
+    )
 
     LINKEDIN_AVAILABLE = True
 except ImportError:

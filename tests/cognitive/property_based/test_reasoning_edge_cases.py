@@ -31,12 +31,13 @@ from typing import Any, Dict, List
 
 import hypothesis
 import pytest
-from hypothesis import assume, given, strategies as st
-from hypothesis.stateful import Bundle, RuleBasedStateMachine, consumes, rule
 
 # LUKHAS cognitive imports
 from cognitive_core.reasoning.contradiction_integrator import ContradictionIntegrator
 from cognitive_core.reasoning.deep_inference_engine import DeepInferenceEngine, InferenceType
+from hypothesis import assume, given, strategies as st
+from hypothesis.stateful import Bundle, RuleBasedStateMachine, consumes, rule
+
 from consciousness.enhanced_thought_engine import EnhancedThoughtEngine, ThoughtComplexity
 from consciousness.meta_cognitive_assessor import MetaCognitiveAssessor
 

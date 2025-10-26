@@ -11,7 +11,13 @@ from unittest.mock import patch
 
 import pytest
 
-from core.policy_guard import LanePolicyConfig, PolicyGuard, PolicyResult, ReplayDecision, create_policy_guard
+from core.policy_guard import (
+    LanePolicyConfig,
+    PolicyGuard,
+    PolicyResult,
+    ReplayDecision,
+    create_policy_guard,
+)
 
 
 class TestPolicyGuard:

@@ -24,7 +24,7 @@ except ImportError:
 
 try:  # pragma: no cover - optional dependency
     from prometheus_client import Counter, Histogram
-except Exception:  # noqa: BLE001
+except Exception:
     Counter = None  # type: ignore[assignment]
     Histogram = None  # type: ignore[assignment]
 
@@ -35,7 +35,7 @@ logger = logging.getLogger(__name__)
 class _NoopMetric:
     """Graceful fallback when Prometheus client is unavailable."""
 
-    def labels(self, **_: Any) -> "_NoopMetric":  # noqa: D401 - simple shim
+    def labels(self, **_: Any) -> "_NoopMetric":  # - simple shim
         return self
 
     def inc(self, amount: float = 1.0) -> None:  # pragma: no cover - noop

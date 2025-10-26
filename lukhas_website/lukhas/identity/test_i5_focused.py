@@ -10,7 +10,12 @@ import logging
 import time
 
 from .multi_tenant import TenantManager, TenantType
-from .namespace_isolation import AccessMode, DataAccessRequest, IsolationScope, NamespaceIsolationEngine
+from .namespace_isolation import (
+    AccessMode,
+    DataAccessRequest,
+    IsolationScope,
+    NamespaceIsolationEngine,
+)
 from .tier_system import TierLevel
 from .token_generator import EnvironmentSecretProvider, TokenGenerator
 from .token_validator import TokenValidator

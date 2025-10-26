@@ -12,8 +12,8 @@ Usage:
 
 Outputs to: docs/openapi/lukhas-openai.json
 """
-import os
 import json
+import os
 import sys
 from pathlib import Path
 

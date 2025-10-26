@@ -62,7 +62,10 @@ try:
 except ImportError:
     EmotionalMemory = None
 try:
-    from memory.governance.ethical_drift_governor import EthicalDriftGovernor, create_ethical_governor
+    from memory.governance.ethical_drift_governor import (
+        EthicalDriftGovernor,
+        create_ethical_governor,
+    )
 except ImportError:
     EthicalDriftGovernor = None
     create_ethical_governor = None

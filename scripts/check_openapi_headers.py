@@ -57,7 +57,7 @@ def main():
             print(f"  {issue['method']} {issue['path']} [{issue['status']}]: missing {', '.join(issue['missing'])}")
         return 1
 
-    print(f"✅ OpenAPI spec includes all required X-RateLimit-* headers")
+    print("✅ OpenAPI spec includes all required X-RateLimit-* headers")
     print(f"   Validated: {spec_path}")
     print(f"   Paths checked: {len(spec.get('paths', {}))}")
     return 0

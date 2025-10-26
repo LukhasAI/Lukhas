@@ -34,7 +34,7 @@ async def test_quantum_memory_recall_matches_associations():
     assert pytest.approx(1.0) == memory.confidence
     assert set(memory.associations) == {"dream", "ethics"}
     assert len(memory.collapse_hash) == len(bank.memory_register)
-    assert bank.decoherence_mitigator._stabilization_events  # noqa: SLF001
+    assert bank.decoherence_mitigator._stabilization_events
 
 
 @pytest.mark.asyncio

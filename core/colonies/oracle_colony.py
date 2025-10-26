@@ -33,7 +33,11 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 
 try:
-    from labs.consciousness.reflection.openai_core_service import ModelType, OpenAICoreService, OpenAIRequest
+    from labs.consciousness.reflection.openai_core_service import (
+        ModelType,
+        OpenAICoreService,
+        OpenAIRequest,
+    )
 except ImportError:
     ModelType = None
     OpenAICoreService = None

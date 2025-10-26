@@ -4,6 +4,7 @@ import uuid
 from datetime import datetime, timezone
 
 from fastapi import APIRouter, BackgroundTasks, Depends
+
 from interfaces.api.v1.common.errors import ProcessingError, ValidationError
 from interfaces.api.v1.rest.models import ProcessRequest, ProcessResponse, SymbolicState
 
@@ -12,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 # Import metrics infrastructure
 try:
-    from core.metrics import histogram, counter
+    from core.metrics import counter, histogram
 
     api_request_duration = histogram(
         "lukhas_api_request_duration_seconds",

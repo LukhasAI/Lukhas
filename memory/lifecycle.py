@@ -66,7 +66,7 @@ except Exception:
 
 
 try:
-    from memory.tombstones import FileTombstoneStore, GDPRTombstone  # noqa: F401
+    from memory.tombstones import FileTombstoneStore, GDPRTombstone
 except Exception:
     class FileTombstoneStore:
         def __init__(self, *args, **kwargs):

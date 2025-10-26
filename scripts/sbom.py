@@ -27,10 +27,10 @@ def main():
         help="Output format (default: json)"
     )
     args = parser.parse_args()
-    
+
     # Ensure output directory exists
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    
+
     # Check if cyclonedx-bom is installed
     try:
         result = subprocess.run(
@@ -46,29 +46,29 @@ def main():
             )
     except Exception as e:
         print(f"[sbom] Warning: Failed to check/install cyclonedx-bom: {e}")
-    
+
     # Generate SBOM
     try:
         print(f"[sbom] Generating SBOM to {args.output}...")
-        
+
         # Use cyclonedx-py command directly
         cmd = [
             "cyclonedx-py",
             "-o", str(args.output),
             "--format", args.format
         ]
-        
+
         subprocess.check_call(cmd)
-        
+
         if args.output.exists():
             size = args.output.stat().st_size
             print(f"[sbom] ✅ Successfully generated SBOM ({size:,} bytes)")
             print(f"[sbom] Output: {args.output}")
             return 0
         else:
-            print(f"[sbom] ❌ SBOM file not created")
+            print("[sbom] ❌ SBOM file not created")
             return 1
-            
+
     except FileNotFoundError:
         print("[sbom] ❌ cyclonedx-py command not found")
         print("[sbom] Install with: pip install cyclonedx-bom")

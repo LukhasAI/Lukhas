@@ -19,26 +19,26 @@ CONSTELLATION_8_INLINE = "⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 B
 def main():
     root = Path.cwd()
     count = 0
-    
+
     # Only process key files
     key_files = [
         root / "claude.me",
         root / "README.md",
         root / "lukhas_context.md",
     ]
-    
+
     for file_path in key_files:
         if not file_path.exists():
             continue
-            
+
         content = file_path.read_text()
         new_content = re.sub(TRINITY_PATTERN, CONSTELLATION_8_INLINE, content)
-        
+
         if new_content != content:
             file_path.write_text(new_content)
             print(f"✅ Updated: {file_path.name}")
             count += 1
-    
+
     print(f"\n📊 Updated {count} files")
 
 if __name__ == '__main__':

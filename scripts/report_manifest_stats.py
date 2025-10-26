@@ -137,7 +137,7 @@ def main():
         return "\n".join(lines) + "\n"
 
     md = []
-    md.append(f"# Manifest Statistics\n")
+    md.append("# Manifest Statistics\n")
     md.append(f"- Total manifests: **{stats['total_manifests']}**\n")
     md.append(md_counts("Stars", star_counts))
     md.append(md_counts("Quality Tiers", tier_counts))

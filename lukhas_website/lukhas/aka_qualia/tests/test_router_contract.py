@@ -12,7 +12,6 @@ Tests priority monotonicity: higher narrative_gravity ⇒ higher priority
 from unittest.mock import Mock, patch
 
 import pytest
-
 from aka_qualia.glyphs import GLYPH_KEYS, map_scene_to_glyphs
 from aka_qualia.models import (
     AgencyFeel,

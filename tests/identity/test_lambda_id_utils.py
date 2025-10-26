@@ -482,7 +482,7 @@ def test_lambda_id_system_capability():
 def test_lambda_id_full_lifecycle():
     """Test complete ΛID lifecycle."""
     # 1. Generation
-    lambda_id = f"Λ_gamma_user789"
+    lambda_id = "Λ_gamma_user789"
 
     # 2. Validation
     assert lambda_id.startswith("Λ_")

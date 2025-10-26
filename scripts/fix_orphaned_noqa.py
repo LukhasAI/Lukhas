@@ -111,7 +111,7 @@ def main():
     args = parser.parse_args()
     dry_run = not args.apply
 
-    print(f"🔍 Scanning for orphaned noqa comments...")
+    print("🔍 Scanning for orphaned noqa comments...")
     print(f"📂 Roots: {', '.join(args.roots)}")
     print(f"🎯 Mode: {'DRY RUN' if dry_run else 'APPLY FIXES'}")
     print()

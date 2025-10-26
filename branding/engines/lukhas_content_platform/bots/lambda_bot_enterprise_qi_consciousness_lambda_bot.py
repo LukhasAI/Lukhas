@@ -27,11 +27,11 @@ except Exception:
 
 # Import workspace components
 try:
+    from qi import QICoherence, QIProcessor  # noqa: F401  # TODO: qi.QICoherence; consider using...
     from qi.consciousness_integration import (  # noqa: F401  # TODO: qi.consciousness_integr...
         QIConsciousnessProcessor,
         QIState,
     )
-    from qi import QICoherence, QIProcessor  # noqa: F401  # TODO: qi.QICoherence; consider using...
 
     QUANTUM_CONSCIOUSNESS_AVAILABLE = True
 except ImportError as e:
@@ -40,7 +40,10 @@ except ImportError as e:
 
 # Import base LUKHAS AI ΛBot
 try:
-    from core_ΛBot import CoreLambdaBot, SubscriptionTier  # noqa: F401  # TODO: core_ΛBot.SubscriptionTier; co...
+    from core_ΛBot import (  # noqa: F401  # TODO: core_ΛBot.SubscriptionTier; co...
+        CoreLambdaBot,
+        SubscriptionTier,
+    )
 
     LAMBDA_BOT_AVAILABLE = True
 except ImportError as e:

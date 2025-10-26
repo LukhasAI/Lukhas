@@ -17,7 +17,7 @@ try:
     pass  # Placeholder
     pass  #     pass  #
 except ImportError:
-    pytest.skip(f"Module lukhas-ai-intro not available", allow_module_level=True)
+    pytest.skip("Module lukhas-ai-intro not available", allow_module_level=True)
 
 
 class TestLukhasAiIntroIntegration(unittest.TestCase):

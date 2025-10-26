@@ -9,10 +9,9 @@ This script updates context files across the entire LUKHAS repository with:
 - Updated dates and version information
 """
 
-import os
 import re
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 from typing import List, Tuple
 
 # Key metrics to update (based on latest analysis)

@@ -16,8 +16,13 @@ Then:
   bash docs/audits/todos_gh.sh
 """
 from __future__ import annotations
-import argparse, csv, shlex, sys
+
+import argparse
+import csv
+import shlex
+import sys
 from pathlib import Path
+
 
 def mk_labels(owner_hint:str, priority:str, extra:str|None):
     labels = ["debt"]

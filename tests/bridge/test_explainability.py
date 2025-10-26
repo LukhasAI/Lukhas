@@ -21,7 +21,6 @@ from collections import OrderedDict
 from datetime import datetime
 
 import pytest
-
 from labs.bridge.explainability_interface_layer import (
     CompletenessMetrics,
     ExplainabilityCache,

@@ -4,8 +4,9 @@ Integration tests for all 25 hidden gems modules.
 Tests that all modules can be imported and their schemas are valid.
 """
 import json
-import pytest
 from pathlib import Path
+
+import pytest
 
 
 class TestTop25HiddenGemsIntegration:
@@ -14,16 +15,18 @@ class TestTop25HiddenGemsIntegration:
     def test_matriz_consciousness_modules_import(self):
         """Test that all MATRIZ consciousness modules can be imported."""
         # Module 1-11: MATRIZ consciousness
-        from matriz.consciousness.reflection import id_reasoning_engine
-        from matriz.consciousness.reflection import swarm
-        from matriz.consciousness.reflection import orchestration_service
-        from matriz.consciousness.reflection import memory_hub
-        from matriz.consciousness.reflection import dreamseed_unified
-        from matriz.consciousness.reflection import reflection_layer
-        from matriz.consciousness.reflection import symbolic_drift_analyzer
-        from matriz.consciousness.reflection import integrated_safety_system
         from matriz.consciousness.cognitive import adapter
         from matriz.consciousness.core import engine_poetic
+        from matriz.consciousness.reflection import (
+            dreamseed_unified,
+            id_reasoning_engine,
+            integrated_safety_system,
+            memory_hub,
+            orchestration_service,
+            reflection_layer,
+            swarm,
+            symbolic_drift_analyzer,
+        )
 
         assert id_reasoning_engine is not None
         assert swarm is not None
@@ -68,18 +71,18 @@ class TestTop25HiddenGemsIntegration:
     def test_core_system_modules_import(self):
         """Test that core system modules can be imported."""
         # Module 16-27: Core system modules
-        from core.glyph import glyph_memory_integration
-        from core.integration import executive_decision_integrator
-        from core.symbolic import vocabulary_creativity_engine
-        from core.orchestration import gpt_colony_orchestrator
-        from core.bridge import dream_commerce
-        from core.consciousness import id_reasoning_engine
-        from core.api import service_stubs
-        from core.verifold import verifold_unified
-        from core.colonies import oracle_colony
-        from core.identity import constitutional_ai_compliance
-        from core.audit import audit_decision_embedding_engine
         import core.oracle_nervous_system
+        from core.api import service_stubs
+        from core.audit import audit_decision_embedding_engine
+        from core.bridge import dream_commerce
+        from core.colonies import oracle_colony
+        from core.consciousness import id_reasoning_engine
+        from core.glyph import glyph_memory_integration
+        from core.identity import constitutional_ai_compliance
+        from core.integration import executive_decision_integrator
+        from core.orchestration import gpt_colony_orchestrator
+        from core.symbolic import vocabulary_creativity_engine
+        from core.verifold import verifold_unified
 
         assert glyph_memory_integration is not None
         assert executive_decision_integrator is not None
@@ -243,8 +246,8 @@ class TestTop25HiddenGemsIntegration:
         """Test that consent_ledger has expected classes."""
         from core.governance.consent_ledger.ledger_v1 import (
             ConsentLedgerV1,
-            PolicyVerdict,
             ConsentType,
+            PolicyVerdict,
         )
 
         assert ConsentLedgerV1 is not None

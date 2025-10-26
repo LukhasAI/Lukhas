@@ -142,7 +142,7 @@ def find_near_duplicates(docs: List[Dict], threshold: float = 0.92) -> List[List
 
     For performance with 1200+ docs, we use title/filename similarity only.
     """
-    print(f"🔍 Finding near-duplicates by title/path similarity...")
+    print("🔍 Finding near-duplicates by title/path similarity...")
 
     near_dupes = []
     checked = set()

@@ -9,7 +9,6 @@ from unittest.mock import patch
 from uuid import UUID, uuid4
 
 import pytest
-
 from storage.events import Event, EventStore, get_event_store
 
 

@@ -26,7 +26,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Iterable, Mapping
 
-
 DEFAULT_INPUT = Path("reports/audit/merged/ai_interface_events.jsonl")
 DEFAULT_OUTPUT = Path("reports/audit/merged/evidence_ledger.csv")
 

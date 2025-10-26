@@ -1,7 +1,6 @@
 from pathlib import Path
 
 import pytest
-
 from tools.scripts import fix_syntax_errors as fse
 
 

@@ -93,7 +93,7 @@ def safe_subprocess_run(
     if env is not None:
         sanitized_env = {str(key): str(value) for key, value in env.items()}
 
-    return subprocess.run(  # noqa: PLW1510 - we intentionally surface exceptions to callers
+    return subprocess.run(  # - we intentionally surface exceptions to callers
         sanitized_command,
         check=check,
         capture_output=True,

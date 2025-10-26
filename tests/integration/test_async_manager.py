@@ -8,7 +8,6 @@ consciousness-aware task prioritization for production reliability.
 import asyncio
 
 import pytest
-
 from async_manager import (
     ConsciousnessTaskManager,
     TaskPriority,

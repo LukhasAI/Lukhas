@@ -18,10 +18,8 @@ Notes:
 from __future__ import annotations
 
 import argparse
-import io
 import os
 from pathlib import Path
-
 
 SKIP_DIR_PREFIXES = (".git", ".venv", ".mypy_cache", ".pytest_cache", "node_modules")
 

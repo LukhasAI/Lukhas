@@ -1,7 +1,8 @@
-from starlette.testclient import TestClient
 from serve.main import app
+from starlette.testclient import TestClient
 
 from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
+
 
 def test_dreams_minimal():
     client = TestClient(app)

@@ -4,9 +4,9 @@
 Usage:
     cat flat_nodespec.json | python3 tools/nodespec_flatmap.py > nested_nodespec.json
 """
+import datetime
 import json
 import sys
-import datetime
 
 
 def convert_flat_to_nested(flat_spec):

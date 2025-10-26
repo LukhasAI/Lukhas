@@ -17,7 +17,6 @@ import hmac
 from datetime import datetime, timedelta, timezone
 
 import pytest
-
 from labs.bridge.api.api import QRSAlgorithm as SignatureAlgorithm, QRSManager
 
 # ============================================================================

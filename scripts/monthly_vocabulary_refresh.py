@@ -23,11 +23,10 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, List
 
-from dotenv import load_dotenv
-
 # Load T4 research pipeline
 # Load vocabulary rotation engine
 from branding.vocabularies.vocabulary_rotation_engine import VocabularyRotationEngine
+from dotenv import load_dotenv
 
 load_dotenv()
 

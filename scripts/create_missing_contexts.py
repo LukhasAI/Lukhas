@@ -73,14 +73,14 @@ def main():
         mod = m.get("module", {}) or {}
         meta = m.get("metadata", {}) or {}
         obs = m.get("observability", {}) or {}
-        
+
         # Handle logging data which can be a dict or null
         logging_data = obs.get("logging")
         if isinstance(logging_data, dict):
             log = logging_data.get("logger_name") or mod.get("name") or "lukhas"
         else:
             log = mod.get("name") or "lukhas"
-            
+
         star = (m.get("constellation_alignment", {}) or {}).get("primary_star") or "Supporting"
         tier = (m.get("testing", {}) or {}).get("quality_tier") or "T4_experimental"
         owner = (meta.get("owner") or "unassigned")

@@ -5,7 +5,6 @@ import os
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, RedirectResponse
-
 from qi.safety.provenance_receipts import write_receipt
 from qi.safety.provenance_uploader import load_record_by_sha
 

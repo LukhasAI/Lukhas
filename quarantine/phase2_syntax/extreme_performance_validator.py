@@ -19,15 +19,13 @@ BOTTLENECKS ELIMINATED:
 
 TOTAL EXPECTED IMPROVEMENT: 83-117ms → <5ms authentication flow (95%+ reduction)
 """
-from datetime import timezone
-
 import asyncio
 import json
 import statistics
 import sys
 import time
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
@@ -41,6 +39,7 @@ try:
         ExtremeAuthPerformanceOptimizer,
         get_extreme_optimizer,
     )
+
     from governance.identity.auth_backend.extreme_performance_audit_logger import (
         get_extreme_audit_logger,
         run_audit_benchmark_extreme,

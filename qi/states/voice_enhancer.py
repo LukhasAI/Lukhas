@@ -43,9 +43,8 @@ import logging
 from dataclasses import dataclass
 from typing import Any, Optional
 
-from learning.systems.voice_duet import VoiceIntegrator
-
 from bio.systems.orchestration.bio_orchestrator import BioOrchestrator
+from learning.systems.voice_duet import VoiceIntegrator
 from qi.layer import QIBioOscillator
 
 logger = logging.getLogger("qi_voice")

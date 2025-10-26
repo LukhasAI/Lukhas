@@ -8,10 +8,10 @@ Phase 3 gate: LUKHAS_COMPAT_MAX_HITS=0 enforces zero usage in CI.
 Usage:
   python3 scripts/report_compat_hits.py --out docs/audits/compat_alias_hits.json
 """
+import argparse
 import json
 import os
 import sys
-import argparse
 from pathlib import Path
 
 

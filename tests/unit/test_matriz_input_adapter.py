@@ -3,8 +3,8 @@
 
 import asyncio
 import sys
-from pathlib import Path
 import types
+from pathlib import Path
 
 import pytest
 
@@ -25,10 +25,10 @@ if "streamlit" not in sys.modules:
     streamlit_stub.cache_data = _cache_decorator
     sys.modules["streamlit"] = streamlit_stub
 
-from MATRIZ.core.async_orchestrator import AsyncCognitiveOrchestrator
-from MATRIZ.nodes.fact_node import FactNode
-from MATRIZ.nodes.math_node import MathNode
-from MATRIZ.nodes.validator_node import ValidatorNode
+from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator
+from matriz.nodes.fact_node import FactNode
+from matriz.nodes.math_node import MathNode
+from matriz.nodes.validator_node import ValidatorNode
 
 
 class TestMatrizInputAdapter:

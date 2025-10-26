@@ -8,17 +8,16 @@
 Integration tests for archive module.
 """
 
-import pytest
 import unittest
-import asyncio
-from unittest.mock import Mock, patch
+
+import pytest
 
 # Import module for integration testing
 try:
     pass  #     pass  #
     import archive
 except ImportError:
-    pytest.skip(f"Module archive not available", allow_module_level=True)
+    pytest.skip("Module archive not available", allow_module_level=True)
 
 
 class TestArchiveIntegration(unittest.TestCase):

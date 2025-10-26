@@ -20,8 +20,12 @@ import re
 
 # Import our expanded modules
 try:
-    from .expanded_lexicon import ExpandedLUKHASLexicon  # noqa: F401  # TODO: .expanded_lexicon.ExpandedLUKH...
-    from .poetic_techniques import PoeticTechniques  # noqa: F401  # TODO: .poetic_techniques.PoeticTechn...
+    from .expanded_lexicon import (
+        ExpandedLUKHASLexicon,  # noqa: F401  # TODO: .expanded_lexicon.ExpandedLUKH...
+    )
+    from .poetic_techniques import (
+        PoeticTechniques,  # noqa: F401  # TODO: .poetic_techniques.PoeticTechn...
+    )
 except ImportError:
     # Fallback for standalone usage
     pass

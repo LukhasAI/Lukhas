@@ -20,9 +20,10 @@ import pytest
 
 try:
     from labs.memory.consolidation import MemoryConsolidator
+
+    from memory.adaptive_memory import AdaptiveMemorySystem, MemoryFold, MemoryItem, MemoryType
     from memory.recall import MemoryRecallEngine
     from observability.prometheus_metrics import LUKHASMetrics
-    from memory.adaptive_memory import AdaptiveMemorySystem, MemoryFold, MemoryItem, MemoryType
     MEMORY_AVAILABLE = True
 except ImportError:
     # Fallback for testing without full memory system

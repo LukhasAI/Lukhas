@@ -5,8 +5,8 @@ Tests full cognitive workflows including MATRIZ orchestration, memory systems,
 consciousness streams, and the complete Constellation Framework when available.
 """
 import pytest
+from serve.main import MATRIZ_AVAILABLE, MEMORY_AVAILABLE, app
 from starlette.testclient import TestClient
-from serve.main import app, MATRIZ_AVAILABLE, MEMORY_AVAILABLE
 
 # Skip if core systems not available
 pytestmark = pytest.mark.skipif(
@@ -607,8 +607,8 @@ def test_consciousness_memory_footprint_under_100mb(client, auth_headers):
 
 def test_consciousness_concurrent_pipeline_throughput(client, auth_headers):
     """Verify concurrent full pipeline maintains throughput under rate limits."""
-    from concurrent.futures import ThreadPoolExecutor
     import time
+    from concurrent.futures import ThreadPoolExecutor
 
     def make_pipeline_request(i):
         response = client.post(

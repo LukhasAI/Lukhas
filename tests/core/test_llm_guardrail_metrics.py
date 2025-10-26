@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 # ΛTAG: observability_metrics_test
-
 import pytest
+
 from core.bridge import llm_guardrail
 
 prom = pytest.importorskip("prometheus_client")

@@ -12,7 +12,6 @@ import sys
 from pathlib import Path
 from typing import List
 
-
 # Required header format (can be customized)
 REQUIRED_HEADER = """# Copyright (c) 2025 LUKHAS AI
 # SPDX-License-Identifier: Apache-2.0""".strip()
@@ -33,18 +32,18 @@ def check_file_header(file_path: Path) -> bool:
     """
     try:
         content = file_path.read_text(encoding="utf-8")
-        
+
         # Check first 10 lines for header
         lines = content.split("\n")[:10]
         first_lines = "\n".join(lines)
-        
+
         # Check if any acceptable header is present
         for header in ACCEPTABLE_HEADERS:
             if header in first_lines:
                 return True
-        
+
         return False
-    
+
     except Exception as e:
         print(f"[WARN] Failed to read {file_path}: {e}", file=sys.stderr)
         return False
@@ -62,19 +61,19 @@ def find_python_files(roots: List[Path], exclude_patterns: List[str]) -> List[Pa
         List of Path objects for Python files
     """
     python_files = []
-    
+
     for root in roots:
         if not root.exists():
             print(f"[WARN] Directory not found: {root}")
             continue
-        
+
         for py_file in root.rglob("*.py"):
             # Check if file should be excluded
             if any(pattern in str(py_file) for pattern in exclude_patterns):
                 continue
-            
+
             python_files.append(py_file)
-    
+
     return sorted(python_files)
 
 
@@ -92,7 +91,7 @@ def add_header_to_file(file_path: Path, header: str, dry_run: bool = False) -> b
     """
     try:
         content = file_path.read_text(encoding="utf-8")
-        
+
         # Handle shebang
         if content.startswith("#!"):
             lines = content.split("\n")
@@ -101,15 +100,15 @@ def add_header_to_file(file_path: Path, header: str, dry_run: bool = False) -> b
             new_content = f"{shebang}\n{header}\n\n{rest}"
         else:
             new_content = f"{header}\n\n{content.lstrip()}"
-        
+
         if dry_run:
             print(f"[DRY-RUN] Would add header to: {file_path}")
         else:
             file_path.write_text(new_content, encoding="utf-8")
             print(f"[FIXED] Added header to: {file_path}")
-        
+
         return True
-    
+
     except Exception as e:
         print(f"[ERROR] Failed to add header to {file_path}: {e}", file=sys.stderr)
         return False
@@ -152,52 +151,52 @@ def main():
         ],
         help="Path patterns to exclude"
     )
-    
+
     args = parser.parse_args()
-    
+
     # Determine files to check
     if args.files:
         python_files = [f for f in args.files if f.suffix == ".py"]
     else:
         print(f"[INFO] Scanning directories: {', '.join(str(d) for d in args.dirs)}")
         python_files = find_python_files(args.dirs, args.exclude)
-    
+
     if not python_files:
         print("[ERROR] No Python files found to check")
         return 1
-    
+
     print(f"[INFO] Checking {len(python_files)} Python files")
     if args.fix or args.dry_run:
         print(f"[INFO] Mode: {'DRY-RUN' if args.dry_run else 'FIX'}")
     print()
-    
+
     # Check files
     missing_headers = []
-    
+
     for py_file in python_files:
         if not check_file_header(py_file):
             missing_headers.append(py_file)
-    
+
     # Report results
     if missing_headers:
         print(f"❌ Found {len(missing_headers)} file(s) without proper license headers:")
         print()
-        
+
         for file_path in missing_headers:
             print(f"  {file_path}")
-        
+
         print()
-        
+
         # Fix if requested
         if args.fix or args.dry_run:
             print(f"{'[DRY-RUN] Would add' if args.dry_run else 'Adding'} headers...")
             print()
-            
+
             fixed_count = 0
             for file_path in missing_headers:
                 if add_header_to_file(file_path, REQUIRED_HEADER, args.dry_run):
                     fixed_count += 1
-            
+
             print()
             if args.dry_run:
                 print(f"[DRY-RUN] Would fix {fixed_count} file(s)")
@@ -206,9 +205,9 @@ def main():
                 print(f"[SUCCESS] Fixed {fixed_count} file(s)")
         else:
             print("[INFO] Run with --fix to add missing headers")
-        
+
         return 1 if not (args.fix and not args.dry_run) else 0
-    
+
     else:
         print("✅ All files have proper license headers")
         return 0

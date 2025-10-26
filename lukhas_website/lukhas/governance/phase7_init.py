@@ -9,7 +9,13 @@ Initialization and status reporting for Guardian Schema Serializers.
 
 def initialize_phase7_serializers():
     """Initialize Phase 7 Guardian Serializers with status reporting"""
-    from . import PHASE_7_AVAILABLE, PHASE_7_SERIALIZERS, __phase__, __triad_framework__, lukhas_auth_integration_system
+    from . import (
+        PHASE_7_AVAILABLE,
+        PHASE_7_SERIALIZERS,
+        __phase__,
+        __triad_framework__,
+        lukhas_auth_integration_system,
+    )
 
     try:
         if PHASE_7_SERIALIZERS:

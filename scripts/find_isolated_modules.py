@@ -9,9 +9,8 @@ Scans Python files and identifies:
 Excludes: tests/, docs/, __pycache__, fixtures, setup.py
 """
 import ast
-import sys
-from pathlib import Path
 from collections import defaultdict
+from pathlib import Path
 
 
 def get_imports(file_path: Path) -> set[str]:

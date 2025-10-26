@@ -15,7 +15,6 @@ from typing import Any, Optional
 from urllib.parse import urljoin
 
 import requests
-
 from aka_qualia.models import PhenomenalScene, RegulationPolicy
 from aka_qualia.palette import get_safe_palette_recommendation
 

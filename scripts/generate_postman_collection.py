@@ -14,6 +14,7 @@ import subprocess
 import sys
 from pathlib import Path
 
+
 def check_dependencies():
     """Ensure required packages are installed."""
     try:
@@ -22,7 +23,7 @@ def check_dependencies():
         print("❌ Missing dependency: pyyaml")
         print("Install with: pip install pyyaml")
         sys.exit(1)
-    
+
     # Check if openapi2postmanv2 CLI is available (optional)
     try:
         result = subprocess.run(
@@ -34,7 +35,7 @@ def check_dependencies():
             return True
     except FileNotFoundError:
         pass
-    
+
     print("⚠️  openapi2postmanv2 not found, will use fallback generation")
     return False
 
@@ -45,7 +46,7 @@ def convert_openapi_to_postman(
 ):
     """Convert OpenAPI spec to Postman collection using CLI tool."""
     print(f"🔄 Converting {openapi_path} to Postman collection...")
-    
+
     # Use openapi2postmanv2 CLI
     result = subprocess.run(
         [
@@ -57,11 +58,11 @@ def convert_openapi_to_postman(
         capture_output=True,
         text=True
     )
-    
+
     if result.returncode != 0:
         print(f"❌ Conversion failed: {result.stderr}")
         return False
-    
+
     print(f"✅ Postman collection created: {output_path}")
     return True
 
@@ -69,7 +70,7 @@ def enhance_postman_collection(collection_path: Path):
     """Enhance generated collection with LUKHAS-specific examples and tests."""
     with open(collection_path) as f:
         collection = json.load(f)
-    
+
     # Add collection-level info
     collection["info"]["name"] = "LUKHAS OpenAI-Compatible API"
     collection["info"]["description"] = (
@@ -88,7 +89,7 @@ def enhance_postman_collection(collection_path: Path):
         "- [Error Handling](../openai/API_ERRORS.md)\n"
         "- [SLOs](../openai/SLOs.md)"
     )
-    
+
     # Add authentication to all requests
     for item in collection.get("item", []):
         if "request" in item:
@@ -97,25 +98,25 @@ def enhance_postman_collection(collection_path: Path):
             for subitem in item["item"]:
                 if "request" in subitem:
                     add_auth_and_examples(subitem["request"])
-    
+
     # Save enhanced collection
     with open(collection_path, "w") as f:
         json.dump(collection, f, indent=2)
-    
-    print(f"✅ Enhanced collection with authentication and examples")
+
+    print("✅ Enhanced collection with authentication and examples")
 
 def add_auth_and_examples(request: dict):
     """Add authentication headers and example tests to a request."""
     # Add Authorization header using environment variable
     if "header" not in request:
         request["header"] = []
-    
+
     request["header"].append({
         "key": "Authorization",
         "value": "Bearer {{api_key}}",
         "type": "text"
     })
-    
+
     # Add example test script
     request["event"] = [{
         "listen": "test",
@@ -137,7 +138,7 @@ def add_auth_and_examples(request: dict):
             ]
         }
     }]
-    
+
     # Add pre-request script for logging
     request["event"].append({
         "listen": "prerequest",
@@ -193,10 +194,10 @@ def create_postman_environment(output_path: Path):
         "_postman_exported_at": "2025-01-08T00:00:00.000Z",
         "_postman_exported_using": "Postman/10.0.0"
     }
-    
+
     with open(output_path, "w") as f:
         json.dump(environment, f, indent=2)
-    
+
     print(f"✅ Postman environment created: {output_path}")
 
 def create_example_requests(output_dir: Path):
@@ -226,10 +227,10 @@ def create_example_requests(output_dir: Path):
             "mode": "symbolic"
         }
     }
-    
+
     examples_dir = output_dir / "examples"
     examples_dir.mkdir(exist_ok=True)
-    
+
     for name, body in examples.items():
         example_path = examples_dir / f"{name}.json"
         with open(example_path, "w") as f:
@@ -241,24 +242,24 @@ def main():
     print("=" * 70)
     print("LUKHAS Postman Collection Generator")
     print("=" * 70)
-    
+
     # Paths
     repo_root = Path(__file__).parent.parent
     openapi_path = repo_root / "docs" / "openapi" / "lukhas-openai.yaml"
     output_dir = repo_root / "docs" / "postman"
     output_dir.mkdir(exist_ok=True)
-    
+
     collection_path = output_dir / "lukhas-api-collection.json"
     environment_path = output_dir / "lukhas-api-environment.json"
-    
+
     # Check dependencies
     has_cli = check_dependencies()
-    
+
     # Convert OpenAPI to Postman
     if not openapi_path.exists():
         print(f"❌ OpenAPI spec not found: {openapi_path}")
         sys.exit(1)
-    
+
     if has_cli:
         success = convert_openapi_to_postman(openapi_path, collection_path)
         if not success:
@@ -267,28 +268,28 @@ def main():
     else:
         print("🔧 Using manual collection generation...")
         create_minimal_collection(collection_path)
-    
+
     # Enhance collection
     enhance_postman_collection(collection_path)
-    
+
     # Create environment
     create_postman_environment(environment_path)
-    
+
     # Create example requests
     create_example_requests(output_dir)
-    
+
     # Create README
     create_postman_readme(output_dir)
-    
+
     print("\n" + "=" * 70)
     print("✅ Postman collection generation complete!")
     print("=" * 70)
-    print(f"\nFiles created:")
+    print("\nFiles created:")
     print(f"  📄 Collection:  {collection_path}")
     print(f"  🌍 Environment: {environment_path}")
     print(f"  📁 Examples:    {output_dir / 'examples'}/")
     print(f"  📖 README:      {output_dir / 'README.md'}")
-    print(f"\nImport these files into Postman to get started!")
+    print("\nImport these files into Postman to get started!")
 
 def create_minimal_collection(output_path: Path):
     """Create a minimal Postman collection manually (fallback)."""
@@ -350,10 +351,10 @@ def create_minimal_collection(output_path: Path):
             }
         ]
     }
-    
+
     with open(output_path, "w") as f:
         json.dump(collection, f, indent=2)
-    
+
     print(f"✅ Minimal collection created: {output_path}")
 
 def create_postman_readme(output_dir: Path):
@@ -588,11 +589,11 @@ Found issues or want to add examples? Open a PR with:
 
 **Questions?** Open an issue or contact the platform team.
 """
-    
+
     readme_path = output_dir / "README.md"
     with open(readme_path, "w") as f:
         f.write(readme_content)
-    
+
     print(f"✅ Postman README created: {readme_path}")
 
 if __name__ == "__main__":

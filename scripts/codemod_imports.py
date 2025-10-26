@@ -13,13 +13,12 @@ Config (optional):
   --config configs/legacy_imports.yml
 """
 from __future__ import annotations
+
 import argparse
 import ast
 import csv
-import io
 import re
 import sys
-import tokenize
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, Iterable, List, Tuple

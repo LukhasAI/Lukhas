@@ -14,7 +14,11 @@ Usage:
   python3 scripts/harvest_todos.py --roots lukhas labs packages tools tests docs --out docs/audits/todos.csv
 """
 from __future__ import annotations
-import argparse, csv, re, sys
+
+import argparse
+import csv
+import re
+import sys
 from pathlib import Path
 
 # Recognize TODO flavors

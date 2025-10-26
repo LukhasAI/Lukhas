@@ -4,11 +4,12 @@ Example script showing how to integrate a hidden gem module
 This demonstrates the complete process for Agent Codex
 """
 
+import ast
 import json
 import os
-import ast
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any, Dict
+
 
 def integrate_hidden_gem(module_path: str) -> Dict[str, Any]:
     """

@@ -1255,7 +1255,7 @@ __all__ = [
 # Added for test compatibility (candidate.core.identity.constitutional_ai_compliance.ConstitutionalAIComplianceMonitor)
 try:
     from labs.candidate.core.identity.constitutional_ai_compliance import (
-        ConstitutionalAIComplianceMonitor,  # noqa: F401
+        ConstitutionalAIComplianceMonitor,
     )
 except ImportError:
     class ConstitutionalAIComplianceMonitor:

@@ -27,7 +27,9 @@ try:
     from acceptance.accepted.bio.oscillator import BioOscillator
     from acceptance.accepted.bio.quantum import QIBioProcessor
     from acceptance.accepted.bio.voice import VoiceResonance
-    from acceptance.accepted.colonies.consciousness import ConsciousnessColony as ConsciousnessEngine
+    from acceptance.accepted.colonies.consciousness import (
+        ConsciousnessColony as ConsciousnessEngine,
+    )
 
     # Advanced Colonies
     from acceptance.accepted.colonies.creativity import CreativityColony
@@ -69,10 +71,10 @@ try:
 except ImportError:
     try:
         # Try alternative imports from root core
-        from identity.lid_core import LIDCore
         from consciousness.awareness import ConsciousnessEngine
         from core.glyph import GLYPHEngine
         from governance.guardian_system import GuardianSystem
+        from identity.lid_core import LIDCore
         from memory.fold_manager import FoldManager
 
         LUKHAS_AVAILABLE = True

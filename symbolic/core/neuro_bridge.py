@@ -9,9 +9,9 @@ Purpose: Bridge quantum visual symbols to MATRIZ cognitive architecture
 """
 
 import time
-import uuid
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Tuple
+
 import numpy as np
 
 from .visual_symbol import VisualSymbol

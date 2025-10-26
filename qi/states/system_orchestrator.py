@@ -109,9 +109,8 @@ class QIAGISystem:
         # Initialize quantum voice enhancer for enhanced communication
         try:
             # Note: Voice and Bio components may not be available in all configurations
-            from learning.systems.voice_duet import VoiceIntegrator
-
             from bio.systems.orchestration.bio_orchestrator import BioOrchestrator
+            from learning.systems.voice_duet import VoiceIntegrator
 
             bio_orchestrator = BioOrchestrator()
             voice_integrator = VoiceIntegrator()

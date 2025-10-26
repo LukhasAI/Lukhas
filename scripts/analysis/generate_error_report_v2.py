@@ -337,7 +337,7 @@ def main():
         json.dump(report, f, indent=2)
 
     print(f"\n📄 Report saved to: {output_path}")
-    print(f"\n📊 Summary:")
+    print("\n📊 Summary:")
     print(f"  Total errors: {report['metadata']['total_errors']}")
     print(f"  Reduction from baseline: {report['metadata']['reduction_percentage']}")
     print(f"  Unique missing modules: {report['summary']['unique_missing_modules']}")
@@ -349,11 +349,11 @@ def main():
         print(f"     → {insight['recommendation']}")
 
     if report["top_offenders"]["missing_modules"]:
-        print(f"\n🔝 Top 5 Missing Modules:")
+        print("\n🔝 Top 5 Missing Modules:")
         for mod, count in report["top_offenders"]["missing_modules"][:5]:
             print(f"  • {mod}: {count} tests")
 
-    print(f"\n📋 Error Type Distribution:")
+    print("\n📋 Error Type Distribution:")
     for err_type, count in report["top_offenders"]["error_types"]:
         print(f"  • {err_type}: {count}")
 

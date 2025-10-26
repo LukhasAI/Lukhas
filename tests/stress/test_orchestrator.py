@@ -18,8 +18,8 @@ import pytest
 
 try:
     from core.interfaces import ICognitiveNode
-    from core.registry import get_plugin_registry
     from core.matriz.async_orchestrator import AsyncOrchestrator
+    from core.registry import get_plugin_registry
     from observability.prometheus_metrics import LUKHASMetrics
     ORCHESTRATOR_AVAILABLE = True
 except ImportError:

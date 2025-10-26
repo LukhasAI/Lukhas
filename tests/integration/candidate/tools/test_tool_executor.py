@@ -1,8 +1,7 @@
 from unittest.mock import AsyncMock, MagicMock, patch
 
-import pytest
-
 import docker
+import pytest
 from labs.tools.tool_executor import ToolExecutor
 
 

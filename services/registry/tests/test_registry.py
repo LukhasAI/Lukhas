@@ -1,8 +1,10 @@
 """Tests for LUKHAS Hybrid Registry Prototype."""
-from fastapi.testclient import TestClient
-from services.registry.main import app
 import json
 import pathlib
+
+from fastapi.testclient import TestClient
+
+from services.registry.main import app
 
 client = TestClient(app)
 

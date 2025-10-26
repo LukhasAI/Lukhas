@@ -17,14 +17,12 @@ Output formats:
 import ast
 import csv
 import json
-import os
 import subprocess
 from collections import defaultdict
-from dataclasses import dataclass, asdict
-from datetime import datetime, timedelta
+from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path
 from typing import Optional
-
 
 # Exclusion patterns (external, tests, build artifacts)
 EXCLUDE_PATTERNS = {
@@ -491,7 +489,7 @@ def generate_outputs(modules: list[ModuleMetrics], output_dir: Path):
                 f.write("\n")
                 phase += 1
 
-    print(f"\n✅ Generated 5 output files:")
+    print("\n✅ Generated 5 output files:")
     print(f"   1. {csv_path} - Full scored table")
     print(f"   2. {top20_path} - Top 20 with integration suggestions")
     print(f"   3. {graph_path} - Dependency graph JSON")
@@ -535,7 +533,7 @@ def main():
     for m in modules:
         by_category[m.category] += 1
 
-    print(f"\n📊 Summary Statistics:")
+    print("\n📊 Summary Statistics:")
     print(f"   Hidden Gems (70-100): {by_category['hidden_gem']}")
     print(f"   Experimental (50-69): {by_category['experimental']}")
     print(f"   Archival (30-49): {by_category['archival']}")
@@ -545,7 +543,7 @@ def main():
     print(f"\n🏆 Top Hidden Gem: {top_gem.path} (Score: {top_gem.score:.1f})")
     print(f"   {top_gem.integration_suggestion}")
 
-    print(f"\n📖 See docs/audits/hidden_gems_top20.md for full report")
+    print("\n📖 See docs/audits/hidden_gems_top20.md for full report")
 
 
 if __name__ == '__main__':

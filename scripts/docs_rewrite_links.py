@@ -214,11 +214,11 @@ def main():
     print()
 
     # Load data
-    print(f"📂 Loading manifest...")
+    print("📂 Loading manifest...")
     manifest = load_manifest()
     docs = manifest['documents']
 
-    print(f"📂 Loading dedupe plan...")
+    print("📂 Loading dedupe plan...")
     dedupe_plan = load_dedupe_plan()
     redirect_map = build_redirect_map(dedupe_plan)
 
@@ -272,7 +272,7 @@ def main():
 
     print()
     print("=" * 80)
-    print(f"✅ Phase 4 Complete")
+    print("✅ Phase 4 Complete")
     print("=" * 80)
 
 

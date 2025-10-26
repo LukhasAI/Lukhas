@@ -19,26 +19,26 @@ from typing import Dict, List
 
 class ErrorPattern:
     """Represents a categorized error pattern."""
-    
+
     def __init__(self, category: str, detail: str, file: str, line: str = ""):
         self.category = category
         self.detail = detail
         self.file = file
         self.line = line
-        
+
     def __hash__(self):
         return hash((self.category, self.detail))
-    
+
     def __eq__(self, other):
         return (self.category, self.detail) == (other.category, other.detail)
-    
+
     def __repr__(self):
         return f"{self.category}: {self.detail}"
 
 
 class PytestErrorAnalyzer:
     """Analyzes pytest collection errors and suggests fixes."""
-    
+
     # Error pattern regex definitions
     PATTERNS = {
         'module_not_found': re.compile(r"ModuleNotFoundError: No module named '([^']+)'"),
@@ -51,21 +51,21 @@ class PytestErrorAnalyzer:
         'attribute_error': re.compile(r"AttributeError: (.+)"),
         'import_error': re.compile(r"ImportError: (.+)"),
     }
-    
+
     def __init__(self, log_file: Path):
         self.log_file = log_file
         self.errors: List[ErrorPattern] = []
         self.error_counts: Counter = Counter()
         self.fix_suggestions: Dict[str, List[str]] = defaultdict(list)
-        
+
     def parse(self) -> None:
         """Parse pytest collection log for error patterns."""
         with open(self.log_file) as f:
             content = f.read()
-        
+
         # Extract test file paths
         test_files = re.findall(r"ERROR (tests/[^\s]+)", content)
-        
+
         # Parse error patterns
         for pattern_name, regex in self.PATTERNS.items():
             for match in regex.finditer(content):
@@ -81,10 +81,10 @@ class PytestErrorAnalyzer:
                     error = ErrorPattern('NotPackage', match.group(1), '')
                 else:
                     error = ErrorPattern(pattern_name.title().replace('_', ''), match.group(1), '')
-                
+
                 self.errors.append(error)
                 self.error_counts[error] += 1
-    
+
     def generate_fix_suggestions(self) -> None:
         """Generate fix suggestions for each error pattern."""
         for error, count in self.error_counts.most_common():
@@ -110,12 +110,12 @@ class PytestErrorAnalyzer:
                 self.fix_suggestions[str(error)].append(
                     self._generate_package_fix(error.detail)
                 )
-    
+
     def _generate_bridge_fix(self, module_name: str) -> str:
         """Generate bridge creation template."""
         parts = module_name.split('.')
         path = '/'.join(parts)
-        
+
         return f"""
 # Fix: Create bridge for {module_name}
 mkdir -p {path}
@@ -142,11 +142,11 @@ for n in (
         break
 BRIDGE
 """
-    
+
     def _generate_export_fix(self, module: str, symbol: str) -> str:
         """Generate export addition template."""
         module_path = module.replace('.', '/')
-        
+
         return f"""
 # Fix: Add {symbol} export to {module}
 cat >> {module_path}/__init__.py <<'EXPORT'
@@ -162,7 +162,7 @@ except ImportError:
 __all__.append("{symbol}")
 EXPORT
 """
-    
+
     def _generate_attribute_fix(self, module: str, attr: str) -> str:
         """Generate attribute addition template."""
         return f"""
@@ -173,12 +173,12 @@ EXPORT
 # 3. If not available, add stub:
 #    {attr} = None  # or appropriate stub
 """
-    
+
     def _generate_package_fix(self, module: str) -> str:
         """Generate package conversion fix."""
         parts = module.split('.')
         path = '/'.join(parts)
-        
+
         return f"""
 # Fix: Convert {module} from module.py to package/
 # 1. Check if {path}.py exists
@@ -186,7 +186,7 @@ EXPORT
 # 3. Create package: mkdir -p {path}
 # 4. Move content: mv {path}_backup.py {path}/__init__.py
 """
-    
+
     def report(self, top_n: int = 20) -> str:
         """Generate comprehensive error analysis report."""
         lines = ["=" * 80]
@@ -196,14 +196,14 @@ EXPORT
         lines.append(f"Total unique error patterns: {len(self.error_counts)}")
         lines.append(f"Total error occurrences: {sum(self.error_counts.values())}")
         lines.append("")
-        
+
         lines.append(f"TOP {top_n} ERROR PATTERNS (by frequency):")
         lines.append("-" * 80)
-        
+
         for i, (error, count) in enumerate(self.error_counts.most_common(top_n), 1):
             lines.append(f"\n{i}. [{error.category}] {error.detail}")
             lines.append(f"   Occurrences: {count}")
-            
+
             if str(error) in self.fix_suggestions:
                 lines.append("   Suggested fix:")
                 for suggestion in self.fix_suggestions[str(error)][:1]:  # Show first suggestion
@@ -211,21 +211,21 @@ EXPORT
                         lines.append(f"   {line}")
                     if len(suggestion.strip().split('\n')) > 8:
                         lines.append("   ...")
-        
+
         lines.append("\n" + "=" * 80)
         lines.append("PRIORITY FIX RECOMMENDATIONS:")
         lines.append("=" * 80)
-        
+
         # Group by category and sort by total impact
         category_impact = defaultdict(int)
         for error, count in self.error_counts.items():
             category_impact[error.category] += count
-        
+
         for i, (category, count) in enumerate(sorted(category_impact.items(), key=lambda x: x[1], reverse=True)[:10], 1):
             lines.append(f"{i}. Fix {category} errors: {count} total occurrences")
-        
+
         return '\n'.join(lines)
-    
+
     def export_json(self, output_path: Path) -> None:
         """Export analysis results as JSON."""
         data = {
@@ -246,7 +246,7 @@ EXPORT
                 for category in set(e.category for e in self.error_counts.keys())
             }
         }
-        
+
         with open(output_path, 'w') as f:
             json.dump(data, f, indent=2)
 
@@ -255,19 +255,19 @@ def main():
     if len(sys.argv) < 2:
         print("Usage: pytest_error_analyzer.py <pytest_collection_log>")
         sys.exit(1)
-    
+
     log_file = Path(sys.argv[1])
     if not log_file.exists():
         print(f"Error: {log_file} not found")
         sys.exit(1)
-    
+
     analyzer = PytestErrorAnalyzer(log_file)
     analyzer.parse()
     analyzer.generate_fix_suggestions()
-    
+
     # Print report
     print(analyzer.report(top_n=15))
-    
+
     # Export JSON
     json_output = log_file.parent / f"{log_file.stem}_analysis.json"
     analyzer.export_json(json_output)

@@ -43,7 +43,7 @@ try:
         TierAccessDeniedError,
     )
 
-    from ._cleanup_archive.BACKUP_BEFORE_CONSOLIDATION_20250801_002312.core.qi_identity_manager import (  # noqa: TID252 TODO: convert to absolute import
+    from ._cleanup_archive.BACKUP_BEFORE_CONSOLIDATION_20250801_002312.core.qi_identity_manager import (  # TODO: convert to absolute import
         QIIdentityManager,
         QITierLevel,
         QIUserContext,

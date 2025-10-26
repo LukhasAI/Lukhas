@@ -118,7 +118,7 @@ def main():
         json.dump(output_data, f, indent=2, ensure_ascii=False)
 
     print(f"✅ Wrote normalized inventory to {NORMALIZED_PATH.relative_to(ROOT)}")
-    print(f"📊 Normalization stats:")
+    print("📊 Normalization stats:")
     print(f"   - Total entries: {len(normalized_inventory)}")
 
     # Count lucas → lukhas replacements
@@ -138,7 +138,7 @@ def main():
         star = e.get("star", "Supporting")
         star_dist[star] = star_dist.get(star, 0) + 1
 
-    print(f"   - Star distribution:")
+    print("   - Star distribution:")
     for star, count in sorted(star_dist.items(), key=lambda x: -x[1])[:5]:
         print(f"     • {star}: {count}")
 

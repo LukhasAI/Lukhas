@@ -10,7 +10,6 @@ import gc
 import time
 
 import pytest
-
 from async_manager import (
     ConsciousnessTaskManager,
     TaskPriority,

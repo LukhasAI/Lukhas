@@ -2,7 +2,6 @@ import json
 from pathlib import Path
 
 import pytest
-
 from labs.governance.consent.consent_manager import (
     AdvancedConsentManager,
     ConsentMethod,

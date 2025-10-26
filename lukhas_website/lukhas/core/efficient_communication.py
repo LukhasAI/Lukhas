@@ -239,7 +239,7 @@ class EventBus:
                     self.stats["average_latency"] * (self.stats["messages_delivered"] - 1) + latency
                 ) / self.stats["messages_delivered"]
 
-            except asyncio.TimeoutError:  # noqa: PERF203 # Intentional: message processing requires try-except in loop
+            except asyncio.TimeoutError:  # Intentional: message processing requires try-except in loop
                 continue
             except Exception as e:
                 logger.error(f"Error processing message: {e}")

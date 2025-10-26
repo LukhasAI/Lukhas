@@ -74,7 +74,7 @@ def main():
         except Exception as e:
             print(f"[WARN] Could not read manifest {mf}: {e}")
             continue
-        
+
         # Check module-level contracts array
         module_contracts = m.get("contracts", [])
         if module_contracts:
@@ -86,7 +86,7 @@ def main():
                     unknown.add(contract_path)
                     failures += 1
                     print(f"[FAIL] {mf}: contract file not found: {contract_path}")
-        
+
         # Check observability event contracts (legacy format)
         ev = (m.get("observability", {}) or {}).get("events", {})
         for kind in ("publishes", "subscribes"):

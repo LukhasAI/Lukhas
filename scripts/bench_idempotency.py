@@ -1,6 +1,8 @@
 import time
-import redis
+
 import numpy as np
+import redis
+
 
 def run_benchmark(client, num_operations=1000):
     """Measures p95 latency for Redis GET and SET operations."""

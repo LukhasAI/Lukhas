@@ -1,6 +1,5 @@
-from fastapi.testclient import TestClient
-
 import serve.main as sm
+from fastapi.testclient import TestClient
 
 
 def test_healthz_degraded_when_voice_required_and_probe_fails(monkeypatch):

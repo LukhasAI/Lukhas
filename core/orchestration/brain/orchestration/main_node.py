@@ -37,13 +37,12 @@ try:
     from backend.security.privacy_manager import PrivacyManager
     from voice.speech_processor import SpeechProcessor
 
+    # Utils and config
+    from core.orchestration.brain.config.settings import load_settings
     from frontend.interface.adaptive_interface_generator import (
         AdaptiveInterfaceGenerator,
     )
     from frontend.multimodal.image_generator import AdaptiveImageGenerator
-
-    # Utils and config
-    from core.orchestration.brain.config.settings import load_settings
 
 except ImportError as e:
     logger.critical(f"Failed to import required components: {e}")

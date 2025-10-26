@@ -1,5 +1,4 @@
 import pytest
-
 from labs.governance.ethics.constitutional_ai import (
     ConstitutionalFramework,
     ConstitutionalPrinciple,

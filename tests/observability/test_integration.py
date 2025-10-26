@@ -20,7 +20,11 @@ sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from observability.advanced_metrics import AdvancedMetricsSystem
 from observability.compliance_dashboard import ComplianceDashboard
 from observability.enhanced_distributed_tracing import EnhancedLUKHASTracer, TraceConfig
-from observability.evidence_collection import ComplianceRegime, EvidenceCollectionEngine, EvidenceType
+from observability.evidence_collection import (
+    ComplianceRegime,
+    EvidenceCollectionEngine,
+    EvidenceType,
+)
 from observability.intelligent_alerting import IntelligentAlertingSystem
 from observability.performance_regression import PerformanceRegressionDetector
 

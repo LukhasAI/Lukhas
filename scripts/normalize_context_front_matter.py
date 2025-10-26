@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-import argparse, dataclasses, datetime as dt, json, re, sys
+import argparse
+import datetime as dt
+import json
+import re
+import sys
 from pathlib import Path
 
 FRONT_MATTER_RE = re.compile(r"(?s)\A---\n(.*?)\n---\n(.*)\Z")

@@ -79,10 +79,10 @@ if "{symbol}" not in globals():
 
 class BridgeGenerator:
     """Generates bridge modules following LUKHAS patterns."""
-    
+
     def __init__(self, base_path: Path = Path(".")):
         self.base_path = base_path
-    
+
     def generate_bridge(self, module_name: str, expected_symbols: List[str] = None) -> Path:
         """Generate a bridge module for the given module name."""
         # Determine paths
@@ -98,16 +98,16 @@ class BridgeGenerator:
             # x.y.z → x/y/z
             rel_path = module_name.replace('.', '/')
             root_module = module_name
-        
+
         bridge_path = self.base_path / rel_path
         bridge_path.mkdir(parents=True, exist_ok=True)
-        
+
         # Generate stub definitions
         stub_defs = ""
         if expected_symbols:
             for symbol in expected_symbols:
                 stub_defs += STUB_TEMPLATE.format(symbol=symbol)
-        
+
         # Write bridge file
         bridge_file = bridge_path / "__init__.py"
         content = BRIDGE_TEMPLATE.format(
@@ -115,23 +115,23 @@ class BridgeGenerator:
             root_module=root_module,
             stub_definitions=stub_defs if stub_defs else "# No pre-defined stubs"
         )
-        
+
         bridge_file.write_text(content)
-        
+
         # Ensure parent __init__.py files exist
         current = bridge_path.parent
         while current != self.base_path and not (current / "__init__.py").exists():
             init_file = current / "__init__.py"
             init_file.write_text(f'"""Package: {current.name}."""\n')
             current = current.parent
-        
+
         return bridge_file
-    
+
     def generate_batch(self, module_list_file: Path, expected_symbols_map: dict = None) -> List[Path]:
         """Generate bridges for a batch of modules."""
         with open(module_list_file) as f:
             modules = [line.strip() for line in f if line.strip() and not line.startswith('#')]
-        
+
         generated = []
         for module in modules:
             # Check if line has format: module_name:symbol1,symbol2
@@ -141,14 +141,14 @@ class BridgeGenerator:
             else:
                 module_name = module
                 symbols = expected_symbols_map.get(module_name, []) if expected_symbols_map else []
-            
+
             try:
                 bridge_file = self.generate_bridge(module_name, symbols)
                 generated.append(bridge_file)
                 print(f"✅ Generated: {bridge_file}")
             except Exception as e:
                 print(f"❌ Failed {module_name}: {e}")
-        
+
         return generated
 
 
@@ -158,25 +158,25 @@ def main():
     parser.add_argument('--batch', metavar='FILE', help='File with list of modules (one per line)')
     parser.add_argument('--symbols', help='Expected symbols (comma-separated)')
     parser.add_argument('--base-path', default='.', help='Base path for generation (default: .)')
-    
+
     args = parser.parse_args()
-    
+
     generator = BridgeGenerator(Path(args.base_path))
-    
+
     if args.batch:
         batch_file = Path(args.batch)
         if not batch_file.exists():
             print(f"Error: {batch_file} not found")
             sys.exit(1)
-        
+
         generated = generator.generate_batch(batch_file)
         print(f"\nGenerated {len(generated)} bridge modules")
-    
+
     elif args.module:
         symbols = args.symbols.split(',') if args.symbols else []
         bridge_file = generator.generate_bridge(args.module, symbols)
         print(f"✅ Generated: {bridge_file}")
-    
+
     else:
         parser.print_help()
         sys.exit(1)

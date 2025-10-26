@@ -1,9 +1,8 @@
 from unittest.mock import AsyncMock
 
+from consent.api import ConsentService, get_consent_service, router
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
-
-from consent.api import ConsentService, get_consent_service, router
 
 
 def create_app():

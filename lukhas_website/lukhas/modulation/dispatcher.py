@@ -3,7 +3,6 @@ from dataclasses import dataclass
 from typing import Any, Optional
 
 import yaml
-
 from flags import is_enabled
 
 PRECEDENCE = ["alignment_risk", "stress", "ambiguity", "novelty"]

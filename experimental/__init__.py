@@ -9,6 +9,6 @@ Phase 3: This compatibility layer deprecated, will be removed in v1.0
 """
 
 # Re-export everything from labs (formerly candidate)
-from labs import *  # noqa: F401, F403
+from labs import *
 
 __all__ = ["*"]  # Export all symbols from labs

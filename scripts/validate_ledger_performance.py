@@ -26,7 +26,6 @@ project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
 import jsonschema
-
 from ledger.event_bus import AsyncEventBus
 from ledger.events import ConsentGrantedEvent, ConsentType, validate_event_schema
 from ledger.metrics import get_metrics, reset_metrics

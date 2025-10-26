@@ -389,14 +389,14 @@ def main():
         sys.exit(1)
 
     # Load manifest
-    print(f"📂 Loading manifest...")
+    print("📂 Loading manifest...")
     manifest = load_manifest()
     docs = manifest['documents']
     print(f"   ✅ {len(docs)} documents")
     print()
 
     # Scan for broken links
-    print(f"🔍 Scanning for broken links...")
+    print("🔍 Scanning for broken links...")
     if check_external:
         print(f"   ⚠️  External link checking enabled (limit: {EXTERNAL_CHECK_LIMIT})")
     broken_by_category = scan_broken_links(docs, check_external=check_external)

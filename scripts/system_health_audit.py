@@ -6,12 +6,11 @@ System Health Audit
 - Emits: docs/audits/health/latest.json and latest.md
 """
 import json
-import os
 import re
+import shutil
 import subprocess
 import sys
 import time
-import shutil
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -363,8 +362,8 @@ def main():
         pdp = guardian_rl.get("pdp", {})
         if pdp.get("available"):
             md_lines.extend([
-                f"### Guardian PDP",
-                f"- **Status:** ✅ Available",
+                "### Guardian PDP",
+                "- **Status:** ✅ Available",
                 f"- **Total Decisions:** {pdp.get('decisions', 0)}",
                 f"- **Allow Count:** {pdp.get('allow_count', 0)}",
                 f"- **Deny Count:** {pdp.get('deny_count', 0)}",
@@ -379,7 +378,7 @@ def main():
         if redis.get("available"):
             status = "✅ Connected" if redis.get("connected") else "🔴 Disconnected"
             md_lines.extend([
-                f"### Redis Backend",
+                "### Redis Backend",
                 f"- **Status:** {status}",
                 ""
             ])
@@ -390,8 +389,8 @@ def main():
         rl = guardian_rl.get("rate_limiter", {})
         if rl.get("available"):
             md_lines.extend([
-                f"### Rate Limiter",
-                f"- **Status:** ✅ Active",
+                "### Rate Limiter",
+                "- **Status:** ✅ Active",
                 ""
             ])
         else:
