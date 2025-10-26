@@ -1,0 +1,21 @@
+{
+  "name": "core.common.logger",
+  "path": "core/common/logger",
+  "constellation_stars": [
+    "Infrastructure"
+  ],
+  "confidence": 0.7,
+  "description": "Auto-generated manifest for core.common.logger",
+  "dependencies": [],
+  "status": "integration",
+  "tier": "integration",
+  "lane": "core",
+  "version": "1.0.0",
+  "created": "2025-10-26T06:23:44Z",
+  "updated": "2025-10-26T06:23:44Z",
+  "metadata": {
+    "complexity": "medium",
+    "test_coverage": "unknown",
+    "documentation": "partial"
+  }
+}
