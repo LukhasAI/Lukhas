@@ -34,6 +34,7 @@ RUN wget -q https://github.com/open-quantum-safe/liboqs/archive/refs/tags/${LIBO
     && mkdir build && cd build \
     && cmake -GNinja \
         -DCMAKE_INSTALL_PREFIX=/usr/local \
+        -DOPENSSL_ROOT_DIR=/usr \
         -DBUILD_SHARED_LIBS=ON \
         -DOQS_BUILD_ONLY_LIB=ON \
         -DOQS_DIST_BUILD=ON \
