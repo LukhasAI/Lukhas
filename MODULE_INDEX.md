@@ -1,14 +1,32 @@
 ---
-status: wip
+status: active
 type: documentation
+updated: 2025-10-26
 ---
 # LUKHAS Module Index
 *Comprehensive navigation for the LUKHAS AI cognitive architecture*
 
-**Last Updated**: 2025-10-02
-**Total Modules**: 149
-**Total Python Files**: 43,503
-**Total Documentation**: 15,418 markdown files
+**Last Updated**: 2025-10-26
+**Total Modules**: 152+
+**Total Python Files**: 43,500+
+**Total Documentation**: 15,400+ markdown files
+
+## 🆕 Recent Additions (October 2025)
+
+### Identity & Authentication
+- **core/identity/adapters/webauthn_adapter.py** - WebAuthn passwordless authentication (PR #472)
+- **core/identity/vault/lukhas_id.py** - LukhasIdentityVault with tier-based access
+- **core/identity/manager.py** - Centralized identity management
+- **serve/webauthn_routes.py** - FastAPI routes for passkey support
+
+### Symbolic & Consciousness
+- **core/symbolic/dast_engine.py** - Dynamic Affective Symbolic Timeline (gesture scoring)
+- **MATRIZ/consciousness/** - Reflection orchestrators, dream synthesis, actor systems
+- **candidate/quantum/** - Quantum-inspired orchestration engines (superposition, annealing)
+
+### API & Middleware
+- **core/interfaces/api/v1/rest/middleware.py** - Tier enforcement and rate limiting
+- **bio/core/bio_core.py** - Bio-inspired adaptation with ABAS integration
 
 ---
 
