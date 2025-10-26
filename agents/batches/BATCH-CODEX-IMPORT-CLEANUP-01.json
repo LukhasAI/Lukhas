@@ -1,0 +1,113 @@
+{
+  "batch_id": "BATCH-CODEX-IMPORT-CLEANUP-01",
+  "agent": "codex",
+  "title": "Import Cleanup - High Priority noqa F821 Fixes",
+  "description": "Fix high-priority noqa F821 import suppressions by implementing missing classes or adding proper imports",
+  "priority": "MEDIUM",
+  "estimated_total_time": "3h",
+  "created": "2025-10-26",
+  "status": "pending",
+  "tasks": [
+    {
+      "task_id": "CODEX-IMPORT-01",
+      "title": "Fix emotion_mapper_alt import",
+      "priority": "MEDIUM",
+      "complexity": "LOW",
+      "estimated_time": "30m",
+      "files": [
+        "core/orchestration/brain/spine/healix_mapper.py",
+        "core/emotion/emotion_mapper_alt.py"
+      ],
+      "description": "Fix 'from emotion_mapper_alt import EmotionMapper' - should be 'from core.emotion.emotion_mapper_alt import EmotionMapper' or create emotion_mapper_alt.py in project root.",
+      "acceptance_criteria": [
+        "Import works without F821 suppression",
+        "EmotionMapper class accessible",
+        "No import errors when running healix_mapper.py",
+        "Tests pass for HealixMapper"
+      ],
+      "location": "core/orchestration/brain/spine/healix_mapper.py:26",
+      "todo_text": "from emotion_mapper_alt import EmotionMapper"
+    },
+    {
+      "task_id": "CODEX-IMPORT-02",
+      "title": "Fix 'bre' undefined variable",
+      "priority": "HIGH",
+      "complexity": "TRIVIAL",
+      "estimated_time": "5m",
+      "files": [
+        "core/orchestration/brain/spine/healix_mapper.py"
+      ],
+      "description": "Remove or fix 'bre  # noqa: F821  # TODO: bre' at line 148. Appears to be typo or leftover debug code.",
+      "acceptance_criteria": [
+        "Line 148 cleaned up or fixed",
+        "No syntax errors",
+        "File passes linting"
+      ],
+      "location": "core/orchestration/brain/spine/healix_mapper.py:148",
+      "todo_text": "bre  # noqa: F821  # TODO: bre"
+    },
+    {
+      "task_id": "CODEX-IMPORT-03",
+      "title": "Fix healix_widget import",
+      "priority": "LOW",
+      "complexity": "LOW",
+      "estimated_time": "30m",
+      "files": [
+        "core/orchestration/brain/dashboard/main_dashboard.py",
+        "core/widgets/healix_widget.py"
+      ],
+      "description": "Implement or import healix_widget for dashboard visualization. Should display healix (emotional memory helix) timeline.",
+      "acceptance_criteria": [
+        "healix_widget module exists",
+        "Provides create_healix_widget() or HealixWidget class",
+        "Renders emotional memory timeline",
+        "No F821 errors"
+      ],
+      "location": "core/orchestration/brain/dashboard/main_dashboard.py:58",
+      "todo_text": "TODO: healix_widget"
+    },
+    {
+      "task_id": "CODEX-IMPORT-04",
+      "title": "Fix drift_detector import",
+      "priority": "MEDIUM",
+      "complexity": "LOW",
+      "estimated_time": "30m",
+      "files": [
+        "core/orchestration/brain/dashboard/main_dashboard.py",
+        "core/consciousness/drift_detector.py"
+      ],
+      "description": "Import drift_detector properly. Should be 'from core.consciousness.drift_detector import DriftDetector' or verify module path.",
+      "acceptance_criteria": [
+        "drift_detector imports successfully",
+        "DriftDetector class accessible",
+        "No F821 errors",
+        "Dashboard can display drift metrics"
+      ],
+      "location": "core/orchestration/brain/dashboard/main_dashboard.py:59",
+      "todo_text": "TODO: drift_detector"
+    },
+    {
+      "task_id": "CODEX-IMPORT-05",
+      "title": "Fix blockchain_wrapper import",
+      "priority": "LOW",
+      "complexity": "MEDIUM",
+      "estimated_time": "1h",
+      "files": [
+        "core/orchestration/brain/dashboard/main_dashboard.py",
+        "core/blockchain/blockchain_wrapper.py"
+      ],
+      "description": "Implement or import blockchain_wrapper for LUKHAS blockchain integration. Should provide: transaction logging, immutable audit trail, smart contract interaction.",
+      "acceptance_criteria": [
+        "blockchain_wrapper module exists",
+        "Provides BlockchainWrapper class",
+        "Supports transaction logging and retrieval",
+        "No F821 errors"
+      ],
+      "location": "core/orchestration/brain/dashboard/main_dashboard.py:60",
+      "todo_text": "TODO: blockchain_wrapper"
+    }
+  ],
+  "dependencies": [],
+  "related_batches": [],
+  "notes": "These are high-impact import fixes that prevent code from running. Priority order: bre (HIGH - breaks syntax), emotion_mapper_alt (MEDIUM - breaks functionality), others (LOW-MEDIUM - missing features)."
+}
