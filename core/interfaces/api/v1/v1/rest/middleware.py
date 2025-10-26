@@ -23,10 +23,14 @@ logger = logging.getLogger(__name__)
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
 
+import asyncio
+import functools
 import os
 import time
+from collections import defaultdict
+from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Optional
+from typing import Any, Awaitable, Callable, Dict, Optional
 
 # Replaced python-jose (vulnerable) with PyJWT for secure JWT handling
 import jwt
@@ -34,6 +38,9 @@ import structlog
 from fastapi import HTTPException, Request, status
 from fastapi.security import HTTPBearer
 from jwt.exceptions import InvalidTokenError as JWTError
+from fastapi.responses import JSONResponse
+
+from governance.identity.core.id_service import get_identity_manager
 
 # Import centralized decorators and tier system
 
@@ -49,6 +56,240 @@ except ImportError:
 
 
 logger = structlog.get_logger(__name__)
+
+# ΛTAG: identity_registry
+IDENTITY_MANAGER = get_identity_manager()
+
+
+def _extract_request_from_args(*args: Any, **kwargs: Any) -> Request:
+    """Extract the FastAPI request object from decorator arguments."""
+
+    # ΛTAG: request_introspection
+    for candidate in list(args) + list(kwargs.values()):
+        if isinstance(candidate, Request):
+            return candidate
+    raise HTTPException(
+        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        detail="Request context missing for tier enforcement",
+    )
+
+
+def _coerce_tier(value: Any) -> Optional[int]:
+    """Normalize tier representation into an integer value."""
+
+    # ΛTAG: tier_parsing
+    if value is None:
+        return None
+    if isinstance(value, (int, float)):
+        return int(value)
+    if isinstance(value, str):
+        digits = "".join(ch for ch in value if ch.isdigit())
+        if digits:
+            return int(digits)
+    return None
+
+
+def require_tier(min_tier: int, *, identity_manager: Optional[Any] = None) -> Callable:
+    """Decorator enforcing minimum tier access for FastAPI endpoints."""
+
+    resolved_identity_manager = identity_manager or IDENTITY_MANAGER
+
+    def decorator(func: Callable) -> Callable:
+        """Wrap FastAPI endpoint with tier enforcement logic."""
+
+        def _enforce(request: Request) -> None:
+            user_tier = _coerce_tier(getattr(request.state, "user_tier", None))
+            fallback_tier = _coerce_tier(getattr(request.state, "tier_level", None))
+            effective_tier = user_tier if user_tier is not None else fallback_tier
+
+            if effective_tier is None:
+                if getattr(request.state, "user_id", None):
+                    identity_record = resolved_identity_manager.get_user_identity(
+                        request.state.user_id
+                    )
+                    effective_tier = _coerce_tier(identity_record.get("tier"))
+
+            if effective_tier is None:
+                logger.warning(
+                    "tier_context_missing",
+                    user_id=getattr(request.state, "user_id", None),
+                    path=request.url.path,
+                )
+                raise HTTPException(
+                    status_code=status.HTTP_401_UNAUTHORIZED,
+                    detail="Tier information missing",
+                )
+
+            if effective_tier < min_tier:
+                # ΛTAG: tier_violation
+                logger.warning(
+                    "tier_violation",
+                    required_tier=min_tier,
+                    user_tier=effective_tier,
+                    user_id=getattr(request.state, "user_id", None),
+                    path=request.url.path,
+                )
+                raise HTTPException(
+                    status_code=status.HTTP_403_FORBIDDEN,
+                    detail="Insufficient access tier",
+                )
+
+            request.state.user_tier = effective_tier
+            logger.info(
+                "tier_access_granted",
+                required_tier=min_tier,
+                user_tier=effective_tier,
+                user_id=getattr(request.state, "user_id", None),
+                path=request.url.path,
+            )
+
+        if asyncio.iscoroutinefunction(func):
+
+            @functools.wraps(func)
+            async def async_wrapper(*args: Any, **kwargs: Any):
+                request = _extract_request_from_args(*args, **kwargs)
+                _enforce(request)
+                return await func(*args, **kwargs)
+
+            return async_wrapper
+
+        @functools.wraps(func)
+        def sync_wrapper(*args: Any, **kwargs: Any):
+            request = _extract_request_from_args(*args, **kwargs)
+            _enforce(request)
+            return func(*args, **kwargs)
+
+        return sync_wrapper
+
+    return decorator
+
+
+@dataclass
+class RateLimitConfig:
+    """Configuration for a specific tier rate limit."""
+
+    limit: Optional[int]
+    window_seconds: int
+
+
+class RateLimitMiddleware:
+    """Rate limiting middleware with tier-based policies."""
+
+    DEFAULT_LIMITS: Dict[int, RateLimitConfig] = {
+        0: RateLimitConfig(limit=1000, window_seconds=3600),
+        1: RateLimitConfig(limit=5000, window_seconds=3600),
+    }
+
+    def __init__(
+        self,
+        *,
+        rate_limits: Optional[Dict[int, RateLimitConfig]] = None,
+        identity_manager: Optional[Any] = None,
+        time_provider: Callable[[], float] = time.time,
+    ) -> None:
+        self.rate_limits = rate_limits or self.DEFAULT_LIMITS.copy()
+        self.identity_manager = identity_manager or IDENTITY_MANAGER
+        self.time_provider = time_provider
+        self._request_counts: Dict[str, Dict[str, float]] = defaultdict(dict)
+        self._locks: Dict[str, asyncio.Lock] = defaultdict(asyncio.Lock)
+
+    def _resolve_key(self, request: Request) -> str:
+        user_id = getattr(request.state, "user_id", None)
+        if user_id:
+            return f"user:{user_id}"
+        api_key = request.headers.get("X-API-Key")
+        if api_key:
+            return f"api:{api_key}"
+        client_host = getattr(request.client, "host", "anonymous")
+        return f"ip:{client_host}"
+
+    def _resolve_limit(self, tier: Optional[int]) -> Optional[RateLimitConfig]:
+        if tier is None:
+            return self.rate_limits.get(0)
+        if tier >= 2:
+            return RateLimitConfig(limit=None, window_seconds=3600)
+        return self.rate_limits.get(tier) or self.rate_limits.get(0)
+
+    async def _increment_counter(
+        self,
+        key: str,
+        config: RateLimitConfig,
+    ) -> tuple[int, float]:
+        now = self.time_provider()
+        async with self._locks[key]:
+            record = self._request_counts[key]
+            reset_at = record.get("reset_at", now + config.window_seconds)
+
+            if now >= reset_at:
+                record = {"count": 0, "reset_at": now + config.window_seconds}
+
+            record["count"] = record.get("count", 0) + 1
+            self._request_counts[key] = record
+            return int(record["count"]), float(record["reset_at"])
+
+    async def __call__(self, request: Request, call_next: Callable[[Request], Awaitable[Any]]):
+        tier = _coerce_tier(getattr(request.state, "user_tier", None))
+        if tier is None:
+            identity = None
+            if getattr(request.state, "user_id", None):
+                identity = self.identity_manager.get_user_identity(request.state.user_id)
+            if identity:
+                tier = _coerce_tier(identity.get("tier"))
+            if tier is None:
+                tier = _coerce_tier(getattr(request.state, "tier_level", None))
+
+        config = self._resolve_limit(tier)
+        if config is None:
+            response = await call_next(request)
+            return response
+
+        key = self._resolve_key(request)
+
+        if config.limit is None:
+            headers = self._build_headers(limit="unlimited", remaining="unlimited", reset=0)
+            response = await call_next(request)
+            response.headers.update(headers)
+            request.state.rate_limit_remaining = "unlimited"
+            return response
+
+        count, reset_at = await self._increment_counter(key, config)
+        remaining = max(config.limit - count, 0)
+        reset_delta = max(reset_at - self.time_provider(), 0)
+
+        headers = self._build_headers(
+            limit=config.limit,
+            remaining=remaining,
+            reset=round(reset_delta, 3),
+        )
+
+        if count > config.limit:
+            # ΛTAG: rate_limit_guard
+            logger.warning(
+                "rate_limit_exceeded",
+                key=key,
+                tier=tier,
+                limit=config.limit,
+                window_seconds=config.window_seconds,
+            )
+            request.state.rate_limit_remaining = 0
+            return JSONResponse(
+                status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+                content={"detail": "Rate limit exceeded"},
+                headers=headers,
+            )
+
+        response = await call_next(request)
+        response.headers.update(headers)
+        request.state.rate_limit_remaining = remaining
+        return response
+
+    @staticmethod
+    def _build_headers(limit: Any, remaining: Any, reset: Any) -> Dict[str, str]:
+        return {
+            "X-RateLimit-Limit": str(limit),
+            "X-RateLimit-Remaining": str(remaining),
+            "X-RateLimit-Reset": str(reset),
+        }
 
 # Configuration
 SECRET_KEY = os.getenv("LUKHAS_JWT_SECRET_KEY", "your-secret-key-here")
@@ -89,6 +330,8 @@ class AuthMiddleware:
             # Add authentication info to request state
             request.state.user_id = auth_result.get("user_id")
             request.state.tier_level = auth_result.get("tier_level", 0)
+            # ΛTAG: tier_state_alias
+            request.state.user_tier = request.state.tier_level
             request.state.auth_method = auth_result.get("auth_method")
 
             # Log authentication success
