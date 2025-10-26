@@ -1,14 +1,3 @@
----
-status: wip
-type: documentation
-owner: unknown
-module: web
-redirect: false
-moved_to: null
----
-
-![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
-
 # About LUKHAS AI
 
 *"In the fertile ground where consciousness meets code, we cultivate AI that serves human flourishing through questions that honor both logic and mystery."*
@@ -115,4 +104,4 @@ LUKHAS AI is more than a technology company - we're a community of individuals c
 
 *Building tomorrow's consciousness today - with wisdom, integrity, and unwavering commitment to human flourishing.*
 
-**⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum**
+**⚛️🧠🛡️**
