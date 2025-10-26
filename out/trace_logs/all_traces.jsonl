@@ -1,2 +1,0 @@
-{"trace_id": "3fa1c249-3dd8-408e-a514-b0b4cb49f016", "timestamp": "2025-08-25T15:44:21.776307Z", "unix_time": 1756136661.7764611, "level": 0, "level_name": "SYSTEM", "message": "Consolidation test completed", "source_component": "unknown", "tags": [], "metadata": {"test": "comprehensive"}}
-{"trace_id": "5721ab62-36ea-45fc-b66e-d770dcf7ec0d", "timestamp": "2025-08-27T14:57:10.036544Z", "unix_time": 1756306630.036811, "level": 0, "level_name": "SYSTEM", "message": "Test trace for API endpoint validation", "source_component": "unknown", "tags": []}

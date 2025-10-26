@@ -80,12 +80,12 @@ except ImportError:
     recall_memory_folds = None
 
 try:
-    from VOICE.voice_integrator import VoiceIntegrator
+    from core.voice.voice_integrator import VoiceIntegrator
 except ImportError:
     VoiceIntegrator = None
 
 try:
-    from consciousness.core_consciousness.dream_engine.dream_reflection_loop import (
+    from core.consciousness.core_consciousness.dream_engine.dream_reflection_loop import (
         DreamReflectionLoop,
     )
 except ImportError:

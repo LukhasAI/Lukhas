@@ -83,14 +83,14 @@ try:
     ADVANCED_AGI_COMPONENTS = True
 except ImportError:
     try:
-        from meta_cognitive.reflective_introspection_system import ReflectiveIntrospectionSystem
-        from prediction.predictive_resource_manager import PredictiveResourceManager
-        from reasoning.causal_reasoning_module import CausalReasoningModule
+        from core.orchestration.brain.meta_cognitive.reflective_introspection_system import ReflectiveIntrospectionSystem
+        from core.orchestration.brain.prediction.predictive_resource_manager import PredictiveResourceManager
+        from core.orchestration.brain.reasoning.causal_reasoning_module import CausalReasoningModule
 
-        from compliance.ai_compliance_manager import AIComplianceManager
-        from ethics.ethical_hierarchy import EthicalHierarchy
-        from governance.dao_governance_node import DAOGovernanceNode
-        from memory.enhanced_memory_manager import EnhancedMemoryManager
+        from core.orchestration.brain.compliance.ai_compliance_manager import AIComplianceManager
+        from core.orchestration.brain.ethics.ethical_hierarchy import EthicalHierarchy
+        from core.orchestration.brain.governance.dao_governance_node import DAOGovernanceNode
+        from core.orchestration.brain.memory.enhanced_memory_manager import EnhancedMemoryManager
         ADVANCED_AGI_COMPONENTS = True
     except ImportError:
         logger.warning("Advanced AI components not available, using fallback implementations")
