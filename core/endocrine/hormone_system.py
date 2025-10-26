@@ -533,7 +533,7 @@ def get_neuroplasticity() -> float:
 
 
 # Neuroplastic tags
-# TAG:core
-# TAG:hormone
-# TAG:endocrine
-# TAG:neuroplastic
+# ΛTAG:core
+# ΛTAG:hormone
+# ΛTAG:endocrine
+# ΛTAG:neuroplastic
