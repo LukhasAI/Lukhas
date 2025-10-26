@@ -1,67 +1,100 @@
-"""Drift detection utilities for consciousness dashboards."""
+"""Consciousness drift detection utilities for legacy consensus."""
 from __future__ import annotations
 
 import logging
-from math import sqrt
-from typing import Iterable, Mapping
+from collections import defaultdict, deque
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from typing import Deque, Dict, List, Optional, Sequence
 
-logger = logging.getLogger("drift_detector")
+from core.symbolic.glyph_specialist import GlyphSignal
+
+logger = logging.getLogger("Lukhas.Consciousness.DriftDetector")
 
 
-def _vector(values: Iterable[float]) -> list[float]:
-    return [float(v) for v in values]
+@dataclass
+class DriftSnapshot:
+    """Snapshot of a consciousness layer state."""
+
+    layer_id: str
+    driftScore: float
+    affect_delta: float
+    glyph_markers: Sequence[str] = field(default_factory=list)
+    metadata: Optional[dict] = None
+    recorded_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
 
-class DriftDetector:
-    """Basic symbolic drift detector with affect tracing."""
+class ConsciousnessDriftDetector:
+    """Track and summarize drift metrics across consciousness layers."""
 
-    def __init__(self, *, drift_threshold: float = 0.2) -> None:
-        self.drift_threshold = drift_threshold
-        # ΛTAG: driftScore - monitor baseline drift metrics
-        logger.debug(
-            "DriftDetector initialized",
-            extra={"drift_threshold": drift_threshold},
+    def __init__(self, retention: int = 12) -> None:
+        self.retention = retention
+        self._history: Dict[str, Deque[DriftSnapshot]] = defaultdict(lambda: deque(maxlen=self.retention))
+        self._logger = logger
+
+    def record_snapshot(
+        self,
+        layer_id: str,
+        driftScore: float,
+        affect_delta: float,
+        glyph_markers: Optional[Sequence[str]] = None,
+        metadata: Optional[dict] = None,
+    ) -> DriftSnapshot:
+        """Record a new snapshot for a consciousness layer."""
+        snapshot = DriftSnapshot(
+            layer_id=layer_id,
+            driftScore=driftScore,
+            affect_delta=affect_delta,
+            glyph_markers=list(glyph_markers or []),
+            metadata=metadata or {},
         )
-
-    def measure(self, baseline: Mapping[str, Iterable[float]], current: Mapping[str, Iterable[float]]) -> float:
-        """Compute drift score using Euclidean distance normalized by vector length."""
-
-        baseline_vector = _vector(baseline.get("emotion_vector", [])) or [0.0]
-        current_vector = _vector(current.get("emotion_vector", [])) or [0.0]
-        length = min(len(baseline_vector), len(current_vector))
-        if length == 0:
-            return 0.0
-        numerator = sqrt(sum((current_vector[i] - baseline_vector[i]) ** 2 for i in range(length)))
-        denominator = sqrt(length)
-        drift_score = min(1.0, numerator / denominator)
-        logger.debug(
-            "Drift measured",
+        self._history[layer_id].append(snapshot)
+        self._logger.debug(
+            "# ΛTAG: drift_snapshot -- recorded snapshot",
             extra={
-                "driftScore": drift_score,
-                "baseline_vector": baseline_vector,
-                "current_vector": current_vector,
+                "layer_id": layer_id,
+                "driftScore": driftScore,
+                "affect_delta": affect_delta,
+                "glyph_markers": snapshot.glyph_markers,
             },
         )
-        return drift_score
+        return snapshot
 
-    def is_drift(self, baseline: Mapping[str, Iterable[float]], current: Mapping[str, Iterable[float]]) -> bool:
-        """Return True when measured drift exceeds configured threshold."""
+    def build_glyph_signals(self) -> List[GlyphSignal]:
+        """Create GLYPH signals from the most recent snapshots."""
+        latest_snapshots = [snapshots[-1] for snapshots in self._history.values() if snapshots]
+        signals = [
+            GlyphSignal(
+                layer_id=snapshot.layer_id,
+                driftScore=snapshot.driftScore,
+                affect_delta=snapshot.affect_delta,
+                glyph_markers=snapshot.glyph_markers,
+            )
+            for snapshot in latest_snapshots
+        ]
+        return signals
 
-        drift_score = self.measure(baseline, current)
-        is_drift = drift_score >= self.drift_threshold
-        logger.info(
-            "Drift evaluation performed",
-            extra={"driftScore": drift_score, "threshold": self.drift_threshold, "is_drift": is_drift},
-        )
-        return is_drift
+    def summarize_layers(self) -> dict:
+        """Summarize drift metrics across layers."""
+        summaries: dict[str, dict[str, float]] = {}
+        for layer_id, snapshots in self._history.items():
+            if not snapshots:
+                continue
+            drift_values = [snap.driftScore for snap in snapshots]
+            affect_values = [snap.affect_delta for snap in snapshots]
+            summaries[layer_id] = {
+                "driftScore": sum(drift_values) / len(drift_values),
+                "affect_delta": sum(affect_values) / len(affect_values),
+                "samples": float(len(snapshots)),
+            }
+        # ΛTAG: drift_summary
+        return {
+            "layers": summaries,
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+        }
 
-    def summarize(self, baseline: Mapping[str, Iterable[float]], current: Mapping[str, Iterable[float]]) -> dict[str, float]:
-        """Return a structured summary for dashboards."""
-
-        drift_score = self.measure(baseline, current)
-        affect_delta = drift_score
-        summary = {"driftScore": drift_score, "affect_delta": affect_delta}
-        logger.debug("Drift summary computed", extra=summary)
-        return summary
-
-    # ✅ TODO: integrate multi-metric drift fusion once consciousness mesh exposes them
+    def reset(self) -> None:
+        """Clear all recorded history."""
+        self._history.clear()
+        self._logger.info("# ΛTAG: drift_reset -- cleared drift detector history")
+        # TODO: persist cleared state to archival store for audit reconciliation.

@@ -1,5 +1,5 @@
-"""Dashboard orchestration components."""
+"""Dashboard utilities for the orchestration brain."""
 
-from .main_dashboard import HealixDashboard
+from core.orchestration.brain.dashboard.main_dashboard import BrainDashboard, DashboardIdentityView
 
-__all__ = ["HealixDashboard"]
+__all__ = ["BrainDashboard", "DashboardIdentityView"]

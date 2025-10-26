@@ -1,97 +1,82 @@
-"""Main dashboard orchestrator for Healix monitoring."""
 from __future__ import annotations
 
-import logging
-from datetime import datetime
-from typing import Any, Mapping, Optional, Sequence
+"""Symbolic dashboard integration for the orchestration brain."""
 
-from core.blockchain import BlockchainWrapper
-from core.consciousness.drift_detector import DriftDetector
-from core.emotion import EmotionMapper
-from core.orchestration.brain.spine.accent_adapter import AccentAdapter
-from core.orchestration.brain.spine.healix_mapper import HealixMapper
-from core.widgets.healix_widget import HealixWidget, create_healix_widget
+from dataclasses import dataclass
+from typing import Any, Optional
 
-logger = logging.getLogger("healix_main_dashboard")
+import structlog
+
+from core.identity.vault.lukhas_id import (
+    IdentityManager,
+    IdentityVerificationError,
+)
+
+logger = structlog.get_logger(__name__)
 
 
-class HealixDashboard:
-    """Coordinate Healix timeline, drift monitoring, and audit logging."""
+# ΛTAG: dashboard_identity_model
+@dataclass(slots=True)
+class DashboardIdentityView:
+    """Materialised view of identity information for dashboard rendering."""
 
-    def __init__(
-        self,
-        *,
-        accent_adapter: Optional[AccentAdapter] = None,
-        emotion_mapper: Optional[EmotionMapper] = None,
-        drift_detector: Optional[DriftDetector] = None,
-        widget: Optional[HealixWidget] = None,
-        blockchain: Optional[BlockchainWrapper] = None,
-    ) -> None:
-        self.accent_adapter = accent_adapter or AccentAdapter()
-        self.emotion_mapper = emotion_mapper or EmotionMapper()
-        self.healix_mapper = HealixMapper(self.accent_adapter, self.emotion_mapper)
-        self.drift_detector = drift_detector or DriftDetector()
-        self.widget = widget or create_healix_widget()
-        self.blockchain = blockchain or BlockchainWrapper()
-        # ΛTAG: driftScore - initial dashboard state registration
-        logger.debug(
-            "HealixDashboard initialized",
-            extra={
-                "tier": self.accent_adapter.tier,
-                "drift_threshold": self.drift_detector.drift_threshold,
-            },
-        )
+    user_id: str
+    display_name: str
+    tier_level: int
+    scopes: list[str]
+    active_sessions: list[str]
 
-    def build_dashboard_state(
-        self,
-        user_id: str,
-        *,
-        baseline_state: Mapping[str, Any],
-    ) -> dict[str, Any]:
-        """Build the dashboard snapshot for a given user."""
 
-        helix_nodes = self.healix_mapper.map_helix_from_memory(user_id)
-        self.widget.load_nodes(helix_nodes)
-        timeline_points = [point.__dict__ for point in self.widget.render_timeline()]
+# ΛTAG: dashboard_identity_panel
+class BrainDashboard:
+    """Dashboard service responsible for composing orchestration views."""
 
-        current_state = self._derive_current_state(helix_nodes)
-        drift_summary = self.drift_detector.summarize(baseline_state, current_state)
+    def __init__(self, identity_manager: Optional[IdentityManager] = None) -> None:
+        self.identity_manager = identity_manager or IdentityManager()
 
-        ledger_entry = {
-            "user_id": user_id,
-            "timestamp": datetime.utcnow().isoformat(),
-            "driftScore": drift_summary["driftScore"],
-            "affect_delta": drift_summary["affect_delta"],
-        }
-        self.blockchain.record_transaction(f"healix::{user_id}", ledger_entry)
-        logger.info(
-            "Healix dashboard state constructed",
-            extra={
+    async def build_identity_panel(self, user_id: str) -> dict[str, Any]:
+        """Return a serialisable representation of the identity panel."""
+
+        try:
+            permissions = await self.identity_manager.describe_permissions(user_id)
+        except IdentityVerificationError as error:
+            logger.warning(
+                "dashboard_identity_unavailable",
+                user_id=user_id,
+                error=str(error),
+            )
+            return {
+                "status": "error",
                 "user_id": user_id,
-                "driftScore": drift_summary["driftScore"],
-                "timeline_points": len(timeline_points),
-            },
+                "message": "Identity unavailable",
+            }
+
+        identity_view = DashboardIdentityView(
+            user_id=permissions["user_id"],
+            display_name=permissions["attributes"].get("display_name", permissions["user_id"]),
+            tier_level=permissions["tier_level"],
+            scopes=permissions["scopes"],
+            active_sessions=permissions["active_sessions"],
         )
-        return {
-            "timeline": timeline_points,
-            "drift": drift_summary,
-            "ledger_length": len(self.blockchain.get_transactions()),
+
+        logger.info(
+            "dashboard_identity_panel_built",
+            user_id=identity_view.user_id,
+            tier_level=identity_view.tier_level,
+            scope_count=len(identity_view.scopes),
+            affect_delta=len(identity_view.active_sessions),
+        )
+
+        panel = {
+            "status": "ok",
+            "identity": {
+                "user_id": identity_view.user_id,
+                "display_name": identity_view.display_name,
+                "tier": identity_view.tier_level,
+                "permissions": identity_view.scopes,
+                "active_sessions": identity_view.active_sessions,
+            },
         }
 
-    def _derive_current_state(self, nodes: Sequence[Mapping[str, Any]]) -> Mapping[str, Any]:
-        """Derive a symbolic current emotional state from helix nodes."""
-
-        if not nodes:
-            return {"emotion_vector": [0.0, 0.0, 0.0]}
-        last = nodes[-1]
-        intensity = float(last.get("intensity", 0.0))
-        affect = float(last.get("affect_delta", intensity * 0.5))
-        # ΛTAG: affect_delta - convert to simple 3d vector for drift detector
-        vector = [intensity, affect, max(0.0, 1.0 - intensity)]
-        logger.debug(
-            "Current state derived",
-            extra={"vector": vector, "source_hash": last.get("hash")},
-        )
-        return {"emotion_vector": vector}
-
-    # ✅ TODO: add multi-user aggregation once orchestration demands it
+        # TODO: Integrate with live dashboard widgets (# ΛTAG: dashboard_widget_todo)
+        return panel

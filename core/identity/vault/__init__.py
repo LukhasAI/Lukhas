@@ -1,21 +1,21 @@
-"""Vault utilities for identity access control."""
+"""Identity vault integration utilities for LUKHAS."""
 
-from .lukhas_id import (
-    IdentityAccessLog,
-    IdentityRegistry,
-    IdentityClient,
-    get_access_log,
+from core.identity.vault.lukhas_id import (
+    IdentityManager,
+    IdentityProfile,
+    IdentityRateLimitExceeded,
+    IdentityVerificationError,
+    LukhasIdentityVault,
     has_access,
     log_access,
-    reset_registry,
 )
 
 __all__ = [
-    "IdentityAccessLog",
-    "IdentityRegistry",
-    "IdentityClient",
-    "get_access_log",
+    "IdentityManager",
+    "IdentityProfile",
+    "IdentityRateLimitExceeded",
+    "IdentityVerificationError",
+    "LukhasIdentityVault",
     "has_access",
     "log_access",
-    "reset_registry",
 ]
