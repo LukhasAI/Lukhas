@@ -1,4 +1,3 @@
-# config.json
 {
   "autonomy_level": 5,
   "ethical_threshold": 0.85,

@@ -1,1 +1,8 @@
-lukhas_permissions.json
+{
+  "_note": "Placeholder - originally referenced lukhas_permissions.json",
+  "default_permissions": {
+    "read": true,
+    "write": false,
+    "admin": false
+  }
+}
