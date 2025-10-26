@@ -26,8 +26,8 @@ import uuid
 from datetime import datetime, timezone
 from typing import Optional
 
-from orchestration.brain.core.capability_levels import AGICapabilityLevel
-from orchestration.brain.core.response_types import AGIResponse
+from core.orchestration.brain.core.capability_levels import AGICapabilityLevel
+from core.orchestration.brain.core.response_types import AGIResponse
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 

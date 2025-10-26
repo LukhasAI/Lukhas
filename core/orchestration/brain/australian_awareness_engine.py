@@ -44,7 +44,7 @@ from typing import Any, Optional
 from pydantic import Field
 
 # Import global framework
-from identity.backend.app.institution_manager import (
+from core.identity.backend.app.institution_manager import (
     DataCategory,
     GlobalInstitutionalInput,
     GlobalInstitutionalOutput,
