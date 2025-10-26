@@ -1,14 +1,3 @@
----
-status: wip
-type: documentation
-owner: unknown
-module: web
-redirect: false
-moved_to: null
----
-
-![Status: WIP](https://img.shields.io/badge/status-wip-yellow)
-
 # LUKHAS Experience Page - Complete Redesign & Fixes
 
 ## Overview
@@ -47,7 +36,7 @@ Complete redesign and enhancement of the LUKHAS experience page with premium UI/
 - Styled like OpenAI/Claude/Gemini interfaces
 
 ### 2. `trinity-interactive.tsx`
-- 3D Constellation Framework visualization using Three.js
+- 3D Trinity Framework visualization using Three.js
 - Interactive nodes with hover and click effects
 - Dynamic connection beams between active nodes
 - Central core that responds to node selection
@@ -71,7 +60,7 @@ Complete redesign and enhancement of the LUKHAS experience page with premium UI/
 
 ### 1. Visualization Modes
 - **Morphing Mode**: Voice-reactive 3D shapes with particle effects
-- **Trinity Mode**: Interactive Constellation Framework visualization
+- **Trinity Mode**: Interactive Trinity Framework visualization
 - **Hybrid Mode**: Split-screen showing both visualizations
 
 ### 2. Voice & Audio Integration
@@ -82,7 +71,7 @@ Complete redesign and enhancement of the LUKHAS experience page with premium UI/
 
 ### 3. Consciousness System
 - Four consciousness modes: Aware, Dreaming, Focused, Creative
-- Constellation integration toggles for Identity, Consciousness, Guardian
+- Trinity integration toggles for Identity, Consciousness, Guardian
 - Visual feedback for active states
 
 ### 4. API Integration

@@ -28,7 +28,7 @@ By 2035, LUKHAS endocrine system will:
 ### Existing System Analysis
 
 ```python
-# labs/core/endocrine/hormone_system.py (540 lines)
+# core/endocrine/hormone_system.py (540 lines)
 # qi/bio/endocrine_system.py (180 lines)
 
 CURRENT HORMONES (8):
@@ -137,7 +137,7 @@ from enum import Enum, auto
 from collections import deque
 
 # PRESERVE: Import existing systems (100% compatibility)
-from labs.core.endocrine.hormone_system import (
+from core.endocrine.hormone_system import (
     EndocrineSystem,
     HormoneType,
     HormoneLevel,
@@ -850,7 +850,7 @@ from labs.core.endocrine.neuromodulation_engine import (
     AINeuromodulationEngine,
     NeuromodulatorState
 )
-from labs.core.endocrine.hormone_system import HormoneType
+from core.endocrine.hormone_system import HormoneType
 
 from core.common import get_logger
 
@@ -1330,7 +1330,7 @@ Success Metrics:
 
 ```yaml
 Existing Systems (100% PRESERVED):
-├─ labs/core/endocrine/hormone_system.py (540 lines)
+├─ core/endocrine/hormone_system.py (540 lines)
 ├─ qi/bio/endocrine_system.py (180 lines)
 ├─ products/intelligence/monitoring_candidate/endocrine_observability_engine.py
 ├─ vivox/emotional_regulation/endocrine_integration.py
