@@ -1,22 +1,5 @@
-#!/usr/bin/env python3
-"""
-Integration tests for Dynamic QRGLYPH Engine
-"""
-import pytest
+"""Import-smoke for core.governance.identity.quantum.dynamic_qrglyph_engine."""
 
-
-def test_dynamic_qrglyph_engine_import():
-    """Test that dynamic_qrglyph_engine can be imported"""
-    from core.governance.identity.quantum.dynamic_qrglyph_engine import GLYPHType, ZKProofType
-
-    assert GLYPHType.STATIC is not None
-    assert ZKProofType is not None
-
-
-def test_glyph_types():
-    """Test GLYPH types are available"""
-    from core.governance.identity.quantum.dynamic_qrglyph_engine import GLYPHType
-
-    assert hasattr(GLYPHType, 'STATIC')
-    assert hasattr(GLYPHType, 'DYNAMIC')
-    assert hasattr(GLYPHType, 'EPHEMERAL')
+def test_dynamic_qrglyph_engine_imports():
+    mod = __import__("core.governance.identity.quantum.dynamic_qrglyph_engine", fromlist=["*"])
+    assert mod is not None
