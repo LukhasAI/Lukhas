@@ -6,7 +6,7 @@ with support for restart, escalate, and resume patterns.
 """
 import logging
 from enum import Enum
-from typing import Any, Callable, Optional
+from typing import Any, Callable, Optional, Type, Union
 
 logger = logging.getLogger(__name__)
 
@@ -17,6 +17,15 @@ class SupervisionStrategy(str, Enum):
     RESUME = "resume"  # Resume agent from last known state
     ESCALATE = "escalate"  # Escalate failure to higher level
     STOP = "stop"  # Stop the failed agent permanently
+
+
+HandlerFunc = Callable[[str, Exception, Optional[dict[str, Any]]], dict[str, Any]]
+
+
+def _get_handler_name(handler: HandlerFunc) -> str:
+    """Resolve a readable handler name for logging."""
+    # ΛTAG: handler_name_resolver
+    return getattr(handler, "__name__", handler.__class__.__name__)
 
 
 class Supervisor:
@@ -52,6 +61,10 @@ class Supervisor:
         # Failure tracking
         self.failure_count: dict[str, int] = {}
         self.last_failures: dict[str, Exception] = {}
+
+        # ΛTAG: handler_registry_state
+        self._custom_handlers_by_exception: dict[Type[Exception], HandlerFunc] = {}
+        self._custom_handlers_by_agent: dict[str, HandlerFunc] = {}
 
         logger.info(f"Supervisor initialized with strategy: {strategy.value}")
 
@@ -89,6 +102,30 @@ class Supervisor:
         )
 
         # Apply supervision strategy
+        # ΛTAG: handler_precedence_agent
+        if agent_id in self._custom_handlers_by_agent:
+            logger.debug(
+                "Invoking agent-specific custom handler",
+                extra={
+                    "agent_id": agent_id,
+                    "handler": _get_handler_name(self._custom_handlers_by_agent[agent_id]),
+                },
+            )
+            return self._custom_handlers_by_agent[agent_id](agent_id, exception, context)
+
+        # ΛTAG: handler_precedence_exception
+        for exc_type, handler in self._custom_handlers_by_exception.items():
+            if isinstance(exception, exc_type):
+                logger.debug(
+                    "Invoking exception-specific custom handler",
+                    extra={
+                        "agent_id": agent_id,
+                        "handler": _get_handler_name(handler),
+                        "exception_type": exc_type.__name__,
+                    },
+                )
+                return handler(agent_id, exception, context)
+
         if self.strategy == SupervisionStrategy.RESTART:
             return self._handle_restart(agent_id, failure_count)
 
@@ -164,18 +201,39 @@ class Supervisor:
 
     def register_custom_handler(
         self,
-        strategy: SupervisionStrategy,
-        handler: Callable[[str, Exception, Optional[dict[str, Any]]], dict[str, Any]]
+        target: Union[Type[Exception], str],
+        handler: HandlerFunc,
     ) -> None:
-        """
-        Register a custom handler for a specific strategy
+        """Register a custom handler for an exception type or agent.
 
         Args:
-            strategy: Strategy to register handler for
-            handler: Callable that handles the strategy
+            target: Exception type or agent identifier to bind the handler to.
+            handler: Callable used for handling failures.
+
+        Raises:
+            TypeError: If the target is not an exception type or agent identifier.
         """
-        # TODO: Implement custom handler registration
-        logger.info(f"Custom handler registration for {strategy.value} not yet implemented")
+        if isinstance(target, str):
+            # ΛTAG: handler_registry_agent
+            self._custom_handlers_by_agent[target] = handler
+            logger.info(
+                "Registered agent-specific custom handler",
+                extra={"agent_id": target, "handler": _get_handler_name(handler)},
+            )
+            return
+
+        if isinstance(target, type) and issubclass(target, Exception):
+            # ΛTAG: handler_registry_exception
+            self._custom_handlers_by_exception[target] = handler
+            logger.info(
+                "Registered exception-specific custom handler",
+                extra={"exception_type": target.__name__, "handler": _get_handler_name(handler)},
+            )
+            return
+
+        raise TypeError(
+            "Custom handler target must be an agent_id (str) or Exception subclass"
+        )
 
 
 __all__ = [
