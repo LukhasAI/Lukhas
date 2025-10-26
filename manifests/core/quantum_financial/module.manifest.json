@@ -1,0 +1,21 @@
+{
+  "name": "core.quantum_financial",
+  "path": "core/quantum_financial",
+  "constellation_stars": [
+    "Quantum"
+  ],
+  "confidence": 0.85,
+  "description": "Auto-generated manifest for core.quantum_financial",
+  "dependencies": [],
+  "status": "integration",
+  "tier": "integration",
+  "lane": "core",
+  "version": "1.0.0",
+  "created": "2025-10-26T06:26:03Z",
+  "updated": "2025-10-26T06:26:03Z",
+  "metadata": {
+    "complexity": "medium",
+    "test_coverage": "unknown",
+    "documentation": "partial"
+  }
+}

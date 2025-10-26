@@ -1,22 +1,21 @@
 {
-  "name": "matriz",
-  "path": "matriz",
+  "name": "matriz.core",
+  "path": "matriz/core",
   "constellation_stars": [
     "Consciousness"
   ],
   "confidence": 0.85,
-  "description": "MATRIZ cognitive engine core package",
+  "description": "Auto-generated manifest for matriz.core",
   "dependencies": [
     "core",
-    "lukhas",
     "matriz"
   ],
   "status": "integration",
   "tier": "integration",
   "lane": "matriz",
   "version": "1.0.0",
-  "created": "2025-10-26T06:28:44Z",
-  "updated": "2025-10-26T06:28:44Z",
+  "created": "2025-10-26T06:28:07Z",
+  "updated": "2025-10-26T06:28:07Z",
   "metadata": {
     "complexity": "medium",
     "test_coverage": "unknown",
