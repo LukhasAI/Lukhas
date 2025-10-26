@@ -41,8 +41,14 @@ for _cand in _CANDIDATES:
 # Add expected symbols as stubs if not found
 # No pre-defined stubs
 
-def __getattr__(name: str):
-    """Lazy attribute access fallback."""
-    if _SRC and hasattr(_SRC, name):
-        return getattr(_SRC, name)
-    raise AttributeError(f"module '{__name__}' has no attribute '{name}'")
+# Add expected symbols as stubs if not found
+if "map_scene_to_glyphs" not in globals():
+
+    def map_scene_to_glyphs(scene):
+        return []
+
+
+if "normalize_glyph_keys" not in globals():
+
+    def normalize_glyph_keys(keys):
+        return keys

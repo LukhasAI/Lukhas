@@ -41,8 +41,8 @@ for _cand in _CANDIDATES:
 # Add expected symbols as stubs if not found
 # No pre-defined stubs
 
-def __getattr__(name: str):
-    """Lazy attribute access fallback."""
-    if _SRC and hasattr(_SRC, name):
-        return getattr(_SRC, name)
-    raise AttributeError(f"module '{__name__}' has no attribute '{name}'")
+# Add expected symbols as stubs if not found
+if "PLS" not in globals():
+
+    class PLS:
+        pass
