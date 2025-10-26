@@ -1,0 +1,50 @@
+{
+  "module": "core.consciousness.id_reasoning_engine",
+  "version": "1.0.0",
+  "type": "identity_reasoning_node",
+  "matriz_compatible": true,
+  "description": "Identity reasoning engine for consciousness-aware identity processing and authentication",
+
+  "capabilities": {
+    "sends": [
+      {
+        "signal": "identity.reasoning.result",
+        "schema": "ReasoningResult",
+        "frequency": "per_reasoning",
+        "latency_target_ms": 150
+      }
+    ],
+    "receives": [
+      {
+        "signal": "identity.reason.request",
+        "schema": "ReasoningRequest",
+        "handler": "reason_about_identity",
+        "required": true
+      }
+    ]
+  },
+
+  "main_classes": [
+    {
+      "name": "IdReasoningEngine",
+      "type": "engine",
+      "methods": ["reason_about_identity"],
+      "async": true
+    }
+  ],
+
+  "dependencies": [],
+
+  "performance": {
+    "max_latency_ms": 150,
+    "target_latency_p95_ms": 100,
+    "memory_limit_mb": 100,
+    "cpu_cores": 1
+  },
+
+  "constellation_integration": {
+    "stars": ["identity", "consciousness"],
+    "validates": true,
+    "blocks_on_failure": false
+  }
+}

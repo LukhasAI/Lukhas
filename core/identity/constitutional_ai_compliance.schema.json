@@ -1,0 +1,62 @@
+{
+  "module": "core.identity.constitutional_ai_compliance",
+  "version": "1.0.0",
+  "type": "compliance_node",
+  "matriz_compatible": true,
+  "description": "Constitutional AI compliance system for identity verification and ethical alignment validation",
+
+  "capabilities": {
+    "sends": [
+      {
+        "signal": "compliance.check.result",
+        "schema": "ComplianceCheckResult",
+        "frequency": "per_check",
+        "latency_target_ms": 150
+      },
+      {
+        "signal": "compliance.violation.alert",
+        "schema": "ComplianceViolation",
+        "frequency": "on_violation",
+        "priority": "critical"
+      }
+    ],
+    "receives": [
+      {
+        "signal": "compliance.check.request",
+        "schema": "ComplianceCheckRequest",
+        "handler": "check_compliance",
+        "required": true
+      }
+    ]
+  },
+
+  "main_classes": [
+    {
+      "name": "ConstitutionalAICompliance",
+      "type": "compliance_system",
+      "methods": ["check_compliance", "validate_alignment"],
+      "async": true
+    }
+  ],
+
+  "dependencies": [],
+
+  "performance": {
+    "max_latency_ms": 150,
+    "target_latency_p95_ms": 100,
+    "memory_limit_mb": 100,
+    "cpu_cores": 1
+  },
+
+  "constellation_integration": {
+    "stars": ["identity", "ethics", "guardian"],
+    "validates": true,
+    "blocks_on_failure": true
+  },
+
+  "compliance_frameworks": [
+    "Constitutional_AI",
+    "GDPR",
+    "CCPA"
+  ]
+}

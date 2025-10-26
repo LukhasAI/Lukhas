@@ -1,0 +1,62 @@
+{
+  "module": "core.verifold.verifold_unified",
+  "version": "1.0.0",
+  "type": "verification_node",
+  "matriz_compatible": true,
+  "description": "Unified verification and folding system for data integrity and state validation across LUKHAS",
+
+  "capabilities": {
+    "sends": [
+      {
+        "signal": "verifold.verification.result",
+        "schema": "VerificationResult",
+        "frequency": "per_verification",
+        "latency_target_ms": 100
+      },
+      {
+        "signal": "verifold.fold.completed",
+        "schema": "FoldCompletion",
+        "frequency": "per_fold",
+        "priority": "normal"
+      }
+    ],
+    "receives": [
+      {
+        "signal": "verifold.verify.request",
+        "schema": "VerificationRequest",
+        "handler": "verify",
+        "required": true
+      },
+      {
+        "signal": "verifold.fold.request",
+        "schema": "FoldRequest",
+        "handler": "fold",
+        "required": true
+      }
+    ]
+  },
+
+  "main_classes": [
+    {
+      "name": "VerifoldUnified",
+      "type": "verification_system",
+      "methods": ["verify", "fold", "validate_integrity"],
+      "async": true
+    }
+  ],
+
+  "dependencies": [],
+
+  "performance": {
+    "max_latency_ms": 100,
+    "target_latency_p95_ms": 75,
+    "memory_limit_mb": 100,
+    "cpu_cores": 1
+  },
+
+  "constellation_integration": {
+    "stars": ["memory", "guardian"],
+    "validates": true,
+    "blocks_on_failure": false
+  }
+}

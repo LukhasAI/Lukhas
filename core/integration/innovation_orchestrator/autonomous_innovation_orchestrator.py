@@ -74,14 +74,14 @@ class AutonomousInnovationOrchestrator(CoreInterface):
         container = ServiceContainer.get_instance()
 
         # Initialize sub-components
-        from .breakthrough_synthesis_engine import (
-            BreakthroughSynthesisEngine,  # noqa: TID252 TODO: convert to absolute import
+        from core.integration.innovation_orchestrator.breakthrough_synthesis_engine import (
+            BreakthroughSynthesisEngine,
         )
-        from .innovation_prioritization_engine import (
-            InnovationPrioritizationEngine,  # noqa: TID252 TODO: convert to absolute import
+        from core.integration.innovation_orchestrator.innovation_prioritization_engine import (
+            InnovationPrioritizationEngine,
         )
-        from .resource_allocation_optimizer import (
-            ResourceAllocationOptimizer,  # noqa: TID252 TODO: convert to absolute import
+        from core.integration.innovation_orchestrator.resource_allocation_optimizer import (
+            ResourceAllocationOptimizer,
         )
 
         self.resource_allocation_optimizer = ResourceAllocationOptimizer()

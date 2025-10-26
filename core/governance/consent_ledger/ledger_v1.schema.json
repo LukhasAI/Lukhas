@@ -1,0 +1,93 @@
+{
+  "module": "core.governance.consent_ledger.ledger_v1",
+  "version": "1.0.0",
+  "type": "consent_management_node",
+  "matriz_compatible": true,
+  "description": "GDPR/CCPA compliant consent management with Λ-trace audit records and Constellation Framework integration",
+
+  "capabilities": {
+    "sends": [
+      {
+        "signal": "consent.validation.result",
+        "schema": "PolicyVerdict",
+        "frequency": "per_check",
+        "latency_target_ms": 50
+      },
+      {
+        "signal": "consent.audit.trace",
+        "schema": "ΛTrace",
+        "frequency": "per_action",
+        "retention_days": 2555
+      },
+      {
+        "signal": "consent.rights.request",
+        "schema": "DataSubjectRights",
+        "frequency": "on_demand",
+        "priority": "high"
+      }
+    ],
+    "receives": [
+      {
+        "signal": "consent.check.request",
+        "schema": "ConsentCheckRequest",
+        "handler": "check_consent",
+        "required": true
+      },
+      {
+        "signal": "consent.grant.request",
+        "schema": "ConsentGrantRequest",
+        "handler": "grant_consent",
+        "required": true
+      },
+      {
+        "signal": "consent.revoke.request",
+        "schema": "ConsentRevokeRequest",
+        "handler": "revoke_consent",
+        "required": true
+      }
+    ]
+  },
+
+  "main_classes": [
+    {
+      "name": "ConsentLedgerV1",
+      "type": "orchestrator",
+      "methods": ["check_consent", "grant_consent", "revoke_consent", "get_audit_trail"],
+      "async": false
+    },
+    {
+      "name": "ΛTrace",
+      "type": "dataclass",
+      "fields": ["trace_id", "lid", "action", "resource", "timestamp", "policy_verdict", "constellation_validation"]
+    },
+    {
+      "name": "PolicyVerdict",
+      "type": "enum",
+      "values": ["ALLOW", "DENY", "STEP_UP_REQUIRED", "DURESS_DETECTED", "TRINITY_REVIEW_REQUIRED"]
+    }
+  ],
+
+  "dependencies": [
+    "core.glyph.glyph_engine",
+    "labs.governance.identity.core.id_service.lambd_id_validator"
+  ],
+
+  "performance": {
+    "max_latency_ms": 50,
+    "target_latency_p95_ms": 30,
+    "memory_limit_mb": 50,
+    "cpu_cores": 1
+  },
+
+  "constellation_integration": {
+    "stars": ["identity", "guardian", "ethics"],
+    "validates": true,
+    "blocks_on_failure": true
+  },
+
+  "compliance_frameworks": [
+    "GDPR",
+    "CCPA",
+    "Constitutional_AI"
+  ]
+}

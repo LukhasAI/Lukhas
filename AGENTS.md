@@ -1,5 +1,5 @@
 # LUKHAS Agent Coordination System
-**Status**: Active | **Updated**: 2025-10-15 | **Schema**: 3.0 (Generic - Matriz & Navigation Focus)
+**Status**: Active | **Updated**: 2025-10-26 | **Schema**: 3.2 (TODO Batch System + Critical Workspace Info)
 
 ---
 
@@ -13,6 +13,127 @@ The LUKHAS Agent Coordination System provides **AI agent navigation guidance** f
 - **MATRIZ integration**: Understand symbolic reasoning & node-based processing
 - **Verification**: Test changes, validate against architectural contracts
 - **Minimal noise**: Clean commits, evidence-based claims
+
+---
+
+## 🚀 Agent Quick Start
+
+**First Time Here?** Read these files in order:
+1. [`CLAUDE.md`](./CLAUDE.md) - Project-specific instructions, lane architecture, development standards
+2. **This file** (`AGENTS.md`) - Navigation guide and TODO batch assignments
+3. [`claude.me`](./claude.me) - Master system architecture (7,000+ files overview)
+4. Your assigned batch file in [`agents/batches/`](./agents/batches/)
+
+**Already Know LUKHAS?** Jump to your assignments:
+- **Jules**: [`BATCH-JULES-TODO-CLEANUP-01`](./agents/batches/BATCH-JULES-TODO-CLEANUP-01.json)
+- **Codex**: [`BATCH-CODEX-CONSCIOUSNESS-MESH-01`](./agents/batches/BATCH-CODEX-CONSCIOUSNESS-MESH-01.json)
+
+---
+
+## 🎯 TODO Batch System (NEW - 2025-10-26)
+
+### Quick Access to Assigned Work
+
+**Batch Location**: [`agents/batches/`](./agents/batches/)
+
+**For Jules** (Refactoring & Integration - 4 hours):
+```bash
+# Quick wins and cleanup tasks
+cat agents/batches/BATCH-JULES-TODO-CLEANUP-01.json
+
+# UI dashboard integration (lower priority)
+cat agents/batches/BATCH-JULES-STREAMLIT-UI-01.json
+```
+
+**For Codex** (Architecture & Systems - 7.5 hours):
+```bash
+# HIGH PRIORITY: GLYPH consciousness mesh formation
+cat agents/batches/BATCH-CODEX-CONSCIOUSNESS-MESH-01.json
+
+# Type system improvements
+cat agents/batches/BATCH-CODEX-TYPE-SYSTEM-01.json
+
+# DAST symbolic engine enhancements
+cat agents/batches/BATCH-CODEX-SYMBOLIC-ENGINE-01.json
+```
+
+**Batch Overview**: [`agents/batches/README.md`](./agents/batches/README.md)
+- 156 remaining TODOs analyzed and categorized
+- 5 batch files created with task descriptions and acceptance criteria
+- Priority matrix: HIGH → Medium → Low
+- Total estimated effort: ~11.5 hours
+
+### Critical Workspace Information
+
+**Repository Root**: `/Users/agi_dev/LOCAL-REPOS/Lukhas`
+
+**Essential Configuration Files**:
+1. **User Global**: `~/.claude/CLAUDE.md` - User preferences, commit standards, workflow reminders
+2. **Project Config**: `/Users/agi_dev/LOCAL-REPOS/Lukhas/CLAUDE.md` - Project-specific instructions
+3. **Agent Coordination**: `/Users/agi_dev/LOCAL-REPOS/Lukhas/AGENTS.md` - **This file** (navigation & batch assignments)
+4. **Master Context**: `/Users/agi_dev/LOCAL-REPOS/Lukhas/claude.me` - Complete system architecture
+5. **TODO Batches**: `/Users/agi_dev/LOCAL-REPOS/Lukhas/agents/batches/` - Structured task assignments
+
+**Global Instructions** (applies to ALL agents):
+- Commit after completing features/fixes (ask user, they'll likely appreciate initiative)
+- Follow T4 minimal commit standards (see section below)
+- Permissions: `bypassPermissions` mode enabled (no prompts)
+- Platform: macOS (Darwin 25.1.0), Python 3.9-3.11, zsh shell
+
+**Before Starting Any Task**:
+1. ✅ Read relevant `claude.me` context file for domain understanding
+2. ✅ Check batch file for task details and acceptance criteria
+3. ✅ Review lane boundaries if working across candidate/core/lukhas
+4. ✅ Run `make doctor && make smoke` to verify system health
+5. ✅ Understand what files need changes (use Grep/Glob if unclear)
+
+**After Completing Task**:
+1. ✅ Test changes: `make lint && make smoke` (or relevant tests)
+2. ✅ Validate imports: `make lane-guard` (if touching imports)
+3. ✅ Create T4-compliant commit with Problem/Solution/Impact
+4. ✅ Update batch tracking or notify user of completion
+
+### Where to Find Critical Information
+
+**Working on Consciousness Systems?**
+- Architecture: [`candidate/consciousness/claude.me`](./candidate/consciousness/claude.me)
+- Integration: [`lukhas/consciousness/claude.me`](./lukhas/consciousness/claude.me)
+- Constellation Framework: See section below on Eight-Star System
+
+**Working on MATRIZ/Cognitive Engine?**
+- Engine Architecture: [`matriz/claude.me`](./matriz/claude.me)
+- Node Development: [`matriz/core/claude.me`](./matriz/core/claude.me)
+- Visualization: [`matriz/visualization/claude.me`](./matriz/visualization/claude.me)
+
+**Working on Memory Systems?**
+- Development: [`candidate/memory/claude.me`](./candidate/memory/claude.me)
+- Integration: [`lukhas/memory/claude.me`](./lukhas/memory/claude.me)
+- Fold Architecture: See Memory context files
+
+**Working on Identity/Authentication?**
+- Development: [`candidate/identity/claude.me`](./candidate/identity/claude.me)
+- Integration: [`lukhas/identity/claude.me`](./lukhas/identity/claude.me)
+- WebAuthn: `core/identity/adapters/webauthn_adapter.py`
+
+**Working on Governance/Ethics?**
+- Development: [`candidate/governance/claude.me`](./candidate/governance/claude.me)
+- Integration: [`lukhas/governance/claude.me`](./lukhas/governance/claude.me)
+- Guardian System: [`ethics/guardian/claude.me`](./ethics/guardian/claude.me)
+
+**Working on Symbolic Processing?**
+- GLYPH System: `core/symbolic_core/`, `core/symbolic_legacy/`
+- DAST Engine: `core/symbolic/dast_engine.py`
+- Neuro-Symbolic Fusion: `core/symbolic/neuro_symbolic_fusion_layer.py`
+
+**Working on API/Interfaces?**
+- API Routes: `core/interfaces/api/v1/v1/rest/routers/`
+- Metrics: `core/metrics.py`, `core/interfaces/api/v1/v1/rest/routers/metrics.py`
+- OpenAPI Facade: See Codex execution package section below
+
+**Working on Orchestration?**
+- Brain Integration: `core/orchestration/brain/brain_integration.py`
+- Main Orchestrator: `core/orchestration/core.py`
+- Integration Hub: `core/orchestration/integration_hub.py`
 
 ---
 
@@ -300,29 +421,64 @@ make facade-smoke      # Run OpenAI façade smoke tests
 
 ### Integration Manifest Execution
 
-**Location**: [`docs/audits/INTEGRATION_MANIFEST_SUMMARY.md`](./docs/audits/INTEGRATION_MANIFEST_SUMMARY.md)
+**Location**: [`docs/AGENT_CODEX_HIDDEN_GEMS_INTEGRATION.md`](./docs/AGENT_CODEX_HIDDEN_GEMS_INTEGRATION.md)
 
-**Purpose**: Systematic integration of 193 hidden gems into production MATRIZ structure
+**Purpose**: Systematic integration of 193 hidden gems into production MATRIZ structure with **parallel 3-lane execution**
+
+**Status Update (2025-10-23)**:
+- ✅ **Phase 1 Complete**: 27 modules integrated (14% complete)
+- ✅ **Automation Enhanced**: 6 PRs merged for tooling improvements
+- ✅ **Parallel Ready**: 3-lane batch system operational
+- ⚠️ **Phase 4 Manual**: MATRIZ schema generation needs automation
 
 **What It Contains**:
-- ✅ JSON manifest (325KB) - Codex-friendly structured data
-- ✅ Integration guide (6,987 lines) - Step-by-step instructions per module
-- ✅ 9-step workflow per module (REVIEW → COMMIT)
+- ✅ Parallel execution strategy - 3-lane (3x speedup) or 7-agent (7x speedup)
+- ✅ Phase automation analysis - Phases 3, 5, 6 automated
+- ✅ Enhanced hidden_gems_summary.py - JSON output + lane filtering
+- ✅ Batch integration scripts - pytest fallback, error handling
+- ✅ Integration guide - Step-by-step per module
 - ✅ MATRIZ location mapping rules
 - ✅ Complexity scoring (low/medium/high)
 - ✅ Effort estimates (2-24 hours per module)
 
+**Recent Enhancements** (6 PRs merged):
+- 🔧 **PR #486**: JSON reporting for hidden_gems_summary.py
+- 🎯 **PR #485**: Lane filtering (--lane matriz|core|serve)
+- 🛡️ **PR #479**: CLI hardening with defensive error handling
+- 🧪 **PR #484**: pytest fallback for batch integration
+- ⚙️ **PR #482**: Makefile batch_next_auto fix
+- 📝 **PR #477**: Execute permissions restored
+
 **Tools Referenced**:
-- 📋 `jq` queries - Filter manifest by complexity, score, location
+- 📊 `hidden_gems_summary.py` - Enhanced with JSON output, lane filtering
+- 📋 `batch_next.sh` - Automated Phases 3, 5, 6 per module
+- 🔄 `batch_next_auto.sh` - Auto-select smallest remaining batch
+- 📈 `batch_status.py` - Real-time progress dashboard
 - 📂 `git mv` - Preserve history when moving modules
 - 🧪 `pytest` - Integration and smoke tests
 - 📝 `git commit` - T4 format with detailed artifacts
 
-**Commands**:
+**Parallel Execution Commands**:
 ```bash
-make integration-manifest  # Generate manifest
-jq '.modules[] | select(.complexity == "low")' docs/audits/integration_manifest.json
+# Generate batch files for 3 lanes
+python scripts/hidden_gems_summary.py \
+  --manifest .lukhas_runs/hidden_gems_manifest.json \
+  --lane matriz --format json > matriz_modules.json
+
+# Run 3 parallel integration lanes
+make batch-next-matriz   # Terminal 1: MATRIZ lane
+make batch-next-core     # Terminal 2: CORE lane
+make batch-next-serve    # Terminal 3: SERVE lane
+make batch-status        # Terminal 4: Monitor progress
+
+# Auto-pick smallest batch
+make batch-next          # Automatically selects from matriz/core/serve
 ```
+
+**Performance Estimates**:
+- Sequential: 166 modules × 15 min = 41.5 hours
+- 3-Lane Parallel: 166 ÷ 3 × 15 min = **13.8 hours** (3x speedup)
+- 7-Agent Parallel: 166 ÷ 7 × 15 min = **5.9 hours** (7x speedup)
 
 ---
 
@@ -415,6 +571,13 @@ make test-tier1        # Critical system tests
 make lint              # Linting & type checking
 make format            # Code formatting
 make audit             # Comprehensive audit
+
+# Batch Integration Targets (NEW - 2025-10-23)
+make batch-status      # Show integration batch progress dashboard
+make batch-next-matriz # Integrate next module from MATRIZ batch
+make batch-next-core   # Integrate next module from CORE batch
+make batch-next-serve  # Integrate next module from SERVE batch
+make batch-next        # Auto-pick smallest remaining batch
 ```
 
 ### Context Navigation

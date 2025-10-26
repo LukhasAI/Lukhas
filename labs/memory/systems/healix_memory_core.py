@@ -1,6 +1,6 @@
-log = logging.getLogger(__name__)
 import logging
 
+log = logging.getLogger(__name__)
 logger = logging.getLogger(__name__)
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: memory/core_memory/healix_memory_core.py

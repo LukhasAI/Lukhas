@@ -1,0 +1,124 @@
+{
+  "batch_id": "BATCH-CODEX-SYMBOLIC-ENGINE-01",
+  "agent": "Codex",
+  "priority": "medium",
+  "estimated_duration": "2.5 hours",
+  "created": "2025-10-26",
+  "description": "DAST engine and symbolic processing improvements",
+  "tasks": [
+    {
+      "task_id": "CODEX-SYMBOLIC-01",
+      "title": "Refine gesture scoring algorithm in DAST engine",
+      "priority": "medium",
+      "complexity": "medium",
+      "estimated_time": "45 minutes",
+      "files": [
+        "core/symbolic/dast_engine.py"
+      ],
+      "description": "Line 85: Replace placeholder 1.0 return with proper gesture quality scoring algorithm",
+      "acceptance_criteria": [
+        "Implement multi-factor gesture scoring (precision, timing, complexity, context)",
+        "Use weighted combination of factors",
+        "Return normalized score 0.0-1.0",
+        "Add confidence intervals",
+        "Document scoring methodology"
+      ]
+    },
+    {
+      "task_id": "CODEX-SYMBOLIC-02",
+      "title": "Implement gesture interpretation in DAST",
+      "priority": "medium",
+      "complexity": "medium",
+      "estimated_time": "1 hour",
+      "files": [
+        "core/symbolic/dast_engine.py"
+      ],
+      "description": "Line 132: Replace TODO placeholder with actual gesture interpretation logic",
+      "acceptance_criteria": [
+        "Analyze gesture data to extract semantic meaning",
+        "Map gestures to symbolic representations",
+        "Calculate interpretation confidence",
+        "Support multiple gesture types",
+        "Integrate with symbolic engine"
+      ]
+    },
+    {
+      "task_id": "CODEX-SYMBOLIC-03",
+      "title": "Implement external data fetching in RealtimeDataAggregator",
+      "priority": "medium",
+      "complexity": "medium",
+      "estimated_time": "45 minutes",
+      "files": [
+        "core/symbolic/dast_engine.py"
+      ],
+      "description": "Line 150: Implement _fetch_data method for external data source integration",
+      "acceptance_criteria": [
+        "Define data source adapters (API, stream, database)",
+        "Implement async data fetching with timeout",
+        "Add error handling and retry logic",
+        "Respect consent checks before fetching",
+        "Return data in standardized format"
+      ]
+    },
+    {
+      "task_id": "CODEX-SYMBOLIC-04",
+      "title": "Add ML-based pattern prediction for anomaly detection",
+      "priority": "low",
+      "complexity": "high",
+      "estimated_time": "2 hours",
+      "files": [
+        "core/symbolic/symbolic_anomaly_explorer.py"
+      ],
+      "description": "Line 55 AIDEA: Implement machine learning based pattern prediction for proactive anomaly detection",
+      "acceptance_criteria": [
+        "Define ML model interface (sklearn compatible)",
+        "Implement pattern feature extraction",
+        "Add model training pipeline (offline)",
+        "Create prediction API for online inference",
+        "Include confidence thresholds",
+        "Document model selection and tuning"
+      ],
+      "notes": [
+        "This is marked AIDEA (idea for future) so can be deferred",
+        "Consider using lightweight models (isolation forest, LSTM)",
+        "May need separate training/inference infrastructure"
+      ]
+    },
+    {
+      "task_id": "CODEX-SYMBOLIC-05",
+      "title": "Implement superposition-like states for parallel processing",
+      "priority": "low",
+      "complexity": "high",
+      "estimated_time": "2 hours",
+      "files": [
+        "core/symbolic/neuro_symbolic_fusion_layer.py"
+      ],
+      "description": "Line 47 ΛTODO: Implement quantum-inspired superposition states for exploring multiple reasoning paths simultaneously",
+      "acceptance_criteria": [
+        "Define state superposition data structure",
+        "Implement parallel path exploration",
+        "Add state collapse/measurement logic",
+        "Handle interference patterns in reasoning",
+        "Integrate with neuro-symbolic fusion",
+        "Document quantum-inspired algorithms used"
+      ],
+      "notes": [
+        "This is advanced quantum-inspired computing",
+        "May want to research existing QI algorithms first",
+        "Consider incremental implementation approach"
+      ]
+    }
+  ],
+  "context": {
+    "dast": "Data Adaptive Symbolic Transformation - handles gesture and sensor data",
+    "seedra": "SEEDRA consent protocol integration",
+    "symbolic_engine": "Core symbolic processing for consciousness signals",
+    "quantum_inspired": "Algorithms inspired by quantum mechanics for classical computers"
+  },
+  "notes": [
+    "Tasks 1-3 are straightforward implementations",
+    "Tasks 4-5 are marked as ideas/future work - can be lower priority",
+    "DAST engine is critical for sensor/gesture processing in consciousness framework",
+    "Maintain consistency with existing symbolic processing patterns"
+  ]
+}

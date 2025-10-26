@@ -67,8 +67,49 @@ pytest "$TEST_CANDIDATE" -q || { echo "❌ integration test failed"; exit 1; }
 pytest tests/smoke/ -q
 make codex-acceptance-gates
 
-# Commit
+# --- begin no-op guard (TG-009) ---
+detect_and_handle_noop() {
+  # Summary of staged changes
+  CHANGED_SUMMARY=$(git diff --cached --summary || true)
+
+  # If no staged changes, nothing to commit
+  if [ -z "$(git diff --cached --name-only --diff-filter=ACM)" ]; then
+    echo "NO_STAGED_CHANGES"
+    return 1
+  fi
+
+  # If all staged deltas are 'mode change', treat as chmod-only
+  MODE_ONLY=true
+  while read -r line; do
+    if ! echo "$line" | grep -q "mode change"; then
+      MODE_ONLY=false; break
+    fi
+  done <<< "$CHANGED_SUMMARY"
+
+  if $MODE_ONLY; then
+    echo "BLOCKED: no-op (chmod-only). Reverting and continuing..." >&2
+    git restore --staged . || true
+    git checkout -- . || true
+    # Optional: audit log
+    echo "$(date -Iseconds) NO-OP chmod-only for $MODULE" >> docs/audits/noop_guard.log
+    return 1
+  fi
+  return 0
+}
+
+# Stage all changes
 git add -A
+
+# Call guard before committing
+if ! detect_and_handle_noop; then
+  # Skip commit; mark as done (no-op) and continue
+  echo "⚠️  No-op detected for $MODULE, marking done without commit"
+  mkdir -p "$(dirname "$DONE_FILE")"
+  echo "$NEXT_LINE" >> "$DONE_FILE"
+  exit 0
+fi
+
+# Commit
 git commit -m "feat(integration): integrate ${MODULE} → ${DST} — task: Hidden Gems Integration"
 
 # Mark done

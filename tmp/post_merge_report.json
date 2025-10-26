@@ -1,0 +1,12 @@
+{
+  "timestamp": "2025-10-24T08:09:19Z",
+  "gates": {
+    "nodespec_validate": "PASS",
+    "unit_tests": "FAIL",
+    "registry_smoke": "FAIL",
+    "pqc_ci_present": "PASS"
+  },
+  "overall_status": "FAIL",
+  "pr_sequence": ["TG-001", "TG-002", "TG-009"],
+  "agent_chain": "A→B→C→D"
+}

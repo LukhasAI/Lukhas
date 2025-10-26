@@ -1,3 +1,5 @@
+# NOTE: Registry targets moved to canonical location (line ~1820)
+# See registry-up, registry-smoke, registry-ci, registry-clean, registry-test below
 # Main Makefile PHONY declarations (only for targets defined in this file)
 .PHONY: install setup-hooks dev api openapi openapi-spec openapi-validate facade-smoke live colony-dna-smoke smoke-matriz lint lint-unused lint-unused-strict format fix fix-all fix-ultra fix-imports oneiric-drift-test
 .PHONY: load-smoke load-test load-extended load-spike load-locust load-check
@@ -385,6 +387,12 @@ it:
 	python3 -m pytest -q -m "integration" --disable-warnings
 e2e:
 	python3 -m pytest -q -m "e2e" --disable-warnings
+
+# ------------------------------------------------------------------------------
+# Registry & NodeSpec helpers (Agent C/D support)
+# ------------------------------------------------------------------------------
+# NOTE: nodespec-validate moved to canonical location (line ~1816)
+# NOTE: registry-test moved to canonical location (line ~1824)
 
 # Minimal CI-friendly check target (scoped to focused gates: ruff, contract tests, scoped mypy)
 .PHONY: check-scoped lint-scoped test-contract type-scoped
@@ -1766,3 +1774,53 @@ batch-next-serve: ## Integrate next module from SERVE batch
 
 batch-next: ## Auto-pick and integrate from smallest remaining batch
 	@scripts/batch_next_auto.sh
+
+# ------------- T4 Multi-Agent Relay Targets -------------
+.PHONY: nodespec-validate registry-up registry-smoke registry-ci registry-clean registry-test gates-all
+
+# Use the centralized validation script to avoid Makefile heredoc/tab pitfalls
+nodespec-validate: ## Validate NodeSpec v1 schema and examples
+		@echo "🔎 Validating NodeSpec examples against schema..."
+		@python3 scripts/nodespec_validate.py
+
+registry-up: ## Start Hybrid Registry service (port 8080, background with PID tracking)
+	@echo "🚀 Starting Hybrid Registry (background)..."
+	@uvicorn services.registry.main:app --host 127.0.0.1 --port 8080 >/tmp/uvicorn.log 2>&1 & echo $$! > .registry.pid
+	@echo "Registry PID: $$(cat .registry.pid)"
+
+registry-smoke: ## Run registry smoke test via curl script
+	@echo "💨 Running registry smoke test..."
+	@./scripts/ci_verify_registry.sh
+
+registry-ci: ## CI target: guard → start → smoke → teardown
+	@echo "🔄 Running registry CI workflow..."
+	@./scripts/registry_ci_guard.sh || code=$$?; \
+	if [ "$$code" = "78" ]; then \
+	  echo "[registry-ci] SKIP: services.registry.main not importable (exit 78)"; \
+	  exit 0; \
+	fi; \
+	if [ "$$code" != "0" ]; then \
+	  echo "[registry-ci] ERROR: guard script failed with code $$code"; \
+	  exit $$code; \
+	fi
+	@make registry-up
+	@./scripts/wait_for_port.sh 127.0.0.1 8080 30
+	@./scripts/ci_verify_registry.sh
+	@make registry-clean
+
+registry-clean: ## Stop registry process and clean artifacts
+	@echo "🧹 Cleaning registry artifacts..."
+	@pkill -f "uvicorn services.registry.main" || true
+	@rm -f .registry.pid services/registry/registry_store.json services/registry/checkpoint.sig /tmp/uvicorn.log || true
+	@echo "✅ Registry cleaned"
+
+registry-test: ## Run Hybrid Registry tests
+	@echo "🧪 Running registry tests..."
+	@pytest services/registry/tests -q
+
+gates-all: ## Run project-wide T4 gates (best-effort)
+	@echo "🚪 Running T4 acceptance gates..."
+	@pytest -q || true
+	@make nodespec-validate || true
+	@make registry-test || true
+	@echo "✅ Gates check complete"

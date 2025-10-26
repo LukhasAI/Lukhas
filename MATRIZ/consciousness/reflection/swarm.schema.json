@@ -1,0 +1,113 @@
+{
+  "module": "matriz.consciousness.reflection.swarm",
+  "version": "1.0.0",
+  "type": "swarm_intelligence_node",
+  "matriz_compatible": true,
+  "description": "Enhanced swarm intelligence system for distributed agent coordination and collective intelligence",
+
+  "capabilities": {
+    "sends": [
+      {
+        "signal": "swarm.agent.state_change",
+        "schema": "AgentState",
+        "frequency": "on_change",
+        "latency_target_ms": 50
+      },
+      {
+        "signal": "swarm.message.broadcast",
+        "schema": "MessageType",
+        "frequency": "continuous",
+        "priority": "normal"
+      },
+      {
+        "signal": "swarm.colony.metric",
+        "schema": "ColonyMetrics",
+        "frequency": "per_minute",
+        "retention_days": 30
+      },
+      {
+        "signal": "swarm.consensus.result",
+        "schema": "ConsensusResult",
+        "frequency": "on_decision",
+        "priority": "high"
+      }
+    ],
+    "receives": [
+      {
+        "signal": "swarm.agent.spawn_request",
+        "schema": "AgentSpawnRequest",
+        "handler": "spawn_agent",
+        "required": true
+      },
+      {
+        "signal": "swarm.message.route",
+        "schema": "MessageRoute",
+        "handler": "route_message",
+        "required": true
+      },
+      {
+        "signal": "swarm.consensus.request",
+        "schema": "ConsensusRequest",
+        "handler": "reach_consensus",
+        "required": false
+      }
+    ]
+  },
+
+  "main_classes": [
+    {
+      "name": "EnhancedSwarmHub",
+      "type": "orchestrator",
+      "methods": ["spawn_agent", "route_message", "reach_consensus", "get_colony_metrics"],
+      "async": true
+    },
+    {
+      "name": "EnhancedSwarmAgent",
+      "type": "actor",
+      "methods": ["process_message", "update_state", "broadcast"],
+      "async": true
+    },
+    {
+      "name": "EnhancedColony",
+      "type": "colony",
+      "methods": ["add_agent", "remove_agent", "coordinate"],
+      "async": true
+    },
+    {
+      "name": "AgentState",
+      "type": "enum",
+      "values": ["ACTIVE", "IDLE", "PROCESSING", "ERROR", "SHUTDOWN"]
+    },
+    {
+      "name": "AgentMemory",
+      "type": "dataclass",
+      "fields": ["agent_id", "memories", "timestamp"]
+    }
+  ],
+
+  "dependencies": [
+    "core.actor_system",
+    "core.common",
+    "core.distributed_tracing",
+    "core.colonies.base_colony"
+  ],
+
+  "performance": {
+    "max_latency_ms": 50,
+    "target_latency_p95_ms": 30,
+    "memory_limit_mb": 150,
+    "cpu_cores": 2
+  },
+
+  "constellation_integration": {
+    "stars": ["memory", "consciousness", "quantum"],
+    "validates": false,
+    "blocks_on_failure": false
+  },
+
+  "swarm_characteristics": {
+    "max_agents": 1000,
+    "consensus_threshold": 0.66,
+    "message_queue_size": 10000
+  }
+}

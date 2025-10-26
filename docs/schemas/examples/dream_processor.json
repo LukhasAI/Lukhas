@@ -1,0 +1,77 @@
+{
+  "node_type": "matriz.dream.processor",
+  "metadata": {
+    "name": "oneiric_core_v2",
+    "version": "0.3.0",
+    "schema_version": "nodespec.v1",
+    "authors": [
+      "LUKHAS Team"
+    ],
+    "created_at": "2025-10-24"
+  },
+  "identity": {
+    "owner_id": "GLYMPH:b4e5...345678",
+    "lane": "lukhas",
+    "tier": 5,
+    "roles": [
+      "oneiric.processor"
+    ],
+    "capabilities_policy": {
+      "allow": [
+        "emit:dream/*"
+      ],
+      "deny": [
+        "emit:provenance/*"
+      ]
+    }
+  },
+  "interfaces": {
+    "inputs": [
+      {
+        "name": "DreamSeed",
+        "schema_ref": "schemas/dream_seed.json"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "DreamReport",
+        "schema_ref": "schemas/dream_report.json"
+      }
+    ],
+    "signals": {
+      "emits": [
+        {
+          "name": "dream.generated",
+          "latency_target_ms": 200
+        },
+        {
+          "name": "drift.detected",
+          "latency_target_ms": 100
+        }
+      ],
+      "subscribes": [
+        {
+          "signal": "memory.fold.compact",
+          "handler": "process"
+        }
+      ]
+    }
+  },
+  "contracts": {
+    "performance_hints": {
+      "p50": 50,
+      "p95": 200,
+      "concurrency": 5,
+      "timeout_ms": 10000
+    }
+  },
+  "provenance_manifest": {
+    "glymph_enabled": true,
+    "signing_scheme": "dilithium2"
+  },
+  "security": {
+    "encryption": {
+      "envelope": "XChaCha20-Poly1305"
+    }
+  }
+}

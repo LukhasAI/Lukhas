@@ -18,6 +18,10 @@ try:
 except ImportError as e:
     MEMORY_PLANNING_AVAILABLE = False
     logging.warning(f"Memory planning components not available: {e}")
+    # Create placeholder types for type hints
+    AllocationPool = None
+    LiveRange = None
+    LiveRanges = None
 
 logger = get_logger(__name__)
 

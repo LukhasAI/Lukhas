@@ -1,0 +1,68 @@
+{
+  "module": "core.integration.executive_decision_integrator",
+  "version": "1.0.0",
+  "type": "decision_integration_node",
+  "matriz_compatible": true,
+  "description": "Executive decision integration hub coordinating high-level decisions across LUKHAS subsystems",
+
+  "capabilities": {
+    "sends": [
+      {
+        "signal": "decision.executive.made",
+        "schema": "ExecutiveDecision",
+        "frequency": "per_decision",
+        "latency_target_ms": 250
+      },
+      {
+        "signal": "decision.recommendation",
+        "schema": "DecisionRecommendation",
+        "frequency": "per_analysis",
+        "priority": "high"
+      },
+      {
+        "signal": "decision.audit.log",
+        "schema": "DecisionAuditLog",
+        "frequency": "per_decision",
+        "retention_days": 365
+      }
+    ],
+    "receives": [
+      {
+        "signal": "decision.request",
+        "schema": "DecisionRequest",
+        "handler": "make_decision",
+        "required": true
+      },
+      {
+        "signal": "decision.context.update",
+        "schema": "DecisionContext",
+        "handler": "update_context",
+        "required": false
+      }
+    ]
+  },
+
+  "main_classes": [
+    {
+      "name": "ExecutiveDecisionIntegrator",
+      "type": "orchestrator",
+      "methods": ["make_decision", "update_context", "integrate_feedback"],
+      "async": true
+    }
+  ],
+
+  "dependencies": [],
+
+  "performance": {
+    "max_latency_ms": 250,
+    "target_latency_p95_ms": 200,
+    "memory_limit_mb": 150,
+    "cpu_cores": 2
+  },
+
+  "constellation_integration": {
+    "stars": ["consciousness", "ethics", "guardian"],
+    "validates": true,
+    "blocks_on_failure": true
+  }
+}

@@ -1,0 +1,232 @@
+{
+  "module": "symbolic.core.quantum_perception",
+  "version": "1.0.0",
+  "type": "quantum_perception_field",
+  "matriz_compatible": true,
+  "description": "Quantum perception field as consciousness substrate for visual symbols",
+
+  "capabilities": {
+    "sends": [
+      {
+        "signal": "field_state_update",
+        "schema": "FieldStateUpdate",
+        "frequency": "periodic_100ms",
+        "latency_target_ms": 20,
+        "description": "Regular field state broadcast including coherence and entropy"
+      },
+      {
+        "signal": "wave_function_collapsed",
+        "schema": "WaveFunctionCollapse",
+        "frequency": "on_observation",
+        "latency_target_ms": 10,
+        "description": "Emitted when observation causes wave function collapse"
+      },
+      {
+        "signal": "entanglement_created",
+        "schema": "EntanglementPair",
+        "frequency": "on_entanglement",
+        "latency_target_ms": 15,
+        "description": "Emitted when new quantum entanglement is established"
+      },
+      {
+        "signal": "decoherence_alert",
+        "schema": "DecoherenceEvent",
+        "frequency": "on_threshold",
+        "latency_target_ms": 5,
+        "description": "Alert when field coherence drops below threshold"
+      },
+      {
+        "signal": "observer_registered",
+        "schema": "ObserverRegistration",
+        "frequency": "on_registration",
+        "latency_target_ms": 10,
+        "description": "New observer registered in field"
+      }
+    ],
+
+    "receives": [
+      {
+        "signal": "add_symbol",
+        "schema": "AddSymbolRequest",
+        "handler": "add_symbol",
+        "required": true,
+        "description": "Add visual symbol to perception field"
+      },
+      {
+        "signal": "observe_symbol",
+        "schema": "ObserveRequest",
+        "handler": "observe_symbol",
+        "required": true,
+        "description": "Observe symbol causing quantum effects"
+      },
+      {
+        "signal": "entangle_symbols",
+        "schema": "EntangleRequest",
+        "handler": "entangle_symbols",
+        "required": false,
+        "description": "Create quantum entanglement between symbols"
+      },
+      {
+        "signal": "stabilize_field",
+        "schema": "StabilizeRequest",
+        "handler": "stabilize",
+        "required": false,
+        "description": "Apply stabilization energy to maintain coherence"
+      },
+      {
+        "signal": "evolve_field",
+        "schema": "EvolveRequest",
+        "handler": "evolve_field",
+        "required": false,
+        "description": "Evolve field forward in time"
+      }
+    ]
+  },
+
+  "main_classes": [
+    {
+      "name": "QuantumPerceptionField",
+      "description": "Main perception field containing visual symbols",
+      "methods": [
+        "add_symbol",
+        "observe_symbol",
+        "entangle_symbols",
+        "measure_field_state",
+        "stabilize",
+        "evolve_field"
+      ]
+    },
+    {
+      "name": "ObserverEffect",
+      "description": "Effect of observer on quantum state",
+      "properties": [
+        "observer_id",
+        "consciousness_level",
+        "observation_type",
+        "intent_vector",
+        "emotional_state"
+      ]
+    },
+    {
+      "name": "WaveFunctionCollapse",
+      "description": "Wave function collapse event",
+      "properties": [
+        "collapse_id",
+        "pre_state",
+        "post_state",
+        "observer",
+        "eigenstate_selected",
+        "decoherence_rate"
+      ]
+    },
+    {
+      "name": "EntangledSymbolPair",
+      "description": "Quantum entangled symbol pair",
+      "properties": [
+        "symbol_a",
+        "symbol_b",
+        "entanglement_strength",
+        "correlation_history"
+      ]
+    },
+    {
+      "name": "FieldCoherence",
+      "description": "Field coherence metrics",
+      "properties": [
+        "global_coherence",
+        "local_coherences",
+        "noise_level",
+        "temperature"
+      ]
+    }
+  ],
+
+  "field_properties": {
+    "dimensions": [10, 10, 10],
+    "coherence_threshold": 0.7,
+    "decoherence_rate": 0.01,
+    "temperature_range": [0.1, 1.0],
+    "noise_range": [0.001, 1.0],
+    "max_symbols": 10000,
+    "max_entangled_pairs": 5000,
+    "observation_types": ["passive", "active", "intentional", "unconscious", "collective"]
+  },
+
+  "dependencies": [
+    "symbolic.core.visual_symbol",
+    "numpy",
+    "uuid",
+    "time",
+    "dataclasses",
+    "enum"
+  ],
+
+  "performance": {
+    "max_latency_ms": 100,
+    "memory_limit_mb": 100,
+    "cpu_cores": 2,
+    "gpu_supported": true,
+    "observations_per_second": 100,
+    "field_updates_per_second": 10,
+    "max_concurrent_observers": 100
+  },
+
+  "constellation_integration": {
+    "stars": ["quantum", "vision", "memory", "consciousness"],
+    "primary_star": "quantum",
+    "validates": true,
+    "field_coherence_required": true
+  },
+
+  "data_schemas": {
+    "FieldStateUpdate": {
+      "field_id": "string",
+      "symbol_count": "integer",
+      "entangled_pairs": "integer",
+      "global_coherence": "float",
+      "field_entropy": "float",
+      "field_energy": "float",
+      "temperature": "float",
+      "observation_count": "integer"
+    },
+    "WaveFunctionCollapse": {
+      "collapse_id": "string",
+      "symbol_id": "string",
+      "observer_id": "string",
+      "collapse_strength": "float",
+      "pre_coherence": "float",
+      "post_coherence": "float",
+      "eigenstate": "string"
+    },
+    "EntanglementPair": {
+      "pair_id": "string",
+      "symbol_a_id": "string",
+      "symbol_b_id": "string",
+      "entanglement_strength": "float",
+      "correlation": "float",
+      "creation_time": "integer"
+    },
+    "DecoherenceEvent": {
+      "field_id": "string",
+      "coherence_level": "float",
+      "threshold": "float",
+      "affected_symbols": "array",
+      "timestamp": "integer"
+    }
+  },
+
+  "quantum_mechanics": {
+    "collapse_probability": "P = strength × consciousness × coherence",
+    "entanglement_correlation": "C = cos(phase_a - phase_b) × strength",
+    "decoherence_formula": "coherence_new = coherence × (1 - rate × temperature)",
+    "observation_effect": "ψ_collapsed = M|ψ⟩ where M is measurement operator"
+  },
+
+  "governance": {
+    "requires_consent": ["quantum_observation", "consciousness_measurement"],
+    "audit_level": "comprehensive",
+    "provenance_tracking": true,
+    "interpretability": "medium",
+    "ethical_constraints": ["preserve_entanglement", "minimize_decoherence", "respect_observer_intent"]
+  }
+}

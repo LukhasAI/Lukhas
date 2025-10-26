@@ -37,10 +37,14 @@ except ImportError:
 
 # Import services
 try:
-    from .services.manager import MemoryManager
+    from .basic import MemoryManager
+except ImportError:
+    MemoryManager = None
+
+try:
     from .services.orchestrator import MemoryOrchestrator
 except ImportError:
-    pass
+    MemoryOrchestrator = None
 
 __all__ = [
     "MemoryCore",

@@ -1,3 +1,5 @@
+import importlib
+
 from core.trace import mk_crumb
 from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
 
@@ -25,15 +27,21 @@ class OrchestrationAdapter(MatrizNode):
             guardian_log=[f"orchestration_processed_{topic}"],
         )
 
+
 # Added for test compatibility (matriz.adapters.orchestration_adapter.UorchestrationAdapter)
 try:
-    from candidate.matriz.adapters.orchestration_adapter import UorchestrationAdapter  # noqa: F401
-except ImportError:
+    _candidate_module = importlib.import_module("candidate.matriz.adapters.orchestration_adapter")
+    UorchestrationAdapter = getattr(_candidate_module, "UorchestrationAdapter")  # type: ignore[assignment]
+except Exception:  # pragma: no cover - fallback for missing candidate module
+
     class UorchestrationAdapter:
-        """Stub for UorchestrationAdapter."""
+        """Stub for UorchestrationAdapter when candidate lane is unavailable."""
+
         def __init__(self, *args, **kwargs):
             for key, value in kwargs.items():
                 setattr(self, key, value)
+
+
 try:
     __all__  # type: ignore[name-defined]
 except NameError:
