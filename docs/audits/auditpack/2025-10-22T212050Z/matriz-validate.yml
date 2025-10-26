@@ -1,0 +1,931 @@
+name: MATRIZ Validate
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install system deps (ripgrep)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ripgrep
+
+      - name: Install Python deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt || true
+          pip install jsonschema
+
+      - name: Link checker
+        run: |
+          python docs/check_links.py --root .
+
+      - name: Validate contract references
+        run: |
+          python scripts/validate_contract_refs.py
+
+      - name: Validate context front-matter
+        run: |
+          python scripts/validate_context_front_matter.py
+
+      - name: Check star canon sync
+        run: |
+          python scripts/check_star_canon_sync.py
+
+      - name: Guardian belt (ban dangerous calls in T1)
+        run: |
+          python scripts/policy_guard.py
+
+      - name: Smoke (matriz_smoke)
+        run: |
+          pytest -q -m matriz_smoke || true
+
+      - name: Security — Gitleaks scan (warn-only)
+        uses: zricethezav/gitleaks-action@v2
+        with:
+          args: "--no-git -v --source=."
+        continue-on-error: true
+
+      - name: Upload gitleaks report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gitleaks-report
+          path: gitleaks-report.sarif
+          if-no-files-found: ignore
+
+      - name: Generate SBOM (CycloneDX)
+        continue-on-error: true
+        run: |
+          pip install cyclonedx-bom
+          python3 scripts/sbom.py --output build/sbom.cyclonedx.json
+
+      - name: Upload SBOM artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: build/sbom.cyclonedx.json
+          if-no-files-found: ignore
+
+      - name: Security — Pip Audit (warn-only)
+        continue-on-error: true
+        run: |
+          pip install pip-audit
+          mkdir -p docs/audits
+          pip-audit -f json -o docs/audits/pip_audit.json || true
+
+      - name: Security — Bandit Scan (warn-only)
+        continue-on-error: true
+        run: |
+          pip install bandit
+          mkdir -p docs/audits
+          bandit -r lukhas matriz core -f sarif -o docs/audits/bandit.sarif || true
+
+      - name: Upload security scan artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-scans
+          path: |
+            docs/audits/pip_audit.json
+            docs/audits/bandit.sarif
+          if-no-files-found: ignore
+
+      - name: Generate health artifacts (GA Guard Pack)
+        continue-on-error: true
+        run: |
+          export LUKHAS_POLICY_MODE=permissive
+          python3 scripts/system_health_audit.py || true
+
+      - name: Upload health artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: health-report
+          path: |
+            docs/audits/health/latest.json
+            docs/audits/health/latest.md
+          if-no-files-found: ignore
+          retention-days: 60
+
+      - name: Tripwire — T1 must have testing.test_paths (may be empty)
+        run: |
+          python - <<'PY'
+          import json, pathlib, sys
+          errs=0
+          for p in pathlib.Path('manifests').rglob('module.manifest.json'):
+              if '/.archive/' in str(p):
+                  continue
+              d=json.loads(p.read_text())
+              t=d.get('testing',{})
+              if t.get('quality_tier') == 'T1_critical' and 'test_paths' not in t:
+                  print(f"[FAIL] {p}: T1_critical requires testing.test_paths property (can be [])")
+                  errs+=1
+          sys.exit(1 if errs else 0)
+          PY
+
+      - name: Tripwire — Forbid deprecated star names (Ambiguity)
+        run: |
+          python - <<'PY'
+          import json, pathlib, sys
+          bad=[]
+          for p in pathlib.Path('manifests').rglob('module.manifest.json'):
+              if '/.archive/' in str(p):
+                  continue
+              d=json.loads(p.read_text())
+              star=d.get('constellation_alignment',{}).get('primary_star')
+              if star == "⚛️ Ambiguity (Quantum)":
+                  bad.append(f"{p} (use '🔮 Oracle (Quantum)' instead)")
+          if bad:
+              print("[FAIL] Found deprecated star name 'Ambiguity (Quantum)'. Use '🔮 Oracle (Quantum)':", *bad, sep="\n  ")
+              sys.exit(1)
+          PY
+
+      - name: Tripwire — No empty capabilities
+        run: |
+          python - <<'PY'
+          import json, pathlib, sys
+          bad=[]
+          for p in pathlib.Path('manifests').rglob('module.manifest.json'):
+              if '/.archive/' in str(p):
+                  continue
+              d=json.loads(p.read_text())
+              caps=d.get('capabilities',[])
+              if not caps:
+                  bad.append(str(p))
+          if bad:
+              print("[FAIL] Empty capabilities detected in:", *bad, sep="\n  ")
+              sys.exit(1)
+          PY
+
+      - name: Tripwire — Colony must not be null (omit if unknown)
+        run: |
+          python - <<'PY'
+          import json, pathlib, sys
+          bad=[]
+          for p in pathlib.Path('manifests').rglob('module.manifest.json'):
+              if '/.archive/' in str(p):
+                  continue
+              d=json.loads(p.read_text())
+              if 'colony' in d and d['colony'] is None:
+                  bad.append(str(p))
+          if bad:
+              print("[FAIL] colony is null (should be omitted):", *bad, sep="\n  ")
+              sys.exit(1)
+          PY
+
+      - name: Stats — Generate manifest statistics (JSON+MD)
+        run: |
+          python3 scripts/report_manifest_stats.py --manifests manifests --out docs/audits
+
+      - name: Lint star rules (syntax & hit counts)
+        run: |
+          python3 scripts/lint_star_rules.py --rules configs/star_rules.json --manifests manifests
+
+      - name: Unit tests for star rules
+        run: |
+          pytest -q tests/rules/test_star_rules.py || true
+
+      - name: Generate star rules coverage (MD from lint JSON)
+        run: |
+          python3 scripts/gen_rules_coverage.py
+
+      - name: Suggest star promotions (Supporting → specific)
+        run: |
+          python3 scripts/suggest_star_promotions.py --manifests manifests --rules configs/star_rules.json --out docs/audits
+
+      - name: Tripwire — T1 must have metadata.owner
+        run: |
+          python3 scripts/check_t1_owners.py
+
+      - name: 🧊 FREEZE Gate — Validate release requirements (RC/release branches only)
+        if: startsWith(github.ref, 'refs/heads/release/') || startsWith(github.head_ref, 'release/')
+        run: |
+          echo "🧊 Validating FREEZE checklist requirements..."
+          ERRORS=0
+
+          # Check CHANGELOG.md updated
+          if ! git diff --name-only origin/main...HEAD | grep -q "CHANGELOG.md"; then
+            echo "❌ CHANGELOG.md not updated"
+            ((ERRORS++))
+          else
+            echo "✅ CHANGELOG.md updated"
+          fi
+
+          # Check version bumped in pyproject.toml
+          if ! git diff origin/main...HEAD pyproject.toml | grep -q "^+version"; then
+            echo "⚠️  Version may not be bumped in pyproject.toml"
+          else
+            echo "✅ Version bumped in pyproject.toml"
+          fi
+
+          # Check smoke tests passing
+          if pytest tests/smoke/ -q --tb=no; then
+            echo "✅ Smoke tests passing"
+          else
+            echo "❌ Smoke tests failing"
+            ((ERRORS++))
+          fi
+
+          # Check for breaking changes
+          if git log --oneline --no-merges origin/main...HEAD | grep -qi "BREAKING"; then
+            echo "⚠️  Breaking changes detected - ensure migration guide exists"
+            if ! git diff --name-only origin/main...HEAD | grep -qE "(docs/|MIGRATION)"; then
+              echo "❌ Breaking changes without documentation"
+              ((ERRORS++))
+            fi
+          else
+            echo "✅ No breaking changes detected"
+          fi
+
+          if [ $ERRORS -gt 0 ]; then
+            echo ""
+            echo "❌ FREEZE validation failed with $ERRORS error(s)"
+            exit 1
+          else
+            echo ""
+            echo "✅ FREEZE checklist validated successfully"
+          fi
+
+      - name: Upload artifacts — manifest stats & reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: matriz-reports
+          path: |
+            docs/audits/manifest_stats.json
+            docs/audits/manifest_stats.md
+            docs/audits/linkcheck.txt
+            docs/audits/context_lint.txt
+            docs/audits/star_rules_lint.json
+            docs/audits/star_rules_coverage.md
+            docs/audits/star_promotions.csv
+            docs/audits/star_promotions.md
+          if-no-files-found: warn
+
+  docstring-quality:
+    name: Documentation Quality Gates
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install interrogate pydocstyle
+
+      - name: Prepare audit directory
+        run: mkdir -p docs/audits
+
+      - name: Run interrogate (docstring coverage)
+        run: |
+          interrogate -v --fail-under 85 \
+            -o docs/audits/docstring_coverage.json \
+            scripts
+
+      - name: Run pydocstyle (style enforcement for scripts)
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          pydocstyle scripts \
+            | tee docs/audits/docstring_offenders.txt
+
+      - name: Upload docstring artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: docstring-quality-artifacts
+          path: |
+            docs/audits/docstring_coverage.json
+            docs/audits/docstring_offenders.txt
+          retention-days: 14
+          if-no-files-found: error
+
+  ruff-phaseA:
+    name: "Ruff Phase A (budget gate)"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+      - run: pip install ruff==0.6.3
+      - name: Count issues
+        id: ruff
+        run: |
+          python -m ruff check lukhas core MATRIZ --no-cache --output-format=concise | tee ruff.out || true
+          echo "count=$(wc -l < ruff.out)" >> $GITHUB_OUTPUT
+      - name: Enforce budget
+        env:
+          BUDGET: "500"
+        run: |
+          echo "Found ${{ steps.ruff.outputs.count }} issues (budget ${BUDGET})"
+          if [ "${{ steps.ruff.outputs.count }}" -gt "${BUDGET}" ]; then
+            echo "Ruff over budget"; exit 2; fi
+
+  ruff-phaseB-hotpaths:
+    name: "Lint — Ruff (Phase-B hot-paths)"
+    runs-on: ubuntu-latest
+    needs: [validate]
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+      - name: Install Ruff
+        run: pip install --disable-pip-version-check --no-input ruff
+      - name: Phase-B hot-paths lint budget (≤120 diagnostics)
+        shell: bash
+        run: |
+          set -euo pipefail
+          TARGETS=(
+            "bridge/adapters"
+            "core/reliability"
+            "observability"
+            "MATRIZ/core"
+            "MATRIZ/interfaces/api_server.py"
+          )
+          echo "Running Ruff on: ${TARGETS[*]}"
+          DIAG=$(python -m ruff check "${TARGETS[@]}" --no-cache --output-format=concise | wc -l | tr -d ' ')
+          echo "::notice title=Ruff Phase-B::diagnostics=${DIAG}"
+          if [ "${DIAG}" -gt 120 ]; then
+            echo "Too many Ruff diagnostics on hot-paths: ${DIAG} (budget 120)."
+            exit 1
+          fi
+          python -m ruff check "${TARGETS[@]}" --no-cache || true
+
+  openapi-spec:
+    name: Build OpenAPI Spec
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: ${{ github.workflow }}-openapi-spec-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Install app
+        run: |
+          pip install -e .
+      - name: Generate OpenAPI JSON
+        run: |
+          python - <<'PY'
+          import json, os
+          from lukhas.adapters.openai.api import get_app
+          app = get_app()
+          spec = app.openapi()
+          os.makedirs("docs/openapi", exist_ok=True)
+          with open("docs/openapi/lukhas-openapi.json","w") as f:
+              json.dump(spec, f, indent=2)
+          print("✅ wrote docs/openapi/lukhas-openapi.json")
+          PY
+      - name: Validate OpenAPI Schema
+        run: |
+          pip install openapi-spec-validator
+          openapi-spec-validator docs/openapi/lukhas-openapi.json
+      - name: Guard — X-RateLimit-* headers present
+        run: |
+          python3 scripts/check_openapi_headers.py
+      - name: Guard — Guardian policy schema
+        run: |
+          python3 scripts/validate_guardian_policy.py configs/policy/guardian_policies.yaml
+      - uses: actions/upload-artifact@v4
+        with:
+          name: openapi-spec
+          path: docs/openapi/lukhas-openai.json
+
+  openapi-validation:
+    name: OpenAPI Schema Validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare audit directory
+        run: mkdir -p docs/audits
+
+      - name: Install OpenAPI tools
+        run: |
+          npm i -g @apidevtools/swagger-cli @stoplight/spectral-cli
+
+      - name: Validate OpenAPI specs
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          specs=(docs/openapi/*.openapi.yaml)
+          if [ "${#specs[@]}" -eq 0 ]; then
+            echo "No OpenAPI specs found. Skipping validation."
+            exit 0
+          fi
+          for spec in "${specs[@]}"; do
+            echo "Validating ${spec}..."
+            swagger-cli validate "${spec}"
+            base_name="$(basename "${spec}" .yaml)"
+            spectral lint "${spec}" --format junit \
+              --output "docs/audits/${base_name}_lint.xml"
+          done
+
+      - name: Build ReDoc previews
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          npm i -g redoc-cli
+          mkdir -p docs/openapi/site
+          for spec in docs/openapi/*.openapi.yaml; do
+            base="$(basename "$spec" .openapi.yaml)"
+            redoc-cli build "$spec" -o "docs/openapi/site/${base}.html"
+          done
+
+      - name: Generate endpoint catalog
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Build endpoint catalog JSON
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml
+          python scripts/gen_endpoint_catalog.py --specs 'docs/openapi/*.openapi.yaml' --out docs/apis/endpoint_catalog.json
+
+      - name: Upload OpenAPI artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: openapi-validation-artifacts
+          path: docs/audits/*_lint.xml
+          retention-days: 14
+          if-no-files-found: ignore
+
+      - name: Upload API previews & catalog
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: api-previews-and-catalog
+          path: |
+            docs/openapi/site
+            docs/apis/endpoint_catalog.json
+          retention-days: 14
+
+  facade-smoke:
+    name: OpenAI Facade Smoke
+    runs-on: ubuntu-latest
+    needs: [validate]
+    timeout-minutes: 15
+    concurrency:
+      group: ${{ github.workflow }}-facade-smoke-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Install app
+        run: |
+          pip install -e . "uvicorn[standard]"
+      - name: Start Facade
+        run: |
+          LUKHAS_POLICY_MODE=permissive nohup python -m uvicorn lukhas.adapters.openai.api:get_app --factory --port 8000 > facade.log 2>&1 &
+          echo $! > facade.pid
+      - name: Smoke
+        run: |
+          bash scripts/smoke_test_openai_facade.sh
+      - name: Teardown & Upload logs
+        if: always()
+        run: |
+          kill $(cat facade.pid) || true
+          echo "=== Last 200 lines of facade.log ==="
+          tail -200 facade.log || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: facade-smoke-artifacts
+          path: |
+            facade.log
+
+  compat-enforce:
+    name: Compat Alias Enforcement
+    runs-on: ubuntu-latest
+    needs: [validate]
+    env:
+      LUKHAS_COMPAT_MAX_HITS: "0"
+    concurrency:
+      group: ${{ github.workflow }}-compat-enforce-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt', '**/pyproject.toml', '**/setup.cfg') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt || true
+      - name: Report compat alias hits
+        run: |
+          python3 scripts/report_compat_hits.py --out docs/audits/compat_alias_hits.json || true
+          echo "Compat hits report:"
+          cat docs/audits/compat_alias_hits.json 2>/dev/null || echo '{"hits": 0}'
+      - name: Enforce zero hits
+        run: |
+          python - <<'PY'
+          import json, os, sys
+          p="docs/audits/compat_alias_hits.json"
+          limit=int(os.environ.get("LUKHAS_COMPAT_MAX_HITS","0"))
+          data=json.load(open(p)) if os.path.exists(p) else {}
+          hits=0
+          if isinstance(data, dict):
+              for k, v in data.items():
+                  if isinstance(v, int):
+                      hits += v
+                  elif isinstance(v, dict) and "count" in v:
+                      hits += v["count"]
+          print(f"Compat alias hits: {hits} (limit {limit})")
+          sys.exit(0 if hits<=limit else 2)
+          PY
+
+  openapi-diff:
+    name: OpenAPI Diff vs main
+    runs-on: ubuntu-latest
+    needs: [openapi-spec]
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout candidate (PR) code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements*.txt', '**/pyproject.toml', '**/setup.cfg') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install app
+        run: |
+          pip install -e .
+
+      - name: Generate candidate OpenAPI
+        run: |
+          python3 scripts/generate_openapi.py
+
+      - name: Checkout main into main_ref
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main_ref
+
+      - name: Generate baseline OpenAPI (main)
+        working-directory: main_ref
+        run: |
+          pip install -e . || true
+          python3 scripts/generate_openapi.py || python - <<'PY'
+          import json, os
+          from lukhas.adapters.openai.api import get_app
+          os.makedirs("docs/openapi", exist_ok=True)
+          spec = get_app().openapi()
+          json.dump(spec, open("docs/openapi/lukhas-openai.json","w"), indent=2)
+          print("✅ baseline spec generated")
+          PY
+
+      - name: Diff for breaking changes
+        run: |
+          python3 scripts/diff_openapi.py \
+            --base main_ref/docs/openapi/lukhas-openai.json \
+            --cand docs/openapi/lukhas-openai.json || true
+
+  openapi-comment:
+    name: Comment OpenAPI Diff on PR
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    needs: [openapi-diff]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install app
+        run: |
+          pip install -e .
+
+      - name: Generate candidate spec
+        run: |
+          python3 scripts/generate_openapi.py
+
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main_ref
+
+      - name: Generate baseline spec
+        working-directory: main_ref
+        run: |
+          pip install -e . || true
+          python3 scripts/generate_openapi.py || true
+
+      - name: Run diff and capture output
+        id: diff
+        run: |
+          python3 scripts/diff_openapi.py \
+            --base main_ref/docs/openapi/lukhas-openai.json \
+            --cand docs/openapi/lukhas-openai.json > openapi_diff.txt 2>&1 || true
+          cat openapi_diff.txt
+
+      - name: Post PR comment with diff summary
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let body = "### OpenAPI Diff Results\n\n```\n";
+            try {
+              body += fs.readFileSync('openapi_diff.txt', 'utf8');
+            } catch {
+              body += "No diff output available";
+            }
+            body += "\n```";
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: body
+            });
+
+  log-scan:
+    name: Scan Logs for Secrets
+    runs-on: ubuntu-latest
+    needs: [facade-smoke]
+    if: always()
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: facade-smoke-artifacts
+          path: artifacts
+        continue-on-error: true
+
+      - name: Fail if secrets patterns present
+        run: |
+          set -e
+          f="artifacts/facade.log"
+          if [ ! -f "$f" ]; then
+            echo "⚠️  No facade.log found, skipping scan"
+            exit 0
+          fi
+
+          echo "🔍 Scanning logs for potential secrets..."
+
+          if grep -E -n "sk-[A-Za-z0-9]{10,}|Bearer\s+[A-Za-z0-9._-]{8,}" "$f"; then
+            echo "❌ Potential secret detected in logs"
+            exit 2
+          fi
+
+          echo "✅ No secrets found in logs"
+
+  alerts-validate:
+    name: Alerts • Validate Prometheus rules
+    runs-on: ubuntu-latest
+    needs: [validate]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download promtool
+        run: |
+          VER="2.54.1"
+          curl -L -o /tmp/prom.tar.gz https://github.com/prometheus/prometheus/releases/download/v${VER}/prometheus-${VER}.linux-amd64.tar.gz
+          tar -C /tmp -xzf /tmp/prom.tar.gz
+          sudo mv /tmp/prometheus-${VER}.linux-amd64/promtool /usr/local/bin/promtool
+          promtool --version
+
+      - name: Validate alert rules
+        run: |
+          if [ -d "observability/alerts" ]; then
+            promtool check rules observability/alerts/*.alerts.yml
+            echo "✅ Alert rules validation passed"
+          else
+            echo "ℹ️  No alert rules found, skipping"
+          fi
+
+  codemod-dry:
+    name: Codemod • Dry-run regression guard
+    runs-on: ubuntu-latest
+    needs: [validate]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install libcst
+        run: pip install libcst
+
+      - name: Run codemod golden tests
+        run: |
+          if [ -f "tests/tools/test_codemod_imports.py" ]; then
+            pip install pytest
+            pytest -xvs tests/tools/test_codemod_imports.py
+            echo "✅ Codemod golden tests passed"
+          else
+            echo "ℹ️  No codemod tests found, skipping"
+          fi
+
+      - name: Dry-run codemod to detect legacy imports
+        run: |
+          # Run codemod in dry-run mode (no --apply flag)
+          python3 scripts/codemod_imports.py --dry-run > codemod_preview.txt 2>&1 || true
+
+          # Check if any rewrites would be made
+          if grep -q "would rewrite" codemod_preview.txt; then
+            echo "::error ::Codemod would rewrite imports. Phase 2 migration should be complete."
+            echo "--- Preview (first 50 lines) ---"
+            head -50 codemod_preview.txt
+            exit 2
+          else
+            echo "✅ No legacy imports detected - Phase 2 migration complete"
+          fi
+
+
+  ruff-strict-prod:
+    runs-on: ubuntu-latest
+    needs: [validate]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install ruff
+      - name: Ruff strict for production lanes
+        run: |
+          ruff check lukhas MATRIZ core --output-format=github
+
+  compileall-prod:
+    runs-on: ubuntu-latest
+    needs: [ruff-strict-prod]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile production Python
+        run: python -m compileall -q lukhas MATRIZ core
+
+  docs-polish:
+    name: Documentation Quality Polish (T4+)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt || true
+          pip install interrogate pydocstyle
+          npm i -g @apidevtools/swagger-cli @stoplight/spectral-cli redoc-cli
+      
+      - name: Run interrogate (docstring coverage)
+        run: |
+          mkdir -p docs/audits
+          interrogate -q --fail-under 0 -o docs/audits/docstring_coverage.json scripts api || true
+        continue-on-error: true
+      
+      - name: Run pydocstyle (style validation)
+        run: |
+          pydocstyle scripts api | tee docs/audits/docstring_offenders.txt || true
+        continue-on-error: true
+      
+      - name: OpenAPI validation & lint
+        run: |
+          mkdir -p docs/audits
+          if ls docs/openapi/*.openapi.yaml 1> /dev/null 2>&1; then
+            for f in docs/openapi/*.openapi.yaml; do
+              echo "Validating $f"
+              swagger-cli validate "$f" || true
+              spectral lint "$f" --format junit --output docs/audits/openapi_lint_junit.xml || true
+            done
+          else
+            echo "No OpenAPI specs found (expected during initial setup)"
+          fi
+        continue-on-error: true
+      
+      - name: Build ReDoc previews
+        run: |
+          mkdir -p docs/openapi/site
+          if ls docs/openapi/*.openapi.yaml 1> /dev/null 2>&1; then
+            for f in docs/openapi/*.openapi.yaml; do
+              base=$(basename "$f" .openapi.yaml)
+              redoc-cli build "$f" -o "docs/openapi/site/${base}.html" || true
+            done
+          fi
+        continue-on-error: true
+      
+      - name: Emit documentation metrics
+        run: |
+          python scripts/emit_metrics.py \
+            --coverage docs/audits/docstring_coverage.json \
+            --offenders docs/audits/docstring_offenders.txt \
+            --spectral-junit docs/audits/openapi_lint_junit.xml \
+            --out docs/audits/metrics.json || true
+        continue-on-error: true
+      
+      - name: Generate coverage dashboard
+        run: |
+          python scripts/gen_coverage_dashboard.py \
+            --metrics docs/audits/metrics.json \
+            --out docs/audits/coverage_dashboard.md || true
+        continue-on-error: true
+      
+      - name: Add SPDX headers (advisory)
+        run: |
+          python scripts/add_spdx_headers.py \
+            --roots scripts api \
+            --spdx "SPDX-License-Identifier: Proprietary" \
+            --author "LUKHAS Development Team" \
+            --filetype py || true
+        continue-on-error: true
+      
+      - name: Docstring semantic advisory report
+        run: |
+          python scripts/validate_docstring_semantics.py \
+            --roots scripts api \
+            --report docs/audits/docstring_semantics_report.md \
+            --no-llm || true
+        continue-on-error: true
+      
+      - name: Upload T4+ polish artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase4-docs-polish
+          path: |
+            docs/audits/metrics.json
+            docs/audits/coverage_dashboard.md
+            docs/audits/docstring_coverage.json
+            docs/audits/docstring_offenders.txt
+            docs/audits/openapi_lint_junit.xml
+            docs/audits/docstring_semantics_report.md
+            docs/openapi/site/
+          retention-days: 14
+        if: always()

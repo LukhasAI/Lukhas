@@ -11,7 +11,7 @@ Validates:
 """
 import pytest
 from fastapi.testclient import TestClient
-from adapters.openai.api import get_app
+from serve.main import app
 
 from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
 
@@ -19,7 +19,7 @@ from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
 @pytest.fixture
 def client():
     """Create test client."""
-    return TestClient(get_app())
+    return TestClient(app)
 
 
 @pytest.fixture

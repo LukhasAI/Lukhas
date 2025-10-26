@@ -260,7 +260,7 @@ class TestMultiAIOrchestration:
         assert gateway.port == 8081
 
         # Test FastAPI app creation
-        app = gateway.get_app()
+        app = gateway.app
         assert app is not None
         assert app.title == "LUKHAS AI Gateway"
 

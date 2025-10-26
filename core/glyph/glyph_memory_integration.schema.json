@@ -1,0 +1,104 @@
+{
+  "module": "core.glyph.glyph_memory_integration",
+  "version": "1.0.0",
+  "type": "glyph_memory_node",
+  "matriz_compatible": true,
+  "description": "GLYPH communication protocol integration with memory systems, emotional folding, and dream-state bridging",
+
+  "capabilities": {
+    "sends": [
+      {
+        "signal": "glyph.memory.bind",
+        "schema": "GlyphBinding",
+        "frequency": "per_memory",
+        "latency_target_ms": 75
+      },
+      {
+        "signal": "glyph.fold.lineage",
+        "schema": "FoldLineage",
+        "frequency": "on_compression",
+        "priority": "normal"
+      },
+      {
+        "signal": "glyph.emotional.state",
+        "schema": "EmotionalState",
+        "frequency": "continuous",
+        "retention_days": 90
+      },
+      {
+        "signal": "glyph.dream.bridge",
+        "schema": "DreamMemory",
+        "frequency": "on_dream_state",
+        "priority": "low"
+      }
+    ],
+    "receives": [
+      {
+        "signal": "memory.store.request",
+        "schema": "MemoryStoreRequest",
+        "handler": "store_memory",
+        "required": true
+      },
+      {
+        "signal": "memory.retrieve.request",
+        "schema": "MemoryRetrieveRequest",
+        "handler": "retrieve_memory",
+        "required": true
+      },
+      {
+        "signal": "emotional.fold.trigger",
+        "schema": "EmotionalFoldTrigger",
+        "handler": "fold_emotional_memory",
+        "required": false
+      }
+    ]
+  },
+
+  "main_classes": [
+    {
+      "name": "GlyphMemorySystem",
+      "type": "orchestrator",
+      "methods": ["store_memory", "retrieve_memory", "fold_emotional_memory", "bridge_dream_state"],
+      "async": false
+    },
+    {
+      "name": "GlyphMemoryIndex",
+      "type": "service",
+      "methods": ["index_memory", "search"],
+      "async": false
+    },
+    {
+      "name": "EmotionalFoldingEngine",
+      "type": "engine",
+      "methods": ["fold", "unfold", "compress"],
+      "async": false
+    },
+    {
+      "name": "GlyphAffectCoupler",
+      "type": "coupler",
+      "methods": ["couple_emotion", "decouple"],
+      "async": false
+    },
+    {
+      "name": "DreamMemoryBridge",
+      "type": "bridge",
+      "methods": ["bridge_to_dream", "bridge_from_dream"],
+      "async": false
+    }
+  ],
+
+  "dependencies": [],
+
+  "performance": {
+    "max_latency_ms": 75,
+    "target_latency_p95_ms": 50,
+    "memory_limit_mb": 200,
+    "cpu_cores": 1
+  },
+
+  "constellation_integration": {
+    "stars": ["memory", "dream", "consciousness"],
+    "validates": true,
+    "blocks_on_failure": false
+  }
+}

@@ -6,7 +6,7 @@ validates graceful degradation to stub mode when unavailable.
 """
 import pytest
 from starlette.testclient import TestClient
-from adapters.openai.api import get_app, MATRIZ_AVAILABLE
+from serve.main import app, MATRIZ_AVAILABLE
 
 # Skip entire module if MATRIZ not available
 pytestmark = pytest.mark.skipif(
@@ -18,7 +18,7 @@ pytestmark = pytest.mark.skipif(
 @pytest.fixture
 def client():
     """Test client with override for dependencies."""
-    return TestClient(get_app())
+    return TestClient(app)
 
 
 @pytest.fixture

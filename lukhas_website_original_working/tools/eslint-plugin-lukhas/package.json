@@ -1,0 +1,7 @@
+{
+  "name": "eslint-plugin-lukhas",
+  "version": "1.0.0",
+  "description": "Custom ESLint rules for LUKHAS AI",
+  "main": "index.js",
+  "license": "MIT"
+}

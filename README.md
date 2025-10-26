@@ -528,6 +528,15 @@ pytest -m consciousness # Consciousness system tests
 - See [AGENTS.md](AGENTS.md) for task allocation
 - Batch discipline: 25-30 tasks/cycle with T4 verification
 
+**Operations**:
+```bash
+make rc-soak-quick     # Quick RC validation (5 min, 50 requests)
+make rc-soak-start     # Start 48-72h RC soak server
+make rc-soak-snapshot  # Daily health snapshot
+make rc-synthetic-load # Generate synthetic load
+```
+- See [RC Soak Operations Guide](docs/ops/RC_SOAK_OPS_GUIDE.md) for GA readiness validation
+
 ---
 
 ## 🏛️ Project Structure

@@ -19,14 +19,14 @@ import time
 import pytest
 from fastapi.testclient import TestClient
 
-from adapters.openai.api import get_app
+from serve.main import app
 
 AUTH_HEADERS = {"Authorization": "Bearer sk-lukhas-test-1234567890abcdef"}
 
 
 @pytest.fixture
 def client() -> TestClient:
-    return TestClient(get_app())
+    return TestClient(app)
 
 
 def test_streaming_responses_sse_protocol(client: TestClient) -> None:

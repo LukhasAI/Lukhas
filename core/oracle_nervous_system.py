@@ -52,7 +52,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
-logger = logging.getLogger("ΛTRACE.oracle_nervous_system", timezone)
+logger = logging.getLogger("ΛTRACE.oracle_nervous_system")
 
 
 class OracleCapabilityType(Enum):

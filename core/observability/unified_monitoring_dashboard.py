@@ -38,7 +38,7 @@ from typing import Any, Optional
 
 # Import monitoring systems
 try:
-    from .system_health_monitor import (  # noqa: TID252 TODO: convert to absolute import
+    from core.observability.system_health_monitor import (
         ComponentType,
         HealthStatus,
         SystemHealthMonitor,

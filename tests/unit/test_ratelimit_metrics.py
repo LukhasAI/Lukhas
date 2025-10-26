@@ -19,7 +19,7 @@ METRIC_KEYS = (
 
 def test_metrics_surface_basic_ratelimit_series():
     """Verify rate-limit metrics appear in /metrics endpoint."""
-    app = get_app()
+    app = app
     client = TestClient(app)
 
     # Trigger a couple of calls to ensure gauges update
@@ -45,7 +45,7 @@ def test_metrics_surface_basic_ratelimit_series():
 
 def test_metrics_endpoint_includes_standard_lukhas_metrics():
     """Verify existing LUKHAS metrics are still present."""
-    app = get_app()
+    app = app
     client = TestClient(app)
 
     # Make a request to generate some metrics

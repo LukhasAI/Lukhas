@@ -1,0 +1,74 @@
+{
+  "module": "matriz.memory.core.unified_memory_orchestrator",
+  "version": "1.0.0",
+  "type": "memory_orchestrator_node",
+  "matriz_compatible": true,
+  "description": "Unified memory orchestration system coordinating short-term, long-term, episodic, and semantic memory stores",
+
+  "capabilities": {
+    "sends": [
+      {
+        "signal": "memory.store.confirmation",
+        "schema": "MemoryStoreResult",
+        "frequency": "per_store",
+        "latency_target_ms": 100
+      },
+      {
+        "signal": "memory.retrieve.result",
+        "schema": "MemoryRetrieveResult",
+        "frequency": "per_query",
+        "latency_target_ms": 50
+      },
+      {
+        "signal": "memory.consolidation.event",
+        "schema": "MemoryConsolidation",
+        "frequency": "periodic",
+        "priority": "low"
+      }
+    ],
+    "receives": [
+      {
+        "signal": "memory.store.request",
+        "schema": "MemoryStoreRequest",
+        "handler": "store_memory",
+        "required": true
+      },
+      {
+        "signal": "memory.query.request",
+        "schema": "MemoryQueryRequest",
+        "handler": "query_memory",
+        "required": true
+      },
+      {
+        "signal": "memory.consolidate.trigger",
+        "schema": "ConsolidationTrigger",
+        "handler": "consolidate_memories",
+        "required": false
+      }
+    ]
+  },
+
+  "main_classes": [
+    {
+      "name": "UnifiedMemoryOrchestrator",
+      "type": "orchestrator",
+      "methods": ["store_memory", "query_memory", "consolidate_memories"],
+      "async": true
+    }
+  ],
+
+  "dependencies": [],
+
+  "performance": {
+    "max_latency_ms": 100,
+    "target_latency_p95_ms": 75,
+    "memory_limit_mb": 500,
+    "cpu_cores": 2
+  },
+
+  "constellation_integration": {
+    "stars": ["memory", "consciousness"],
+    "validates": true,
+    "blocks_on_failure": false
+  }
+}

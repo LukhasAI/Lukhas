@@ -13,24 +13,18 @@ import time
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from .bio_symbolic_processor import (
-    get_bio_symbolic_processor,  # noqa: TID252 TODO: convert to absolute import
-)
-from .consciousness_signal_router import (
-    get_consciousness_router,  # noqa: TID252 TODO: convert to absolute import
-)
-from .constellation_alignment_system import (  # noqa: TID252 TODO: convert to absolute import
+from core.bio_symbolic_processor import get_bio_symbolic_processor
+from core.consciousness_signal_router import get_consciousness_router
+from core.constellation_alignment_system import (
     AlignmentLevel,
     get_constellation_monitor,
     get_constellation_validator,
 )
-from .matriz_consciousness_signals import (  # noqa: TID252 TODO: convert to absolute import
+from core.matriz_consciousness_signals import (
     ConsciousnessSignalFactory,
     ConsciousnessSignalType,
 )
-from .matriz_signal_emitters import (  # noqa: TID252 TODO: convert to absolute import
-    get_emission_coordinator,
-)
+from core.matriz_signal_emitters import get_emission_coordinator
 
 logger = logging.getLogger(__name__)
 

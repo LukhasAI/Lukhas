@@ -1,0 +1,84 @@
+name: PQC Sign & Verify (Dilithium2)
+
+on:
+  push:
+    paths:
+      - 'services/registry/**'
+      - '.github/workflows/pqc-sign-verify.yml'
+  pull_request:
+    paths:
+      - 'services/registry/**'
+
+jobs:
+  pqc_check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build PQC Runner Image
+        run: |
+          echo "Building PQC runner Docker image..."
+          docker build -f .github/docker/pqc-runner.Dockerfile \
+            -t lukhas-pqc-runner:ci \
+            --cache-from type=gha \
+            --cache-to type=gha,mode=max \
+            .
+          echo "✓ PQC runner image built successfully"
+
+      - name: Run PQC Benchmark
+        run: |
+          echo "Running PQC benchmark..."
+          docker run --rm \
+            -v $(pwd)/tmp:/workspace/tmp \
+            lukhas-pqc-runner:ci \
+            pqc-bench --json > tmp/pqc_bench.json || {
+              echo "⚠️ pqc-bench failed, creating fallback marker"
+              mkdir -p tmp
+              echo '{"status":"fallback","message":"PQC bench not available"}' > tmp/pqc_bench.json
+              touch tmp/pqc_fallback_marker.txt
+            }
+          cat tmp/pqc_bench.json
+
+      - name: Validate PQC Performance
+        run: |
+          if [ -f tmp/pqc_fallback_marker.txt ]; then
+            echo "::warning::PQC in fallback mode - runner provisioning needed (issue #492)"
+            exit 0
+          fi
+
+          # Check sign/verify latency thresholds
+          sign_p95=$(jq -r '.sign_p95' tmp/pqc_bench.json)
+          verify_p95=$(jq -r '.verify_p95' tmp/pqc_bench.json)
+
+          echo "Sign p95: ${sign_p95}ms (threshold: <50ms)"
+          echo "Verify p95: ${verify_p95}ms (threshold: <10ms)"
+
+          # Validate thresholds (convert ms to comparison-friendly format)
+          if (( $(echo "$sign_p95 > 50" | bc -l) )); then
+            echo "::error::Sign latency ${sign_p95}ms exceeds 50ms threshold"
+            exit 1
+          fi
+
+          if (( $(echo "$verify_p95 > 10" | bc -l) )); then
+            echo "::error::Verify latency ${verify_p95}ms exceeds 10ms threshold"
+            exit 1
+          fi
+
+          echo "✓ PQC performance within SLO targets"
+
+      - name: Upload PQC Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pqc-bench-results
+          path: |
+            tmp/pqc_bench.json
+            tmp/pqc_fallback_marker.txt

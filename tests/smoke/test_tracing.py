@@ -8,7 +8,7 @@ Validates:
 """
 import os
 from starlette.testclient import TestClient
-from adapters.openai.api import get_app
+from serve.main import app
 
 from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
 
@@ -19,7 +19,7 @@ def test_trace_headers_present_when_otel_enabled(monkeypatch):
     """Verify trace ID is included in response headers when OTEL is enabled."""
     # When OTEL endpoint is set, façade should include X-Trace-Id header
     monkeypatch.setenv("OTEL_EXPORTER_OTLP_ENDPOINT", "http://localhost:4318")
-    client = TestClient(get_app())
+    client = TestClient(app)
     r = client.post("/v1/responses", headers=AUTH_HEADERS, json={"input": "trace me"})
 
     # Should have X-Trace-Id header
@@ -37,7 +37,7 @@ def test_no_trace_headers_when_otel_disabled(monkeypatch):
     """Verify graceful degradation when OTEL endpoint not configured."""
     # Ensure OTEL endpoint is not set
     monkeypatch.delenv("OTEL_EXPORTER_OTLP_ENDPOINT", raising=False)
-    client = TestClient(get_app())
+    client = TestClient(app)
     r = client.get("/v1/models", headers=AUTH_HEADERS)
 
     # Should work fine without tracing
@@ -47,7 +47,7 @@ def test_no_trace_headers_when_otel_disabled(monkeypatch):
 
 def test_traced_matriz_operations():
     """Verify MATRIZ operations are traced when available."""
-    client = TestClient(get_app())
+    client = TestClient(app)
 
     # Even without OTEL, request should succeed
     r = client.post("/v1/responses", headers=AUTH_HEADERS, json={"input": "test query"})

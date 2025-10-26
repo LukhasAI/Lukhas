@@ -1,11 +1,15 @@
 [importlinter]
-root_package = .
+root_packages =
+    core
+    matriz
+    enterprise
+include_external_packages = true
 
 [importlinter:contract:prod_no_candidate]
 name = Production must not import candidate or labs
 type = forbidden
 source_modules =
-    lukhas
+    enterprise
     matriz
 forbidden_modules =
     candidate

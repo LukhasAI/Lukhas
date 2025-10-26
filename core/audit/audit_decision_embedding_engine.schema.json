@@ -1,0 +1,62 @@
+{
+  "module": "core.audit.audit_decision_embedding_engine",
+  "version": "1.0.0",
+  "type": "audit_embedding_node",
+  "matriz_compatible": true,
+  "description": "Audit decision embedding engine for creating semantic embeddings of audit decisions for analysis and retrieval",
+
+  "capabilities": {
+    "sends": [
+      {
+        "signal": "audit.embedding.generated",
+        "schema": "AuditEmbedding",
+        "frequency": "per_decision",
+        "latency_target_ms": 200
+      },
+      {
+        "signal": "audit.similarity.result",
+        "schema": "SimilarityResult",
+        "frequency": "per_query",
+        "priority": "normal"
+      }
+    ],
+    "receives": [
+      {
+        "signal": "audit.embed.request",
+        "schema": "EmbedRequest",
+        "handler": "embed_decision",
+        "required": true
+      },
+      {
+        "signal": "audit.similarity.query",
+        "schema": "SimilarityQuery",
+        "handler": "find_similar",
+        "required": false
+      }
+    ]
+  },
+
+  "main_classes": [
+    {
+      "name": "AuditDecisionEmbeddingEngine",
+      "type": "embedding_engine",
+      "methods": ["embed_decision", "find_similar", "cluster_decisions"],
+      "async": true
+    }
+  ],
+
+  "dependencies": [],
+
+  "performance": {
+    "max_latency_ms": 200,
+    "target_latency_p95_ms": 150,
+    "memory_limit_mb": 200,
+    "cpu_cores": 2
+  },
+
+  "constellation_integration": {
+    "stars": ["memory", "guardian"],
+    "validates": false,
+    "blocks_on_failure": false
+  }
+}

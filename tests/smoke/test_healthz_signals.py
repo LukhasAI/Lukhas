@@ -6,13 +6,13 @@ when available, enabling operational monitoring without requiring verbose logs.
 """
 import os
 from fastapi.testclient import TestClient
-from adapters.openai.api import get_app
+from serve.main import app
 
 
 def _client():
     """Build test client with permissive policy mode."""
     os.environ["LUKHAS_POLICY_MODE"] = "permissive"
-    return TestClient(get_app())
+    return TestClient(app)
 
 
 def test_healthz_guardian_signals():

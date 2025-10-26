@@ -1,1 +1,1 @@
-../../scripts/lukhas_pb2.py
+../../../../../../lukhas_pb2.py

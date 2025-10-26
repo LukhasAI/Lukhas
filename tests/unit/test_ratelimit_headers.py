@@ -15,7 +15,7 @@ HEX32 = re.compile(r"^[0-9a-f]{32}$")
 
 def test_models_includes_ratelimit_headers_and_trace():
     """Verify rate-limit headers present in /v1/models response."""
-    app = get_app()
+    app = app
     client = TestClient(app)
 
     r = client.get("/v1/models", headers={"Authorization": "Bearer testtoken"})
@@ -45,7 +45,7 @@ def test_models_includes_ratelimit_headers_and_trace():
 
 def test_embeddings_includes_ratelimit_headers():
     """Verify rate-limit headers present in /v1/embeddings response."""
-    app = get_app()
+    app = app
     client = TestClient(app)
 
     r = client.post(
@@ -65,7 +65,7 @@ def test_embeddings_includes_ratelimit_headers():
 
 def test_responses_includes_ratelimit_headers():
     """Verify rate-limit headers present in /v1/responses response."""
-    app = get_app()
+    app = app
     client = TestClient(app)
 
     r = client.post(
@@ -85,7 +85,7 @@ def test_responses_includes_ratelimit_headers():
 
 def test_ratelimit_remaining_decreases_across_requests():
     """Verify remaining count decreases with successive requests."""
-    app = get_app()
+    app = app
     client = TestClient(app)
 
     # Make first request
@@ -106,7 +106,7 @@ def test_ratelimit_remaining_decreases_across_requests():
 
 def test_token_dimension_headers_present():
     """Verify token-dimension headers are present (even if zero)."""
-    app = get_app()
+    app = app
     client = TestClient(app)
 
     r = client.get("/v1/models", headers={"Authorization": "Bearer test"})

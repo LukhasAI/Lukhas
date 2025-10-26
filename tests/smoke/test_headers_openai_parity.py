@@ -9,7 +9,7 @@ import os
 import pytest
 from fastapi.testclient import TestClient
 
-from adapters.openai.api import get_app
+from serve.main import app
 
 from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
 
@@ -34,7 +34,7 @@ def _client():
     # Disable Guardian PDP for smoke tests
     os.environ["LUKHAS_POLICY_PATH"] = "/nonexistent"
     os.environ.setdefault("LUKHAS_POLICY_MODE", "permissive")
-    return TestClient(get_app())
+    return TestClient(app)
 
 
 def test_x_request_id_present(authz_headers):

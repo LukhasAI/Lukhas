@@ -1,6 +1,6 @@
 """Minimal self-contained tests for OpenAI-style error envelope and X-Trace-Id.
 
-These tests exercise the real app (get_app()) but mount three throwaway routes
+These tests exercise the real app (app) but mount three throwaway routes
 just for testing, so we validate OpenAI-style error envelope and X-Trace-Id
 passthrough without depending on other app behavior.
 """
@@ -8,8 +8,8 @@ import re
 from fastapi import HTTPException
 from fastapi.testclient import TestClient
 
-# Use the real app so we exercise the exception handlers registered in get_app().
-from adapters.openai.api import get_app
+# Use the real app so we exercise the exception handlers registered in app.
+from serve.main import app
 
 HEX32 = re.compile(r"^[0-9a-f]{32}$")
 
@@ -20,7 +20,7 @@ def make_app():
     intentionally raise HTTP errors, so we can assert the OpenAI-style
     error envelope and X-Trace-Id passthrough without relying on other endpoints.
     """
-    app = get_app()
+    # app imported directly from serve.main
 
     @app.get("/__test__/401")
     def _t401():

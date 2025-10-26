@@ -2,15 +2,17 @@
 Generated gRPC service classes for LUKHAS Cognitive AI Protocol
 Auto-generated from proto - DO NOT EDIT MANUALLY
 """
-import lukhas_pb2
-import time
-import streamlit as st
 
 import logging
 from collections.abc import Iterator
+from typing import Any, cast
+
+import lukhas_pb2 as _lukhas_pb2  # type: ignore[import]
+
+lukhas_pb2 = cast(Any, _lukhas_pb2)
 
 try:
-    import grpc
+    import grpc  # type: ignore[import]
 except ImportError:
     # Fallback for testing when grpc is not available
     grpc = None
@@ -34,12 +36,12 @@ class LukhasServiceServicer:
             "orchestration": True,
         }
 
-    def Process(self, request: lukhas_pb2.ProcessRequest, context) -> lukhas_pb2.ProcessResponse:
+    def Process(self, request: Any, context: Any) -> Any:
         """Process a single request"""
         try:
             # Basic processing logic
             response = lukhas_pb2.ProcessResponse()
-            response.request_id = f"req_{hash(request.input_text)} % 10000000}"
+            response.request_id = f"req_{hash(request.input_text) % 10000000}"
             response.processing_time_ms = 42.0  # Placeholder timing
 
             # Set symbolic state
@@ -69,7 +71,7 @@ class LukhasServiceServicer:
                 context.set_details(f"Internal processing error: {e!s}")
             return lukhas_pb2.ProcessResponse()
 
-    def StreamProcess(self, request_iterator, context) -> Iterator[lukhas_pb2.ProcessResponse]:
+    def StreamProcess(self, request_iterator, context) -> Iterator[Any]:
         """Process a stream of requests"""
         for request in request_iterator:
             try:
@@ -82,7 +84,7 @@ class LukhasServiceServicer:
                     context.set_details(f"Stream processing error: {e!s}")
                 return
 
-    def CheckHealth(self, request: lukhas_pb2.HealthRequest, context) -> lukhas_pb2.HealthResponse:
+    def CheckHealth(self, request: Any, context: Any) -> Any:
         """Health check endpoint"""
         try:
             response = lukhas_pb2.HealthResponse()
@@ -107,11 +109,11 @@ class AwarenessServiceServicer:
     def __init__(self, awareness_engine=None):
         self.awareness_engine = awareness_engine
 
-    def AssessAwareness(self, request: lukhas_pb2.AwarenessRequest, context) -> lukhas_pb2.AwarenessResponse:
+    def AssessAwareness(self, request: Any, context: Any) -> Any:
         """Assess user awareness and assign tier"""
         try:
             response = lukhas_pb2.AwarenessResponse()
-            response.request_id = f"aware_{hash(request.user_id)} % 10000000}"
+            response.request_id = f"aware_{hash(request.user_id) % 10000000}"
 
             # Basic tier assignment logic (placeholder)
             if request.awareness_type == "ENVIRONMENTAL":
@@ -174,7 +176,7 @@ class IntelligenceRegistryServicer:
 
             response.success = True
             response.engine_id = request.engine_id
-            response.registry_token = f"token_{hash(request.engine_id)} % 1000000}"
+            response.registry_token = f"token_{hash(request.engine_id) % 1000000}"
             response.heartbeat_interval = 30
 
             logger.info(f"Registered engine: {request.engine_id}")
@@ -187,7 +189,9 @@ class IntelligenceRegistryServicer:
                 context.set_details(f"Engine registration error: {e!s}")
             return lukhas_pb2.EngineRegistrationResponse()
 
-    def QueryEngines(self, request: lukhas_pb2.EngineQueryRequest, context) -> lukhas_pb2.EngineQueryResponse:
+    def QueryEngines(
+        self, request: lukhas_pb2.EngineQueryRequest, context
+    ) -> lukhas_pb2.EngineQueryResponse:
         """Query available intelligence engines"""
         try:
             response = lukhas_pb2.EngineQueryResponse()
@@ -206,7 +210,9 @@ class IntelligenceRegistryServicer:
 
                 if request.availability_only:
                     # Check if engine is available (placeholder logic)
-                    engine_available = engine_id in self.engine_health and self.engine_health[engine_id]
+                    engine_available = (
+                        engine_id in self.engine_health and self.engine_health[engine_id]
+                    )
                     if not engine_available:
                         continue
 

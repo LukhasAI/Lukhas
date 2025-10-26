@@ -1,0 +1,287 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Helvetica Neue Font Faces */
+@font-face {
+  font-family: 'Helvetica Neue UltraLight';
+  src: url('/fonts/HelveticaNeue-UltraLight.woff2') format('woff2'),
+       url('/fonts/HelveticaNeue-UltraLight.woff') format('woff');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Helvetica Neue Light';
+  src: url('/fonts/HelveticaNeue-Light.woff2') format('woff2'),
+       url('/fonts/HelveticaNeue-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Helvetica Neue';
+  src: url('/fonts/HelveticaNeue.woff2') format('woff2'),
+       url('/fonts/HelveticaNeue.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Helvetica Neue Medium';
+  src: url('/fonts/HelveticaNeue-Medium.woff2') format('woff2'),
+       url('/fonts/HelveticaNeue-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* CSS Variables */
+@layer base {
+  :root {
+    --trinity-identity: 107, 70, 193;
+    --trinity-consciousness: 14, 165, 233;
+    --trinity-guardian: 16, 185, 129;
+    --accent-gold: 245, 158, 11;
+    
+    /* Smooth scroll behavior */
+    scroll-behavior: smooth;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    @apply bg-bg-primary;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-bg-primary text-text-primary font-light;
+    font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+  }
+
+  /* Selection */
+  ::selection {
+    @apply bg-trinity-identity text-white;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-bg-secondary;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-glass-border rounded-full;
+    transition: background 0.3s;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-trinity-identity;
+  }
+}
+
+/* Custom Utilities */
+@layer utilities {
+  /* Glass Morphism */
+  .glass {
+    @apply bg-glass backdrop-blur-2xl border border-glass-border;
+  }
+
+  .glass-heavy {
+    @apply bg-glass/10 backdrop-blur-3xl border border-glass-border;
+  }
+
+  /* Trinity Glows */
+  .glow-identity {
+    box-shadow: 0 0 40px rgba(var(--trinity-identity), 0.4),
+                0 0 80px rgba(var(--trinity-identity), 0.2);
+  }
+
+  .glow-consciousness {
+    box-shadow: 0 0 40px rgba(var(--trinity-consciousness), 0.4),
+                0 0 80px rgba(var(--trinity-consciousness), 0.2);
+  }
+
+  .glow-guardian {
+    box-shadow: 0 0 40px rgba(var(--trinity-guardian), 0.4),
+                0 0 80px rgba(var(--trinity-guardian), 0.2);
+  }
+
+  /* Gradient Text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-trinity-identity via-trinity-consciousness to-trinity-guardian;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gradient-text-gold {
+    @apply bg-gradient-to-r from-accent-gold to-accent-gold-light;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Animated Gradient Background */
+  .gradient-animated {
+    background: linear-gradient(
+      -45deg,
+      rgba(var(--trinity-identity), 0.1),
+      rgba(var(--trinity-consciousness), 0.1),
+      rgba(var(--trinity-guardian), 0.1),
+      rgba(var(--accent-gold), 0.1)
+    );
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+  }
+
+  /* Magnetic Button */
+  .magnetic {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .magnetic:hover {
+    transform: translate(var(--mouse-x, 0), var(--mouse-y, 0));
+  }
+
+  /* Noise Texture */
+  .noise {
+    position: relative;
+  }
+
+  .noise::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('/textures/noise.png');
+    opacity: 0.03;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+  }
+
+  /* Skeleton Loading */
+  .skeleton {
+    @apply relative overflow-hidden bg-bg-tertiary;
+  }
+
+  .skeleton::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-100%);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.05),
+      transparent
+    );
+    animation: shimmer 2s infinite;
+  }
+
+  /* Hover Card Lift */
+  .card-lift {
+    @apply transition-all duration-300;
+  }
+
+  .card-lift:hover {
+    transform: translateY(-4px) scale(1.02);
+  }
+
+  /* Focus Visible */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-trinity-identity focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary;
+  }
+
+  /* Container Queries */
+  @container (min-width: 768px) {
+    .container-responsive {
+      @apply grid-cols-2;
+    }
+  }
+
+  @container (min-width: 1024px) {
+    .container-responsive {
+      @apply grid-cols-3;
+    }
+  }
+}
+
+/* GSAP Scroll Trigger Classes */
+.gsap-fade {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.gsap-scale {
+  transform: scale(0.9);
+  opacity: 0;
+}
+
+.gsap-slide-left {
+  transform: translateX(-100px);
+  opacity: 0;
+}
+
+.gsap-slide-right {
+  transform: translateX(100px);
+  opacity: 0;
+}
+
+/* Lottie Container */
+.lottie-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Three.js Canvas */
+.three-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+/* Custom Cursor */
+.custom-cursor {
+  pointer-events: none;
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(var(--trinity-identity), 0.5);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.2s, border-color 0.2s;
+  z-index: 9999;
+  mix-blend-mode: difference;
+}
+
+.custom-cursor.hover {
+  transform: translate(-50%, -50%) scale(1.5);
+  border-color: rgba(var(--trinity-consciousness), 0.8);
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

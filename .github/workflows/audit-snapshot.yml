@@ -1,0 +1,96 @@
+name: Audit Snapshot
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'lukhas/**'
+      - 'matriz/**'
+      - 'core/**'
+      - 'docs/**'
+      - 'scripts/**'
+      - 'schema/**'
+      - 'serve/**'
+
+permissions:
+  contents: read
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install minimal deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff openapi-spec-validator pyyaml
+
+      - name: Generate OpenAPI (if script exists)
+        run: |
+          set -euo pipefail
+          mkdir -p docs/audits/live
+          if [ -f scripts/generate_openapi.py ]; then
+            python scripts/generate_openapi.py || echo "::warning ::openapi generation failed"
+            if [ -f docs/openapi/lukhas-openapi.json ]; then
+              python -m openapi_spec_validator docs/openapi/lukhas-openapi.json || echo "::warning ::openapi validation failed"
+            fi
+          fi
+
+      - name: Ruff baseline (prod lanes)
+        run: |
+          mkdir -p docs/audits/live/${{ github.run_id }}
+          python -m ruff check lukhas core matriz --no-cache --output-format=full > docs/audits/live/${{ github.run_id }}/ruff.txt || true
+          python -m ruff check lukhas core matriz --statistics --no-cache > docs/audits/live/${{ github.run_id }}/ruff_stats.txt || true
+
+      - name: Lane / manifest quick check (best-effort)
+        run: |
+          set -euo pipefail
+          if [ -f scripts/validate_module_manifests.py ]; then
+            python scripts/validate_module_manifests.py --out docs/audits/live/${{ github.run_id }}/manifest_validation.json || true
+          fi
+
+      - name: Health snapshot (best-effort)
+        env:
+          LUKHAS_API_URL: http://localhost:8000
+        run: |
+          mkdir -p docs/audits/live/${{ github.run_id }}
+          if [ -f scripts/system_health_audit.py ]; then
+            python scripts/system_health_audit.py --out-json docs/audits/live/${{ github.run_id }}/health.json --out-md docs/audits/live/${{ github.run_id }}/health.md || true
+          fi
+
+      - name: Write audit index
+        run: |
+          STAMP=${{ github.run_id }}
+          mkdir -p docs/audits/live/${STAMP}
+          cat > docs/audits/live/${STAMP}/INDEX.md <<EOF
+          # 📦 Audit Snapshot
+
+          - Commit: \`${{ github.sha }}\`
+          - Run ID: ${STAMP}
+
+          ## Artifacts
+          - Ruff (full): \`docs/audits/live/${STAMP}/ruff.txt\`
+          - Ruff (stats): \`docs/audits/live/${STAMP}/ruff_stats.txt\`
+          - OpenAPI: \`docs/openapi/lukhas-openapi.json\` (if generated)
+          - Manifest validation: \`docs/audits/live/${STAMP}/manifest_validation.json\` (if available)
+          - Health audit: \`docs/audits/live/${STAMP}/health.{json,md}\` (if available)
+
+          > Tip for auditors: start with **INDEX.md**, then cross-check the OpenAPI and health files.
+          EOF
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-${{ github.sha }}
+          path: |
+            docs/audits/live/${{ github.run_id }}/
+            docs/openapi/lukhas-openapi.json
+          if-no-files-found: ignore

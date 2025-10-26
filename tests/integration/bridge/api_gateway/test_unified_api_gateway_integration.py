@@ -39,7 +39,7 @@ class TestUnifiedAPIGatewayIntegration:
     @pytest.fixture
     def client(self, gateway: UnifiedAPIGateway) -> TestClient:
         """Returns a TestClient for the gateway."""
-        return TestClient(gateway.get_app())
+        return TestClient(gateway.app)
 
     def create_test_token(self, gateway: UnifiedAPIGateway, user_id: str) -> str:
         """Creates a test JWT token."""

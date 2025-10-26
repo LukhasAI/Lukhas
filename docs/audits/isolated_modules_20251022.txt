@@ -1,0 +1,116 @@
+# Isolated Modules Report
+
+**Total modules analyzed**: 6120
+
+## No Incoming (6043)
+*Modules that nothing imports (possibly unused or entrypoints)*
+
+- adapters.cloud_consolidation
+- adapters.drive
+- adapters.dropbox
+- adapters.gmail_headers
+- agent.collaborative
+- agent.core
+- agent.intelligence_bridge
+- agent.interfaces
+- agents_external
+- agents_external.CLAUDE
+- agents_external.CLAUDE.mvp_demo
+- agents_external.CLAUDE.workspaces
+- agents_external.CLAUDE.workspaces.consent-compliance-specialist
+- agents_external.CLAUDE.workspaces.consent-compliance-specialist.src
+- agents_external.CLAUDE.workspaces.consent-compliance-specialist.src.consent_ledger
+- agents_external.CLAUDE.workspaces.identity-auth-specialist
+- agents_external.CLAUDE.workspaces.identity-auth-specialist.src
+- agents_external.CLAUDE.workspaces.identity-auth-specialist.src.lambda_id
+- agents_external.CLAUDE.workspaces.special-ops-secrets-kms-legacy
+- agents_external.CLAUDE.workspaces.special-ops-secrets-kms-legacy.tools
+- agents_external.CLAUDE.workspaces.special-ops-secrets-kms-legacy.tools.sbom
+- ai_orchestration.lukhas_ai_orchestrator
+- ai_orchestration.lukhas_knowledge_server
+- ai_orchestration.lukhas_mcp_server
+- ai_orchestration.lukhas_mcp_server_simple
+- ai_orchestration.mcp_operational_support
+- ai_orchestration.routing
+- aka_qualia.core
+- aka_qualia.glyphs
+- aka_qualia.memory_noop
+- aka_qualia.memory_sql
+- aka_qualia.models
+- aka_qualia.monitoring_dashboard
+- aka_qualia.palette
+- aka_qualia.pls
+- aka_qualia.router_client
+- aka_qualia.teq_hook
+- analytics
+- api.api_hub
+- api.consciousness_chat_api
+- api.expansion
+- api.expansion_api
+- api.feedback_api
+- api.integrated_consciousness_api
+- api.models
+- api.oidc
+- api.universal_language_api
+- archive.delegation_reports.generate_ruff_delegation_reports
+- archive.lanes_experiment.lukhas_acceptance_scaffold.archive.memory_variants.memory.causal.fold_lineage_tracker
+- archive.lanes_experiment.lukhas_acceptance_scaffold.archive.memory_variants.memory.core.colony_memory_validator
+
+*... and 5993 more*
+
+
+## No Outgoing (1155)
+*Modules that import nothing (leaf modules)*
+
+- adapters
+- agents_external
+- agents_external.CLAUDE
+- agents_external.CLAUDE.workspaces
+- agents_external.CLAUDE.workspaces.consent-compliance-specialist
+- agents_external.CLAUDE.workspaces.consent-compliance-specialist.src
+- agents_external.CLAUDE.workspaces.identity-auth-specialist
+- agents_external.CLAUDE.workspaces.identity-auth-specialist.src
+- agents_external.CLAUDE.workspaces.special-ops-secrets-kms-legacy
+- agents_external.CLAUDE.workspaces.special-ops-secrets-kms-legacy.tools
+- ai_orchestration
+- api.api_hub
+- archive.lanes_experiment.lukhas_acceptance_scaffold.archive.memory_variants.memory.fold_system.fold_lineage_tracker
+- archive.lanes_experiment.lukhas_acceptance_scaffold.archive.memory_variants.memory.systems.dream_trace_linker
+- archive.lanes_experiment.lukhas_acceptance_scaffold.archive.memory_variants.memory.systems.hierarchical_data_store
+- archive.scattered_root_files.non_core_module_analysis
+- archive.scattered_root_files.public_api
+- archive.transmission_bundle
+- archive.transmission_bundle.launch_transmission
+- benchmarks
+- bio.awareness
+- bio.core
+- branding.automation
+- branding.automation.brand_manager
+- branding.enforcement.tone
+- branding.engines
+- branding.engines.lukhas_content_platform
+- branding.engines.lukhas_content_platform.bots.lambda_bot_enterprise_abot_click_actions
+- branding.personal_brand
+- branding.policy
+- branding.profiles
+- branding.terminology
+- branding.tone.tools
+- branding.vocabularies.bio_vocabulary
+- branding.vocabularies.emotion_vocabulary
+- branding.vocabularies.identity_vocabulary
+- branding.vocabularies.vocabulary_template
+- bridge.adapters.create_colony_consensus_api
+- bridge.api_legacy
+- bridge.api_legacy.core
+- bridge.connectors
+- bridge.decoding
+- bridge.examples
+- bridge.examples.basic
+- bridge.examples.basic.example
+- bridge.message_bus
+- bridge.protocols.LambdaDependaBoT_robust
+- bridge.protocols.apply_naming_refinements
+- bridge.transcribe
+- cognitive_core
+
+*... and 1105 more*

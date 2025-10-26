@@ -1,0 +1,2325 @@
+core/bio_symbolic_processor.py:20:46: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+18 | import numpy as np
+19 | 
+20 | from .matriz_consciousness_signals import (  # noqa: TID252 TODO: convert to absolute import
+   |                                              ^^^^^^^^^^^^^^ RUF100
+21 |     BioSymbolicData,
+22 |     ConsciousnessSignal,
+   |
+   = help: Remove unused `noqa` directive
+
+core/bridge/__init__.py:4:31: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+  |
+2 | from __future__ import annotations
+3 | 
+4 | from .llm_guardrail import (  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+  |                               ^^^^^^^^^^^^^^ RUF100
+5 |     call_llm,
+6 |     get_guardrail_metrics,
+  |
+  = help: Remove unused `noqa` directive
+
+core/collective/__init__.py:5:41: RUF100 [*] Unused `noqa` directive (unused: `F401`, `F403`)
+  |
+4 | try:
+5 |     from labs.core.collective import *  # noqa: F401, F403
+  |                                         ^^^^^^^^^^^^^^^^^^ RUF100
+6 |     __all__ = [n for n in dir() if not n.startswith("_")]
+7 | except ImportError:
+  |
+  = help: Remove unused `noqa` directive
+
+core/common/__init__.py:39:27: RUF100 [*] Unused `noqa` directive (unused: `F401`; non-enabled: `TID252`)
+   |
+38 | # Always expose our submodule path
+39 | from . import exceptions  # noqa: F401,TID252,E402  (ensures attr exists even if backend lacks it)
+   |                           ^^^^^^^^^^^^^^^^^^^^^^^^ RUF100
+40 | 
+41 | if _SRC is not None:
+   |
+   = help: Remove unused `noqa` directive
+
+core/consciousness_signal_router.py:18:34: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+17 | from .bio_symbolic_processor import (
+18 |     get_bio_symbolic_processor,  # noqa: TID252 TODO: convert to absolute import
+   |                                  ^^^^^^^^^^^^^^ RUF100
+19 | )
+20 | from .matriz_consciousness_signals import (  # noqa: TID252 TODO: convert to absolute import
+   |
+   = help: Remove unused `noqa` directive
+
+core/consciousness_signal_router.py:20:46: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+18 |     get_bio_symbolic_processor,  # noqa: TID252 TODO: convert to absolute import
+19 | )
+20 | from .matriz_consciousness_signals import (  # noqa: TID252 TODO: convert to absolute import
+   |                                              ^^^^^^^^^^^^^^ RUF100
+21 |     ConsciousnessSignal,
+22 |     ConsciousnessSignalType,
+   |
+   = help: Remove unused `noqa` directive
+
+core/consciousness_signal_router.py:24:25: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+22 |     ConsciousnessSignalType,
+23 | )
+24 | from .metrics import (  # noqa: TID252 TODO: convert to absolute import
+   |                         ^^^^^^^^^^^^^^ RUF100
+25 |     router_cascade_preventions_total,
+26 |     router_no_rule_total,
+   |
+   = help: Remove unused `noqa` directive
+
+core/consciousness_signal_router.py:171:54: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+    |
+170 |         # Probe critical signal types to ensure routing works at boot
+171 |         from .matriz_consciousness_signals import (  # noqa: TID252 TODO: convert to absolute import
+    |                                                      ^^^^^^^^^^^^^^ RUF100
+172 |             ConsciousnessSignal,
+173 |             ConsciousnessSignalType,
+    |
+    = help: Remove unused `noqa` directive
+
+core/constellation_alignment_system.py:26:46: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+24 | import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+25 | 
+26 | from .matriz_consciousness_signals import (  # noqa: TID252 TODO: convert to absolute import
+   |                                              ^^^^^^^^^^^^^^ RUF100
+27 |     ConsciousnessSignal,
+28 |     ConsciousnessSignalType,
+   |
+   = help: Remove unused `noqa` directive
+
+core/ethics.py:3:32: RUF100 [*] Unused `noqa` directive (unused: `F401`)
+  |
+1 | """Shim: core.ethics → core.ethics or candidate.core.ethics."""
+2 | try:
+3 |     from core.ethics import *  # noqa: F401, F403
+  |                                ^^^^^^^^^^^^^^^^^^ RUF100
+4 | except ImportError:
+5 |     try:
+  |
+  = help: Remove unused `noqa` directive
+
+core/ethics.py:6:41: RUF100 [*] Unused `noqa` directive (unused: `F401`)
+  |
+4 | except ImportError:
+5 |     try:
+6 |         from labs.core.ethics import *  # noqa: F401, F403
+  |                                         ^^^^^^^^^^^^^^^^^^ RUF100
+7 |     except ImportError:
+8 |         pass
+  |
+  = help: Remove unused `noqa` directive
+
+core/governance.py:3:31: RUF100 [*] Unused `noqa` directive (unused: `F401`)
+  |
+1 | """Shim: core.governance → governance or candidate.governance."""
+2 | try:
+3 |     from governance import *  # noqa: F401, F403
+  |                               ^^^^^^^^^^^^^^^^^^ RUF100
+4 | except ImportError:
+5 |     try:
+  |
+  = help: Remove unused `noqa` directive
+
+core/governance.py:6:40: RUF100 [*] Unused `noqa` directive (unused: `F401`)
+  |
+4 | except ImportError:
+5 |     try:
+6 |         from labs.governance import *  # noqa: F401, F403
+  |                                        ^^^^^^^^^^^^^^^^^^ RUF100
+7 |     except ImportError:
+8 |         pass
+  |
+  = help: Remove unused `noqa` directive
+
+core/integration/innovation_orchestrator/autonomous_innovation_orchestrator.py:78:43: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+76 |         # Initialize sub-components
+77 |         from .breakthrough_synthesis_engine import (
+78 |             BreakthroughSynthesisEngine,  # noqa: TID252 TODO: convert to absolute import
+   |                                           ^^^^^^^^^^^^^^ RUF100
+79 |         )
+80 |         from .innovation_prioritization_engine import (
+   |
+   = help: Remove unused `noqa` directive
+
+core/integration/innovation_orchestrator/autonomous_innovation_orchestrator.py:81:46: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+79 |         )
+80 |         from .innovation_prioritization_engine import (
+81 |             InnovationPrioritizationEngine,  # noqa: TID252 TODO: convert to absolute import
+   |                                              ^^^^^^^^^^^^^^ RUF100
+82 |         )
+83 |         from .resource_allocation_optimizer import (
+   |
+   = help: Remove unused `noqa` directive
+
+core/integration/innovation_orchestrator/autonomous_innovation_orchestrator.py:84:43: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+82 |         )
+83 |         from .resource_allocation_optimizer import (
+84 |             ResourceAllocationOptimizer,  # noqa: TID252 TODO: convert to absolute import
+   |                                           ^^^^^^^^^^^^^^ RUF100
+85 |         )
+   |
+   = help: Remove unused `noqa` directive
+
+core/integration/innovation_orchestrator/autonomous_innovation_orchestrator.py:94:9: E722 Do not use bare `except`
+   |
+92 |         try:
+93 |             self.kernel_bus = container.get_service("symbolic_kernel_bus")
+94 |         except:
+   |         ^^^^^^ E722
+95 |             from orchestration.symbolic_kernel_bus import SymbolicKernelBus
+   |
+
+core/integration/innovation_orchestrator/autonomous_innovation_orchestrator.py:101:9: E722 Do not use bare `except`
+    |
+ 99 |         try:
+100 |             self.guardian = container.get_service("guardian_system")
+101 |         except:
+    |         ^^^^^^ E722
+102 |             from governance.guardian_system import GuardianSystem
+    |
+
+core/integration/innovation_orchestrator/autonomous_innovation_orchestrator.py:585:9: E722 Do not use bare `except`
+    |
+583 |             container = ServiceContainer.get_instance()
+584 |             return container.get_service("parallel_reality_simulator")
+585 |         except:
+    |         ^^^^^^ E722
+586 |             return None
+    |
+
+core/integration/innovation_orchestrator/autonomous_innovation_orchestrator.py:596:9: E722 Do not use bare `except`
+    |
+595 |             return QIConsciousnessIntegration()
+596 |         except:
+    |         ^^^^^^ E722
+597 |             return None
+    |
+
+core/integration/innovation_orchestrator/autonomous_innovation_orchestrator.py:604:9: E722 Do not use bare `except`
+    |
+602 |             container = ServiceContainer.get_instance()
+603 |             return container.get_service("temporal_intelligence_engine")
+604 |         except:
+    |         ^^^^^^ E722
+605 |             return None
+    |
+
+core/integration/innovation_orchestrator/autonomous_innovation_orchestrator.py:615:9: E722 Do not use bare `except`
+    |
+614 |             return ConsciousnessExpansionEngine()
+615 |         except:
+    |         ^^^^^^ E722
+616 |             return None
+    |
+
+core/integration/innovation_orchestrator/autonomous_innovation_orchestrator.py:626:9: E722 Do not use bare `except`
+    |
+625 |             return EconomicRealityManipulator()
+626 |         except:
+    |         ^^^^^^ E722
+627 |             return None
+    |
+
+core/integration/innovation_orchestrator/autonomous_innovation_orchestrator.py:637:9: E722 Do not use bare `except`
+    |
+636 |             return BreakthroughDetectorV2()
+637 |         except:
+    |         ^^^^^^ E722
+638 |             return None
+    |
+
+core/integration/symbolic_network.py:38:50: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+37 | try:
+38 |     from .crista_optimizer import NetworkConfig  # noqa: TID252 TODO: convert to absolute import
+   |                                                  ^^^^^^^^^^^^^^ RUF100
+39 | except ImportError:
+40 |     # Fallback or placeholder if direct import fails (e.g. during isolated
+   |
+   = help: Remove unused `noqa` directive
+
+core/integrator.py:47:1: I001 [*] Import block is un-sorted or un-formatted
+   |
+45 |       # ΛNOTE: Attempting to import core components. Placeholders used if imports fail.
+46 |       #        These imports suggest a dependency on a 'CORE' package structure.
+47 | /     from bio.core import BioOrchestrator  # type: ignore
+48 | |     from core.bio_systems.qi_layer import QIBioOscillator
+49 | |     from core.security.access_control import (
+50 | |         AccessController,  # type: ignore
+51 | |         AccessTier,
+52 | |     )
+53 | |     from core.security.compliance import ComplianceMonitor  # type: ignore
+54 | |     from core.security.qi_auth import QIAuthenticator  # type: ignore
+55 | |     from core.unified_integration import UnifiedIntegration  # type: ignore
+56 | | 
+   | |_^ I001
+57 |       CORE_COMPONENTS_LOADED_FLAG_ECI = True
+58 |       log.debug("LUKHΛS CORE components for EnhancedCoreIntegrator imported successfully.")
+   |
+   = help: Organize imports
+
+core/interfaces/api/v1/v1/common/auth.py:6:1: E402 Module level import not at top of file
+  |
+4 | # ΛTAG: api_auth
+5 | 
+6 | import hashlib
+  | ^^^^^^^^^^^^^^ E402
+7 | import hmac
+8 | import os
+  |
+
+core/interfaces/api/v1/v1/common/auth.py:7:1: E402 Module level import not at top of file
+  |
+6 | import hashlib
+7 | import hmac
+  | ^^^^^^^^^^^ E402
+8 | import os
+9 | import secrets
+  |
+
+core/interfaces/api/v1/v1/common/auth.py:8:1: E402 Module level import not at top of file
+   |
+ 6 | import hashlib
+ 7 | import hmac
+ 8 | import os
+   | ^^^^^^^^^ E402
+ 9 | import secrets
+10 | import time
+   |
+
+core/interfaces/api/v1/v1/common/auth.py:9:1: E402 Module level import not at top of file
+   |
+ 7 | import hmac
+ 8 | import os
+ 9 | import secrets
+   | ^^^^^^^^^^^^^^ E402
+10 | import time
+11 | from typing import Optional
+   |
+
+core/interfaces/api/v1/v1/common/auth.py:10:1: E402 Module level import not at top of file
+   |
+ 8 | import os
+ 9 | import secrets
+10 | import time
+   | ^^^^^^^^^^^ E402
+11 | from typing import Optional
+   |
+
+core/interfaces/api/v1/v1/common/auth.py:11:1: E402 Module level import not at top of file
+   |
+ 9 | import secrets
+10 | import time
+11 | from typing import Optional
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^ E402
+12 | 
+13 | import structlog
+   |
+
+core/interfaces/api/v1/v1/common/auth.py:13:1: E402 Module level import not at top of file
+   |
+11 | from typing import Optional
+12 | 
+13 | import structlog
+   | ^^^^^^^^^^^^^^^^ E402
+14 | from fastapi import Header, HTTPException, Request
+   |
+
+core/interfaces/api/v1/v1/common/auth.py:14:1: E402 Module level import not at top of file
+   |
+13 | import structlog
+14 | from fastapi import Header, HTTPException, Request
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ E402
+15 | 
+16 | # Initialize ΛTRACE logger for security events
+   |
+
+core/interfaces/api/v1/v1/grpc/__init__.py:6:26: F405 `lukhas_pb2_grpc` may be undefined, or defined from star imports
+  |
+4 | from .lukhas_pb2_grpc import *  # type: ignore
+5 | 
+6 | __all__ = ["lukhas_pb2", "lukhas_pb2_grpc"]
+  |                          ^^^^^^^^^^^^^^^^^ F405
+  |
+
+core/interfaces/api/v1/v1/grpc/lukhas_pb2.py:1:1: E902 No such file or directory (os error 2)
+core/interfaces/api/v1/v1/grpc/pb2_grpc.py:42:78: SyntaxError: f-string: single '}' is not allowed
+   |
+40 |             # Basic processing logic
+41 |             response = lukhas_pb2.ProcessResponse()
+42 |             response.request_id = f"req_{hash(request.input_text)} % 10000000}"
+   |                                                                              ^
+43 |             response.processing_time_ms = 42.0  # Placeholder timing
+   |
+
+core/interfaces/api/v1/v1/grpc/pb2_grpc.py:114:77: SyntaxError: f-string: single '}' is not allowed
+    |
+112 |         try:
+113 |             response = lukhas_pb2.AwarenessResponse()
+114 |             response.request_id = f"aware_{hash(request.user_id)} % 10000000}"
+    |                                                                             ^
+115 | 
+116 |             # Basic tier assignment logic (placeholder)
+    |
+
+core/interfaces/api/v1/v1/grpc/pb2_grpc.py:177:82: SyntaxError: f-string: single '}' is not allowed
+    |
+175 |             response.success = True
+176 |             response.engine_id = request.engine_id
+177 |             response.registry_token = f"token_{hash(request.engine_id)} % 1000000}"
+    |                                                                                  ^
+178 |             response.heartbeat_interval = 30
+    |
+
+core/interfaces/api/v1/v1/grpc/server.py:1:1: I001 [*] Import block is un-sorted or un-formatted
+   |
+ 1 | / import asyncio
+ 2 | | import logging
+ 3 | | from concurrent import futures
+ 4 | | 
+ 5 | | import grpc
+ 6 | | from interfaces.api.v1.grpc.lukhas_pb2_grpc import lukhas_pb2
+ 7 | | 
+ 8 | | 
+ 9 | | class LukhasServicer(lukhas_pb2_grpc.LukhasServiceServicer):
+   | |_^ I001
+10 |       """gRPC service implementation."""
+   |
+   = help: Organize imports
+
+core/interfaces/api/v1/v1/grpc/server.py:9:22: F821 Undefined name `lukhas_pb2_grpc`
+   |
+ 9 | class LukhasServicer(lukhas_pb2_grpc.LukhasServiceServicer):
+   |                      ^^^^^^^^^^^^^^^ F821
+10 |     """gRPC service implementation."""
+   |
+
+core/interfaces/api/v1/v1/grpc/server.py:13:15: F821 Undefined name `lukhas_core`
+   |
+12 |     async def Process(self, request, context):
+13 |         await lukhas_core.process_unified_request(request.input_text, None)
+   |               ^^^^^^^^^^^ F821
+14 | response = lukhas_pb2.ProcessResponse()
+15 | response.request_id = "0"
+   |
+
+core/interfaces/api/v1/v1/grpc/server.py:17:24: F821 Undefined name `result`
+   |
+15 | response.request_id = "0"
+16 | response.timestamp.GetCurrentTime()
+17 | response.result.update(result)
+   |                        ^^^^^^ F821
+18 | return response
+   |
+
+core/interfaces/api/v1/v1/grpc/server.py:18:1: F706 `return` statement outside of a function/method
+   |
+16 | response.timestamp.GetCurrentTime()
+17 | response.result.update(result)
+18 | return response
+   | ^^^^^^^^^^^^^^^ F706
+   |
+
+core/interfaces/api/v1/v1/grpc/server.py:23:1: F821 Undefined name `lukhas_pb2_grpc`
+   |
+21 | async def serve() -> None:
+22 |     grpc.aio.server(futures.ThreadPoolExecutor(max_workers=4))
+23 | lukhas_pb2_grpc.add_LukhasServiceServicer_to_server(LukhasServicer(), server)
+   | ^^^^^^^^^^^^^^^ F821
+24 | listen_addr = "[::]:50051"
+25 | server.add_insecure_port(listen_addr)
+   |
+
+core/interfaces/api/v1/v1/grpc/server.py:23:71: F821 Undefined name `server`
+   |
+21 | async def serve() -> None:
+22 |     grpc.aio.server(futures.ThreadPoolExecutor(max_workers=4))
+23 | lukhas_pb2_grpc.add_LukhasServiceServicer_to_server(LukhasServicer(), server)
+   |                                                                       ^^^^^^ F821
+24 | listen_addr = "[::]:50051"
+25 | server.add_insecure_port(listen_addr)
+   |
+
+core/interfaces/api/v1/v1/grpc/server.py:25:1: F821 Undefined name `server`
+   |
+23 | lukhas_pb2_grpc.add_LukhasServiceServicer_to_server(LukhasServicer(), server)
+24 | listen_addr = "[::]:50051"
+25 | server.add_insecure_port(listen_addr)
+   | ^^^^^^ F821
+26 | logging.info("Starting gRPC server on %s", listen_addr)
+27 | await server.start()
+   |
+
+core/interfaces/api/v1/v1/grpc/server.py:27:1: F704 `await` statement outside of a function
+   |
+25 | server.add_insecure_port(listen_addr)
+26 | logging.info("Starting gRPC server on %s", listen_addr)
+27 | await server.start()
+   | ^^^^^^^^^^^^^^^^^^^^ F704
+28 | await server.wait_for_termination()
+   |
+
+core/interfaces/api/v1/v1/grpc/server.py:27:7: F821 Undefined name `server`
+   |
+25 | server.add_insecure_port(listen_addr)
+26 | logging.info("Starting gRPC server on %s", listen_addr)
+27 | await server.start()
+   |       ^^^^^^ F821
+28 | await server.wait_for_termination()
+   |
+
+core/interfaces/api/v1/v1/grpc/server.py:28:1: F704 `await` statement outside of a function
+   |
+26 | logging.info("Starting gRPC server on %s", listen_addr)
+27 | await server.start()
+28 | await server.wait_for_termination()
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ F704
+   |
+
+core/interfaces/api/v1/v1/grpc/server.py:28:7: F821 Undefined name `server`
+   |
+26 | logging.info("Starting gRPC server on %s", listen_addr)
+27 | await server.start()
+28 | await server.wait_for_termination()
+   |       ^^^^^^ F821
+   |
+
+core/interfaces/api/v1/v1/rest/app.py:37:13: F821 Undefined name `EventBus`
+   |
+36 | # Shared event bus instance for coordination announcements
+37 | event_bus = EventBus()
+   |             ^^^^^^^^ F821
+38 | app.state.event_bus = event_bus
+   |
+
+core/interfaces/api/v1/v1/rest/middleware.py:26:1: E402 Module level import not at top of file
+   |
+24 | """
+25 | 
+26 | import os
+   | ^^^^^^^^^ E402
+27 | import time
+28 | from datetime import datetime, timezone
+   |
+
+core/interfaces/api/v1/v1/rest/middleware.py:27:1: E402 Module level import not at top of file
+   |
+26 | import os
+27 | import time
+   | ^^^^^^^^^^^ E402
+28 | from datetime import datetime, timezone
+29 | from typing import Any, Optional
+   |
+
+core/interfaces/api/v1/v1/rest/middleware.py:28:1: E402 Module level import not at top of file
+   |
+26 | import os
+27 | import time
+28 | from datetime import datetime, timezone
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ E402
+29 | from typing import Any, Optional
+   |
+
+core/interfaces/api/v1/v1/rest/middleware.py:29:1: E402 Module level import not at top of file
+   |
+27 | import time
+28 | from datetime import datetime, timezone
+29 | from typing import Any, Optional
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ E402
+30 | 
+31 | # Replaced python-jose (vulnerable) with PyJWT for secure JWT handling
+   |
+
+core/interfaces/api/v1/v1/rest/middleware.py:32:1: E402 Module level import not at top of file
+   |
+31 | # Replaced python-jose (vulnerable) with PyJWT for secure JWT handling
+32 | import jwt
+   | ^^^^^^^^^^ E402
+33 | import structlog
+34 | from fastapi import HTTPException, Request, status
+   |
+
+core/interfaces/api/v1/v1/rest/middleware.py:33:1: E402 Module level import not at top of file
+   |
+31 | # Replaced python-jose (vulnerable) with PyJWT for secure JWT handling
+32 | import jwt
+33 | import structlog
+   | ^^^^^^^^^^^^^^^^ E402
+34 | from fastapi import HTTPException, Request, status
+35 | from fastapi.security import HTTPBearer
+   |
+
+core/interfaces/api/v1/v1/rest/middleware.py:34:1: E402 Module level import not at top of file
+   |
+32 | import jwt
+33 | import structlog
+34 | from fastapi import HTTPException, Request, status
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ E402
+35 | from fastapi.security import HTTPBearer
+36 | from jwt.exceptions import InvalidTokenError as JWTError
+   |
+
+core/interfaces/api/v1/v1/rest/middleware.py:35:1: E402 Module level import not at top of file
+   |
+33 | import structlog
+34 | from fastapi import HTTPException, Request, status
+35 | from fastapi.security import HTTPBearer
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ E402
+36 | from jwt.exceptions import InvalidTokenError as JWTError
+   |
+
+core/interfaces/api/v1/v1/rest/middleware.py:36:1: E402 Module level import not at top of file
+   |
+34 | from fastapi import HTTPException, Request, status
+35 | from fastapi.security import HTTPBearer
+36 | from jwt.exceptions import InvalidTokenError as JWTError
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ E402
+37 | 
+38 | # Import centralized decorators and tier system
+   |
+
+core/interfaces/api/v1/v1/rest/routers/health.py:2:1: I001 [*] Import block is un-sorted or un-formatted
+  |
+2 | / from fastapi import APIRouter
+3 | | from interfaces.api.v1.rest.models import HealthStatus
+4 | | 
+5 | | router = APIRouter()
+  | |_^ I001
+  |
+  = help: Organize imports
+
+core/interfaces/api/v1/v1/rest/routers/metrics.py:1:1: I001 [*] Import block is un-sorted or un-formatted
+  |
+1 | / from datetime import datetime, timezone
+2 | | 
+3 | | from fastapi import APIRouter
+4 | | from interfaces.api.v1.rest.models import MetricsResponse
+5 | | 
+6 | | router = APIRouter()
+  | |_^ I001
+  |
+  = help: Organize imports
+
+core/interfaces/api/v1/v1/rest/routers/process.py:1:1: I001 [*] Import block is un-sorted or un-formatted
+  |
+1 | / import time
+2 | | import uuid
+3 | | from datetime import datetime, timezone
+4 | | 
+5 | | from fastapi import APIRouter, BackgroundTasks, Depends
+6 | | from interfaces.api.v1.common.errors import ProcessingError, ValidationError
+7 | | from interfaces.api.v1.rest.models import ProcessRequest, ProcessResponse, SymbolicState
+8 | | 
+9 | | router = APIRouter()
+  | |_^ I001
+  |
+  = help: Organize imports
+
+core/interfaces/api/v1/v1/rest/routers/process.py:13:12: F821 Undefined name `lukhas_core`
+   |
+12 | def get_lukhas_core():
+13 |     return lukhas_core
+   |            ^^^^^^^^^^^ F821
+   |
+
+core/interfaces/api/v1/v1/rest/routers/tasks.py:9:40: F821 Undefined name `EventBus`
+   |
+ 9 | def get_event_bus(request: Request) -> EventBus:
+   |                                        ^^^^^^^^ F821
+10 |     return request.app.state.event_bus
+   |
+
+core/interfaces/api/v1/v1/rest/routers/tasks.py:24:57: F821 Undefined name `EventBus`
+   |
+23 | @router.post("/announce-task")
+24 | async def announce_task(payload: TaskAnnouncement, bus: EventBus = Depends(get_event_bus)) -> dict[str, Any]:
+   |                                                         ^^^^^^^^ F821
+25 |     bus.announce_task(payload.model_dump())
+26 | return {"status": "announced"}
+   |
+
+core/interfaces/api/v1/v1/rest/routers/tasks.py:26:1: F706 `return` statement outside of a function/method
+   |
+24 | async def announce_task(payload: TaskAnnouncement, bus: EventBus = Depends(get_event_bus)) -> dict[str, Any]:
+25 |     bus.announce_task(payload.model_dump())
+26 | return {"status": "announced"}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ F706
+   |
+
+core/interfaces/api/v1/v1/rest/routers/tasks.py:31:39: F821 Undefined name `EventBus`
+   |
+29 | @router.post("/announce-capability")
+30 | async def announce_capability(
+31 | payload: CapabilityAnnouncement, bus: EventBus = Depends(get_event_bus)
+   |                                       ^^^^^^^^ F821
+32 | ) -> dict[str, Any]:
+33 |     bus.announce_capability(payload.agent_id, payload.capability)
+   |
+
+core/interfaces/api/v1/v1/rest/routers/tasks.py:34:1: F706 `return` statement outside of a function/method
+   |
+32 | ) -> dict[str, Any]:
+33 |     bus.announce_capability(payload.agent_id, payload.capability)
+34 | return {"status": "registered"}
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ F706
+   |
+
+core/interfaces/as_agent/widgets/widget_engine.py:154:27: RUF100 [*] Unused `noqa` directive (unused: `F401`)
+    |
+152 |     # Paired App Trace (for connected experiences)
+153 |     from core.dashboard_settings import (
+154 |         get_paired_apps,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+    |                           ^^^^^^^^^^^^ RUF100
+155 |     )
+    |
+    = help: Remove unused `noqa` directive
+
+core/matriz_consciousness_integration.py:17:34: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+16 | from .bio_symbolic_processor import (
+17 |     get_bio_symbolic_processor,  # noqa: TID252 TODO: convert to absolute import
+   |                                  ^^^^^^^^^^^^^^ RUF100
+18 | )
+19 | from .consciousness_signal_router import (
+   |
+   = help: Remove unused `noqa` directive
+
+core/matriz_consciousness_integration.py:20:32: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+18 | )
+19 | from .consciousness_signal_router import (
+20 |     get_consciousness_router,  # noqa: TID252 TODO: convert to absolute import
+   |                                ^^^^^^^^^^^^^^ RUF100
+21 | )
+22 | from .constellation_alignment_system import (  # noqa: TID252 TODO: convert to absolute import
+   |
+   = help: Remove unused `noqa` directive
+
+core/matriz_consciousness_integration.py:22:48: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+20 |     get_consciousness_router,  # noqa: TID252 TODO: convert to absolute import
+21 | )
+22 | from .constellation_alignment_system import (  # noqa: TID252 TODO: convert to absolute import
+   |                                                ^^^^^^^^^^^^^^ RUF100
+23 |     AlignmentLevel,
+24 |     get_constellation_monitor,
+   |
+   = help: Remove unused `noqa` directive
+
+core/matriz_consciousness_integration.py:27:46: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+25 |     get_constellation_validator,
+26 | )
+27 | from .matriz_consciousness_signals import (  # noqa: TID252 TODO: convert to absolute import
+   |                                              ^^^^^^^^^^^^^^ RUF100
+28 |     ConsciousnessSignalFactory,
+29 |     ConsciousnessSignalType,
+   |
+   = help: Remove unused `noqa` directive
+
+core/matriz_consciousness_integration.py:31:40: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+29 |     ConsciousnessSignalType,
+30 | )
+31 | from .matriz_signal_emitters import (  # noqa: TID252 TODO: convert to absolute import
+   |                                        ^^^^^^^^^^^^^^ RUF100
+32 |     get_emission_coordinator,
+33 | )
+   |
+   = help: Remove unused `noqa` directive
+
+core/matriz_consciousness_integration.py:387:13: F841 Local variable `network_node` is assigned to but never used
+    |
+386 |             # Register the node
+387 |             network_node = self.signal_router.register_node(
+    |             ^^^^^^^^^^^^ F841
+388 |                 node_id=node_id,
+389 |                 module_name=module_name,
+    |
+    = help: Remove assignment to unused variable `network_node`
+
+core/matriz_signal_emitters.py:17:34: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+16 | from .bio_symbolic_processor import (
+17 |     get_bio_symbolic_processor,  # noqa: TID252 TODO: convert to absolute import
+   |                                  ^^^^^^^^^^^^^^ RUF100
+18 | )
+19 | from .consciousness_signal_router import (
+   |
+   = help: Remove unused `noqa` directive
+
+core/matriz_signal_emitters.py:20:32: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+18 | )
+19 | from .consciousness_signal_router import (
+20 |     get_consciousness_router,  # noqa: TID252 TODO: convert to absolute import
+   |                                ^^^^^^^^^^^^^^ RUF100
+21 | )
+22 | from .matriz_consciousness_signals import (  # noqa: TID252 TODO: convert to absolute import
+   |
+   = help: Remove unused `noqa` directive
+
+core/matriz_signal_emitters.py:22:46: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+20 |     get_consciousness_router,  # noqa: TID252 TODO: convert to absolute import
+21 | )
+22 | from .matriz_consciousness_signals import (  # noqa: TID252 TODO: convert to absolute import
+   |                                              ^^^^^^^^^^^^^^ RUF100
+23 |     BioSymbolicData,
+24 |     ConsciousnessSignal,
+   |
+   = help: Remove unused `noqa` directive
+
+core/matriz_signal_emitters.py:279:39: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+    |
+278 |         from .matriz_consciousness_signals import (
+279 |             ConsciousnessStateDelta,  # noqa: TID252 TODO: convert to absolute import
+    |                                       ^^^^^^^^^^^^^^ RUF100
+280 |         )
+    |
+    = help: Remove unused `noqa` directive
+
+core/matriz_signal_emitters.py:392:9: F841 Local variable `constellation_compliance` is assigned to but never used
+    |
+390 |         """Emit identity authentication signal"""
+391 | 
+392 |         constellation_compliance = ConstellationAlignmentData(
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^ F841
+393 |             identity_auth_score=auth_score,
+394 |             consciousness_coherence=identity_context.get("coherence", 0.8),
+    |
+    = help: Remove assignment to unused variable `constellation_compliance`
+
+core/matriz_signal_emitters.py:460:9: F841 Local variable `constellation_compliance` is assigned to but never used
+    |
+458 |         """Emit guardian compliance signal"""
+459 | 
+460 |         constellation_compliance = ConstellationAlignmentData(
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^ F841
+461 |             identity_auth_score=0.9,
+462 |             consciousness_coherence=0.8,
+    |
+    = help: Remove assignment to unused variable `constellation_compliance`
+
+core/models.py:22:1: W293 Blank line contains whitespace
+   |
+20 |     """
+21 |     LUKHAS Base Model extending Pydantic BaseModel with LUKHAS-specific features.
+22 |     
+   | ^^^^ W293
+23 |     This serves as the foundation for all LUKHAS data models, providing:
+24 |     - Constellation Framework awareness
+   |
+   = help: Remove whitespace from blank line
+
+core/monitoring/collapse_integration.py:39:34: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+37 |     logger.setLevel(logging.INFO)
+38 | 
+39 | from .collapse_tracker import (  # noqa: TID252 TODO: convert to absolute import
+   |                                  ^^^^^^^^^^^^^^ RUF100
+40 |     CollapseAlertLevel,
+41 |     get_global_tracker,
+   |
+   = help: Remove unused `noqa` directive
+
+core/neural/master_integration.py:31:1: I001 [*] Import block is un-sorted or un-formatted
+   |
+29 |           try:
+30 |               # Import module connectors
+31 | /             from qi.neuroplastic_connector import QimConnector
+32 | | 
+33 | |             from emotion.neuroplastic_connector import EmotionConnector
+34 | |             from bridge.neuroplastic_connector import BridgeConnector
+35 | |             from consciousness.neuroplastic_connector import (
+36 | |                 ConsciousnessConnector,
+37 | |             )
+38 | | 
+39 | |             # Import bridges
+40 | |             from core.neural_bridge import neural_bridge
+41 | |             from core.neuroplastic_connector import CoreConnector
+42 | |             from governance.neuroplastic_connector import GovernanceConnector
+43 | |             from memory.neuroplastic_connector import MemoryConnector
+44 | | 
+   | |_^ I001
+45 |               # Register all modules with neural bridge
+46 |               self.modules = {
+   |
+   = help: Organize imports
+
+core/neural/topology_manager.py:35:53: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+34 | try:
+35 |     from .crista_optimizer import OptimizationMode  # noqa: TID252 TODO: convert to absolute import
+   |                                                     ^^^^^^^^^^^^^^ RUF100
+36 |     from .symbolic_network import (
+37 |         SymbolicNetwork,  # This class uses SymbolicNode internally  # noqa: TID252 TODO: convert to absolute import
+   |
+   = help: Remove unused `noqa` directive
+
+core/neural/topology_manager.py:37:70: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+35 |     from .crista_optimizer import OptimizationMode  # noqa: TID252 TODO: convert to absolute import
+36 |     from .symbolic_network import (
+37 |         SymbolicNetwork,  # This class uses SymbolicNode internally  # noqa: TID252 TODO: convert to absolute import
+   |                                                                      ^^^^^^^^^^^^^^ RUF100
+38 |     )
+39 | except ImportError:
+   |
+   = help: Remove unused `noqa` directive
+
+core/observability/__init__.py:65:39: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+63 | # Import legacy collector
+64 | try:
+65 |     from .collector import Collector  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+   |                                       ^^^^^^^^^^^^^^ RUF100
+66 | 
+67 |     logger.debug("Imported Collector from .collector")
+   |
+   = help: Remove unused `noqa` directive
+
+core/observability/__init__.py:74:50: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+72 | # Import monitoring systems
+73 | try:
+74 |     from .unified_monitoring_dashboard import (  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+   |                                                  ^^^^^^^^^^^^^^ RUF100
+75 |         AlertPriority,
+76 |         DashboardConfig,
+   |
+   = help: Remove unused `noqa` directive
+
+core/observability/__init__.py:127:43: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+    |
+126 | try:
+127 |     from .system_health_monitor import (  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+    |                                           ^^^^^^^^^^^^^^ RUF100
+128 |         ComponentHealth,
+129 |         ComponentType,
+    |
+    = help: Remove unused `noqa` directive
+
+core/observability/__init__.py:144:37: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+    |
+143 | try:
+144 |     from .alerting_system import (  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+    |                                     ^^^^^^^^^^^^^^ RUF100
+145 |         Alert,
+146 |         AlertCategory,
+    |
+    = help: Remove unused `noqa` directive
+
+core/observability/__init__.py:164:53: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+    |
+163 | try:
+164 |     from .constellation_framework_monitor import (  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+    |                                                     ^^^^^^^^^^^^^^ RUF100
+165 |         APIPerformanceMetric,
+166 |         AuthenticationEvent,
+    |
+    = help: Remove unused `noqa` directive
+
+core/observability/unified_monitoring_dashboard.py:41:43: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+39 | # Import monitoring systems
+40 | try:
+41 |     from .system_health_monitor import (  # noqa: TID252 TODO: convert to absolute import
+   |                                           ^^^^^^^^^^^^^^ RUF100
+42 |         ComponentType,
+43 |         HealthStatus,
+   |
+   = help: Remove unused `noqa` directive
+
+core/orchestration/brain/brain_integration.py:33:40: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+31 | # Import MultiBrainSymphony components with fallback paths
+32 | try:
+33 |     from .MultiBrainSymphony import (  # noqa: TID252 TODO: convert to absolute import
+   |                                        ^^^^^^^^^^^^^^ RUF100
+34 |         DreamBrainSpecialist,
+35 |         LearningBrainSpecialist,
+   |
+   = help: Remove unused `noqa` directive
+
+core/orchestration/brain/brain_integration.py:62:31: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+60 | try:
+61 |     from .compliance.ai_compliance_manager import (
+62 |         AIComplianceManager,  # noqa: TID252 TODO: convert to absolute import
+   |                               ^^^^^^^^^^^^^^ RUF100
+63 |     )
+64 |     from .ethics.ethical_hierarchy import (
+   |
+   = help: Remove unused `noqa` directive
+
+core/orchestration/brain/brain_integration.py:65:28: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+63 |     )
+64 |     from .ethics.ethical_hierarchy import (
+65 |         EthicalHierarchy,  # noqa: TID252 TODO: convert to absolute import
+   |                            ^^^^^^^^^^^^^^ RUF100
+66 |     )
+67 |     from .governance.dao_governance_node import (
+   |
+   = help: Remove unused `noqa` directive
+
+core/orchestration/brain/brain_integration.py:68:29: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+66 |     )
+67 |     from .governance.dao_governance_node import (
+68 |         DAOGovernanceNode,  # noqa: TID252 TODO: convert to absolute import
+   |                             ^^^^^^^^^^^^^^ RUF100
+69 |     )
+70 |     from .memory.enhanced_memory_manager import (
+   |
+   = help: Remove unused `noqa` directive
+
+core/orchestration/brain/brain_integration.py:71:33: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+69 |     )
+70 |     from .memory.enhanced_memory_manager import (
+71 |         EnhancedMemoryManager,  # noqa: TID252 TODO: convert to absolute import
+   |                                 ^^^^^^^^^^^^^^ RUF100
+72 |     )
+73 |     from .meta_cognitive.reflective_introspection_system import (
+   |
+   = help: Remove unused `noqa` directive
+
+core/orchestration/brain/brain_integration.py:74:41: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+72 |     )
+73 |     from .meta_cognitive.reflective_introspection_system import (
+74 |         ReflectiveIntrospectionSystem,  # noqa: TID252 TODO: convert to absolute import
+   |                                         ^^^^^^^^^^^^^^ RUF100
+75 |     )
+76 |     from .prediction.predictive_resource_manager import (
+   |
+   = help: Remove unused `noqa` directive
+
+core/orchestration/brain/brain_integration.py:77:37: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+75 |     )
+76 |     from .prediction.predictive_resource_manager import (
+77 |         PredictiveResourceManager,  # noqa: TID252 TODO: convert to absolute import
+   |                                     ^^^^^^^^^^^^^^ RUF100
+78 |     )
+79 |     from .reasoning.causal_reasoning_module import (
+   |
+   = help: Remove unused `noqa` directive
+
+core/orchestration/brain/brain_integration.py:80:33: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+78 |     )
+79 |     from .reasoning.causal_reasoning_module import (
+80 |         CausalReasoningModule,  # noqa: TID252 TODO: convert to absolute import
+   |                                 ^^^^^^^^^^^^^^ RUF100
+81 |     )
+82 |     ADVANCED_AGI_COMPONENTS = True
+   |
+   = help: Remove unused `noqa` directive
+
+core/orchestration/brain/brain_integration.py:85:1: I001 [*] Import block is un-sorted or un-formatted
+   |
+83 |   except ImportError:
+84 |       try:
+85 | /         from meta_cognitive.reflective_introspection_system import ReflectiveIntrospectionSystem
+86 | |         from prediction.predictive_resource_manager import PredictiveResourceManager
+87 | |         from reasoning.causal_reasoning_module import CausalReasoningModule
+88 | | 
+89 | |         from compliance.ai_compliance_manager import AIComplianceManager
+90 | |         from ethics.ethical_hierarchy import EthicalHierarchy
+91 | |         from governance.dao_governance_node import DAOGovernanceNode
+92 | |         from memory.enhanced_memory_manager import EnhancedMemoryManager
+93 | |         ADVANCED_AGI_COMPONENTS = True
+   | |_^ I001
+94 |       except ImportError:
+95 |           logger.warning("Advanced AI components not available, using fallback implementations")
+   |
+   = help: Organize imports
+
+core/orchestration/brain/brain_integration.py:143:32: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+    |
+141 | # Import Lukhas_ID identity system
+142 | try:
+143 |     from ..Lukhas_ID import (  # noqa: TID252 TODO: convert to absolute import
+    |                                ^^^^^^^^^^^^^^ RUF100
+144 |         AccessTier,
+145 |         ConsentLevel,
+    |
+    = help: Remove unused `noqa` directive
+
+core/orchestration/brain/brain_integration_broken.py:34:40: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+32 | # Import MultiBrainSymphony components with fallback paths
+33 | try:
+34 |     from .MultiBrainSymphony import (  # noqa: TID252 TODO: convert to absolute import
+   |                                        ^^^^^^^^^^^^^^ RUF100
+35 |         DreamBrainSpecialist,
+36 |         LearningBrainSpecialist,
+   |
+   = help: Remove unused `noqa` directive
+
+core/orchestration/brain/brain_integration_broken.py:63:31: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+61 | try:
+62 |     from .compliance.ai_compliance_manager import (
+63 |         AIComplianceManager,  # noqa: TID252 TODO: convert to absolute import
+   |                               ^^^^^^^^^^^^^^ RUF100
+64 |     )
+65 |     from .ethics.ethical_hierarchy import (
+   |
+   = help: Remove unused `noqa` directive
+
+core/orchestration/brain/brain_integration_broken.py:66:28: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+64 |     )
+65 |     from .ethics.ethical_hierarchy import (
+66 |         EthicalHierarchy,  # noqa: TID252 TODO: convert to absolute import
+   |                            ^^^^^^^^^^^^^^ RUF100
+67 |     )
+68 |     from .governance.dao_governance_node import (
+   |
+   = help: Remove unused `noqa` directive
+
+core/orchestration/brain/brain_integration_broken.py:69:29: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+67 |     )
+68 |     from .governance.dao_governance_node import (
+69 |         DAOGovernanceNode,  # noqa: TID252 TODO: convert to absolute import
+   |                             ^^^^^^^^^^^^^^ RUF100
+70 |     )
+71 |     from .memory.enhanced_memory_manager import (
+   |
+   = help: Remove unused `noqa` directive
+
+core/orchestration/brain/brain_integration_broken.py:72:33: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+70 |     )
+71 |     from .memory.enhanced_memory_manager import (
+72 |         EnhancedMemoryManager,  # noqa: TID252 TODO: convert to absolute import
+   |                                 ^^^^^^^^^^^^^^ RUF100
+73 |     )
+74 |     from .meta_cognitive.reflective_introspection_system import (
+   |
+   = help: Remove unused `noqa` directive
+
+core/orchestration/brain/brain_integration_broken.py:75:41: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+73 |     )
+74 |     from .meta_cognitive.reflective_introspection_system import (
+75 |         ReflectiveIntrospectionSystem,  # noqa: TID252 TODO: convert to absolute import
+   |                                         ^^^^^^^^^^^^^^ RUF100
+76 |     )
+77 |     from .prediction.predictive_resource_manager import (
+   |
+   = help: Remove unused `noqa` directive
+
+core/orchestration/brain/brain_integration_broken.py:78:37: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+76 |     )
+77 |     from .prediction.predictive_resource_manager import (
+78 |         PredictiveResourceManager,  # noqa: TID252 TODO: convert to absolute import
+   |                                     ^^^^^^^^^^^^^^ RUF100
+79 |     )
+80 |     from .reasoning.causal_reasoning_module import (
+   |
+   = help: Remove unused `noqa` directive
+
+core/orchestration/brain/brain_integration_broken.py:81:33: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+79 |     )
+80 |     from .reasoning.causal_reasoning_module import (
+81 |         CausalReasoningModule,  # noqa: TID252 TODO: convert to absolute import
+   |                                 ^^^^^^^^^^^^^^ RUF100
+82 |     )
+83 |     ADVANCED_AGI_COMPONENTS = True
+   |
+   = help: Remove unused `noqa` directive
+
+core/orchestration/brain/brain_integration_broken.py:86:1: I001 [*] Import block is un-sorted or un-formatted
+   |
+84 |   except ImportError:
+85 |       try:
+86 | /         from meta_cognitive.reflective_introspection_system import ReflectiveIntrospectionSystem
+87 | |         from prediction.predictive_resource_manager import PredictiveResourceManager
+88 | |         from reasoning.causal_reasoning_module import CausalReasoningModule
+89 | | 
+90 | |         from compliance.ai_compliance_manager import AIComplianceManager
+91 | |         from ethics.ethical_hierarchy import EthicalHierarchy
+92 | |         from governance.dao_governance_node import DAOGovernanceNode
+93 | |         from memory.enhanced_memory_manager import EnhancedMemoryManager
+94 | |         ADVANCED_AGI_COMPONENTS = True
+   | |_^ I001
+95 |       except ImportError:
+96 |           logger.warning("Advanced AI components not available, using fallback implementations")
+   |
+   = help: Organize imports
+
+core/orchestration/brain/brain_integration_broken.py:144:32: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+    |
+142 | # Import Lukhas_ID identity system
+143 | try:
+144 |     from ..Lukhas_ID import (  # noqa: TID252 TODO: convert to absolute import
+    |                                ^^^^^^^^^^^^^^ RUF100
+145 |         AccessTier,
+146 |         ConsentLevel,
+    |
+    = help: Remove unused `noqa` directive
+
+core/orchestration/brain/integration/brain_integration.py:34:40: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+32 | # Import MultiBrainSymphony components with fallback paths
+33 | try:
+34 |     from .MultiBrainSymphony import (  # noqa: TID252 TODO: convert to absolute import
+   |                                        ^^^^^^^^^^^^^^ RUF100
+35 |         DreamBrainSpecialist,
+36 |         LearningBrainSpecialist,
+   |
+   = help: Remove unused `noqa` directive
+
+core/orchestration/brain/main_node.py:28:1: I001 [*] Import block is un-sorted or un-formatted
+   |
+26 |   try:
+27 |       # Frontend components
+28 | /     from backend.core.neuro_symbolic_engine import NeuroSymbolicEngine
+29 | |     from backend.identity.identity_manager import IdentityManager
+30 | | 
+31 | |     # Backend components
+32 | |     from backend.learning.meta_learning import MetaLearningSystem
+33 | |     from backend.security.privacy_manager import PrivacyManager
+34 | |     from voice.speech_processor import SpeechProcessor
+35 | | 
+36 | |     from frontend.interface.adaptive_interface_generator import (
+37 | |         AdaptiveInterfaceGenerator,
+38 | |     )
+39 | |     from frontend.multimodal.image_generator import AdaptiveImageGenerator
+40 | | 
+41 | |     # Utils and config
+42 | |     from core.orchestration.brain.config.settings import load_settings
+43 | | 
+   | |_^ I001
+44 |   except ImportError as e:
+45 |       logger.critical(f"Failed to import required components: {e}")
+   |
+   = help: Organize imports
+
+core/orchestration/brain/orchestration/main_node.py:30:1: I001 [*] Import block is un-sorted or un-formatted
+   |
+28 |   try:
+29 |       # Frontend components
+30 | /     from backend.core.neuro_symbolic_engine import NeuroSymbolicEngine
+31 | | 
+32 | |     # Backend components
+33 | |     from backend.learning.meta_learning import MetaLearningSystem
+34 | | 
+35 | |     # from AID.service.identity_manager import IdentityManager  # TODO:
+36 | |     # Install or implement AID
+37 | |     from backend.security.privacy_manager import PrivacyManager
+38 | |     from voice.speech_processor import SpeechProcessor
+39 | | 
+40 | |     from frontend.interface.adaptive_interface_generator import (
+41 | |         AdaptiveInterfaceGenerator,
+42 | |     )
+43 | |     from frontend.multimodal.image_generator import AdaptiveImageGenerator
+44 | | 
+45 | |     # Utils and config
+46 | |     from core.orchestration.brain.config.settings import load_settings
+47 | | 
+   | |_^ I001
+48 |   except ImportError as e:
+49 |       logger.critical(f"Failed to import required components: {e}")
+   |
+   = help: Organize imports
+
+core/orchestration/brain/spine/healix_mapper.py:22:1: I001 [*] Import block is un-sorted or un-formatted
+   |
+20 |   """
+21 |   
+22 | / import logging
+23 | | from typing import Any
+24 | | 
+25 | | from core.identity.vault.lukhas_id import has_access, log_access
+26 | | from emotion_mapper_alt import EmotionMapper
+27 | | from orchestration.brain.spine.accent_adapter import AccentAdapter
+28 | | 
+29 | | # Initialize logger
+   | |_^ I001
+30 |   logger = logging.getLogger("healix_mapper")
+   |
+   = help: Organize imports
+
+core/orchestration/brain/unified_integration/adapters/cognitive_adapter.py:7:1: I001 [*] Import block is un-sorted or un-formatted
+   |
+ 5 |   Integration Date: 2025-05-31T07:55:29.985615
+ 6 |   """
+ 7 | / from typing import List
+ 8 | | import streamlit as st
+ 9 | | from datetime import timezone
+10 | | 
+11 | | """
+   | |_^ I001
+12 |   Brain-inspired adapter that manages cognitive state transformations and memory integration
+13 |   using quantum-biological metaphors.
+   |
+   = help: Organize imports
+
+core/orchestration/brain/unified_integration/adapters/cognitive_adapter.py:7:20: F401 [*] `typing.List` imported but unused
+  |
+5 | Integration Date: 2025-05-31T07:55:29.985615
+6 | """
+7 | from typing import List
+  |                    ^^^^ F401
+8 | import streamlit as st
+9 | from datetime import timezone
+  |
+  = help: Remove unused import: `typing.List`
+
+core/orchestration/brain/unified_integration/adapters/cognitive_adapter.py:8:21: F401 [*] `streamlit` imported but unused
+  |
+6 | """
+7 | from typing import List
+8 | import streamlit as st
+  |                     ^^ F401
+9 | from datetime import timezone
+  |
+  = help: Remove unused import: `streamlit`
+
+core/orchestration/brain/unified_integration/adapters/cognitive_adapter.py:16:1: E402 Module level import not at top of file
+   |
+14 | """
+15 | 
+16 | import json
+   | ^^^^^^^^^^^ E402
+17 | import logging
+18 | from datetime import datetime
+   |
+
+core/orchestration/brain/unified_integration/adapters/cognitive_adapter.py:17:1: E402 Module level import not at top of file
+   |
+16 | import json
+17 | import logging
+   | ^^^^^^^^^^^^^^ E402
+18 | from datetime import datetime
+19 | from typing import Any, Optional
+   |
+
+core/orchestration/brain/unified_integration/adapters/cognitive_adapter.py:18:1: E402 Module level import not at top of file
+   |
+16 | import json
+17 | import logging
+18 | from datetime import datetime
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ E402
+19 | from typing import Any, Optional
+   |
+
+core/orchestration/brain/unified_integration/adapters/cognitive_adapter.py:19:1: E402 Module level import not at top of file
+   |
+17 | import logging
+18 | from datetime import datetime
+19 | from typing import Any, Optional
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ E402
+20 | 
+21 | import numpy as np
+   |
+
+core/orchestration/brain/unified_integration/adapters/cognitive_adapter.py:21:1: E402 Module level import not at top of file
+   |
+19 | from typing import Any, Optional
+20 | 
+21 | import numpy as np
+   | ^^^^^^^^^^^^^^^^^^ E402
+22 | 
+23 | logger = logging.getLogger(__name__)
+   |
+
+core/orchestration/brain/unified_integration/adapters/cognitive_adapter.py:39:32: F821 Undefined name `ProtonGradient`
+   |
+37 |     def __init__(self):
+38 |         # Core bio components
+39 |         self.proton_gradient = ProtonGradient()
+   |                                ^^^^^^^^^^^^^^ F821
+40 |         self.attention_gate = QIAttentionGate()
+41 |         self.crista_filter = CristaFilter()
+   |
+
+core/orchestration/brain/unified_integration/adapters/cognitive_adapter.py:40:31: F821 Undefined name `QIAttentionGate`
+   |
+38 |         # Core bio components
+39 |         self.proton_gradient = ProtonGradient()
+40 |         self.attention_gate = QIAttentionGate()
+   |                               ^^^^^^^^^^^^^^^ F821
+41 |         self.crista_filter = CristaFilter()
+42 |         self.identity_encoder = CardiolipinEncoder()
+   |
+
+core/orchestration/brain/unified_integration/adapters/cognitive_adapter.py:41:30: F821 Undefined name `CristaFilter`
+   |
+39 |         self.proton_gradient = ProtonGradient()
+40 |         self.attention_gate = QIAttentionGate()
+41 |         self.crista_filter = CristaFilter()
+   |                              ^^^^^^^^^^^^ F821
+42 |         self.identity_encoder = CardiolipinEncoder()
+   |
+
+core/orchestration/brain/unified_integration/adapters/cognitive_adapter.py:42:33: F821 Undefined name `CardiolipinEncoder`
+   |
+40 |         self.attention_gate = QIAttentionGate()
+41 |         self.crista_filter = CristaFilter()
+42 |         self.identity_encoder = CardiolipinEncoder()
+   |                                 ^^^^^^^^^^^^^^^^^^ F821
+43 | 
+44 |         # Cognitive state tracking
+   |
+
+core/orchestration/brain/unified_integration/adapters/intent_adapter.py:15:1: E402 Module level import not at top of file
+   |
+13 | """
+14 | 
+15 | import logging
+   | ^^^^^^^^^^^^^^ E402
+16 | from datetime import datetime, timezone
+17 | from typing import Any, Optional
+   |
+
+core/orchestration/brain/unified_integration/adapters/intent_adapter.py:16:1: E402 Module level import not at top of file
+   |
+15 | import logging
+16 | from datetime import datetime, timezone
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ E402
+17 | from typing import Any, Optional
+   |
+
+core/orchestration/brain/unified_integration/adapters/intent_adapter.py:17:1: E402 Module level import not at top of file
+   |
+15 | import logging
+16 | from datetime import datetime, timezone
+17 | from typing import Any, Optional
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ E402
+18 | 
+19 | import numpy as np
+   |
+
+core/orchestration/brain/unified_integration/adapters/intent_adapter.py:19:1: E402 Module level import not at top of file
+   |
+17 | from typing import Any, Optional
+18 | 
+19 | import numpy as np
+   | ^^^^^^^^^^^^^^^^^^ E402
+20 | 
+21 | from ..unified_node import UnifiedNode
+   |
+
+core/orchestration/brain/unified_integration/adapters/intent_adapter.py:21:1: E402 Module level import not at top of file
+   |
+19 | import numpy as np
+20 | 
+21 | from ..unified_node import UnifiedNode
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ E402
+22 | 
+23 | logger = logging.getLogger(__name__)
+   |
+
+core/orchestration/brain/unified_integration/adapters/intent_adapter.py:37:32: F821 Undefined name `ProtonGradient`
+   |
+35 |     def __init__(self, cognitive_system=None):
+36 |         # Initialize bio components
+37 |         self.proton_gradient = ProtonGradient()
+   |                                ^^^^^^^^^^^^^^ F821
+38 |         self.attention_gate = QIAttentionGate()
+39 |         self.crista_filter = CristaFilter()
+   |
+
+core/orchestration/brain/unified_integration/adapters/intent_adapter.py:38:31: F821 Undefined name `QIAttentionGate`
+   |
+36 |         # Initialize bio components
+37 |         self.proton_gradient = ProtonGradient()
+38 |         self.attention_gate = QIAttentionGate()
+   |                               ^^^^^^^^^^^^^^^ F821
+39 |         self.crista_filter = CristaFilter()
+40 |         self.identity_encoder = CardiolipinEncoder()
+   |
+
+core/orchestration/brain/unified_integration/adapters/intent_adapter.py:39:30: F821 Undefined name `CristaFilter`
+   |
+37 |         self.proton_gradient = ProtonGradient()
+38 |         self.attention_gate = QIAttentionGate()
+39 |         self.crista_filter = CristaFilter()
+   |                              ^^^^^^^^^^^^ F821
+40 |         self.identity_encoder = CardiolipinEncoder()
+   |
+
+core/orchestration/brain/unified_integration/adapters/intent_adapter.py:40:33: F821 Undefined name `CardiolipinEncoder`
+   |
+38 |         self.attention_gate = QIAttentionGate()
+39 |         self.crista_filter = CristaFilter()
+40 |         self.identity_encoder = CardiolipinEncoder()
+   |                                 ^^^^^^^^^^^^^^^^^^ F821
+41 | 
+42 |         # Create unified node
+   |
+
+core/orchestration/brain/unified_integration/adapters/legacy_adapter.py:28:28: F821 Undefined name `UniversalIntegrationLayer`
+   |
+26 |     def __init__(
+27 |         self,
+28 |         integration_layer: UniversalIntegrationLayer,
+   |                            ^^^^^^^^^^^^^^^^^^^^^^^^^ F821
+29 |         component_id: str,
+30 |         component_type: ComponentType,
+   |
+
+core/orchestration/brain/unified_integration/adapters/legacy_adapter.py:30:25: F821 Undefined name `ComponentType`
+   |
+28 |         integration_layer: UniversalIntegrationLayer,
+29 |         component_id: str,
+30 |         component_type: ComponentType,
+   |                         ^^^^^^^^^^^^^ F821
+31 |     ):
+32 |         """Initialize the adapter
+   |
+
+core/orchestration/brain/unified_integration/adapters/legacy_adapter.py:47:9: F821 Undefined name `metadata`
+   |
+46 |         logger.info(f"Legacy adapter initialized for {component_id}")
+47 |         metadata["legacy"] = True
+   |         ^^^^^^^^ F821
+48 | 
+49 |         # Create standardized message
+   |
+
+core/orchestration/brain/unified_integration/adapters/legacy_adapter.py:50:16: F821 Undefined name `Message`
+   |
+49 |         # Create standardized message
+50 |         return Message(
+   |                ^^^^^^^ F821
+51 |             id=message.get("id", str(uuid.uuid4())),
+52 |             type=msg_type,
+   |
+
+core/orchestration/brain/unified_integration/adapters/legacy_adapter.py:51:16: F821 Undefined name `message`
+   |
+49 |         # Create standardized message
+50 |         return Message(
+51 |             id=message.get("id", str(uuid.uuid4())),
+   |                ^^^^^^^ F821
+52 |             type=msg_type,
+53 |             source=self.component_id,
+   |
+
+core/orchestration/brain/unified_integration/adapters/legacy_adapter.py:52:18: F821 Undefined name `msg_type`
+   |
+50 |         return Message(
+51 |             id=message.get("id", str(uuid.uuid4())),
+52 |             type=msg_type,
+   |                  ^^^^^^^^ F821
+53 |             source=self.component_id,
+54 |             target=target,
+   |
+
+core/orchestration/brain/unified_integration/adapters/legacy_adapter.py:54:20: F821 Undefined name `target`
+   |
+52 |             type=msg_type,
+53 |             source=self.component_id,
+54 |             target=target,
+   |                    ^^^^^^ F821
+55 |             content=message.get("content", message),
+56 |             metadata=metadata,
+   |
+
+core/orchestration/brain/unified_integration/adapters/legacy_adapter.py:55:21: F821 Undefined name `message`
+   |
+53 |             source=self.component_id,
+54 |             target=target,
+55 |             content=message.get("content", message),
+   |                     ^^^^^^^ F821
+56 |             metadata=metadata,
+57 |             timestamp=time.time(),
+   |
+
+core/orchestration/brain/unified_integration/adapters/legacy_adapter.py:55:44: F821 Undefined name `message`
+   |
+53 |             source=self.component_id,
+54 |             target=target,
+55 |             content=message.get("content", message),
+   |                                            ^^^^^^^ F821
+56 |             metadata=metadata,
+57 |             timestamp=time.time(),
+   |
+
+core/orchestration/brain/unified_integration/adapters/legacy_adapter.py:56:22: F821 Undefined name `metadata`
+   |
+54 |             target=target,
+55 |             content=message.get("content", message),
+56 |             metadata=metadata,
+   |                      ^^^^^^^^ F821
+57 |             timestamp=time.time(),
+58 |         )
+   |
+
+core/orchestration/brain/unified_integration/adapters/legacy_adapter.py:90:40: F821 Undefined name `Message`
+   |
+88 |         self.legacy_handler = handler
+89 | 
+90 |     def _handle_message(self, message: Message) -> None:
+   |                                        ^^^^^^^ F821
+91 |         """Handle messages from integration layer
+   |
+
+core/orchestration/brain/unified_integration/adapters/oscillator_adapter.py:14:1: E402 Module level import not at top of file
+   |
+12 | """
+13 | 
+14 | import asyncio
+   | ^^^^^^^^^^^^^^ E402
+15 | import logging
+16 | from datetime import datetime
+   |
+
+core/orchestration/brain/unified_integration/adapters/oscillator_adapter.py:15:1: E402 Module level import not at top of file
+   |
+14 | import asyncio
+15 | import logging
+   | ^^^^^^^^^^^^^^ E402
+16 | from datetime import datetime
+17 | from typing import Any, Optional
+   |
+
+core/orchestration/brain/unified_integration/adapters/oscillator_adapter.py:16:1: E402 Module level import not at top of file
+   |
+14 | import asyncio
+15 | import logging
+16 | from datetime import datetime
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ E402
+17 | from typing import Any, Optional
+   |
+
+core/orchestration/brain/unified_integration/adapters/oscillator_adapter.py:17:1: E402 Module level import not at top of file
+   |
+15 | import logging
+16 | from datetime import datetime
+17 | from typing import Any, Optional
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ E402
+18 | 
+19 | import numpy as np
+   |
+
+core/orchestration/brain/unified_integration/adapters/oscillator_adapter.py:19:1: E402 Module level import not at top of file
+   |
+17 | from typing import Any, Optional
+18 | 
+19 | import numpy as np
+   | ^^^^^^^^^^^^^^^^^^ E402
+20 | 
+21 | from ..bio_symbolic import CristaFilter, ProtonGradient, QIAttentionGate
+   |
+
+core/orchestration/brain/unified_integration/adapters/oscillator_adapter.py:21:1: E402 Module level import not at top of file
+   |
+19 | import numpy as np
+20 | 
+21 | from ..bio_symbolic import CristaFilter, ProtonGradient, QIAttentionGate
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ E402
+22 | from .unified_node import UnifiedNode
+   |
+
+core/orchestration/brain/unified_integration/adapters/oscillator_adapter.py:22:1: E402 Module level import not at top of file
+   |
+21 | from ..bio_symbolic import CristaFilter, ProtonGradient, QIAttentionGate
+22 | from .unified_node import UnifiedNode
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ E402
+23 | 
+24 | logger = logging.getLogger(__name__)
+   |
+
+core/registry.py:3:34: RUF100 [*] Unused `noqa` directive (unused: `F401`)
+  |
+1 | """Shim: core.registry → core.registry or candidate.core.registry."""
+2 | try:
+3 |     from core.registry import *  # noqa: F401, F403
+  |                                  ^^^^^^^^^^^^^^^^^^ RUF100
+4 | except ImportError:
+5 |     try:
+  |
+  = help: Remove unused `noqa` directive
+
+core/registry.py:6:43: RUF100 [*] Unused `noqa` directive (unused: `F401`)
+  |
+4 | except ImportError:
+5 |     try:
+6 |         from labs.core.registry import *  # noqa: F401, F403
+  |                                           ^^^^^^^^^^^^^^^^^^ RUF100
+7 |     except ImportError:
+8 |         pass
+  |
+  = help: Remove unused `noqa` directive
+
+core/symbolic_core/features/collapse/entropy_tracker.py:362:13: F402 Import `field` from line 42 shadowed by loop variable
+    |
+360 |         # Calculate entropy trend
+361 |         entropy_slopes = []
+362 |         for field in active_fields:
+    |             ^^^^^ F402
+363 |             slope = self.calculate_entropy_slope(field.field_id)
+364 |             entropy_slopes.append(slope)
+    |
+
+core/symbolic_core/features/collapse/entropy_tracker.py:732:13: F402 Import `field` from line 42 shadowed by loop variable
+    |
+730 |         distribution = {phase.value: 0 for phase in CollapsePhase}
+731 | 
+732 |         for field in fields:
+    |             ^^^^^ F402
+733 |             phase = self._determine_phase(field.entropy)
+734 |             distribution[phase.value] += 1
+    |
+
+core/symbolic_core/features/collapse/entropy_tracker.py:783:23: F402 Import `field` from line 42 shadowed by loop variable
+    |
+782 |         fields_to_remove = []
+783 |         for field_id, field in self.collapse_fields.items():
+    |                       ^^^^^ F402
+784 |             if field.last_update < cutoff_time and field.entropy < 0.3:
+785 |                 fields_to_remove.append(field_id)
+    |
+
+core/symbolic_legacy/features/collapse/entropy_tracker.py:362:13: F402 Import `field` from line 42 shadowed by loop variable
+    |
+360 |         # Calculate entropy trend
+361 |         entropy_slopes = []
+362 |         for field in active_fields:
+    |             ^^^^^ F402
+363 |             slope = self.calculate_entropy_slope(field.field_id)
+364 |             entropy_slopes.append(slope)
+    |
+
+core/symbolic_legacy/features/collapse/entropy_tracker.py:732:13: F402 Import `field` from line 42 shadowed by loop variable
+    |
+730 |         distribution = {phase.value: 0 for phase in CollapsePhase}
+731 | 
+732 |         for field in fields:
+    |             ^^^^^ F402
+733 |             phase = self._determine_phase(field.entropy)
+734 |             distribution[phase.value] += 1
+    |
+
+core/symbolic_legacy/features/collapse/entropy_tracker.py:783:23: F402 Import `field` from line 42 shadowed by loop variable
+    |
+782 |         fields_to_remove = []
+783 |         for field_id, field in self.collapse_fields.items():
+    |                       ^^^^^ F402
+784 |             if field.last_update < cutoff_time and field.entropy < 0.3:
+785 |                 fields_to_remove.append(field_id)
+    |
+
+core/tests/test_core_integration.py:78:17: F841 Local variable `result` is assigned to but never used
+   |
+76 |                 mock_db.return_value.execute.return_value = {'success': True}
+77 | 
+78 |                 result = component.process({'db_operation': 'test'})
+   |                 ^^^^^^ F841
+79 | 
+80 |                 # Verify database interaction
+   |
+   = help: Remove assignment to unused variable `result`
+
+core/tests/test_core_integration.py:113:20: F401 `threading` imported but unused; consider using `importlib.util.find_spec` to test for availability
+    |
+111 |         try:
+112 |             import concurrent.futures
+113 |             import threading
+    |                    ^^^^^^^^^ F401
+114 | 
+115 |             from core import CoreCore
+    |
+    = help: Remove unused import: `threading`
+
+core/tests/test_core_integration.py:212:17: F841 Local variable `result` is assigned to but never used
+    |
+210 |                 mock_span.return_value.set_attribute = Mock()
+211 | 
+212 |                 result = component.process({'trace_test': True})
+    |                 ^^^^^^ F841
+213 | 
+214 |                 # Verify tracing attributes were set
+    |
+    = help: Remove assignment to unused variable `result`
+
+core/tests/test_core_unit.py:93:17: F841 Local variable `result` is assigned to but never used
+   |
+91 |             with consciousness.awareness_context():
+92 |                 # This should not raise an exception
+93 |                 result = component.process({})
+   |                 ^^^^^^ F841
+94 | 
+95 |         except ImportError:
+   |
+   = help: Remove assignment to unused variable `result`
+
+core/tests/test_core_unit.py:162:13: F841 Local variable `result` is assigned to but never used
+    |
+161 |             start_time = time.time()
+162 |             result = component.process({})
+    |             ^^^^^^ F841
+163 |             duration = time.time() - start_time
+    |
+    = help: Remove assignment to unused variable `result`
+
+core/tier_aware_colony_proxy.py:46:107: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+44 |     )
+45 | 
+46 |     from ._cleanup_archive.BACKUP_BEFORE_CONSOLIDATION_20250801_002312.core.qi_identity_manager import (  # noqa: TID252 TODO: convert to absolute import
+   |                                                                                                           ^^^^^^^^^^^^^^ RUF100
+47 |         QIIdentityManager,
+48 |         QITierLevel,
+   |
+   = help: Remove unused `noqa` directive
+
+matriz/adapters/adapters/__init__.py:6:38: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+  |
+4 | All adapters implement MatrizNode.handle(MatrizMessage) -> MatrizResult
+5 | """
+6 | from .bio_adapter import BioAdapter  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+  |                                      ^^^^^^^^^^^^^^ RUF100
+7 | from .bridge_adapter import (
+8 |     BridgeAdapter,  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+  |
+  = help: Remove unused `noqa` directive
+
+matriz/adapters/adapters/__init__.py:8:21: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+ 6 | from .bio_adapter import BioAdapter  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+ 7 | from .bridge_adapter import (
+ 8 |     BridgeAdapter,  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+   |                     ^^^^^^^^^^^^^^ RUF100
+ 9 | )
+10 | from .compliance_adapter import (
+   |
+   = help: Remove unused `noqa` directive
+
+matriz/adapters/adapters/__init__.py:11:25: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+ 9 | )
+10 | from .compliance_adapter import (
+11 |     ComplianceAdapter,  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+   |                         ^^^^^^^^^^^^^^ RUF100
+12 | )
+13 | from .consciousness_adapter import (
+   |
+   = help: Remove unused `noqa` directive
+
+matriz/adapters/adapters/__init__.py:14:28: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+12 | )
+13 | from .consciousness_adapter import (
+14 |     ConsciousnessAdapter,  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+   |                            ^^^^^^^^^^^^^^ RUF100
+15 | )
+16 | from .contradiction_adapter import (
+   |
+   = help: Remove unused `noqa` directive
+
+matriz/adapters/adapters/__init__.py:17:28: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+15 | )
+16 | from .contradiction_adapter import (
+17 |     ContradictionAdapter,  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+   |                            ^^^^^^^^^^^^^^ RUF100
+18 | )
+19 | from .creative_adapter import (
+   |
+   = help: Remove unused `noqa` directive
+
+matriz/adapters/adapters/__init__.py:20:23: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+18 | )
+19 | from .creative_adapter import (
+20 |     CreativeAdapter,  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+   |                       ^^^^^^^^^^^^^^ RUF100
+21 | )
+22 | from .emotion_adapter import (
+   |
+   = help: Remove unused `noqa` directive
+
+matriz/adapters/adapters/__init__.py:23:22: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+21 | )
+22 | from .emotion_adapter import (
+23 |     EmotionAdapter,  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+   |                      ^^^^^^^^^^^^^^ RUF100
+24 | )
+25 | from .governance_adapter import (
+   |
+   = help: Remove unused `noqa` directive
+
+matriz/adapters/adapters/__init__.py:26:25: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+24 | )
+25 | from .governance_adapter import (
+26 |     GovernanceAdapter,  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+   |                         ^^^^^^^^^^^^^^ RUF100
+27 | )
+28 | from .identity_adapter import (
+   |
+   = help: Remove unused `noqa` directive
+
+matriz/adapters/adapters/__init__.py:29:23: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+27 | )
+28 | from .identity_adapter import (
+29 |     IdentityAdapter,  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+   |                       ^^^^^^^^^^^^^^ RUF100
+30 | )
+31 | from .memory_adapter import (
+   |
+   = help: Remove unused `noqa` directive
+
+matriz/adapters/adapters/__init__.py:32:21: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+30 | )
+31 | from .memory_adapter import (
+32 |     MemoryAdapter,  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+   |                     ^^^^^^^^^^^^^^ RUF100
+33 | )
+34 | from .orchestration_adapter import (
+   |
+   = help: Remove unused `noqa` directive
+
+matriz/adapters/adapters/__init__.py:35:28: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+33 | )
+34 | from .orchestration_adapter import (
+35 |     OrchestrationAdapter,  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+   |                            ^^^^^^^^^^^^^^ RUF100
+36 | )
+   |
+   = help: Remove unused `noqa` directive
+
+matriz/adapters/adapters/bio_adapter.py:1:1: I001 [*] Import block is un-sorted or un-formatted
+  |
+1 | / from core.trace import mk_crumb
+2 | | from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
+3 | | 
+4 | | 
+5 | | class BioAdapter(MatrizNode):
+  | |_^ I001
+6 |       name = "bio-adapter"
+7 |       version = "1.0.0"
+  |
+  = help: Organize imports
+
+matriz/adapters/adapters/bridge_adapter.py:1:1: I001 [*] Import block is un-sorted or un-formatted
+  |
+1 | / from core.trace import mk_crumb
+2 | | from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
+3 | | 
+4 | | 
+5 | | class BridgeAdapter(MatrizNode):
+  | |_^ I001
+6 |       name = "bridge-adapter"
+7 |       version = "1.0.0"
+  |
+  = help: Organize imports
+
+matriz/adapters/adapters/compliance_adapter.py:1:1: I001 [*] Import block is un-sorted or un-formatted
+  |
+1 | / from core.trace import mk_crumb
+2 | | from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
+3 | | 
+4 | | 
+5 | | class ComplianceAdapter(MatrizNode):
+  | |_^ I001
+6 |       name = "compliance-adapter"
+7 |       version = "1.0.0"
+  |
+  = help: Organize imports
+
+matriz/adapters/adapters/consciousness_adapter.py:1:1: I001 [*] Import block is un-sorted or un-formatted
+  |
+1 | / from core.trace import mk_crumb
+2 | | from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
+3 | | 
+4 | | 
+5 | | class ConsciousnessAdapter(MatrizNode):
+  | |_^ I001
+6 |       name = "consciousness-adapter"
+7 |       version = "1.0.0"
+  |
+  = help: Organize imports
+
+matriz/adapters/adapters/contradiction_adapter.py:1:1: I001 [*] Import block is un-sorted or un-formatted
+  |
+1 | / from core.trace import mk_crumb
+2 | | from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
+3 | | 
+4 | | 
+5 | | class ContradictionAdapter(MatrizNode):
+  | |_^ I001
+6 |       name = "contradiction-adapter"
+7 |       version = "1.0.0"
+  |
+  = help: Organize imports
+
+matriz/adapters/adapters/creative_adapter.py:1:1: I001 [*] Import block is un-sorted or un-formatted
+  |
+1 | / from core.trace import mk_crumb
+2 | | from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
+3 | | 
+4 | | 
+5 | | class CreativeAdapter(MatrizNode):
+  | |_^ I001
+6 |       name = "creative-adapter"
+7 |       version = "1.0.0"
+  |
+  = help: Organize imports
+
+matriz/adapters/adapters/emotion_adapter.py:1:1: I001 [*] Import block is un-sorted or un-formatted
+  |
+1 | / from core.trace import mk_crumb
+2 | | from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
+3 | | 
+4 | | 
+5 | | class EmotionAdapter(MatrizNode):
+  | |_^ I001
+6 |       name = "emotion-adapter"
+7 |       version = "1.0.0"
+  |
+  = help: Organize imports
+
+matriz/adapters/adapters/emotion_adapter.py:30:76: RUF100 [*] Unused `noqa` directive (unused: `F401`)
+   |
+28 | # Added for test compatibility (matriz.adapters.emotion_adapter.UemotionAdapter)
+29 | try:
+30 |     from candidate.matriz.adapters.emotion_adapter import UemotionAdapter  # noqa: F401
+   |                                                                            ^^^^^^^^^^^^ RUF100
+31 | except ImportError:
+32 |     class UemotionAdapter:
+   |
+   = help: Remove unused `noqa` directive
+
+matriz/adapters/adapters/governance_adapter.py:1:1: I001 [*] Import block is un-sorted or un-formatted
+  |
+1 | / from core.trace import mk_crumb
+2 | | from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
+3 | | 
+4 | | 
+5 | | class GovernanceAdapter(MatrizNode):
+  | |_^ I001
+6 |       name = "governance-adapter"
+7 |       version = "1.0.0"
+  |
+  = help: Organize imports
+
+matriz/adapters/adapters/governance_adapter.py:30:82: RUF100 [*] Unused `noqa` directive (unused: `F401`)
+   |
+28 | # Added for test compatibility (matriz.adapters.governance_adapter.UgovernanceAdapter)
+29 | try:
+30 |     from candidate.matriz.adapters.governance_adapter import UgovernanceAdapter  # noqa: F401
+   |                                                                                  ^^^^^^^^^^^^ RUF100
+31 | except ImportError:
+32 |     class UgovernanceAdapter:
+   |
+   = help: Remove unused `noqa` directive
+
+matriz/adapters/adapters/identity_adapter.py:1:1: I001 [*] Import block is un-sorted or un-formatted
+  |
+1 | / from core.trace import mk_crumb
+2 | | from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
+3 | | 
+4 | | 
+5 | | class IdentityAdapter(MatrizNode):
+  | |_^ I001
+6 |       name = "identity-adapter"
+7 |       version = "1.0.0"
+  |
+  = help: Organize imports
+
+matriz/adapters/adapters/identity_adapter.py:30:78: RUF100 [*] Unused `noqa` directive (unused: `F401`)
+   |
+28 | # Added for test compatibility (matriz.adapters.identity_adapter.UidentityAdapter)
+29 | try:
+30 |     from candidate.matriz.adapters.identity_adapter import UidentityAdapter  # noqa: F401
+   |                                                                              ^^^^^^^^^^^^ RUF100
+31 | except ImportError:
+32 |     class UidentityAdapter:
+   |
+   = help: Remove unused `noqa` directive
+
+matriz/adapters/adapters/memory_adapter.py:1:1: I001 [*] Import block is un-sorted or un-formatted
+  |
+1 | / from core.trace import mk_crumb
+2 | | from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
+3 | | 
+4 | | 
+5 | | class MemoryAdapter(MatrizNode):
+  | |_^ I001
+6 |       name = "memory-adapter"
+7 |       version = "1.0.0"
+  |
+  = help: Organize imports
+
+matriz/adapters/adapters/orchestration_adapter.py:1:1: I001 [*] Import block is un-sorted or un-formatted
+  |
+1 | / from core.trace import mk_crumb
+2 | | from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
+3 | | 
+4 | | 
+5 | | class OrchestrationAdapter(MatrizNode):
+  | |_^ I001
+6 |       name = "orchestration-adapter"
+7 |       version = "1.0.0"
+  |
+  = help: Organize imports
+
+matriz/adapters/adapters/orchestration_adapter.py:30:88: RUF100 [*] Unused `noqa` directive (unused: `F401`)
+   |
+28 | # Added for test compatibility (matriz.adapters.orchestration_adapter.UorchestrationAdapter)
+29 | try:
+30 |     from candidate.matriz.adapters.orchestration_adapter import UorchestrationAdapter  # noqa: F401
+   |                                                                                        ^^^^^^^^^^^^ RUF100
+31 | except ImportError:
+32 |     class UorchestrationAdapter:
+   |
+   = help: Remove unused `noqa` directive
+
+matriz/adapters/bio_adapter.py:1:1: I001 [*] Import block is un-sorted or un-formatted
+  |
+1 | / from core.trace import mk_crumb
+2 | | from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
+3 | | 
+4 | | 
+5 | | class BioAdapter(MatrizNode):
+  | |_^ I001
+6 |       name = "bio-adapter"
+7 |       version = "1.0.0"
+  |
+  = help: Organize imports
+
+matriz/adapters/bridge_adapter.py:1:1: I001 [*] Import block is un-sorted or un-formatted
+  |
+1 | / from core.trace import mk_crumb
+2 | | from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
+3 | | 
+4 | | 
+5 | | class BridgeAdapter(MatrizNode):
+  | |_^ I001
+6 |       name = "bridge-adapter"
+7 |       version = "1.0.0"
+  |
+  = help: Organize imports
+
+matriz/adapters/compliance_adapter.py:1:1: I001 [*] Import block is un-sorted or un-formatted
+  |
+1 | / from core.trace import mk_crumb
+2 | | from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
+3 | | 
+4 | | 
+5 | | class ComplianceAdapter(MatrizNode):
+  | |_^ I001
+6 |       name = "compliance-adapter"
+7 |       version = "1.0.0"
+  |
+  = help: Organize imports
+
+matriz/adapters/consciousness_adapter.py:1:1: I001 [*] Import block is un-sorted or un-formatted
+  |
+1 | / from core.trace import mk_crumb
+2 | | from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
+3 | | 
+4 | | 
+5 | | class ConsciousnessAdapter(MatrizNode):
+  | |_^ I001
+6 |       name = "consciousness-adapter"
+7 |       version = "1.0.0"
+  |
+  = help: Organize imports
+
+matriz/adapters/contradiction_adapter.py:1:1: I001 [*] Import block is un-sorted or un-formatted
+  |
+1 | / from core.trace import mk_crumb
+2 | | from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
+3 | | 
+4 | | 
+5 | | class ContradictionAdapter(MatrizNode):
+  | |_^ I001
+6 |       name = "contradiction-adapter"
+7 |       version = "1.0.0"
+  |
+  = help: Organize imports
+
+matriz/adapters/creative_adapter.py:1:1: I001 [*] Import block is un-sorted or un-formatted
+  |
+1 | / from core.trace import mk_crumb
+2 | | from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
+3 | | 
+4 | | 
+5 | | class CreativeAdapter(MatrizNode):
+  | |_^ I001
+6 |       name = "creative-adapter"
+7 |       version = "1.0.0"
+  |
+  = help: Organize imports
+
+matriz/adapters/emotion_adapter.py:1:1: I001 [*] Import block is un-sorted or un-formatted
+  |
+1 | / from core.trace import mk_crumb
+2 | | from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
+3 | | 
+4 | | 
+5 | | class EmotionAdapter(MatrizNode):
+  | |_^ I001
+6 |       name = "emotion-adapter"
+7 |       version = "1.0.0"
+  |
+  = help: Organize imports
+
+matriz/adapters/emotion_adapter.py:30:76: RUF100 [*] Unused `noqa` directive (unused: `F401`)
+   |
+28 | # Added for test compatibility (matriz.adapters.emotion_adapter.UemotionAdapter)
+29 | try:
+30 |     from candidate.matriz.adapters.emotion_adapter import UemotionAdapter  # noqa: F401
+   |                                                                            ^^^^^^^^^^^^ RUF100
+31 | except ImportError:
+32 |     class UemotionAdapter:
+   |
+   = help: Remove unused `noqa` directive
+
+matriz/adapters/governance_adapter.py:1:1: I001 [*] Import block is un-sorted or un-formatted
+  |
+1 | / from core.trace import mk_crumb
+2 | | from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
+3 | | 
+4 | | 
+5 | | class GovernanceAdapter(MatrizNode):
+  | |_^ I001
+6 |       name = "governance-adapter"
+7 |       version = "1.0.0"
+  |
+  = help: Organize imports
+
+matriz/adapters/governance_adapter.py:30:82: RUF100 [*] Unused `noqa` directive (unused: `F401`)
+   |
+28 | # Added for test compatibility (matriz.adapters.governance_adapter.UgovernanceAdapter)
+29 | try:
+30 |     from candidate.matriz.adapters.governance_adapter import UgovernanceAdapter  # noqa: F401
+   |                                                                                  ^^^^^^^^^^^^ RUF100
+31 | except ImportError:
+32 |     class UgovernanceAdapter:
+   |
+   = help: Remove unused `noqa` directive
+
+matriz/adapters/identity_adapter.py:1:1: I001 [*] Import block is un-sorted or un-formatted
+  |
+1 | / from core.trace import mk_crumb
+2 | | from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
+3 | | 
+4 | | 
+5 | | class IdentityAdapter(MatrizNode):
+  | |_^ I001
+6 |       name = "identity-adapter"
+7 |       version = "1.0.0"
+  |
+  = help: Organize imports
+
+matriz/adapters/identity_adapter.py:30:78: RUF100 [*] Unused `noqa` directive (unused: `F401`)
+   |
+28 | # Added for test compatibility (matriz.adapters.identity_adapter.UidentityAdapter)
+29 | try:
+30 |     from candidate.matriz.adapters.identity_adapter import UidentityAdapter  # noqa: F401
+   |                                                                              ^^^^^^^^^^^^ RUF100
+31 | except ImportError:
+32 |     class UidentityAdapter:
+   |
+   = help: Remove unused `noqa` directive
+
+matriz/adapters/memory_adapter.py:1:1: I001 [*] Import block is un-sorted or un-formatted
+  |
+1 | / from core.trace import mk_crumb
+2 | | from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
+3 | | 
+4 | | 
+5 | | class MemoryAdapter(MatrizNode):
+  | |_^ I001
+6 |       name = "memory-adapter"
+7 |       version = "1.0.0"
+  |
+  = help: Organize imports
+
+matriz/adapters/orchestration_adapter.py:1:1: I001 [*] Import block is un-sorted or un-formatted
+  |
+1 | / from core.trace import mk_crumb
+2 | | from matriz.node_contract import MatrizMessage, MatrizNode, MatrizResult
+3 | | 
+4 | | 
+5 | | class OrchestrationAdapter(MatrizNode):
+  | |_^ I001
+6 |       name = "orchestration-adapter"
+7 |       version = "1.0.0"
+  |
+  = help: Organize imports
+
+matriz/adapters/orchestration_adapter.py:30:88: RUF100 [*] Unused `noqa` directive (unused: `F401`)
+   |
+28 | # Added for test compatibility (matriz.adapters.orchestration_adapter.UorchestrationAdapter)
+29 | try:
+30 |     from candidate.matriz.adapters.orchestration_adapter import UorchestrationAdapter  # noqa: F401
+   |                                                                                        ^^^^^^^^^^^^ RUF100
+31 | except ImportError:
+32 |     class UorchestrationAdapter:
+   |
+   = help: Remove unused `noqa` directive
+
+matriz/nodes/__init__.py:16:34: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+14 | import streamlit as st
+15 | 
+16 | from .fact_node import FactNode  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+   |                                  ^^^^^^^^^^^^^^ RUF100
+17 | from .math_node import MathNode  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+18 | from .validator_node import (
+   |
+   = help: Remove unused `noqa` directive
+
+matriz/nodes/__init__.py:17:34: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+16 | from .fact_node import FactNode  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+17 | from .math_node import MathNode  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+   |                                  ^^^^^^^^^^^^^^ RUF100
+18 | from .validator_node import (
+19 |     ValidatorNode,  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+   |
+   = help: Remove unused `noqa` directive
+
+matriz/nodes/__init__.py:19:21: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+17 | from .math_node import MathNode  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+18 | from .validator_node import (
+19 |     ValidatorNode,  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+   |                     ^^^^^^^^^^^^^^ RUF100
+20 | )
+   |
+   = help: Remove unused `noqa` directive
+
+matriz/visualization/__init__.py:23:30: RUF100 [*] Unused `noqa` directive (non-enabled: `TID252`)
+   |
+21 | import streamlit as st
+22 | 
+23 | from .graph_viewer import (  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+   |                              ^^^^^^^^^^^^^^ RUF100
+24 |     LinkTypeConfig,
+25 |     MATRIZGraphViewer,
+   |
+   = help: Remove unused `noqa` directive
+
+Found 216 errors.
+[*] 117 fixable with the `--fix` option (8 hidden fixes can be enabled with the `--unsafe-fixes` option).

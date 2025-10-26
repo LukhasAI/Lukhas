@@ -1,0 +1,74 @@
+{
+  "module": "matriz.orchestration.async_orchestrator",
+  "version": "1.0.0",
+  "type": "async_orchestrator_node",
+  "matriz_compatible": true,
+  "description": "Asynchronous cognitive orchestrator for MATRIZ coordinating parallel cognitive processes and decision-making workflows",
+
+  "capabilities": {
+    "sends": [
+      {
+        "signal": "orchestration.task.completed",
+        "schema": "TaskCompletion",
+        "frequency": "per_task",
+        "latency_target_ms": 250
+      },
+      {
+        "signal": "orchestration.workflow.state_change",
+        "schema": "WorkflowState",
+        "frequency": "on_change",
+        "priority": "high"
+      },
+      {
+        "signal": "orchestration.cognitive.result",
+        "schema": "CognitiveResult",
+        "frequency": "per_cognitive_cycle",
+        "latency_target_ms": 200
+      }
+    ],
+    "receives": [
+      {
+        "signal": "orchestration.task.request",
+        "schema": "TaskRequest",
+        "handler": "orchestrate_task",
+        "required": true
+      },
+      {
+        "signal": "orchestration.workflow.start",
+        "schema": "WorkflowStart",
+        "handler": "start_workflow",
+        "required": true
+      },
+      {
+        "signal": "orchestration.cognitive.trigger",
+        "schema": "CognitiveTrigger",
+        "handler": "trigger_cognitive_process",
+        "required": false
+      }
+    ]
+  },
+
+  "main_classes": [
+    {
+      "name": "AsyncCognitiveOrchestrator",
+      "type": "orchestrator",
+      "methods": ["orchestrate_task", "start_workflow", "trigger_cognitive_process", "coordinate_parallel"],
+      "async": true
+    }
+  ],
+
+  "dependencies": [],
+
+  "performance": {
+    "max_latency_ms": 250,
+    "target_latency_p95_ms": 200,
+    "memory_limit_mb": 200,
+    "cpu_cores": 4
+  },
+
+  "constellation_integration": {
+    "stars": ["consciousness", "memory", "ethics", "guardian"],
+    "validates": true,
+    "blocks_on_failure": false
+  }
+}

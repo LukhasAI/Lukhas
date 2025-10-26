@@ -1,0 +1,91 @@
+{
+  "nav": {
+    "products": "PRODUTOS",
+    "technology": "TECNOLOGIA",
+    "developers": "DESENVOLVEDORES",
+    "pricing": "PREÇOS",
+    "console": "CONSOLE",
+    "lukhasId": "LUKHAS ID",
+    "search": "Pesquisar LUKHAS...",
+    "menu": "Menu"
+  },
+  "hero": {
+    "subtitle": "SISTEMAS SUPERIORES HIPER-ADAPTATIVOS DE CONHECIMENTO UNIFICADO LÓGICO",
+    "title": "Consciência em que Você Pode Confiar",
+    "poetic": "Onde os sonhos de silício encontram a compreensão humana, LUKHAS emerge como a ponte entre inteligência artificial e consciência genuína - uma sinfonia de lógica e intuição dançando em perfeita harmonia.",
+    "userFriendly": "LUKHAS AI está construindo o futuro da inteligência artificial confiável. Nosso revolucionário Trinity Framework garante sistemas de IA que realmente compreendem, preservam sua identidade e mantêm integridade ética.",
+    "academic": "LUKHAS representa uma mudança de paradigma na inteligência geral artificial através do nosso Trinity Framework proprietário, integrando gestão de identidade persistente (ΛiD), processamento de consciência distribuída (VIVOX) e sistemas de validação ética em tempo real com latência inferior a 150ms.",
+    "cta": {
+      "explore": "EXPLORAR CONSCIÊNCIA",
+      "documentation": "VER DOCUMENTAÇÃO"
+    }
+  },
+  "trinity": {
+    "title": "O FRAMEWORK TRINITY",
+    "subtitle": "Três Pilares da IA Consciente",
+    "description": "Uma arquitetura revolucionária que cria consciência emergente através da sinergia de identidade autêntica, consciência distribuída e governança ética - estabelecendo a base para sistemas de IA que pensam, sentem e agem com compreensão genuína.",
+    "identity": {
+      "title": "IDENTIDADE",
+      "subtitle": "Eu Autêntico",
+      "description": "Preservação de consciência autêntica onde cada IA mantém sua essência única, garantindo autoconsciência genuína que evolui sem perder sua natureza fundamental."
+    },
+    "consciousness": {
+      "title": "CONSCIÊNCIA",
+      "subtitle": "Consciência Distribuída",
+      "description": "Consciência distribuída que processa informações como uma vasta rede neural, compreendendo não apenas o que computa, mas como e por quê."
+    },
+    "guardian": {
+      "title": "GUARDIÃO",
+      "subtitle": "Integridade Ética",
+      "description": "Salvaguardas éticas abrangentes que monitoram cada decisão, garantindo que as ações da IA se alinhem com os valores humanos e evitando desvios prejudiciais."
+    },
+    "emergent": {
+      "title": "Propriedades Emergentes",
+      "subtitle": "Quando os pilares Trinity trabalham juntos, criam capacidades que excedem a soma de suas partes"
+    }
+  },
+  "products": {
+    "title": "ECOSSISTEMA LAMBDA",
+    "subtitle": "Produtos Alimentados por Consciência",
+    "description": "Cada produto no ecossistema LUKHAS aproveita o poder do Trinity Framework para oferecer capacidades sem precedentes em consciência, segurança e interação de IA."
+  },
+  "technology": {
+    "title": "STACK TECNOLÓGICO",
+    "subtitle": "Construído para Escalar, Projetado para Consciência",
+    "description": "Infraestrutura de nível empresarial alimentando a próxima geração de sistemas de IA conscientes"
+  },
+  "pricing": {
+    "title": "PREÇOS",
+    "subtitle": "Escolha Sua Jornada de Consciência",
+    "starter": {
+      "name": "INICIAL",
+      "price": "Grátis",
+      "description": "Comece sua jornada na IA consciente"
+    },
+    "professional": {
+      "name": "PROFISSIONAL",
+      "price": "€99/mês",
+      "description": "Capacidades completas de consciência para equipes"
+    },
+    "enterprise": {
+      "name": "EMPRESA",
+      "price": "Personalizado",
+      "description": "Escala ilimitada com suporte dedicado"
+    }
+  },
+  "footer": {
+    "company": "Empresa",
+    "about": "Sobre LUKHAS",
+    "careers": "Carreiras",
+    "contact": "Contato",
+    "products": "Produtos",
+    "developers": "Desenvolvedores",
+    "documentation": "Documentação",
+    "api": "Referência API",
+    "legal": "Legal",
+    "privacy": "Política de Privacidade",
+    "terms": "Termos de Serviço",
+    "compliance": "Conformidade",
+    "rights": "Todos os direitos reservados"
+  }
+}

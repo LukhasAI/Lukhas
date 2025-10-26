@@ -1,0 +1,21 @@
+{
+  "timestamp": "2025-10-22T21:41:21",
+  "rc_version": "v0.9.0-rc",
+  "uptime_hours": "5.39",
+  "services": {
+    "prometheus": false,
+    "grafana": false,
+    "facade": true
+  },
+  "facade_health": {"status":"ok","voice_mode":"degraded","matriz":{"version":"unknown","rollout":"disabled","enabled":false},"lane":"prod","modules":{"manifest_count":1713}},
+  "metrics": {
+    "guardian_denials_24h": "N/A",
+    "pdp_p95_latency_ms": "N/A",
+    "rl_hit_rate": "N/A"
+  },
+  "gates": {
+    "guardian_denial_rate_ok": null,
+    "pdp_latency_ok": null,
+    "all_services_up": false
+  }
+}

@@ -39,7 +39,7 @@ class TestUnifiedAPIGatewayUnit:
     @pytest.fixture
     def client(self, gateway: UnifiedAPIGateway) -> TestClient:
         """Returns a TestClient for the gateway."""
-        return TestClient(gateway.get_app())
+        return TestClient(gateway.app)
 
     def test_health_check(self, client: TestClient, gateway: UnifiedAPIGateway):
         """Tests the health check endpoint."""

@@ -1,0 +1,50 @@
+{
+  "module": "core.api.service_stubs",
+  "version": "1.0.0",
+  "type": "api_stub_node",
+  "matriz_compatible": true,
+  "description": "Service stubs for API testing and development with mock service implementations",
+
+  "capabilities": {
+    "sends": [
+      {
+        "signal": "api.stub.response",
+        "schema": "StubResponse",
+        "frequency": "per_request",
+        "latency_target_ms": 10
+      }
+    ],
+    "receives": [
+      {
+        "signal": "api.stub.request",
+        "schema": "StubRequest",
+        "handler": "handle_stub_request",
+        "required": true
+      }
+    ]
+  },
+
+  "main_classes": [
+    {
+      "name": "ServiceStubs",
+      "type": "stub_service",
+      "methods": ["handle_stub_request", "register_stub"],
+      "async": true
+    }
+  ],
+
+  "dependencies": [],
+
+  "performance": {
+    "max_latency_ms": 10,
+    "target_latency_p95_ms": 5,
+    "memory_limit_mb": 50,
+    "cpu_cores": 1
+  },
+
+  "constellation_integration": {
+    "stars": [],
+    "validates": false,
+    "blocks_on_failure": false
+  }
+}

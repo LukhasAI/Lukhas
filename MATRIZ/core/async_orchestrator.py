@@ -18,13 +18,16 @@ from dataclasses import asdict, dataclass, field
 from enum import Enum
 from typing import Any, Dict, List, Optional
 
-from MATRIZ.core.node_interface import CognitiveNode
+from matriz.core.node_interface import CognitiveNode
 
 try:
     from prometheus_client import Counter, Histogram
 except Exception:  # pragma: no cover - metrics optional in tests
 
     class _NoopMetric:
+        def __init__(self, *_, **__):  # pragma: no cover - test shim
+            pass
+
         def labels(self, *_, **__):  # type: ignore[return-value]
             return self
 
@@ -339,6 +342,34 @@ class AsyncCognitiveOrchestrator:
         executed = {result.stage_type for result in stage_results}
         self.metrics.stages_skipped = max(0, len(StageType) - len(executed))
 
+    def _adapt_input_for_node(self, node_name: str, raw_input: Any) -> Dict[str, Any]:
+        """Map raw pipeline input to the schema expected by a specific node."""
+
+        # ΛTAG: input_contract_adapter
+        if isinstance(raw_input, dict):
+            # Already structured (e.g., validator receives target_output dict)
+            return raw_input
+
+        if not isinstance(raw_input, str):
+            raise TypeError(
+                "AsyncCognitiveOrchestrator only supports str or dict inputs for nodes"
+            )
+
+        normalized = (node_name or "").lower()
+
+        if "math" in normalized:
+            return {"expression": raw_input}
+
+        if normalized in {"facts", "fact"} or "fact" in normalized:
+            return {"question": raw_input}
+
+        if "validator" in normalized:
+            raise TypeError(
+                "Validator nodes require a dict with a 'target_output' payload"
+            )
+
+        return {"query": raw_input}
+
     async def process_query(self, user_input: str) -> Dict[str, Any]:
         """
         Process user query through MATRIZ nodes with timeout enforcement.
@@ -429,8 +460,10 @@ class AsyncCognitiveOrchestrator:
         node = self.available_nodes[selected_node_name]
 
         # Wrap synchronous node.process in async
+        adapted_input = self._adapt_input_for_node(selected_node_name, user_input)
+
         process_result = await run_with_timeout(
-            self._process_node_async(node, user_input),
+            self._process_node_async(node, adapted_input),
             StageType.PROCESSING,
             self.stage_timeouts[StageType.PROCESSING],
         )
@@ -539,11 +572,14 @@ class AsyncCognitiveOrchestrator:
     @instrument_matriz_stage(
         "cognitive_processing", "processing", critical=True, slo_target_ms=120.0
     )
-    async def _process_node_async(self, node: CognitiveNode, user_input: str) -> Dict:
+    async def _process_node_async(self, node: CognitiveNode, node_input: Dict[str, Any]) -> Dict:
         """Async wrapper for node processing with circuit breaker protection"""
+        if not isinstance(node_input, dict):
+            raise TypeError("node_input must be a dictionary for node.process() calls")
+
         # Run synchronous node.process in executor to make it truly async and cancellable
         loop = asyncio.get_event_loop()
-        return await loop.run_in_executor(None, node.process, {"query": user_input})
+        return await loop.run_in_executor(None, node.process, node_input)
 
     @instrument_matriz_stage("validation", "validation", critical=False, slo_target_ms=40.0)
     async def _validate_async(self, result: Dict) -> bool:
