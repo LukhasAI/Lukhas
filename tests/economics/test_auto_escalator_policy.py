@@ -177,3 +177,83 @@ def test_apply_tier_escalation_force_bypasses_cooldown(monkeypatch):
     assert update_calls == [("lukhas-user", EscalatorTier.FRIEND)]
     assert notify_calls and notify_calls[0][0] == "lukhas-user"
 
+
+def test_calculate_transaction_split_applies_bonuses_and_caps_total(monkeypatch):
+    """Ensure transaction split bonus logic applies without exceeding the total amount."""
+
+    policy = AutoEscalatorPolicy({})
+    metrics = _build_metrics(
+        current_tier=EscalatorTier.VISITOR,
+        data_quality_score=0.95,
+        engagement_score=0.85,
+    )
+
+    async def fake_metrics(user_id: str) -> UserValueMetrics:
+        assert user_id == "lukhas-user"
+        return metrics
+
+    monkeypatch.setattr(policy, "calculate_user_value_metrics", fake_metrics)
+
+    result = asyncio.run(
+        policy.calculate_transaction_split("lukhas-user", transaction_amount=2000.0, opportunity_id="opp-42")
+    )
+
+    assert result["user_tier"] == EscalatorTier.VISITOR.value
+    # ΛTAG: transaction_split_bonus_validation
+    assert result["bonuses_applied"] == {"user_bonus": pytest.approx(18.0), "platform_bonus": 0.0}
+    assert result["user_amount"] == pytest.approx(810.7, rel=1e-4)
+    assert result["platform_amount"] == pytest.approx(1189.3, rel=1e-4)
+    assert result["transaction_amount"] == 2000.0
+
+
+def test_generate_escalation_transparency_report_aggregates_context(monkeypatch):
+    """Validate transparency report composes metrics, evaluation, and history."""
+
+    policy = AutoEscalatorPolicy({})
+    metrics = _build_metrics(
+        current_tier=EscalatorTier.TRUSTED,
+        total_value_score=0.88,
+        session_frequency=6.0,
+        platform_advocacy=0.7,
+    )
+
+    async def fake_metrics(user_id: str) -> UserValueMetrics:
+        return metrics
+
+    async def fake_eval(user_id: str) -> dict[str, Any]:
+        return {
+            "escalation_eligible": False,
+            "current_tier": EscalatorTier.TRUSTED.value,
+            "next_tier": EscalatorTier.INNER_CIRCLE.value,
+            "requirements": {
+                "volume": {"required": 5000.0, "actual": 3000.0, "met": False},
+            },
+            "progress_to_next_tier": 0.6,
+            "total_value_score": metrics.total_value_score,
+        }
+
+    async def fake_history(user_id: str) -> list[dict[str, Any]]:
+        return [
+            {
+                "from_tier": EscalatorTier.FRIEND.value,
+                "to_tier": EscalatorTier.TRUSTED.value,
+                "escalated_at": 1700000000,
+            }
+        ]
+
+    monkeypatch.setattr(policy, "calculate_user_value_metrics", fake_metrics)
+    monkeypatch.setattr(policy, "evaluate_tier_escalation", fake_eval)
+    monkeypatch.setattr(policy, "_get_escalation_history", fake_history)
+
+    report = asyncio.run(policy.generate_escalation_transparency_report("lukhas-user"))
+
+    assert report["user_id"] == "lukhas-user"
+    assert report["current_status"]["tier"] == EscalatorTier.TRUSTED.value
+    assert report["current_status"]["total_value_score"] == pytest.approx(0.88)
+    assert report["escalation_status"]["progress_to_next_tier"] == pytest.approx(0.6)
+    assert report["escalation_history"][0]["to_tier"] == EscalatorTier.TRUSTED.value
+    # ΛTAG: transparency_report_validation
+    assert EscalatorTier.TRUSTED.value in report["tier_comparison"]
+    assert set(report["tier_comparison"].keys()) == {tier.value for tier in EscalatorTier}
+    assert report["methodology"]["value_weights"] == policy.value_weights
+
