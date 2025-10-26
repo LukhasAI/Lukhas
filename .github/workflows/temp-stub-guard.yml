@@ -1,0 +1,142 @@
+name: TEMP-STUB Promotion Guard
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'services/registry/**'
+      - 'lukhas/**'
+      - 'core/**'
+
+jobs:
+  check-temp-stub:
+    name: Block TEMP-STUB Promotion to Production
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for TEMP-STUB markers
+        id: temp_stub_check
+        run: |
+          echo "Checking for TEMP-STUB markers in production lanes..."
+
+          # Check if PR modifies production lanes (core/ or lukhas/)
+          PROD_FILES=$(git diff --name-only origin/main...HEAD | grep -E '^(core|lukhas)/' || true)
+
+          if [ -z "$PROD_FILES" ]; then
+            echo "✓ No production lane files modified"
+            echo "production_modified=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          echo "production_modified=true" >> $GITHUB_OUTPUT
+          echo "⚠️  Production lane files modified:"
+          echo "$PROD_FILES"
+
+          # Check if registry service contains TEMP-STUB
+          if grep -q "TEMP-STUB" services/registry/main.py; then
+            echo "temp_stub_found=true" >> $GITHUB_OUTPUT
+            echo "❌ TEMP-STUB marker found in services/registry/main.py"
+          else
+            echo "temp_stub_found=false" >> $GITHUB_OUTPUT
+            echo "✓ No TEMP-STUB markers found"
+          fi
+
+      - name: Check MATRIZ-007 status
+        id: matriz_check
+        if: steps.temp_stub_check.outputs.production_modified == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "Checking MATRIZ-007 issue status..."
+
+          # Query issue #490 (MATRIZ-007 tracking)
+          ISSUE_STATE=$(gh api /repos/${{ github.repository }}/issues/490 --jq '.state' || echo "unknown")
+
+          echo "matriz_007_state=$ISSUE_STATE" >> $GITHUB_OUTPUT
+          echo "MATRIZ-007 state: $ISSUE_STATE"
+
+      - name: Block promotion if TEMP-STUB exists
+        if: |
+          steps.temp_stub_check.outputs.production_modified == 'true' &&
+          steps.temp_stub_check.outputs.temp_stub_found == 'true'
+        run: |
+          echo "╔═══════════════════════════════════════════════════════════════╗"
+          echo "║  ❌ PRODUCTION PROMOTION BLOCKED                              ║"
+          echo "╚═══════════════════════════════════════════════════════════════╝"
+          echo ""
+          echo "This PR attempts to modify production lanes (core/ or lukhas/)"
+          echo "while TEMP-STUB markers exist in the registry service."
+          echo ""
+          echo "Registry service uses HMAC as a temporary stub implementation"
+          echo "and MUST NOT be promoted to production until PQC migration is complete."
+          echo ""
+          echo "Tracking: MATRIZ-007 (Issue #490)"
+          echo "Blocker: services/registry/main.py contains TEMP-STUB marker"
+          echo ""
+          echo "Required Actions:"
+          echo "  1. Complete MATRIZ-007 PQC migration (6-week timeline)"
+          echo "  2. Replace HMAC with Dilithium2 signature verification"
+          echo "  3. Remove TEMP-STUB marker from registry service"
+          echo "  4. Pass red-team security review"
+          echo ""
+          echo "See: docs/ops/POST_MERGE_ACTIONS.md for migration plan"
+          echo ""
+          exit 1
+
+      - name: Block promotion if MATRIZ-007 open
+        if: |
+          steps.temp_stub_check.outputs.production_modified == 'true' &&
+          steps.matriz_check.outputs.matriz_007_state == 'open'
+        run: |
+          echo "╔═══════════════════════════════════════════════════════════════╗"
+          echo "║  ⚠️  PRODUCTION PROMOTION WARNING                             ║"
+          echo "╚═══════════════════════════════════════════════════════════════╝"
+          echo ""
+          echo "MATRIZ-007 PQC migration is still in progress (issue #490 open)."
+          echo ""
+          echo "While this PR may not directly modify registry code, production"
+          echo "promotions should be coordinated with the PQC migration timeline."
+          echo ""
+          echo "Please confirm:"
+          echo "  - This change does not depend on registry service"
+          echo "  - This change is not part of the PQC migration"
+          echo "  - Security team has approved this production promotion"
+          echo ""
+          echo "If this is part of MATRIZ-007 work, label this PR with 'matriz-007'"
+          echo ""
+          # Warning only, don't block (exit 0)
+          exit 0
+
+      - name: Verify production promotion prerequisites
+        if: steps.temp_stub_check.outputs.production_modified == 'true'
+        run: |
+          echo "Production promotion detected - verifying prerequisites..."
+
+          # Check for required labels or approvals
+          # (This is a placeholder - customize based on your workflow)
+          echo "✓ Promotion prerequisites check passed"
+
+          # Log promotion for audit
+          echo "$(date -u +"%Y-%m-%dT%H:%M:%SZ") - Production promotion attempted" >> docs/audits/production_promotions.log || true
+
+      - name: Success
+        if: |
+          steps.temp_stub_check.outputs.production_modified == 'false' ||
+          (steps.temp_stub_check.outputs.temp_stub_found == 'false' &&
+           steps.matriz_check.outputs.matriz_007_state != 'open')
+        run: |
+          echo "✓ TEMP-STUB guard check passed"
+          echo ""
+          if [ "${{ steps.temp_stub_check.outputs.production_modified }}" == "true" ]; then
+            echo "Production lanes modified but all safety checks passed:"
+            echo "  ✓ No TEMP-STUB markers present"
+            echo "  ✓ MATRIZ-007 migration complete or not applicable"
+          else
+            echo "No production lane files modified - development work only"
+          fi

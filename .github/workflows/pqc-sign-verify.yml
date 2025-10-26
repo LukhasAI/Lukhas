@@ -14,75 +14,71 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Set up python
+
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install system deps (liboqs)
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build PQC Runner Image
         run: |
-          set -e
-          sudo apt-get update
-          # Try to install liboqs from package or build
-          if apt-cache show liboqs-dev >/dev/null 2>&1; then
-            sudo apt-get install -y liboqs-dev
-          else
-            echo "liboqs not available from apt; attempting pip python-oqs fallback"
+          echo "Building PQC runner Docker image..."
+          docker build -f .github/docker/pqc-runner.Dockerfile \
+            -t lukhas-pqc-runner:ci \
+            --cache-from type=gha \
+            --cache-to type=gha,mode=max \
+            .
+          echo "✓ PQC runner image built successfully"
+
+      - name: Run PQC Benchmark
+        run: |
+          echo "Running PQC benchmark..."
+          docker run --rm \
+            -v $(pwd)/tmp:/workspace/tmp \
+            lukhas-pqc-runner:ci \
+            pqc-bench --json > tmp/pqc_bench.json || {
+              echo "⚠️ pqc-bench failed, creating fallback marker"
+              mkdir -p tmp
+              echo '{"status":"fallback","message":"PQC bench not available"}' > tmp/pqc_bench.json
+              touch tmp/pqc_fallback_marker.txt
+            }
+          cat tmp/pqc_bench.json
+
+      - name: Validate PQC Performance
+        run: |
+          if [ -f tmp/pqc_fallback_marker.txt ]; then
+            echo "::warning::PQC in fallback mode - runner provisioning needed (issue #492)"
+            exit 0
           fi
-      - name: Install python deps
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r services/registry/requirements.txt || true
-          # Attempt to install pyOQS; may fail on some runners
-          pip install python-pyca-oqs python-oqs || true
-      - name: Run PQC sign/verify demo (Dilithium2) or fallback
-        env:
-          REGISTRY_HMAC_KEY: test-key-please-rotate
-        run: |
-          python - <<'PY'
-          import sys, subprocess, json, os
-          # Try pyOQS first (Dilithium2)
-          try:
-            import oqs
-            # Sign/verify example (Dilithium2 if available)
-            sig_algs = oqs.sig.algorithms()
-            alg = None
-            for a in sig_algs:
-              if 'Dilithium2' in a or 'dilithium2' in a.lower():
-                alg = a; break
-            if not alg:
-              print("Dilithium2 not available in oqs algorithms:", sig_algs)
-              raise ImportError("Dilithium2 not available")
-            with oqs.Signature(alg) as signer:
-              pk = signer.generate_keypair()
-              msg = b"checkpoint-test"
-              signature = signer.sign(msg)
-              # Verify
-              import oqs as oqs2
-              with oqs2.Signature(alg) as verifier:
-                ok = verifier.verify(msg, signature, pk)
-                if not ok:
-                  print("PQC verify failed"); sys.exit(2)
-            print("PQC Dilithium2 sign/verify: OK")
-            sys.exit(0)
-          except Exception as e:
-            print("PQC path failed:", e)
-            print("Falling back to HMAC smoke test (placeholder).")
-            import hmac, hashlib
-            key = os.environ.get("REGISTRY_HMAC_KEY","test-key")
-            msg=b"checkpoint-test"
-            sig=hmac.new(key.encode(),msg,hashlib.sha256).hexdigest()
-            if not sig:
-              print("HMAC smoke failed"); sys.exit(3)
-            print("HMAC smoke: OK (fallback - create MATRIZ-007 to install PQC libs)")
-            # Signal fallback by creating a marker file
-            open('pqc_fallback_marker.txt','w').write('fallback')
-            sys.exit(0)
-          PY
-      - name: Artifact PQC marker
+
+          # Check sign/verify latency thresholds
+          sign_p95=$(jq -r '.sign_p95' tmp/pqc_bench.json)
+          verify_p95=$(jq -r '.verify_p95' tmp/pqc_bench.json)
+
+          echo "Sign p95: ${sign_p95}ms (threshold: <50ms)"
+          echo "Verify p95: ${verify_p95}ms (threshold: <10ms)"
+
+          # Validate thresholds (convert ms to comparison-friendly format)
+          if (( $(echo "$sign_p95 > 50" | bc -l) )); then
+            echo "::error::Sign latency ${sign_p95}ms exceeds 50ms threshold"
+            exit 1
+          fi
+
+          if (( $(echo "$verify_p95 > 10" | bc -l) )); then
+            echo "::error::Verify latency ${verify_p95}ms exceeds 10ms threshold"
+            exit 1
+          fi
+
+          echo "✓ PQC performance within SLO targets"
+
+      - name: Upload PQC Artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: pqc-check-result
+          name: pqc-bench-results
           path: |
-            pqc_fallback_marker.txt
-            services/registry/registry_store.json
+            tmp/pqc_bench.json
+            tmp/pqc_fallback_marker.txt

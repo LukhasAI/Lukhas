@@ -2,7 +2,7 @@
 # Enforces architectural boundaries and prevents unwanted dependencies
 
 [tool.importlinter]
-root_packages = ["consciousness", "adapters", "core", "memory", "identity", "api"]
+root_packages = ["consciousness", "adapters", "core", "memory", "identity", "api", "ai_orchestration", "analytics"]
 
 # Contract 1: Adapter Isolation
 # Simulation code MUST NOT import from adapters
@@ -29,7 +29,7 @@ layers = [
 name = "memory-adapter-boundary"
 type = "forbidden"
 source_modules = ["adapters"]
-forbidden_modules = ["memory.fold_system"]
+forbidden_modules = ["memory.folds"]
 allow_indirect_imports = false
 
 # Contract 4: Identity Core Protection
