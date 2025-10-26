@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 Identity Tag Resolver with Trust Networks
 
