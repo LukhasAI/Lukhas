@@ -631,7 +631,7 @@ class VoiceEffectsProcessor:
             result = await effect.apply(buffer, parameters)
 
             # Emit GLYPH event
-            glyph_token = create_glyph(
+            create_glyph(
                 GLYPHSymbol.CREATE,
                 "voice_pipeline",
                 "consciousness",
@@ -700,7 +700,7 @@ class VoiceEffectsProcessor:
 
         # Emit GLYPH event
         # Create GLYPH event
-        glyph_token = create_glyph(
+        create_glyph(
             GLYPHSymbol.CREATE,
             "voice_pipeline",
             "consciousness",

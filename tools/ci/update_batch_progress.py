@@ -81,7 +81,7 @@ def match_pr_to_tasks(pr_analysis: Dict[str, Any], all_batch_tasks: List[Dict[st
     """Match PR work to specific batch tasks across all batches"""
     matched_tasks = []
     keywords = pr_analysis["keywords"]
-    title = pr_analysis["title"].lower()
+    pr_analysis["title"].lower()
 
     for task in all_batch_tasks:
         if task.get("status") == "completed":
@@ -153,7 +153,7 @@ def update_batch_files(batch_dir: Path, completed_tasks: Dict[str, List[str]]):
         with open(batch_file, "r") as f:
             batch_data = json.load(f)
 
-        agent = batch_data["agent"]
+        batch_data["agent"]
         tasks_updated = 0
 
         for task in batch_data["tasks"]:

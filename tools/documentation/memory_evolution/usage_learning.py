@@ -70,12 +70,12 @@ class UsageBasedLearning:
         for i in range(len(self.interactions) - window_size + 1):
             window = self.interactions[i:i + window_size]
             # Extract patterns from the window of interactions
-            pattern_strings = [
+            [
                 f"{interaction.doc_id}:{interaction.interaction_type}"
                 for interaction in window
             ]
             # Filter patterns by frequency threshold
-            frequent_patterns = [
+            [
                 pattern for pattern in self.patterns.values()
                 if pattern.frequency >= min_frequency
             ]

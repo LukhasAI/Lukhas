@@ -286,7 +286,7 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
             }
 
             # Create GLYPH event
-            glyph_token = create_glyph(
+            create_glyph(
                 GLYPHSymbol.CREATE,
                 "voice_pipeline",
                 "consciousness",
@@ -303,7 +303,7 @@ class LUKHASVoiceModulationEngine(VoiceModulationEngine):
         except Exception as e:
             self.logger.error(f"Voice modulation failed: {e!s}")
             # Create GLYPH event
-            glyph_token = create_glyph(
+            create_glyph(
                 GLYPHSymbol.CREATE,
                 "voice_pipeline",
                 "consciousness",

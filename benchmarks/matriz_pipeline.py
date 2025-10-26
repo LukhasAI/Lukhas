@@ -50,7 +50,7 @@ class MATRIZBenchmarks:
             start_time = time.perf_counter()
             try:
                 # Process through pipeline
-                result = await self.orchestrator.process_query(query)
+                await self.orchestrator.process_query(query)
                 end_time = time.perf_counter()
 
                 latency_ms = (end_time - start_time) * 1000
@@ -105,7 +105,7 @@ class MATRIZBenchmarks:
             start_time = time.perf_counter()
 
             try:
-                result = await self.orchestrator.process_query(query)
+                await self.orchestrator.process_query(query)
                 end_time = time.perf_counter()
                 return {
                     "id": request_id,
@@ -185,7 +185,7 @@ class MATRIZBenchmarks:
 
             try:
                 # Set a reasonable timeout for testing
-                result = await asyncio.wait_for(
+                await asyncio.wait_for(
                     self.orchestrator.process_query(test_case["query"]),
                     timeout=1.0  # 1 second timeout
                 )

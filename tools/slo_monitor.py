@@ -99,7 +99,7 @@ class SLOMonitor:
         """
         try:
             # Look for OSV scan artifacts
-            osv_artifacts = glob.glob("artifacts/*osv*.json")
+            glob.glob("artifacts/*osv*.json")
 
             # Mock calculation - in production, track vulnerability lifecycle
             high_severity_vulns = 0  # Count from past week
@@ -212,7 +212,7 @@ class SLOMonitor:
                 return False
 
         # Check metrics (if any)
-        metrics = fixture_data.get("metrics", [])
+        fixture_data.get("metrics", [])
         # Metrics compliance check would be different
 
         return True

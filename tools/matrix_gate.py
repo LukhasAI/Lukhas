@@ -38,7 +38,7 @@ def try_osv_scan(sbom_path: str, output_json_path: str) -> Optional[Dict]:
     """Run osv-scanner on SBOM, return dict or None on failure."""
     try:
         # Using osv-scanner CLI; adapt if using Docker wrapper
-        result = subprocess.run(
+        subprocess.run(
             ["osv-scanner", "--sbom", sbom_path, "--format", "json", "--output", output_json_path],
             check=True,
             capture_output=True,

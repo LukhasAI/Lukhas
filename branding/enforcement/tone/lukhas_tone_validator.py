@@ -61,10 +61,10 @@ class LukhasToneValidator:
 
         # Constellation Framework check
         has_constellation = any(symbol in content for symbol in self.constellation_symbols)
-        has_matriz_pipeline = any(stage in content.upper() for stage in ["MEMORY", "ATTENTION", "THOUGHT", "RISK", "INTENT", "ACTION"])
+        any(stage in content.upper() for stage in ["MEMORY", "ATTENTION", "THOUGHT", "RISK", "INTENT", "ACTION"])
 
         # T4/0.01% standards check
-        has_t4_standards = any(term in content.lower() for term in ["t4", "0.01%", "constructor-aware", "registry-based"])
+        any(term in content.lower() for term in ["t4", "0.01%", "constructor-aware", "registry-based"])
         if filepath.endswith(".md") and len(content) > 1000 and not has_constellation:
             issues.append("Large documentation file missing Constellation Framework symbols (⚛️✦🔬🛡️)")
 

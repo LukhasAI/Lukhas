@@ -350,7 +350,7 @@ class CoverageMetricsSystem:
             root = tree.getroot()
 
             for package in root.findall('.//package'):
-                package_name = package.get('name', '')
+                package.get('name', '')
 
                 for class_elem in package.findall('.//class'):
                     filename = class_elem.get('filename', '')

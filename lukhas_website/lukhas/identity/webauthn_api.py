@@ -643,7 +643,7 @@ async def health_check():
     with tracer.start_span("webauthn_api.health_check"):
         try:
             # Basic health check - verify WebAuthn manager can be initialized
-            webauthn_manager = get_webauthn_manager()
+            get_webauthn_manager()
 
             webauthn_api_requests_total.labels(
                 endpoint="health_check",

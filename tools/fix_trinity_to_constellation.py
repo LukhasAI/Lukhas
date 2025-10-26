@@ -3,7 +3,7 @@
 Simple script to replace old Trinity-style Constellation mentions.
 
 Handles the most common pattern:
-"Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️" 
+"Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️"
 → Full 8-star canonical format
 """
 

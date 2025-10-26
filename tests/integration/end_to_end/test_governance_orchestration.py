@@ -50,7 +50,7 @@ def test_governance_orchestration_flow_approved():
         response_json = response.json()
 
         assert response_json["status"] == "success"
-        assert response_json["result"]["approved"] == True
+        assert response_json["result"]["approved"] is True
 
     except requests.exceptions.ConnectionError as e:
         pytest.fail(f"Connection to the API failed: {e}. Make sure the API is running at {BASE_URL}.")
@@ -86,7 +86,7 @@ def test_governance_orchestration_flow_rejected():
         response_json = response.json()
 
         assert response_json["status"] == "success"
-        assert response_json["result"]["approved"] == False
+        assert response_json["result"]["approved"] is False
         assert "violations" in response_json["result"]
         assert len(response_json["result"]["violations"]) > 0
 

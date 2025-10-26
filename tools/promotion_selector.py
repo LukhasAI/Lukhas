@@ -215,7 +215,7 @@ def _index_import_frequencies() -> Dict[str, float]:
     # Pattern 3: import-centric
     if isinstance(j, dict) and "imports" in j and isinstance(j["imports"], list):
         for imp in j["imports"]:
-            mod = imp.get("module")
+            imp.get("module")
             cnt = imp.get("count", 0)
             files = imp.get("files", []) or []
             if not isinstance(cnt, (int, float)):

@@ -954,7 +954,6 @@ class AuthenticationService:
                 )
 
             # Extract user information from validated token
-            alias = validation_result.alias
             claims = validation_result.claims or {}
 
             # Get user ID from parsed alias or claims

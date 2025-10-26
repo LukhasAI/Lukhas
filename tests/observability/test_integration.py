@@ -494,11 +494,11 @@ class TestObservabilityIntegration:
         stack = integrated_observability_stack
 
         # Test that components have consistent configuration
-        assert stack['evidence'].compression_enabled == True
-        assert stack['evidence'].encryption_enabled == True
-        assert stack['metrics'].enable_anomaly_detection == True
-        assert stack['performance'].enable_ml_detection == False  # As configured
-        assert stack['alerting'].enable_storm_detection == True
+        assert stack['evidence'].compression_enabled is True
+        assert stack['evidence'].encryption_enabled is True
+        assert stack['metrics'].enable_anomaly_detection is True
+        assert stack['performance'].enable_ml_detection is False  # As configured
+        assert stack['alerting'].enable_storm_detection is True
 
     @pytest.mark.asyncio
     async def test_shutdown_integration(self, integrated_observability_stack):

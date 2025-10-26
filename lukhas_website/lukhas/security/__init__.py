@@ -272,19 +272,6 @@ class LUKHASSecuritySystem:
             logger.info("Integrating with Guardian system...")
 
             # Register security system with Guardian
-            guardian_config = {
-                "security_system_active": True,
-                "security_modules": [
-                    "input_validation",
-                    "encryption_manager",
-                    "access_control",
-                    "security_monitor",
-                    "incident_response",
-                    "compliance_framework"
-                ],
-                "fail_closed": self.config.fail_closed,
-                "performance_target_ms": self.config.max_processing_time_ms
-            }
 
             logger.info("Guardian integration configured")
             self.guardian_integrated = True

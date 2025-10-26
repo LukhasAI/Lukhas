@@ -248,7 +248,7 @@ def insert_import(path: Path, import_line: str) -> bool:
 
     # Skip module docstring
     if i < len(lines) and re.match(r'^\s*[ru]?["\']', lines[i]):
-        quote = lines[i].lstrip()[0]
+        lines[i].lstrip()[0]
         # scan until closing docstring
         j = i + 1
         closed = False

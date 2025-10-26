@@ -172,7 +172,6 @@ class RateLimiter:
         # Determine if request is allowed
         minute_limit_ok = minute_requests < config.requests_per_minute
         hour_limit_ok = hour_requests < config.requests_per_hour
-        burst_ok = burst_available > 0
 
         # Apply progressive penalties for repeat violators
         violation_count = self._violation_counts[client_key]

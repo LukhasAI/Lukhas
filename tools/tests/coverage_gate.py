@@ -57,7 +57,7 @@ class CoverageGate:
         modules = {}
 
         for package in root.findall(".//package"):
-            package_name = package.get("name", "")
+            package.get("name", "")
 
             for class_elem in package.findall("classes/class"):
                 filename = class_elem.get("filename", "")

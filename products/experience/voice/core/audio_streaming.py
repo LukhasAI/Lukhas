@@ -215,7 +215,7 @@ class LUKHASAudioStream:
             self.stats.start_time = time.time()
 
             # Create GLYPH event
-            glyph_token = create_glyph(
+            create_glyph(
                 GLYPHSymbol.CREATE,
                 "voice_pipeline",
                 "consciousness",
@@ -265,7 +265,7 @@ class LUKHASAudioStream:
             self._set_state(StreamState.IDLE)
 
             # Create GLYPH event
-            glyph_token = create_glyph(
+            create_glyph(
                 GLYPHSymbol.CREATE,
                 "voice_pipeline",
                 "consciousness",

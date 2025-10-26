@@ -39,7 +39,7 @@ def test_noop_guard_skips_chmod_only(tmp_path):
 
     # Create batch file and done file
     batch_file = repo / "batch.tsv"
-    done_file = repo / "batch.tsv.done"
+    repo / "batch.tsv.done"
 
     # Seed batch line (module name + src + dst)
     batch_file.write_text("candidate.module_x\tcandidate/module_x.py\tmatriz/module_x.py\n")

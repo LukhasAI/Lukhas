@@ -418,7 +418,7 @@ class MemoryContradictionBridge:
         # Check for confidence mismatches
         for memory in memory_signals:
             memory_confidence = memory.get('confidence', 0.5)
-            memory_content = memory.get('content') or memory.get('text', '')
+            memory.get('content') or memory.get('text', '')
 
             # Check against reasoning chain confidences
             for chain_idx, chain in enumerate(reasoning_chains):

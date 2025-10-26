@@ -53,92 +53,92 @@ class TestDSLPredicates:
 
     def test_contains_predicate(self):
         """Test contains predicate function."""
-        assert contains("hello world", "world") == True
-        assert contains("hello world", "WORLD") == True  # case insensitive
-        assert contains("hello world", "xyz") == False
-        assert contains(None, "anything") == False
-        assert contains(123, "2") == True
-        assert contains("", "test") == False
+        assert contains("hello world", "world") is True
+        assert contains("hello world", "WORLD") is True  # case insensitive
+        assert contains("hello world", "xyz") is False
+        assert contains(None, "anything") is False
+        assert contains(123, "2") is True
+        assert contains("", "test") is False
 
     def test_equals_predicate(self):
         """Test equals predicate function."""
-        assert equals("test", "test") == True
-        assert equals("test", "TEST") == False  # case sensitive
-        assert equals(123, 123) == True
-        assert equals(123, "123") == False
-        assert equals(None, None) == True
-        assert equals(None, "test") == False
+        assert equals("test", "test") is True
+        assert equals("test", "TEST") is False  # case sensitive
+        assert equals(123, 123) is True
+        assert equals(123, "123") is False
+        assert equals(None, None) is True
+        assert equals(None, "test") is False
 
     def test_greater_than_predicate(self):
         """Test greater_than predicate function."""
-        assert greater_than(10, 5) == True
-        assert greater_than(5, 10) == False
-        assert greater_than(10, 10) == False
-        assert greater_than("10", "5") == True  # string conversion
-        assert greater_than("invalid", 5) == False
-        assert greater_than(5, "invalid") == False
+        assert greater_than(10, 5) is True
+        assert greater_than(5, 10) is False
+        assert greater_than(10, 10) is False
+        assert greater_than("10", "5") is True  # string conversion
+        assert greater_than("invalid", 5) is False
+        assert greater_than(5, "invalid") is False
 
     def test_less_than_predicate(self):
         """Test less_than predicate function."""
-        assert less_than(5, 10) == True
-        assert less_than(10, 5) == False
-        assert less_than(10, 10) == False
-        assert less_than("5", "10") == True  # string conversion
-        assert less_than("invalid", 5) == False
+        assert less_than(5, 10) is True
+        assert less_than(10, 5) is False
+        assert less_than(10, 10) is False
+        assert less_than("5", "10") is True  # string conversion
+        assert less_than("invalid", 5) is False
 
     def test_matches_predicate(self):
         """Test regex matches predicate function."""
-        assert matches("test123", r"\d+") == True
-        assert matches("testABC", r"\d+") == False
-        assert matches("user@domain.com", r".*@.*\.com") == True
-        assert matches(None, r".*") == False
-        assert matches("test", "invalid[regex") == False  # invalid regex
+        assert matches("test123", r"\d+") is True
+        assert matches("testABC", r"\d+") is False
+        assert matches("user@domain.com", r".*@.*\.com") is True
+        assert matches(None, r".*") is False
+        assert matches("test", "invalid[regex") is False  # invalid regex
 
     def test_is_empty_predicate(self):
         """Test is_empty predicate function."""
-        assert is_empty(None) == True
-        assert is_empty("") == True
-        assert is_empty([]) == True
-        assert is_empty({}) == True
-        assert is_empty(set()) == True
-        assert is_empty("test") == False
-        assert is_empty([1, 2, 3]) == False
-        assert is_empty({"key": "value"}) == False
+        assert is_empty(None) is True
+        assert is_empty("") is True
+        assert is_empty([]) is True
+        assert is_empty({}) is True
+        assert is_empty(set()) is True
+        assert is_empty("test") is False
+        assert is_empty([1, 2, 3]) is False
+        assert is_empty({"key": "value"}) is False
 
     def test_is_present_predicate(self):
         """Test is_present predicate function."""
-        assert is_present("test") == True
-        assert is_present([1, 2, 3]) == True
-        assert is_present({"key": "value"}) == True
-        assert is_present(None) == False
-        assert is_present("") == False
-        assert is_present([]) == False
+        assert is_present("test") is True
+        assert is_present([1, 2, 3]) is True
+        assert is_present({"key": "value"}) is True
+        assert is_present(None) is False
+        assert is_present("") is False
+        assert is_present([]) is False
 
     def test_logical_operators(self):
         """Test logical operator functions."""
-        assert and_op(True, True, True) == True
-        assert and_op(True, False, True) == False
-        assert and_op() == True  # empty and
+        assert and_op(True, True, True) is True
+        assert and_op(True, False, True) is False
+        assert and_op() is True  # empty and
 
-        assert or_op(False, False, True) == True
-        assert or_op(False, False, False) == False
-        assert or_op() == False  # empty or
+        assert or_op(False, False, True) is True
+        assert or_op(False, False, False) is False
+        assert or_op() is False  # empty or
 
-        assert not_op(True) == False
-        assert not_op(False) == True
+        assert not_op(True) is False
+        assert not_op(False) is True
 
     def test_not_has_consent_predicate(self):
         """Test not_has_consent predicate function."""
-        assert not_has_consent(None) == True
-        assert not_has_consent(False) == True
-        assert not_has_consent(True) == False
-        assert not_has_consent("false") == True
-        assert not_has_consent("no") == True
-        assert not_has_consent("deny") == True
-        assert not_has_consent("reject") == True
-        assert not_has_consent("") == True
-        assert not_has_consent("yes") == False
-        assert not_has_consent("true") == False
+        assert not_has_consent(None) is True
+        assert not_has_consent(False) is True
+        assert not_has_consent(True) is False
+        assert not_has_consent("false") is True
+        assert not_has_consent("no") is True
+        assert not_has_consent("deny") is True
+        assert not_has_consent("reject") is True
+        assert not_has_consent("") is True
+        assert not_has_consent("yes") is False
+        assert not_has_consent("true") is False
 
 
 class TestDomainPredicates:
@@ -158,21 +158,21 @@ class TestDomainPredicates:
 
     def test_domain_is_predicate(self):
         """Test exact domain matching."""
-        assert domain_is("https://api.openai.com/path", "api.openai.com") == True
-        assert domain_is("https://api.openai.com/path", "openai.com") == False
-        assert domain_is("API.OPENAI.COM", "api.openai.com") == True  # case insensitive
-        assert domain_is("https://other.com", "openai.com") == False
-        assert domain_is(None, "openai.com") == False
-        assert domain_is("https://openai.com", None) == False
+        assert domain_is("https://api.openai.com/path", "api.openai.com") is True
+        assert domain_is("https://api.openai.com/path", "openai.com") is False
+        assert domain_is("API.OPENAI.COM", "api.openai.com") is True  # case insensitive
+        assert domain_is("https://other.com", "openai.com") is False
+        assert domain_is(None, "openai.com") is False
+        assert domain_is("https://openai.com", None) is False
 
     def test_domain_etld1_predicate(self):
         """Test eTLD+1 domain matching."""
-        assert domain_etld1("https://api.openai.com/path", "openai.com") == True
-        assert domain_etld1("https://sub.api.openai.com", "openai.com") == True
-        assert domain_etld1("https://openai.com", "openai.com") == True
-        assert domain_etld1("https://other.com", "openai.com") == False
-        assert domain_etld1("https://openai-fake.com", "openai.com") == False
-        assert domain_etld1(None, "openai.com") == False
+        assert domain_etld1("https://api.openai.com/path", "openai.com") is True
+        assert domain_etld1("https://sub.api.openai.com", "openai.com") is True
+        assert domain_etld1("https://openai.com", "openai.com") is True
+        assert domain_etld1("https://other.com", "openai.com") is False
+        assert domain_etld1("https://openai-fake.com", "openai.com") is False
+        assert domain_etld1(None, "openai.com") is False
 
 
 class TestUnitsPredicates:
@@ -204,17 +204,17 @@ class TestUnitsPredicates:
 
     def test_param_bytes_lte(self):
         """Test param_bytes_lte predicate."""
-        assert param_bytes_lte("1024", "1MB") == True  # 1024 bytes < 1MB
-        assert param_bytes_lte("2048", "1KB") == False  # 2048 bytes > 1KB
-        assert param_bytes_lte("1MB", "1MB") == True  # equal
-        assert param_bytes_lte(None, "1MB") == True  # missing param passes
+        assert param_bytes_lte("1024", "1MB") is True  # 1024 bytes < 1MB
+        assert param_bytes_lte("2048", "1KB") is False  # 2048 bytes > 1KB
+        assert param_bytes_lte("1MB", "1MB") is True  # equal
+        assert param_bytes_lte(None, "1MB") is True  # missing param passes
 
     def test_param_seconds_lte(self):
         """Test param_seconds_lte predicate."""
-        assert param_seconds_lte("30", "1m") == True  # 30s < 1m
-        assert param_seconds_lte("90", "1m") == False  # 90s > 1m
-        assert param_seconds_lte("1m", "60s") == True  # equal
-        assert param_seconds_lte(None, "1h") == True  # missing param passes
+        assert param_seconds_lte("30", "1m") is True  # 30s < 1m
+        assert param_seconds_lte("90", "1m") is False  # 90s > 1m
+        assert param_seconds_lte("1m", "60s") is True  # equal
+        assert param_seconds_lte(None, "1h") is True  # missing param passes
 
 
 class TestDSLCompilation:
@@ -227,20 +227,20 @@ class TestDSLCompilation:
 
         # Test evaluation
         plan = {"action": "test_action", "params": {}}
-        assert rule(plan) == True
+        assert rule(plan) is True
 
         plan = {"action": "other_action", "params": {}}
-        assert rule(plan) == False
+        assert rule(plan) is False
 
     def test_path_resolution(self):
         """Test dotted path resolution in rules."""
         rule = compile_rule('equals(params.url, "https://api.openai.com")')
 
         plan = {"action": "external_call", "params": {"url": "https://api.openai.com"}}
-        assert rule(plan) == True
+        assert rule(plan) is True
 
         plan = {"action": "external_call", "params": {"url": "https://other.com"}}
-        assert rule(plan) == False
+        assert rule(plan) is False
 
     def test_context_path_resolution(self):
         """Test context path resolution."""
@@ -248,36 +248,36 @@ class TestDSLCompilation:
 
         plan = {"action": "test"}
         context = {"user_id": "user123"}
-        assert rule(plan, context) == True
+        assert rule(plan, context) is True
 
         context = {"user_id": "other_user"}
-        assert rule(plan, context) == False
+        assert rule(plan, context) is False
 
     def test_logical_operator_compilation(self):
         """Test compilation of logical operators."""
         rule = compile_rule('and(equals(action, "test"), contains(params.data, "sensitive"))')
 
         plan = {"action": "test", "params": {"data": "sensitive_info"}}
-        assert rule(plan) == True
+        assert rule(plan) is True
 
         plan = {"action": "test", "params": {"data": "public_info"}}
-        assert rule(plan) == False
+        assert rule(plan) is False
 
         plan = {"action": "other", "params": {"data": "sensitive_info"}}
-        assert rule(plan) == False
+        assert rule(plan) is False
 
     def test_nested_logical_operators(self):
         """Test nested logical operator compilation."""
         rule = compile_rule('or(and(equals(action, "read"), contains(params, "user")), equals(action, "admin"))')
 
         plan = {"action": "read", "params": {"user_data": True}}
-        assert rule(plan) == True
+        assert rule(plan) is True
 
         plan = {"action": "admin", "params": {}}
-        assert rule(plan) == True
+        assert rule(plan) is True
 
         plan = {"action": "read", "params": {"system_data": True}}
-        assert rule(plan) == False
+        assert rule(plan) is False
 
     def test_invalid_rule_compilation(self):
         """Test error handling for invalid rules."""
@@ -305,8 +305,8 @@ class TestDSLCompilation:
         rule = compile_rule('contains(action, "test")')
 
         # Test with invalid plan structure
-        assert rule(None) == False  # Should fail closed
-        assert rule("not_a_dict") == False  # Should fail closed
+        assert rule(None) is False  # Should fail closed
+        assert rule("not_a_dict") is False  # Should fail closed
 
 
 class TestEthicsEngine:
@@ -399,13 +399,13 @@ class TestEthicsEngine:
     def test_is_plan_allowed(self):
         """Test convenience method for plan allowance."""
         allowed_plan = {"action": "safe_operation", "params": {}}
-        assert self.engine.is_plan_allowed(allowed_plan) == True
+        assert self.engine.is_plan_allowed(allowed_plan) is True
 
         warn_plan = {"action": "external_call", "params": {}}
-        assert self.engine.is_plan_allowed(warn_plan) == True  # WARN is allowed
+        assert self.engine.is_plan_allowed(warn_plan) is True  # WARN is allowed
 
         blocked_plan = {"action": "delete_user_data", "params": {}}
-        assert self.engine.is_plan_allowed(blocked_plan) == False
+        assert self.engine.is_plan_allowed(blocked_plan) is False
 
     def test_evaluation_audit_trail(self):
         """Test that evaluations are recorded in audit trail."""
@@ -606,7 +606,7 @@ class TestRealWorldScenarios:
 
         result = self.engine.evaluate_plan(plan)
         assert result.action == EthicsAction.WARN  # Should warn but allow
-        assert self.engine.is_plan_allowed(plan) == True
+        assert self.engine.is_plan_allowed(plan) is True
 
     def test_harmful_action_blocked(self):
         """Test that harmful actions are blocked."""
@@ -617,7 +617,7 @@ class TestRealWorldScenarios:
 
         result = self.engine.evaluate_plan(plan)
         assert result.action == EthicsAction.BLOCK
-        assert self.engine.is_plan_allowed(plan) == False
+        assert self.engine.is_plan_allowed(plan) is False
 
     def test_resource_limit_exceeded(self):
         """Test resource limit enforcement."""
@@ -684,8 +684,8 @@ class TestProductionHardening:
             pass
 
         # param_*_lte should return False on parsing errors
-        assert param_bytes_lte("invalid", "1MB") == False
-        assert param_seconds_lte("invalid", "1h") == False
+        assert param_bytes_lte("invalid", "1MB") is False
+        assert param_seconds_lte("invalid", "1h") is False
 
     def test_reason_codes_taxonomy(self):
         """Test reason code taxonomy."""
@@ -801,23 +801,23 @@ class TestProductionHardening:
         # Test domain_etld1 predicate compilation
         rule = compile_rule('domain_etld1(params.url, "openai.com")')
         plan = {"action": "call", "params": {"url": "https://api.openai.com/v1/chat"}}
-        assert rule(plan) == True
+        assert rule(plan) is True
 
         plan = {"action": "call", "params": {"url": "https://malicious.com"}}
-        assert rule(plan) == False
+        assert rule(plan) is False
 
         # Test not_has_consent predicate compilation
         rule = compile_rule('not_has_consent(params.consent)')
         plan = {"action": "process", "params": {"consent": False}}
-        assert rule(plan) == True
+        assert rule(plan) is True
 
         plan = {"action": "process", "params": {"consent": True}}
-        assert rule(plan) == False
+        assert rule(plan) is False
 
         # Test param_bytes_lte predicate compilation
         rule = compile_rule('param_bytes_lte(params.memory, "1GB")')
         plan = {"action": "compute", "params": {"memory": "512MB"}}
-        assert rule(plan) == True
+        assert rule(plan) is True
 
         plan = {"action": "compute", "params": {"memory": "2GB"}}
-        assert rule(plan) == False
+        assert rule(plan) is False

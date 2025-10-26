@@ -423,7 +423,7 @@ class TestPayloadSerialization:
             }
         }
 
-        tx = wrapper.record_transaction("ref-nested", payload)
+        wrapper.record_transaction("ref-nested", payload)
         assert wrapper.verify_integrity() is True
 
     def test_none_values_in_payload(self):

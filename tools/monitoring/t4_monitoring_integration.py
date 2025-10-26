@@ -262,7 +262,7 @@ INTEGRATION STATUS:
 
         try:
             # Test alerting system
-            metrics = await self.alerting_system.collect_system_metrics()
+            await self.alerting_system.collect_system_metrics()
             test_results["alerting_system"] = True
             test_results["metric_collection"] = True
 
@@ -271,7 +271,7 @@ INTEGRATION STATUS:
                 test_results["t4_observability"] = True
 
             # Test database connectivity
-            summary = self.alerting_system.get_alert_summary()
+            self.alerting_system.get_alert_summary()
             test_results["database_connectivity"] = True
 
             # Test alert system functionality

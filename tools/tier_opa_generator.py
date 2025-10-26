@@ -36,7 +36,7 @@ def generate_rego_bundle(permissions: Dict[str, Any]) -> str:
     """Generate OPA Rego bundle from ΛiD tier permissions."""
 
     tier_permissions = permissions["tier_permissions"]
-    validation_rules = permissions["validation_rules"]
+    permissions["validation_rules"]
 
     # Extract tier mappings
     tier_names = []

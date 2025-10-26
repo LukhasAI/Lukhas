@@ -253,7 +253,7 @@ class TestDreamEngine:
     async def test_should_trigger_dream_conditions(self, dream_engine):
         """Test dream trigger conditions."""
         # Test memory pressure trigger
-        assert dream_engine.should_trigger_dream(memory_pressure=0.9) == True
+        assert dream_engine.should_trigger_dream(memory_pressure=0.9) is True
 
         # Reset dream engine state first
         dream_engine.reset_state()

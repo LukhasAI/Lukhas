@@ -280,7 +280,7 @@ class MemoryConsciousnessBridge:
 
         # Get consciousness state for context
         session = self.consciousness_sessions[session_id]
-        consciousness_state = session["consciousness_state"]
+        session["consciousness_state"]
 
         # Query memory integrator
         results = await self.memory_integrator.recall_consciousness_memory(
@@ -365,7 +365,7 @@ class MemoryConsciousnessBridge:
             return False
 
         sync_start = time.time()
-        session = self.consciousness_sessions[session_id]
+        self.consciousness_sessions[session_id]
 
         try:
             # Sync consciousness changes to memory
@@ -558,7 +558,7 @@ class MemoryConsciousnessBridge:
     async def _sync_memory_to_consciousness(self, session_id: str) -> int:
         """Sync relevant memories to consciousness"""
 
-        session = self.consciousness_sessions[session_id]
+        self.consciousness_sessions[session_id]
         consciousness_context = f"session_{session_id}"
 
         # Query for relevant memories
@@ -624,7 +624,7 @@ class MemoryConsciousnessBridge:
 
     async def _handle_memory_recalled(self, event_data: Dict[str, Any]):
         """Handle memory recall events"""
-        session_id = event_data.get("session_id")
+        event_data.get("session_id")
         result_count = event_data.get("result_count", 0)
 
         self.metrics.memory_write_rate = result_count / max(1, self.sync_interval_ms / 1000)

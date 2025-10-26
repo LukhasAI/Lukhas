@@ -467,7 +467,7 @@ class IncidentResponseSystem:
         """Execute playbook in separate thread."""
         try:
             # Build dependency graph
-            step_dependencies = self._build_dependency_graph(playbook.steps)
+            self._build_dependency_graph(playbook.steps)
             executed_steps = set()
             failed_steps = set()
 
@@ -932,7 +932,7 @@ class IncidentResponseSystem:
             return
 
         try:
-            guardian_payload = {
+            {
                 "incident_id": incident.id,
                 "title": incident.title,
                 "severity": incident.severity.value,

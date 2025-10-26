@@ -133,7 +133,6 @@ def verify_workflow_security(workflow_file: Path, fix_issues: bool = False) -> D
         "fixed": []
     }
 
-    content_modifications = []
 
     with open(workflow_file, 'r') as f:
         original_content = f.read()

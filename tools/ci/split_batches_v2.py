@@ -97,9 +97,9 @@ class T4BatchSplitter:
     def _assign_todo_to_agent(self, todo: Dict[str, Any]) -> Optional[str]:
         """Assign a tracked task to an agent following PLANNING_TODO.md allocation rules."""
         priority = todo["priority"]
-        module = todo["module"]
+        todo["module"]
         todo_type = todo["est"]["type"]
-        risk = todo["risk"]
+        todo["risk"]
 
         # Apply priority distribution rules from Section 10
         if priority == "critical":

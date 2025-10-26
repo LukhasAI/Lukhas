@@ -49,7 +49,7 @@ class TestWebAuthnCredential:
         assert credential.tier == AuthenticatorTier.T4_STRONG
         assert credential.status == CredentialStatus.ACTIVE
         assert credential.device_name == "Test Device"
-        assert credential.biometric_enrolled == False
+        assert credential.biometric_enrolled is False
 
     def test_credential_to_dict(self):
         """Test credential serialization to dictionary"""
@@ -96,7 +96,7 @@ class TestWebAuthnCredential:
         assert credential.authenticator_type == AuthenticatorType.ROAMING
         assert credential.tier == AuthenticatorTier.T5_BIOMETRIC
         assert credential.device_name == "YubiKey"
-        assert credential.biometric_enrolled == True
+        assert credential.biometric_enrolled is True
 
 
 class TestWebAuthnChallenge:
@@ -208,7 +208,7 @@ class TestWebAuthnCredentialStore:
 
         # Delete credential
         deleted = await self.store.delete_credential("test_cred")
-        assert deleted == True
+        assert deleted is True
 
         # Verify deletion
         assert await self.store.get_credential("test_cred") is None
@@ -401,7 +401,7 @@ class TestWebAuthnManager:
         # Verify authentication result
         assert auth_credential is not None
         assert auth_credential.credential_id == credential.credential_id
-        assert verification_result["verified"] == True
+        assert verification_result["verified"] is True
         assert auth_credential.sign_count > 0
         assert auth_credential.last_used is not None
 
@@ -482,7 +482,7 @@ class TestWebAuthnManager:
 
         # Revoke credential
         success = await self.manager.revoke_credential(credential.credential_id)
-        assert success == True
+        assert success is True
 
         # Verify credential is revoked
         retrieved = await self.manager.credential_store.get_credential(credential.credential_id)
@@ -803,7 +803,7 @@ class TestWebAuthnIntegration:
             credential_data=mock_assertion
         )
 
-        assert verification["verified"] == True
+        assert verification["verified"] is True
         assert auth_cred.credential_id == credential.credential_id
         assert auth_cred.sign_count > 0
 

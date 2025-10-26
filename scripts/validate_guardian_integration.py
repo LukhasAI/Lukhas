@@ -277,7 +277,7 @@ class GuardianIntegrationValidator:
                 start_time = time.perf_counter_ns()
 
                 # Test authentication
-                auth_result = await identity_mgr.authenticate({
+                await identity_mgr.authenticate({
                     "user_id": f"test_user_{i}",
                     "text": "Test authentication request",
                     "metadata": {"test": True}
@@ -327,7 +327,7 @@ class GuardianIntegrationValidator:
             for i in range(100):  # Fewer samples as this is more expensive
                 start_time = time.perf_counter_ns()
 
-                result = await lambda_service.generate_lambda_id(
+                await lambda_service.generate_lambda_id(
                     tier=i % 6,  # Cycle through tiers 0-5
                     custom_options={"test": True, "iteration": i}
                 )
@@ -377,7 +377,7 @@ class GuardianIntegrationValidator:
                 start_time = time.perf_counter_ns()
 
                 # Test get orchestrator status (includes Guardian status)
-                status = orchestrator.get_guardian_orchestrator_status()
+                orchestrator.get_guardian_orchestrator_status()
 
                 end_time = time.perf_counter_ns()
                 test_ops.append(end_time - start_time)
@@ -567,7 +567,7 @@ class GuardianIntegrationValidator:
             for i in range(100):
                 correlation_id = f"security_test_{i}_{uuid.uuid4().hex[:8]}"
 
-                result = await guardian.validate_action_async({
+                await guardian.validate_action_async({
                     "action_type": "security_audit_test",
                     "correlation_id": correlation_id,
                     "test_id": i

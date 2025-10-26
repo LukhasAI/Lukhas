@@ -135,7 +135,7 @@ Beauty collapses"""
     signature = f"sig_{content_hash[:16]}"
     blockchain_hash = f"block_{hash(datetime.now(timezone.utc).isoformat())}"
 
-    provenance_record = {
+    {
         "original_work": mock_haiku,
         "signature": signature,
         "blockchain_hash": blockchain_hash,

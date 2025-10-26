@@ -692,7 +692,7 @@ class GuardianReflector:
         base_effectiveness = 0.6
 
         # Boost for human intervention
-        if any(action.get("automated") == False for action in actions):
+        if any(action.get("automated") is False for action in actions):
             base_effectiveness += 0.3
 
         # Reduce for critical severity (harder to fix)

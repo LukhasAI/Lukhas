@@ -245,7 +245,7 @@ class VoiceAdapter:
     def _apply_complexity_adjustment(self, text: str, complexity: float, context: AdaptationContext) -> str:
         """Apply complexity level adjustments"""
         # Adjust based on both style complexity and context technical level
-        target_complexity = (complexity + context.technical_level) / 2
+        (complexity + context.technical_level) / 2
         # Placeholder for complexity adjustment implementation
         return text
 

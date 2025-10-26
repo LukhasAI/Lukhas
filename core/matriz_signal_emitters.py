@@ -389,7 +389,7 @@ class IdentityEmitter(ConsciousnessModuleEmitter):
     ) -> Optional[ConsciousnessSignal]:
         """Emit identity authentication signal"""
 
-        constellation_compliance = ConstellationAlignmentData(
+        ConstellationAlignmentData(
             identity_auth_score=auth_score,
             consciousness_coherence=identity_context.get("coherence", 0.8),
             guardian_compliance=0.95,
@@ -457,7 +457,7 @@ class GovernanceEmitter(ConsciousnessModuleEmitter):
     ) -> Optional[ConsciousnessSignal]:
         """Emit guardian compliance signal"""
 
-        constellation_compliance = ConstellationAlignmentData(
+        ConstellationAlignmentData(
             identity_auth_score=0.9,
             consciousness_coherence=0.8,
             guardian_compliance=compliance_score,

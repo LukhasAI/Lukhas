@@ -850,7 +850,7 @@ class ComplianceFramework:
 
     def get_compliance_dashboard_data(self) -> Dict[str, Any]:
         """Get data for compliance dashboard."""
-        now = datetime.now(timezone.utc)
+        datetime.now(timezone.utc)
 
         # Overall statistics
         total_controls = len(self.controls)

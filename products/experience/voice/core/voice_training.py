@@ -403,7 +403,7 @@ class LUKHASVoiceTrainer:
             self.training_data.append(training_sample)
 
             # Create GLYPH event
-            glyph_token = create_glyph(
+            create_glyph(
                 GLYPHSymbol.CREATE,
                 "voice_pipeline",
                 "consciousness",
@@ -502,7 +502,7 @@ class LUKHASVoiceTrainer:
             self.model = MockVoiceTrainingModel(self.config)
 
             # Create GLYPH event
-            glyph_token = create_glyph(
+            create_glyph(
                 GLYPHSymbol.CREATE,
                 "voice_pipeline",
                 "consciousness",
@@ -590,7 +590,7 @@ class LUKHASVoiceTrainer:
             final_metrics = await self._evaluate_model(val_loader)
 
             # Create GLYPH event
-            glyph_token = create_glyph(
+            create_glyph(
                 GLYPHSymbol.CREATE,
                 "voice_pipeline",
                 "consciousness",
@@ -611,7 +611,7 @@ class LUKHASVoiceTrainer:
             self.logger.error(f"Voice training failed: {e!s}")
 
             # Create GLYPH event
-            glyph_token = create_glyph(
+            create_glyph(
                 GLYPHSymbol.CREATE,
                 "voice_pipeline",
                 "consciousness",

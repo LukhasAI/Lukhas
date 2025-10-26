@@ -53,9 +53,9 @@ class ModuleDirectoryPopulator:
     def populate_module_directories(self, module_path: Path, manifest: Dict) -> bool:
         """Populate all directories for a specific module."""
         module_name = manifest.get("module", module_path.name)
-        entrypoints = manifest.get("runtime", {}).get("entrypoints", [])
-        tags = manifest.get("tags", [])
-        description = manifest.get("description", f"LUKHAS {module_name} module")
+        manifest.get("runtime", {}).get("entrypoints", [])
+        manifest.get("tags", [])
+        manifest.get("description", f"LUKHAS {module_name} module")
 
         populated = False
 
@@ -471,7 +471,7 @@ import """ + module_name + """
 
     def _generate_architecture_documentation(self, module_name: str, manifest: Dict) -> str:
         """Generate architecture documentation."""
-        tags = manifest.get("tags", [])
+        manifest.get("tags", [])
         dependencies = manifest.get("dependencies", [])
 
         return f"""# {module_name.title()} Architecture
@@ -1032,7 +1032,7 @@ Target coverage: 85%+
 
     def _generate_icon_documentation(self, module_name: str, manifest: Dict) -> str:
         """Generate icon and assets documentation."""
-        tags = manifest.get("tags", [])
+        manifest.get("tags", [])
 
         # Get module symbol
         symbol_map = {

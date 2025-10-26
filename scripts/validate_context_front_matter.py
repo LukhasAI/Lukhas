@@ -78,7 +78,6 @@ def parse_front_matter(md_text: str):
 
     # Tiny parser for required fields
     data = {}
-    current_map = data
     indent_stack = [0]
     map_stack = [data]
 
@@ -122,7 +121,7 @@ def read_manifest_for(md_path: pathlib.Path):
         return None
 
 def main():
-    docs = ROOT / "docs"
+    ROOT / "docs"
     manifests_root = ROOT / "manifests"
     REPORT.parent.mkdir(parents=True, exist_ok=True)
 

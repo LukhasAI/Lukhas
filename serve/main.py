@@ -427,7 +427,7 @@ async def create_chat_completion(request: dict) -> dict[str, Any]:
     """OpenAI-compatible chat completions endpoint (stub for RC soak testing)."""
     messages = request.get("messages", [])
     model = request.get("model", "gpt-4")
-    max_tokens = request.get("max_tokens", 100)
+    request.get("max_tokens", 100)
 
     # Return minimal valid OpenAI response
     # In production, this would call actual LLM service

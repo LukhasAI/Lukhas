@@ -764,7 +764,7 @@ class PerformanceRegressionDetector:
 
         # Adjust statistical thresholds for this metric
         if metric_key in self.performance_baselines:
-            baseline = self.performance_baselines[metric_key]
+            self.performance_baselines[metric_key]
 
             # Slightly increase tolerance for this type of detection
             if regression.detection_method == DetectionMethod.Z_SCORE:

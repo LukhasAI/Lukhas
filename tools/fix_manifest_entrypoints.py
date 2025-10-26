@@ -54,7 +54,7 @@ def get_historical_entrypoints(repo_root: Path) -> Dict[str, List[str]]:
             )
 
             data = json.loads(result.stdout)
-            module_name = data.get("module", "")
+            data.get("module", "")
             entrypoints = data.get("runtime", {}).get("entrypoints", [])
 
             if entrypoints:
@@ -89,7 +89,6 @@ def validate_entrypoint(entrypoint: str, module_dir: Path) -> Tuple[bool, str, s
             return False, entrypoint, ""
 
     # Fix common case sensitivity issues
-    original_module_path = module_path
 
     # Case 1: All uppercase module name (e.g., "CLAUDE_ARMY" -> "claude_army")
     parts = module_path.split(".")

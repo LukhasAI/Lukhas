@@ -62,7 +62,7 @@ def test_consciousness_memory_integration():
         store_response = requests.post(memory_store_url, headers=headers, json=store_data)
         assert store_response.status_code == 200
         store_result = store_response.json()["result"]
-        assert store_result.get("stored") == True
+        assert store_result.get("stored") is True
 
         # 3. Retrieve the consciousness state from memory
         retrieve_data = {

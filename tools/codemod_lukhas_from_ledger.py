@@ -38,7 +38,7 @@ def build_mapping(threshold=3):
     return mapping
 
 def rewrite_file(path: Path, mapping: dict, apply=False):
-    src = text = path.read_text(errors="ignore")
+    text = path.read_text(errors="ignore")
     changed = False
     def subst(m):
         nonlocal changed

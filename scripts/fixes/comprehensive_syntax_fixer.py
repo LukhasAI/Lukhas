@@ -129,7 +129,6 @@ def main():
     print(f"📁 Found {len(lukhas_files)} LUKHAS Python files")
 
     # Process files with highest priority syntax errors
-    priority_patterns = ["f-string", "closing parenthesis", "unterminated string", "missing closing quote"]
 
     files_to_fix = []
     for file_path in lukhas_files:

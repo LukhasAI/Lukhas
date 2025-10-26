@@ -511,7 +511,7 @@ class NamespaceIsolationEngine:
     ) -> None:
         """Validate access permissions for namespace operation."""
         # Simplified access control (in production, integrate with tenant user roles)
-        namespace_policies = self._access_policies.get(request.namespace, {})
+        self._access_policies.get(request.namespace, {})
 
         # For demo, allow all access (in production, implement proper RBAC)
         self.logger.debug(

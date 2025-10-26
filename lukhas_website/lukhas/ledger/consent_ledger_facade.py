@@ -198,7 +198,7 @@ class ConsentLedgerV2:
 
                 # Append trace event
                 with time_append_operation("trace_created"):
-                    trace_offset = self._run_async(self.event_bus.append_event(trace_event))
+                    self._run_async(self.event_bus.append_event(trace_event))
 
                 # Calculate expiration
                 expires_at = None
@@ -243,7 +243,7 @@ class ConsentLedgerV2:
 
                 # Append consent event
                 with time_append_operation("consent_granted"):
-                    consent_offset = self._run_async(self.event_bus.append_event(consent_event))
+                    self._run_async(self.event_bus.append_event(consent_event))
 
                 # Return ConsentRecord for backward compatibility
                 consent_record = ConsentRecord(
@@ -308,7 +308,7 @@ class ConsentLedgerV2:
                 )
 
                 # Append trace event
-                trace_offset = self._run_async(self.event_bus.append_event(trace_event))
+                self._run_async(self.event_bus.append_event(trace_event))
 
                 # Create consent revoked event
                 revoke_event = ConsentRevokedEvent(
@@ -321,7 +321,7 @@ class ConsentLedgerV2:
 
                 # Append revoke event
                 with time_append_operation("consent_revoked"):
-                    revoke_offset = self._run_async(self.event_bus.append_event(revoke_event))
+                    self._run_async(self.event_bus.append_event(revoke_event))
 
                 logger.info(f"Consent revoked via event sourcing: {consent_id}")
                 return True
@@ -450,7 +450,7 @@ class ConsentLedgerV2:
 
                 # Append trace event
                 with time_append_operation("trace_created"):
-                    trace_offset = self._run_async(self.event_bus.append_event(trace_event))
+                    self._run_async(self.event_bus.append_event(trace_event))
 
                 # Create ΛTrace for backward compatibility
                 lambda_trace = ΛTrace(

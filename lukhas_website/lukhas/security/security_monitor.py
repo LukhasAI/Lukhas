@@ -313,11 +313,6 @@ class MaliciousIPDetector(ThreatDetector):
         """Load threat intelligence data."""
         # In production, this would load from threat intelligence feeds
         # For demo, using some example malicious IP patterns
-        malicious_ranges = [
-            "10.0.0.0/8",      # Private network (for demo)
-            "192.168.0.0/16",  # Private network (for demo)
-            "127.0.0.0/8"      # Loopback (for demo)
-        ]
 
         # Add known bad IPs to threat intelligence
         self.threat_intelligence.update([
@@ -509,7 +504,7 @@ class SecurityMonitor:
         """Evaluate threat using Guardian system."""
         try:
             # Mock Guardian integration - would be replaced with actual Guardian calls
-            guardian_context = {
+            {
                 "threat_detection": asdict(threat),
                 "triggering_event": asdict(event),
                 "system_context": {

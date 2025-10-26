@@ -441,7 +441,7 @@ class SessionManager:
 
     async def get_session_stats(self) -> Dict[str, Any]:
         """Get session management statistics"""
-        now = datetime.utcnow()
+        datetime.utcnow()
         active_sessions = sum(1 for s in self.sessions.values() if s.is_valid)
 
         return {

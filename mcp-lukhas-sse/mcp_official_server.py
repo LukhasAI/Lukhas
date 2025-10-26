@@ -45,7 +45,7 @@ class MCPServer:
         # Extract client info
         client_info = request_data.get("params", {}).get("clientInfo", {})
         protocol_version = request_data.get("params", {}).get("protocolVersion", "2025-06-18")
-        capabilities = request_data.get("params", {}).get("capabilities", {})
+        request_data.get("params", {}).get("capabilities", {})
 
         logger.info(f"Client: {client_info.get('name', 'unknown')} v{client_info.get('version', 'unknown')}")
         logger.info(f"Protocol version: {protocol_version}")

@@ -74,7 +74,7 @@ class MockPgVectorStore(PgVectorStore):
         self.storage[doc.id] = doc
         # Simulate indexing time
         time.sleep(0.0001)  # 100μs
-        duration = time.perf_counter() - start
+        time.perf_counter() - start
         return doc.id
 
     def bulk_add(self, docs: List[VectorDoc]) -> List[str]:
@@ -85,7 +85,7 @@ class MockPgVectorStore(PgVectorStore):
 
     def search(self, embedding: List[float], k: int = 10,
                filters: Dict[str, Any] = None) -> List[tuple]:
-        start = time.perf_counter()
+        time.perf_counter()
 
         # Simple cosine similarity search
         results = []
@@ -195,7 +195,7 @@ async def validate_memory_orchestrator_performance(samples: int = 1000) -> Dict[
         meta = {"direct": True, "index": i}
 
         start = time.perf_counter_ns()
-        doc_id = indexer.upsert(text, meta)
+        indexer.upsert(text, meta)
         end = time.perf_counter_ns()
 
         latency_us = (end - start) / 1000

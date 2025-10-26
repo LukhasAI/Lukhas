@@ -198,7 +198,7 @@ class MATRIZPromotionManager:
             with open(artifact_path, 'r') as f:
                 results = json.load(f)
 
-            performance = results.get("performance_metrics", {})
+            results.get("performance_metrics", {})
             slo_compliance = results.get("slo_compliance", {})
 
             # Check T4/0.01% performance targets

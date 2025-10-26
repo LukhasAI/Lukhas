@@ -463,7 +463,7 @@ class TestMemorySynchronizer:
         assert syncer.config.max_fanin == 15
         assert syncer.config.max_depth == 5
         assert syncer.config.ops_budget_per_tick == 200
-        assert syncer.config.allow_cross_lane_sync == False
+        assert syncer.config.allow_cross_lane_sync is False
 
     def test_performance_requirements(self):
         """Test synchronization performance requirements."""

@@ -123,9 +123,9 @@ class VerificationMatrix:
 
     def verify_todo(self, todo: Dict[str, Any]) -> Dict[str, Any]:
         """Verify a manifest task against the appropriate verification matrix."""
-        module = todo.get("module", "").lower()
-        risk = todo.get("risk", "medium")
-        todo_type = todo.get("est", {}).get("type", "unknown")
+        todo.get("module", "").lower()
+        todo.get("risk", "medium")
+        todo.get("est", {}).get("type", "unknown")
 
         # Determine verification category
         verification_category = self._categorize_todo(todo)

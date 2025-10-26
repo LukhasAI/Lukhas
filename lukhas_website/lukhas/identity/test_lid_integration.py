@@ -496,7 +496,7 @@ class LiDTokenSystemTest:
                     ethical_validation_enabled=True
                 )
 
-                validation_result = self.token_validator.validate(
+                self.token_validator.validate(
                     token_response.jwt,
                     validation_context
                 )
@@ -509,7 +509,7 @@ class LiDTokenSystemTest:
                     client_secret="benchmark_secret_12345"
                 )
 
-                introspection_response = self.introspection_service.introspect_token(
+                self.introspection_service.introspect_token(
                     introspection_request
                 )
 

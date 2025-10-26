@@ -70,7 +70,7 @@ class DirectoryIndexGenerator:
     def classify_component_type(self, file_path: Path, content: str, classes: List[str], functions: List[str]) -> str:
         """Classify the type of component based on file analysis"""
         path_str = str(file_path).lower()
-        content_lower = content.lower()
+        content.lower()
 
         # Test files
         if "test" in path_str or any("test" in cls.lower() for cls in classes):

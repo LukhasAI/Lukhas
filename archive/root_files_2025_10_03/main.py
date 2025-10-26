@@ -317,7 +317,7 @@ async def async_main():
     """Async main entry point"""
 
     # Create LUKHAS instance
-    lukhas = LUKHAS()
+    LUKHAS()
 
     # Start system
     if await start():

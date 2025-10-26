@@ -132,7 +132,7 @@ def main():
 
     try:
         results = tester.run_all_tests()
-        artifact_path = tester.generate_artifact(results)
+        tester.generate_artifact(results)
         print("✅ All E2E performance tests passed!")
     except Exception as e:
         print(f"❌ E2E performance testing failed: {e}")

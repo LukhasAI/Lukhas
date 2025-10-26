@@ -6,7 +6,7 @@
 Systematic automation for fixing the most common syntax error patterns:
 1. F-string brace mismatches: {function(}} → {function()}
 2. Dictionary missing closing braces
-3. Function definition syntax errors  
+3. Function definition syntax errors
 4. CSS f-string escaping in HTML templates
 5. Comprehension colon issues
 

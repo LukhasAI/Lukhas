@@ -184,7 +184,7 @@ def main():
         certification_file = output_dir / f"certification_{audit_id}.json"
         certification_report = output_dir / f"CERTIFICATION_{audit_id}.md"
         cmd = f"python3 scripts/generate_audit_certification.py --evidence-dir {output_dir} --output {certification_file} --report {certification_report} --verbose"
-        result = run_command(cmd, "Generating final certification", check=False)
+        run_command(cmd, "Generating final certification", check=False)
 
         print("")
 

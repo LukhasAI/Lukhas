@@ -42,7 +42,6 @@ async def simulate_matriz_pipeline(user_input: str, trace_id: str) -> dict:
     # Memory stage
     with matriz_stage("Memory", trace_id=trace_id, user_input_hash=hashlib.sha256(user_input.encode()).hexdigest()):
         time.sleep(0.01)  # Simulate work
-        memory_result = "Retrieved 3 relevant memories"
 
         # Record span
         span = TraceSpan(
@@ -71,7 +70,6 @@ async def simulate_matriz_pipeline(user_input: str, trace_id: str) -> dict:
     # Attention stage
     with matriz_stage("Attention", trace_id=trace_id):
         time.sleep(0.005)
-        attention_result = "Focused on consciousness-related context"
 
         span = TraceSpan(
             span_id=f"span-{uuid.uuid4().hex[:8]}",
@@ -88,7 +86,6 @@ async def simulate_matriz_pipeline(user_input: str, trace_id: str) -> dict:
     # Thought stage (reasoning)
     with matriz_stage("Thought", trace_id=trace_id):
         time.sleep(0.015)
-        thought_result = "Applied causal reasoning to generate answer"
 
         span = TraceSpan(
             span_id=f"span-{uuid.uuid4().hex[:8]}",

@@ -168,7 +168,7 @@ class LUKHASAIOrchestrator:
     def reload_routing_config(self) -> bool:
         """Reload routing configuration from file - enables runtime updates"""
         try:
-            old_config = self.routing_config.copy()
+            self.routing_config.copy()
             self.routing_config = self._load_routing_config()
             print(f"✅ Routing configuration reloaded successfully (version: {self.routing_config.get('version', 'unknown')})")
             return True

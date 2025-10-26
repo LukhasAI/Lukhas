@@ -400,7 +400,7 @@ class OptimizedAsyncOrchestrator(AsyncCognitiveOrchestrator):
     async def _execute_optimized_pipeline(self, user_input: str, start_time: float) -> Dict[str, Any]:
         """Execute pipeline with all optimizations enabled"""
         stage_results = []
-        pipeline_start = time.perf_counter()
+        time.perf_counter()
 
         # Pre-allocate context to reduce memory allocations
         pipeline_context = {

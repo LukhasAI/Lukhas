@@ -72,7 +72,7 @@ def test_multi_component_workflows():
             results[i] = response_json["result"]
 
         # Final assertion
-        assert results[2]["approved"] == True
+        assert results[2]["approved"] is True
 
     except requests.exceptions.ConnectionError as e:
         pytest.fail(f"Connection to the API failed: {e}. Make sure the API is running at {BASE_URL}.")

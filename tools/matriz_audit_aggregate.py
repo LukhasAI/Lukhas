@@ -205,7 +205,7 @@ def main():
 
     args = parser.parse_args()
 
-    root_path = pathlib.Path(args.root).resolve()
+    pathlib.Path(args.root).resolve()
     artifacts_dir = pathlib.Path(args.artifacts_dir)
 
     if args.verbose:

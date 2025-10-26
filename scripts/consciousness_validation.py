@@ -81,7 +81,7 @@ def validate_consciousness_system():
     for name, path in component_paths:
         try:
             parts = path.split(".")
-            module = __import__(path, fromlist=[parts[-1]])
+            __import__(path, fromlist=[parts[-1]])
             print(f"✅ {name}: Operational")
             print(f"   📍 Path: {path}")
             results[name.lower().replace(" ", "_")] = True

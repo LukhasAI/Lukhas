@@ -103,7 +103,7 @@ class TestOrchestrationWebAuthnIntegration:
             credential_data=mock_auth_data
         )
 
-        assert verification["verified"] == True
+        assert verification["verified"] is True
         assert auth_credential.user_id == user_id
 
         # Step 3: Use authenticated identity for multi-AI orchestration
@@ -267,7 +267,7 @@ class TestOrchestrationWebAuthnIntegration:
                 credential_data=mock_auth_data
             )
 
-            assert verification["verified"] == True
+            assert verification["verified"] is True
 
             # Use authenticated session for orchestration
             device_specific_request = RoutingRequest(
@@ -351,7 +351,7 @@ class TestOrchestrationWebAuthnIntegration:
                 credential_data=mock_auth_data
             )
 
-            assert verification["verified"] == True
+            assert verification["verified"] is True
 
             # 3. Multi-AI Orchestration
             orchestration_request = RoutingRequest(

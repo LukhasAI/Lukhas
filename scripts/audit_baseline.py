@@ -300,7 +300,7 @@ class AuditFramework:
         try:
             if self.consciousness_stream:
                 # Create consciousness state
-                state = ConsciousnessState(
+                ConsciousnessState(
                     phase="AWARE",
                     awareness_level="enhanced",
                     level=0.8

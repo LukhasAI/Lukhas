@@ -334,7 +334,7 @@ class TestHealthMonitoring:
             result = await health_monitor.perform_health_check("test_provider")
 
             assert result.provider == "test_provider"
-            assert result.success == True
+            assert result.success is True
             assert result.latency_ms > 0
 
     @pytest.mark.asyncio
@@ -462,7 +462,7 @@ class TestContextPreservation:
             additional_metadata={"handoff_reason": "load_balancing"}
         )
 
-        assert success == True
+        assert success is True
 
         # Verify metadata updated
         metadata = await context_engine.get_context_metadata(context_id)
@@ -678,7 +678,7 @@ class TestPerformanceBenchmarks:
                 source_provider="provider_a",
                 destination_provider="provider_b"
             )
-            assert success == True
+            assert success is True
 
         total_time = time.time() - start_time
         avg_time_ms = (total_time / 50) * 1000

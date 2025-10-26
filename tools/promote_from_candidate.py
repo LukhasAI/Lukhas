@@ -18,7 +18,7 @@ def run_git_mv(source: str, target: str) -> bool:
     target_dir.mkdir(parents=True, exist_ok=True)
 
     try:
-        result = subprocess.run(
+        subprocess.run(
             ["git", "mv", source, target],
             capture_output=True,
             text=True,

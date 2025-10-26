@@ -378,7 +378,7 @@ class MatrizConsciousnessSystem:
             node_id = f"{self.consciousness_id}_{module_name}"
 
             # Register the node
-            network_node = self.signal_router.register_node(
+            self.signal_router.register_node(
                 node_id=node_id,
                 module_name=module_name,
                 capabilities=capabilities

@@ -1069,7 +1069,7 @@ class T4ExcellenceValidator:
         # Run under chaos with automatic cleanup
         print("    🌪️  Applying chaos conditions...")
         try:
-            with chaos_context(chaos_type) as chaos_resources:
+            with chaos_context(chaos_type):
                 # Allow chaos to stabilize
                 time.sleep(0.1)
 

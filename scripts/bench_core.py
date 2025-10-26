@@ -362,7 +362,7 @@ def main():
         time.sleep(0.00001)  # Simulate 10μs operation
 
     # Run benchmark
-    result = bench.benchmark_function(
+    bench.benchmark_function(
         example_func,
         name="example_operation",
         benchmark_type="unit",

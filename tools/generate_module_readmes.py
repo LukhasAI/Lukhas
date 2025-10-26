@@ -132,7 +132,7 @@ def generate_module_readme(module_path: Path) -> str:
         # Group entrypoints by category
         classes = [ep for ep in entrypoints if any(word in ep for word in ['Class', 'System', 'Hub', 'Monitor', 'Manager', 'Tracker', 'Engine'])]
         functions = [ep for ep in entrypoints if any(word in ep for word in ['create_', 'get_', 'process_', 'validate_', 'activate_', 'monitor_'])]
-        others = [ep for ep in entrypoints if ep not in classes and ep not in functions]
+        [ep for ep in entrypoints if ep not in classes and ep not in functions]
 
         if classes:
             readme_lines.append("### Core Classes")

@@ -25,7 +25,6 @@ def _parse_front_matter(raw: str):
     Avoids external deps; preserves unknowns later.
     """
     data = {}
-    cur_key = None
     cur_list = None
     cur_dict = None
 
@@ -46,7 +45,6 @@ def _parse_front_matter(raw: str):
             # unknown line, ignore
             continue
         key, val = m.group(1), m.group(2).strip()
-        cur_key = key
         if val == "" and key in ("constellation_stars","related_modules","manifests"):
             cur_list = []
             data[key] = cur_list

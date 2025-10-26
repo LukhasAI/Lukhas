@@ -188,7 +188,7 @@ class MATRIZThoughtLoop:
         try:
             # Stage 1: Initialization
             stage_start = time.time()
-            initialization_result = await self._stage_initialization(context)
+            await self._stage_initialization(context)
             stage_timings[ProcessingStage.INITIALIZATION] = (time.time() - stage_start) * 1000
 
             # Stage 2: Enhanced Thought Synthesis (includes deep inference)

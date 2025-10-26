@@ -85,7 +85,7 @@ class TestPQCSignatureForgery:
         """RED-TEAM-003: Attempt to verify with wrong public key."""
         # Generate two separate keypairs
         with oqs.Signature('Dilithium2') as sig1:
-            public_key_1 = sig1.generate_keypair()
+            sig1.generate_keypair()
             checkpoint_bytes = json.dumps(valid_checkpoint, sort_keys=True).encode()
             signature = sig1.sign(checkpoint_bytes)
 
@@ -274,7 +274,7 @@ class TestDreamExfiltration:
         # In production, checkpoint should be encrypted at rest
         # This test verifies signature doesn't leak plaintext
         with oqs.Signature('Dilithium2') as sig:
-            public_key = sig.generate_keypair()
+            sig.generate_keypair()
             checkpoint_bytes = json.dumps(checkpoint, sort_keys=True).encode()
             signature = sig.sign(checkpoint_bytes)
 

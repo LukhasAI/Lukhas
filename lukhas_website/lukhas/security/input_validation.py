@@ -280,7 +280,7 @@ class InputValidator:
         if not isinstance(value, str):
             return
 
-        value_lower = value.lower()
+        value.lower()
 
         for attack_vector, patterns in self.threat_patterns.items():
             for pattern in patterns:
@@ -360,7 +360,7 @@ class InputValidator:
         """Integrate with Guardian system for high-risk inputs."""
         try:
             # Mock Guardian integration - would be replaced with actual Guardian calls
-            guardian_context = {
+            {
                 "input_value": str(value)[:1000],  # Truncate for Guardian
                 "validation_result": result.to_dict(),
                 "context": context or {},

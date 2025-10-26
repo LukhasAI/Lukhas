@@ -536,14 +536,14 @@ async def test_complete_t4_compliance_validation():
     # Run for 60 seconds
     while time.perf_counter() - start_time < 60:
         # Simulate search operation
-        with collector.time_operation('search') as timer:
+        with collector.time_operation('search'):
             latency = random.gauss(30, 10)  # 30ms average
             await asyncio.sleep(max(0.001, latency / 1000))
             operations_completed += 1
 
         # Simulate occasional upsert
         if random.random() < 0.2:
-            with collector.time_operation('upsert') as timer:
+            with collector.time_operation('upsert'):
                 latency = random.gauss(50, 15)  # 50ms average
                 await asyncio.sleep(max(0.001, latency / 1000))
                 operations_completed += 1

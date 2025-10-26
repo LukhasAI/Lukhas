@@ -188,7 +188,7 @@ class RoutingConfigurationManager:
 
     async def load_configuration(self) -> None:
         """Load configuration from YAML file"""
-        start_time = time.time()
+        time.time()
 
         try:
             if not self.config_path.exists():

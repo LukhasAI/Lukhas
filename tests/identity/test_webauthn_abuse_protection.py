@@ -119,8 +119,8 @@ class TestWebAuthnAbuseProtection:
                 await asyncio.sleep(0.1)
 
             # Assertions
-            assert results[0][0] == True  # First few attempts allowed
-            assert results[4][0] == False  # Should be blocked by attempt 50
+            assert results[0][0] is True  # First few attempts allowed
+            assert results[4][0] is False  # Should be blocked by attempt 50
             assert "rate limit" in results[4][1].lower()
 
             # Verify security events generated
@@ -135,7 +135,7 @@ class TestWebAuthnAbuseProtection:
                     ip_address=attacker_ip,
                     user_agent=user_agent
                 )
-                assert is_allowed == True  # Should be allowed after cooldown
+                assert is_allowed is True  # Should be allowed after cooldown
 
     @pytest.mark.asyncio
     async def test_credential_stuffing_protection(self, security_hardening, attack_contexts):
@@ -204,7 +204,7 @@ class TestWebAuthnAbuseProtection:
             user_agent=legitimate_fingerprint.user_agent,
             additional_context={'device_fingerprint': legitimate_fingerprint}
         )
-        assert is_allowed == True
+        assert is_allowed is True
 
         # Simulate rapid device switching (fingerprint spoofing)
         spoofed_contexts = attack_contexts['device_spoofing']['fingerprints']
@@ -271,7 +271,7 @@ class TestWebAuthnAbuseProtection:
             await asyncio.sleep(0.1)
 
         # First location should be allowed
-        assert results[0][0] == True
+        assert results[0][0] is True
 
         # Subsequent locations should trigger geographic anomaly detection
         anomaly_detected = any("geographic" in result[1].lower() or "travel" in result[1].lower()
@@ -305,7 +305,7 @@ class TestWebAuthnAbuseProtection:
                 'token_hash': hashlib.sha256(json.dumps(mock_token).encode()).hexdigest()
             }
         )
-        assert is_allowed_1 == True
+        assert is_allowed_1 is True
 
         # Replay attempt should be blocked
         await asyncio.sleep(0.1)
@@ -321,7 +321,7 @@ class TestWebAuthnAbuseProtection:
         )
 
         # Should detect replay attempt
-        assert is_allowed_2 == False
+        assert is_allowed_2 is False
         assert "replay" in reason_2.lower() or "duplicate" in reason_2.lower()
 
     @pytest.mark.asyncio
@@ -405,7 +405,7 @@ class TestWebAuthnAbuseProtection:
 
         # Should be blocked during emergency lockdown
         if "emergency" in reason.lower() or "lockdown" in reason.lower():
-            assert normal_user_allowed == False
+            assert normal_user_allowed is False
 
     @pytest.mark.asyncio
     async def test_brute_force_protection(self, security_hardening):

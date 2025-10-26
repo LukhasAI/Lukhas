@@ -42,7 +42,7 @@ def test_security_audit_workflow_blocking():
 
     for step in pip_audit_steps:
         # Should NOT have continue-on-error: true (which would make it non-blocking)
-        assert step.get("continue-on-error") != True, f"Step '{step['name']}' is non-blocking"
+        assert step.get("continue-on-error") is not True, f"Step '{step['name']}' is non-blocking"
 
         # Should have exit 1 commands for blocking
         run_content = step.get("run", "")
@@ -52,7 +52,7 @@ def test_security_audit_workflow_blocking():
     assert len(sbom_steps) >= 1, "Missing SBOM generation step"
 
     for step in sbom_steps:
-        assert step.get("continue-on-error") != True, f"SBOM step '{step['name']}' is non-blocking"
+        assert step.get("continue-on-error") is not True, f"SBOM step '{step['name']}' is non-blocking"
         run_content = step.get("run", "")
         if "exit 1" not in run_content:
             # For make commands, blocking is implicit - just verify no continue-on-error

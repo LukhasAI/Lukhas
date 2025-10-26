@@ -64,7 +64,6 @@ class TargetedSyntaxFixer:
 
     def fix_obvious_fstring_issues(self, file_path: Path, content: str) -> str:
         """Fix only obvious f-string bracket issues."""
-        original_content = content
 
         # Fix single } in f-strings (should be }})
         patterns = [

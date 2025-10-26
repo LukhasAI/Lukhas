@@ -180,7 +180,7 @@ class DriftManager:
         if kind not in self._successful_repairs:
             return False
 
-        last_repair_time = self._successful_repairs[kind]
+        self._successful_repairs[kind]
         # Use a simple cycle-based cooldown (each call represents one cycle)
         # In production, you'd want to use actual time-based dwell
         cycles_since_repair = getattr(self, f'_cycles_since_{kind}', 0)

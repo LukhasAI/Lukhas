@@ -121,7 +121,7 @@ class PerformanceRegressionDetector:
     def _check_for_regression(self, operation: str) -> None:
         """Check if the operation shows performance regression."""
         with self.tracer.trace_operation(f"regression_check_{operation}") as span:
-            current_time = time.time()
+            time.time()
 
             # Get baseline
             baseline = self._get_or_calculate_baseline(operation)

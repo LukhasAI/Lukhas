@@ -315,7 +315,7 @@ class TestReflectionEngineCore:
         assert len(reflection_engine._operation_latencies) == 0
         assert len(reflection_engine._coherence_scores) == 0
         assert reflection_engine._consecutive_errors == 0
-        assert reflection_engine._fail_safe_active == False
+        assert reflection_engine._fail_safe_active is False
         assert reflection_engine._drift_ema == 0.0
 
 

@@ -131,7 +131,7 @@ class TokenBucket:
                 self.tokens -= tokens_needed
 
                 # Record successful acquisition
-                acquisition_time = (time.monotonic() - start_time) * 1000
+                (time.monotonic() - start_time) * 1000
                 self.request_times.append(time.monotonic())
 
                 return True
@@ -165,7 +165,7 @@ class TokenBucket:
             await self._refill_tokens()
             if self.tokens >= tokens_needed:
                 self.tokens -= tokens_needed
-                wait_duration = (time.monotonic() - start_time) * 1000
+                (time.monotonic() - start_time) * 1000
                 return True
 
         # Timeout exceeded

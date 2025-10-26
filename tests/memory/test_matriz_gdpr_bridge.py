@@ -408,7 +408,7 @@ class TestMATRIZGDPRBridge:
         assert decision_output["accessible_memory_count"] == 3, "Should access only active memories"
         assert decision_output["blocked_memory_count"] == 3, "Should block all tombstoned memories"
         assert len(violations) == 3, "Should detect 3 GDPR violations"
-        assert decision_output["gdpr_compliant"] == False, "Decision should be flagged as non-compliant due to attempted access"
+        assert decision_output["gdpr_compliant"] is False, "Decision should be flagged as non-compliant due to attempted access"
 
         # Verify violations
         for violation in violations:
@@ -421,7 +421,7 @@ class TestMATRIZGDPRBridge:
             decision_context, active_only_ids
         )
 
-        assert clean_decision["gdpr_compliant"] == True, "Clean decision should be GDPR compliant"
+        assert clean_decision["gdpr_compliant"] is True, "Clean decision should be GDPR compliant"
         assert len(clean_violations) == 0, "Clean decision should have no violations"
         assert clean_decision["accessible_memory_count"] == 3, "Should access all requested active memories"
 
@@ -486,7 +486,7 @@ class TestMATRIZGDPRBridge:
         for trace in gdpr_bridge.decision_traces.values():
             if trace.is_sanitized:
                 assert trace.user_context == "[REDACTED-GDPR]", "User context should be redacted"
-                assert trace.decision_output.get("gdpr_sanitized") == True, "Output should be marked as sanitized"
+                assert trace.decision_output.get("gdpr_sanitized") is True, "Output should be marked as sanitized"
                 assert all(mem_id == "[REDACTED-GDPR]" for mem_id in trace.referenced_memories), "Memory IDs should be redacted"
 
         logger.info(f"✅ Decision trace purging test passed - sanitized {sanitized_traces} traces")
@@ -611,7 +611,7 @@ class TestMATRIZGDPRBridge:
         assert audit_result["total_violations"] == 2, "Should detect 2 violations"
         assert audit_result["violation_by_type"]["tombstone_access"] == 2, "Should have 2 tombstone access violations"
 
-        assert audit_result["gdpr_compliant"] == False, "Overall compliance should be FALSE due to violations"
+        assert audit_result["gdpr_compliant"] is False, "Overall compliance should be FALSE due to violations"
         assert audit_result["tombstoned_users"] == 1, "Should track 1 tombstoned user"
 
         # Performance verification

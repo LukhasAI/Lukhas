@@ -570,7 +570,7 @@ class LUKHASTTSService:
                 self.response_cache[cache_key] = tts_response
 
             # Emit GLYPH event
-            glyph_token = create_glyph(
+            create_glyph(
                 GLYPHSymbol.CREATE,
                 "voice_pipeline",
                 "consciousness",
@@ -594,7 +594,7 @@ class LUKHASTTSService:
             self.stats["requests_failed"] += 1
 
             # Create GLYPH event
-            glyph_token = create_glyph(
+            create_glyph(
                 GLYPHSymbol.CREATE,
                 "voice_pipeline",
                 "consciousness",

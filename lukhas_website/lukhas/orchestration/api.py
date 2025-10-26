@@ -210,7 +210,7 @@ async def get_orchestration_status(
 
     with tracer.start_span("orchestration_api.status"):
         try:
-            router_instance = get_multi_ai_router()
+            get_multi_ai_router()
 
             # Collect status information
             available_providers = [provider.value for provider in AIProvider]

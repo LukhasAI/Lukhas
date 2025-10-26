@@ -2,7 +2,7 @@
 """
 Relocate manifests from manifests/lukhas/ to manifests/ (flat structure).
 
-This script moves manifests created in manifests/lukhas/<module_path>/ 
+This script moves manifests created in manifests/lukhas/<module_path>/
 to manifests/<module_path>/ to match the Phase 5B flat structure.
 """
 import json

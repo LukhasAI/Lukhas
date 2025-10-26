@@ -67,7 +67,6 @@ def update_workflow_file(filepath: Path, dry_run: bool = True) -> bool:
         with open(filepath, 'r') as f:
             content = f.read()
 
-        original_content = content
         updates_made = 0
 
         # Replace known action references

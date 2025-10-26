@@ -895,7 +895,7 @@ class AuditTrail:
         if self.current_block_path.exists():
             try:
                 with open(self.current_block_path, "r") as f:
-                    data = json.load(f)
+                    json.load(f)
                     # Reconstruct events (simplified)
                     self.current_events = []  # Would reconstruct from data
             except Exception as e:

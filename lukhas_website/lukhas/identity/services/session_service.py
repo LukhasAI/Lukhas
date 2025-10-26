@@ -224,7 +224,7 @@ class SessionService(SessionManagerInterface):
     async def _cleanup_expired_sessions(self):
         """Remove expired sessions"""
         try:
-            now = time.time()
+            time.time()
             expired_sessions = []
 
             for session_id, session in self.sessions.items():

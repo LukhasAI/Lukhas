@@ -622,7 +622,7 @@ class LUKHASVoiceAnalytics:
             ) / self.stats["analyses_performed"]
 
             # Emit GLYPH event
-            glyph_token = create_glyph(
+            create_glyph(
                 GLYPHSymbol.CREATE,
                 "voice_pipeline",
                 "consciousness",

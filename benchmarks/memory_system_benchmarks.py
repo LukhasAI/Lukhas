@@ -71,7 +71,7 @@ class MockMemorySystem:
     async def recall_topk(self, query_embedding: List[float], k: int = 10) -> List[MemoryItem]:
         """Recall top-K most similar items"""
         self.access_count += 1
-        start_time = time.perf_counter()
+        time.perf_counter()
 
         # Simulate similarity computation
         similarities = []

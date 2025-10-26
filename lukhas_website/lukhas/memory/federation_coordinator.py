@@ -226,7 +226,7 @@ class FederationCoordinator:
             local_cluster = await self._initialize_local_cluster()
 
             # Setup federation metadata
-            federation_metadata = {
+            {
                 "federation_id": self.federation_id,
                 "created_at": datetime.utcnow().isoformat(),
                 "coordinator_cluster": local_cluster.cluster_id,

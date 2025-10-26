@@ -600,7 +600,7 @@ def main():
 
     try:
         results = tester.run_all_tests()
-        artifact_path = tester.generate_artifact(results)
+        tester.generate_artifact(results)
         tester.print_summary(results)
 
         # Exit with error code if regression detected

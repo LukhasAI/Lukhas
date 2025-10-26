@@ -354,7 +354,7 @@ class CreativitySnapshot:
 
         # Guardian approval rate
         approved_count = sum(1 for idea in self.ideas if idea.get("guardian_approved", False))
-        guardian_approval_rate = approved_count / len(self.ideas) if self.ideas else 0.0
+        approved_count / len(self.ideas) if self.ideas else 0.0
 
     def add_guardian_approval(self, item_id: str, approved: bool, reason: str):
         """Record Guardian approval decision"""

@@ -239,10 +239,6 @@ class ServiceMetricsCollector:
     def time_operation(self, operation: OperationType, **labels):
         """Context manager for timing operations"""
         start_time = time.perf_counter()
-        operation_labels = {
-            'operation': operation.value,
-            **labels
-        }
 
         try:
             yield

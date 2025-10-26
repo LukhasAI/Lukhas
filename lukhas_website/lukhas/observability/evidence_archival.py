@@ -668,7 +668,7 @@ class EvidenceArchivalSystem:
             StorageTier.DEEP_ARCHIVE: "ARCHIVE",
         }
 
-        storage_class = storage_class_map.get(storage_tier, "STANDARD")
+        storage_class_map.get(storage_tier, "STANDARD")
 
         # Create blob name
         blob_name = f"evidence/{storage_tier.value}/{datetime.now().strftime('%Y/%m/%d')}/{archive_id}.evidence"
@@ -910,7 +910,7 @@ class EvidenceArchivalSystem:
 
         for regulation, policy in self.retention_policies.items():
             for tier, days_threshold in policy.storage_tier_transitions.items():
-                cutoff_date = current_time - timedelta(days=days_threshold)
+                current_time - timedelta(days=days_threshold)
 
                 # Find evidence that should be transitioned to this tier
                 # This would integrate with the evidence engine to find eligible evidence

@@ -582,7 +582,7 @@ class DistributedMemoryOrchestrator:
     async def _synchronize_memory_fold(self, fold_id: str, fold_data: Dict[str, Any]):
         """Synchronize individual memory fold"""
 
-        source_node = fold_data.get("source_node")
+        fold_data.get("source_node")
         checksum = fold_data.get("checksum")
 
         # Check if we have this fold
@@ -695,7 +695,7 @@ class DistributedMemoryOrchestrator:
         if fold_id in self.local_memory_folds:
             # Send memory fold response
             memory_fold = self.local_memory_folds[fold_id]
-            response = {
+            {
                 "type": "memory_fold_response",
                 "fold_id": fold_id,
                 "fold_data": self._serialize_memory_fold(memory_fold),
@@ -708,8 +708,8 @@ class DistributedMemoryOrchestrator:
         """Handle memory fold response"""
 
         fold_id = message.get("fold_id")
-        fold_data = message.get("fold_data")
-        checksum = message.get("checksum")
+        message.get("fold_data")
+        message.get("checksum")
 
         # Would deserialize and store the fold
         logger.debug(f"📥 Received memory fold {fold_id} from {node_id}")

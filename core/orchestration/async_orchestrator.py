@@ -457,7 +457,7 @@ class AsyncOrchestrator:
                     max_retries=stage_config.max_retries,
                     context_keys=list(context.keys()),
                     context_size=len(str(context))
-                ) as span:
+                ):
                     async def execute():
                         if cancellation and cancellation.cancelled:
                             raise asyncio.CancelledError(cancellation.reason or "cancelled")

@@ -13,7 +13,7 @@ cascade prevention under adversarial workloads.
 This file implements the requested "property-based memory tests at 10k ops" using:
 
 1. **Hypothesis Framework**: Comprehensive property-based testing with randomized workloads
-2. **10k Operation Scale**: Real testing at 10,000 operations with batched execution  
+2. **10k Operation Scale**: Real testing at 10,000 operations with batched execution
 3. **Critical Invariants**:
    - ✅ Top-K recall monotonicity (similarity ordering preservation)
    - ✅ Latency budget adherence (<100ms P95, <200ms individual operations)
@@ -22,14 +22,14 @@ This file implements the requested "property-based memory tests at 10k ops" usin
 
 4. **Performance Results** (from latest test run):
    - Success Rate: 100% (10000/10000 operations)
-   - Cascade Prevention: 100% (exceeds 99.7% target)  
+   - Cascade Prevention: 100% (exceeds 99.7% target)
    - P95 Latency: 1.92ms (well under 100ms budget)
    - Average Latency: 0.39ms (exceptional performance)
    - Monotonicity Rate: 80.9% (realistic for floating-point systems)
 
 **Test Locations:**
 - `test_memory_system_10k_batch_operations()` - Main 10k ops test with invariant checking
-- `test_memory_system_10k_operations_invariants()` - Full Hypothesis property-based test  
+- `test_memory_system_10k_operations_invariants()` - Full Hypothesis property-based test
 - `test_topk_monotonicity_under_adversarial_workload()` - Adversarial interleaving test
 - `test_memory_system_stateful_properties()` - Complex state machine testing
 
@@ -312,7 +312,7 @@ def test_memory_system_10k_operations_invariants(workload):
 
     Tests:
     - Top-K recall monotonicity
-    - Latency budget adherence 
+    - Latency budget adherence
     - Cascade prevention (99.7%+)
     - System coherence maintenance
     """
@@ -711,7 +711,7 @@ def test_memory_performance_regression_at_scale(operation_count):
     """
     Regression test: Ensure memory performance doesn't degrade at scale
 
-    This test validates that performance targets are maintained as 
+    This test validates that performance targets are maintained as
     operation count increases.
     """
     memory_system = AdaptiveMemorySystem(max_items=operation_count + 1000)

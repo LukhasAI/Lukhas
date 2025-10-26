@@ -473,7 +473,7 @@ class HealthMonitor:
 
         # Predict future value
         prediction_horizon = 300  # 5 minutes ahead
-        current_time = timestamps[-1]
+        timestamps[-1]
         predicted_value = values[-1] + slope * prediction_horizon
 
         # Check if prediction crosses threshold

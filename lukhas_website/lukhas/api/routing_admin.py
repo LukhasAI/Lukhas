@@ -171,7 +171,7 @@ async def validate_configuration(
 ):
     """Validate routing configuration"""
     try:
-        config_manager = await get_routing_config_manager()
+        await get_routing_config_manager()
 
         # Attempt to parse configuration
         validation_results = {

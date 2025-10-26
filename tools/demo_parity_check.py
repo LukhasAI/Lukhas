@@ -156,7 +156,7 @@ class DemoParityChecker:
         print("🛡️ Checking attestation track parity...")
 
         issues = []
-        demo_script = self.examples_dir / "attestation" / "verify_evidence.sh"
+        self.examples_dir / "attestation" / "verify_evidence.sh"
         production_tool = self.tools_dir / "collect_attestation.py"
 
         # Check evidence JWT format matches production

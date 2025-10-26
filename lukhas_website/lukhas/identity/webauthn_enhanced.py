@@ -375,7 +375,7 @@ class EnhancedWebAuthnService:
 
             # Extract response components
             credential_id = webauthn_response.get("id", "")
-            raw_id = webauthn_response.get("rawId", "")
+            webauthn_response.get("rawId", "")
             response = webauthn_response.get("response", {})
 
             # Validate credential exists
@@ -677,7 +677,7 @@ class EnhancedWebAuthnService:
 
     async def _cleanup_expired_challenges(self) -> None:
         """Remove expired challenges and nonces."""
-        now = datetime.now(timezone.utc)
+        datetime.now(timezone.utc)
         expired_challenges = [
             cid for cid, challenge in self._active_challenges.items()
             if challenge.is_expired

@@ -707,12 +707,6 @@ class SecurityAuditor:
     async def _check_gdpr_compliance(self) -> None:
         """Check GDPR compliance indicators."""
         # Look for privacy policy, data processing agreements, etc.
-        privacy_indicators = [
-            "privacy_policy",
-            "data_processing",
-            "consent_management",
-            "data_retention"
-        ]
 
         # Simplified check - look for privacy-related files
         privacy_files = list(self.project_root.glob("**/privacy*")) + list(self.project_root.glob("**/gdpr*"))
@@ -723,12 +717,6 @@ class SecurityAuditor:
     async def _check_soc2_compliance(self) -> None:
         """Check SOC2 compliance indicators."""
         # Check for security controls documentation
-        soc2_indicators = [
-            "access_control",
-            "security_monitoring",
-            "incident_response",
-            "change_management"
-        ]
 
         # This would check for SOC2 controls implementation
         pass
@@ -736,12 +724,6 @@ class SecurityAuditor:
     async def _check_iso27001_compliance(self) -> None:
         """Check ISO 27001 compliance indicators."""
         # Check for information security management system
-        iso_indicators = [
-            "security_policy",
-            "risk_assessment",
-            "security_controls",
-            "audit_trail"
-        ]
 
         # This would check for ISO 27001 controls
         pass

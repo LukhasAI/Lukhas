@@ -380,7 +380,7 @@ class TestRoutingRequestValidation:
         assert request.min_responses == 1
         assert request.max_responses == 1
         assert request.timeout == 10.0
-        assert request.metadata["custom"] == True
+        assert request.metadata["custom"] is True
 
 
 class TestPerformanceRequirements:

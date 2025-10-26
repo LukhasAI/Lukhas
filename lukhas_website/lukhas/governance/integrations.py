@@ -359,7 +359,7 @@ class MemoryIntegration(SystemIntegration):
             decision_status = decision_data.get("decision", {}).get("status")
 
             # Create memory entry
-            memory_entry = {
+            {
                 "type": "guardian_decision",
                 "correlation_id": correlation_id,
                 "status": decision_status,

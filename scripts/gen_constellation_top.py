@@ -43,7 +43,7 @@ def main():
     canon = json.loads(CANON.read_text(encoding="utf-8"))
     labels = extract_canon_labels(canon)
     order = conf.get("stars_order", labels)
-    stars_set = set(labels)
+    set(labels)
 
     # Aggregate
     per_star = defaultdict(list)

@@ -252,7 +252,7 @@ class TestBlueGreenDeployment:
         """
         # Validate load test script exists
         project_root = Path(__file__).parent.parent.parent
-        load_test_script = project_root / "scripts" / "load_test.sh"
+        project_root / "scripts" / "load_test.sh"
 
         # Check for load test configuration
         # This is a validation that load test infrastructure is in place

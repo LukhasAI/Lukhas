@@ -28,7 +28,7 @@ def test_memory_migration_and_indexes():
 
     try:
         # Initialize memory - should trigger migration
-        memory = SqlMemory(dsn=f"sqlite:///{db_path}")
+        SqlMemory(dsn=f"sqlite:///{db_path}")
 
         # Check that tables exist
         conn = sqlite3.connect(db_path)

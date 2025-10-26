@@ -242,7 +242,7 @@ class TestQueryProcessing:
         }
         orch.register_node("math", mock_node)
 
-        result = orch.process_query("2 + 2")
+        orch.process_query("2 + 2")
 
         # Should have intent node in graph
         intent_nodes = [n for n in orch.matriz_graph.values() if n["type"] == "INTENT"]
@@ -259,7 +259,7 @@ class TestQueryProcessing:
         }
         orch.register_node("math", mock_node)
 
-        result = orch.process_query("2 + 2")
+        orch.process_query("2 + 2")
 
         # Should have decision node in graph
         decision_nodes = [n for n in orch.matriz_graph.values() if n["type"] == "DECISION"]
@@ -320,7 +320,7 @@ class TestQueryProcessing:
         mock_validator.validate_output.return_value = True
         orch.register_node("validator", mock_validator)
 
-        result = orch.process_query("2 + 2")
+        orch.process_query("2 + 2")
 
         # Should have reflection node
         reflection_nodes = [n for n in orch.matriz_graph.values() if n["type"] == "REFLECTION"]
@@ -415,7 +415,7 @@ class TestCausalChainTracing:
         }
         orch.register_node("math", mock_node)
 
-        result = orch.process_query("2 + 2")
+        orch.process_query("2 + 2")
 
         # Get a decision node and trace its chain
         decision_nodes = [n for n in orch.matriz_graph.values() if n["type"] == "DECISION"]
@@ -555,7 +555,7 @@ class TestEdgeCases:
 
         # Should not crash
         try:
-            result = orch.process_query("2 + 2")
+            orch.process_query("2 + 2")
             # Either returns error or raises exception
             assert True
         except Exception:

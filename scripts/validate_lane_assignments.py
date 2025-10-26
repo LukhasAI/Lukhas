@@ -222,7 +222,7 @@ class LaneAssignmentValidator:
 
         for component_name, component_config in components.items():
             current_lane = component_config.get('current_lane')
-            target_lane = component_config.get('target_lane')
+            component_config.get('target_lane')
             status = component_config.get('status')
 
             # WebAuthn promotion check

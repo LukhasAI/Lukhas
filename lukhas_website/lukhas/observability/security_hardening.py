@@ -389,7 +389,7 @@ class ObservabilitySecurityHardening:
 
         # Encrypt sensitive data if enabled
         if self.enable_encryption and self._is_sensitive_evidence(evidence_data):
-            encrypted_data = await self._encrypt_data(evidence_json.encode())
+            await self._encrypt_data(evidence_json.encode())
             security_metadata["encrypted"] = True
             security_metadata["encryption_key_id"] = "primary_encryption"
         else:

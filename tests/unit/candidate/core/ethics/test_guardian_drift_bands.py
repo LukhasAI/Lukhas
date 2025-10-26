@@ -485,7 +485,7 @@ class TestGuardianFactoryFunction:
 
         assert guardian.thresholds.allow_drift_threshold == 0.1
         assert guardian.thresholds.hysteresis_buffer_allow == 120.0
-        assert guardian.thresholds.critical_violation_immediate_block == False
+        assert guardian.thresholds.critical_violation_immediate_block is False
 
 
 class TestBandTransitionScenarios:

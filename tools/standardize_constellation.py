@@ -326,7 +326,7 @@ def replace_incomplete_constellation(content: str, file_path: Path) -> str:
             # Check if this needs replacement
             if is_incomplete_mention(line, star_count, next_lines):
                 # Detect if it's a bullet list format
-                has_bullets = any('•' in lines[j] or re.match(r'^\s*[-*]\s+', lines[j])
+                any('•' in lines[j] or re.match(r'^\s*[-*]\s+', lines[j])
                                  for j in range(i, min(len(lines), i + 10)))
 
                 # Detect indentation level

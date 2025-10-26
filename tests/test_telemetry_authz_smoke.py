@@ -143,7 +143,7 @@ class TestAuthzTelemetrySmoke:
         assert "policy_sha" in attrs
         assert "contract_sha" in attrs
         assert attrs["capability_id"] == "cap_1234***cdef"  # Masked
-        assert attrs["mfa_used"] == False
+        assert attrs["mfa_used"] is False
         assert attrs["region"] == "us-west-2"
         assert attrs["decision_time_ms"] == 42
 
@@ -215,7 +215,7 @@ class TestAuthzTelemetrySmoke:
         attrs = dict(span.attributes)
 
         assert attrs["tier"] == "inner_circle"
-        assert attrs["mfa_used"] == True
+        assert attrs["mfa_used"] is True
         assert attrs["module"] == "identity"
         assert attrs["decision"] == "allow"
 

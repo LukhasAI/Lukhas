@@ -498,7 +498,7 @@ class TestSchemaSnapshotProtection:
                 "t4_excellence": all([
                     "integrity" in schema["properties"],
                     "extensions" in schema["properties"],
-                    schema["additionalProperties"] == False,
+                    schema["additionalProperties"] is False,
                     "error" in schema["$defs"]["Decision"]["properties"]["status"]["enum"]
                 ]),
                 "fail_closed_behavior": "error" in schema["$defs"]["Decision"]["properties"]["status"]["enum"],

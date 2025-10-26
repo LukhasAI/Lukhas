@@ -205,9 +205,9 @@ class TestPolicyGuard:
         assert len(log) == 2
 
         # Verify log entries
-        assert log[0].allow == True
+        assert log[0].allow is True
         assert log[0].result == PolicyResult.ALLOW
-        assert log[1].allow == False
+        assert log[1].allow is False
         assert log[1].result == PolicyResult.DENY_KIND
 
         # Test log entry conversion

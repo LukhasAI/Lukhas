@@ -48,7 +48,7 @@ def create_consciousness_story_adaptation(base_message: str, audience: str, focu
         },
     }
 
-    adaptation = audience_adaptations.get(audience, audience_adaptations["general_public"])
+    audience_adaptations.get(audience, audience_adaptations["general_public"])
 
     if audience == "developers":
         return f"{base_message} - Build this future with Constellation Framework APIs and consciousness technology integration patterns in {focus_area}"

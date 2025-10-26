@@ -4,7 +4,7 @@ Tests cover:
 - PQC availability detection
 - Key generation and loading
 - Signing operations (Dilithium2 and HMAC fallback)
-- Signature verification  
+- Signature verification
 - Key management and persistence
 - HMAC fallback mode
 - Factory function behavior
@@ -494,7 +494,7 @@ class TestKeyManagement:
             key_path = Path(tmpdir) / "private.key"
             public_path = Path(tmpdir) / "public.key"
 
-            signer = PQCSigner(key_path=key_path, public_key_path=public_path)
+            PQCSigner(key_path=key_path, public_key_path=public_path)
 
             # Private key should have restricted permissions (0o600)
             stat_info = key_path.stat()
@@ -511,7 +511,7 @@ class TestKeyManagement:
 
             assert not key_dir.exists()
 
-            signer = PQCSigner(key_path=key_path, public_key_path=public_path)
+            PQCSigner(key_path=key_path, public_key_path=public_path)
 
             assert key_dir.exists()
             assert key_path.exists()

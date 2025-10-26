@@ -793,7 +793,7 @@ class ContradictionIntegrator:
     def _calculate_multi_scope_accuracy(self, scope_coverage: Dict[ContradictionScope, int]) -> float:
         """Calculate accuracy across multiple detection scopes."""
         # Simplified accuracy calculation
-        total_checks = len(ContradictionScope)
+        len(ContradictionScope)
         scopes_with_findings = sum(1 for count in scope_coverage.values() if count > 0)
 
         # Assume high accuracy if we're finding contradictions where expected

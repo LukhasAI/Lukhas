@@ -117,7 +117,6 @@ class T4MasterFixer:
 
         try:
             # Count syntax errors - exclude .venv and archives
-            exclude_patterns = "--exclude=.venv --exclude=archive --exclude=products/shared/gpt_oss_integration"
 
             # Count syntax errors
             result = subprocess.run(

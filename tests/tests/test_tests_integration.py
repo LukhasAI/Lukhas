@@ -75,7 +75,7 @@ class TestTestsExternalIntegration:
             with patch('tests.database.connect') as mock_db:
                 mock_db.return_value.execute.return_value = {'success': True}
 
-                result = component.process({'db_operation': 'test'})
+                component.process({'db_operation': 'test'})
 
                 # Verify database interaction
                 mock_db.assert_called()
@@ -209,7 +209,7 @@ class TestTestsMonitoringIntegration:
             with patch('opentelemetry.trace.get_current_span') as mock_span:
                 mock_span.return_value.set_attribute = Mock()
 
-                result = component.process({'trace_test': True})
+                component.process({'trace_test': True})
 
                 # Verify tracing attributes were set
                 mock_span.return_value.set_attribute.assert_called()

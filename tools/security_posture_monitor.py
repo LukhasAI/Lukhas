@@ -168,7 +168,7 @@ class SecurityPostureMonitor:
     def analyze_vulnerability_exposure(self, telemetry: Dict) -> float:
         """Analyze vulnerability exposure across all modules."""
         findings = telemetry.get('vulnerability_findings', [])
-        total_modules = telemetry.get('total_modules', 1)
+        telemetry.get('total_modules', 1)
 
         if not findings:
             self.log("No vulnerability findings detected")
@@ -204,9 +204,9 @@ class SecurityPostureMonitor:
         if total_modules == 0:
             return 0.0
 
-        configured_count = sum(1 for status in attestation_status.values()
+        sum(1 for status in attestation_status.values()
                              if status.get('verifier_configured'))
-        evidence_count = sum(1 for status in attestation_status.values()
+        sum(1 for status in attestation_status.values()
                            if status.get('evidence_collected'))
         valid_count = sum(1 for status in attestation_status.values()
                          if status.get('attestation_valid'))

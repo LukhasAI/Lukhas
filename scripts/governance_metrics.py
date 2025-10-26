@@ -69,7 +69,7 @@ def calculate_metrics(manifest: Dict) -> Dict:
         by_owner[owner] += 1
 
     # Top owners with most 'unknown' docs
-    unknown_owners = sorted(
+    sorted(
         [(owner, count) for owner, count in by_owner.items() if owner == 'unknown'],
         key=lambda x: -x[1]
     )[:5]
