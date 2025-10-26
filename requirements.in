@@ -13,7 +13,7 @@ httpx>=0.25.0,<1.0.0
 
 # Core ML/AI
 numpy>=1.24.0,<3.0.0
-openai>=1.109.0,<2.0.0  # Updated from Dependabot PR #340
+openai>=1.109.0,<3.0.0  # Updated from Dependabot PR #340
 anthropic>=0.18.0,<1.0.0
 tiktoken>=0.5.0,<1.0.0
 
