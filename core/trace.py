@@ -9,20 +9,15 @@ Usage:
 """
 from datetime import datetime, timezone
 from typing import Any, Dict, Optional
+from MATRIZ.node_contract import GLYPH
 
-from matriz.node_contract import GLYPH
-
-
-def mk_crumb(event: str, glyph: Optional[GLYPH] = None, **kv: Any) -> Dict[str, Any]:
+def mk_crumb(event: str, glyph: Optional[GLYPH]=None, **kv: Any) -> Dict[str, Any]:
     """
     Minimal, deterministic trace crumb.
     """
-    out = {
-        "ts": datetime.now(timezone.utc).isoformat(),
-        "event": event,
-    }
+    out = {'ts': datetime.now(timezone.utc).isoformat(), 'event': event}
     if glyph:
-        out["glyph"] = {"id": str(glyph.id), "kind": glyph.kind, "v": glyph.version}
+        out['glyph'] = {'id': str(glyph.id), 'kind': glyph.kind, 'v': glyph.version}
     if kv:
-        out["data"] = kv
+        out['data'] = kv
     return out
