@@ -639,7 +639,7 @@ def deserialize_event(data: dict[str, Any]) -> Optional[DomainEvent]:
 
 
 # Neuroplastic tags
-# TAG:core
-# TAG:events
-# TAG:contracts
-# TAG:professional_architecture
+# ΛTAG:core
+# ΛTAG:events
+# ΛTAG:contracts
+# ΛTAG:professional_architecture

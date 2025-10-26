@@ -1,0 +1,86 @@
+{
+  "batch_id": "BATCH-JULES-TODO-CLEANUP-01",
+  "agent": "Jules",
+  "priority": "medium",
+  "estimated_duration": "2.5 hours",
+  "created": "2025-10-26",
+  "description": "Quick wins: Import conversions, minor implementations, and UI integration tasks",
+  "tasks": [
+    {
+      "task_id": "JULES-TODO-01",
+      "title": "Convert remaining relative imports to absolute imports",
+      "priority": "medium",
+      "complexity": "low",
+      "estimated_time": "1 hour",
+      "files": [
+        "core/orchestration/brain/brain_integration_broken.py",
+        "core/orchestration/brain/integration/brain_integration.py",
+        "core/interfaces/logic/context/context_builder.py"
+      ],
+      "description": "Convert all remaining 'TODO: convert to absolute import' instances to use absolute imports following the pattern established in previous commits",
+      "acceptance_criteria": [
+        "All relative imports converted to absolute (from core.* pattern)",
+        "Maintain fallback import chains for optional dependencies",
+        "No import errors when running python -c 'import <module>'",
+        "Follow T4 commit message standards"
+      ]
+    },
+    {
+      "task_id": "JULES-TODO-02",
+      "title": "Implement missing state tracking in dream_adapter",
+      "priority": "medium",
+      "complexity": "low",
+      "estimated_time": "30 minutes",
+      "files": [
+        "core/orchestration/brain/unified_integration/adapters/dream_adapter.py"
+      ],
+      "description": "Line 65: Implement state tracking for dream processing adapter",
+      "acceptance_criteria": [
+        "Add state tracking dictionary or class",
+        "Track dream processing state transitions",
+        "Add logging for state changes",
+        "Update docstrings"
+      ]
+    },
+    {
+      "task_id": "JULES-TODO-03",
+      "title": "Integrate voice narration system stub",
+      "priority": "low",
+      "complexity": "low",
+      "estimated_time": "30 minutes",
+      "files": [
+        "core/modules/nias/__init__.py"
+      ],
+      "description": "Line 45: Create stub integration for voice narration system with proper interface",
+      "acceptance_criteria": [
+        "Define VoiceNarrator interface/protocol",
+        "Create stub implementation",
+        "Add configuration for future TTS integration",
+        "Document integration points"
+      ]
+    },
+    {
+      "task_id": "JULES-TODO-04",
+      "title": "Fix budget controller context issues",
+      "priority": "medium",
+      "complexity": "medium",
+      "estimated_time": "30 minutes",
+      "files": [
+        "core/orchestration/brain/github_vulnerability_manager.py"
+      ],
+      "description": "Lines 600, 604: Fix undefined context variable issues in vulnerability manager",
+      "acceptance_criteria": [
+        "Define context parameter properly",
+        "Add type hints for context",
+        "Ensure context is passed through call chain",
+        "No F821 linting errors"
+      ]
+    }
+  ],
+  "notes": [
+    "These are straightforward refactoring and small implementation tasks",
+    "Focus on code quality and consistency",
+    "Each task should have its own commit following T4 standards",
+    "Test imports and basic functionality after each change"
+  ]
+}
