@@ -32,7 +32,10 @@ import structlog
 
 # Import existing LUKHAS WebAuthn infrastructure
 try:
-    from .webauthn import WebAuthnCredential, WebAuthnManager  # noqa: F401  # TODO: .webauthn.WebAuthnCredential; ...
+    from .webauthn import (  # noqa: F401  # TODO: .webauthn.WebAuthnCredential; ...
+        WebAuthnCredential,
+        WebAuthnManager,
+    )
     WEBAUTHN_BASE_AVAILABLE = True
 except ImportError:
     WEBAUTHN_BASE_AVAILABLE = False

@@ -28,8 +28,14 @@ logger = logging.getLogger(__name__)
 # Import LUKHAS identity components
 try:
     from .alias_format import make_alias, parse_alias, validate_alias_format
-    from .auth_service import AuthenticationService, AuthResult  # noqa: F401  # TODO: .auth_service.AuthResult; cons...
-    from .tier_system import TierLevel, normalize_tier  # noqa: F401  # TODO: .tier_system.TierLevel; consid...
+    from .auth_service import (  # noqa: F401  # TODO: .auth_service.AuthResult; cons...
+        AuthenticationService,
+        AuthResult,
+    )
+    from .tier_system import (  # noqa: F401  # TODO: .tier_system.TierLevel; consid...
+        TierLevel,
+        normalize_tier,
+    )
     from .token_generator import (  # noqa: F401  # TODO: .token_generator.TokenClaims; ...
         EnvironmentSecretProvider,
         TokenClaims,

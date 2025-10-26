@@ -104,7 +104,7 @@ def main():
     print("### Recommendation:")
     print(f"  Auto-fixable: {auto_fixable} errors")
     print(f"  Manual review: {manual_required} errors")
-    print(f"  Target: <50 errors for T4 freeze")
+    print("  Target: <50 errors for T4 freeze")
     print()
 
     if len(errors) > 50:

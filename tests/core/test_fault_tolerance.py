@@ -2,7 +2,7 @@
 
 import pytest
 
-from core.fault_tolerance import Supervisor, SupervisionStrategy
+from core.fault_tolerance import SupervisionStrategy, Supervisor
 
 
 def test_agent_specific_custom_handler_precedence():

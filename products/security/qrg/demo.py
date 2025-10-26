@@ -18,14 +18,13 @@ import time
 from pathlib import Path
 from typing import Any, Optional
 
+from qi.entropy import EntropyProfile, TrueQuantumRandomness
 from qrg_core import ConsciousnessContext, QIResonanceGlyph
 from system_bridge import (
     LambdaIdIntegration,
     LukhasAccessTier,
     SymbolicIdentity,
 )
-
-from qi.entropy import EntropyProfile, TrueQuantumRandomness
 
 # Add current directory to path for imports
 sys.path.insert(0, str(Path(__file__).parent))

@@ -5,10 +5,10 @@ Ensures configs/runtime/reliability.yaml contains valid parameters
 within safe operational ranges and SLO-compatible values.
 """
 
-import yaml
-import pytest
 from pathlib import Path
 
+import pytest
+import yaml
 
 # Constants
 CONFIG_PATH = Path(__file__).parent.parent.parent / "configs" / "runtime" / "reliability.yaml"
@@ -199,7 +199,7 @@ def test_config_production_ready():
             issues.append("jitter=0 can cause thundering herd problems")
 
     if issues:
-        pytest.fail(f"Production readiness issues:\n" + "\n".join(f"  - {i}" for i in issues))
+        pytest.fail("Production readiness issues:\n" + "\n".join(f"  - {i}" for i in issues))
 
 
 # Integration test (requires running server)

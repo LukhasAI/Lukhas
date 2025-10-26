@@ -1,5 +1,4 @@
 import pytest
-
 from products.experience.voice.bridge.audio_engine import create_audio_engine
 
 

@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
-from subprocess import run, CalledProcessError
+from subprocess import CalledProcessError, run
+
 
 def test_evals_runner_produces_reports(tmp_path, monkeypatch):
     out = tmp_path / "audits"

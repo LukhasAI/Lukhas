@@ -2,9 +2,8 @@ import warnings
 from collections import Counter
 
 import pytest
-from pydantic.warnings import PydanticDeprecatedSince20
-
 from products.experience.dashboard.consciousness import trace_dashboard
+from pydantic.warnings import PydanticDeprecatedSince20
 
 warnings.filterwarnings("ignore", message="Import 'bio.bio_utilities' is deprecated")
 warnings.filterwarnings("ignore", category=PydanticDeprecatedSince20)

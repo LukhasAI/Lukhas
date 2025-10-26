@@ -8,8 +8,9 @@ Validates:
 - Rate limit recovery after waiting
 - Different limits per endpoint
 """
-import pytest
 import time
+
+import pytest
 from fastapi.testclient import TestClient
 from serve.main import app
 

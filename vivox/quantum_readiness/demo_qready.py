@@ -6,7 +6,6 @@ Showcases quantum readiness capabilities
 import asyncio
 
 import numpy as np
-
 from vivox.qi_readiness import (
     EthicalDimension,
     MoralSuperposition,

@@ -177,7 +177,7 @@ def generate_report(root_dir: Path, exclude_patterns: List[str]) -> None:
         if not has_incomplete:
             complete_files.append(file_path)
 
-    print(f"📊 Summary:")
+    print("📊 Summary:")
     print(f"  ✅ Complete definitions: {len(complete_files)}")
     print(f"  ⚠️  Incomplete definitions: {len(incomplete_files)}")
     print()
@@ -402,7 +402,7 @@ def apply_standardization(root_dir: Path, changes: List[Tuple[Path, str, str]]) 
 
     print()
     print("=" * 80)
-    print(f"📊 Summary:")
+    print("📊 Summary:")
     print(f"  ✅ Updated: {updated_count} files")
     print(f"  ⏭️  Skipped: {skipped_count} files")
     print()

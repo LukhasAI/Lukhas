@@ -5,7 +5,6 @@ import json
 from pathlib import Path
 
 import pytest
-
 from oneiric_core.tools.drift_dream_test import (
     DriftDreamProbeRequest,
     generate_probe_report,

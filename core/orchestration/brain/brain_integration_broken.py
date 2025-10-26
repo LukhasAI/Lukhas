@@ -83,11 +83,11 @@ try:
     ADVANCED_AGI_COMPONENTS = True
 except ImportError:
     try:
+        from compliance.ai_compliance_manager import AIComplianceManager
         from meta_cognitive.reflective_introspection_system import ReflectiveIntrospectionSystem
         from prediction.predictive_resource_manager import PredictiveResourceManager
         from reasoning.causal_reasoning_module import CausalReasoningModule
 
-        from compliance.ai_compliance_manager import AIComplianceManager
         from ethics.ethical_hierarchy import EthicalHierarchy
         from governance.dao_governance_node import DAOGovernanceNode
         from memory.enhanced_memory_manager import EnhancedMemoryManager

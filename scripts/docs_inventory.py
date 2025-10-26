@@ -252,7 +252,7 @@ def main():
     docs.sort(key=lambda d: d['path'])
 
     # Compute metrics
-    print(f"📊 Computing metrics...")
+    print("📊 Computing metrics...")
     metrics = compute_metrics(docs)
 
     # Write manifest

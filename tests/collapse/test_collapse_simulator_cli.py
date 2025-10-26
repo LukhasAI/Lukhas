@@ -5,7 +5,7 @@ import json
 import pathlib
 
 import pytest
-
+from tools import collapse_simulator_main
 from tools.collapse_simulator import (
     DEFAULT_OUTPUT_PATH,
     SimulationContext,
@@ -13,7 +13,6 @@ from tools.collapse_simulator import (
     derive_top_symbols,
     simulate_collapse,
 )
-from tools import collapse_simulator_main
 
 
 def test_simulate_collapse_creates_artifact(tmp_path: pathlib.Path) -> None:

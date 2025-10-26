@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 """
 Dream Verification Colony
 
@@ -20,7 +21,12 @@ import numpy as np
 
 # Import colony infrastructure
 from core.colonies.base_colony import BaseColony, ConsensusResult
-from core.enhanced_swarm import AgentCapability, AgentMemory, AgentState, EnhancedSwarmAgent as SwarmAgent
+from core.enhanced_swarm import (
+    AgentCapability,
+    AgentMemory,
+    AgentState,
+    EnhancedSwarmAgent as SwarmAgent,
+)
 
 # Import event bus for dream coordination
 try:
@@ -561,8 +567,8 @@ class DreamVerificationColony(BaseColony):
         await super().initialize()
 
         # Get event systems
-        from governance.identity.core.events import get_identity_event_publisher
         from core.event_bus import get_global_event_bus
+        from governance.identity.core.events import get_identity_event_publisher
 
         self.event_publisher = await get_identity_event_publisher()
         self.event_bus = await get_global_event_bus()

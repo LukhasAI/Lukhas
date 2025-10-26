@@ -32,7 +32,6 @@ from typing import Any
 try:
     from backend.audit_logger import AuditLogger
 
-    from governance.identity.auth.cultural_profile_manager import CulturalProfileManager
     from consciousness.core_consciousness.consciousness_engine import (
         ConsciousnessEngine,
     )
@@ -42,6 +41,7 @@ try:
     from core.interfaces.as_agent.core.gatekeeper import (
         ConstitutionalGatekeeper,
     )
+    from governance.identity.auth.cultural_profile_manager import CulturalProfileManager
     from utils.cognitive_load_estimator import CognitiveLoadEstimator
     from utils.cultural_safety_checker import CulturalSafetyChecker
 except ImportError:

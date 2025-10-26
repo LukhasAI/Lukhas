@@ -9,7 +9,6 @@ from fastapi import FastAPI, Header, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
-
 from qi.autonomy.self_healer import apply, approve, list_proposals
 
 # Component imports

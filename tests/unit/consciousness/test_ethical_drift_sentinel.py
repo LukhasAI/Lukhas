@@ -1,6 +1,6 @@
 import pytest
-
 from labs.consciousness.reflection import ethical_drift_sentinel as sentinel_module
+
 from consciousness.reflection.ethical_drift_sentinel import (
     EthicalDriftSentinel,
     EthicalState,

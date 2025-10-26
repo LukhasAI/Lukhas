@@ -8,9 +8,10 @@ Validates:
 - Rate limiting works correctly under load
 - Response ID uniqueness under concurrency
 """
-import pytest
 import concurrent.futures
 import threading
+
+import pytest
 from fastapi.testclient import TestClient
 from serve.main import app
 

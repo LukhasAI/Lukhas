@@ -9,7 +9,7 @@ def test_core_lane_import():
     core_dir = os.path.join(os.path.dirname(__file__), "../../core")
     assert os.path.exists(core_dir), "Core directory exists at root level"
     assert os.path.isdir(core_dir), "Core is a directory"
-    
+
     # Verify core/__init__.py exists
     core_init = os.path.join(core_dir, "__init__.py")
     assert os.path.exists(core_init), "Core module is properly initialized"

@@ -12,10 +12,9 @@ from __future__ import annotations
 
 import hashlib
 import hmac
-import json
 import os
 from pathlib import Path
-from typing import Optional, Tuple
+from typing import Optional
 
 # Try to import liboqs for PQC support
 PQC_AVAILABLE = False
@@ -23,8 +22,8 @@ oqs = None
 
 try:
     # Redirect stderr to suppress auto-installation messages
-    import sys
     import io
+    import sys
     _stderr = sys.stderr
     sys.stderr = io.StringIO()
 

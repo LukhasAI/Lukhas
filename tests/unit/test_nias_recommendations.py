@@ -1,5 +1,4 @@
 import pytest
-
 from products.communication.nias_candidate.core.nias_engine import ContextAwareRecommendation
 
 

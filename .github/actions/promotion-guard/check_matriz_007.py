@@ -13,11 +13,10 @@ Exit codes:
 """
 
 import os
-import sys
 import re
-import json
-import textwrap
+import sys
 from typing import List, Tuple
+
 import requests
 
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")

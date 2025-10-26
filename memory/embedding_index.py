@@ -11,12 +11,12 @@ logger = logging.getLogger(__name__)
 
 try:  # pragma: no cover - optional dependency
     from annoy import AnnoyIndex  # type: ignore
-except Exception:  # noqa: BLE001
+except Exception:
     AnnoyIndex = None  # type: ignore[assignment]
 
 try:  # pragma: no cover - optional dependency
     import numpy as _np
-except Exception:  # noqa: BLE001
+except Exception:
     _np = None
 
 

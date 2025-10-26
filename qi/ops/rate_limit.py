@@ -14,7 +14,6 @@ from starlette.responses import JSONResponse, Response
 # Prometheus (integrates with the registry from metrics_middleware)
 try:
     from prometheus_client import Counter, Gauge
-
     from qi.ops.metrics_middleware import REGISTRY
 
     _PROM = True

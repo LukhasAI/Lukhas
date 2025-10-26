@@ -1,5 +1,4 @@
 import pytest
-
 from qi.bio.bio_coordinator import QIBioCoordinator
 
 pytestmark = pytest.mark.asyncio

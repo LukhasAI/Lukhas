@@ -31,8 +31,14 @@ class TestActorTierIntegration:
     def test_secure_actor_communication(self):
         """Test actors with tier-based access control."""
         try:
-            from identity.tier_system import AccessContext, AccessType, DynamicTierSystem, PermissionScope, TierLevel
             from core.actor_system import ActorSystem, AIAgentActor
+            from identity.tier_system import (
+                AccessContext,
+                AccessType,
+                DynamicTierSystem,
+                PermissionScope,
+                TierLevel,
+            )
 
             # Create integrated systems
             actor_system = ActorSystem()
@@ -121,8 +127,8 @@ class TestActorTierIntegration:
     def test_elevated_session_actor_workflow(self):
         """Test actor workflow with session elevation."""
         try:
-            from identity.tier_system import DynamicTierSystem, TierLevel
             from core.actor_system import ActorSystem, AIAgentActor
+            from identity.tier_system import DynamicTierSystem, TierLevel
 
             actor_system = ActorSystem()
             tier_system = DynamicTierSystem()

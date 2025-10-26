@@ -1,5 +1,5 @@
-from typing import Any, Optional
 import logging
+from typing import Any
 
 import networkx as nx
 
@@ -74,7 +74,6 @@ class SymbolicReasoningColony(BaseColony):
     def reach_consensus(self, proposal: Any) -> Any:
         """Reach consciousness consensus across colony using GLYPH communication"""
         # Placeholder implementation for consciousness consensus
-        from core.colonies import ConsensusResult
 
         return ConsensusResult(
             consensus_reached=True,

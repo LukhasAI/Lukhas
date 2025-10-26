@@ -30,7 +30,9 @@ try:
     from opentelemetry.sdk.metrics.export import PeriodicExportingMetricReader
     from opentelemetry.sdk.trace import TracerProvider
     from opentelemetry.sdk.trace.export import BatchSpanProcessor
-    from opentelemetry.semconv.trace import SpanAttributes  # noqa: F401  # TODO: opentelemetry.semconv.trace.Sp...
+    from opentelemetry.semconv.trace import (
+        SpanAttributes,  # noqa: F401  # TODO: opentelemetry.semconv.trace.Sp...
+    )
     from opentelemetry.trace.status import Status, StatusCode
 
     OTEL_AVAILABLE = True

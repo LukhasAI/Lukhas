@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 """
 
 #TAG:consciousness
@@ -39,14 +40,21 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
-from core.common import get_logger
-
 # Enhancement system imports from labs/core/meta_learning
 # TODO(integration): These modules may need to be integrated to core/meta_learning
-from labs.core.meta_learning.federated_integration import FederatedLearningIntegration, FederationStrategy
+from labs.core.meta_learning.federated_integration import (
+    FederatedLearningIntegration,
+    FederationStrategy,
+)
 from labs.core.meta_learning.monitor_dashboard import MetaLearningMonitorDashboard
-from labs.core.meta_learning.rate_modulator import AdaptationStrategy, ConvergenceSignal, DynamicLearningRateModulator
+from labs.core.meta_learning.rate_modulator import (
+    AdaptationStrategy,
+    ConvergenceSignal,
+    DynamicLearningRateModulator,
+)
 from labs.core.meta_learning.symbolic_feedback import IntentNodeHistory, SymbolicFeedbackSystem
+
+from core.common import get_logger
 
 logger = get_logger(__name__)
 

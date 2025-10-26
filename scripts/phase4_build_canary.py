@@ -12,8 +12,8 @@ Notes:
 """
 import argparse
 import hashlib
-from pathlib import Path
 from collections import defaultdict
+from pathlib import Path
 
 TOPS = {"consciousness","identity","governance","memory","core","labs","matriz","api"}
 

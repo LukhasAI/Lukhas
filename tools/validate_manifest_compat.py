@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-import argparse, json, sys, pathlib
+import argparse
+import json
+import pathlib
+import sys
 
 REQUIRED = [
     'name','path','constellation_stars','confidence','description',

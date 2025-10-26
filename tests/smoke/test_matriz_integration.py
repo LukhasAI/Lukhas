@@ -5,8 +5,8 @@ Tests actual MATRIZ cognitive orchestrator capabilities when available,
 validates graceful degradation to stub mode when unavailable.
 """
 import pytest
+from serve.main import MATRIZ_AVAILABLE, app
 from starlette.testclient import TestClient
-from serve.main import app, MATRIZ_AVAILABLE
 
 # Skip entire module if MATRIZ not available
 pytestmark = pytest.mark.skipif(

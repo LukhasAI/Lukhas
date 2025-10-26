@@ -15,14 +15,14 @@ Reference:
     - Task 9: GA Deployment Runbook
 """
 
-import pytest
 import subprocess
 import time
-import yaml
-import requests
 from pathlib import Path
 from typing import Dict, List
 
+import pytest
+import requests
+import yaml
 
 # ⚛️ Identity · 🧠 Consciousness · 🛡️ Guardian
 # Deployment validation testing for LUKHAS AI Platform

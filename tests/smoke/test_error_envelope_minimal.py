@@ -5,6 +5,7 @@ just for testing, so we validate OpenAI-style error envelope and X-Trace-Id
 passthrough without depending on other app behavior.
 """
 import re
+
 from fastapi import HTTPException
 from fastapi.testclient import TestClient
 

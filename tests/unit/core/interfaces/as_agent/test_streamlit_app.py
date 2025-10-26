@@ -90,7 +90,7 @@ class _StreamlitStub(types.ModuleType):
     def subheader(self, *args: Any, **kwargs: Any) -> None:
         return None
 
-    def cache_data(self, *args: Any, **kwargs: Any):  # noqa: D401 - simple passthrough decorator
+    def cache_data(self, *args: Any, **kwargs: Any):  # - simple passthrough decorator
         """Return a pass-through decorator emulating Streamlit's cache."""
 
         def decorator(func):

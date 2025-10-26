@@ -20,7 +20,7 @@ Example:
 
 import streamlit as st
 
-from .graph_viewer import (  # noqa: TID252 (relative imports in __init__.py are idiomatic)
+from .graph_viewer import (  # (relative imports in __init__.py are idiomatic)
     LinkTypeConfig,
     MATRIZGraphViewer,
     NodeTypeConfig,

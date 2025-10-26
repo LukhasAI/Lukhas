@@ -31,18 +31,17 @@ try:
 
     # Backend components
     from backend.learning.meta_learning import MetaLearningSystem
-
-    from core.identity.vault.lukhas_id import IdentityManager
     from backend.security.privacy_manager import PrivacyManager
     from voice.speech_processor import SpeechProcessor
 
+    from core.identity.vault.lukhas_id import IdentityManager
+
+    # Utils and config
+    from core.orchestration.brain.config.settings import load_settings
     from frontend.interface.adaptive_interface_generator import (
         AdaptiveInterfaceGenerator,
     )
     from frontend.multimodal.image_generator import AdaptiveImageGenerator
-
-    # Utils and config
-    from core.orchestration.brain.config.settings import load_settings
 
 except ImportError as e:
     logger.critical(f"Failed to import required components: {e}")

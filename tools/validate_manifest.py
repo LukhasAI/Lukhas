@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-import sys, json, glob
+import glob
+import json
+import sys
 
 REQUIRED = {
     'name': str,

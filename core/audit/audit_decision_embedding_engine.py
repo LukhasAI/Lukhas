@@ -12,8 +12,9 @@ from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
+
 try:
-    from typing import Tuple, Dict, List
+    from typing import Dict, List, Tuple
 except ImportError:
     # For Python 3.8 compatibility
     Tuple = tuple

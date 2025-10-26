@@ -55,9 +55,8 @@ async def test_endpoints():
     print("\n🌐 Testing endpoint structure...")
 
     try:
-        from starlette.responses import JSONResponse
-
         from server import protected_resource_metadata
+        from starlette.responses import JSONResponse
 
         # Test Protected Resource Metadata endpoint
         print("✓ Starlette app created successfully")

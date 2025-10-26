@@ -13,7 +13,7 @@ Tracking: docs/v0.03/KNOWN_ISSUES.md#missing-modules
 
 # Added for test compatibility (memory.scheduled_folding.CompressionLevel)
 try:
-    from labs.memory.scheduled_folding import CompressionLevel  # noqa: F401
+    from labs.memory.scheduled_folding import CompressionLevel
 except ImportError:
     from enum import Enum
 
@@ -30,7 +30,7 @@ if "CompressionLevel" not in __all__:
 
 # Added for test compatibility (memory.scheduled_folding.FoldStatus)
 try:
-    from labs.memory.scheduled_folding import FoldStatus  # noqa: F401
+    from labs.memory.scheduled_folding import FoldStatus
 except ImportError:
     from enum import Enum
 
@@ -50,7 +50,7 @@ if "FoldStatus" not in __all__:
 
 # Added for test compatibility (memory.scheduled_folding.ScheduledFold)
 try:
-    from labs.memory.scheduled_folding import ScheduledFold  # noqa: F401
+    from labs.memory.scheduled_folding import ScheduledFold
 except ImportError:
     try:
         from memory.scheduled_folding import (

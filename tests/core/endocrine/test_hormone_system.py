@@ -31,7 +31,7 @@ def test_reward_response_increases_dopamine(endocrine_system: EndocrineSystem) -
 
 def test_effects_snapshot_contains_expected_metrics(endocrine_system: EndocrineSystem) -> None:
     """Calculated effects expose the major behavioral metrics."""
-    effects = endocrine_system._calculate_effects()  # noqa: SLF001 - deterministic helper
+    effects = endocrine_system._calculate_effects()  # - deterministic helper
 
     for key in (
         "stress_level",
@@ -51,7 +51,7 @@ def test_neuroplasticity_bounds_with_extreme_levels(endocrine_system: EndocrineS
     endocrine_system.hormones[HormoneType.SEROTONIN].level = 0.0
     endocrine_system.hormones[HormoneType.MELATONIN].level = 0.0
 
-    value = endocrine_system._calculate_neuroplasticity()  # noqa: SLF001 - deterministic helper
+    value = endocrine_system._calculate_neuroplasticity()  # - deterministic helper
 
     assert 0.1 <= value <= 1.0
 
@@ -65,7 +65,7 @@ def test_apply_effects_notifies_receptors(endocrine_system: EndocrineSystem) -> 
 
     endocrine_system.register_receptor("tests", receptor)
 
-    asyncio.run(endocrine_system._apply_effects({"stress_level": 0.9}))  # noqa: SLF001 - behavioural hook
+    asyncio.run(endocrine_system._apply_effects({"stress_level": 0.9}))  # - behavioural hook
 
     assert received == [pytest.approx(0.9)]
     assert endocrine_system.active_effects["stress_level"] == pytest.approx(0.9)

@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -60,6 +61,10 @@ import numpy as np
 
 # Import Lukhas core components
 try:
+    from reasoning.symbolic_reasoning import (
+        SymbolicEngine,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for bio-inspired/quantum systems development
+    )
+
     from core.integration.neuro_symbolic_fusion_layer import (
         NeuroSymbolicFusionLayer,  # noqa: F401  # TODO: core.integration.neuro_...
     )
@@ -68,9 +73,6 @@ try:
     )
     from memory.governance.ethical_drift_governor import (
         EthicalDriftGovernor,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
-    )
-    from reasoning.symbolic_reasoning import (
-        SymbolicEngine,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for bio-inspired/quantum systems development
     )
 except ImportError:
     pass

@@ -51,7 +51,7 @@ if "FoldManager" not in globals():
 
 # Added for test compatibility (memory.folds.FoldGuard)
 try:
-    from candidate.memory.folds import FoldGuard  # noqa: F401
+    from candidate.memory.folds import FoldGuard
 except ImportError:
     class FoldGuard:
         """Stub for FoldGuard."""

@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 #!/usr/bin/env python3
 """
 ╔══════════════════════════════════════════════════════════════════════════════════
@@ -838,7 +839,7 @@ async def main():
 
     # Show framework statistics
     stats = framework.get_chaos_engineering_statistics()
-    print(f"\nChaos Engineering Framework Statistics:")
+    print("\nChaos Engineering Framework Statistics:")
     print(f"Total Experiments: {stats['total_experiments']}")
     print(f"System Survival Rate: {stats['system_survival_rate']:.1%}")
     print(f"Recovery Success Rate: {stats['recovery_success_rate']:.1%}")

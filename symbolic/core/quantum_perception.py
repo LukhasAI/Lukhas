@@ -21,11 +21,12 @@ Based on quantum Bayesian (QBism) frameworks and field-theoretic consciousness.
 import time
 import uuid
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Tuple, Callable
-import numpy as np
 from enum import Enum
+from typing import Any, Callable, Dict, List, Optional, Tuple
 
-from .visual_symbol import VisualSymbol, QuantumField, QuantumState, PerceptionToken
+import numpy as np
+
+from .visual_symbol import QuantumState, VisualSymbol
 
 
 class ObservationType(Enum):

@@ -5,7 +5,6 @@ import sys
 from pathlib import Path
 
 import pytest
-
 from products.infrastructure.legado.legacy_systems.security import (
     SecurityError,
     check_safety_flags,

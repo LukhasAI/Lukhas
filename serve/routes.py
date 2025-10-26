@@ -3,10 +3,10 @@
 import logging
 from typing import Any
 
+from enterprise.observability.instantiate import obs_stack
 from fastapi import APIRouter, HTTPException
 
 from config.config import TIER_PERMISSIONS
-from enterprise.observability.instantiate import obs_stack
 
 from .schemas import (
     DreamRequest,

@@ -5,8 +5,8 @@ Tests actual embedding index, vector search, and context preservation
 when memory systems are available. Validates graceful degradation.
 """
 import pytest
+from serve.main import MEMORY_AVAILABLE, app
 from starlette.testclient import TestClient
-from serve.main import app, MEMORY_AVAILABLE
 
 # Skip entire module if memory systems not available
 pytestmark = pytest.mark.skipif(

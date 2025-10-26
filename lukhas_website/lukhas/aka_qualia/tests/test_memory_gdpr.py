@@ -17,7 +17,6 @@ Target: 100% regulatory compliance validation
 import time
 
 import pytest
-
 from aka_qualia.tests.conftest import create_test_glyph, create_test_scene
 
 

@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 """
 Brain Identity Connector Integration Module
 Provides integration wrapper for connecting the brain identity connector to the identity hub

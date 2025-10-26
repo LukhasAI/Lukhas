@@ -10,7 +10,6 @@ from typing import Any
 
 from fastapi import BackgroundTasks, Body, FastAPI, HTTPException, Query
 from pydantic import ValidationError
-
 from qi.crypto.pqc_signer import sign_dilithium
 from qi.feedback.proposals import ProposalMapper
 from qi.feedback.schema import FeedbackCard

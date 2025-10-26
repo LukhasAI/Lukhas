@@ -36,9 +36,9 @@ from typing import Any, Awaitable, Callable, Dict, Optional
 import jwt
 import structlog
 from fastapi import HTTPException, Request, status
+from fastapi.responses import JSONResponse
 from fastapi.security import HTTPBearer
 from jwt.exceptions import InvalidTokenError as JWTError
-from fastapi.responses import JSONResponse
 
 from governance.identity.core.id_service import get_identity_manager
 
@@ -60,7 +60,6 @@ from core.identity.vault.lukhas_id import (
     IdentityRateLimitExceeded,
     IdentityVerificationError,
 )
-
 
 logger = structlog.get_logger(__name__)
 

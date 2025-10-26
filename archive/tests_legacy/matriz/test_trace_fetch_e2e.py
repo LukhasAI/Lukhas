@@ -23,8 +23,6 @@ import uuid
 from datetime import datetime, timezone
 from typing import Any
 
-from starlette.testclient import TestClient
-
 # Import the FastAPI app from serve module
 from serve.main import app
 
@@ -41,6 +39,7 @@ from serve.storage.trace_provider import (
     FileTraceStorageProvider,
     reset_default_trace_provider,
 )
+from starlette.testclient import TestClient
 
 # Try to import TraceMemoryLogger, handle gracefully if not available
 try:

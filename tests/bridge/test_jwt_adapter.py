@@ -19,7 +19,6 @@ from datetime import datetime, timedelta
 
 import jwt as pyjwt
 import pytest
-
 from labs.bridge.adapters.api_framework import (
     JWTAdapter,
     JWTAlgorithm,

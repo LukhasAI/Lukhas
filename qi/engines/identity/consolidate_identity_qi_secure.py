@@ -46,7 +46,9 @@ if __name__ == "__main__":
 
 # Added for test compatibility (qi.engines.identity.consolidate_identity_qi_secure.consolidate_identities)
 try:
-    from candidate.qi.engines.identity.consolidate_identity_qi_secure import consolidate_identities  # noqa: F401
+    from candidate.qi.engines.identity.consolidate_identity_qi_secure import (
+        consolidate_identities,
+    )
 except ImportError:
     def consolidate_identities(*args, **kwargs):
         """Stub for consolidate_identities."""

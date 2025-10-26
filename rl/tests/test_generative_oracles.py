@@ -384,7 +384,10 @@ if RL_AVAILABLE:
                 return
 
             try:
-                from rl.coordination.multi_agent_coordination import AgentProfile, CoordinationStrategy
+                from rl.coordination.multi_agent_coordination import (
+                    AgentProfile,
+                    CoordinationStrategy,
+                )
 
                 self.coordination.strategy = CoordinationStrategy.CONSENSUS
                 self.coordination.register_agent(

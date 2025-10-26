@@ -16,7 +16,13 @@ from typing import Any, Callable, Dict, List, Optional
 from opentelemetry import trace
 from prometheus_client import Counter, Gauge, Histogram
 
-from .types import AwarenessSnapshot, ConsciousnessState, DecisionContext, DreamTrace, ReflectionReport
+from .types import (
+    AwarenessSnapshot,
+    ConsciousnessState,
+    DecisionContext,
+    DreamTrace,
+    ReflectionReport,
+)
 
 tracer = trace.get_tracer(__name__)
 

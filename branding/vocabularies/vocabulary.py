@@ -23,7 +23,6 @@ import random
 
 from core.utils.__init__ import symbolic_message
 
-
 # Dream Phase Symbols
 
 

@@ -256,7 +256,7 @@ def unique_idempotency_key(test_name: str, iteration: int = 0) -> str:
     """
     import hashlib
     import time
-    
+
     # Include timestamp to ensure uniqueness across test runs
     data = f"{test_name}-{iteration}-{time.time()}"
     return hashlib.sha256(data.encode()).hexdigest()[:32]
@@ -276,6 +276,6 @@ def golden_trace_header(test_name: str) -> dict[str, str]:
         headers = {**GOLDEN_AUTH_HEADERS, **golden_trace_header("test_tracing")}
     """
     import hashlib
-    
+
     trace_id = hashlib.md5(test_name.encode()).hexdigest()
     return {"X-Trace-Id": trace_id}

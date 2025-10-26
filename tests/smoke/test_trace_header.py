@@ -11,7 +11,6 @@ import re
 
 import pytest
 from fastapi.testclient import TestClient
-
 from serve.main import app
 
 from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS

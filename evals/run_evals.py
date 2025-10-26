@@ -13,8 +13,14 @@ Usage:
   # Gate (exit 1 if below threshold): add --strict
 """
 from __future__ import annotations
-import argparse, glob, json, os, sys, time
-from dataclasses import dataclass, asdict
+
+import argparse
+import glob
+import json
+import os
+import sys
+import time
+from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Dict, List
 

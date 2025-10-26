@@ -17,7 +17,7 @@ try:
     pass  # Placeholder
     pass  #     pass  #
 except ImportError:
-    pytest.skip(f"Module mcp-servers not available", allow_module_level=True)
+    pytest.skip("Module mcp-servers not available", allow_module_level=True)
 
 
 class TestMcpServersModule(unittest.TestCase):

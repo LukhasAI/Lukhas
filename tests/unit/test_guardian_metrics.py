@@ -9,10 +9,10 @@ import pytest
 from observability.guardian_metrics import (
     _cap_reason,
     _normalize_route,
+    get_decision_stats,
     record_decision,
     record_rule_evaluation,
     set_policy_version,
-    get_decision_stats,
 )
 
 

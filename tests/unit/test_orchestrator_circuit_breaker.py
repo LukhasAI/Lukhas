@@ -12,11 +12,11 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from core.reliability.circuit_breaker import get_circuit_health
-
 # pytest-asyncio is already configured globally
 from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator
 from matriz.core.node_interface import CognitiveNode
+
+from core.reliability.circuit_breaker import get_circuit_health
 
 
 class TestOrchestratoresWithCircuitBreakers:

@@ -1,7 +1,6 @@
 import asyncio
 
 import pytest
-
 from labs.orchestration.multi_model_orchestration import (
     ConsensusStrategy,
     ModelProvider,

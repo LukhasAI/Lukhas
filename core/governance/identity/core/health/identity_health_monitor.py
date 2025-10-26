@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 """
 Identity Health Monitor with Self-Healing
 
@@ -17,11 +18,15 @@ from typing import Any, Callable, Optional
 import numpy as np
 import psutil
 
-# Import identity components
-from governance.identity.core.events import IdentityEventPriority, IdentityEventPublisher, get_identity_event_publisher
-
 # Import self-healing components
 from core.self_healing import HealingStrategy, HealthStatus, SelfHealingSystem
+
+# Import identity components
+from governance.identity.core.events import (
+    IdentityEventPriority,
+    IdentityEventPublisher,
+    get_identity_event_publisher,
+)
 
 logger = logging.getLogger("LUKHAS_IDENTITY_HEALTH")
 

@@ -41,8 +41,8 @@ def main():
     repo_root = Path(__file__).parent.parent
 
     # Get list of files with TID252 violations from ruff
-    import subprocess
     import json
+    import subprocess
 
     result = subprocess.run(
         ['python3', '-m', 'ruff', 'check', 'lukhas/', 'core/', 'MATRIZ/',

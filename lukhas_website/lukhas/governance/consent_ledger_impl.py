@@ -112,7 +112,7 @@ class DataSubjectRights(Enum):
 
 
 @dataclass
-class ΛTrace:  # noqa: PLC2401 - allow non-ASCII class name per spec
+class ΛTrace:  # - allow non-ASCII class name per spec
     """
     Λ-trace audit record with Constellation Framework integration ⚛️🧠🛡️
 

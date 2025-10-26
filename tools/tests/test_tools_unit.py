@@ -17,7 +17,7 @@ try:
     pass  #     pass  #
     import tools  # noqa: F401  # TODO: tools; consider using importli...
 except ImportError:
-    pytest.skip(f"Module tools not available", allow_module_level=True)
+    pytest.skip("Module tools not available", allow_module_level=True)
 
 
 class TestToolsModule(unittest.TestCase):
@@ -82,7 +82,7 @@ class TestLUKHAS2030Consolidator(unittest.TestCase):
             pass  # from tools.2030_full_consolidator import LUKHAS2030Consolidator (invalid module name)
             # self.assertIsNotNone(LUKHAS2030Consolidator)
         except ImportError:
-            pytest.skip(f"Component LUKHAS2030Consolidator not available")
+            pytest.skip("Component LUKHAS2030Consolidator not available")
 
     def test_lukhas2030consolidator_instantiation(self):
         """Test LUKHAS2030Consolidator can be instantiated."""
@@ -99,7 +99,7 @@ class Testanalyze_full_consolidation(unittest.TestCase):
             pass  # from tools.2030_full_consolidator import analyze_full_consolidation (invalid module name)
             # self.assertIsNotNone(analyze_full_consolidation)
         except ImportError:
-            pytest.skip(f"Component analyze_full_consolidation not available")
+            pytest.skip("Component analyze_full_consolidation not available")
 
     def test_analyze_full_consolidation_instantiation(self):
         """Test analyze_full_consolidation can be instantiated."""
@@ -116,7 +116,7 @@ class Testcreate_master_plan(unittest.TestCase):
             pass  # from tools.2030_full_consolidator import create_master_plan (invalid module name)
             # self.assertIsNotNone(create_master_plan)
         except ImportError:
-            pytest.skip(f"Component create_master_plan not available")
+            pytest.skip("Component create_master_plan not available")
 
     def test_create_master_plan_instantiation(self):
         """Test create_master_plan can be instantiated."""

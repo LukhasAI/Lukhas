@@ -9,7 +9,6 @@ and that the contract itself is properly validated.
 from uuid import uuid4
 
 import pytest
-
 from matriz.node_contract import (
     CONTRACT_VERSION,
     GLYPH,
@@ -21,6 +20,7 @@ from matriz.node_contract import (
     validate_message,
     validate_result,
 )
+
 from tests.util.mk_msg import mk_msg_from_json, mk_test_message
 
 

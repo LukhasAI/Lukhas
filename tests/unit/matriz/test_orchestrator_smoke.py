@@ -45,7 +45,7 @@ def test_matriz_module_structure():
     try:
         import orchestration
 
-        assert orchestration is not None  # noqa: F821  # TODO: lukhas
+        assert orchestration is not None  # TODO: lukhas
 
         # Check if brain module exists
         import orchestration.brain

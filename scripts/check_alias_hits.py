@@ -19,7 +19,6 @@ import argparse
 import json
 import sys
 from pathlib import Path
-from datetime import datetime
 
 
 def load_alias_hits(path: Path):
@@ -126,7 +125,7 @@ def main():
         print()
         if total > args.max_hits:
             print(f"❌ THRESHOLD EXCEEDED: {total} > {args.max_hits}")
-            print(f"💡 Reduce compat layer usage before merging")
+            print("💡 Reduce compat layer usage before merging")
             return 1
         else:
             print(f"✅ Below threshold: {total} ≤ {args.max_hits}")

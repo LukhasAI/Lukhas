@@ -5,6 +5,7 @@ Phase 3: Tests LUKHAS_RL_KEYING environment variable behavior.
 """
 import os
 from types import SimpleNamespace
+
 import pytest
 
 from core.reliability.ratelimit import RateLimiter

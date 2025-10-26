@@ -19,7 +19,7 @@ del _mod, _exports
 
 # Added for test compatibility (consciousness.dream.expand.archetypes)
 try:
-    from candidate.consciousness.dream.expand import archetypes  # noqa: F401
+    from candidate.consciousness.dream.expand import archetypes
 except ImportError:
     def archetypes(*args, **kwargs):
         """Stub for archetypes."""
@@ -33,7 +33,7 @@ if "archetypes" not in __all__:
 
 # Added for test compatibility (consciousness.dream.expand.atlas)
 try:
-    from candidate.consciousness.dream.expand import atlas  # noqa: F401
+    from candidate.consciousness.dream.expand import atlas
 except ImportError:
     def atlas(*args, **kwargs):
         """Stub for atlas."""
@@ -47,7 +47,7 @@ if "atlas" not in __all__:
 
 # Added for test compatibility (consciousness.dream.expand.mediation)
 try:
-    from candidate.consciousness.dream.expand import mediation  # noqa: F401
+    from candidate.consciousness.dream.expand import mediation
 except ImportError:
     def mediation(*args, **kwargs):
         """Stub for mediation."""
@@ -61,7 +61,7 @@ if "mediation" not in __all__:
 
 # Added for test compatibility (consciousness.dream.expand.replay)
 try:
-    from candidate.consciousness.dream.expand import replay  # noqa: F401
+    from candidate.consciousness.dream.expand import replay
 except ImportError:
     def replay(*args, **kwargs):
         """Stub for replay."""
@@ -75,7 +75,7 @@ if "replay" not in __all__:
 
 # Added for test compatibility (consciousness.dream.expand.sentinel)
 try:
-    from candidate.consciousness.dream.expand import sentinel  # noqa: F401
+    from candidate.consciousness.dream.expand import sentinel
 except ImportError:
     def sentinel(*args, **kwargs):
         """Stub for sentinel."""

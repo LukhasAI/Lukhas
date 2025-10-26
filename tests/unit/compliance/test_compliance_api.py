@@ -2,9 +2,6 @@ from contextlib import asynccontextmanager
 from unittest.mock import AsyncMock, Mock
 
 import pytest
-from fastapi import FastAPI
-from fastapi.testclient import TestClient
-
 from consent.api import ConsentService, get_consent_service
 from enterprise.compliance.api import (
     get_data_protection_service,
@@ -12,6 +9,8 @@ from enterprise.compliance.api import (
     user_router,
 )
 from enterprise.compliance.data_protection_service import DataProtectionService
+from fastapi import FastAPI
+from fastapi.testclient import TestClient
 
 
 @asynccontextmanager

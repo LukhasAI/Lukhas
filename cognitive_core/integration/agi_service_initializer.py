@@ -34,8 +34,19 @@ try:
         vocabulary_service,
     )
     from cognitive_core.learning import DreamGuidedLearner
-    from cognitive_core.memory import DreamMemory, EpisodicMemory, MemoryConsolidator, SemanticMemory, VectorMemory
-    from cognitive_core.orchestration import CapabilityMatrix, ConsensusEngine, CostOptimizer, ModelRouter
+    from cognitive_core.memory import (
+        DreamMemory,
+        EpisodicMemory,
+        MemoryConsolidator,
+        SemanticMemory,
+        VectorMemory,
+    )
+    from cognitive_core.orchestration import (
+        CapabilityMatrix,
+        ConsensusEngine,
+        CostOptimizer,
+        ModelRouter,
+    )
     from cognitive_core.reasoning import ChainOfThought, DreamIntegration, TreeOfThoughts
     from cognitive_core.safety import ConstitutionalAI
     from cognitive_core.tools import DreamGuidedTools

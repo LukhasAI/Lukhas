@@ -3,9 +3,9 @@
 import logging
 import time
 import uuid
-from typing import Any, Optional, Awaitable, Callable
+from typing import Any, Awaitable, Callable, Optional
 
-from fastapi import FastAPI, Header, HTTPException, Response, Request
+from fastapi import FastAPI, Header, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
 
@@ -59,7 +59,6 @@ except Exception:
 
 import os
 
-
 # ΛTAG: async_response_toggle -- optional async orchestrator integration seam
 _ASYNC_ORCH_ENV = (env_get("LUKHAS_ASYNC_ORCH", "0") or "0").strip()
 ASYNC_ORCH_ENABLED = _ASYNC_ORCH_ENV == "1"
@@ -67,7 +66,9 @@ _RUN_ASYNC_ORCH: Optional[Callable[[str], Awaitable[dict[str, Any]]]] = None
 
 if ASYNC_ORCH_ENABLED:
     try:
-        from matriz.orchestration.service_async import run_async_matriz as _RUN_ASYNC_ORCH  # type: ignore[assignment]
+        from matriz.orchestration.service_async import (
+            run_async_matriz as _RUN_ASYNC_ORCH,  # type: ignore[assignment]
+        )
     except Exception:
         ASYNC_ORCH_ENABLED = False
         logging.getLogger(__name__).warning(
@@ -309,7 +310,6 @@ def _get_health_status() -> dict[str, Any]:
 
     # Phase 4 module system (if available)
     try:
-        import json
         from pathlib import Path
         manifest_dir = Path("manifests")
         if manifest_dir.exists():
@@ -403,7 +403,6 @@ async def create_embeddings(request: dict) -> dict[str, Any]:
     dimensions = request.get("dimensions", 1536)
 
     # Generate unique deterministic embedding based on input
-    import hashlib
     embedding = _hash_embed(input_text, dimensions)
 
     return {
@@ -462,9 +461,9 @@ async def create_chat_completion(request: dict) -> dict[str, Any]:
 @app.post("/v1/responses", tags=["OpenAI Compatible"])
 async def create_response(request: dict) -> dict[str, Any]:
     """LUKHAS responses endpoint (OpenAI-compatible format)."""
-    import time
     import hashlib
     import json
+    import time
 
     model = request.get("model", "lukhas-mini")
 

@@ -2,6 +2,7 @@
 """Integration tests for engine module."""
 import pytest
 
+
 class TestEngine:
     def test_module_imports(self):
         import matriz.consciousness.core.engine

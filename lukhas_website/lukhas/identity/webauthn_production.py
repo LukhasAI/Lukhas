@@ -60,7 +60,10 @@ try:
         verify_authentication_response,
         verify_registration_response,
     )
-    from webauthn.helpers import parse_authentication_credential_json, parse_registration_credential_json
+    from webauthn.helpers import (
+        parse_authentication_credential_json,
+        parse_registration_credential_json,
+    )
     from webauthn.helpers.structs import (
         AttestationConveyancePreference,
         AuthenticationCredential,  # noqa: F401  # TODO: webauthn.helpers.structs.Authe...

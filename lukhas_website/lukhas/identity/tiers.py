@@ -37,7 +37,10 @@ import structlog
 try:
     from . import ΛTOKEN_SYSTEM_AVAILABLE
     if ΛTOKEN_SYSTEM_AVAILABLE:
-        from .alias_format import make_alias, verify_crc  # noqa: F401  # TODO: .alias_format.verify_crc; cons...
+        from .alias_format import (  # noqa: F401  # TODO: .alias_format.verify_crc; cons...
+            make_alias,
+            verify_crc,
+        )
         from .token_generator import EnvironmentSecretProvider, TokenGenerator
         from .token_storage import TokenStorage
         from .token_validator import TokenValidator, ValidationContext
@@ -49,7 +52,10 @@ try:
 
     # Optional components (graceful degradation)
     try:
-        from .tier_system import TierLevel, normalize_tier  # noqa: F401  # TODO: .tier_system.TierLevel; consid...
+        from .tier_system import (  # noqa: F401  # TODO: .tier_system.TierLevel; consid...
+            TierLevel,
+            normalize_tier,
+        )
     except ImportError:
         print("⚠️ tier_system not available")
 

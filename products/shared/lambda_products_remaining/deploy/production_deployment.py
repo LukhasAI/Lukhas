@@ -175,9 +175,8 @@ class EliteProductionDeployment:
         logger.info("🐤 Deploying canary (5% traffic)")
 
         # Import Lambda Products
-        from plugins.plugin_base import PluginSystem
-
         from agents.autonomous_agent_framework import AgentOrchestrator
+        from plugins.plugin_base import PluginSystem
 
         # Initialize with limited resources
         self.canary_system = PluginSystem()

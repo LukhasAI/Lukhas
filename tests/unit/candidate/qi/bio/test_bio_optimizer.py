@@ -1,5 +1,4 @@
 import pytest
-
 from qi.bio.bio_optimizer import (
     adjust_sensitivity,
     apply_smoothing_filter,

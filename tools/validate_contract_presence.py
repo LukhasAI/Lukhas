@@ -19,7 +19,7 @@ import json
 import sys
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Tuple, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 # Repository structure
 ROOT = Path(__file__).resolve().parents[1]
@@ -565,7 +565,7 @@ Examples:
             # Manifest integration reporting
             if args.manifest_coverage and "manifest_integration" in report:
                 mi = report["manifest_integration"]
-                print(f"\n📋 Manifest Integration")
+                print("\n📋 Manifest Integration")
                 print(f"Manifest coverage: {mi['manifest_coverage']}%")
                 print(f"Full coverage (contract + manifest): {mi['full_coverage']}%")
                 print(f"Modules with both: {mi['modules_with_both_contract_and_manifest']}")

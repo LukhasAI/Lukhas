@@ -5,6 +5,7 @@ Verifies that health endpoint returns Guardian PDP and rate-limiter statistics
 when available, enabling operational monitoring without requiring verbose logs.
 """
 import os
+
 from fastapi.testclient import TestClient
 from serve.main import app
 

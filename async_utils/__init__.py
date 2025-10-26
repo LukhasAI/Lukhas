@@ -52,7 +52,7 @@ except ImportError:
 
 # Add run_guardian_task for test compatibility
 try:
-    from labs.async_utils import run_guardian_task  # noqa: F401
+    from labs.async_utils import run_guardian_task
     __all__.append("run_guardian_task")
 except ImportError:
     async def run_guardian_task(task, *args, **kwargs):
@@ -62,7 +62,7 @@ except ImportError:
 
 # Add run_with_retry for test compatibility
 try:
-    from labs.async_utils import run_with_retry  # noqa: F401
+    from labs.async_utils import run_with_retry
     __all__.append("run_with_retry")
 except ImportError:
     async def run_with_retry(coro, max_retries=3, *args, **kwargs):

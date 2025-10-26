@@ -1,7 +1,6 @@
 import asyncio
 
 import pytest
-
 from products.enterprise.core.observability.t4_observability_stack import T4ObservabilityStack
 
 

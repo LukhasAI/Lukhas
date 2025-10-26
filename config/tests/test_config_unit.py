@@ -28,7 +28,7 @@ def test_module_has_init():
     try:
         module = importlib.import_module("config")
         # Check for common attributes
-        assert hasattr(module, '__file__')
+        assert hasattr(module, "__file__")
     except ImportError:
         pytest.skip("Module config not available")
 
@@ -81,8 +81,9 @@ class TestConfigIntegration:
     def test_consciousness_integration(self):
         """Test integration with consciousness system."""
         try:
-            from config import ConfigCore
             from consciousness import ConsciousnessCore
+
+            from config import ConfigCore
 
             consciousness = ConsciousnessCore()
             component = ConfigCore()
@@ -103,8 +104,8 @@ class TestConfigIntegration:
             component = ConfigCore()
 
             # Test MATRIZ pipeline methods
-            assert hasattr(component, 'process')
-            assert callable(getattr(component, 'process'))
+            assert hasattr(component, "process")
+            assert callable(component.process)
 
         except ImportError:
             pytest.skip("ConfigCore not available")
@@ -120,7 +121,7 @@ class TestConfigObservability:
             component = ConfigCore()
 
             # Mock span collection
-            with patch('observability.span_manager.create_span') as mock_span:
+            with patch("observability.span_manager.create_span") as mock_span:
                 component.process({})
 
                 # Verify span creation
@@ -137,7 +138,7 @@ class TestConfigObservability:
             component = ConfigCore()
 
             # Test metrics collection
-            with patch('monitoring.metrics.record_metric') as mock_metric:
+            with patch("monitoring.metrics.record_metric") as mock_metric:
                 component.process({})
 
                 # Verify metric recording
@@ -184,7 +185,7 @@ class TestConfigPerformance:
 
             # Process multiple items
             for i in range(100):
-                component.process({'iteration': i})
+                component.process({"iteration": i})
 
             final_memory = process.memory_info().rss
             memory_increase = final_memory - initial_memory

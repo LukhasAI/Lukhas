@@ -375,7 +375,7 @@ def bio_feedback_loop(event: dict[str, Any]) -> None:
 
     try:
         _consciousness_loop(event)
-    except Exception as exc:  # noqa: BLE001 - log and retain context for ops triage
+    except Exception as exc:  # - log and retain context for ops triage
         logger.exception("Bio feedback loop raised an error: %s", exc)
         failed_event = dict(event)
         failed_event["error"] = str(exc)

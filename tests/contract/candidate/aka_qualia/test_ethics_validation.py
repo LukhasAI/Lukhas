@@ -29,11 +29,10 @@ import time
 from typing import Any
 
 import pytest
-
-from lukhas_website.lukhas.aka_qualia.core import AkaQualia
 from aka_qualia.models import (
     SeverityLevel,
 )
+from lukhas_website.lukhas.aka_qualia.core import AkaQualia
 
 
 class ConstellationFrameworkValidator:

@@ -21,7 +21,10 @@ try:
     from bio_symbolic_processor import get_bio_symbolic_processor
     from consciousness_signal_router import get_consciousness_router
     from constellation_alignment_system import get_constellation_validator
-    from matriz_consciousness_integration import MatrizConsciousnessSystem, create_matriz_consciousness_system
+    from matriz_consciousness_integration import (
+        MatrizConsciousnessSystem,
+        create_matriz_consciousness_system,
+    )
 
     COMPONENTS_AVAILABLE = True
 except ImportError as e:

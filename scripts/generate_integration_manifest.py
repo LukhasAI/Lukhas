@@ -21,7 +21,6 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-
 # MATRIZ Location Mapping Rules
 LOCATION_RULES = {
     # Core consciousness capabilities
@@ -243,7 +242,7 @@ def generate_integration_steps(
 
     # Step 8: Document
     steps.append(
-        f"DOCUMENT: Update docs/architecture/ with new component location and purpose"
+        "DOCUMENT: Update docs/architecture/ with new component location and purpose"
     )
 
     # Step 9: Commit
@@ -444,8 +443,8 @@ def main():
 
         for i, module in enumerate(integration_manifest, 1):
             f.write(f"### {i}. {module['module']} (Score: {module['score']})\n\n")
-            f.write(f"| Property | Value |\n")
-            f.write(f"|----------|-------|\n")
+            f.write("| Property | Value |\n")
+            f.write("|----------|-------|\n")
             f.write(f"| Current Location | `{module['current_location']}` |\n")
             f.write(f"| Target Location | `{module['target_location']}` |\n")
             f.write(f"| Complexity | {module['complexity']} |\n")

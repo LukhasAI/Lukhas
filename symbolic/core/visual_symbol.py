@@ -23,7 +23,8 @@ import time
 import uuid
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional
+
 try:
     from typing import Tuple
 except ImportError:

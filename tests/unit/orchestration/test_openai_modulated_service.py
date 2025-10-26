@@ -6,7 +6,6 @@ from collections import deque
 from typing import Any, AsyncIterator
 
 import pytest
-
 from labs.orchestration.openai_modulated_service import (
     OpenAIOrchestrationService,
     OrchestratedOpenAIRequest,

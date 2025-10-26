@@ -3,7 +3,6 @@ from pathlib import Path
 
 import pytest
 from fastapi.testclient import TestClient
-
 from products.experience.dashboard.core.meta import dashboard_server as server
 
 

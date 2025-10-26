@@ -17,7 +17,7 @@ try:
     pass  # Placeholder
     pass  #     pass  #
 except ImportError:
-    pytest.skip(f"Module Jules--branch not available", allow_module_level=True)
+    pytest.skip("Module Jules--branch not available", allow_module_level=True)
 
 
 class TestJulesBranchModule(unittest.TestCase):

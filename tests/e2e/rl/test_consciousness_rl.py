@@ -17,15 +17,25 @@ import torch
 
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
-from rl.coordination.multi_agent_trainer import MultiAgentConsciousnessTrainer, TrainingConfiguration
-from rl.engine.policy_networks import ConsciousnessActorCritic, ConsciousnessPolicy, ConsciousnessValueNetwork
+from rl.coordination.multi_agent_trainer import (
+    MultiAgentConsciousnessTrainer,
+    TrainingConfiguration,
+)
+from rl.engine.policy_networks import (
+    ConsciousnessActorCritic,
+    ConsciousnessPolicy,
+    ConsciousnessValueNetwork,
+)
 from rl.environments.consciousness_environment import (
     ConsciousnessAction,
     ConsciousnessActionType,
     ConsciousnessEnvironment,
     ConsciousnessState,
 )
-from rl.experience.consciousness_buffer import ConsciousnessReplayBuffer, EpisodicConsciousnessBuffer
+from rl.experience.consciousness_buffer import (
+    ConsciousnessReplayBuffer,
+    EpisodicConsciousnessBuffer,
+)
 
 
 class MockConsciousnessModule:

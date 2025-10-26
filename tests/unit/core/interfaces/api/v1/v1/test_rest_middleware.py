@@ -24,7 +24,7 @@ class _StubIdentityManager:
 
     tier: str = "T1"
 
-    def get_user_identity(self, user_id: str) -> dict[str, str]:  # noqa: D401 - simple stub
+    def get_user_identity(self, user_id: str) -> dict[str, str]:  # - simple stub
         return {"user_id": user_id, "tier": self.tier}
 
 
@@ -37,7 +37,7 @@ def _build_app_for_rate_limit(rate_limiter: RateLimitMiddleware, *, tier: int) -
     app = FastAPI()
 
     @app.middleware("http")
-    async def _inject_identity(request: Request, call_next):  # noqa: D401 - middleware signature
+    async def _inject_identity(request: Request, call_next):  # - middleware signature
         request.state.user_id = "user-test"
         request.state.user_tier = tier
         request.state.tier_level = tier
@@ -55,7 +55,7 @@ def _build_app_for_tier(required_tier: int, *, user_tier: int) -> FastAPI:
     app = FastAPI()
 
     @app.middleware("http")
-    async def _inject_state(request: Request, call_next):  # noqa: D401 - middleware signature
+    async def _inject_state(request: Request, call_next):  # - middleware signature
         request.state.user_id = "user-tier"
         request.state.user_tier = user_tier
         request.state.tier_level = user_tier

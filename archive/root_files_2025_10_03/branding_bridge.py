@@ -151,7 +151,9 @@ BRANDING_AVAILABLE = True
 # Advanced branding components with graceful fallbacks
 try:
     from branding.adapters.voice_adapter import BrandVoiceAdapter
-    from branding.enforcement.real_time_validator import RealTimeBrandValidator  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+    from branding.enforcement.real_time_validator import (
+        RealTimeBrandValidator,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
+    )
     from branding.intelligence.brand_monitor import (
         BrandIntelligenceMonitor as BrandMonitor,
     )

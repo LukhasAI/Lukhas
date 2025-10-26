@@ -38,7 +38,9 @@ try:
     from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
     from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
     from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
-    from cryptography.x509.oid import NameOID  # noqa: F401  # TODO: cryptography.x509.oid.NameOID;...
+    from cryptography.x509.oid import (
+        NameOID,  # noqa: F401  # TODO: cryptography.x509.oid.NameOID;...
+    )
     CRYPTOGRAPHY_AVAILABLE = True
 except ImportError:
     CRYPTOGRAPHY_AVAILABLE = False

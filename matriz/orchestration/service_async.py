@@ -8,11 +8,12 @@ from dataclasses import asdict
 from threading import Lock
 from typing import Any, Dict
 
-# ΛTAG: async_service_imports -- canonical orchestrator dependency wiring
-from matriz.orchestration.async_orchestrator import AsyncCognitiveOrchestrator
 from matriz.nodes.fact_node import FactNode
 from matriz.nodes.math_node import MathNode
 from matriz.nodes.validator_node import ValidatorNode
+
+# ΛTAG: async_service_imports -- canonical orchestrator dependency wiring
+from matriz.orchestration.async_orchestrator import AsyncCognitiveOrchestrator
 
 logger = logging.getLogger(__name__)
 

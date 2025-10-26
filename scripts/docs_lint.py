@@ -144,7 +144,7 @@ def check_sitemap_fresh(manifest: Dict) -> bool:
     # Simple check: does it contain all doc count?
     expected_count = str(manifest['total_documents'])
     if expected_count not in content:
-        print(f"⚠️  Site map appears stale (doc count mismatch)")
+        print("⚠️  Site map appears stale (doc count mismatch)")
         return False
 
     return True
@@ -262,12 +262,12 @@ def main():
             print(f"      ... and {len(fm_errors) - 10} more")
         exit_code = 1
     else:
-        print(f"   ✅ All documents have valid front-matter")
+        print("   ✅ All documents have valid front-matter")
 
     if fm_warnings:
         print(f"   ⚠️  {len(fm_warnings)} warning(s) (owner: unknown)")
-        print(f"      See: docs/_generated/OWNERS_BACKLOG.md")
-        print(f"      Grace period until 2025-10-13")
+        print("      See: docs/_generated/OWNERS_BACKLOG.md")
+        print("      Grace period until 2025-10-13")
     print()
 
     # 2. Check UTF-8 encoding
@@ -279,10 +279,10 @@ def main():
             print(f"      - {error['file']}")
         if len(encoding_errors) > 5:
             print(f"      ... and {len(encoding_errors) - 5} more")
-        print(f"      Run: python3 scripts/encoding_guard.py --apply")
+        print("      Run: python3 scripts/encoding_guard.py --apply")
         exit_code = 1
     else:
-        print(f"   ✅ All files UTF-8 encoded")
+        print("   ✅ All files UTF-8 encoded")
     print()
 
     # 3. Check manifest completeness
@@ -294,16 +294,16 @@ def main():
             print(f"      - {error['file']}")
         # Warn only, don't fail
     else:
-        print(f"   ✅ All markdown files in manifest")
+        print("   ✅ All markdown files in manifest")
     print()
 
     # 4. Check site map freshness
     print("4️⃣  Checking site map freshness...")
     if check_sitemap_fresh(manifest):
-        print(f"   ✅ Site map is up to date")
+        print("   ✅ Site map is up to date")
     else:
-        print(f"   ❌ Site map is stale or missing")
-        print(f"      Run: python3 scripts/docs_generate.py")
+        print("   ❌ Site map is stale or missing")
+        print("      Run: python3 scripts/docs_generate.py")
         exit_code = 1
     print()
 
@@ -325,10 +325,10 @@ def main():
             for error in errors[:2]:
                 print(f"         - [{error['link_text']}]({error['link_url']})")
 
-        print(f"      Run full check: python3 scripts/docs_rewrite_links.py")
+        print("      Run full check: python3 scripts/docs_rewrite_links.py")
         # Warn only for now
     else:
-        print(f"   ✅ No broken links in sample")
+        print("   ✅ No broken links in sample")
     print()
 
     # Summary

@@ -751,7 +751,7 @@ class LambdaGovernor:
         for router in self.mesh_routers:
             try:
                 verified = await self._verify_mesh_router(router, payload, collapse_hash)
-            except Exception as exc:  # noqa: BLE001 - continue despite router failures
+            except Exception as exc:  # - continue despite router failures
                 logger.error(
                     "Quantum-safe arbitration verification failed",
                     router=str(router),

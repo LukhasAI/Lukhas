@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 """
 Distributed GLYPH Generation with Colony Coordination
 
@@ -19,13 +20,13 @@ from typing import Any, Optional
 import numpy as np
 from PIL import Image
 
-# Import identity components
-from governance.identity.core.events import IdentityEventType, get_identity_event_publisher
-from governance.identity.core.visualization.lukhas_orb import OrbVisualization
-
 # Import colony infrastructure
 from core.colonies.base_colony import BaseColony
 from core.enhanced_swarm import AgentState, EnhancedSwarmAgent as SwarmAgent
+
+# Import identity components
+from governance.identity.core.events import IdentityEventType, get_identity_event_publisher
+from governance.identity.core.visualization.lukhas_orb import OrbVisualization
 
 logger = logging.getLogger("LUKHAS_DISTRIBUTED_GLYPH")
 

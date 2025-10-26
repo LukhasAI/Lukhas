@@ -12,7 +12,7 @@ import time
 from enum import Enum
 
 from core.agent_tracer import AIAgentTracer, get_global_tracer
-from core.fault_tolerance import Supervisor, SupervisionStrategy
+from core.fault_tolerance import SupervisionStrategy, Supervisor
 from core.minimal_actor import Actor
 
 # Import enhanced implementations for better functionality

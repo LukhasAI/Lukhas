@@ -27,7 +27,11 @@ from mcp.types import (
 # LUKHAS consciousness imports
 sys.path.append(".")
 try:
-    from ai_orchestration.mcp_operational_support import LUKHASMCPOperationalSupport, MCPServerContext, SupportIncident
+    from ai_orchestration.mcp_operational_support import (
+        LUKHASMCPOperationalSupport,
+        MCPServerContext,
+        SupportIncident,
+    )
 
     # from branding.constellation.triad_validator import ConstellationFrameworkValidator  # TODO: Implement or remove
     from consciousness.awareness_engine import ConsciousnessAwarenessEngine

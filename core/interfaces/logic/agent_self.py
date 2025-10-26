@@ -4,11 +4,7 @@ Original: agent_self.py
 Advanced: agent_self.py
 Integration Date: 2025-05-31T07:55:30.358880
 """
-import os
 from dotenv import load_dotenv
-
-from core.lukhas_emotion_log import get_emotion_state
-from core.lukhas_widget_engine import create_symbolic_widget
 
 # ─── MODULE EXTRACTION INSTRUCTIONS ─────────────────────────────────────────
 # This file is part of the AGENT DASHBOARD, tied to the DEF Personal Agent.

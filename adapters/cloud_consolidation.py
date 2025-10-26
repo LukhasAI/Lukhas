@@ -20,10 +20,10 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from typing import Any, Optional
 
+from consent.service import ConsentService
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
 
-from consent.service import ConsentService
 from MATRIZ.adapters import ResourceMetadata, ServiceAdapter
 from MATRIZ.adapters.drive import create_drive_adapter
 from MATRIZ.adapters.dropbox import create_dropbox_adapter

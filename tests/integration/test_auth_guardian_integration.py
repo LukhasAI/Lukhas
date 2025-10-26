@@ -10,8 +10,8 @@ class TestAuthGuardianIntegration:
         """Test that the module can be imported successfully."""
         from core.governance.auth_guardian_integration import (
             AuthDriftMetrics,
-            AuthEventType,
             AuthenticationGuardian,
+            AuthEventType,
             ConstitutionalAuthPrinciples,
         )
 
@@ -22,8 +22,9 @@ class TestAuthGuardianIntegration:
 
     def test_auth_event_type_enum(self):
         """Test AuthEventType enum structure."""
-        from core.governance.auth_guardian_integration import AuthEventType
         from enum import Enum
+
+        from core.governance.auth_guardian_integration import AuthEventType
 
         assert issubclass(AuthEventType, Enum)
 

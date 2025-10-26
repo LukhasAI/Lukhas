@@ -10,10 +10,9 @@ from unittest.mock import AsyncMock, Mock
 
 import pytest
 
-from governance.audit_trail import AuditEventType, AuditLevel, AuditTrail, ComplianceFramework
-from identity.tiers import TierSystem
 from consciousness.consciousness_stream import ConsciousnessStream
 from consciousness.memory_bridge import MemoryConsciousnessBridge
+from governance.audit_trail import AuditEventType, AuditLevel, AuditTrail, ComplianceFramework
 from identity.device_registry import DeviceRegistry
 from identity.jwt_utils import JWTManager
 
@@ -22,6 +21,7 @@ from identity.lambda_id import LambdaIDSystem
 from identity.observability import IdentityObservability
 from identity.oidc_provider import OIDCProvider
 from identity.session_manager import SessionManager
+from identity.tiers import TierSystem
 from memory.consciousness_memory_integration import ConsciousnessMemoryIntegrator
 from memory.distributed_memory import DistributedMemoryOrchestrator
 from memory.federation_coordinator import FederationCoordinator

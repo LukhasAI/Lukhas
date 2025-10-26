@@ -5,7 +5,6 @@ These tests lock down the canonical metric schemas to prevent drift
 between test expectations and actual runtime metric shapes.
 """
 import pytest
-
 from labs.core.metrics_contract import (
     BioProcessorStats,
     NetworkMetrics,

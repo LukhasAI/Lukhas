@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 try:
-    from tools.todo import *  # type: ignore # noqa: F401,F403
+    from tools.todo import *  # type: ignore
 except Exception:
     from dataclasses import dataclass
 

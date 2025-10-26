@@ -10,7 +10,12 @@ Plan colony (lane) renames without touching the tree.
 Usage:
   python3 scripts/plan_colony_renames.py [--root .] [--stamp 2025-10-14T18-03-17Z]
 """
-import argparse, csv, os, re, sys, time
+import argparse
+import csv
+import os
+import re
+import sys
+import time
 from pathlib import Path
 from typing import Optional, Tuple
 

@@ -72,7 +72,7 @@ def main():
                     if ("Args:" not in window) or ("Returns:" not in window):
                         candidates.append((f"{py.as_posix()}::{fn}", "missing Args/Returns"))
 
-            except Exception as e:
+            except Exception:
                 continue
 
     # Write report

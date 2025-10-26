@@ -14,7 +14,10 @@ Exit codes:
   2: Legacy imports detected (blocks CI)
 """
 from __future__ import annotations
-import os, re, sys
+
+import os
+import re
+import sys
 from pathlib import Path
 
 try:
@@ -71,7 +74,7 @@ def main():
         if len(bad) > 200:
             print(f"  ... and {len(bad) - 200} more")
         print(f"\n[legacy-imports] Total violations: {len(bad)}")
-        print(f"[legacy-imports] Run: make codemod-dry  # to preview fixes")
+        print("[legacy-imports] Run: make codemod-dry  # to preview fixes")
         sys.exit(2)
 
     print("[legacy-imports] ✅ OK: no legacy imports outside allowlist")

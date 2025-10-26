@@ -9,7 +9,6 @@ Tests all branches, idempotency, cultural palette mapping, and loop camouflaging
 """
 
 import pytest
-
 from aka_qualia.glyphs import (
     GLYPH_KEYS,
     compute_glyph_priority,

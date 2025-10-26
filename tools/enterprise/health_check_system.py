@@ -11,12 +11,11 @@ from enum import Enum
 from typing import Any, Callable, Optional
 
 import aiohttp
+import asyncpg  # External dependency
 import psutil
-
-from prometheus_client import Counter, Gauge, Histogram, generate_latest
 import redis.asyncio as redis
 import structlog
-import asyncpg  # External dependency
+from prometheus_client import Counter, Gauge, Histogram, generate_latest
 
 # Configure structured logging
 logger = structlog.get_logger()

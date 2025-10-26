@@ -12,9 +12,9 @@ Breaking changes (exit 2):
 Usage:
   python3 scripts/diff_openapi.py --base docs/openapi/base.json --cand docs/openapi/lukhas-openai.json
 """
+import argparse
 import json
 import sys
-import argparse
 
 
 def load(p):

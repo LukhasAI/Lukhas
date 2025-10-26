@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 #!/usr/bin/env python3
 """
 LUKHAS Unified Authentication Manager
@@ -29,11 +30,9 @@ import logging
 import secrets
 
 # Import our quantum-safe ΛiD system
-import sys
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from pathlib import Path
 from typing import Any, Optional, Union
 
 from core.governance.identity.lambda_id_auth import AuthCredentials, AuthTier, LambdaIDSystem

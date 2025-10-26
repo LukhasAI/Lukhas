@@ -28,7 +28,14 @@ import pytest
 
 # Import registry components
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-from core.registry import _REG, _instantiate_plugin, auto_discover, discover_entry_points, register, resolve
+from core.registry import (
+    _REG,
+    _instantiate_plugin,
+    auto_discover,
+    discover_entry_points,
+    register,
+    resolve,
+)
 
 
 class FailureSimulator:

@@ -35,10 +35,11 @@ try:
         MultiModelOrchestrator,
         WorkflowExecution,
     )
-    from governance.guardian_system import GuardianSystem
+
     from bridge.anthropic_bridge import AnthropicBridge
     from bridge.google_bridge import GoogleBridge
     from bridge.openai_bridge import OpenAIBridge
+    from governance.guardian_system import GuardianSystem
 except ImportError as e:
     pytest.skip(f"Phase 2 modules not available: {e}", allow_module_level=True)
 

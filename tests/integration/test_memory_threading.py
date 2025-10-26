@@ -15,10 +15,9 @@ sys.path.insert(0, ".")
 
 try:
     # Import the actual SqlMemory class
+    from aka_qualia.memory_sql import SqlMemory
     from sqlalchemy import create_engine
     from sqlalchemy.pool import StaticPool
-
-    from aka_qualia.memory_sql import SqlMemory
 
     def test_sql_memory_threading():
         """Test the actual SqlMemory class with threading"""

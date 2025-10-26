@@ -30,7 +30,7 @@ def install_vault_mcp():
     # Create backup
     print(f"📦 Creating backup: {backup_path}")
     shutil.copy2(config_path, backup_path)
-    print(f"✅ Backup created successfully")
+    print("✅ Backup created successfully")
 
     # Load config
     with open(config_path, 'r') as f:
@@ -64,19 +64,19 @@ def install_vault_mcp():
 
     print("\n✅ vault-research MCP server installed successfully!")
     print("\n📊 MCP Server Details:")
-    print(f"   Name: vault-research")
-    print(f"   Location: /Users/agi_dev/LOCAL-REPOS/THE_VAULT/00_ORGANIZATION_PROJECT/")
-    print(f"   Documents: 604")
-    print(f"   Concepts: 14")
-    print(f"   Tools: 6 (vault_stats, vault_concept_map, vault_search, etc.)")
-    print(f"   Prompts: 2 (explore_concept, find_research)")
+    print("   Name: vault-research")
+    print("   Location: /Users/agi_dev/LOCAL-REPOS/THE_VAULT/00_ORGANIZATION_PROJECT/")
+    print("   Documents: 604")
+    print("   Concepts: 14")
+    print("   Tools: 6 (vault_stats, vault_concept_map, vault_search, etc.)")
+    print("   Prompts: 2 (explore_concept, find_research)")
 
     print("\n🔄 Next Steps:")
     print("   1. Restart Claude Desktop to load the new MCP server")
     print("   2. Look for 'vault-research' in the MCP servers list")
     print("   3. Try tools like vault_stats or vault_concept_map")
 
-    print(f"\n💾 Backup saved at:")
+    print("\n💾 Backup saved at:")
     print(f"   {backup_path}")
 
     return True

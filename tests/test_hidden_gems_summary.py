@@ -2,14 +2,13 @@ import json
 from pathlib import Path
 
 import pytest
-
 from scripts.hidden_gems_summary import (
     HiddenGem,
     ManifestFormatError,
-    main,
     extract_hidden_gems,
     format_summary,
     load_manifest,
+    main,
     summarize_by_lane,
 )
 

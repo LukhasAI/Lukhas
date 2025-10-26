@@ -15,7 +15,6 @@ Tasks Tested:
 from datetime import datetime, timedelta, timezone
 
 import pytest
-
 from labs.bridge.api.onboarding import (
     ConsentRecord,
     OnboardingAPI,

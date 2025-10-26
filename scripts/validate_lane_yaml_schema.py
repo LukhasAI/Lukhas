@@ -5,8 +5,8 @@ Validate all module.lane.yaml files against schema/module.lane.schema.json.
 from __future__ import annotations
 
 import json
-from pathlib import Path
 import sys
+from pathlib import Path
 
 import yaml
 from jsonschema import Draft202012Validator

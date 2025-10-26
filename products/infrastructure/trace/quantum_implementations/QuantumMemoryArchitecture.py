@@ -30,7 +30,7 @@ logger = logging.getLogger(__name__)
 
 try:  # pragma: no cover - exercised indirectly via fallback tests
     from qiskit import QuantumCircuit, QuantumRegister
-except Exception:  # noqa: BLE001 - qiskit is optional in this lane
+except Exception:  # - qiskit is optional in this lane
 
     class QuantumRegister(list):  # type: ignore[misc]
         """Lightweight stand-in for qiskit's QuantumRegister."""

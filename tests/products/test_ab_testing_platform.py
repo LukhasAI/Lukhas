@@ -1,5 +1,4 @@
 import pytest
-
 from products.enterprise.core.rigor.ab_testing_platform import T4ABTestingPlatform
 
 

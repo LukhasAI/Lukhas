@@ -165,7 +165,7 @@ def main():
 
     moved, skipped = migrate_tests(test_mapping, dry_run=args.dry_run)
 
-    print(f"\n✅ Migration complete!")
+    print("\n✅ Migration complete!")
     print(f"   Moved: {moved} files")
     print(f"   Skipped: {skipped} files")
 

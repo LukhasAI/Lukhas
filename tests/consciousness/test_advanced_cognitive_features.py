@@ -25,7 +25,6 @@ import time
 
 import numpy as np
 import pytest
-
 from cognitive_core.reasoning.contradiction_integrator import ContradictionIntegrator
 from cognitive_core.reasoning.deep_inference_engine import (
     DeepInferenceEngine,
@@ -33,7 +32,12 @@ from cognitive_core.reasoning.deep_inference_engine import (
     InferenceResult,
     InferenceType,
 )
-from consciousness.meta_cognitive_assessor import CognitiveLoadLevel, MetaCognitiveAssessor, MetaCognitiveContext
+
+from consciousness.meta_cognitive_assessor import (
+    CognitiveLoadLevel,
+    MetaCognitiveAssessor,
+    MetaCognitiveContext,
+)
 from consciousness.types import ConsciousnessState
 
 # Test configuration

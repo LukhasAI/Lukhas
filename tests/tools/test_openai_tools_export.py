@@ -1,5 +1,9 @@
-import json, os, pytest
+import json
+import os
 from pathlib import Path
+
+import pytest
+
 
 @pytest.mark.skipif(not Path("build/openai_tools.json").exists(), reason="tools export not built yet")
 def test_tools_export_shape():

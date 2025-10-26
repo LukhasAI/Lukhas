@@ -6,8 +6,11 @@ with the consciousness system.
 from unittest.mock import patch
 
 import pytest
-
-from bio.core.architecture_analyzer import Architecture, BioSymbolicArchitectureAnalyzer, SymbolicData
+from bio.core.architecture_analyzer import (
+    Architecture,
+    BioSymbolicArchitectureAnalyzer,
+    SymbolicData,
+)
 from bio.core.bio_symbolic import BioSymbolic, BioSymbolicOrchestrator, SymbolicGlyph
 
 

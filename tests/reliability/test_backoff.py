@@ -1,6 +1,7 @@
 from core.reliability.backoff import jittered_exponential
 from core.reliability.ratelimit import rate_limit_error
 
+
 def test_jittered_exponential_ranges():
     # attempt=3 => base_window * 2**3 +/- jitter
     lo, hi = jittered_exponential(base=0.1, factor=2, attempt=3, jitter=0.1)

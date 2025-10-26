@@ -15,7 +15,12 @@ from unittest.mock import Mock
 import pytest
 
 from identity.webauthn_production import AuthenticatorTier, get_webauthn_manager
-from orchestration.multi_ai_router import AIProvider, ConsensusType, RoutingRequest, get_multi_ai_router
+from orchestration.multi_ai_router import (
+    AIProvider,
+    ConsensusType,
+    RoutingRequest,
+    get_multi_ai_router,
+)
 
 
 @pytest.mark.integration

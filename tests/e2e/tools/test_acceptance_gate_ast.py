@@ -21,7 +21,6 @@ from pathlib import Path
 from textwrap import dedent
 
 import pytest
-
 from tools.acceptance_gate_ast import (
     BANNED,
     AuditTrail,

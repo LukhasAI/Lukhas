@@ -53,8 +53,9 @@ except ImportError:
 # Memory system imports
 try:
     from labs.memory.fold_system import FoldManager, get_fold_manager
-    from memory.scheduled_folding import ScheduledFoldingManager, get_folding_manager
+
     from memory.adaptive_memory import AdaptiveMemorySystem, MemoryType
+    from memory.scheduled_folding import ScheduledFoldingManager, get_folding_manager
     MEMORY_SYSTEMS_AVAILABLE = True
 except ImportError:
     MEMORY_SYSTEMS_AVAILABLE = False

@@ -1,5 +1,4 @@
 import pytest
-
 from labs.memory.consolidation import ConsolidationMode, ConsolidationOrchestrator, InMemoryStore
 from labs.memory.structural_conscience import StructuralConscience
 

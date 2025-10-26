@@ -15,7 +15,6 @@ from __future__ import annotations
 import argparse
 import importlib.util
 import inspect
-import os
 import sys
 from pathlib import Path
 from types import ModuleType

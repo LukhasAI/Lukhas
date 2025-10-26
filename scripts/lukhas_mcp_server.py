@@ -29,10 +29,11 @@ from mcp.types import (
 sys.path.append(".")
 try:
     from branding.constellation.triad_validator import TrinityFrameworkValidator
+    from tools.analysis.operational_summary import LUKHASOperationalAnalyzer
+
     from consciousness.awareness_engine import ConsciousnessAwarenessEngine
     from governance.guardian_system.guardian_validator import GuardianValidator
     from memory.fold_system import MemoryFoldSystem
-    from tools.analysis.operational_summary import LUKHASOperationalAnalyzer
 except ImportError as e:
     logging.warning(f"Could not import LUKHAS modules: {e}")
 

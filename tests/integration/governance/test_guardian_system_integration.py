@@ -7,7 +7,6 @@ from datetime import datetime, timezone
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-
 from labs.governance.guardian_system_integration import (
     GuardianStatus,
     GuardianSystemIntegration,

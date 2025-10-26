@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-import argparse, os, json, re, datetime, sys
+import argparse
+import datetime
+import json
+import os
+import re
+import sys
 
 STAR_RULES = [
     (re.compile(r'(governance|guardian|ethic)'), (["Ethics","Guardian"], 0.95)),

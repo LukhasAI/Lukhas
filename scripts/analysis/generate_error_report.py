@@ -240,14 +240,14 @@ def main():
         json.dump(report, f, indent=2)
 
     print(f"\n📄 Report saved to: {output_path}")
-    print(f"\n📊 Summary:")
+    print("\n📊 Summary:")
     print(f"  Total errors: {report['metadata']['total_errors']}")
     print(f"  Unique missing modules: {report['summary']['unique_missing_modules']}")
-    print(f"\n💡 Top Insights:")
+    print("\n💡 Top Insights:")
     for insight in report["insights"]:
         print(f"  • {insight}")
 
-    print(f"\n🔝 Top 5 Missing Modules:")
+    print("\n🔝 Top 5 Missing Modules:")
     for mod, count in report["top_offenders"]["missing_modules"][:5]:
         print(f"  • {mod}: {count} tests")
 

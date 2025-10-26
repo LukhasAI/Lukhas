@@ -39,7 +39,11 @@ try:
         TieredAuthenticator,
         create_tiered_authenticator,
     )
-    from identity.webauthn_enhanced import EnhancedWebAuthnService, WebAuthnChallenge, WebAuthnCredentialMetadata
+    from identity.webauthn_enhanced import (
+        EnhancedWebAuthnService,
+        WebAuthnChallenge,
+        WebAuthnCredentialMetadata,
+    )
     COMPONENTS_AVAILABLE = True
 except ImportError:
     COMPONENTS_AVAILABLE = False

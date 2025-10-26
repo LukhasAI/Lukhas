@@ -235,7 +235,7 @@ def generate_vault_index(manifest: Dict, output_dir: Path):
     stats = manifest['stats']
 
     lines = [
-        f"# THE_VAULT Index",
+        "# THE_VAULT Index",
         "",
         f"**Generated**: {manifest['generated']}",
         f"**Total Files**: {manifest['total_files']}",

@@ -20,7 +20,11 @@ import pytest
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from observability.advanced_metrics import AdvancedMetricsSystem
-from observability.evidence_collection import ComplianceRegime, EvidenceCollectionEngine, EvidenceType
+from observability.evidence_collection import (
+    ComplianceRegime,
+    EvidenceCollectionEngine,
+    EvidenceType,
+)
 from observability.performance_regression import PerformanceRegressionDetector
 from observability.security_hardening import ObservabilitySecurityHardening
 

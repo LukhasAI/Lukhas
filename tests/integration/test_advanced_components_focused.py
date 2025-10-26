@@ -246,7 +246,13 @@ class TestTierSystemAdvanced:
     def test_complex_access_control_workflow(self):
         """Test complex access control scenarios with multiple operations."""
         try:
-            from identity.tier_system import AccessContext, AccessType, DynamicTierSystem, PermissionScope, TierLevel
+            from identity.tier_system import (
+                AccessContext,
+                AccessType,
+                DynamicTierSystem,
+                PermissionScope,
+                TierLevel,
+            )
 
             tier_system = DynamicTierSystem()
 

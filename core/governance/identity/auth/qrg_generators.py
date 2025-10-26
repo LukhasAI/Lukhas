@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 """
 LUKHAS QR Code Generators (QRGs)
 
@@ -37,10 +38,10 @@ from security import secure_random
 
 # Import LUKHAS components
 try:
-    from governance.identity.auth.entropy_synchronizer import EntropySynchronizer
     from core.interfaces.as_agent.core.gatekeeper import (
         ConstitutionalGatekeeper,
     )
+    from governance.identity.auth.entropy_synchronizer import EntropySynchronizer
     from utils.cultural_safety_checker import CulturalSafetyChecker
 except ImportError:
     print("Warning: LUKHAS core components not found. Running in standalone mode.")

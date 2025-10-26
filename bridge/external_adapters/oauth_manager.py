@@ -79,7 +79,7 @@ class TokenStatus(Enum):
 
 
 try:
-    from candidate.bridge.external_adapters.oauth_manager import CircuitBreakerState  # noqa: F401
+    from candidate.bridge.external_adapters.oauth_manager import CircuitBreakerState
 except ImportError:
     class CircuitBreakerState(Enum):
         """Fallback circuit breaker state for OAuth manager."""
@@ -549,7 +549,7 @@ class OAuthManager:
 
 # Added for test compatibility (bridge.external_adapters.oauth_manager.CircuitBreaker)
 try:
-    from candidate.bridge.external_adapters.oauth_manager import CircuitBreaker  # noqa: F401
+    from candidate.bridge.external_adapters.oauth_manager import CircuitBreaker
 except ImportError:
     class CircuitBreaker:
         """Stub for CircuitBreaker."""

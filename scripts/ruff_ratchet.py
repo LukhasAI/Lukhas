@@ -71,7 +71,7 @@ def main():
         print(f"[OK] Baseline updated: {base_path}")
 
     if bad:
-        print(f"[FAIL] Ratchet breached: " + ", ".join([f"{c} +{d}" for c,d in bad]))
+        print("[FAIL] Ratchet breached: " + ", ".join([f"{c} +{d}" for c,d in bad]))
         return 1
 
     print("[OK] Ratchet respected.")

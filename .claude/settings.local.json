@@ -57,7 +57,15 @@
       "Bash(core/orchestration/brain/spine/trait_sync_gpt_synb_ref.py )",
       "Bash(core/orchestration/brain/spine/unified_self.py)",
       "Bash(do)",
-      "Bash(for file in core/orchestration/brain/integration/brain_integration.py )"
+      "Bash(for file in core/orchestration/brain/integration/brain_integration.py )",
+      "Bash(gh auth:*)",
+      "Bash(gh repo view:*)",
+      "Bash(npm update:*)",
+      "Bash(npm audit:*)",
+      "Bash(npm install:*)",
+      "Bash(gh pr create:*)",
+      "Bash(gh pr diff:*)",
+      "Bash(ruff check:*)"
     ],
     "deny": [],
     "ask": [],

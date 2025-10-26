@@ -100,7 +100,7 @@ def test_bridge_does_not_pollute_sys_modules() -> None:
     initial_modules = set(sys.modules.keys())
 
     # Import a bridge
-    import consciousness.matriz_thought_loop  # noqa: F401
+    import consciousness.matriz_thought_loop
 
     after_modules = set(sys.modules.keys())
     new_modules = after_modules - initial_modules

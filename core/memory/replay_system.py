@@ -1,4 +1,5 @@
 from __future__ import annotations
+
 import logging
 
 #!/usr/bin/env python3

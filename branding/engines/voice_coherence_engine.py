@@ -19,13 +19,12 @@ from typing import Any, Optional
 
 sys.path.append(str(Path(__file__).parent.parent))
 
+from enforcement.real_time_validator import RealTimeBrandValidator
 from profiles.brand_voice_profiles import (
     AudienceType,
     LukhasBrandVoiceProfiles,
     VoiceContext,
 )
-
-from enforcement.real_time_validator import RealTimeBrandValidator
 
 
 class CoherenceMetric(Enum):

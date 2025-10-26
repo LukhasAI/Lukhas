@@ -8,11 +8,10 @@ import asyncio
 import logging
 from typing import Optional
 
-from core.integrations.openai.dalle_client import DALLEClient
-
 from bridge.llm_wrappers.unified_openai_client import (
     UnifiedOpenAIClient as GPTClient,
 )
+from core.integrations.openai.dalle_client import DALLEClient
 
 logger = logging.getLogger(__name__)
 

@@ -35,7 +35,10 @@ from observability.matriz_instrumentation import (
     record_memory_cascade_risk,
     record_thought_complexity,
 )
-from observability.otel_instrumentation import initialize_otel_instrumentation, instrument_cognitive_event
+from observability.otel_instrumentation import (
+    initialize_otel_instrumentation,
+    instrument_cognitive_event,
+)
 
 # Configure logging
 logging.basicConfig(

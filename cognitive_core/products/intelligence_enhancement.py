@@ -76,7 +76,10 @@ except ImportError:
 try:
     # LUKHAS Intelligence Products
     from products.intelligence.argus.integrated_monitoring_system import IntegratedMonitoringSystem
-    from products.intelligence.dast.complete_implementation.intelligence import PriorityOptimizer, TaskIntelligence
+    from products.intelligence.dast.complete_implementation.intelligence import (
+        PriorityOptimizer,
+        TaskIntelligence,
+    )
     from products.intelligence.lens.lens_core import SymbolicDashboard, ΛLens
 
     INTELLIGENCE_PRODUCTS_AVAILABLE = True

@@ -3,7 +3,6 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-
 from quarantine.phase2_syntax.ci import mark_todos
 
 

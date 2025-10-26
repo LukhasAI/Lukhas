@@ -236,14 +236,14 @@ def main():
     print()
 
     # Load manifest
-    print(f"📂 Loading manifest...")
+    print("📂 Loading manifest...")
     manifest = load_manifest()
     docs = manifest['documents']
     print(f"   ✅ {len(docs)} documents")
     print()
 
     # Inject badges
-    print(f"🏷️  Injecting badges...")
+    print("🏷️  Injecting badges...")
     modified_count = 0
     skipped_count = 0
 
@@ -279,7 +279,7 @@ def main():
             skipped_count += 1
 
     print()
-    print(f"📊 Summary:")
+    print("📊 Summary:")
     if dry_run:
         print(f"   Would modify: {modified_count} files")
     else:
@@ -288,15 +288,15 @@ def main():
     print()
 
     # Update index legend
-    print(f"📖 Updating badge legend in DOCUMENTATION_INDEX.md...")
+    print("📖 Updating badge legend in DOCUMENTATION_INDEX.md...")
     legend_added = update_index_legend(dry_run=dry_run)
     if legend_added:
         if dry_run:
-            print(f"   Would add badge legend")
+            print("   Would add badge legend")
         else:
-            print(f"   ✅ Badge legend added")
+            print("   ✅ Badge legend added")
     else:
-        print(f"   ℹ️  Legend already present or index not found")
+        print("   ℹ️  Legend already present or index not found")
     print()
 
     # Calculate coverage
