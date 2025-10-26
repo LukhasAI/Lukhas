@@ -1,0 +1,56 @@
+mk/security.mk:142: warning: overriding commands for target `sbom'
+mk/audit.mk:47: warning: ignoring old commands for target `sbom'
+Makefile:383: warning: overriding commands for target `smoke'
+mk/tests.mk:11: warning: ignoring old commands for target `smoke'
+Makefile:385: warning: overriding commands for target `test'
+mk/tests.mk:4: warning: ignoring old commands for target `test'
+Makefile:626: warning: overriding commands for target `audit'
+mk/ci.mk:16: warning: ignoring old commands for target `audit'
+Makefile:791: warning: overriding commands for target `oneiric-drift-test'
+Makefile:242: warning: ignoring old commands for target `oneiric-drift-test'
+Makefile:869: warning: overriding commands for target `validate-matrix-all'
+mk/security.mk:251: warning: ignoring old commands for target `validate-matrix-all'
+Makefile:1235: warning: overriding commands for target `lint'
+Makefile:106: warning: ignoring old commands for target `lint'
+Makefile:1238: warning: overriding commands for target `tests-smoke'
+Makefile:1154: warning: ignoring old commands for target `tests-smoke'
+Makefile:1350: warning: overriding commands for target `context-migrate-frontmatter'
+mk/context.mk:4: warning: ignoring old commands for target `context-migrate-frontmatter'
+Makefile:1353: warning: overriding commands for target `context-coverage'
+mk/context.mk:7: warning: ignoring old commands for target `context-coverage'
+Makefile:1356: warning: overriding commands for target `context-migrate-frontmatter'
+Makefile:1350: warning: ignoring old commands for target `context-migrate-frontmatter'
+Makefile:1359: warning: overriding commands for target `context-coverage'
+Makefile:1353: warning: ignoring old commands for target `context-coverage'
+Makefile:1391: warning: overriding commands for target `context-migrate-frontmatter'
+Makefile:1356: warning: ignoring old commands for target `context-migrate-frontmatter'
+Makefile:1394: warning: overriding commands for target `context-coverage'
+Makefile:1359: warning: ignoring old commands for target `context-coverage'
+Makefile:1469: warning: overriding commands for target `codemod-dry'
+Makefile:1250: warning: ignoring old commands for target `codemod-dry'
+Makefile:1474: warning: overriding commands for target `codemod-apply'
+Makefile:1253: warning: ignoring old commands for target `codemod-apply'
+Makefile:1539: warning: overriding commands for target `openapi-spec'
+Makefile:65: warning: ignoring old commands for target `openapi-spec'
+Makefile:1543: warning: overriding commands for target `openapi-validate'
+Makefile:80: warning: ignoring old commands for target `openapi-validate'
+CI_QUALITY_GATES=1 python3 -m pytest -q tests/smoke -m "smoke" --maxfail=1 --disable-warnings
+E
+==================================== ERRORS ====================================
+___________________ ERROR at setup of test_core_api_imports ____________________
+__init__.py:76: in __getattr__
+    spec = importlib.util.find_spec(f"{__name__}.{name}")
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/util.py:94: in find_spec
+    parent = __import__(parent_name, fromlist=['__path__'])
+__init__.py:76: in __getattr__
+    spec = importlib.util.find_spec(f"{__name__}.{name}")
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/util.py:94: in find_spec
+    parent = __import__(parent_name, fromlist=['__path__'])
+__init__.py:76: in __getattr__
+    spec = importlib.util.find_spec(f"{__name__}.{name}")
+E   RecursionError: maximum recursion depth exceeded
+!!! Recursion detected (same locals & position)
+=========================== short test summary info ============================
+ERROR tests/smoke/test_entrypoints.py::test_core_api_imports - RecursionError...
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+make: *** [smoke] Error 1

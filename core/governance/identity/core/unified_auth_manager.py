@@ -35,10 +35,8 @@ from enum import Enum
 from pathlib import Path
 from typing import Any, Optional, Union
 
-from governance.identity.lambda_id_auth import AuthCredentials, AuthTier, LambdaIDSystem
-from governance.security.secret_manager import get_secret_manager
-
-sys.path.insert(0, str(Path(__file__).parent.parent.parent.parent))
+from core.governance.identity.lambda_id_auth import AuthCredentials, AuthTier, LambdaIDSystem
+from core.governance.security.secret_manager import get_secret_manager
 
 logger = logging.getLogger(__name__)
 

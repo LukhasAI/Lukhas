@@ -40,12 +40,12 @@ from typing import Any, Optional
 
 from core.common import get_logger
 
-from .federated_integration import FederatedLearningIntegration, FederationStrategy
-
-# Enhancement system imports
-from .monitor_dashboard import MetaLearningMonitorDashboard
-from .rate_modulator import AdaptationStrategy, ConvergenceSignal, DynamicLearningRateModulator
-from .symbolic_feedback import IntentNodeHistory, SymbolicFeedbackSystem
+# Enhancement system imports from labs/core/meta_learning
+# TODO(integration): These modules may need to be integrated to core/meta_learning
+from labs.core.meta_learning.federated_integration import FederatedLearningIntegration, FederationStrategy
+from labs.core.meta_learning.monitor_dashboard import MetaLearningMonitorDashboard
+from labs.core.meta_learning.rate_modulator import AdaptationStrategy, ConvergenceSignal, DynamicLearningRateModulator
+from labs.core.meta_learning.symbolic_feedback import IntentNodeHistory, SymbolicFeedbackSystem
 
 logger = get_logger(__name__)
 
