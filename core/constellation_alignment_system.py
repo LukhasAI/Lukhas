@@ -21,8 +21,6 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Optional
 
-import streamlit as st  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
-
 from core.matriz_consciousness_signals import (
     ConsciousnessSignal,
     ConsciousnessSignalType,

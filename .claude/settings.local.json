@@ -42,7 +42,11 @@
       "Bash(jq:*)",
       "Bash(while IFS='|' read module current)",
       "Bash(do if [ -f \"$current\" ])",
-      "Bash(then echo \"$module\" fi done)"
+      "Bash(then echo \"$module\" fi done)",
+      "Bash(git branch:*)",
+      "Bash(gh pr list:*)",
+      "Bash(do echo \"\" echo \"PR #$pr:\" gh pr checks $pr)",
+      "Bash(./scripts/cleanup_stale_branches.sh:*)"
     ],
     "deny": [],
     "ask": [],
