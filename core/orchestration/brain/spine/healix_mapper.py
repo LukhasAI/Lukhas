@@ -23,7 +23,7 @@ import logging
 from typing import Any
 
 from core.identity.vault.lukhas_id import has_access, log_access
-from emotion_mapper_alt import EmotionMapper
+from core.emotion.emotion_mapper_alt import EmotionMapper
 from core.orchestration.brain.spine.accent_adapter import AccentAdapter
 
 # Initialize logger
@@ -145,4 +145,3 @@ class HealixMapper:
 
 
 # Additional methods and logic can be added as needed.
-bre  # noqa: F821  # TODO: bre
