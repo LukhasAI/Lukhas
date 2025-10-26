@@ -4,10 +4,14 @@
 ---
 title: gemini
 slug: gemini.md
-source: claude.me
+primary_source: lukhas_context.md
+secondary_source: claude.me
 optimized_for: gemini_ai
 last_updated: 2025-10-26
+navigation_note: "lukhas_context.md files are the most comprehensive and frequently updated source of truth. gemini.md files provide Gemini-optimized summaries."
 ---
+
+> **For Gemini**: This file provides navigation context. For comprehensive details, check lukhas_context.md in this directory (primary source).
 
 ---
 title: me

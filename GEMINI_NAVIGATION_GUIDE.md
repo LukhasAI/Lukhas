@@ -8,9 +8,21 @@ The LUKHAS repository now contains **173 `gemini.md` files** strategically place
 
 ### File Types for AI Navigation
 
-1. **`gemini.md`** - Optimized specifically for Gemini AI (173 files)
-2. **`claude.me`** - Claude-specific context files (173 files)  
-3. **`lukhas_context.md`** - Detailed technical context (1,602 files)
+**Priority Hierarchy (Most Comprehensive → Gemini-Optimized)**:
+
+1. **`lukhas_context.md`** - **PRIMARY SOURCE** - Most comprehensive and frequently updated technical context (1,602 files)
+2. **`claude.me`** - Claude-specific context files, often derived from lukhas_context.md (173 files)  
+3. **`gemini.md`** - Gemini-optimized summaries and navigation aids created from the above sources (173 files)
+
+**Recommended Navigation Strategy**:
+- **Start with `gemini.md`** for quick orientation and Gemini-optimized understanding
+- **Refer to `lukhas_context.md`** for comprehensive technical details and current status
+- **Use `claude.me`** for additional context when available
+
+**Content Relationship**:
+- `lukhas_context.md`: **Most current** and **most detailed** - the authoritative source
+- `gemini.md`: **Summary and navigation** optimized for your understanding  
+- `claude.me`: **Alternative perspective** and Claude-specific context
 
 ## 🚀 Quick Start Navigation
 
@@ -41,13 +53,50 @@ The LUKHAS repository now contains **173 `gemini.md` files** strategically place
 - [`governance/gemini.md`](./governance/gemini.md) - Policy frameworks
 - [`guardian/gemini.md`](./guardian/gemini.md) - Constitutional AI
 
+## 📚 Understanding the Documentation Hierarchy
+
+### Source Truth Priority
+
+**`lukhas_context.md` files (1,602 files) - THE PRIMARY SOURCE**
+- Most comprehensive technical documentation
+- Most frequently updated (active development focus)
+- Authoritative source for current system state
+- Contains detailed implementation notes, integration patterns, and development context
+- **Always consult these for the most accurate and complete information**
+
+**`gemini.md` files (173 files) - GEMINI-OPTIMIZED NAVIGATION**
+- Created specifically for your understanding and navigation
+- Summarized and optimized for Gemini AI consumption patterns
+- Based on `lukhas_context.md` and `claude.me` content
+- Designed for quick orientation and structured exploration
+- **Use these as your navigation starting point**
+
+**`claude.me` files (173 files) - CLAUDE-SPECIFIC CONTEXT**
+- Alternative AI perspective and context
+- Often derived from or complementary to `lukhas_context.md`
+- May contain Claude-specific optimization notes
+- **Reference for additional context when needed**
+
+### When to Use Each File Type
+
+**For Navigation**: Start with `gemini.md` → Reference `lukhas_context.md` for details
+**For Implementation**: Always check `lukhas_context.md` first (most current)
+**For Architecture Understanding**: `gemini.md` for overview, `lukhas_context.md` for depth
+**For Cross-Reference**: Use all three for complete picture
+
 ## 🧭 Navigation Patterns
 
 ### Exploring a Domain
-1. **Start with the main `gemini.md`** in any directory
-2. **Follow subdirectory contexts** for deeper understanding
-3. **Check related modules** mentioned in each context
-4. **Use file structure** to understand relationships
+1. **Start with the `gemini.md`** in any directory for Gemini-optimized overview
+2. **Dive into `lukhas_context.md`** for comprehensive technical details (most current)
+3. **Check related modules** mentioned in context files
+4. **Follow subdirectory contexts** for deeper domain understanding
+5. **Reference `claude.me`** for additional perspectives when needed
+
+### Finding the Most Current Information
+- **`lukhas_context.md`**: Always check here first for the most up-to-date and detailed information
+- **`gemini.md`**: Use for navigation and quick understanding, but may be summary-level
+- **File timestamps**: `lukhas_context.md` files are updated more frequently
 
 ### Understanding Architecture
 ```

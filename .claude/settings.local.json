@@ -77,7 +77,8 @@
       "Bash(do sed -i '' 's/Trinity Framework/Constellation Framework/g' \"$file\")",
       "Bash(rg:*)",
       "Bash(for dir in mcp-lukhas-sse mcp-server mcp-servers mcp_servers)",
-      "Bash(do echo \"=== $dir ===\")"
+      "Bash(do echo \"=== $dir ===\")",
+      "Bash(git rm:*)"
     ],
     "deny": [],
     "ask": [],

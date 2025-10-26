@@ -4,9 +4,11 @@
 ---
 title: gemini
 slug: gemini.md
-source: claude.me
+primary_source: lukhas_context.md
+secondary_source: claude.me
 optimized_for: gemini_ai
 last_updated: 2025-10-26
+navigation_note: "lukhas_context.md files are the most comprehensive and frequently updated source of truth (1,602 files). gemini.md files provide Gemini-optimized summaries."
 ---
 
 ---
@@ -32,6 +34,8 @@ Legacy core alias: enabled (warn/disable via env) — use lukhas.core.*
 
 # LUKHAS AI System - Master Architecture Overview
 *Artificial Intelligence with Constellation Framework & Constitutional AI*
+
+> **Navigation Note for Gemini**: This file provides a Gemini-optimized overview. For the most comprehensive and current technical details, always reference the corresponding `lukhas_context.md` files (1,602 files total), which are the primary source of truth and are updated more frequently than these navigation files.
 
 ## 🧠 System Overview
 
@@ -331,19 +335,31 @@ CANDIDATE Research → LUKHAS Integration → PRODUCTS Deployment
 ---
 ## 📚 Context Navigation Quick Reference
 
-**Primary Development**: `candidate/` → Development workspace
-**Integration Layer**: `lukhas/` → Constellation Framework coordination
-**Cognitive Engine**: `matriz/` → Symbolic reasoning & node processing
-**Production Systems**: `products/` → Enterprise deployment
-**Ethics Framework**: `ethics/` → Constitutional AI & guardian systems
+### **Documentation Hierarchy** 
+- **`lukhas_context.md`** (1,602 files): **PRIMARY SOURCE** - Most comprehensive and frequently updated
+- **`gemini.md`** (173 files): **THIS FILE TYPE** - Gemini-optimized navigation summaries  
+- **`claude.me`** (173 files): Claude-specific context and alternative perspectives
+
+### **Domain Navigation**
+**Primary Development**: `candidate/lukhas_context.md` → Development workspace (authoritative)
+**Integration Layer**: `lukhas/lukhas_context.md` → Constellation Framework coordination  
+**Cognitive Engine**: `matriz/lukhas_context.md` → Symbolic reasoning & node processing
+**Production Systems**: `products/lukhas_context.md` → Enterprise deployment
+**Ethics Framework**: `ethics/lukhas_context.md` → Constitutional AI & guardian systems
 **Research Intelligence**: `docs/THE_VAULT_RESEARCH_INTELLIGENCE.md` → 604 research documents, MCP server, navigation tools
 
-**Deep Dive Contexts**: Use subdirectory claude.me files for implementation details
-**Integration Patterns**: Cross-reference related contexts for coordination workflows
+### **Navigation Strategy for Gemini**
+1. **Start here** (`gemini.md`) for orientation
+2. **Dive deep** into `lukhas_context.md` files for current, comprehensive details
+3. **Cross-reference** `claude.me` for additional perspectives
+4. **Follow subdirectories** for specialized domain contexts
+
+**Deep Dive Contexts**: Always check `lukhas_context.md` files for the most current implementation details
+**Integration Patterns**: Cross-reference related contexts for coordination workflows  
 **Production Pipeline**: Follow CANDIDATE → LUKHAS → PRODUCTS for deployment
 **Research Navigation**: Use THE_VAULT MCP server for AI-powered research exploration
 
-*Master Overview - Navigate to domain-specific contexts for detailed development workflows*
+*Gemini Navigation Overview - Always reference lukhas_context.md files for the most current and comprehensive information*
 
 
 **Architecture Status**: Constellation Framework Active | Constitutional AI Integrated | 71.4% → 100% Roadmap

@@ -1,57 +1,80 @@
-"""Lowercase compatibility facade for the uppercase `MATRIZ` package.
+"""
+MATRIZ - Memory-Attention-Thought-Action-Decision-Awareness Cognitive Engine
 
-Makes `matriz.<subpkg>` resolve to `MATRIZ.<subpkg>` so tests that import
-`matriz.adapters.*` (and friends) can collect without moving files around.
+Canonical package name: MATRIZ (uppercase)
+
+IMPORTANT: On case-insensitive filesystems (macOS), Python imports this as 'matriz'
+(lowercase) because that's how the directory appears to the import system. This
+__init__.py handles making it available under both names via sys.modules aliasing.
+
+On case-sensitive filesystems (Linux/CI), git tracks this as 'MATRIZ/' (uppercase).
+
+DEPRECATION NOTICE:
+Always use 'from MATRIZ import X' or 'import MATRIZ' in new code. The package will
+work with both cases due to aliasing, but uppercase is canonical. Migration window: Q2 2026.
 """
 from __future__ import annotations
 
 import importlib
 import sys
+import warnings
 from types import ModuleType
 
+__version__ = "1.0.0"
 __all__: list[str] = []
 
+# Detect how we were imported and set up aliasing
+_this_module = sys.modules[__name__]
+_canonical_name = "MATRIZ"
+_compat_name = "matriz"
+
+# If imported as 'matriz', alias to 'MATRIZ' and emit warning
+if __name__ == _compat_name:
+    warnings.warn(
+        f"Importing '{_compat_name}' (lowercase) is deprecated. Use 'from {_canonical_name} import X' instead. "
+        "This compatibility will be removed in Q2 2026.",
+        DeprecationWarning,
+        stacklevel=2,
+    )
+    # Make available as uppercase too
+    sys.modules[_canonical_name] = _this_module
+
+# If imported as 'MATRIZ', also register lowercase for compatibility
+elif __name__ == _canonical_name:
+    sys.modules[_compat_name] = _this_module
+
 def _alias(subpkg: str) -> ModuleType | None:
-    """Map matriz.<subpkg> -> MATRIZ.<subpkg> if available, caching in sys.modules."""
-    src_name = f"MATRIZ.{subpkg}"
-    dst_name = f"{__name__}.{subpkg}"
+    """Map both matriz.<subpkg> and MATRIZ.<subpkg> to the same module."""
+    # Determine source based on how we were loaded
+    if __name__ == _compat_name:
+        src_name = f"{_compat_name}.{subpkg}"
+    else:
+        src_name = f"{_canonical_name}.{subpkg}"
+
     try:
         mod = importlib.import_module(src_name)
     except Exception:
         return None
-    sys.modules[dst_name] = mod
+
+    # Register under both names
+    sys.modules[f"{_canonical_name}.{subpkg}"] = mod
+    sys.modules[f"{_compat_name}.{subpkg}"] = mod
+
     if subpkg not in __all__:
         __all__.append(subpkg)
     return mod
 
-# Always expose the uppercase home for debugging/compat
-try:
-    MATRIZ = importlib.import_module("MATRIZ")
-    __all__.append("MATRIZ")
-except Exception:
-    MATRIZ = None  # type: ignore[assignment]
+# Load and alias common subpackages
+for _name in ("core", "adapters", "runtime", "nodes", "utils", "visualization",
+              "consciousness", "orchestration", "memory", "interfaces", "docs", "tests"):
+    _alias(_name)
 
-# Canonical direct wires
-if _alias("core") is None:
-    # Leave core optional; some environments provide it elsewhere
-    pass
-
-# node_contract is a single module at top-level (MATRIZ/node_contract.py).
-# Import it through the lowercase name to keep existing code stable.
+# Handle node_contract module specially (it's a file, not a package)
 try:
-    node_contract = importlib.import_module("MATRIZ.node_contract")
-    sys.modules[__name__ + ".node_contract"] = node_contract
+    _nc_src = f"{__name__}.node_contract"
+    node_contract = importlib.import_module(_nc_src)
+    sys.modules[f"{_canonical_name}.node_contract"] = node_contract
+    sys.modules[f"{_compat_name}.node_contract"] = node_contract
     __all__.append("node_contract")
 except Exception:
     pass
-
-# High-value subpackages that tests import:
-for _name in ("adapters", "runtime", "nodes", "utils", "visualization"):
-    _alias(_name)
-
-# Lazy fallback: if someone touches matriz.<anything>, try to load MATRIZ.<anything>
-def __getattr__(name: str):
-    mod = _alias(name)
-    if mod is not None:
-        return mod
-    raise AttributeError(f"module '{__name__}' has no attribute '{name}'")
