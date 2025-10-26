@@ -1,0 +1,36 @@
+{
+  "batch_id": "BATCH-CODEX-FAULT-TOLERANCE-02",
+  "agent": "codex",
+  "title": "Fault Tolerance - Custom Handler Registration",
+  "description": "Add custom failure handler registration to Supervisor class for domain-specific recovery strategies",
+  "priority": "LOW",
+  "estimated_total_time": "1h",
+  "created": "2025-10-26",
+  "status": "pending",
+  "tasks": [
+    {
+      "task_id": "CODEX-FAULT-01",
+      "title": "Implement register_custom_handler",
+      "priority": "LOW",
+      "complexity": "MEDIUM",
+      "estimated_time": "1h",
+      "files": [
+        "core/fault_tolerance.py"
+      ],
+      "description": "Add register_custom_handler() method to Supervisor class. Allows registering domain-specific failure handlers by exception type or agent_id. Custom handlers should take precedence over default strategy.",
+      "acceptance_criteria": [
+        "register_custom_handler(exception_type, handler_func) method added",
+        "Custom handlers called before default strategy in handle_failure()",
+        "Supports both exception type and agent_id based routing",
+        "Includes tests for custom handler precedence"
+      ],
+      "location": "core/fault_tolerance.py:145",
+      "todo_text": "TODO: Add register_custom_handler() for domain-specific recovery"
+    }
+  ],
+  "dependencies": [],
+  "related_batches": [
+    "BATCH-CODEX-TYPE-SYSTEM-01"
+  ],
+  "notes": "Enhancement to existing Supervisor class. Low priority but improves extensibility for domain-specific fault recovery (e.g., consciousness drift recovery, memory corruption handling)."
+}

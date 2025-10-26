@@ -1,0 +1,74 @@
+{
+  "batch_id": "BATCH-CODEX-DAST-ENGINE-01",
+  "agent": "codex",
+  "title": "DAST Engine - Gesture Scoring & Interpretation",
+  "description": "Implement DAST gesture scoring system, interpretation logic, and data fetching for consciousness gesture analysis",
+  "priority": "HIGH",
+  "estimated_total_time": "2.5h",
+  "created": "2025-10-26",
+  "status": "pending",
+  "tasks": [
+    {
+      "task_id": "CODEX-DAST-01",
+      "title": "Implement gesture scoring system",
+      "priority": "HIGH",
+      "complexity": "MEDIUM",
+      "estimated_time": "1h",
+      "files": [
+        "core/symbolic/dast_engine.py"
+      ],
+      "description": "Replace placeholder gesture scoring with actual implementation. Calculate gesture strength based on: frequency, context relevance, emotional valence, temporal patterns. Return normalized score 0.0-1.0.",
+      "acceptance_criteria": [
+        "score_gestures() returns dict[str, float] with normalized scores",
+        "Considers all 4 factors: frequency, context, emotion, temporal",
+        "Includes unit tests with mock gesture data",
+        "Validates score range 0.0-1.0"
+      ],
+      "location": "core/symbolic/dast_engine.py:45",
+      "todo_text": "TODO: Implement actual gesture scoring based on frequency, context, emotion, temporal"
+    },
+    {
+      "task_id": "CODEX-DAST-02",
+      "title": "Implement interpretation logic",
+      "priority": "HIGH",
+      "complexity": "MEDIUM",
+      "estimated_time": "1h",
+      "files": [
+        "core/symbolic/dast_engine.py"
+      ],
+      "description": "Build interpretation engine that maps gesture patterns to consciousness states. Use symbolic reasoning to identify: emotional states, cognitive modes, behavioral patterns, drift indicators.",
+      "acceptance_criteria": [
+        "interpret() returns structured interpretation dict",
+        "Maps gestures to consciousness states (calm, focused, drifting, etc.)",
+        "Detects symbolic patterns and anomalies",
+        "Includes confidence scores for interpretations"
+      ],
+      "location": "core/symbolic/dast_engine.py:78",
+      "todo_text": "TODO: Implement symbolic interpretation logic"
+    },
+    {
+      "task_id": "CODEX-DAST-03",
+      "title": "Implement data fetching for gesture corpus",
+      "priority": "MEDIUM",
+      "complexity": "LOW",
+      "estimated_time": "30m",
+      "files": [
+        "core/symbolic/dast_engine.py"
+      ],
+      "description": "Create data fetching layer to retrieve gesture corpus from memory system. Should integrate with MATRIZ memory or provide file-based fallback.",
+      "acceptance_criteria": [
+        "fetch_gesture_data() retrieves corpus from storage",
+        "Supports both MATRIZ memory and file-based fallback",
+        "Handles missing data gracefully",
+        "Caches corpus for performance"
+      ],
+      "location": "core/symbolic/dast_engine.py:112",
+      "todo_text": "TODO: Implement data fetching for gesture corpus"
+    }
+  ],
+  "dependencies": [],
+  "related_batches": [
+    "BATCH-CODEX-CONSCIOUSNESS-LEGACY-01"
+  ],
+  "notes": "DAST (Dynamic Affective Symbolic Timeline) is core to consciousness gesture analysis. This batch enables the symbolic reasoning layer for emotional and cognitive state tracking."
+}
