@@ -6,6 +6,7 @@ import pytest
 from scripts.hidden_gems_summary import (
     HiddenGem,
     ManifestFormatError,
+    main,
     extract_hidden_gems,
     format_summary,
     load_manifest,
@@ -83,3 +84,39 @@ def test_summarize_and_format_summary_output() -> None:
     assert "matriz: 1 modules" in rendered
     assert "labs.module_a" in rendered
     assert "labs.module_b" in rendered
+
+
+def test_main_prints_summary_for_valid_manifest(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    manifest_payload = {
+        "modules": [
+            {
+                "module": "labs.module_a",
+                "score": 75.0,
+                "complexity": "low",
+                "effort_hours": 3,
+                "target_location": "core/module_a.py",
+            }
+        ]
+    }
+    manifest_path = tmp_path / "manifest.json"
+    manifest_path.write_text(json.dumps(manifest_payload))
+
+    exit_code = main(["--manifest", str(manifest_path), "--top", "1"])
+
+    captured = capsys.readouterr()
+    assert exit_code == 0
+    assert "Hidden Gems Integration Summary" in captured.out
+    assert "labs.module_a" in captured.out
+    assert captured.err == ""
+
+
+def test_main_reports_manifest_errors(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    manifest_path = tmp_path / "manifest.json"
+    manifest_path.write_text(json.dumps({"modules": {}}))
+
+    exit_code = main(["--manifest", str(manifest_path)])
+
+    captured = capsys.readouterr()
+    assert exit_code == 1
+    assert "Error:" in captured.err
+    assert captured.out == ""
