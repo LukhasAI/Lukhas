@@ -46,13 +46,20 @@ from governance.identity.core.id_service import get_identity_manager
 
 # Import validators
 try:
-    from interfaces.api.v1.common.validators import validate_api_key
+    from interfaces.api.v1.common.validators import validate_api_key as validate_api_key_format
 except ImportError:
     # Fallback if validators not available
 
-    def validate_api_key(api_key: str) -> bool:
+    def validate_api_key_format(api_key: str) -> bool:
         """Basic API key validation."""
         return len(api_key) >= 32
+
+
+from core.identity.vault.lukhas_id import (
+    IdentityManager,
+    IdentityRateLimitExceeded,
+    IdentityVerificationError,
+)
 
 
 logger = structlog.get_logger(__name__)
@@ -313,6 +320,7 @@ class AuthMiddleware:
             "/api/v1/auth/login",
             "/api/v1/auth/register",
         ]
+        self.identity_manager = IdentityManager()
 
     async def __call__(self, request: Request, call_next):
         """Process authentication for incoming requests."""
@@ -402,7 +410,7 @@ class AuthMiddleware:
         # Check for API key in X-API-Key header
         api_key = request.headers.get("X-API-Key")
         if api_key:
-            return await self.validate_api_key(api_key)
+            return await self.resolve_api_key(api_key)
 
         # No valid authentication found
         raise HTTPException(
@@ -438,34 +446,32 @@ class AuthMiddleware:
                 headers={"WWW-Authenticate": "Bearer"},
             ) from jwt_error
 
-    async def validate_api_key(self, api_key: str) -> dict[str, Any]:
-        """Validate API key and extract associated information."""
-        # Use the validator to check API key format
-        if not validate_api_key(api_key):
+    # ΛTAG: identity_api_middleware
+    async def resolve_api_key(self, api_key: str) -> dict[str, Any]:
+        """Validate API key using the shared IdentityManager."""
+
+        if not validate_api_key_format(api_key):
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Invalid API key format",
             )
 
-        # TODO: Implement actual API key lookup from database/cache
-        # For now, use a simple validation based on key pattern
-
-        # Example tier mapping based on API key prefix
-        if api_key.startswith("sk_live_admin_"):
-            tier_level = 4
-        elif api_key.startswith("sk_live_pro_"):
-            tier_level = 3
-        elif api_key.startswith("sk_live_std_"):
-            tier_level = 2
-        elif api_key.startswith("sk_live_"):
-            tier_level = 1
-        else:
-            tier_level = 0
+        try:
+            profile = await self.identity_manager.authenticate_api_key(api_key)
+        except IdentityRateLimitExceeded as error:
+            raise HTTPException(
+                status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+                detail=str(error),
+            ) from error
+        except IdentityVerificationError as error:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail=str(error),
+            ) from error
 
         return {
-            # Extract last 8 chars as user identifier
-            "user_id": f"api_user_{api_key[-8:]}",
-            "tier_level": tier_level,
+            "user_id": profile.user_id,
+            "tier_level": profile.tier_level,
             "auth_method": "api_key",
         }
 
