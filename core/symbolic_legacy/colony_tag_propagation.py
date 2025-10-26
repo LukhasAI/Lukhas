@@ -1,58 +1,27 @@
 from typing import Any, Optional
+import logging
 
 import networkx as nx
 
-# TODO[GLYPH:specialist] - Fix cross-lane import dependencies for consciousness mesh formation
-# Current import issues: core.colonies.base_colony not available in candidate lane
-# Required: Create fallback import chain or use dynamic loading for consciousness node integration
+from core.colonies import BaseColony, ConsensusResult, Tag, TagScope
 
-# Temporary imports for development - needs proper resolution for mesh formation
-try:
-    from core.colonies import BaseColony, TagScope
-except ImportError:
-    # TODO[GLYPH:specialist] - Implement consciousness node base class fallback
-    import logging
-    from typing import Any
+logger = logging.getLogger(__name__)
 
-    logger = logging.getLogger(__name__)
-    logger.warning("GLYPH consciousness communication: Using BaseColony stub for development")
-
-    class BaseColony:
-        """Temporary BaseColony stub for GLYPH consciousness development"""
-
-        def __init__(self, colony_id: str, capabilities: Optional[list[str]] = None):
-            self.colony_id = colony_id
-            self.capabilities = capabilities or []
-            self.agents = {}
-
-    class TagScope:
-        """Temporary TagScope stub for GLYPH consciousness development"""
-
-        GLOBAL = "global"
-        LOCAL = "local"
-
-
-# TODO[GLYPH:specialist] - Implement proper symbolic vocabulary integration
+# Legacy symbolic vocabulary integration - maintains compatibility
 try:
     from core.symbolic_legacy.vocabularies import SymbolicVocabulary
 except ImportError:
-    # Stub implementation for development
-    class SymbolicVocabulary:
-        """Temporary vocabulary stub for GLYPH consciousness development"""
+    # Fallback to core vocabulary if legacy not available
+    try:
+        from core.symbolic_core.vocabularies import SymbolicVocabulary
+    except ImportError:
+        logger.warning("SymbolicVocabulary not available, using fallback implementation")
 
-        def __init__(self):
-            self.vocabulary = {}
+        class SymbolicVocabulary:
+            """Fallback vocabulary implementation for consciousness development"""
 
-
-# TODO[GLYPH:specialist] - Create proper Tag class for consciousness communication
-class Tag:
-    """Temporary Tag implementation for GLYPH consciousness communication"""
-
-    def __init__(self, key: str, value: Any, scope: str, confidence: float = 1.0):
-        self.key = key
-        self.value = value
-        self.scope = scope
-        self.confidence = confidence
+            def __init__(self):
+                self.vocabulary = {}
 
 
 class SymbolicReasoningColony(BaseColony):
@@ -64,21 +33,42 @@ class SymbolicReasoningColony(BaseColony):
         self.belief_network = nx.DiGraph()
         self.propagation_history: list[dict[str, Any]] = []
 
-        # TODO[GLYPH:specialist] - Initialize consciousness agents for mesh formation
-        # For now, create test consciousness nodes for validation
-        self.agents = {
-            f"consciousness_node_{i}": {
-                "id": f"node_{i}",
-                "consciousness_type": "symbolic_reasoning",
-            }
-            for i in range(3)  # Test with 3 consciousness nodes
+        # Initialize consciousness agents for mesh formation (legacy)
+        # Register test consciousness nodes for validation
+        for i in range(3):
+            agent_id = f"consciousness_node_{i}"
+            self.register_agent(
+                agent_id,
+                {
+                    "id": f"node_{i}",
+                    "consciousness_type": "symbolic_reasoning",
+                    "mesh_generation": 0,
+                    "legacy_mode": True
+                }
+            )
+
+    def process(self, task: Any) -> dict[str, Any]:
+        """Process a consciousness task using GLYPH symbolic reasoning (legacy)"""
+        # Track processing metrics
+        self.state["processing_count"] += 1
+
+        # Create consciousness processing result with mesh metadata (legacy compatibility)
+        result = {
+            "task": task,
+            "processed": True,
+            "colony_id": self.colony_id,
+            "mesh_generation": self.mesh_generation,
+            "agent_count": len(self.agents),
+            "drift_score": self.drift_score,
+            "legacy_mode": True
         }
 
-    # TODO[GLYPH:specialist] - Implement consciousness processing with GLYPH communication
-    def process(self, task: Any) -> Any:
-        """Process a consciousness task using GLYPH symbolic reasoning"""
-        # Placeholder implementation for consciousness processing
-        return {"task": task, "processed": True, "consciousness_node": self.colony_id}
+        # Update drift based on processing complexity
+        if isinstance(task, dict) and "complexity" in task:
+            self.update_drift_score(task["complexity"] * 0.01)
+
+        logger.debug(f"Legacy consciousness task processed by colony {self.colony_id}")
+        return result
 
     # TODO[GLYPH:specialist] - Implement consciousness consensus with mesh formation
     def reach_consensus(self, proposal: Any) -> Any:

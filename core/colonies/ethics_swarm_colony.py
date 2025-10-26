@@ -23,7 +23,7 @@ class EthicalDecisionType(str, Enum):
     EMERGENCY = "emergency"
 
 
-@dataclass(slots=True)
+@dataclass
 class EthicalDecisionRequest:
     """Structured request for swarm evaluation.
 
@@ -49,7 +49,7 @@ class EthicalDecisionRequest:
         return replace(self, metadata={**self.metadata, **extra})
 
 
-@dataclass(slots=True)
+@dataclass
 class EthicalSignal:
     """Representation of an incoming ethical signal from a watcher."""
 
@@ -60,7 +60,7 @@ class EthicalSignal:
     timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
 
 
-@dataclass(slots=True)
+@dataclass
 class EthicalDecisionResponse:
     """Result from swarm deliberation."""
 
