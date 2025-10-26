@@ -1,0 +1,72 @@
+name: MATRIZ Legacy Import Nightly Audit
+
+on:
+  schedule:
+    # Run at 2 AM UTC daily
+    - cron: '0 2 * * *'
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  matriz-nightly-audit:
+    name: Nightly MATRIZ legacy import inventory
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Generate legacy import inventory
+        id: audit
+        run: |
+          TIMESTAMP=$(date +%Y-%m-%d_%H-%M-%S)
+          OUTFILE="/tmp/matriz_legacy_audit_${TIMESTAMP}.txt"
+
+          echo "MATRIZ Legacy Import Audit - ${TIMESTAMP}" > "$OUTFILE"
+          echo "==========================================" >> "$OUTFILE"
+          echo "" >> "$OUTFILE"
+
+          # Search for legacy imports (excluding artifacts)
+          MATCHES=$(grep -R --exclude-dir={.git,artifacts,manifests,third_party,archive,dist,build,.pytest_cache,__pycache__} \
+            -nE "(^|[^\w])from\s+matriz\.|(^|[^\w])import\s+matriz\b" . || true)
+
+          if [ -z "$MATCHES" ]; then
+            echo "✅ No legacy 'matriz' imports found!" | tee -a "$OUTFILE"
+            echo "Migration complete - safe to remove compatibility shim." | tee -a "$OUTFILE"
+            echo "count=0" >> $GITHUB_OUTPUT
+          else
+            COUNT=$(echo "$MATCHES" | wc -l)
+            echo "Found ${COUNT} legacy 'matriz' import occurrences:" | tee -a "$OUTFILE"
+            echo "" >> "$OUTFILE"
+            echo "$MATCHES" >> "$OUTFILE"
+            echo "count=${COUNT}" >> $GITHUB_OUTPUT
+          fi
+
+          echo "outfile=${OUTFILE}" >> $GITHUB_OUTPUT
+          echo "timestamp=${TIMESTAMP}" >> $GITHUB_OUTPUT
+
+      - name: Upload audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: matriz-legacy-audit-${{ steps.audit.outputs.timestamp }}
+          path: /tmp/matriz_legacy_audit_*.txt
+          retention-days: 90
+
+      - name: Create summary
+        if: always()
+        run: |
+          COUNT=${{ steps.audit.outputs.count }}
+          if [ "$COUNT" = "0" ]; then
+            echo "### ✅ MATRIZ Migration Complete!" >> $GITHUB_STEP_SUMMARY
+            echo "No legacy \`matriz\` imports found. Safe to remove compatibility shim." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### ⚠️ MATRIZ Legacy Imports: ${COUNT}" >> $GITHUB_STEP_SUMMARY
+            echo "Legacy \`matriz\` import occurrences found. Migration in progress." >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Download the artifact for full details." >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Timeline:**" >> $GITHUB_STEP_SUMMARY
+            echo "- Continue migration PRs to reduce count" >> $GITHUB_STEP_SUMMARY
+            echo "- Flip CI to blocking when count < 10" >> $GITHUB_STEP_SUMMARY
+            echo "- Remove shim when count = 0 for 7+ days" >> $GITHUB_STEP_SUMMARY
+          fi

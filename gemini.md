@@ -8,8 +8,56 @@ primary_source: lukhas_context.md
 secondary_source: claude.me
 optimized_for: gemini_ai
 last_updated: 2025-10-26
-navigation_note: "lukhas_context.md files are the most comprehensive and frequently updated source of truth (1,602 files). gemini.md files provide Gemini-optimized summaries."
+navigation_note: "lukhas_context.md files are the most comprehensive and frequently updated source of truth. gemini.md files provide Gemini-optimized summaries."
 ---
+
+---
+title: me
+slug: claude.me
+owner: T4
+lane: labs
+star:
+stability: experimental
+last_reviewed: 2025-10-18
+constellation_stars:
+related_modules:
+manifests:
+links:
+---
+> Context Sync Header (Schema v2.0.0)
+Lane: production
+Lane root: lukhas
+Canonical imports: lukhas.*
+Cognitive components (global): 692
+Flags: ENFORCE_ETHICS_DSL, LUKHAS_LANE, LUKHAS_ADVANCED_TAGS
+Legacy core alias: enabled (warn/disable via env) — use lukhas.core.*
+
+# LUKHAS AI System - Master Architecture Overview
+*Artificial Intelligence with Constellation Framework & Constitutional AI*
+
+> **Navigation Note for Gemini**: This file provides a Gemini-optimized overview. For the most comprehensive and current technical details, always reference the corresponding `lukhas_context.md` files (1,602 files total), which are the primary source of truth and are updated more frequently than these navigation files.
+
+## 🚨 MATRIZ Migration Update
+
+**Team Announcement (Ready to Share):**
+
+We've completed MATRIZ case standardization for all production code and integration tests!
+
+**Completed:**
+✅ serve/ (2 imports)
+✅ core/ (2 imports)  
+✅ tests/integration/ (20 imports)
+
+**Status:** 3 PRs in CI validation
+
+**Next:** tests/unit + tests/smoke (23 imports) - will migrate after current PRs pass CI
+
+**CI Mode:** Warning (logs occurrences, doesn't block)
+**Timeline:** Flip to blocking mode after critical tests are migrated and stable (~48 hours)
+
+**Action Required:** Avoid large MATRIZ-related changes until migrations merge. Use uppercase `from MATRIZ import X` for new code.
+
+Questions? See MATRIZ_MIGRATION_GUIDE.md
 
 ---
 title: me

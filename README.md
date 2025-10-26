@@ -15,6 +15,28 @@ updated: 2025-10-26
 
 LUKHAS AI is a sophisticated cognitive platform that implements consciousness-inspired patterns for advanced AI applications. Built with a modular lane-based architecture, the platform enables safe development and deployment of consciousness-aware AI systems through strict boundaries and comprehensive governance.
 
+## 🚨 MATRIZ Migration Update
+
+**Team Announcement (Ready to Share):**
+
+We've completed MATRIZ case standardization for all production code and integration tests!
+
+**Completed:**
+✅ serve/ (2 imports)
+✅ core/ (2 imports)  
+✅ tests/integration/ (20 imports)
+
+**Status:** 3 PRs in CI validation
+
+**Next:** tests/unit + tests/smoke (23 imports) - will migrate after current PRs pass CI
+
+**CI Mode:** Warning (logs occurrences, doesn't block)
+**Timeline:** Flip to blocking mode after critical tests are migrated and stable (~48 hours)
+
+**Action Required:** Avoid large MATRIZ-related changes until migrations merge. Use uppercase `from MATRIZ import X` for new code.
+
+Questions? See MATRIZ_MIGRATION_GUIDE.md
+
 ## ⚡ 30-Second Quickstart
 
 ```bash
