@@ -6,9 +6,10 @@ Enhanced with quantum oscillator synchronization and mito-inspired health monito
 """
 import asyncio
 import logging
+import random
 import time
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, Callable, Mapping, Optional, Sequence
 
 # Golden Trio imports
 try:
@@ -107,7 +108,12 @@ except ImportError:
     BaseOscillator = None
     QIHub = None
 
-# from qi.system_orchestrator import QIAGISystem  # TODO: Implement quantum Cognitive system
+from candidate.quantum.annealing import AnnealingResult, QuantumAnnealer
+from candidate.quantum.measurement import MeasurementResult, QuantumMeasurement
+from candidate.quantum.superposition_engine import (
+    QuantumSuperpositionEngine,
+    SuperpositionState,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -311,9 +317,16 @@ class QIAGISystem:
         self.config = config or {}
         self.active = False
         self.quantum_state = {"superposition_count": 0, "coherence": 1.0}
-        self.optimization_history = []
+        self.optimization_history: list[dict[str, Any]] = []
 
-        logger.info("QI-AGI System initialized (stub implementation)")
+        seed = self.config.get("seed")
+        self._rng = random.Random(seed) if seed is not None else random.Random()
+        self._superposition_engine = QuantumSuperpositionEngine(rng=self._rng)
+        self._measurement = QuantumMeasurement(rng=self._rng)
+        self._annealer = QuantumAnnealer(rng=self._rng)
+        self._superpositions: dict[str, SuperpositionState] = {}
+
+        logger.info("QI-AGI System initialized with quantum-inspired engines")
 
     async def start(self) -> None:
         """Start quantum-inspired processing"""
@@ -340,20 +353,34 @@ class QIAGISystem:
         Returns:
             Superposition state with weighted options
 
-        TODO: Implement quantum superposition with probability amplitudes
         """
+
+        if not options:
+            raise ValueError("create_superposition requires at least one option")
+
+        context = context or {}
+        state = self._superposition_engine.create_state(options, context)
         self.quantum_state["superposition_count"] += 1
+        superposition_id = f"sp_{self.quantum_state['superposition_count']}"
+        self._superpositions[superposition_id] = state
+        self.quantum_state["coherence"] = state.metadata.get(
+            "coherence", self.quantum_state["coherence"]
+        )
 
-        # Stub: Return uniform probability distribution
-        probability = 1.0 / len(options) if options else 0.0
-
-        return {
-            "superposition_id": f"sp_{self.quantum_state['superposition_count']}",
-            "options": options,
-            "probabilities": [probability] * len(options),
+        # ΛTAG: quantum_superposition - track amplitude distribution and coherence
+        response = {
+            "superposition_id": superposition_id,
+            "options": state.options,
+            "probabilities": state.metadata.get("probabilities", []),
+            "amplitudes": [
+                {"real": amplitude.real, "imag": amplitude.imag}
+                for amplitude in state.amplitudes
+            ],
+            "interference_events": state.metadata.get("interference_events", []),
             "coherence": self.quantum_state["coherence"],
-            "stub": True
+            "stub": False,
         }
+        return response
 
     async def measure_collapse(
         self,
@@ -369,14 +396,34 @@ class QIAGISystem:
 
         Returns:
             Collapsed decision result
-
-        TODO: Implement quantum measurement with contextual collapse
         """
+
+        if superposition_id not in self._superpositions:
+            raise KeyError(f"Unknown superposition_id: {superposition_id}")
+
+        measurement_context = measurement_context or {}
+        state = self._superpositions[superposition_id]
+        result: MeasurementResult = self._measurement.collapse(state, measurement_context)
+
+        coherence_loss = float(result.metadata.get("coherence_loss", 0.0))
+        self.quantum_state["coherence"] = max(
+            0.0,
+            self.quantum_state["coherence"] * (1.0 - coherence_loss * 0.5),
+        )
+
+        if measurement_context.get("preserve_state", False):
+            self._superpositions[superposition_id] = result.post_state
+        else:
+            self._superpositions.pop(superposition_id, None)
+
+        # ΛTAG: measurement_collapse - capture contextualized decision metadata
         return {
             "collapsed": True,
-            "decision": {"action": "default", "confidence": 0.5},
-            "measurement_basis": measurement_context or {},
-            "stub": True
+            "decision": result.collapsed_option,
+            "probability": result.probability,
+            "measurement_metadata": result.metadata,
+            "coherence": self.quantum_state["coherence"],
+            "stub": False,
         }
 
     async def quantum_anneal(
@@ -394,17 +441,48 @@ class QIAGISystem:
         Returns:
             Optimized solution
 
-        TODO: Implement quantum annealing for multi-objective optimization
         """
-        result = {
-            "optimized": True,
-            "solution": {"value": 0.0},
-            "energy": 1.0,
-            "stub": True
+
+        constraints = constraints or {}
+        search_space: Sequence[Mapping[str, Any]] | None = constraints.get("search_space")
+        if not search_space:
+            raise ValueError("quantum_anneal requires a 'search_space' constraint")
+
+        objective_callable: Callable[[Mapping[str, Any]], float] | None = None
+        if callable(constraints.get("objective_callable")):
+            objective_callable = constraints["objective_callable"]
+        elif callable(constraints.get("energy_function")):
+            objective_callable = None
+        elif isinstance(objective_function, str):
+            objectives = constraints.get("objectives", {})
+            candidate_callable = objectives.get(objective_function)
+            if callable(candidate_callable):
+                objective_callable = candidate_callable
+
+        annealing_constraints = {
+            key: value
+            for key, value in constraints.items()
+            if key not in {"search_space", "objective_callable", "objectives"}
         }
 
-        self.optimization_history.append(result)
-        return result
+        result: AnnealingResult = self._annealer.anneal(
+            objective_callable,
+            search_space=search_space,
+            constraints=annealing_constraints,
+        )
+
+        payload = {
+            "optimized": True,
+            "solution": result.solution,
+            "energy": result.energy,
+            "explored": result.explored,
+            "history": result.history,
+            "metadata": result.metadata,
+            "stub": False,
+        }
+
+        self.optimization_history.append(payload)
+        return payload
 
     def get_quantum_metrics(self) -> dict[str, Any]:
         """Get quantum system metrics"""
@@ -412,7 +490,8 @@ class QIAGISystem:
             "active": self.active,
             "quantum_state": self.quantum_state.copy(),
             "optimization_count": len(self.optimization_history),
-            "stub": True
+            "superpositions": len(self._superpositions),
+            "stub": False,
         }
 
 
