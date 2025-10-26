@@ -15,52 +15,44 @@ Integration Date: 2025-05-31T07:55:30.384694
 # ║ 🔄 UPDATED: 2025-04-22                                            ║
 # ╚═══════════════════════════════════════════════════════════════════╝
 
-# import streamlit as st  # TODO: Install or implement streamlit
+import streamlit as st
 from core.dashboard_settings import get_paired_apps
 
-st.set_page_config(page_title="LUKHAS Agent Dashboard", layout="wide")  # noqa: F821  # TODO: st
-st.title("🧠 LUKHAS - AGENT")  # noqa: F821  # TODO: st
+st.set_page_config(page_title="LUKHAS Agent Dashboard", layout="wide")
+st.title("🧠 LUKHAS - AGENT")
 
 # ─── Sidebar Controls ───────────────────────────────────────────────────────
-st.sidebar.title("Settings")  # noqa: F821  # TODO: st
-lukhas_plugin_enabled = st.sidebar.checkbox(  # noqa: F821  # TODO: st
-    "🧠 Enable LUKHAS Brain Add-on", value=False
+st.sidebar.title("Settings")lukhas_plugin_enabled = st.sidebar.checkbox(    "🧠 Enable LUKHAS Brain Add-on", value=False
 )
 
 # Show user app pairing overview (mock user for now)
 paired_apps = get_paired_apps("user_123")
 if paired_apps:
-    st.sidebar.markdown("🧩 **Paired Apps:**")  # noqa: F821  # TODO: st
-    for app in paired_apps:
-        st.sidebar.write(f"• {app}")  # noqa: F821  # TODO: st
-
+    st.sidebar.markdown("🧩 **Paired Apps:**")    for app in paired_apps:
+        st.sidebar.write(f"• {app}")
 # ─── LUKHAS Symbolic Brain Plugin Toggle ───────────────────────────────────────
 
 if lukhas_plugin_enabled:
     try:
         from core.lukhas_overview_log import log_event
 
-        st.sidebar.success("🧠 LUKHAS symbolic brain is active.")  # noqa: F821  # TODO: st
-        log_event(
+        st.sidebar.success("🧠 LUKHAS symbolic brain is active.")        log_event(
             "agent",
             "LUKHAS symbolic agent activated via dashboard.",
             tier=0,
             source="app.py",
         )
     except ImportError:
-        st.sidebar.error(  # noqa: F821  # TODO: st
-            "⚠️ Could not load LUKHAS_AGENT_PLUGIN. Check folder structure."
+        st.sidebar.error(            "⚠️ Could not load LUKHAS_AGENT_PLUGIN. Check folder structure."
         )
 
 # ─── Symbolic Widget Preview ──────────────────────────────────────────────────
 
-st.markdown("##  🧱 Symbolic Widget Preview")  # noqa: F821  # TODO: st
-
+st.markdown("##  🧱 Symbolic Widget Preview")
 try:
     from core.lukhas_widget_engine import create_symbolic_widget
 except ImportError:
-    st.warning("⚠️ lukhas_widget_engine not found.")  # noqa: F821  # TODO: st
-else:
+    st.warning("⚠️ lukhas_widget_engine not found.")else:
     widget_types = [
         "travel",
         "dining",
@@ -80,16 +72,12 @@ else:
         "usps",
         "fedex",
     ]
-    selected_widget = st.selectbox("🔧 Choose widget type", widget_types)  # noqa: F821  # TODO: st
-    user_tier = st.slider("⭐️ Simulated Tier", 0, 5, 3)  # noqa: F821  # TODO: st
-
-    if st.button("🎛️ Generate Widget"):  # noqa: F821  # TODO: st
-        widget = create_symbolic_widget(selected_widget, user_tier)
+    selected_widget = st.selectbox("🔧 Choose widget type", widget_types)    user_tier = st.slider("⭐️ Simulated Tier", 0, 5, 3)
+    if st.button("🎛️ Generate Widget"):        widget = create_symbolic_widget(selected_widget, user_tier)
         # Styled Widget Display
         if widget and "visual_style" in widget:
             visual = widget["visual_style"]
-            st.markdown(  # noqa: F821  # TODO: st
-                f"""
+            st.markdown(                f"""
                 <div style='background-color:{visual["background_color"]};
                             padding:16px; border-radius:12px; color:white;
                             font-family:Inter,sans-serif; margin-bottom:16px;'>
@@ -104,17 +92,14 @@ else:
                 unsafe_allow_html=True,
             )
         else:
-            st.warning("⚠️ No visual style found in widget.")  # noqa: F821  # TODO: st
-
+            st.warning("⚠️ No visual style found in widget.")
         # Agent Handoff Preview (if vendor supported)
         try:
             from core.lukhas_agent_handoff import agent_handoff
 
             handoff = agent_handoff(widget.get("vendor", ""))
             if handoff["status"] == "ready":
-                st.markdown("###  🤝 Vendor Agent Preview")  # noqa: F821  # TODO: st
-                st.markdown(  # noqa: F821  # TODO: st
-                    f"""
+                st.markdown("###  🤝 Vendor Agent Preview")                st.markdown(                    f"""
                     <div style='background-color:{handoff["theme_color"]}; padding:16px; border-radius:12px; color:white; font-family:Inter, sans-serif;'>
                         <b>{handoff["agent_name"]}</b> from <i>{widget["vendor"]}</i><br>
                         {handoff["greeting"]}
@@ -143,19 +128,14 @@ if selected_block:
         r"(## 📄 Usage Guide\s*\n```text\n.*?\n```)", body, re.DOTALL  # noqa: F821  # TODO: re
     )
 
-    st.markdown("#")  # noqa: F821  # TODO: st
-
+    st.markdown("#")
     if header_info_match:
-        st.markdown(header_info_match.group(1))  # noqa: F821  # TODO: st
-    else:
+        st.markdown(header_info_match.group(1))    else:
         # Fallback: show whole body as code block
-        st.markdown("```text\n" + body.strip() + "\n```")  # noqa: F821  # TODO: st
-
+        st.markdown("```text\n" + body.strip() + "\n```")
     if usage_guide_match:
-        st.markdown(usage_guide_match.group(1))  # noqa: F821  # TODO: st
-else:
-    st.warning("Could not extract content for this module.")  # noqa: F821  # TODO: st
-
+        st.markdown(usage_guide_match.group(1))else:
+    st.warning("Could not extract content for this module.")
 # ─────────────────────────────────────────────────────────────────────
 # 📘 DASHBOARD USAGE INSTRUCTIONS
 # ─────────────────────────────────────────────────────────────────────
