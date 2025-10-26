@@ -1,99 +1,162 @@
 {
   "batch_id": "BATCH-CODEX-CONSCIOUSNESS-MESH-01",
-  "agent": "Codex",
-  "priority": "high",
-  "estimated_duration": "3 hours",
-  "created": "2025-10-26",
-  "description": "GLYPH Specialist: Consciousness mesh formation and symbolic communication infrastructure",
+  "agent": "codex",
+  "created_at": "2025-10-24T00:00:00Z",
+  "expires_at": "2025-10-27T00:00:00Z",
+  "branch_name": "feat/codex/consciousness-mesh-batch01",
+  "status": "ready",
+  "dependencies": [],
+  "checks": ["ruff", "pytest", "mypy"],
   "tasks": [
     {
-      "task_id": "CODEX-GLYPH-01",
-      "title": "Fix cross-lane import dependencies for consciousness mesh",
+      "task_id": "TODO-HIGH-CORE-MESH-import-routing",
       "priority": "high",
-      "complexity": "high",
-      "estimated_time": "45 minutes",
-      "files": [
-        "core/symbolic_legacy/colony_tag_propagation.py",
-        "core/symbolic_core/colony_tag_propagation.py"
+      "title": "Resolve cross-lane imports for consciousness mesh colony propagation",
+      "file": "core/symbolic_core/colony_tag_propagation.py",
+      "line_hint": 5,
+      "module": "core/symbolic_core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "grep",
+      "evidence": {
+        "grep": "./core/symbolic_core/colony_tag_propagation.py:5:# TODO[GLYPH:specialist] - Fix cross-lane import dependencies for consciousness mesh formation",
+        "last_commit": null
+      },
+      "acceptance": [
+        "Core colony propagation imports resolve without fallback stubs",
+        "Dynamic loading or bridge respects lane boundaries",
+        "Mesh propagation tests confirm colony registration"
       ],
-      "description": "Both files have identical TODO at line 5: Fix cross-lane import dependencies. Ensure proper lane isolation while enabling consciousness mesh formation",
-      "acceptance_criteria": [
-        "Imports respect lane boundaries (candidate/ cannot import from lukhas/)",
-        "Use registry pattern or dependency injection for cross-lane communication",
-        "Maintain lane isolation documented in CLAUDE.md",
-        "Validate with make lane-guard",
-        "No circular dependencies"
-      ]
+      "risk": "medium",
+      "est": {
+        "type": "architectural",
+        "size": "M"
+      }
     },
     {
-      "task_id": "CODEX-GLYPH-02",
-      "title": "Implement consciousness node base class fallback",
+      "task_id": "TODO-HIGH-CORE-MESH-base-fallback",
       "priority": "high",
-      "complexity": "high",
-      "estimated_time": "1 hour",
-      "files": [
-        "core/symbolic_legacy/colony_tag_propagation.py",
-        "core/symbolic_core/colony_tag_propagation.py"
+      "title": "Implement deterministic BaseColony fallback for mesh nodes",
+      "file": "core/symbolic_core/colony_tag_propagation.py",
+      "line_hint": 13,
+      "module": "core/symbolic_core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "grep",
+      "evidence": {
+        "grep": "./core/symbolic_core/colony_tag_propagation.py:13:# TODO[GLYPH:specialist] - Implement consciousness node base class fallback",
+        "last_commit": null
+      },
+      "acceptance": [
+        "Fallback BaseColony honours driftScore and affect_delta tracking",
+        "Tagged nodes register with deterministic capabilities",
+        "Structured logging documents fallback activation"
       ],
-      "description": "Line 13 in both files: Create base class for consciousness nodes with proper fallback when full implementation unavailable",
-      "acceptance_criteria": [
-        "Define ConsciousnessNodeBase abstract base class",
-        "Implement fallback/stub when dependencies missing",
-        "Add proper type hints and protocols",
-        "Include consciousness mesh interface methods",
-        "Document consciousness node lifecycle"
-      ]
+      "risk": "medium",
+      "est": {
+        "type": "architectural",
+        "size": "M"
+      }
     },
     {
-      "task_id": "CODEX-GLYPH-03",
-      "title": "Implement proper symbolic vocabulary integration",
+      "task_id": "TODO-HIGH-CORE-MESH-vocabulary",
       "priority": "high",
-      "complexity": "high",
-      "estimated_time": "45 minutes",
-      "files": [
-        "core/symbolic_legacy/colony_tag_propagation.py",
-        "core/symbolic_core/colony_tag_propagation.py"
+      "title": "Wire SymbolicVocabulary and Tag integration for mesh messaging",
+      "file": "core/symbolic_core/colony_tag_propagation.py",
+      "line_hint": 35,
+      "module": "core/symbolic_core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "grep",
+      "evidence": {
+        "grep": "./core/symbolic_core/colony_tag_propagation.py:35:# TODO[GLYPH:specialist] - Implement proper symbolic vocabulary integration",
+        "last_commit": null
+      },
+      "acceptance": [
+        "Vocabulary loads from core.symbolic_core without ImportError",
+        "Tag objects carry scope, confidence, and ΛTAG metadata",
+        "Unit tests cover mesh message serialization"
       ],
-      "description": "Line 35 in both files: Integrate symbolic vocabulary system for consciousness communication",
-      "acceptance_criteria": [
-        "Connect to existing symbolic vocabulary modules",
-        "Define vocabulary schema for consciousness concepts",
-        "Implement vocabulary lookup and translation",
-        "Add caching for frequently used symbols",
-        "Document symbolic vocabulary API"
-      ]
+      "risk": "medium",
+      "est": {
+        "type": "architectural",
+        "size": "S"
+      }
     },
     {
-      "task_id": "CODEX-GLYPH-04",
-      "title": "Create proper Tag class for consciousness communication",
-      "priority": "high",
-      "complexity": "medium",
-      "estimated_time": "30 minutes",
-      "files": [
-        "core/symbolic_legacy/colony_tag_propagation.py",
-        "core/symbolic_core/colony_tag_propagation.py"
+      "task_id": "TODO-MED-CORE-MESH-agent-registry",
+      "priority": "med",
+      "title": "Replace placeholder consciousness agent registry with live mesh integration",
+      "file": "core/symbolic_core/colony_tag_propagation.py",
+      "line_hint": 67,
+      "module": "core/symbolic_core",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "grep",
+      "evidence": {
+        "grep": "./core/symbolic_core/colony_tag_propagation.py:67:# TODO[GLYPH:specialist] - Initialize consciousness agents for mesh formation",
+        "last_commit": null
+      },
+      "acceptance": [
+        "Agent registry pulls from mesh topology services",
+        "Registry exposes drift-safe synchronization metrics",
+        "Telemetry logs include affect_delta per node"
       ],
-      "description": "Line 47 in both files: Define Tag class used for consciousness mesh communication between agents",
-      "acceptance_criteria": [
-        "Create Tag dataclass or protocol",
-        "Include metadata (source, destination, timestamp, payload)",
-        "Support serialization/deserialization",
-        "Add validation and type safety",
-        "Implement tag routing/addressing"
-      ]
+      "risk": "medium",
+      "est": {
+        "type": "system",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-HIGH-LEGACY-MESH-import-routing",
+      "priority": "high",
+      "title": "Resolve consciousness mesh imports for legacy symbolic colony",
+      "file": "core/symbolic_legacy/colony_tag_propagation.py",
+      "line_hint": 5,
+      "module": "core/symbolic_legacy",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "grep",
+      "evidence": {
+        "grep": "./core/symbolic_legacy/colony_tag_propagation.py:5:# TODO[GLYPH:specialist] - Fix cross-lane import dependencies for consciousness mesh formation",
+        "last_commit": null
+      },
+      "acceptance": [
+        "Legacy colony imports align with active mesh interfaces",
+        "Dynamic bridges avoid duplication with core implementation",
+        "Regression tests validate legacy mesh propagation"
+      ],
+      "risk": "medium",
+      "est": {
+        "type": "architectural",
+        "size": "M"
+      }
+    },
+    {
+      "task_id": "TODO-MED-LEGACY-MESH-vocabulary",
+      "priority": "med",
+      "title": "Upgrade legacy symbolic vocabulary and tag scaffolding",
+      "file": "core/symbolic_legacy/colony_tag_propagation.py",
+      "line_hint": 35,
+      "module": "core/symbolic_legacy",
+      "trinity": "Consciousness",
+      "status": "open",
+      "source": "grep",
+      "evidence": {
+        "grep": "./core/symbolic_legacy/colony_tag_propagation.py:35:# TODO[GLYPH:specialist] - Implement proper symbolic vocabulary integration",
+        "last_commit": null
+      },
+      "acceptance": [
+        "Legacy vocabulary shares schema with core mesh",
+        "Tags embed ΛTAG annotations for consciousness routing",
+        "Tests ensure compatibility across legacy/core bridges"
+      ],
+      "risk": "medium",
+      "est": {
+        "type": "system",
+        "size": "S"
+      }
     }
-  ],
-  "context": {
-    "constellation_framework": "Eight-star consciousness model (Identity, Memory, Vision, Bio, Dream, Ethics, Guardian, Quantum)",
-    "lane_architecture": "candidate/ (dev), core/ (integration), lukhas/ (production) with strict import boundaries",
-    "glyph_system": "Symbolic language for consciousness communication across distributed agents",
-    "mesh_formation": "Network topology for consciousness agents to communicate and form collective intelligence"
-  },
-  "notes": [
-    "These TODOs are marked [GLYPH:specialist] indicating specialized consciousness infrastructure work",
-    "Both symbolic_legacy and symbolic_core have identical TODOs - may need to unify or explain divergence",
-    "Focus on architectural correctness and lane isolation",
-    "This is foundational for consciousness mesh formation mentioned in multiple TODOs",
-    "Review lukhas/ consciousness modules for integration patterns before implementing"
   ]
 }
