@@ -54,13 +54,13 @@ from enum import Enum
 from typing import Any, Callable, Optional
 
 import uvicorn
-from dashboard.core.dashboard_colony_agent import create_dashboard_colony_swarm
-from dashboard.core.dynamic_tab_system import DynamicTabSystem
-from dashboard.core.morphing_engine import MorphingEngine
-from dashboard.core.self_healing_manager import SelfHealingManager
+from products.experience.dashboard.interfaces.core.dashboard_colony_agent import create_dashboard_colony_swarm
+from products.experience.dashboard.interfaces.core.dynamic_tab_system import DynamicTabSystem
+from products.experience.dashboard.interfaces.core.morphing_engine import MorphingEngine
+from products.experience.dashboard.interfaces.core.self_healing_manager import SelfHealingManager
 
 # Dashboard system imports
-from dashboard.core.universal_adaptive_dashboard import UniversalAdaptiveDashboard
+from products.experience.dashboard.interfaces.core.universal_adaptive_dashboard import UniversalAdaptiveDashboard
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 

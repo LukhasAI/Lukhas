@@ -1,0 +1,36 @@
+{
+  "session_id": "batch5-20251026-001",
+  "task": "Hidden Gems Integration - Batch 5",
+  "batch": 5,
+  "total_modules": 20,
+  "completed_modules": 0,
+  "phase": "integration",
+  "last_verified_state": "2025-10-26T00:00:00Z",
+  "expected_artifacts": [
+    "tests/integration/*",
+    "docs/architecture/*",
+    "moved modules with updated imports"
+  ],
+  "modules": [
+    {"name": "websocket_server", "status": "pending", "target": "core/governance/identity/auth_web/"},
+    {"name": "guardian_reflector", "status": "pending", "target": "core/governance/ethics/"},
+    {"name": "auth_guardian_integration", "status": "pending", "target": "core/governance/"},
+    {"name": "auth_glyph_registry", "status": "pending", "target": "core/governance/"},
+    {"name": "auth_cross_module_integration", "status": "pending", "target": "core/governance/"},
+    {"name": "onboarding_cli", "status": "pending", "target": "core/governance/identity/tools/"},
+    {"name": "qrg_integration", "status": "pending", "target": "core/governance/identity/"},
+    {"name": "ethical_decision_maker", "status": "pending", "target": "core/governance/ethics/"},
+    {"name": "compliance_monitor", "status": "pending", "target": "core/governance/ethics/"},
+    {"name": "compliance_audit_system", "status": "pending", "target": "core/governance/guardian/"},
+    {"name": "australian_awareness_engine", "status": "pending", "target": "core/orchestration/brain/"},
+    {"name": "validator_node", "status": "pending", "target": "matriz/nodes/"},
+    {"name": "engine_complete", "status": "pending", "target": "matriz/consciousness/core/"},
+    {"name": "engine", "status": "pending", "target": "matriz/consciousness/core/"},
+    {"name": "EthicalReasoningSystem", "status": "pending", "target": "matriz/consciousness/reflection/"},
+    {"name": "meta_cognitive_orchestrator_alt", "status": "pending", "target": "matriz/consciousness/reflection/"},
+    {"name": "ethical_reasoning_system", "status": "pending", "target": "matriz/consciousness/reflection/"},
+    {"name": "core", "status": "pending", "target": "matriz/consciousness/reflection/"},
+    {"name": "privacy_preserving_memory_vault", "status": "pending", "target": "matriz/consciousness/reflection/"},
+    {"name": "lambda_dependa_bot", "status": "pending", "target": "matriz/consciousness/reflection/"}
+  ]
+}
