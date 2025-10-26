@@ -1,13 +1,5 @@
-#!/usr/bin/env python3
-"""
-Integration tests for API System
-"""
-import pytest
+"""Import-smoke for core.api.api_system."""
 
-
-def test_api_system_import():
-    """Test that api_system can be imported"""
-    # Basic import test - the module has try/except fallbacks for missing deps
-    import core.api.api_system
-
-    assert core.api.api_system is not None
+def test_api_system_imports():
+    mod = __import__("core.api.api_system", fromlist=["*"])
+    assert mod is not None
