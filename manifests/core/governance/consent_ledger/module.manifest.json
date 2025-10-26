@@ -1,0 +1,22 @@
+{
+  "name": "core.governance.consent_ledger",
+  "path": "core/governance/consent_ledger",
+  "constellation_stars": [
+    "Ethics",
+    "Guardian"
+  ],
+  "confidence": 0.95,
+  "description": "Auto-generated manifest for core.governance.consent_ledger",
+  "dependencies": [],
+  "status": "integration",
+  "tier": "integration",
+  "lane": "core",
+  "version": "1.0.0",
+  "created": "2025-10-26T06:26:03Z",
+  "updated": "2025-10-26T06:26:03Z",
+  "metadata": {
+    "complexity": "medium",
+    "test_coverage": "unknown",
+    "documentation": "partial"
+  }
+}
