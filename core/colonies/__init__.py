@@ -9,6 +9,7 @@ from .ethics_swarm_colony import (
     EthicalSignal,
     EthicsSwarmColony,
 )
+from .mesh_topology import MeshAgent, MeshTopologyService, get_mesh_topology_service
 
 __all__ = [
     "oracle_colony",
@@ -21,4 +22,7 @@ __all__ = [
     "EthicalDecisionType",
     "EthicalSignal",
     "EthicsSwarmColony",
+    "MeshAgent",
+    "MeshTopologyService",
+    "get_mesh_topology_service",
 ]

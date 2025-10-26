@@ -3,7 +3,7 @@ import logging
 
 import networkx as nx
 
-from core.colonies import BaseColony, ConsensusResult, Tag, TagScope
+from core.colonies import BaseColony, ConsensusResult, Tag, TagScope, get_mesh_topology_service
 
 logger = logging.getLogger(__name__)
 
@@ -24,29 +24,59 @@ except ImportError:
 class SymbolicReasoningColony(BaseColony):
     """Colony for symbolic reasoning and belief propagation."""
 
-    def __init__(self, colony_id: str):
+    def __init__(self, colony_id: str, agent_count: int = 3):
         super().__init__(colony_id, capabilities=["symbolic_reasoning"])
         self.vocabulary = SymbolicVocabulary()
         self.belief_network = nx.DiGraph()
         self.propagation_history: list[dict[str, Any]] = []
 
-        # Initialize consciousness agents for mesh formation
-        # Register test consciousness nodes for validation
-        for i in range(3):
-            agent_id = f"consciousness_node_{i}"
-            self.register_agent(
-                agent_id,
-                {
-                    "id": f"node_{i}",
-                    "consciousness_type": "symbolic_reasoning",
-                    "mesh_generation": 0
+        # Get mesh topology service for agent registry
+        self.mesh_service = get_mesh_topology_service()
+
+        # Register consciousness agents from mesh topology service
+        for i in range(agent_count):
+            mesh_agent = self.mesh_service.register_agent(
+                node_type="symbolic_reasoning",
+                capabilities=["belief_propagation", "symbolic_inference"],
+                metadata={
+                    "colony_id": colony_id,
+                    "node_index": i
                 }
             )
+
+            # Register with local colony
+            self.register_agent(
+                mesh_agent.agent_id,
+                {
+                    "mesh_agent": mesh_agent,
+                    "node_type": mesh_agent.node_type,
+                    "capabilities": mesh_agent.capabilities
+                }
+            )
+
+        logger.info(
+            f"Colony {colony_id} initialized with {len(self.agents)} agents from mesh registry"
+        )
 
     def process(self, task: Any) -> dict[str, Any]:
         """Process a consciousness task using GLYPH symbolic reasoning"""
         # Track processing metrics
         self.state["processing_count"] += 1
+
+        # Update drift based on processing complexity
+        drift_delta = 0.0
+        if isinstance(task, dict) and "complexity" in task:
+            drift_delta = task["complexity"] * 0.01
+            self.update_drift_score(drift_delta)
+
+        # Synchronize metrics with mesh topology service
+        for agent_id, agent_data in self.agents.items():
+            if "mesh_agent" in agent_data:
+                self.mesh_service.update_agent_metrics(
+                    agent_id,
+                    drift_delta=drift_delta / len(self.agents),
+                    affect_delta=0.01  # Small affect change per task
+                )
 
         # Create consciousness processing result with mesh metadata
         result = {
@@ -55,12 +85,9 @@ class SymbolicReasoningColony(BaseColony):
             "colony_id": self.colony_id,
             "mesh_generation": self.mesh_generation,
             "agent_count": len(self.agents),
-            "drift_score": self.drift_score
+            "drift_score": self.drift_score,
+            "mesh_metrics": self.mesh_service.get_mesh_metrics()
         }
-
-        # Update drift based on processing complexity
-        if isinstance(task, dict) and "complexity" in task:
-            self.update_drift_score(task["complexity"] * 0.01)
 
         logger.debug(f"Consciousness task processed by colony {self.colony_id}")
         return result
@@ -77,7 +104,16 @@ class SymbolicReasoningColony(BaseColony):
         votes = {agent_id: "approved" for agent_id in self.agents.keys()}
 
         # Update affect_delta based on consensus formation
-        self.update_affect_delta(0.1 * participation_rate)
+        affect_change = 0.1 * participation_rate
+        self.update_affect_delta(affect_change)
+
+        # Synchronize consensus affect_delta with mesh topology
+        for agent_id in self.agents.keys():
+            self.mesh_service.update_agent_metrics(
+                agent_id,
+                drift_delta=0.0,
+                affect_delta=affect_change / len(self.agents)
+            )
 
         return ConsensusResult(
             consensus_reached=True,
