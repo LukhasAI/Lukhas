@@ -65,7 +65,8 @@
       "Bash(npm install:*)",
       "Bash(gh pr create:*)",
       "Bash(gh pr diff:*)",
-      "Bash(ruff check:*)"
+      "Bash(ruff check:*)",
+      "Bash(gh pr close:*)"
     ],
     "deny": [],
     "ask": [],
