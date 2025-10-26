@@ -11,6 +11,7 @@ STAR_RULES = [
     (re.compile(r'dream'), (["Dream"], 0.85)),
     (re.compile(r'quantum'), (["Quantum"], 0.85)),
 ]
+
 LANE_TIER = { 'core': 'integration', 'lukhas': 'production', 'matriz': 'integration' }
 
 REQUIRED_FIELDS = [
@@ -21,12 +22,17 @@ REQUIRED_FIELDS = [
 def discover_packages(lanes):
     pkgs = set()
     for lane in lanes:
-        root = lane if lane != 'matriz' else 'MATRIZ'
+        root = lane  # enforce lowercase, real code lives under 'matriz/' not 'MATRIZ/'
+        if not os.path.isdir(root):
+            print(f"WARNING: lane '{lane}' root directory '{root}' not found; skipping", file=sys.stderr)
+            continue
+        found = 0
         for dirpath, dirnames, filenames in os.walk(root):
             if '__init__.py' in filenames:
-                p = dirpath
-                p = p.replace('MATRIZ', 'matriz', 1) if p.startswith('MATRIZ') else p
-                pkgs.add(p)
+                pkgs.add(dirpath)
+                found += 1
+        if found == 0:
+            print(f"WARNING: lane '{lane}' contains no Python packages under '{root}'", file=sys.stderr)
     return sorted(pkgs)
 
 def discover_manifests(lanes):
@@ -85,10 +91,14 @@ def main():
     ap.add_argument('--limit', type=int, default=0, help='Max manifests to generate (0 = no limit)')
     ap.add_argument('--dry-run', action='store_true', help='Show what would be generated, do not write files')
     args = ap.parse_args()
+
     lanes = [x.strip() for x in args.lanes.split(',') if x.strip()]
     pkgs = discover_packages(lanes)
+    if not pkgs:
+        print("WARNING: no packages discovered for requested lanes; check lane roots and case sensitivity", file=sys.stderr)
     manis = discover_manifests(lanes)
     have = set(manis)
+
     created = []
     count = 0
     for pkg in pkgs:
@@ -106,8 +116,7 @@ def main():
                 break
     print(f"Created {count} manifests")
     if created:
-        print("
-".join(created))
+        print("\n".join(created))
 
 if __name__ == '__main__':
     sys.exit(main())
