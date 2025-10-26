@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 Identity Health Monitor with Self-Healing
 
