@@ -1,0 +1,15 @@
+name: registry-ci
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+jobs:
+  registry-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Acknowledge registry CI (shim)
+        run: |
+          echo "registry-ci shim: no registry changes detected; passing by default"
+          exit 0
+
