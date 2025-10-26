@@ -71,7 +71,11 @@
       "Bash(for dir in doc docs config configs final_sweep MATRIZ matriz mcp-lukhas-sse mcp-server mcp-servers mcp_servers)",
       "Bash(for dir in dream dreams dreamweaver_helpers_bundle)",
       "Bash(do echo \"\")",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(while read file)",
+      "Bash(do echo \"Processing: $file\" sed -i '' 's/Trinity Framework/Constellation Framework/g' \"$file\" sed -i '' 's/trinity framework/constellation framework/g' \"$file\" done)",
+      "Bash(do sed -i '' 's/Trinity Framework/Constellation Framework/g' \"$file\")",
+      "Bash(rg:*)"
     ],
     "deny": [],
     "ask": [],

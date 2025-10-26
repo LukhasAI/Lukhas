@@ -92,14 +92,11 @@ try:
 except ImportError:
     ComplianceEngine = None
 
-# Bio Core integration - prefer native bio.core module with candidate fallback
+# Bio Core integration
 try:
     from bio.core import BioCore
 except ImportError:
-    try:
-        from candidate.bio.core import BioEngine as BioCore  # type: ignore
-    except ImportError:
-        BioCore = None
+    BioCore = None
 
 
 class OrchestrationCore:

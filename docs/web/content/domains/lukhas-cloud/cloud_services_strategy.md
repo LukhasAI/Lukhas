@@ -129,7 +129,7 @@ class ConsciousnessCloudPlatform:
         # Configure consciousness-aware networking and security
         networking = await self.setup_consciousness_network(infrastructure)
         
-        # Deploy Trinity Framework integration across stack
+        # Deploy Constellation Framework integration across stack
         trinity_integration = await self.integrate_trinity_framework(infrastructure)
         
         return ConsciousnessDeployment(
@@ -150,7 +150,7 @@ class ConsciousnessCloudPlatform:
 
 **Consciousness Services:**
 - **Managed LUKHAS AI Instances**: Fully managed consciousness processing with automatic updates
-- **Trinity Framework Deployment**: Pre-configured ⚛️🧠🛡️ templates for rapid consciousness deployment
+- **Constellation Framework Deployment**: Pre-configured ⚛️🧠🛡️ templates for rapid consciousness deployment
 - **Consciousness State Persistence**: Distributed memory management with 99.7% cascade prevention
 - **Distributed Consciousness Orchestration**: Multi-region awareness coordination and synchronization
 
@@ -256,7 +256,7 @@ enterprise_cloud_pricing = {
 
 ### **Unique Value Propositions**
 - **Consciousness-Native Infrastructure**: Purpose-built for awareness-driven applications
-- **Trinity Framework Integration**: Unified ⚛️🧠🛡️ approach across all cloud services
+- **Constellation Framework Integration**: Unified ⚛️🧠🛡️ approach across all cloud services
 - **Ethical Infrastructure Governance**: Built-in Guardian System oversight for all deployments
 - **Intelligent Resource Optimization**: Consciousness-aware auto-scaling and cost optimization
 

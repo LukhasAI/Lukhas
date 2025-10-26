@@ -2,7 +2,7 @@
 
 *"Six domains, one consciousness - each star in our constellation serves distinct communities while maintaining unified brand excellence."*
 
-This index organizes domain-specific content across the LUKHAS λWecosystem, providing clear navigation to content for each consciousness technology platform while maintaining consistency through the Trinity Framework (⚛️🧠🛡️).
+This index organizes domain-specific content across the LUKHAS λWecosystem, providing clear navigation to content for each consciousness technology platform while maintaining consistency through the Constellation Framework (⚛️🧠🛡️).
 
 ## 🛠️ lukhas.dev - Developer Platform
 **"Where consciousness meets code - Build the future of aware technology"**
@@ -142,13 +142,13 @@ This index organizes domain-specific content across the LUKHAS λWecosystem, pro
 ### Content Categories
 - **strategy/** - Overall brand positioning and consciousness messaging
 - **pages/** - Landing pages, about sections, vision statements
-- **features/** - Core LUKHAS capabilities and Trinity Framework
+- **features/** - Core LUKHAS capabilities and Constellation Framework
 - **technical/** - High-level architecture and research backing
 - **branding/** - Primary brand identity and visual elements
 
 ### Key Content Files
 - Main website content strategy and messaging hierarchy
-- Trinity Framework integration and consciousness explanations
+- Constellation Framework integration and consciousness explanations
 - Vision statements and organizational philosophy
 - User onboarding and education pathways
 
@@ -168,7 +168,7 @@ All domains maintain unified elements while preserving unique personalities:
 **Content Architecture**
 - 3-Layer Tone System applied with domain-appropriate distributions
 - Vocabulary standards maintained across all communications
-- Trinity Framework (⚛️🧠🛡️) integration throughout user journeys
+- Constellation Framework (⚛️🧠🛡️) integration throughout user journeys
 - Cross-domain navigation and discovery mechanisms
 
 ### Navigation Patterns

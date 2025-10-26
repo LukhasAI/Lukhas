@@ -108,12 +108,37 @@ except ImportError:
     BaseOscillator = None
     QIHub = None
 
-from candidate.quantum.annealing import AnnealingResult, QuantumAnnealer
-from candidate.quantum.measurement import MeasurementResult, QuantumMeasurement
-from candidate.quantum.superposition_engine import (
-    QuantumSuperpositionEngine,
-    SuperpositionState,
-)
+# Quantum features (development lane - optional, loaded dynamically to avoid lane violations)
+# NOTE: These are candidate-lane features and must be loaded dynamically
+AnnealingResult = None
+QuantumAnnealer = None
+MeasurementResult = None
+QuantumMeasurement = None
+QuantumSuperpositionEngine = None
+SuperpositionState = None
+
+def _load_quantum_features():
+    """Dynamically load quantum features from candidate lane if available."""
+    global AnnealingResult, QuantumAnnealer, MeasurementResult, QuantumMeasurement
+    global QuantumSuperpositionEngine, SuperpositionState
+    try:
+        import importlib
+        annealing = importlib.import_module("candidate.quantum.annealing")
+        measurement = importlib.import_module("candidate.quantum.measurement")
+        superposition = importlib.import_module("candidate.quantum.superposition_engine")
+
+        AnnealingResult = annealing.AnnealingResult
+        QuantumAnnealer = annealing.QuantumAnnealer
+        MeasurementResult = measurement.MeasurementResult
+        QuantumMeasurement = measurement.QuantumMeasurement
+        QuantumSuperpositionEngine = superposition.QuantumSuperpositionEngine
+        SuperpositionState = superposition.SuperpositionState
+        return True
+    except ImportError:
+        return False
+
+# Attempt to load quantum features at module import time
+_QUANTUM_AVAILABLE = _load_quantum_features()
 
 logger = logging.getLogger(__name__)
 

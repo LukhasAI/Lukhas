@@ -62,7 +62,7 @@ purpose: Comprehensive documentation package for GPT-5 MATRIZ rollout audit
 - Performance targets & SLOs
 - Historical context & evolution
 
-**Trinity Framework Navigation**:
+**Constellation Framework Navigation**:
 - ⚛️ Identity: `identity/lukhas_context.md`, `candidate/core/identity/lukhas_context.md`
 - 🧠 Consciousness: `consciousness/lukhas_context.md`, `candidate/consciousness/lukhas_context.md`
 - 🛡️ Guardian: `ethics/guardian/lukhas_context.md`, `candidate/governance/lukhas_context.md`
@@ -86,7 +86,7 @@ purpose: Comprehensive documentation package for GPT-5 MATRIZ rollout audit
 
 **Organization**:
 - Alphabetical module listing with status
-- Trinity Framework categorization (⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian, etc.)
+- Constellation Framework categorization (⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian, etc.)
 - Lane-based grouping (candidate/ → lukhas/ → products/)
 - Quick navigation by domain, function, and purpose
 
@@ -224,7 +224,7 @@ purpose: Comprehensive documentation package for GPT-5 MATRIZ rollout audit
 - `docs/consciousness/consciousness_ticker_architecture.md` - Consciousness processing
 - `docs/features/bio-symbolic-architecture-refactor.md` - Bio-symbolic patterns
 
-**Usage**: Understanding system design, MATRIZ pipeline, Trinity Framework architecture
+**Usage**: Understanding system design, MATRIZ pipeline, Constellation Framework architecture
 
 ---
 

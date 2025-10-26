@@ -5,7 +5,7 @@
 
 ## Overview
 
-The Explainability Interface Layer provides multi-modal explanations for AI decisions in the LUKHAS platform. It integrates with the Trinity Framework (⚛️ Identity · 🧠 Consciousness · 🛡️ Guardian) to provide transparent, auditable, and comprehensible explanations.
+The Explainability Interface Layer provides multi-modal explanations for AI decisions in the LUKHAS platform. It integrates with the Constellation Framework (⚛️ Identity · 🧠 Consciousness · 🛡️ Guardian) to provide transparent, auditable, and comprehensible explanations.
 
 ## Basic Usage
 
@@ -128,7 +128,7 @@ for node in visual["nodes"]:
 # Grant Access: success
 ```
 
-## Trinity Framework Integration
+## Constellation Framework Integration
 
 ### Identity (⚛️) Context
 

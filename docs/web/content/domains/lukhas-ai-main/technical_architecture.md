@@ -18,7 +18,7 @@ The technical implementation utilizes Next.js 14 with TypeScript for type-safe d
 lukhas.ai/
 ├── Home (Hero Experience)
 │   ├── Consciousness Particle Visualization
-│   ├── Trinity Framework Introduction
+│   ├── Constellation Framework Introduction
 │   └── Platform Overview Video
 │
 ├── Consciousness Technology
@@ -610,7 +610,7 @@ lukhas.cloud/
 
 **Visual Consistency:**
 - Shared particle system library
-- Common Trinity Framework components
+- Common Constellation Framework components
 - Unified color palette (#FF6B9D, #00D4FF, #7C3AED, #FFA500, #32CD32)
 - Consistent typography (Inter/SF Pro + JetBrains Mono)
 - Shared animation curves and timing

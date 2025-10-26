@@ -3,7 +3,7 @@
 
 *Comprehensive website content showcasing LUKHAS AI's advanced consciousness technology and AGI enhancements*
 
-This content suite transforms technical AGI implementations into compelling consciousness technology narratives that resonate across the LUKHAS ecosystem. Each piece follows the LUKHAS 3-Layer Tone System while maintaining Trinity Framework compliance and Constellation Framework navigation principles.
+This content suite transforms technical AGI implementations into compelling consciousness technology narratives that resonate across the LUKHAS ecosystem. Each piece follows the LUKHAS 3-Layer Tone System while maintaining Constellation Framework compliance and Constellation Framework navigation principles.
 
 ---
 
@@ -12,7 +12,7 @@ This content suite transforms technical AGI implementations into compelling cons
 ### Content Strategy Alignment
 All content follows LUKHAS branding guidelines:
 - **3-Layer Tone System**: Natural flow between poetic inspiration (25-35%), accessible explanation (40-60%), and technical depth (20-40%)
-- **Trinity Framework**: Complete ⚛️🧠🛡️ compliance across all content
+- **Constellation Framework**: Complete ⚛️🧠🛡️ compliance across all content
 - **Constellation Framework**: 8-star navigation metaphors integrated throughout
 - **Vendor Neutrality**: "Uses [Provider] APIs" rather than "powered by" language
 - **Evidence-Based Claims**: All performance metrics backed by technical documentation
@@ -85,7 +85,7 @@ All content follows LUKHAS branding guidelines:
 - Multi-model orchestration engine with consensus intelligence
 - Consciousness-aware processing with contextual awareness levels
 - Dream-guided creative engine with 6 creativity modes
-- Trinity Framework integration with identity, consciousness, guardian
+- Constellation Framework integration with identity, consciousness, guardian
 - Quantum-Bio-AGI hybrid processing with 5 processing modes
 - Bio-inspired modulation connecting biological signals to AI behavior
 
@@ -103,7 +103,7 @@ All content follows LUKHAS branding guidelines:
 - Constellation Framework with 8-star consciousness navigation
 - Multi-level consciousness integration with 6 awareness levels
 - Dream-reality bridge technology with archetypal processing
-- Trinity Framework compliance across all operations
+- Constellation Framework compliance across all operations
 - Quantum-Bio-AGI convergence with unified processing modes
 - Enhanced product consciousness across all LUKHAS applications
 
@@ -112,7 +112,7 @@ All content follows LUKHAS branding guidelines:
 - User-Friendly: 45% - Consciousness concepts accessible to general audiences
 - Academic: 20% - Technical consciousness architecture specifications
 
-### 4. Trinity Framework Integration
+### 4. Constellation Framework Integration
 **File**: `trinity_framework_integration.md`  
 **Target Domain**: `lukhas.ai/trinity`  
 **Purpose**: Comprehensive governance and ethical AI framework
@@ -193,7 +193,7 @@ Content can be adapted for other LUKHAS domains:
 - "multi-model AI orchestration"
 - "dream-guided creativity"
 - "constitutional AI governance"
-- "Trinity Framework AI"
+- "Constellation Framework AI"
 
 **Long-Tail Keywords:**
 - "AI that understands context and emotion"
@@ -208,7 +208,7 @@ Content can be adapted for other LUKHAS domains:
 
 ### Branding Compliance Checklist
 - ✅ LUKHAS 3-Layer Tone System implemented with natural flow
-- ✅ Trinity Framework (⚛️🧠🛡️) integrated throughout
+- ✅ Constellation Framework (⚛️🧠🛡️) integrated throughout
 - ✅ Constellation Framework metaphors used appropriately
 - ✅ Vendor neutrality maintained ("uses APIs" language)
 - ✅ Production claims avoided per policy
@@ -282,7 +282,7 @@ All content supports the unified narrative that LUKHAS AI represents the evoluti
 ### Implementation Resources
 - Content follows natural flow principles with invisible structure
 - Performance metrics derived from actual system measurements
-- Trinity Framework integration validated across all content
+- Constellation Framework integration validated across all content
 - Constellation metaphors enhance rather than obscure technical meaning
 
 ---

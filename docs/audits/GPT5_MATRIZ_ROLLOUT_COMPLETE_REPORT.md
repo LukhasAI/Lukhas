@@ -926,7 +926,7 @@ python scripts/generate_module_manifests.py \
 | Document | Location | Purpose |
 |----------|----------|---------|
 | Branding Directory | `/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/constellation/` | Complete framework docs |
-| Trinity Framework | `/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/constellation/` | ⚛️🧠🛡️ documentation |
+| Constellation Framework | `/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/constellation/` | ⚛️🧠🛡️ documentation |
 
 ### For Understanding Module Structure
 

@@ -12,14 +12,14 @@
 - `components/morphing-visualizer.tsx` - Advanced Three.js morphing with particles
 - `components/proteus-visualizer.tsx` - PR0T3US voice-reactive system
 - `components/experience-sidebar.tsx` - Complex API key management sidebar
-- `components/trinity-interactive.tsx` - Trinity Framework interaction
+- `components/trinity-interactive.tsx` - Constellation Framework interaction
 - `app/experience/page.tsx` - Full experience interface with dynamic imports
 
 ### **Key Technologies:**
 - React Three Fiber with orbital controls
 - Advanced particle systems (configurable particle count)
 - Voice data reactive morphing
-- Trinity Framework state management (⚛️🧠🛡️)
+- Constellation Framework state management (⚛️🧠🛡️)
 - Framer Motion animations
 - Dynamic component loading
 - API key encryption with GLYPH system

@@ -5,7 +5,7 @@
 
 This comprehensive guide provides practical strategies for implementing AGI enhancements that serve your specific needs while maintaining the consciousness technology advantages that distinguish LUKHAS AI from traditional automation. The principles outlined here ensure that AI integration enhances rather than replaces human capability, creating collaborative intelligence systems that grow with your expertise.
 
-All recommendations follow constitutional AI governance principles with Trinity Framework compliance, ensuring that every integration decision serves beneficial intelligence that honors human autonomy, creativity, and authentic expression.
+All recommendations follow constitutional AI governance principles with Constellation Framework compliance, ensuring that every integration decision serves beneficial intelligence that honors human autonomy, creativity, and authentic expression.
 
 ## Foundational Integration Principles
 

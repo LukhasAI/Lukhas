@@ -30,7 +30,7 @@ Critical Architecture Update: Trinity → Constellation Framework Migration
 Update ALL claude.me files (35+ contexts) to reflect the actual Constellation Framework:
 
 FIND AND REPLACE:
-- 'Trinity Framework' → 'Constellation Framework'
+- 'Constellation Framework' → 'Constellation Framework'
 - 'Identity ⚛️ + Consciousness 🧠 + Guardian 🛡️' → '8-Star Constellation System'
 - Update architectural descriptions to reference the 8 dynamic stars:
   ⚛️ Anchor (Identity), ✦ Trail (Memory), 🌊 Flow (Consciousness), 

@@ -1,6 +1,6 @@
 # API Onboarding Usage Guide
 
-**Trinity Framework**: ⚛️ Identity · 🛡️ Guardian  
+**Constellation Framework**: ⚛️ Identity · 🛡️ Guardian  
 **Version**: 1.0  
 **Last Updated**: 2025-10-08
 
@@ -231,4 +231,4 @@ async def test_onboarding_flow():
 
 ---
 
-**🛡️ Guardian-Approved | ⚛️ Consciousness-Aware | 🌟 Trinity Framework Compliant**
+**🛡️ Guardian-Approved | ⚛️ Consciousness-Aware | 🌟 Constellation Framework Compliant**

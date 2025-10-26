@@ -40,23 +40,39 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
-# Enhancement system imports from labs/core/meta_learning
-# TODO(integration): These modules may need to be integrated to core/meta_learning
-from labs.core.meta_learning.federated_integration import (
-    FederatedLearningIntegration,
-    FederationStrategy,
-)
-from labs.core.meta_learning.monitor_dashboard import MetaLearningMonitorDashboard
-from labs.core.meta_learning.rate_modulator import (
-    AdaptationStrategy,
-    ConvergenceSignal,
-    DynamicLearningRateModulator,
-)
-from labs.core.meta_learning.symbolic_feedback import IntentNodeHistory, SymbolicFeedbackSystem
-
 from core.common import get_logger
 
 logger = get_logger(__name__)
+
+# Enhancement system imports from labs/core/meta_learning
+# TODO(integration): These modules may need to be integrated to core/meta_learning
+# Dynamically loaded to avoid lane violations
+FederatedLearningIntegration = None
+FederationStrategy = None
+MetaLearningMonitorDashboard = None
+AdaptationStrategy = None
+ConvergenceSignal = None
+DynamicLearningRateModulator = None
+IntentNodeHistory = None
+SymbolicFeedbackSystem = None
+
+try:
+    import importlib
+    federated = importlib.import_module("labs.core.meta_learning.federated_integration")
+    monitor = importlib.import_module("labs.core.meta_learning.monitor_dashboard")
+    modulator = importlib.import_module("labs.core.meta_learning.rate_modulator")
+    feedback = importlib.import_module("labs.core.meta_learning.symbolic_feedback")
+
+    FederatedLearningIntegration = federated.FederatedLearningIntegration
+    FederationStrategy = federated.FederationStrategy
+    MetaLearningMonitorDashboard = monitor.MetaLearningMonitorDashboard
+    AdaptationStrategy = modulator.AdaptationStrategy
+    ConvergenceSignal = modulator.ConvergenceSignal
+    DynamicLearningRateModulator = modulator.DynamicLearningRateModulator
+    IntentNodeHistory = feedback.IntentNodeHistory
+    SymbolicFeedbackSystem = feedback.SymbolicFeedbackSystem
+except ImportError as e:
+    logger.warning(f"Labs meta-learning features not available: {e}")
 
 
 class EnhancementMode(Enum):

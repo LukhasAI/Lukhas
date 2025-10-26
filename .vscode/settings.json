@@ -13,6 +13,8 @@
   "python.testing.cwd": "${workspaceFolder}",
   "python.envFile": "${workspaceFolder}/.env",
   "python.analysis.typeCheckingMode": "strict",
+  "python.analysis.diagnosticMode": "openFilesOnly",
+  "python.analysis.indexing": false,
   "python.analysis.autoImportCompletions": true,
   "python.analysis.completeFunctionParens": true,
   "python.analysis.autoFormatStrings": true,
@@ -100,6 +102,10 @@
     "**/conda-env": true,
     "**/python-env": true
   },
+  // Reduce Pylance/Jupyter background analyses noise
+  "jupyter.disableJupyterAutoStart": true,
+  "jupyter.logging.level": "error",
+  "jupyter.experiments.optOutFrom": ["All"],
   // ⚛️🧠🛡️ LUKHAS AI GitHub Copilot Auto-Approve Enhanced Configuration
   "github.copilot.advanced": {
     "length": 1200,

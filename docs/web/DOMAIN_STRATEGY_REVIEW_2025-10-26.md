@@ -96,7 +96,7 @@
 ### 📝 **Strategy Has (Not in Website)**
 
 - `lukhas.store` marketplace - Only `/com` exists (unclear if same)
-- Clear Trinity Framework showcase for main lukhas.ai
+- Clear Constellation Framework showcase for main lukhas.ai
 - Enterprise-focused cloud portal
 
 ---
@@ -143,7 +143,7 @@
 **Recommendation**:
 
 - Make current lukhas_website the **lukhas.ai** main platform
-- Add Trinity Framework (⚛️🧠🛡️) showcase to homepage
+- Add Constellation Framework (⚛️🧠🛡️) showcase to homepage
 - Keep `/id`, `/dev`, `/cloud`, `/io` as sub-routes that mirror their own domains
 
 ### 2. **SSO/Authentication Priority**
@@ -203,7 +203,7 @@
 1. **Convert Existing Website to lukhas.ai**
    - Use existing `lukhas_website/` as lukhas.ai foundation
    - Implement content from `docs/web/content/domains/lukhas-ai-main/`
-   - Add Trinity Framework (⚛️🧠🛡️) showcase from design system
+   - Add Constellation Framework (⚛️🧠🛡️) showcase from design system
    - Integrate consciousness particle system from `LUKHAS_PARTICLE_IMPLEMENTATION.md`
 
 2. **Apply Design System**
@@ -213,7 +213,7 @@
 
 3. **Technical Integration**
    - Wire up MATRIZ cognitive engine showcase
-   - Add Trinity Framework demonstrations
+   - Add Constellation Framework demonstrations
    - Implement performance targets (<100ms TTI)
 
 ### Phase 2: Deploy Domain Prototypes (Week 2)
@@ -262,7 +262,7 @@
    - Create content for each layer
    - Ensure consistency across domains
 
-2. **Trinity Framework Integration**
+2. **Constellation Framework Integration**
    - Add ⚛️🧠🛡️ throughout user journeys
    - Constellation navigation
    - Cross-domain coherence
@@ -310,7 +310,7 @@
 ### Content
 
 - [ ] 3-Layer Tone System applied consistently
-- [ ] Trinity Framework visible throughout
+- [ ] Constellation Framework visible throughout
 - [ ] All domains have clear purpose/messaging
 - [ ] Documentation complete and accurate
 

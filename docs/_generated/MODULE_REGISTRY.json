@@ -17837,7 +17837,7 @@
       "name": "trace",
       "path": "trace",
       "manifest": "trace/module.manifest.json",
-      "description": "Drift monitoring and harmonization components for Trinity Framework compliance.",
+      "description": "Drift monitoring and harmonization components for Constellation Framework compliance.",
       "status": "unknown",
       "tags": [
         "trace"

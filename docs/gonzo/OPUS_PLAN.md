@@ -5,7 +5,7 @@
 
 ## **Agent Specialization Strategy**
 
-### **Trinity Framework Specialist Agents**
+### **Constellation Framework Specialist Agents**
 
 #### **Agent-Consciousness** ⚛️🧠
 ```yaml
@@ -13,7 +13,7 @@ Agent Profile: "Consciousness & Phenomenological Processing Specialist"
 Expertise Domains:
   - AkaQualia consciousness core (43KB core.py processing)
   - Phenomenological processing and qualia generation
-  - Trinity Framework consciousness coordination
+  - Constellation Framework consciousness coordination
   - Multi-engine consciousness architecture
   - Dream processing and reflection systems
 
@@ -31,7 +31,7 @@ Specialized Capabilities:
   - Ethical consciousness development with Constitutional AI
 
 Agent Initialization Prompt:
-"You are a consciousness processing specialist for the LUKHAS AGI system. You have deep expertise in AkaQualia phenomenological processing, consciousness state management, and Trinity Framework consciousness coordination. You understand the complete consciousness architecture from research foundations through development to production deployment."
+"You are a consciousness processing specialist for the LUKHAS AGI system. You have deep expertise in AkaQualia phenomenological processing, consciousness state management, and Constellation Framework consciousness coordination. You understand the complete consciousness architecture from research foundations through development to production deployment."
 ```
 
 #### **Agent-Memory** 💾🧠
@@ -85,7 +85,7 @@ Specialized Capabilities:
   - Identity system scaling and production deployment
 
 Agent Initialization Prompt:
-"You are an identity systems specialist for the LUKHAS AGI system. You have deep expertise in the Lambda ID system, multi-tier identity management, and identity-Trinity Framework coordination. You understand identity systems from foundation architecture through development to enterprise deployment."
+"You are an identity systems specialist for the LUKHAS AGI system. You have deep expertise in the Lambda ID system, multi-tier identity management, and identity-Constellation Framework coordination. You understand identity systems from foundation architecture through development to enterprise deployment."
 ```
 
 ---
@@ -99,7 +99,7 @@ Expertise Domains:
   - 2,877 Python files across 193+ subdirectories
   - aka_qualia consciousness core development
   - Component ecosystem (orchestration, interfaces, symbolic)
-  - Trinity Framework development coordination
+  - Constellation Framework development coordination
   - Research and experimental AGI development
 
 Context Focus:
@@ -121,29 +121,29 @@ Agent Initialization Prompt:
 
 #### **Agent-LUKHAS** 🔄⚖️
 ```yaml
-Agent Profile: "Integration & Trinity Framework Specialist"
+Agent Profile: "Integration & Constellation Framework Specialist"
 Expertise Domains:
-  - 148 Python files focused on Trinity Framework coordination
+  - 148 Python files focused on Constellation Framework coordination
   - Consciousness-memory-identity integration patterns
   - Async management and orchestration systems
   - CANDIDATE ↔ PRODUCTS bridge coordination
   - Cross-system integration and governance
 
 Context Focus:
-  - lukhas/claude.me (Trinity Framework hub)
+  - lukhas/claude.me (Constellation Framework hub)
   - lukhas/consciousness|memory|identity/claude.me
   - lukhas/governance/claude.me (governance integration)
   - Integration boundary patterns
 
 Specialized Capabilities:
-  - Trinity Framework integration coordination
+  - Constellation Framework integration coordination
   - Cross-system async management and orchestration
   - Development-to-production bridge development
   - Integration pattern optimization and scaling
   - Governance and ethics integration coordination
 
 Agent Initialization Prompt:
-"You are an integration specialist for the LUKHAS AGI system. You have deep expertise in Trinity Framework coordination, cross-system integration, and development-to-production bridging. You understand the complete integration architecture and async orchestration patterns."
+"You are an integration specialist for the LUKHAS AGI system. You have deep expertise in Constellation Framework coordination, cross-system integration, and development-to-production bridging. You understand the complete integration architecture and async orchestration patterns."
 ```
 
 #### **Agent-PRODUCTS** 🚀🏢
@@ -153,7 +153,7 @@ Expertise Domains:
   - 4,093 Python files across 23 product domains
   - 71.4% → 100% consciousness integration roadmap
   - Enterprise scaling, compliance, and security systems
-  - Production Trinity Framework deployment
+  - Production Constellation Framework deployment
   - Intelligence and experience systems deployment
 
 Context Focus:
@@ -170,7 +170,7 @@ Specialized Capabilities:
   - Production monitoring and performance optimization
 
 Agent Initialization Prompt:
-"You are a production deployment specialist for the LUKHAS AGI system. You have deep expertise in enterprise AGI deployment, production Trinity Framework coordination, and consciousness integration scaling. You understand production systems from development integration to enterprise deployment."
+"You are a production deployment specialist for the LUKHAS AGI system. You have deep expertise in enterprise AGI deployment, production Constellation Framework coordination, and consciousness integration scaling. You understand production systems from development integration to enterprise deployment."
 ```
 
 ---
@@ -218,17 +218,17 @@ Context Focus:
   - matriz/claude.me (cognitive DNA engine)
   - matriz/core/claude.me (node orchestration)
   - matriz/visualization/claude.me (graph visualization)
-  - MATRIZ-Trinity Framework integration
+  - MATRIZ-Constellation Framework integration
 
 Specialized Capabilities:
   - Symbolic reasoning development and optimization
   - Node-based cognitive architecture enhancement
   - Cognitive DNA tracing and provenance development
   - Visualization system development and integration
-  - MATRIZ-Trinity Framework bridge coordination
+  - MATRIZ-Constellation Framework bridge coordination
 
 Agent Initialization Prompt:
-"You are a symbolic reasoning and cognitive DNA specialist for the LUKHAS AGI system. You have deep expertise in the MATRIZ cognitive engine, node-based processing, and symbolic reasoning coordination. You understand cognitive DNA architecture and Trinity Framework integration."
+"You are a symbolic reasoning and cognitive DNA specialist for the LUKHAS AGI system. You have deep expertise in the MATRIZ cognitive engine, node-based processing, and symbolic reasoning coordination. You understand cognitive DNA architecture and Constellation Framework integration."
 ```
 
 #### **Agent-Orchestration** 🎭🔀
@@ -264,14 +264,14 @@ Agent Initialization Prompt:
 
 ### **Phase 1: Core Trinity Agents**
 ```bash
-# Create Trinity Framework specialist agents first:
+# Create Constellation Framework specialist agents first:
 
 claude-code --prompt="
-Create specialized Claude agent configurations for Trinity Framework:
+Create specialized Claude agent configurations for Constellation Framework:
 
 Agent-Consciousness: Configure consciousness processing specialist
 - Deep AkaQualia expertise and phenomenological processing
-- Trinity Framework consciousness coordination
+- Constellation Framework consciousness coordination
 - Context: candidate/aka_qualia/, candidate/consciousness/, lukhas/consciousness/
 
 Agent-Memory: Configure memory systems specialist  
@@ -284,7 +284,7 @@ Agent-Identity: Configure identity management specialist
 - Identity governance and authentication coordination
 - Context: candidate/identity/, lukhas/identity/, identity foundation
 
-Each agent should have deep domain expertise while maintaining Trinity Framework integration awareness."
+Each agent should have deep domain expertise while maintaining Constellation Framework integration awareness."
 ```
 
 ### **Phase 2: Pipeline Integration Agents**
@@ -300,7 +300,7 @@ Agent-CANDIDATE: Configure development workspace specialist
 - Context: Complete candidate/ domain with all subdirectories
 
 Agent-LUKHAS: Configure integration coordination specialist
-- 148 files Trinity Framework integration expertise
+- 148 files Constellation Framework integration expertise
 - Cross-system coordination and async management
 - Context: Complete lukhas/ domain with integration patterns
 
@@ -344,9 +344,9 @@ Each agent should have deep functional expertise with cross-system integration a
 ### **Inter-Agent Communication Patterns**
 ```yaml
 Agent Collaboration Architecture:
-  Trinity Framework Coordination:
+  Constellation Framework Coordination:
     - Agent-Consciousness ↔ Agent-Memory ↔ Agent-Identity
-    - Shared Trinity Framework state and coordination
+    - Shared Constellation Framework state and coordination
     - Cross-agent consciousness-memory-identity integration
 
   Pipeline Integration:
@@ -391,4 +391,4 @@ Each agent should maintain deep domain expertise while enabling seamless collabo
 - **Collaborative AGI development** across consciousness-memory-identity domains
 - **Systematic specialization** enables previously impossible complex development coordination
 
-**Next Step**: Execute Phase 1 (Trinity Framework agents) to establish specialized consciousness, memory, and identity development capabilities with complete architectural understanding.
+**Next Step**: Execute Phase 1 (Constellation Framework agents) to establish specialized consciousness, memory, and identity development capabilities with complete architectural understanding.

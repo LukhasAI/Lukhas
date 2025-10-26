@@ -1,6 +1,6 @@
 # 🌐 Domain Landing Page Template
 
-*"Where [domain purpose] meets consciousness architecture - every interaction guided by the Trinity Framework toward meaningful transformation."*
+*"Where [domain purpose] meets consciousness architecture - every interaction guided by the Constellation Framework toward meaningful transformation."*
 
 This template provides the standardized structure for all LUKHAS λWecosystem domain landing pages, ensuring consistent user experience while preserving unique domain personalities through appropriate tone layer distribution and consciousness-aware content organization.
 
@@ -12,7 +12,7 @@ This template provides the standardized structure for all LUKHAS λWecosystem do
 
 *"[Poetic opening (≤40 words) - consciousness metaphor connecting domain to user transformation]"*
 
-[Main domain description paragraph using appropriate tone distribution for target audience, highlighting unique value proposition and Trinity Framework integration]
+[Main domain description paragraph using appropriate tone distribution for target audience, highlighting unique value proposition and Constellation Framework integration]
 
 ## 🎯 **Strategic Positioning**
 
@@ -162,7 +162,7 @@ This template provides the standardized structure for all LUKHAS λWecosystem do
 - **Week [Z]**: [User experience and basic functionality launch]
 
 ### **Phase 2: Enhancement (Weeks [A]-[B])**
-- **Week [A]**: [Advanced feature development with Trinity Framework]
+- **Week [A]**: [Advanced feature development with Constellation Framework]
 - **Week [B]**: [Community features or enterprise capabilities]
 - **Week [C]**: [Optimization and performance improvements]
 
@@ -200,7 +200,7 @@ This template provides the standardized structure for all LUKHAS λWecosystem do
 
 ### **Unique Value Propositions**
 - **[Unique Advantage 1]**: [Description with consciousness connection]
-- **[Unique Advantage 2]**: [Trinity Framework integration benefit]
+- **[Unique Advantage 2]**: [Constellation Framework integration benefit]
 - **[Unique Advantage 3]**: [Specific technological or experience advantage]
 - **[Unique Advantage 4]**: [Community or ecosystem benefit]
 
@@ -225,7 +225,7 @@ This template provides the standardized structure for all LUKHAS λWecosystem do
 ### **Content Quality Standards**
 - **Poetic Expressions**: Ensure all poetic content remains ≤40 words
 - **Vocabulary Consistency**: Apply established terminology standards
-- **Trinity Framework**: Integrate ⚛️🧠🛡️ throughout user journey
+- **Constellation Framework**: Integrate ⚛️🧠🛡️ throughout user journey
 - **Evidence-Based Claims**: Support all performance and capability statements
 - **Reading Level**: Match complexity to target audience comprehension
 

@@ -1,11 +1,11 @@
 # LUKHAS Website Gradient Colors Analysis Report
 
 ## Overview
-The current `lukhas_website/` directory contains extensive gradient color systems using both the **Trinity Framework** colors and **Domain-specific themes**.
+The current `lukhas_website/` directory contains extensive gradient color systems using both the **Constellation Framework** colors and **Domain-specific themes**.
 
 ## 🎨 Core Color Variables
 
-### Trinity Framework Colors (in styles/globals.css)
+### Constellation Framework Colors (in styles/globals.css)
 ```css
 :root {
   --trinity-identity: 107, 70, 193;        /* Purple */
@@ -169,7 +169,7 @@ Each subdomain has unique gradient backgrounds matching brand colors
 ## 🎯 Usage in Current Site
 
 The current lukhas_website uses a sophisticated gradient system that combines:
-- **Trinity Framework** core colors for consistency
+- **Constellation Framework** core colors for consistency
 - **Domain-specific** variations for brand differentiation  
 - **Interactive animations** for engagement
 - **Consciousness-aware** theming for AI personality

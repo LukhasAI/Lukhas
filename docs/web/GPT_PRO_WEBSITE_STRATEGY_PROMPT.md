@@ -11,7 +11,7 @@ I'm building the LUKHAS AI consciousness technology platform with multiple domai
 - **Current Website**: `/lukhas_website/` with routes for /ai, /dev, /cloud, /id, /io, /matriz, /dream-weaver, /studio, etc.
 - **Strategy Docs**: Partial strategies exist in `/docs/web/content/domains/` for 6 core domains
 - **Technology Stack**: Next.js 15.5.2, TypeScript, React, Three.js for visualizations
-- **Brand Framework**: Trinity Framework (⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian)
+- **Brand Framework**: Constellation Framework (⚛️ Identity, 🧠 Consciousness, 🛡️ Guardian)
 - **Tone System**: 3-Layer approach (Poetic/User-Friendly/Academic) with domain-specific ratios
 
 ### 10 LUKHAS Domains (Λ Ecosystem)
@@ -49,7 +49,7 @@ For **EACH of the 10 domains**, provide comprehensive strategic planning coverin
 **Phase 1 (Immediate - Week 1-2):**
 
 1. **ΛiD (lukhas.id)** - HIGHEST PRIORITY - SSO foundation for all other domains
-2. **Λi (lukhas.ai)** - Main brand platform, Trinity Framework showcase
+2. **Λi (lukhas.ai)** - Main brand platform, Constellation Framework showcase
 
 **Phase 2 (Core Features - Week 3-4):**
 3. **ΛDev (lukhas.dev)** - Developer ecosystem and API documentation
@@ -211,7 +211,7 @@ Provide 3 examples showing the tone distribution:
 - **User Profile**: What data is shared across domains?
 - **Permissions**: Role-based access control needs
 
-#### Trinity Framework Integration
+#### Constellation Framework Integration
 How does ⚛️🧠🛡️ appear on this domain?
 - **Visual Representation**: Icons, animations, metaphors
 - **Messaging Integration**: Where Trinity appears in copy
@@ -388,7 +388,7 @@ This will serve as the **master blueprint** for building the complete Λ Ecosyst
 **Start with Phase 1 (CRITICAL):**
 
 1. **ΛiD (lukhas.id)** - Complete authentication strategy and SSO architecture
-2. **Λi (lukhas.ai)** - Main platform with Trinity Framework showcase
+2. **Λi (lukhas.ai)** - Main platform with Constellation Framework showcase
 
 **Then Phase 2 (CORE):**
 

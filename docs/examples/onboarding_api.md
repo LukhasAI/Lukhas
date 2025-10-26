@@ -269,7 +269,7 @@ deletion_request = onboarding.request_deletion(
 )
 ```
 
-## Trinity Framework Integration
+## Constellation Framework Integration
 
 ### Identity (⚛️)
 

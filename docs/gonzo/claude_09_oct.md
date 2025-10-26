@@ -16,7 +16,7 @@ Tests and runtime modules import `MetricType` from `lukhas.observability.service
 *** a/lukhas/observability/service_metrics.py
 --- b/lukhas/observability/service_metrics.py
 @@
--"""Trinity Framework observability service metrics (stub)."""
+-"""Constellation Framework observability service metrics (stub)."""
 -__all__: list[str] = []
 +"""LUKHAS observability service metrics."""
 +from enum import Enum

@@ -201,7 +201,7 @@
    - API surface and OpenAI complement
    - Risk/ethics stance
    - Use cases and roadmap
-   - Philosophy (Trinity Framework)
+   - Philosophy (Constellation Framework)
 
 ### Security (`/`)
 ✅ **SECURITY.md** - Security policy

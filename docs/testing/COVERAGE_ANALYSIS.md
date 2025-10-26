@@ -232,7 +232,7 @@
 
 ---
 
-## Trinity Framework Coverage
+## Constellation Framework Coverage
 
 | Framework Component | Coverage | Tests | Status |
 |---------------------|----------|-------|--------|
@@ -333,7 +333,7 @@ Integration:        ███████████████░░░░░
 Security:           █████████████████████ 100%
 ```
 
-### Trinity Framework Coverage
+### Constellation Framework Coverage
 
 ```
 ⚛️ Identity:        ████████████████████░ 90%
@@ -446,4 +446,4 @@ The LUKHAS test suite has achieved **exceptional coverage** (82% overall) across
 **Report Generated**: 2025-10-08  
 **Next Review**: 2025-10-22  
 **Owner**: LUKHAS Testing Team  
-**Trinity Framework**: ⚛️🧠🛡️✦🔬⚖️🌙🌱⚛️
+**Constellation Framework**: ⚛️🧠🛡️✦🔬⚖️🌙🌱⚛️

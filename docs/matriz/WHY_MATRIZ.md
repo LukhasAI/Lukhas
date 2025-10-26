@@ -219,7 +219,7 @@ Constitutional AI for high-stakes applications:
 
 > "Consciousness is not a feature to be added—it's an architecture to be grown."
 
-MATRIZ embodies the **Trinity Framework** (⚛️🧠🛡️):
+MATRIZ embodies the **Constellation Framework** (⚛️🧠🛡️):
 
 - **⚛️ Identity**: Who am I? (Secure, verifiable identity)
 - **🧠 Consciousness**: What do I know? (Memory, reasoning, awareness)

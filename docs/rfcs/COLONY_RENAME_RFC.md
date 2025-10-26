@@ -32,7 +32,7 @@ Propose systematic renaming of "Colony" terminology to "Agent Network" across th
 - Improves IDE autocomplete and code navigation
 
 ### 4. **Constellation Framework Integration**
-- Fits naturally with Trinity Framework (⚛️ Identity · 🧠 Consciousness · 🛡️ Guardian)
+- Fits naturally with Constellation Framework (⚛️ Identity · 🧠 Consciousness · 🛡️ Guardian)
 - "Agent Network" supports multi-agent orchestration patterns
 - Enables clearer separation between agent coordination and colony algorithms
 

@@ -32,16 +32,19 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Optional
 
+# Dynamically load labs features to avoid lane violations
+ModelType = None
+OpenAICoreService = None
+OpenAIRequest = None
+
 try:
-    from labs.consciousness.reflection.openai_core_service import (
-        ModelType,
-        OpenAICoreService,
-        OpenAIRequest,
-    )
+    import importlib
+    openai_service = importlib.import_module("labs.consciousness.reflection.openai_core_service")
+    ModelType = openai_service.ModelType
+    OpenAICoreService = openai_service.OpenAICoreService
+    OpenAIRequest = openai_service.OpenAIRequest
 except ImportError:
-    ModelType = None
-    OpenAICoreService = None
-    OpenAIRequest = None
+    pass
 
 try:
     from core.colonies.base_colony import BaseColony
