@@ -1,8 +1,5 @@
-#!/usr/bin/env python3
-"""Integration tests for australian_awareness_engine module."""
-import pytest
+"""Import-smoke for core.orchestration.brain.australian_awareness_engine."""
 
-class TestAustralianAwarenessEngine:
-    def test_module_imports(self):
-        import core.orchestration.brain.australian_awareness_engine
-        assert core.orchestration.brain.australian_awareness_engine is not None
+def test_aus_awareness_imports():
+    mod = __import__("core.orchestration.brain.australian_awareness_engine", fromlist=["*"])
+    assert mod is not None

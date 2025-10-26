@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 Australian Awareness Engine - Privacy Act 1988 Compliant Framework
 ===============================================================
