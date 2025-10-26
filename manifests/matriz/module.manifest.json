@@ -1,71 +1,21 @@
 {
-  "schema_version": "1.1.0",
-  "module": {
-    "name": "lukhas.matriz",
-    "path": "matriz",
-    "type": "package",
-    "lane": "lukhas"
-  },
-  "matriz_integration": {
-    "status": "partial",
-    "pipeline_nodes": [
-      "supporting"
-    ],
-    "cognitive_function": ""
-  },
-  "constellation_alignment": {
-    "primary_star": "Supporting",
-    "star_aliases": [],
-    "trinity_aspects": []
-  },
-  "capabilities": [
-    {
-      "name": "infrastructure_support",
-      "type": "utility",
-      "description": "Provides foundational utilities and infrastructure",
-      "interfaces": []
-    }
+  "name": "matriz",
+  "path": "matriz",
+  "constellation_stars": [
+    "Consciousness"
   ],
-  "dependencies": {
-    "internal": [],
-    "external": [],
-    "circular_dependencies": []
-  },
-  "exports": {
-    "classes": [],
-    "functions": [],
-    "constants": []
-  },
-  "testing": {
-    "has_tests": false,
-    "quality_tier": "T3_standard"
-  },
-  "observability": {
-    "spans": [],
-    "metrics": [],
-    "logging": {
-      "logger_name": "lukhas.matriz",
-      "default_level": "INFO"
-    },
-    "events": {
-      "publishes": [],
-      "subscribes": []
-    }
-  },
-  "security": {
-    "requires_auth": false,
-    "data_classification": "internal",
-    "secrets_used": [],
-    "network_calls": false,
-    "sandboxed": true,
-    "policies": []
-  },
+  "confidence": 0.85,
+  "description": "MATRIZ cognitive engine core package",
+  "dependencies": [],
+  "status": "integration",
+  "tier": "integration",
+  "lane": "matriz",
+  "version": "1.0.0",
+  "created": "2025-10-26T06:28:44Z",
+  "updated": "2025-10-26T06:28:44Z",
   "metadata": {
-    "created": "2025-10-18T18:23:40Z",
-    "last_updated": "2025-10-18T18:23:40Z",
-    "manifest_generated": true,
-    "owner": "unassigned",
-    "documentation_url": "",
-    "tags": []
+    "complexity": "medium",
+    "test_coverage": "unknown",
+    "documentation": "partial"
   }
 }
