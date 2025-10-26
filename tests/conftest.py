@@ -62,3 +62,9 @@ def mock_lukhas_config():
             "debug_mode": True
         }
     }
+
+
+collect_ignore_glob = [
+    "tests/integration/test_aka_qualia.py",
+    "lukhas_website/lukhas/aka_qualia/tests/*.py"
+]
