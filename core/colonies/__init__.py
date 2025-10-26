@@ -1,5 +1,19 @@
 """Core colony modules for LUKHAS."""
 
-from core.colonies import oracle_colony
+from . import oracle_colony
+from .ethics_swarm_colony import (
+    EthicalDecisionRequest,
+    EthicalDecisionResponse,
+    EthicalDecisionType,
+    EthicalSignal,
+    EthicsSwarmColony,
+)
 
-__all__ = ["oracle_colony"]
+__all__ = [
+    "oracle_colony",
+    "EthicalDecisionRequest",
+    "EthicalDecisionResponse",
+    "EthicalDecisionType",
+    "EthicalSignal",
+    "EthicsSwarmColony",
+]
