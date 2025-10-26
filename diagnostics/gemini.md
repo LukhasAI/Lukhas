@@ -1,0 +1,83 @@
+# Gemini AI Navigation Context
+*This file is optimized for Gemini AI navigation and understanding*
+
+---
+title: gemini
+slug: gemini.md
+source: claude.me
+optimized_for: gemini_ai
+last_updated: 2025-10-26
+---
+
+# diagnostics Module
+
+**LUKHAS diagnostics module implementing specialized diagnostics functionality with 4 components for integrated system operations.**
+
+**Lane**: L2
+**Schema**: 3.0.0
+**Entrypoints**: 4
+**Dependencies**: core, memory
+
+## Quick Reference
+
+```python
+# Import from diagnostics
+from diagnostics.drift_diagnostics import calculate_drift_score
+from diagnostics.drift_diagnostics import detect_collapse_points
+from diagnostics.drift_diagnostics import generate_entropy_map_from_memory
+from diagnostics.drift_diagnostics import get_diagnostics_summary
+```
+
+## Components (4 entrypoints)
+
+- `diagnostics.drift_diagnostics.calculate_drift_score`
+- `diagnostics.drift_diagnostics.detect_collapse_points`
+- `diagnostics.drift_diagnostics.generate_entropy_map_from_memory`
+- `diagnostics.drift_diagnostics.get_diagnostics_summary`
+
+## Module Metadata
+
+- **Lane**: L2
+- **Schema Version**: 3.0.0
+- **Tags**: diagnostics
+- **Dependencies**: core, memory
+- **OpenTelemetry**: 1.37.0
+
+## Related Systems
+
+- **core**: Dependency integration
+- **memory**: Dependency integration
+
+---
+
+**Documentation Status**: ✅ Complete
+**Last Updated**: 2025-10-18
+**Maintainer**: LUKHAS Core Team
+
+
+## 🚀 GA Deployment Status
+
+**Current Status**: 66.7% Ready (6/9 tasks complete)
+
+### Recent Milestones
+- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
+- ✅ **Dependency Audit**: 196 packages, 0 CVEs
+- ✅ **OpenAI Façade**: Full SDK compatibility validated
+- ✅ **Guardian MCP**: Production-ready deployment
+- ✅ **OpenAPI Schema**: Validated and documented
+
+### New Documentation
+- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
+- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
+- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
+
+### Recent Updates
+- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
+- OpenAI façade validation - Full SDK compatibility
+- Guardian MCP server deployment - Production ready
+- Shadow diff harness - Pre-audit validation framework
+- MATRIZ evaluation harness - Comprehensive testing
+
+**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
+
+---

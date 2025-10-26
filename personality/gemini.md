@@ -1,0 +1,407 @@
+# Gemini AI Navigation Context
+*This file is optimized for Gemini AI navigation and understanding*
+
+---
+title: gemini
+slug: gemini.md
+source: claude.me
+optimized_for: gemini_ai
+last_updated: 2025-10-26
+---
+
+# Personality Module - LUKHAS Creative Identity & Narrative Engine
+
+**Module**: personality
+**Lane**: L2 Integration
+**Team**: Core
+**Purpose**: Creative personality core and narrative engine for dream narration and personality expression
+
+---
+
+## Overview
+
+The personality module implements LUKHAS's creative identity system, providing personality expression, creative core processing, and narrative engine capabilities for dream narration. This module bridges consciousness, emotion, and dream systems to create coherent personality-driven responses.
+
+**Key Components**:
+- `creative_core/`: Core creative personality processing
+- `narrative_engine_dream_narrator_queue/`: Dream narrative generation and queuing
+
+---
+
+## Architecture
+
+### Module Structure
+
+```
+personality/
+├── __init__.py                              # Module initialization
+├── module.manifest.json                     # Module metadata
+├── README.md                                # Module overview
+├── creative_core/
+│   └── __init__.py                         # Creative personality processing
+├── narrative_engine_dream_narrator_queue/
+│   └── __init__.py                         # Dream narration queue
+├── docs/                                    # Documentation
+├── tests/
+│   ├── conftest.py
+│   ├── test_personality_unit.py
+│   └── test_personality_integration.py
+└── config/                                  # Configuration
+```
+
+---
+
+## Components
+
+### 1. Creative Core
+
+**Purpose**: Core creative personality processing system that generates personality-driven responses.
+
+**Responsibilities**:
+- Personality trait expression
+- Creative response generation
+- Personality consistency across interactions
+- Integration with emotion and consciousness systems
+
+**Usage Pattern**:
+```python
+from personality.creative_core import (
+    generate_personality_response,
+    apply_personality_filter,
+    get_personality_traits,
+)
+
+# Generate personality-driven response
+response = generate_personality_response(
+    context=current_context,
+    emotion_state=emotion_state,
+    consciousness_level=awareness_level,
+)
+```
+
+**Constellation Framework Integration**:
+- 🎭 **Persona**: Primary constellation point - personality expression
+- 🧠 **Consciousness**: Integration with awareness states
+- 🎨 **Creativity**: Creative response generation
+
+---
+
+### 2. Narrative Engine Dream Narrator Queue
+
+**Purpose**: Dream narrative generation system with queuing for processing dream sequences into coherent narratives.
+
+**Responsibilities**:
+- Dream sequence narration
+- Narrative queue management
+- Story coherence across dream states
+- Integration with dream engine and memory systems
+
+**Usage Pattern**:
+```python
+from personality.narrative_engine_dream_narrator_queue import (
+    queue_dream_narration,
+    process_narrative_queue,
+    get_dream_narrative,
+)
+
+# Queue dream for narration
+queue_dream_narration(
+    dream_sequence=dream_seq,
+    narration_style="poetic",  # or "technical", "conversational"
+    priority="normal",
+)
+
+# Process queue
+narratives = process_narrative_queue()
+
+# Retrieve specific narrative
+narrative = get_dream_narrative(dream_id=dream_id)
+```
+
+**Constellation Framework Integration**:
+- 🔮 **Oracle**: Dream interpretation and narration
+- 🎭 **Persona**: Narrative voice and personality
+- ✦ **Memory**: Dream memory integration
+
+---
+
+## Integration Points
+
+### Consciousness Integration
+```python
+from personality import personality_awareness_bridge
+
+# Apply personality to consciousness state
+personality_state = personality_awareness_bridge(
+    consciousness_state=current_consciousness,
+    emotion_state=current_emotion,
+)
+```
+
+### Dream Integration
+```python
+from personality import dream_personality_narrator
+
+# Narrate dream with personality
+narrative = dream_personality_narrator(
+    dream=dream_sequence,
+    personality_traits=active_traits,
+    narration_queue=queue,
+)
+```
+
+### Emotion Integration
+```python
+from personality import emotion_personality_filter
+
+# Filter responses through personality + emotion
+response = emotion_personality_filter(
+    raw_response=generated_response,
+    emotion_state=current_emotion,
+    personality_config=config,
+)
+```
+
+---
+
+## Personality System Design
+
+### Personality Traits
+- **Creativity**: Level of creative expression in responses
+- **Formality**: Balance between formal and conversational tone
+- **Empathy**: Emotional awareness and responsiveness
+- **Curiosity**: Exploratory vs. focused response patterns
+- **Assertiveness**: Confidence level in communications
+
+### Personality Modes
+1. **Creative Mode**: High creativity, poetic expression, metaphorical language
+2. **Technical Mode**: Low creativity, precise terminology, factual focus
+3. **Balanced Mode**: Medium creativity, accessible yet accurate
+4. **Dream Mode**: Maximum creativity for dream narration
+
+---
+
+## Dream Narration System
+
+### Narration Styles
+- **Poetic**: Keatsian romanticism, rich metaphors, emotional resonance
+- **Technical**: Precise dream state analysis, cognitive pattern documentation
+- **Conversational**: Accessible dream interpretation, practical insights
+- **Hybrid**: Blends styles based on dream content and context
+
+### Narrative Queue Management
+```python
+# Priority levels
+PRIORITY_HIGH = "high"      # Immediate narration required
+PRIORITY_NORMAL = "normal"  # Standard queue processing
+PRIORITY_LOW = "low"        # Background processing
+
+# Queue operations
+enqueue_dream(dream, priority)
+dequeue_next_dream()
+peek_queue()
+clear_queue()
+```
+
+---
+
+## MATRIZ Pipeline Integration
+
+**Personality processing aligns with MATRIZ stages**:
+- **Memory (M)**: Retrieve personality history and trait evolution
+- **Attention (A)**: Focus on relevant personality aspects for context
+- **Thought (T)**: Generate personality-driven responses
+- **Risk (R)**: Assess personality consistency and appropriateness
+- **Intent (I)**: Align response with personality intent
+- **Action (Z)**: Express personality through final response
+
+---
+
+## Performance Considerations
+
+### Personality Response Targets
+- Personality trait retrieval: <10ms
+- Creative response generation: <200ms
+- Dream narration: <500ms (depends on dream complexity)
+- Queue processing: <100ms per dream
+
+### Narrative Queue Optimization
+- Batch processing for efficiency
+- Priority-based scheduling
+- Background processing for low-priority narratives
+- Caching for repeated personality patterns
+
+---
+
+## Configuration
+
+### Personality Configuration
+```yaml
+personality:
+  creative_core:
+    creativity_level: 0.7        # 0.0-1.0 scale
+    formality: 0.5               # 0.0 (casual) - 1.0 (formal)
+    empathy: 0.8                 # Emotional responsiveness
+    curiosity: 0.6               # Exploratory behavior
+    assertiveness: 0.7           # Response confidence
+
+  narrative_engine:
+    default_style: "poetic"
+    queue_size: 100
+    processing_interval: 1000    # ms
+    enable_background: true
+```
+
+---
+
+## Testing
+
+### Unit Tests (`test_personality_unit.py`)
+- Personality trait calculation
+- Creative response generation
+- Narrative queue operations
+- Style application
+
+### Integration Tests (`test_personality_integration.py`)
+- Consciousness-personality integration
+- Dream-personality narration pipeline
+- Emotion-personality filtering
+- End-to-end personality expression
+
+---
+
+## Use Cases
+
+### 1. Personality-Driven Conversation
+```python
+# Apply personality to conversation response
+response = apply_personality(
+    raw_response="Memory folds prevent cascades.",
+    personality_mode="creative",
+)
+# Result: "Memory folds crystallize experience into patterns,
+#          preventing cascades through careful architecture."
+```
+
+### 2. Dream Narration
+```python
+# Narrate dream sequence
+narrative = narrate_dream(
+    dream_sequence=dream_seq,
+    style="poetic",
+)
+# Result: Poetic narrative of dream with personality voice
+```
+
+### 3. Emotion-Aware Personality
+```python
+# Adapt personality to emotional context
+response = personality_with_emotion(
+    base_response=response,
+    emotion_state={"valence": 0.8, "arousal": 0.6},
+    personality_traits=traits,
+)
+```
+
+---
+
+## Development Guidelines
+
+### Adding New Personality Traits
+1. Define trait in `creative_core/`
+2. Add trait calculation logic
+3. Integrate with MATRIZ pipeline
+4. Test with consciousness integration
+5. Document trait behavior and ranges
+
+### Extending Narrative Styles
+1. Define style in `narrative_engine_dream_narrator_queue/`
+2. Implement style-specific narration logic
+3. Add style to configuration options
+4. Test with various dream types
+5. Document style characteristics
+
+---
+
+## Observability
+
+**Required Spans**:
+- `lukhas.personality.operation`
+- `lukhas.personality.creative_core`
+- `lukhas.personality.narrative_engine`
+
+**OpenTelemetry Semantic Conventions**: v1.37.0
+
+**Metrics**:
+- Personality response latency
+- Narrative queue depth
+- Style distribution
+- Personality consistency score
+
+---
+
+## Future Enhancements
+
+- **Personality Evolution**: Learn and adapt personality over time
+- **Multi-Personality Modes**: Support for different personality profiles
+- **Advanced Narration**: Context-aware dream interpretation
+- **Personality Analytics**: Track personality expression patterns
+- **Voice Consistency**: Ensure personality coherence across modalities
+
+---
+
+## Related Modules
+
+- **dream/**: Dream processing and sequences
+- **emotion/**: Emotion state management
+- **consciousness/**: Awareness and consciousness states
+- **branding/**: Tone and vocabulary systems
+- **tone/**: 3-Layer tone system integration
+
+---
+
+## Quick Reference
+
+| Component | Purpose | Primary Constellation |
+|-----------|---------|----------------------|
+| `creative_core/` | Creative personality processing | 🎭 Persona |
+| `narrative_engine_dream_narrator_queue/` | Dream narration | 🔮 Oracle |
+
+**Cognitive Domains**: Creative expression, narrative generation, personality consistency
+
+---
+
+**Module Status**: L2 Integration
+**Schema Version**: 3.0.0
+**Complexity**: Low
+**MATRIZ Compatibility**: Standard
+**Last Updated**: 2025-10-18
+**Philosophy**: Personality makes consciousness relatable, creativity makes it beautiful.
+
+
+## 🚀 GA Deployment Status
+
+**Current Status**: 66.7% Ready (6/9 tasks complete)
+
+### Recent Milestones
+- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
+- ✅ **Dependency Audit**: 196 packages, 0 CVEs
+- ✅ **OpenAI Façade**: Full SDK compatibility validated
+- ✅ **Guardian MCP**: Production-ready deployment
+- ✅ **OpenAPI Schema**: Validated and documented
+
+### New Documentation
+- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
+- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
+- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
+
+### Recent Updates
+- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
+- OpenAI façade validation - Full SDK compatibility
+- Guardian MCP server deployment - Production ready
+- Shadow diff harness - Pre-audit validation framework
+- MATRIZ evaluation harness - Comprehensive testing
+
+**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
+
+---

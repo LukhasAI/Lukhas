@@ -1,0 +1,232 @@
+# Gemini AI Navigation Context
+*This file is optimized for Gemini AI navigation and understanding*
+
+---
+title: gemini
+slug: gemini.md
+source: claude.me
+optimized_for: gemini_ai
+last_updated: 2025-10-26
+---
+
+---
+title: me
+slug: claude.me
+owner: T4
+lane: labs
+star:
+stability: experimental
+last_reviewed: 2025-10-18
+constellation_stars:
+related_modules:
+manifests:
+links:
+contracts: "[]"
+domain: brain
+stars: "[Flow]"
+status: active
+tier: T1
+updated: 2025-10-18
+---
+# Agent Module - Claude AI Context
+
+**Module**: agent
+**Purpose**: Real LUKHAS agents for internal consciousness operations
+**Lane**: L2 (Integration)
+**Language**: Python
+**Last Updated**: 2025-10-18
+
+---
+
+## Module Overview
+
+The agent module provides real LUKHAS agents for internal consciousness operations, including collaborative agents, intelligence bridges, and agent interface systems.
+
+### Key Components
+- **Collaborative Agents**: Multi-agent collaboration systems
+- **Intelligence Bridge**: Bridge between intelligence systems
+- **Agent Interfaces**: Standardized agent communication interfaces
+- **Agent System Status**: System-wide agent health and status monitoring
+
+## ⭐ Constellation Stars
+
+This module aligns with:
+
+### Flow (Consciousness) 🧠
+Enables consciousness-driven agent operations, allowing agents to act as extensions of the core consciousness.
+
+### Anchor (Identity) ⚛️
+Provides agents with a secure and verifiable identity, ensuring all actions are auditable and authorized.
+
+### Watch (Guardian) 🛡️
+Monitors agent behavior to ensure ethical compliance and alignment with system-wide safety protocols.
+
+---
+
+## Architecture
+
+### Core Agent Components
+
+#### Entrypoints (from manifest)
+```python
+from agent import (
+    get_agent_system_status,         # Get system-wide agent status
+)
+
+from agent.collaborative import is_available as collaborative_available
+from agent.intelligence_bridge import is_available as intelligence_bridge_available
+from agent.interfaces import is_available as interfaces_available
+```
+
+---
+
+## Agent Systems
+
+### 1. Collaborative Agents
+**Module**: `agent.collaborative`
+**Purpose**: Multi-agent collaboration and coordination
+**Availability Check**: `agent.collaborative.is_available`
+
+```python
+from agent.collaborative import is_available
+
+if is_available:
+    # Use collaborative agent features
+    pass
+```
+
+### 2. Intelligence Bridge
+**Module**: `agent.intelligence_bridge`
+**Purpose**: Bridge between intelligence systems and agents
+**Availability Check**: `agent.intelligence_bridge.is_available`
+
+```python
+from agent.intelligence_bridge import is_available
+
+if is_available:
+    # Use intelligence bridge features
+    pass
+```
+
+### 3. Agent Interfaces
+**Module**: `agent.interfaces`
+**Purpose**: Standardized agent communication interfaces
+**Availability Check**: `agent.interfaces.is_available`
+
+```python
+from agent.interfaces import is_available
+
+if is_available:
+    # Use agent interface features
+    pass
+```
+
+---
+
+## System Status
+
+### Agent System Status
+```python
+from agent import get_agent_system_status
+
+status = get_agent_system_status()
+# Returns:
+# {
+#   'collaborative': {'available': bool, 'active_agents': int},
+#   'intelligence_bridge': {'available': bool, 'connections': int},
+#   'interfaces': {'available': bool, 'registered_interfaces': int}
+# }
+```
+
+---
+
+## Development Guidelines
+
+### 1. Availability Checks
+Always check availability before using agent features:
+```python
+from agent.collaborative import is_available
+
+if is_available:
+    # Use features
+    pass
+else:
+    # Handle unavailable case
+    pass
+```
+
+### 2. Agent Identity
+- All agents must have valid ΛID identity
+- Agent operations logged for audit trail
+- Guardian system validates agent behavior
+
+### 3. Testing
+- Unit tests for individual agent components
+- Integration tests for multi-agent scenarios
+- Behavior tests for ethics compliance
+
+---
+
+## MATRIZ Pipeline Integration
+
+This module operates within the MATRIZ cognitive framework:
+
+- **M (Memory)**: Agent memory and state management
+- **A (Attention)**: Agent task focus and prioritization
+- **T (Thought)**: Agent decision making and reasoning
+- **R (Risk)**: Ethics validation for agent operations
+- **I (Intent)**: Agent goal and intention tracking
+- **A (Action)**: Agent action execution and monitoring
+
+---
+
+## Related Modules
+
+- **Consciousness** ([../consciousness/](../consciousness/)) - Consciousness operations
+- **Identity** ([../identity/](../identity/)) - Agent identity and authentication
+- **Governance** ([../governance/](../governance/)) - Agent ethics and behavior
+
+---
+
+## Documentation
+
+- **README**: [agent/README.md](README.md) - Agent overview
+- **Docs**: [agent/docs/](docs/) - Agent architecture and guides
+- **Tests**: [agent/tests/](tests/) - Agent test suites
+- **Module Index**: [../MODULE_INDEX.md](../MODULE_INDEX.md#agent)
+
+---
+
+**Status**: Integration Lane (L2)
+**Manifest**: ✓ module.manifest.json (schema v3.0.0)
+**Team**: Core
+**Code Owners**: @lukhas-core
+**Last Updated**: 2025-10-18
+
+
+## 🚀 GA Deployment Status
+
+**Current Status**: 66.7% Ready (6/9 tasks complete)
+
+### Recent Milestones
+- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
+- ✅ **Dependency Audit**: 196 packages, 0 CVEs
+- ✅ **OpenAI Façade**: Full SDK compatibility validated
+- ✅ **Guardian MCP**: Production-ready deployment
+- ✅ **OpenAPI Schema**: Validated and documented
+
+### New Documentation
+- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
+- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
+- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
+
+### Recent Updates
+- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
+- OpenAI façade validation - Full SDK compatibility
+- Guardian MCP server deployment - Production ready
+- Shadow diff harness - Pre-audit validation framework
+- MATRIZ evaluation harness - Comprehensive testing
+
+**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
+
+---

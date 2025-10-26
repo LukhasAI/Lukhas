@@ -1,0 +1,379 @@
+# Gemini AI Navigation Context
+*This file is optimized for Gemini AI navigation and understanding*
+
+---
+title: gemini
+slug: gemini.md
+source: claude.me
+optimized_for: gemini_ai
+last_updated: 2025-10-26
+---
+
+# oneiric_core Module
+
+**Core Orchestration and Dream Infrastructure**
+
+The `oneiric_core` module provides core orchestration and infrastructure for LUKHAS's dream-based consciousness processing, symbolic network integration, and fundamental system primitives.
+
+## Core Purpose
+
+**Dream Infrastructure**: Foundation for dream processing, symbolic reasoning, and consciousness-aware cognitive orchestration with integration to LUKHAS Constellation Framework (⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum).
+
+**Lane**: L2 Integration
+**Dependencies**: None (foundational)
+**Entrypoints**: None (infrastructure layer)
+
+---
+
+## Quick Start
+
+```python
+from oneiric_core.tools import (
+    DreamOrchestrator,
+    SymbolicNetworkBridge
+)
+
+# Dream orchestration
+orchestrator = DreamOrchestrator()
+dream_session = orchestrator.start_dream_session(
+    dream_type="creative",
+    duration=300  # 5 minutes
+)
+
+# Symbolic network integration
+bridge = SymbolicNetworkBridge()
+symbolic_graph = bridge.build_symbolic_network(
+    nodes=consciousness_data,
+    edges=relationships
+)
+```
+
+---
+
+## Component Architecture
+
+### 1. Dream Orchestration Tools (`oneiric_core.tools`)
+
+**2 Tool Components**:
+- Dream orchestration framework
+- Symbolic network bridge
+
+**Dream Orchestrator**:
+```python
+from oneiric_core.tools import DreamOrchestrator
+
+orchestrator = DreamOrchestrator()
+
+# Start dream session
+session = orchestrator.start_dream_session(
+    dream_type="creative",          # or "problem_solving", "exploratory"
+    duration=300,                    # seconds
+    consciousness_state=current_state
+)
+
+# Process during dream
+orchestrator.process_dream_insights(
+    session_id=session.id,
+    insights=dream_insights
+)
+
+# End session and consolidate
+results = orchestrator.end_dream_session(session.id)
+# Returns: consolidated memories, insights, creative outputs
+```
+
+**Symbolic Network Bridge**:
+```python
+from oneiric_core.tools import SymbolicNetworkBridge
+
+bridge = SymbolicNetworkBridge()
+
+# Build symbolic network
+network = bridge.build_symbolic_network(
+    nodes=[
+        {"id": "consciousness", "type": "core", "value": awareness_state},
+        {"id": "memory", "type": "storage", "value": memory_data},
+    ],
+    edges=[
+        {"source": "consciousness", "target": "memory", "weight": 0.9}
+    ]
+)
+
+# Query network
+paths = bridge.find_symbolic_paths(
+    source="consciousness",
+    target="memory",
+    max_depth=3
+)
+
+# Transform network
+transformed = bridge.transform_network(
+    network=network,
+    transformation="dream_enhancement"  # Apply dream-based transformations
+)
+```
+
+---
+
+## Subdirectory Structure
+
+```
+oneiric_core/
+├── tools/
+│   ├── dream_orchestrator.py          # Dream session management
+│   └── symbolic_network_bridge.py     # Symbolic network integration
+└── __init__.py                         # Module initialization
+```
+
+---
+
+## Constellation Framework Integration
+
+**Coordination Layer**: Provides foundational infrastructure for consciousness-core coupling and symbolic network integration across the Constellation Framework.
+
+**Tags**: coordination, core, infrastructure, oneiric_core
+
+**Integration Points**:
+- 🌙 **DREAM**: Dream orchestration and processing
+- ⚛️ **IDENTITY**: Consciousness-aware orchestration
+- ✦ **MEMORY**: Dream memory consolidation
+- 🔬 **VISION**: Symbolic network analysis
+- 🌊 **FLOW**: Dream state flow management
+
+---
+
+## OpenTelemetry Spans
+
+**Required Span**: `lukhas.oneiric_core.operation`
+
+```python
+from telemetry import create_tracer
+
+tracer = create_tracer("lukhas.oneiric_core")
+
+# Dream session tracing
+with tracer.start_span("oneiric_core.dream_session"):
+    session = orchestrator.start_dream_session(dream_type="creative")
+
+# Symbolic network tracing
+with tracer.start_span("oneiric_core.symbolic_network"):
+    network = bridge.build_symbolic_network(nodes, edges)
+```
+
+---
+
+## Performance Targets
+
+- **Dream session startup**: <100ms
+- **Symbolic network construction**: <200ms (100 nodes)
+- **Path finding**: <50ms (depth 3)
+- **Network transformation**: <150ms
+- **Session consolidation**: <500ms
+
+---
+
+## Configuration
+
+**No configuration files** - oneiric_core operates as an infrastructure layer with programmatic configuration.
+
+---
+
+## Common Use Cases
+
+### 1. Creative Dream Session with Memory Consolidation
+```python
+from oneiric_core.tools import DreamOrchestrator
+
+orchestrator = DreamOrchestrator()
+
+# Start creative dream
+session = orchestrator.start_dream_session(
+    dream_type="creative",
+    duration=300,
+    consciousness_state={
+        "awareness": 0.8,
+        "emotion": "curious",
+        "focus": "problem_solving"
+    }
+)
+
+# Process insights as they emerge
+for insight in session.stream_insights():
+    if insight.significance > 0.7:
+        orchestrator.consolidate_insight(insight)
+
+# End and retrieve results
+results = orchestrator.end_dream_session(session.id)
+# Returns: {
+#   "consolidated_memories": [...],
+#   "creative_outputs": [...],
+#   "problem_solutions": [...]
+# }
+```
+
+### 2. Symbolic Network Analysis for Consciousness
+```python
+from oneiric_core.tools import SymbolicNetworkBridge
+
+bridge = SymbolicNetworkBridge()
+
+# Build consciousness network
+consciousness_nodes = [
+    {"id": "awareness", "type": "state", "value": 0.9},
+    {"id": "emotion", "type": "state", "value": "calm"},
+    {"id": "memory_access", "type": "capability", "value": 0.8},
+]
+
+network = bridge.build_symbolic_network(
+    nodes=consciousness_nodes,
+    edges=consciousness_relationships
+)
+
+# Find symbolic paths (how does awareness connect to memory?)
+paths = bridge.find_symbolic_paths(
+    source="awareness",
+    target="memory_access",
+    max_depth=2
+)
+
+# Analyze network topology
+analysis = bridge.analyze_network_topology(network)
+# Returns: centrality scores, community detection, bottlenecks
+```
+
+### 3. Dream-Enhanced Symbolic Transformation
+```python
+from oneiric_core.tools import DreamOrchestrator, SymbolicNetworkBridge
+
+orchestrator = DreamOrchestrator()
+bridge = SymbolicNetworkBridge()
+
+# Build initial network
+network = bridge.build_symbolic_network(nodes, edges)
+
+# Start dream session
+session = orchestrator.start_dream_session(
+    dream_type="exploratory",
+    symbolic_network=network
+)
+
+# Dream transforms network
+while session.is_active():
+    transformed = bridge.transform_network(
+        network=network,
+        transformation="dream_enhancement",
+        dream_insights=session.current_insights()
+    )
+    network = transformed
+
+# Consolidate transformed network
+final_network = orchestrator.end_dream_session(session.id)
+# Network now has dream-enhanced connections and insights
+```
+
+---
+
+## Advanced Features
+
+### Dream Session Types
+
+**Creative Dream**:
+- Focus: Novel idea generation
+- Duration: 5-10 minutes
+- Output: Creative concepts, unexpected connections
+
+**Problem-Solving Dream**:
+- Focus: Solution discovery
+- Duration: 3-7 minutes
+- Output: Problem solutions, alternative approaches
+
+**Exploratory Dream**:
+- Focus: Knowledge exploration
+- Duration: 10-15 minutes
+- Output: New connections, expanded understanding
+
+### Symbolic Network Operations
+
+**Network Construction**:
+- Build from consciousness states
+- Integrate memory relationships
+- Include emotional connections
+
+**Path Finding**:
+- Symbolic reasoning paths
+- Causal inference chains
+- Consciousness flow routes
+
+**Transformation**:
+- Dream enhancement
+- Consciousness integration
+- Memory consolidation
+
+---
+
+## Module Metadata
+
+- **Lane**: L2 Integration
+- **Schema Version**: 3.0.0
+- **Dependencies**: None (foundational)
+- **Entrypoints**: None (infrastructure)
+- **Python Files**: 2 (in tools/)
+- **Subdirectories**: 2 (tools/, __init__.py/)
+- **OpenTelemetry**: 1.37.0 semantic conventions
+- **Test Coverage**: 85%
+- **T4 Compliance**: 0.65 (experimental)
+
+---
+
+## Related Modules
+
+- **cognitive_core**: Advanced cognitive capabilities
+- **dream**: Dream system integration
+- **consciousness**: Consciousness processing
+- **memory**: Memory consolidation
+- **orchestration**: Multi-component orchestration
+
+---
+
+## T4/0.01% Quality Standards
+
+- ✅ **Foundational Infrastructure**: Core orchestration layer
+- ✅ **Dream Integration**: Complete dream processing framework
+- ✅ **Symbolic Networks**: Advanced graph-based reasoning
+- ✅ **Consciousness Coupling**: Full consciousness-core integration
+- ✅ **Performance**: All sub-second operation targets
+- ✅ **OpenTelemetry**: Full observability integration
+
+---
+
+**Documentation Status**: ✅ Complete
+**Last Updated**: 2025-10-18
+**Maintainer**: LUKHAS Core Team
+
+
+## 🚀 GA Deployment Status
+
+**Current Status**: 66.7% Ready (6/9 tasks complete)
+
+### Recent Milestones
+- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
+- ✅ **Dependency Audit**: 196 packages, 0 CVEs
+- ✅ **OpenAI Façade**: Full SDK compatibility validated
+- ✅ **Guardian MCP**: Production-ready deployment
+- ✅ **OpenAPI Schema**: Validated and documented
+
+### New Documentation
+- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
+- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
+- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
+
+### Recent Updates
+- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
+- OpenAI façade validation - Full SDK compatibility
+- Guardian MCP server deployment - Production ready
+- Shadow diff harness - Pre-audit validation framework
+- MATRIZ evaluation harness - Comprehensive testing
+
+**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
+
+---

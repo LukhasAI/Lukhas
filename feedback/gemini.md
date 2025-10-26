@@ -1,0 +1,320 @@
+# Gemini AI Navigation Context
+*This file is optimized for Gemini AI navigation and understanding*
+
+---
+title: gemini
+slug: gemini.md
+source: claude.me
+optimized_for: gemini_ai
+last_updated: 2025-10-26
+---
+
+# Feedback Module - Claude AI Context
+
+**Module**: feedback
+**Purpose**: User feedback collection, learning reports, and system improvement
+**Lane**: L2 (Integration)
+**Language**: Python
+**Last Updated**: 2025-10-18
+
+---
+
+## Module Overview
+
+The feedback module provides feedback collection and processing capabilities for LUKHAS AI, enabling user feedback capture, learning report generation, and continuous system improvement based on user input and system performance metrics.
+
+### Key Components
+- **Card System**: Feedback card system for structured feedback collection
+- **Feedback Collection**: User feedback aggregation and storage
+- **Learning Reports**: System learning and improvement tracking
+- **System Metrics**: Performance and quality metrics from feedback
+
+### Constellation Framework Integration
+- **📊 Flow Star**: Feedback flow and processing
+- **✦ Trail Star (Memory)**: Feedback history and patterns
+- **🔬 Horizon Star (Vision)**: Future improvements based on feedback
+- **⚛️ Anchor Star (Identity)**: User-attributed feedback
+
+---
+
+## Architecture
+
+### Core Feedback Components
+
+#### Card System
+**Module**: `feedback.card_system`
+**Purpose**: Structured feedback collection using card-based interface
+
+```python
+from feedback.card_system import (
+    create_feedback_card,
+    submit_feedback,
+    get_feedback_history,
+)
+
+# Create feedback card
+card = create_feedback_card(
+    type="consciousness_quality",
+    rating=5,
+    comment="Excellent awareness response",
+    user_id="user_123",
+    session_id="session_456"
+)
+
+# Submit feedback
+result = submit_feedback(card)
+
+# Retrieve feedback history
+history = get_feedback_history(
+    user_id="user_123",
+    time_range="7d"
+)
+```
+
+---
+
+## Feedback Types
+
+### 1. User Feedback
+**Purpose**: Direct user experience feedback
+
+```python
+# Consciousness quality feedback
+consciousness_feedback = {
+    "type": "consciousness_quality",
+    "rating": 1-5,
+    "aspects": ["awareness", "coherence", "relevance"],
+    "comment": "Free-form text"
+}
+
+# Memory system feedback
+memory_feedback = {
+    "type": "memory_quality",
+    "rating": 1-5,
+    "aspects": ["recall", "relevance", "speed"],
+    "comment": "Free-form text"
+}
+
+# Dream processing feedback
+dream_feedback = {
+    "type": "dream_quality",
+    "rating": 1-5,
+    "aspects": ["creativity", "coherence", "usefulness"],
+    "comment": "Free-form text"
+}
+```
+
+### 2. System Performance Feedback
+**Purpose**: Automated system performance metrics
+
+```python
+# Performance metrics
+performance_feedback = {
+    "type": "system_performance",
+    "latency_ms": 150,
+    "throughput": 100,
+    "error_rate": 0.001,
+    "timestamp": "2025-10-02T23:45:00Z"
+}
+```
+
+### 3. Learning Reports
+**Purpose**: System learning and improvement tracking
+
+```python
+# Learning report structure
+learning_report = {
+    "type": "learning_report",
+    "period": "7d",
+    "improvements": [
+        "Reduced latency by 20%",
+        "Improved consciousness coherence by 15%"
+    ],
+    "areas_for_improvement": [
+        "Memory recall speed",
+        "Dream creativity"
+    ],
+    "user_satisfaction": 4.5  # Average rating
+}
+```
+
+---
+
+## Observability
+
+### Required Spans
+
+```python
+# Required span from module.manifest.json
+REQUIRED_SPANS = [
+    "lukhas.feedback.operation",     # Feedback operations
+]
+```
+
+---
+
+## Module Structure
+
+```
+feedback/
+├── module.manifest.json         # Feedback manifest (schema v3.0.0)
+├── module.manifest.lock.json    # Locked manifest
+├── README.md                    # Feedback overview
+├── __init__.py                  # Module initialization
+├── card_system.py               # Feedback card system (UTILITY)
+├── config/                      # Feedback configuration
+├── docs/                        # Feedback documentation
+├── schema/                      # Feedback schemas
+└── tests/                       # Feedback test suites
+```
+
+---
+
+## Development Guidelines
+
+### 1. Collecting Feedback
+
+```python
+from feedback.card_system import create_feedback_card, submit_feedback
+
+# Create and submit feedback
+card = create_feedback_card(
+    type="user_experience",
+    rating=4,
+    comment="Great response, but slightly slow",
+    metadata={
+        "feature": "consciousness",
+        "session_duration": 120
+    }
+)
+
+submit_feedback(card)
+```
+
+### 2. Analyzing Feedback
+
+```python
+from feedback import analyze_feedback
+
+# Analyze feedback trends
+analysis = analyze_feedback(
+    time_range="30d",
+    groupby="type",
+    metrics=["average_rating", "count", "sentiment"]
+)
+
+# Results include:
+# - Average ratings by type
+# - Feedback volume trends
+# - Sentiment analysis
+# - Common themes
+```
+
+### 3. Generating Learning Reports
+
+```python
+from feedback import generate_learning_report
+
+# Generate comprehensive learning report
+report = generate_learning_report(
+    period="7d",
+    include_metrics=True,
+    include_recommendations=True
+)
+
+# Report includes:
+# - Performance improvements
+# - User satisfaction trends
+# - System learning progress
+# - Recommended actions
+```
+
+---
+
+## MATRIZ Pipeline Integration
+
+This module operates within the MATRIZ cognitive framework:
+
+- **M (Memory)**: Feedback history and pattern storage
+- **A (Attention)**: Focus on critical feedback
+- **T (Thought)**: Feedback analysis and insights
+- **R (Risk)**: Risk identification from negative feedback
+- **I (Intent)**: Understanding user intent in feedback
+- **A (Action)**: Improvements based on feedback
+
+---
+
+## Performance Targets
+
+- **Feedback Submission**: <100ms to submit
+- **Feedback Retrieval**: <200ms to retrieve history
+- **Learning Report Generation**: <5s for comprehensive report
+- **Feedback Analysis**: Real-time sentiment analysis
+- **Storage**: Infinite feedback retention
+
+---
+
+## Dependencies
+
+**Required Modules**: None (standalone module)
+
+**Integration Points**:
+- `serve` - Feedback API endpoints
+- `monitoring` - Performance metrics collection
+- `consciousness` - Consciousness quality feedback
+- `memory` - Memory system feedback
+
+---
+
+## Related Modules
+
+- **Serve** ([../serve/](../serve/)) - Feedback API endpoints
+- **Monitoring** ([../monitoring/](../monitoring/)) - System metrics
+- **Analytics** ([../analytics/](../analytics/)) - Feedback analytics
+
+---
+
+## Documentation
+
+- **README**: [feedback/README.md](README.md) - Feedback overview
+- **Docs**: [feedback/docs/](docs/) - Feedback collection guides
+- **Tests**: [feedback/tests/](tests/) - Feedback test suites
+- **Module Index**: [../MODULE_INDEX.md](../MODULE_INDEX.md#feedback)
+
+---
+
+**Status**: Integration Lane (L2)
+**Manifest**: ✓ module.manifest.json (schema v3.0.0)
+**Team**: Core
+**Code Owners**: @lukhas-core
+**Components**: 1 component (card_system.py)
+**Test Coverage**: 85.0%
+**Last Updated**: 2025-10-18
+
+
+## 🚀 GA Deployment Status
+
+**Current Status**: 66.7% Ready (6/9 tasks complete)
+
+### Recent Milestones
+- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
+- ✅ **Dependency Audit**: 196 packages, 0 CVEs
+- ✅ **OpenAI Façade**: Full SDK compatibility validated
+- ✅ **Guardian MCP**: Production-ready deployment
+- ✅ **OpenAPI Schema**: Validated and documented
+
+### New Documentation
+- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
+- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
+- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
+
+### Recent Updates
+- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
+- OpenAI façade validation - Full SDK compatibility
+- Guardian MCP server deployment - Production ready
+- Shadow diff harness - Pre-audit validation framework
+- MATRIZ evaluation harness - Comprehensive testing
+
+**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
+
+---

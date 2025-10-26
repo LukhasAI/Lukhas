@@ -1,0 +1,484 @@
+# Gemini AI Navigation Context
+*This file is optimized for Gemini AI navigation and understanding*
+
+---
+title: gemini
+slug: gemini.md
+source: claude.me
+optimized_for: gemini_ai
+last_updated: 2025-10-26
+---
+
+# Prometheus Module - LUKHAS Metrics Collection & Alerting
+
+**Module**: prometheus
+**Lane**: L2 Integration
+**Team**: Core
+**Purpose**: Prometheus metrics collection, storage, and alert rule configuration for LUKHAS monitoring
+
+---
+
+## Overview
+
+The prometheus module provides Prometheus configuration, alert rules, and service discovery for LUKHAS AI system monitoring. This module collects metrics from all LUKHAS components, stores time-series data, evaluates alert rules, and integrates with Alertmanager for notification delivery.
+
+**Key Features**:
+- Pre-configured scrape targets for LUKHAS services
+- Alert rule definitions for critical conditions
+- SLO (Service Level Objective) monitoring
+- Long-term metric storage
+- Federation support for multi-cluster deployments
+
+---
+
+## Architecture
+
+### Module Structure
+
+```
+prometheus/
+├── README.md                    # Module overview
+├── module.manifest.json         # Module metadata
+├── prometheus.yml               # Main Prometheus configuration
+├── rules/
+│   ├── lukhas-core.yml         # Core LUKHAS alert rules
+│   └── slos.yml                # Service Level Objective rules
+├── config/
+│   ├── config.yaml             # Module configuration
+│   ├── environment.yaml        # Environment-specific settings
+│   └── logging.yaml            # Logging configuration
+├── docs/                        # Documentation
+└── tests/                       # Configuration tests
+```
+
+---
+
+## Core Components
+
+### 1. Prometheus Configuration
+
+**Main Config**: `prometheus.yml`
+
+```yaml
+global:
+  scrape_interval: 15s          # Scrape targets every 15 seconds
+  evaluation_interval: 15s      # Evaluate rules every 15 seconds
+  scrape_timeout: 10s
+  external_labels:
+    cluster: 'lukhas-production'
+    environment: 'production'
+
+# Alertmanager integration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+            - alertmanager:9093
+
+# Alert rule files
+rule_files:
+  - 'rules/lukhas-core.yml'
+  - 'rules/slos.yml'
+
+# Scrape configurations
+scrape_configs:
+  # Prometheus self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # LUKHAS services
+  - job_name: 'lukhas-services'
+    static_configs:
+      - targets:
+          - 'consciousness-service:8080'
+          - 'memory-service:8080'
+          - 'identity-service:8080'
+          - 'guardian-service:8080'
+          - 'brain-service:8080'
+    metric_relabel_configs:
+      - source_labels: [__name__]
+        regex: 'lukhas_.*'
+        action: keep
+
+  # Node exporters
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets:
+          - 'node-exporter:9100'
+
+  # OpenTelemetry Collector
+  - job_name: 'otel-collector'
+    static_configs:
+      - targets:
+          - 'otel-collector:8889'
+```
+
+---
+
+### 2. Alert Rules (`rules/lukhas-core.yml`)
+
+#### Critical Alerts
+
+```yaml
+groups:
+  - name: lukhas_critical
+    interval: 15s
+    rules:
+      # Service down alerts
+      - alert: LUKHASServiceDown
+        expr: up{job=~"lukhas-.*"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          component: "{{ $labels.job }}"
+        annotations:
+          summary: "LUKHAS service {{ $labels.job }} is down"
+          description: "Service {{ $labels.job }} on {{ $labels.instance }} has been down for more than 1 minute."
+
+      # Memory cascade alert
+      - alert: MemoryCascadeRisk
+        expr: lukhas_memory_fold_count / lukhas_memory_fold_limit > 0.95
+        for: 5m
+        labels:
+          severity: critical
+          component: memory
+        annotations:
+          summary: "Memory approaching cascade risk"
+          description: "Memory fold usage at {{ $value | humanizePercentage }}. Cascade prevention may fail above 95%."
+
+      # Guardian system failure
+      - alert: GuardianSystemFailure
+        expr: rate(lukhas_guardian_violations_detected[5m]) == 0 AND rate(lukhas_guardian_checks_total[5m]) > 0
+        for: 10m
+        labels:
+          severity: critical
+          component: guardian
+        annotations:
+          summary: "Guardian system not detecting violations"
+          description: "Guardian receiving checks but detecting zero violations for 10 minutes. System may be failing silently."
+
+      # Consciousness drift exceeded
+      - alert: ConsciousnessDriftExceeded
+        expr: lukhas_consciousness_drift > 0.15
+        for: 2m
+        labels:
+          severity: critical
+          component: consciousness
+        annotations:
+          summary: "Consciousness drift exceeded threshold"
+          description: "Consciousness drift at {{ $value }}, exceeding 0.15 threshold. Realignment required."
+
+      # Identity authentication failures
+      - alert: HighAuthenticationFailureRate
+        expr: rate(lukhas_identity_auth_failures[5m]) / rate(lukhas_identity_auth_attempts[5m]) > 0.10
+        for: 5m
+        labels:
+          severity: critical
+          component: identity
+        annotations:
+          summary: "High authentication failure rate"
+          description: "Authentication failure rate at {{ $value | humanizePercentage }}, exceeding 10% threshold."
+```
+
+#### Warning Alerts
+
+```yaml
+  - name: lukhas_warnings
+    interval: 30s
+    rules:
+      # High API latency
+      - alert: HighAPILatency
+        expr: histogram_quantile(0.95, rate(lukhas_api_request_duration_seconds_bucket[5m])) > 0.5
+        for: 10m
+        labels:
+          severity: warning
+          component: api
+        annotations:
+          summary: "High API latency detected"
+          description: "API p95 latency at {{ $value | humanizeDuration }}, exceeding 500ms threshold."
+
+      # Memory fold usage warning
+      - alert: MemoryFoldUsageHigh
+        expr: lukhas_memory_fold_count / lukhas_memory_fold_limit > 0.80
+        for: 15m
+        labels:
+          severity: warning
+          component: memory
+        annotations:
+          summary: "Memory fold usage high"
+          description: "Memory fold usage at {{ $value | humanizePercentage }}. Consider increasing capacity or archiving old folds."
+
+      # MATRIZ pipeline slow
+      - alert: MATRIZPipelineSlow
+        expr: histogram_quantile(0.95, rate(lukhas_matriz_pipeline_duration_seconds_bucket[5m])) > 0.25
+        for: 10m
+        labels:
+          severity: warning
+          component: matriz
+        annotations:
+          summary: "MATRIZ pipeline latency high"
+          description: "MATRIZ pipeline p95 latency at {{ $value | humanizeDuration }}, exceeding 250ms target."
+
+      # Circuit breaker opened
+      - alert: CircuitBreakerOpen
+        expr: lukhas_circuit_breaker_state == 1
+        for: 5m
+        labels:
+          severity: warning
+          component: "{{ $labels.component }}"
+        annotations:
+          summary: "Circuit breaker opened for {{ $labels.component }}"
+          description: "Circuit breaker for {{ $labels.component }} has been open for 5 minutes. Downstream service may be failing."
+```
+
+---
+
+### 3. SLO Rules (`rules/slos.yml`)
+
+Service Level Objectives monitoring:
+
+```yaml
+groups:
+  - name: lukhas_slos
+    interval: 1m
+    rules:
+      # API availability SLO (99.9%)
+      - record: lukhas:api:availability:ratio_rate5m
+        expr: |
+          sum(rate(lukhas_api_requests_total{status!~"5.."}[5m])) /
+          sum(rate(lukhas_api_requests_total[5m]))
+
+      - alert: APIAvailabilitySLOViolation
+        expr: lukhas:api:availability:ratio_rate5m < 0.999
+        for: 5m
+        labels:
+          severity: warning
+          slo: api_availability
+        annotations:
+          summary: "API availability SLO violation"
+          description: "API availability at {{ $value | humanizePercentage }}, below 99.9% SLO."
+
+      # API latency SLO (p95 < 100ms)
+      - record: lukhas:api:latency:p95_5m
+        expr: histogram_quantile(0.95, rate(lukhas_api_request_duration_seconds_bucket[5m]))
+
+      - alert: APILatencySLOViolation
+        expr: lukhas:api:latency:p95_5m > 0.1
+        for: 10m
+        labels:
+          severity: warning
+          slo: api_latency
+        annotations:
+          summary: "API latency SLO violation"
+          description: "API p95 latency at {{ $value | humanizeDuration }}, exceeding 100ms SLO."
+
+      # Memory cascade prevention SLO (99.7%)
+      - record: lukhas:memory:cascade_prevention:success_rate_5m
+        expr: |
+          sum(rate(lukhas_memory_cascade_prevented[5m])) /
+          sum(rate(lukhas_memory_cascade_attempts[5m]))
+
+      - alert: CascadePreventionSLOViolation
+        expr: lukhas:memory:cascade_prevention:success_rate_5m < 0.997
+        for: 5m
+        labels:
+          severity: critical
+          slo: cascade_prevention
+        annotations:
+          summary: "Cascade prevention SLO violation"
+          description: "Cascade prevention success rate at {{ $value | humanizePercentage }}, below 99.7% SLO."
+```
+
+---
+
+## Metric Naming Conventions
+
+LUKHAS metrics follow consistent naming:
+
+```
+lukhas_<component>_<metric_name>_<unit>
+
+Examples:
+- lukhas_consciousness_drift (gauge, no unit)
+- lukhas_memory_fold_count (gauge, count)
+- lukhas_api_requests_total (counter, total)
+- lukhas_matriz_pipeline_duration_seconds (histogram, seconds)
+- lukhas_identity_auth_attempts (counter, total)
+```
+
+**Metric Types**:
+- **Counter**: Cumulative values (requests_total, errors_total)
+- **Gauge**: Point-in-time values (fold_count, drift, active_sessions)
+- **Histogram**: Distribution of values (latency, duration)
+- **Summary**: Similar to histogram, with quantiles
+
+---
+
+## Configuration
+
+### Storage Configuration
+
+```yaml
+storage:
+  tsdb:
+    path: /prometheus/data
+    retention:
+      time: 90d              # Keep metrics for 90 days
+      size: 100GB            # Max storage size
+    wal_compression: true
+
+  remote_write:              # Optional: long-term storage
+    - url: https://prometheus-remote.lukhas.ai/api/v1/write
+      queue_config:
+        capacity: 10000
+        max_shards: 50
+```
+
+### Federation (Multi-Cluster)
+
+```yaml
+scrape_configs:
+  - job_name: 'federate'
+    scrape_interval: 60s
+    honor_labels: true
+    metrics_path: '/federate'
+    params:
+      'match[]':
+        - '{job=~"lukhas-.*"}'
+        - 'up'
+    static_configs:
+      - targets:
+          - 'prometheus-cluster-1:9090'
+          - 'prometheus-cluster-2:9090'
+```
+
+---
+
+## Deployment
+
+### Docker Deployment
+
+```dockerfile
+FROM prom/prometheus:latest
+
+# Copy configuration
+COPY prometheus.yml /etc/prometheus/prometheus.yml
+COPY rules/ /etc/prometheus/rules/
+
+# Expose ports
+EXPOSE 9090
+
+# Run Prometheus
+CMD ["--config.file=/etc/prometheus/prometheus.yml", \
+     "--storage.tsdb.path=/prometheus", \
+     "--storage.tsdb.retention.time=90d", \
+     "--web.enable-lifecycle"]
+```
+
+### Docker Compose
+
+```yaml
+version: '3.8'
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./rules:/etc/prometheus/rules
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=90d'
+      - '--web.enable-lifecycle'
+    depends_on:
+      - alertmanager
+
+  alertmanager:
+    image: prom/alertmanager:latest
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml
+
+volumes:
+  prometheus-data:
+```
+
+---
+
+## Performance Targets
+
+- **Scrape Duration**: <1 second per scrape
+- **Rule Evaluation**: <5 seconds per evaluation cycle
+- **Query Latency**: <1 second for simple queries, <10 seconds for complex
+- **Storage**: <100GB for 90-day retention with 15s scrape interval
+
+---
+
+## Observability
+
+**Required Spans**:
+- `lukhas.prometheus.operation`
+
+**Metrics** (Prometheus self-monitoring):
+- `prometheus_tsdb_storage_blocks_bytes`
+- `prometheus_rule_evaluation_duration_seconds`
+- `prometheus_target_scrape_duration_seconds`
+
+---
+
+## Related Modules
+
+- **grafana/**: Visualization frontend
+- **monitoring/**: Alert definitions and thresholds
+- **telemetry/**: Metric instrumentation
+- **alertmanager/**: Alert routing and notification (separate service)
+
+---
+
+## Quick Reference
+
+| Port | Service | Purpose |
+|------|---------|---------|
+| 9090 | Prometheus UI | Web UI and query interface |
+| 9093 | Alertmanager | Alert management |
+| 9100 | Node Exporter | System metrics |
+| 8889 | OTEL Collector | OpenTelemetry metrics |
+
+**Module Status**: L2 Integration
+**Schema Version**: 1.0.0
+**Last Updated**: 2025-10-18
+**Philosophy**: Measure everything, alert on what matters, store for the long term.
+
+
+## 🚀 GA Deployment Status
+
+**Current Status**: 66.7% Ready (6/9 tasks complete)
+
+### Recent Milestones
+- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
+- ✅ **Dependency Audit**: 196 packages, 0 CVEs
+- ✅ **OpenAI Façade**: Full SDK compatibility validated
+- ✅ **Guardian MCP**: Production-ready deployment
+- ✅ **OpenAPI Schema**: Validated and documented
+
+### New Documentation
+- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
+- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
+- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
+
+### Recent Updates
+- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
+- OpenAI façade validation - Full SDK compatibility
+- Guardian MCP server deployment - Production ready
+- Shadow diff harness - Pre-audit validation framework
+- MATRIZ evaluation harness - Comprehensive testing
+
+**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
+
+---

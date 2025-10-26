@@ -1,0 +1,506 @@
+# Gemini AI Navigation Context
+*This file is optimized for Gemini AI navigation and understanding*
+
+---
+title: gemini
+slug: gemini.md
+source: claude.me
+optimized_for: gemini_ai
+last_updated: 2025-10-26
+---
+
+# Ops Module - Claude AI Context
+
+**Module**: ops
+**Purpose**: Operations management, monitoring, and system administration
+**Lane**: L2 (Integration)
+**Language**: Python
+**Last Updated**: 2025-10-18
+
+---
+
+## Module Overview
+
+The ops module provides comprehensive operations management for LUKHAS AI, including system administration, incident response, operational monitoring, and infrastructure management. It serves as the operational backbone for production systems, ensuring reliability, availability, and maintainability.
+
+### Key Components
+- **System Operations**: Daily operational tasks and automation
+- **Incident Response**: Incident detection and response workflows
+- **Infrastructure Management**: Infrastructure provisioning and management
+- **Operational Monitoring**: Real-time system health monitoring
+- **Maintenance Automation**: Scheduled maintenance and updates
+
+### Constellation Framework Integration
+- **🛡️ Watch Star (Guardian)**: Security operations and incident response
+- **✦ Trail Star (Memory)**: Operational history and runbook knowledge
+- **⚛️ Anchor Star (Identity)**: Access control and operations authentication
+- **🔬 Horizon Star (Vision)**: Operational visibility and dashboards
+
+---
+
+## Architecture
+
+### Operational Domains
+
+The ops module manages operations across these key domains:
+
+#### 1. System Operations
+**Purpose**: Day-to-day operational tasks
+
+```python
+from ops import (
+    perform_health_check,
+    restart_service,
+    scale_service,
+    get_system_status,
+)
+
+# Perform system health check
+health = perform_health_check(
+    services=["consciousness", "memory", "identity"],
+    deep_check=True
+)
+
+# Restart service if needed
+if health["consciousness"]["status"] == "degraded":
+    restart_service("consciousness", graceful=True)
+
+# Scale service based on load
+scale_service(
+    service="memory",
+    instances=5,
+    strategy="gradual"
+)
+```
+
+---
+
+#### 2. Incident Response
+**Purpose**: Automated incident detection and response
+
+```python
+from ops.incident import (
+    detect_incidents,
+    create_incident,
+    escalate_incident,
+    resolve_incident,
+)
+
+# Detect anomalies and incidents
+incidents = detect_incidents(
+    time_window="5m",
+    severity_threshold="warning"
+)
+
+# Create incident for tracking
+incident = create_incident(
+    title="High memory usage detected",
+    severity="high",
+    affected_services=["memory"],
+    auto_assign=True
+)
+
+# Escalate if unresolved
+if incident.duration > 600:  # 10 minutes
+    escalate_incident(incident.id, level="critical")
+```
+
+---
+
+#### 3. Infrastructure Management
+**Purpose**: Infrastructure provisioning and configuration
+
+```python
+from ops.infrastructure import (
+    provision_resources,
+    configure_infrastructure,
+    get_resource_utilization,
+)
+
+# Provision new resources
+resources = provision_resources(
+    type="compute",
+    count=3,
+    region="us-east-1",
+    tags={"service": "consciousness"}
+)
+
+# Configure infrastructure
+configure_infrastructure(
+    resources=resources,
+    configuration={
+        "cpu_limit": "2000m",
+        "memory_limit": "4Gi",
+        "disk_size": "50Gi"
+    }
+)
+
+# Monitor resource utilization
+utilization = get_resource_utilization(
+    resources=resources,
+    metrics=["cpu", "memory", "disk"]
+)
+```
+
+---
+
+#### 4. Operational Monitoring
+**Purpose**: Real-time monitoring and alerting
+
+```python
+from ops.monitoring import (
+    monitor_services,
+    configure_alerts,
+    get_alert_history,
+)
+
+# Monitor critical services
+monitor_services(
+    services=["consciousness", "memory", "guardian"],
+    interval=60,  # seconds
+    alert_on_failure=True
+)
+
+# Configure alerting rules
+configure_alerts(
+    rules=[
+        {
+            "metric": "cpu_usage",
+            "threshold": 80,
+            "severity": "warning"
+        },
+        {
+            "metric": "error_rate",
+            "threshold": 0.01,
+            "severity": "critical"
+        }
+    ]
+)
+```
+
+---
+
+#### 5. Maintenance Automation
+**Purpose**: Scheduled maintenance and updates
+
+```python
+from ops.maintenance import (
+    schedule_maintenance,
+    perform_backup,
+    update_system,
+    verify_integrity,
+)
+
+# Schedule maintenance window
+maintenance = schedule_maintenance(
+    start_time="2025-10-03T02:00:00Z",
+    duration_hours=2,
+    services=["memory", "consciousness"],
+    auto_notify=True
+)
+
+# Perform system backup
+backup = perform_backup(
+    services=["memory", "identity"],
+    destination="s3://lukhas-backups/",
+    verify=True
+)
+
+# Update system components
+update_system(
+    components=["consciousness", "memory"],
+    version="2.1.0",
+    strategy="rolling"
+)
+```
+
+---
+
+## Module Structure
+
+```
+ops/
+├── module.manifest.json         # Ops manifest (schema v1.0.0)
+├── module.manifest.lock.json    # Locked manifest
+├── README.md                    # Ops overview
+├── config/                      # Ops configuration
+├── docs/                        # Ops documentation
+│   ├── runbooks/               # Operational runbooks
+│   ├── playbooks/              # Incident response playbooks
+│   └── procedures/             # Standard operating procedures
+├── schema/                      # Ops schemas
+└── tests/                       # Ops tests
+    ├── conftest.py
+    ├── test_ops_unit.py
+    └── test_ops_integration.py
+```
+
+---
+
+## Operational Runbooks
+
+### Critical System Runbooks
+
+**High Availability Runbook**:
+- Service health checks
+- Failover procedures
+- Load balancing configuration
+- Recovery procedures
+
+**Incident Response Runbook**:
+- Incident detection
+- Triage procedures
+- Escalation protocols
+- Post-incident review
+
+**Backup & Recovery Runbook**:
+- Backup procedures
+- Recovery testing
+- Disaster recovery plans
+- Data integrity verification
+
+---
+
+## Observability
+
+### Required Spans
+
+```python
+# Required span from module.manifest.json
+REQUIRED_SPANS = [
+    "lukhas.ops.operation",     # Operations tracking
+]
+```
+
+### Operational Metrics
+
+The ops system tracks:
+- **System Uptime**: 99.9% uptime target
+- **Mean Time to Recovery (MTTR)**: <15 minutes
+- **Mean Time Between Failures (MTBF)**: >30 days
+- **Incident Response Time**: <5 minutes
+- **Change Success Rate**: >95%
+
+---
+
+## Standard Operating Procedures (SOPs)
+
+### 1. Service Restart Procedure
+
+```bash
+# Graceful service restart
+ops restart-service consciousness --graceful --wait
+ops health-check consciousness --deep
+ops verify-metrics consciousness --window=5m
+```
+
+### 2. Scaling Procedure
+
+```bash
+# Scale up service
+ops scale-service memory --instances=10 --strategy=gradual
+ops monitor-scaling memory --duration=10m
+ops verify-capacity memory
+```
+
+### 3. Incident Response Procedure
+
+```bash
+# Respond to incident
+ops detect-incident --severity=high
+ops create-incident --title="Service degradation" --service=consciousness
+ops investigate-incident <incident-id>
+ops resolve-incident <incident-id> --root-cause="Memory leak fixed"
+```
+
+---
+
+## Development Guidelines
+
+### 1. Adding Operational Automation
+
+```python
+from ops import OperationalTask
+
+# Define operational task
+@OperationalTask(
+    name="cleanup_old_folds",
+    schedule="0 2 * * *",  # Daily at 2 AM
+    timeout=3600
+)
+def cleanup_old_folds():
+    """Clean up memory folds older than 30 days"""
+    from memory import get_old_folds, delete_folds
+
+    old_folds = get_old_folds(days=30)
+    delete_folds(old_folds, verify=True)
+```
+
+### 2. Creating Monitoring Checks
+
+```python
+from ops.monitoring import HealthCheck
+
+# Define health check
+@HealthCheck(
+    name="consciousness_health",
+    interval=60,
+    severity="critical"
+)
+def check_consciousness_health():
+    """Check consciousness system health"""
+    from consciousness import get_consciousness_status
+
+    status = get_consciousness_status()
+    if status["awareness_level"] < 0.5:
+        return {
+            "healthy": False,
+            "reason": "Low awareness level"
+        }
+    return {"healthy": True}
+```
+
+### 3. Incident Response Automation
+
+```python
+from ops.incident import IncidentHandler
+
+# Define incident handler
+@IncidentHandler(
+    trigger="high_cpu_usage",
+    auto_resolve=True
+)
+def handle_high_cpu(incident):
+    """Handle high CPU usage incident"""
+    # Scale service
+    scale_service(incident.service, instances="+2")
+
+    # Monitor for 5 minutes
+    monitor_metrics(incident.service, duration=300)
+
+    # Resolve if metrics improve
+    if cpu_usage < 70:
+        incident.resolve("Auto-scaled successfully")
+```
+
+---
+
+## MATRIZ Pipeline Integration
+
+This module operates within the MATRIZ cognitive framework:
+
+- **M (Memory)**: Operational history and runbook knowledge
+- **A (Attention)**: Focus on critical incidents and alerts
+- **T (Thought)**: Decision making in incident response
+- **R (Risk)**: Risk assessment for operational changes
+- **I (Intent)**: Intent understanding for automation
+- **A (Action)**: Automated operational actions
+
+---
+
+## Performance Targets
+
+- **Incident Detection**: <1 minute from occurrence
+- **Incident Response**: <5 minutes to first action
+- **System Recovery**: <15 minutes MTTR
+- **Health Check**: <10 seconds for full system check
+- **Automation Execution**: <2 minutes for standard tasks
+
+---
+
+## On-Call Procedures
+
+### 1. Escalation Matrix
+
+**Level 1**: Automated response
+- Automatic scaling
+- Service restart
+- Cache clearing
+
+**Level 2**: On-call engineer
+- Manual investigation
+- Root cause analysis
+- Temporary fixes
+
+**Level 3**: Senior engineering
+- Architecture decisions
+- Complex troubleshooting
+- System redesign
+
+### 2. Communication Protocols
+
+- **P0 (Critical)**: Immediate notification to all stakeholders
+- **P1 (High)**: Notification within 15 minutes
+- **P2 (Medium)**: Notification within 1 hour
+- **P3 (Low)**: Daily summary
+
+---
+
+## Dependencies
+
+**Required Modules**: None (infrastructure module)
+
+**Operational Dependencies**:
+- Monitoring systems (Prometheus, Grafana)
+- Alerting systems (PagerDuty, Opsgenie)
+- CI/CD pipelines
+- Infrastructure as Code (Terraform)
+
+---
+
+## Related Modules
+
+- **CI** ([../ci/](../ci/)) - Continuous integration
+- **Deployment** ([../deployment/](../deployment/)) - Deployment automation
+- **Monitoring** ([../monitoring/](../monitoring/)) - System monitoring
+- **Docker** ([../docker/](../docker/)) - Container operations
+
+---
+
+## Documentation
+
+- **README**: [ops/README.md](README.md) - Ops overview
+- **Docs**: [ops/docs/](docs/) - Operational documentation
+  - **Runbooks**: [ops/docs/runbooks/](docs/runbooks/) - Operational runbooks
+  - **Playbooks**: [ops/docs/playbooks/](docs/playbooks/) - Incident playbooks
+  - **Procedures**: [ops/docs/procedures/](docs/procedures/) - SOPs
+- **Tests**: [ops/tests/](tests/) - Ops test suites
+- **Module Index**: [../MODULE_INDEX.md](../MODULE_INDEX.md#ops)
+
+---
+
+**Status**: Integration Lane (L2)
+**Manifest**: ✓ module.manifest.json (schema v1.0.0)
+**Team**: Core
+**Code Owners**: @lukhas-core
+**Uptime Target**: 99.9%
+**MTTR Target**: <15 minutes
+**Last Updated**: 2025-10-18
+
+
+## 🚀 GA Deployment Status
+
+**Current Status**: 66.7% Ready (6/9 tasks complete)
+
+### Recent Milestones
+- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
+- ✅ **Dependency Audit**: 196 packages, 0 CVEs
+- ✅ **OpenAI Façade**: Full SDK compatibility validated
+- ✅ **Guardian MCP**: Production-ready deployment
+- ✅ **OpenAPI Schema**: Validated and documented
+
+### New Documentation
+- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
+- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
+- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
+
+### Recent Updates
+- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
+- OpenAI façade validation - Full SDK compatibility
+- Guardian MCP server deployment - Production ready
+- Shadow diff harness - Pre-audit validation framework
+- MATRIZ evaluation harness - Comprehensive testing
+
+**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
+
+---

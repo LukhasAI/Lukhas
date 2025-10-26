@@ -1,0 +1,444 @@
+# Gemini AI Navigation Context
+*This file is optimized for Gemini AI navigation and understanding*
+
+---
+title: gemini
+slug: gemini.md
+source: claude.me
+optimized_for: gemini_ai
+last_updated: 2025-10-26
+---
+
+# Alerts Module - LUKHAS Alert Rules & Configurations
+
+**Module**: alerts
+**Lane**: L2 Integration
+**Team**: Core
+**Purpose**: Alert rule definitions, alert configurations, and alerting infrastructure for LUKHAS monitoring
+
+---
+
+## Overview
+
+The alerts module contains Prometheus alert rule definitions, Alertmanager configurations, and alert-related infrastructure for LUKHAS AI system monitoring. This module defines when alerts fire, their severity levels, and how they should be routed to notification channels.
+
+**Key Features**:
+- Alert rule definitions (YAML)
+- Alert severity classification
+- Alert routing configurations
+- Testing frameworks for alert rules
+- Drift detection alerts (EMA-based)
+- Unrouted signal alerts
+
+---
+
+## Architecture
+
+### Module Structure
+
+```
+alerts/
+├── README.md                    # Module overview
+├── module.manifest.json         # Module metadata
+├── rules_with_tests.yaml       # Alert rules with embedded tests
+├── lukhas_drift_ema.json       # Drift detection alert configs
+├── lukhas_unrouted_signals.json # Unrouted signal alert configs
+├── config/
+│   ├── config.yaml             # Alert configuration
+│   ├── environment.yaml        # Environment-specific settings
+│   └── logging.yaml            # Logging configuration
+├── docs/                        # Documentation
+└── tests/                       # Alert rule tests
+```
+
+---
+
+## Core Components
+
+### 1. Alert Rules with Tests (`rules_with_tests.yaml`)
+
+**Purpose**: Production alert rules with embedded unit tests for validation.
+
+**Structure**:
+```yaml
+groups:
+  - name: lukhas_critical_alerts
+    interval: 15s
+    rules:
+      - alert: MemoryCascadeRisk
+        expr: lukhas_memory_fold_count / lukhas_memory_fold_limit > 0.95
+        for: 5m
+        labels:
+          severity: critical
+          component: memory
+        annotations:
+          summary: "Memory cascade risk detected"
+          description: "Fold usage at {{ $value | humanizePercentage }}. Cascade prevention may fail."
+
+      # Embedded tests
+      - alert_tests:
+          - eval_time: 10m
+            alertname: MemoryCascadeRisk
+            exp_alerts:
+              - exp_labels:
+                  severity: critical
+                  component: memory
+                exp_annotations:
+                  summary: "Memory cascade risk detected"
+```
+
+**Alert Categories**:
+- **Critical**: Immediate action required (service down, cascade risk, drift exceeded)
+- **Warning**: Attention needed (high latency, resource usage)
+- **Info**: Informational (configuration changes, deployments)
+
+---
+
+### 2. Drift Detection Alerts (`lukhas_drift_ema.json`)
+
+**Purpose**: Alerts for consciousness drift detection using Exponential Moving Average.
+
+**Alert Definitions**:
+
+```json
+{
+  "alerts": [
+    {
+      "name": "DriftExceededThreshold",
+      "expr": "lukhas_consciousness_drift > 0.15",
+      "for": "2m",
+      "severity": "critical",
+      "summary": "Consciousness drift exceeded 0.15 threshold",
+      "runbook": "https://docs.lukhas.ai/runbooks/drift-realignment"
+    },
+    {
+      "name": "DriftEMATrendIncreasing",
+      "expr": "deriv(lukhas_drift_ema{alpha=0.1}[5m]) > 0.01",
+      "for": "10m",
+      "severity": "warning",
+      "summary": "Drift EMA trend increasing",
+      "description": "Drift EMA showing upward trend, potential realignment needed soon"
+    },
+    {
+      "name": "DriftRealalignmentFailed",
+      "expr": "increase(lukhas_drift_realignment_failures[5m]) > 0",
+      "for": "1m",
+      "severity": "critical",
+      "summary": "Drift realignment failed",
+      "description": "Automatic drift realignment failed, manual intervention required"
+    }
+  ]
+}
+```
+
+**Key Metrics**:
+- `lukhas_consciousness_drift`: Current drift value
+- `lukhas_drift_ema`: EMA-smoothed drift trend
+- `lukhas_drift_realignment_events`: Realignment count
+- `lukhas_drift_realignment_failures`: Failed realignments
+
+---
+
+### 3. Unrouted Signals Alerts (`lukhas_unrouted_signals.json`)
+
+**Purpose**: Alerts for signals that fail to route through LUKHAS components.
+
+**Alert Definitions**:
+
+```json
+{
+  "alerts": [
+    {
+      "name": "HighUnroutedSignalRate",
+      "expr": "rate(lukhas_signals_unrouted_total[5m]) > 10",
+      "for": "5m",
+      "severity": "warning",
+      "summary": "High unrouted signal rate detected",
+      "description": "More than 10 signals/sec failing to route. Check component connectivity."
+    },
+    {
+      "name": "SignalRoutingCompleteFailure",
+      "expr": "lukhas_signals_routing_success_rate < 0.5",
+      "for": "2m",
+      "severity": "critical",
+      "summary": "Signal routing success rate below 50%",
+      "description": "Signal routing critically degraded. Immediate investigation required."
+    },
+    {
+      "name": "UnroutedSignalsByComponent",
+      "expr": "sum by (component) (rate(lukhas_signals_unrouted_total[5m])) > 5",
+      "for": "10m",
+      "severity": "warning",
+      "summary": "High unrouted signals from {{ $labels.component }}",
+      "description": "Component {{ $labels.component }} generating excessive unrouted signals."
+    }
+  ]
+}
+```
+
+---
+
+## Alert Severity Levels
+
+### Critical Alerts
+**Response Time**: Immediate (on-call notification)
+**Examples**:
+- Service completely down
+- Memory cascade imminent (>95% fold usage)
+- Consciousness drift exceeded threshold (>0.15)
+- Guardian system failure
+- Authentication system failure (>10% failure rate)
+
+### Warning Alerts
+**Response Time**: Within 30 minutes
+**Examples**:
+- High API latency (p95 >500ms)
+- Memory fold usage high (>80%)
+- MATRIZ pipeline slow (p95 >250ms)
+- Circuit breaker opened
+- Drift EMA trending upward
+
+### Info Alerts
+**Response Time**: Next business day
+**Examples**:
+- Configuration changes
+- Deployment completed
+- Routine maintenance scheduled
+- Dashboard usage statistics
+
+---
+
+## Alert Routing Configuration
+
+### Alertmanager Configuration
+
+```yaml
+route:
+  group_by: ['severity', 'component']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 4h
+  receiver: 'lukhas-ops'
+
+  routes:
+    # Critical alerts - page on-call immediately
+    - match:
+        severity: critical
+      receiver: 'pagerduty'
+      continue: true
+
+    # Warning alerts - notify Slack
+    - match:
+        severity: warning
+      receiver: 'slack-warnings'
+
+    # Info alerts - email only
+    - match:
+        severity: info
+      receiver: 'email-info'
+
+receivers:
+  - name: 'lukhas-ops'
+    webhook_configs:
+      - url: 'http://lukhas-ops-webhook:9095/alerts'
+
+  - name: 'pagerduty'
+    pagerduty_configs:
+      - service_key: '${PAGERDUTY_SERVICE_KEY}'
+
+  - name: 'slack-warnings'
+    slack_configs:
+      - api_url: '${SLACK_WEBHOOK_URL}'
+        channel: '#lukhas-alerts'
+
+  - name: 'email-info'
+    email_configs:
+      - to: 'lukhas-ops@lukhas.ai'
+```
+
+---
+
+## Testing Alert Rules
+
+### Unit Testing Alert Rules
+
+Embedded tests in `rules_with_tests.yaml`:
+
+```yaml
+- alert_tests:
+    # Test: Alert fires when fold usage exceeds 95%
+    - eval_time: 10m
+      alertname: MemoryCascadeRisk
+      exp_alerts:
+        - exp_labels:
+            severity: critical
+            component: memory
+          exp_annotations:
+            summary: "Memory cascade risk detected"
+
+    # Test: Alert does not fire when usage is 90%
+    - eval_time: 5m
+      alertname: MemoryCascadeRisk
+      exp_alerts: []
+```
+
+**Run Tests**:
+```bash
+promtool test rules rules_with_tests.yaml
+```
+
+---
+
+## Alert Best Practices
+
+### 1. Actionable Alerts
+Every alert must have clear actions:
+- **Summary**: What is wrong?
+- **Description**: Why it matters
+- **Runbook**: How to fix it
+
+### 2. Proper Severity
+- **Critical**: System is broken or will break soon
+- **Warning**: System degraded, may break later
+- **Info**: FYI, no action needed
+
+### 3. Alert Tuning
+- Set appropriate `for` duration to avoid flapping
+- Group related alerts to reduce noise
+- Use `group_wait` and `group_interval` for batching
+
+### 4. Runbook Links
+Include runbook URLs in annotations:
+
+```yaml
+annotations:
+  summary: "Memory cascade risk"
+  description: "Fold usage critical"
+  runbook_url: "https://docs.lukhas.ai/runbooks/memory-cascade"
+```
+
+---
+
+## Configuration
+
+```yaml
+alerts:
+  enabled: true
+
+  rules:
+    reload_interval: 30s
+    validation: true
+
+  routing:
+    group_by:
+      - severity
+      - component
+    group_wait: 30s
+    group_interval: 5m
+    repeat_interval: 4h
+
+  notifications:
+    pagerduty:
+      enabled: true
+      service_key: "${PAGERDUTY_SERVICE_KEY}"
+
+    slack:
+      enabled: true
+      webhook_url: "${SLACK_WEBHOOK_URL}"
+      channel: "#lukhas-alerts"
+
+    email:
+      enabled: true
+      to: "lukhas-ops@lukhas.ai"
+      smtp_host: "smtp.lukhas.ai"
+```
+
+---
+
+## Deployment
+
+### Load Alert Rules into Prometheus
+
+```bash
+# Validate alert rules
+promtool check rules alerts/rules_with_tests.yaml
+
+# Reload Prometheus configuration
+curl -X POST http://prometheus:9090/-/reload
+```
+
+### Deploy Alertmanager
+
+```bash
+# Start Alertmanager with config
+alertmanager --config.file=alertmanager.yml
+```
+
+---
+
+## Observability
+
+**Required Spans**:
+- `lukhas.alerts.operation`
+
+**Metrics**:
+- Alert fire count by severity
+- Alert resolution time (MTTR)
+- Notification delivery success rate
+- Alert test pass/fail rate
+
+---
+
+## Related Modules
+
+- **prometheus/**: Alert rule evaluation
+- **monitoring/**: Monitoring infrastructure
+- **dashboards/**: Alert visualization
+- **brain/**: Alert event integration (AlertEvent, AlertLevel)
+
+---
+
+## Quick Reference
+
+| Alert File | Purpose | Key Alerts |
+|------------|---------|-----------|
+| `rules_with_tests.yaml` | Main alert rules | Critical system alerts |
+| `lukhas_drift_ema.json` | Drift detection | Drift threshold, EMA trend |
+| `lukhas_unrouted_signals.json` | Signal routing | Unrouted signals, routing failures |
+
+**Severity Levels**: Critical (immediate), Warning (30min), Info (next day)
+
+---
+
+**Module Status**: L2 Integration
+**Schema Version**: 1.0.0
+**Last Updated**: 2025-10-18
+**Philosophy**: Alert on what matters, silence the noise, and always provide a path to resolution.
+
+
+## 🚀 GA Deployment Status
+
+**Current Status**: 66.7% Ready (6/9 tasks complete)
+
+### Recent Milestones
+- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
+- ✅ **Dependency Audit**: 196 packages, 0 CVEs
+- ✅ **OpenAI Façade**: Full SDK compatibility validated
+- ✅ **Guardian MCP**: Production-ready deployment
+- ✅ **OpenAPI Schema**: Validated and documented
+
+### New Documentation
+- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
+- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
+- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
+
+### Recent Updates
+- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
+- OpenAI façade validation - Full SDK compatibility
+- Guardian MCP server deployment - Production ready
+- Shadow diff harness - Pre-audit validation framework
+- MATRIZ evaluation harness - Comprehensive testing
+
+**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
+
+---

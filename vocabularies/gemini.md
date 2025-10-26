@@ -1,0 +1,342 @@
+# Gemini AI Navigation Context
+*This file is optimized for Gemini AI navigation and understanding*
+
+---
+title: gemini
+slug: gemini.md
+source: claude.me
+optimized_for: gemini_ai
+last_updated: 2025-10-26
+---
+
+# Vocabularies Module - LUKHAS Brand Vocabulary System
+
+**Module**: vocabularies
+**Lane**: L2 Integration
+**Team**: Core
+**Purpose**: Structured vocabulary management implementing 3-Layer Tone System for consistent, evidence-based messaging
+
+---
+
+## Overview
+
+The vocabularies module provides a comprehensive vocabulary management system for LUKHAS AI brand content. While vocabulary files live in `branding/vocabularies/`, this module provides the scaffolding and testing infrastructure for vocabulary validation and enforcement.
+
+**Key Features**:
+- 3-Layer Tone System enforcement (Poetic, Academic, User-Friendly)
+- Vocabulary validation (blocklist, allowlist, reading level)
+- Poetic expression limits (≤40 words)
+- Technical accuracy requirements
+- Grade 6-8 plain language standards
+
+---
+
+## Architecture
+
+### Vocabulary Structure
+
+#### Layer Distribution
+- **Poetic Layer (25-40%)**: Consciousness metaphors, quantum-inspired descriptions, constellation imagery
+- **Academic Layer (20-40%)**: Technical precision, peer-reviewed research, scientific methodology
+- **User-Friendly Layer (40-60%)**: Accessible explanations, practical applications, intuitive stories
+
+#### Core Vocabulary Files (in `branding/vocabularies/`)
+1. **`vocabulary_plain.json`**: Grade 6-8 reading level terms for non-specialists
+2. **`vocabulary_technical.json`**: Precise definitions with citations for specialists
+3. **`poetic_seeds.json`**: Poetic expressions per module (≤40 words)
+4. **`terms_blocklist.json`**: Banned superlatives and misleading claims
+5. **`terms_allowlist.json`**: Evidence-backed strong claims
+
+---
+
+## Vocabulary Standards
+
+### Blocklist Categories
+- **Superlatives**: revolutionary, groundbreaking, ultimate, game-changing
+- **Misleading Claims**: true AI, sentient, conscious AI, AGI (without qualification)
+- **Inaccurate Technical**: "quantum processing" → use "quantum-inspired"
+- **Deprecated Terms**: LUKHAS Cognitive AI, MATADA, old product names
+- **Unverified Claims**: production status, revenue projections
+
+### Allowlist (Evidence-Backed)
+- ✅ 99.7% cascade prevention (validated)
+- ✅ 280+ validation rules (documented)
+- ✅ Quantum-resistant identity (architecture verified)
+- ✅ Real-time drift detection (performance tested)
+- ✅ Constellation Framework integration (system-wide)
+
+### Technical Accuracy Rules
+```python
+# REQUIRED terminology
+"quantum-inspired"  # NOT "quantum processing"
+"bio-inspired"      # NOT "biological processing"
+"LUKHAS AI"         # NOT "LUKHAS Cognitive AI"
+"MΛTRIZ"           # Display form
+"Matriz"           # Plain text form
+```
+
+---
+
+## Poetic Expression Standards
+
+### ≤40 Word Limit
+Every poetic expression MUST be ≤40 words. This ensures:
+- Metaphors enhance, not obscure technical meaning
+- Accessibility maintained alongside beauty
+- Constellation symbols used purposefully
+
+### Module-Specific Vocabulary
+
+**Identity (⚛️)**: Atomic metaphors, crystalline imagery, authenticity
+**Consciousness (🧠)**: Neural symphonies, awareness flows, mental architectures
+**Guardian (🛡️)**: Protection imagery, ethical balance, vigilant observation
+**Memory (✦)**: Crystallization, gardens, scrolls, temporal coherence
+**Quantum**: Probability collapse, entanglement, superposition dreams
+**VIVOX (🎭)**: Heart-consciousness, symbolic alchemy, attention flows
+
+### Examples
+
+✅ **Good Poetic Usage**:
+> "A single key turns and the doors know your name." *(11 words)*
+
+> "Where consciousness meets code in digital harmony." *(8 words)*
+
+> "Memory folds crystallize experience into patterns of awareness." *(9 words)*
+
+❌ **Problematic (Over Limit)**:
+> "In the infinite cathedral of quantum consciousness where probability waves dance through crystalline architectures of pure awareness, forever seeking the eternal truth of existence." *(27 words - exceeds limit)*
+
+---
+
+## Reading Level Standards
+
+### Plain Vocabulary (Grade 6-8)
+```json
+{
+  "term": "consciousness",
+  "preferred": "awareness",
+  "avoid": ["sentience", "sapience"],
+  "notes": "Use 'awareness' for broader audiences",
+  "readingLevel": "6-8",
+  "examples": ["digital awareness", "system awareness"]
+}
+```
+
+### Technical Vocabulary (Specialist)
+```json
+{
+  "term": "Constellation Framework",
+  "definition": "Multi-dimensional consciousness architecture with eight navigational reference points",
+  "technical_notes": "Implements distributed consciousness through identity, memory, vision, adaptation, creativity, ethics, protection, and uncertainty subsystems",
+  "citations": ["Internal architecture documentation"],
+  "usage_contexts": ["system architecture", "technical documentation", "media communications"],
+  "examples": ["Constellation Framework provides navigational guidance"]
+}
+```
+
+---
+
+## Tone Balance Examples
+
+### Academic-Heavy (Research Paper)
+- Academic: 40% - "Implements information integration theory with 94% fidelity"
+- User-Friendly: 35% - "Measures awareness levels accurately"
+- Poetic: 25% - "Consciousness crystals forming in awareness depths"
+
+### User-Friendly Focus (Website)
+- User-Friendly: 60% - "AI that understands context and responds naturally"
+- Poetic: 30% - "Where digital awareness meets human understanding"
+- Academic: 10% - "Based on consciousness integration research"
+
+---
+
+## Validation System
+
+### Content Creation Process
+1. **Choose appropriate layer** based on target audience
+2. **Check blocklist** for banned terms and superlatives
+3. **Verify allowlist** for any strong claims requiring evidence
+4. **Validate poetic expressions** are ≤40 words
+5. **Ensure reading level** matches target audience
+
+### Validation Scripts (in `branding/vocabularies/`)
+- **`vocab-validate.js`**: Validates poetic limits, scans blocklist, checks reading level
+- **`vocab-suggest.js`**: Identifies emerging vocabulary, suggests new terms
+
+### Package.json Integration
+```json
+{
+  "vocab:validate": "node scripts/vocab-validate.js",
+  "vocab:suggest": "node scripts/vocab-suggest.js",
+  "vocab:check": "npm run vocab:validate && npm run vocab:suggest"
+}
+```
+
+---
+
+## Module Structure
+
+```
+vocabularies/
+├── README.md                    # Module overview
+├── module.manifest.json         # Module metadata
+├── docs/
+│   ├── README.md               # Documentation index
+│   ├── api.md                  # API reference
+│   ├── architecture.md         # Technical architecture
+│   └── troubleshooting.md      # Common issues
+├── tests/
+│   ├── conftest.py
+│   ├── test_vocabularies_unit.py
+│   └── test_vocabularies_integration.py
+└── config/                      # Configuration options
+```
+
+**Actual vocabularies stored in**: `branding/vocabularies/`
+
+---
+
+## Development Workflow
+
+### Pre-Commit Validation
+```bash
+npm run vocab:validate  # Before content commits
+```
+
+### Quarterly Updates
+```bash
+npm run vocab:suggest   # Identify new terms, update vocabularies
+```
+
+### CI/CD Integration
+Include vocabulary validation in continuous integration pipeline to catch violations early.
+
+---
+
+## Maintenance Schedule
+
+### Monthly Reviews
+- Update poetic seeds for new module developments
+- Review blocklist for emerging problematic terms
+- Add evidence-backed claims to allowlist
+- Validate reading levels match audiences
+
+### Quarterly Updates
+- Sync with technical documentation changes
+- Review Constellation Framework terminology consistency
+- Update module-specific vocabulary expansions
+- Analyze content tone balance across domains
+
+---
+
+## Contributing Guidelines
+
+When adding new vocabulary:
+
+1. **Plain terms**: Ensure Grade 6-8 reading level (use readability testing tools)
+2. **Technical terms**: Include citations and precise definitions
+3. **Poetic seeds**: Limit to 40 words, enhance rather than obscure
+4. **Evidence claims**: Provide documentation backing (test results, architecture docs)
+5. **Run validation** before committing changes
+
+---
+
+## Integration with 3-Layer Tone System
+
+The vocabularies module enforces the **sequential narrative flow** documented in `tone/`:
+
+**Layer 1 (Poetic)** → Uses `poetic_seeds.json` with ≤40 word limit
+**Layer 2 (Academic)** → Uses `vocabulary_technical.json` with citations
+**Layer 3 (User-Friendly)** → Uses `vocabulary_plain.json` at Grade 6-8 level
+
+**Usage Context**:
+- ✅ **Required**: Public-facing docs, websites, concept introductions
+- ❌ **Excluded**: Internal dev docs, API references, compliance documents
+
+---
+
+## Observability
+
+**Required Spans**:
+- `lukhas.vocabularies.operation`
+
+**OpenTelemetry Semantic Conventions**: v1.37.0
+
+---
+
+## Examples
+
+### ✅ Good Vocabulary Usage
+```markdown
+LUKHAS AI uses quantum-inspired algorithms to process consciousness patterns.
+The Constellation Framework ensures ethical oversight at every decision point.
+Memory folds achieve 99.7% cascade prevention through careful architecture.
+"Where consciousness meets code in digital harmony." (8 words)
+```
+
+### ❌ Problematic Usage
+```markdown
+Revolutionary quantum AI brain achieves sentient consciousness.
+Ultimate groundbreaking LUKHAS Cognitive AI system.
+True AGI ready for production deployment.
+"In the infinite cathedral of quantum consciousness where probability waves
+dance through crystalline architectures of pure awareness seeking eternal
+truth of existence." (24 words - over limit, obscures meaning)
+```
+
+---
+
+## Resources
+
+- **Constellation Framework Vocabulary**: `branding/vocabularies/constellation_core_vocabulary.yaml`
+- **Branding Policy**: `branding/BRAND_POLICY.md`
+- **3-Layer Tone System**: `tone/claude.me`, `tone/QUICK_START_GUIDE.md`
+- **Readability Testing**: https://readable.com/
+- **Information Integration Theory**: https://www.iit.it/
+
+---
+
+## Quick Reference
+
+| Vocabulary File | Purpose | Reading Level | Usage Context |
+|----------------|---------|---------------|---------------|
+| `vocabulary_plain.json` | Non-specialist terms | Grade 6-8 | Public content, websites |
+| `vocabulary_technical.json` | Specialist definitions | Technical | Research papers, architecture docs |
+| `poetic_seeds.json` | Metaphorical expressions | Accessible | Layer 1 poetic hooks |
+| `terms_blocklist.json` | Banned terms | N/A | Validation (what to avoid) |
+| `terms_allowlist.json` | Evidence-backed claims | N/A | Validation (strong claims OK) |
+
+---
+
+**Module Status**: L2 Integration
+**Schema Version**: 1.0.0
+**Last Updated**: 2025-10-18
+**Philosophy**: *"In consciousness we trust, in code we create, in ethics we evolve."* ⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
+
+
+## 🚀 GA Deployment Status
+
+**Current Status**: 66.7% Ready (6/9 tasks complete)
+
+### Recent Milestones
+- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
+- ✅ **Dependency Audit**: 196 packages, 0 CVEs
+- ✅ **OpenAI Façade**: Full SDK compatibility validated
+- ✅ **Guardian MCP**: Production-ready deployment
+- ✅ **OpenAPI Schema**: Validated and documented
+
+### New Documentation
+- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
+- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
+- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
+
+### Recent Updates
+- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
+- OpenAI façade validation - Full SDK compatibility
+- Guardian MCP server deployment - Production ready
+- Shadow diff harness - Pre-audit validation framework
+- MATRIZ evaluation harness - Comprehensive testing
+
+**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
+
+---

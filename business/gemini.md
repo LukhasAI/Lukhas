@@ -1,0 +1,88 @@
+# Gemini AI Navigation Context
+*This file is optimized for Gemini AI navigation and understanding*
+
+---
+title: gemini
+slug: gemini.md
+source: claude.me
+optimized_for: gemini_ai
+last_updated: 2025-10-26
+---
+
+# business Module
+
+**Business logic, strategies, and operational systems**
+
+**Lane**: L2
+**Schema**: 3.0.0
+**Entrypoints**: 9
+**Dependencies**: identity
+
+## Quick Reference
+
+```python
+# Import from business
+from business import BUSINESS_DOMAINS
+from business import __author__
+from business import __version__
+from business import analyze_business_metrics
+from business import create_business_strategy
+```
+
+## Components (9 entrypoints)
+
+- `business.BUSINESS_DOMAINS`
+- `business.__author__`
+- `business.__version__`
+- `business.analyze_business_metrics`
+- `business.create_business_strategy`
+- `business.execute_marketing_campaign`
+- `business.get_business_status`
+- `business.get_compliance_status`
+- `business.manage_partnership`
+
+## Module Metadata
+
+- **Lane**: L2
+- **Schema Version**: 3.0.0
+- **Tags**: authentication, business
+- **Dependencies**: identity
+- **OpenTelemetry**: 1.37.0
+
+## Related Systems
+
+- **identity**: Dependency integration
+
+---
+
+**Documentation Status**: ✅ Complete
+**Last Updated**: 2025-10-18
+**Maintainer**: LUKHAS Core Team
+
+
+## 🚀 GA Deployment Status
+
+**Current Status**: 66.7% Ready (6/9 tasks complete)
+
+### Recent Milestones
+- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
+- ✅ **Dependency Audit**: 196 packages, 0 CVEs
+- ✅ **OpenAI Façade**: Full SDK compatibility validated
+- ✅ **Guardian MCP**: Production-ready deployment
+- ✅ **OpenAPI Schema**: Validated and documented
+
+### New Documentation
+- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
+- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
+- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
+
+### Recent Updates
+- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
+- OpenAI façade validation - Full SDK compatibility
+- Guardian MCP server deployment - Production ready
+- Shadow diff harness - Pre-audit validation framework
+- MATRIZ evaluation harness - Comprehensive testing
+
+**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
+
+---

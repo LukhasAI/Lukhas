@@ -1,0 +1,92 @@
+# Gemini AI Navigation Context
+*This file is optimized for Gemini AI navigation and understanding*
+
+---
+title: gemini
+slug: gemini.md
+source: claude.me
+optimized_for: gemini_ai
+last_updated: 2025-10-26
+---
+
+# tests Module
+
+**LUKHAS tests module implementing specialized tests functionality with 369 components for integrated system operations.**
+
+**Lane**: L2
+**Schema**: 3.0.0
+**Entrypoints**: 11
+**Dependencies**: core, identity, memory
+
+## Quick Reference
+
+```python
+# Import from tests
+from tests.comprehensive_test_suite import ComprehensiveTestOrchestrator
+from tests.comprehensive_test_suite import TestComprehensiveValidation
+from tests.comprehensive_test_suite import TestSuiteResults
+from tests.comprehensive_test_suite import run_comprehensive_tests
+from tests.conftest import fixtures_dir
+```
+
+## Components (11 entrypoints)
+
+- `tests.comprehensive_test_suite.ComprehensiveTestOrchestrator`
+- `tests.comprehensive_test_suite.TestComprehensiveValidation`
+- `tests.comprehensive_test_suite.TestSuiteResults`
+- `tests.comprehensive_test_suite.run_comprehensive_tests`
+- `tests.conftest.fixtures_dir`
+- `tests.conftest.lukhas_test_config`
+- `tests.conftest.module_path`
+- `tests.conftest.pytest_addoption`
+- `tests.conftest.pytest_collection_modifyitems`
+- `tests.conftest.pytest_configure`
+- `tests.conftest.pytest_ignore_collect`
+
+## Module Metadata
+
+- **Lane**: L2
+- **Schema Version**: 3.0.0
+- **Tags**: authentication, monitoring, orchestration, tests
+- **Dependencies**: core, identity, memory
+- **OpenTelemetry**: 1.37.0
+
+## Related Systems
+
+- **core**: Dependency integration
+- **identity**: Dependency integration
+- **memory**: Dependency integration
+
+---
+
+**Documentation Status**: ✅ Complete
+**Last Updated**: 2025-10-18
+**Maintainer**: LUKHAS Core Team
+
+
+## 🚀 GA Deployment Status
+
+**Current Status**: 66.7% Ready (6/9 tasks complete)
+
+### Recent Milestones
+- ✅ **RC Soak Testing**: 60-hour stability validation (99.985% success rate)
+- ✅ **Dependency Audit**: 196 packages, 0 CVEs
+- ✅ **OpenAI Façade**: Full SDK compatibility validated
+- ✅ **Guardian MCP**: Production-ready deployment
+- ✅ **OpenAPI Schema**: Validated and documented
+
+### New Documentation
+- docs/GA_DEPLOYMENT_RUNBOOK.md - Comprehensive GA deployment procedures
+- docs/DEPENDENCY_AUDIT.md - 196 packages, 0 CVEs, 100% license compliance
+- docs/RC_SOAK_TEST_RESULTS.md - 60-hour stability validation (99.985% success)
+
+### Recent Updates
+- E402 linting cleanup - 86/1,226 violations fixed (batches 1-8)
+- OpenAI façade validation - Full SDK compatibility
+- Guardian MCP server deployment - Production ready
+- Shadow diff harness - Pre-audit validation framework
+- MATRIZ evaluation harness - Comprehensive testing
+
+**Reference**: See [GA_DEPLOYMENT_RUNBOOK.md](./docs/GA_DEPLOYMENT_RUNBOOK.md) for deployment procedures.
+
+---
