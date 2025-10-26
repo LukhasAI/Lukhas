@@ -19,7 +19,7 @@ import time
 from collections import deque
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, Callable, Optional
 
 from core.matriz_consciousness_signals import (
     ConsciousnessSignal,
@@ -29,6 +29,10 @@ from core.matriz_consciousness_signals import (
 )
 
 logger = logging.getLogger(__name__)
+
+# Type aliases for constellation alignment functions
+AlignmentRuleChecker = Callable[[ConsciousnessSignal], tuple[bool, Optional[str]]]
+AlignmentAutoFixer = Callable[[ConsciousnessSignal], ConsciousnessSignal]
 
 
 class AlignmentLevel(Enum):
@@ -130,7 +134,7 @@ class ConstellationAlignmentValidator:
         }
 
         # Compliance rules registry
-        self.rules: dict[AlignmentRule, Callable] = {  # noqa: F821  # TODO: Callable
+        self.rules: dict[AlignmentRule, AlignmentRuleChecker] = {
             AlignmentRule.IDENTITY_AUTH_THRESHOLD: self._check_identity_auth,
             AlignmentRule.VISION_COHERENCE_MIN: self._check_consciousness_coherence,
             AlignmentRule.GUARDIAN_SAFETY_MIN: self._check_guardian_compliance,
@@ -142,7 +146,7 @@ class ConstellationAlignmentValidator:
         }
 
         # Auto-fix strategies
-        self.auto_fix_strategies: dict[AlignmentRule, Callable] = {  # noqa: F821  # TODO: Callable
+        self.auto_fix_strategies: dict[AlignmentRule, AlignmentAutoFixer] = {
             AlignmentRule.IDENTITY_AUTH_THRESHOLD: self._fix_identity_auth,
             AlignmentRule.VISION_COHERENCE_MIN: self._fix_consciousness_coherence,
             AlignmentRule.QUANTUM_UNCERTAINTY_BALANCE: self._fix_alignment_balance,
