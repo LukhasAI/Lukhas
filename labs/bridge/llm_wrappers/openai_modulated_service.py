@@ -25,6 +25,8 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, AsyncIterator, Dict, List, Optional, Union
 
+logger = logging.getLogger(__name__)
+
 # OpenAI imports (conditional)
 try:
     import openai  # noqa: F401  # TODO: openai; consider using importl...
@@ -34,8 +36,10 @@ try:
 except ImportError:
     OPENAI_AVAILABLE = False
     logger.warning("OpenAI not available, install with: pip install openai")
-
-logger = logging.getLogger(__name__)
+    AsyncOpenAI = None  # type: ignore[assignment]
+    OpenAI = None  # type: ignore[assignment]
+    ChatCompletion = Any  # type: ignore[assignment]
+    ChatCompletionChunk = Any  # type: ignore[assignment]
 
 
 class VectorStoreProvider(Enum):
@@ -383,7 +387,8 @@ class VectorStoreAdapter:
                     filter=filter_metadata,
                     include_metadata=True,
                 )
-                return results.matches
+                # ΛTAG: vector_store_normalization
+                return self._normalize_matches(results.matches)
             
             elif self.config.provider == VectorStoreProvider.WEAVIATE:
                 query = (
@@ -395,7 +400,8 @@ class VectorStoreAdapter:
                 if filter_metadata:
                     query = query.with_where(filter_metadata)
                 results = query.do()
-                return results.get("data", {}).get("Get", {}).get(self.config.index_name, [])
+                raw_matches = results.get("data", {}).get("Get", {}).get(self.config.index_name, [])
+                return self._normalize_matches(raw_matches)
             
             elif self.config.provider == VectorStoreProvider.CHROMA:
                 collection = self._client.get_collection(self.config.index_name)
@@ -411,7 +417,7 @@ class VectorStoreAdapter:
                         "score": results["distances"][0][i],
                         "metadata": results["metadatas"][0][i] if results["metadatas"] else {},
                     })
-                return matches
+                return self._normalize_matches(matches)
             
             elif self.config.provider == VectorStoreProvider.QDRANT:
                 results = self._client.search(
@@ -420,7 +426,7 @@ class VectorStoreAdapter:
                     limit=top_k,
                     query_filter=filter_metadata,
                 )
-                return [
+                raw_matches = [
                     {
                         "id": str(hit.id),
                         "score": hit.score,
@@ -428,6 +434,7 @@ class VectorStoreAdapter:
                     }
                     for hit in results
                 ]
+                return self._normalize_matches(raw_matches)
             
             elif self.config.provider == VectorStoreProvider.FAISS:
                 import numpy as np
@@ -441,13 +448,41 @@ class VectorStoreAdapter:
                             "score": float(dist),
                             "metadata": self._metadata[idx],
                         })
-                return matches
-            
+                return self._normalize_matches(matches)
+
             return []
-            
+
         except Exception as e:
             logger.error(f"Vector search failed: {e}", exc_info=True)
             return []
+
+    def _normalize_matches(self, matches: List[Any]) -> List[Dict[str, Any]]:
+        """Normalize provider-specific match objects into dictionaries."""
+
+        normalized: List[Dict[str, Any]] = []
+        for match in matches:
+            # Provider SDKs often expose helper conversions
+            if hasattr(match, "to_dict"):
+                candidate = match.to_dict()
+            elif isinstance(match, dict):
+                candidate = match
+            else:
+                candidate = {
+                    "id": getattr(match, "id", getattr(match, "uuid", "")),
+                    "score": getattr(match, "score", getattr(match, "similarity", 0.0)),
+                    "metadata": getattr(match, "metadata", getattr(match, "payload", {})),
+                }
+
+            metadata = candidate.get("metadata") or candidate.get("payload") or {}
+            normalized.append(
+                {
+                    "id": str(candidate.get("id", candidate.get("uuid", ""))),
+                    "score": float(candidate.get("score", candidate.get("similarity", 0.0))),
+                    "metadata": metadata,
+                }
+            )
+
+        return normalized
 
 
 class OpenAIModulatedService:

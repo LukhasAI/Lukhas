@@ -420,18 +420,20 @@ class ExplainabilityInterface:
         
         Task: TODO-HIGH-BRIDGE-EXPLAIN-m5n6o7p8 (Symbolic engine integration)
         """
-        trace = []
-        
+        trace: List[Dict[str, Any]] = []
+
         # Use symbolic engine if available
         if self.symbolic_engine:
             try:
-                trace = await self.symbolic_engine.trace_reasoning(decision)
-                return trace
+                symbolic_trace = await self.symbolic_engine.trace_reasoning(decision)
+                if symbolic_trace:
+                    # ΛTAG: reasoning_trace
+                    trace.extend(symbolic_trace)
             except Exception:
                 pass
-        
+
         # Fallback: Generate basic trace from decision data
-        if 'reasoning_steps' in decision:
+        if not trace and 'reasoning_steps' in decision:
             for i, step in enumerate(decision['reasoning_steps']):
                 trace.append({
                     'step_id': i + 1,
@@ -454,7 +456,7 @@ class ExplainabilityInterface:
                     'confidence': 1.0,
                     'symbolic_form': 'MEG_CONTEXT'
                 })
-        
+
         return trace
 
     async def calculate_completeness(
@@ -651,27 +653,32 @@ class ExplainabilityInterface:
         Task: TODO-HIGH-BRIDGE-EXPLAIN-s5t6u7v8 (Multi-modal support)
         """
         text = await self._generate_text_explanation(decision, level)
-        
+        text_output = text if isinstance(text, str) else json.dumps(text, sort_keys=True)
+        generated_at = int(time.time())
+
         # Generate visual component (simplified - would use actual visualization)
         visual = {
             'type': 'decision_tree',
             'nodes': decision.get('reasoning_steps', []),
             'format': 'svg',
-            'url': f"/api/visualize/{decision.get('id')}"
+            'url': f"/api/visualize/{decision.get('id')}",
+            'generated_at': generated_at,
         }
-        
+
         # Generate audio component (simplified - would use TTS)
         audio = {
             'type': 'speech',
-            'text': text[:500] if isinstance(text, str) else str(text)[:500],
+            'text': text_output[:500],
             'format': 'mp3',
-            'url': f"/api/audio/{decision.get('id')}"
+            'url': f"/api/audio/{decision.get('id')}",
+            'generated_at': generated_at,
         }
-        
+
+        # ΛTAG: multimodal_enrichment
         return {
-            'text': text,
+            'text': text_output,
             'visual': visual,
-            'audio': audio
+            'audio': audio,
         }
 
     async def _generate_text_explanation(

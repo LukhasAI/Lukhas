@@ -189,6 +189,10 @@ class QRSManager:
         
         # Generate nonce for uniqueness
         nonce = secrets.token_hex(16)
+        if nonce in self._used_nonces:
+            # Extremely rare, regenerate to guarantee uniqueness
+            nonce = secrets.token_hex(16)
+        self._used_nonces.add(nonce)
         
         # Create hash
         hash_value = self._compute_hash(
@@ -223,14 +227,26 @@ class QRSManager:
                 'payload_size': len(payload_str)
             }
         )
-        
+
         # Update statistics
         self._stats['created'] += 1
-        
+
+        # ΛTAG: qrs_audit
+        self._audit_trail.append(
+            {
+                'event': 'qrs_created',
+                'qrs_id': qrs.qrs_id,
+                'request_id': qrs.request_id,
+                'service': qrs.service,
+                'timestamp': created_at,
+                'algorithm': qrs.algorithm,
+            }
+        )
+
         # Log to ΛTRACE if available
         if self.trace_logger:
             await self._log_qrs_creation(qrs, data)
-        
+
         return qrs
 
     async def verify_qrs(
@@ -252,61 +268,81 @@ class QRSManager:
         """
         verified_at = int(time.time())
         
+        def _audit(status: QRSStatus, valid: bool, reason: Optional[str] = None) -> None:
+            self._audit_trail.append(
+                {
+                    'event': 'qrs_verified',
+                    'qrs_id': qrs_data.get('qrs_id', 'unknown'),
+                    'valid': valid,
+                    'timestamp': verified_at,
+                    'status': status.value,
+                    **({'reason': reason} if reason else {}),
+                }
+            )
+
         # Validate QRS format
         required = ['qrs_id', 'signature', 'hash', 'algorithm']
         missing = [f for f in required if f not in qrs_data]
         if missing:
             self._stats['failed'] += 1
-            return QRSVerificationResult(
+            result = QRSVerificationResult(
                 valid=False,
                 status=QRSStatus.INVALID_FORMAT,
                 qrs_id=qrs_data.get('qrs_id', 'unknown'),
                 verified_at=verified_at,
                 reason=f"Missing required fields: {', '.join(missing)}"
             )
-        
+            _audit(result.status, False, result.reason)
+            return result
+
         # Check algorithm support
         algorithm_str = qrs_data['algorithm']
         try:
             algorithm = QRSAlgorithm(algorithm_str)
         except ValueError:
             self._stats['failed'] += 1
-            return QRSVerificationResult(
+            result = QRSVerificationResult(
                 valid=False,
                 status=QRSStatus.UNKNOWN_ALGORITHM,
                 qrs_id=qrs_data['qrs_id'],
                 verified_at=verified_at,
                 reason=f"Unsupported algorithm: {algorithm_str}"
             )
-        
+            _audit(result.status, False, result.reason)
+            return result
+
         # Check expiration if metadata available
         if 'metadata' in qrs_data and 'expires_at' in qrs_data['metadata']:
             if verified_at > qrs_data['metadata']['expires_at']:
                 self._stats['failed'] += 1
-                return QRSVerificationResult(
+                result = QRSVerificationResult(
                     valid=False,
                     status=QRSStatus.EXPIRED,
                     qrs_id=qrs_data['qrs_id'],
                     verified_at=verified_at,
                     reason="QRS signature has expired"
                 )
-        
+                _audit(result.status, False, result.reason)
+                return result
+
         # Verify signature integrity
         hash_value = qrs_data["hash"]
         nonce_value = qrs_data.get("nonce", "")
         signature_data = f"{hash_value}{nonce_value}"
         expected_signature = f"0x{hashlib.sha256(signature_data.encode()).hexdigest()}"
-        
+
         if qrs_data['signature'] != expected_signature:
             self._stats['tampered_detected'] += 1
-            return QRSVerificationResult(
+            result = QRSVerificationResult(
                 valid=False,
                 status=QRSStatus.TAMPERED,
                 qrs_id=qrs_data['qrs_id'],
                 verified_at=verified_at,
                 reason="Signature does not match - possible tampering detected"
             )
-        
+            _audit(result.status, False, result.reason)
+            return result
+
         # If original data provided, verify hash
         if original_data:
             expected_hash = self._compute_hash(
@@ -317,25 +353,23 @@ class QRSManager:
                 nonce=qrs_data.get('nonce', ''),
                 algorithm=algorithm
             )
-            
+
             if qrs_data['hash'] != expected_hash:
                 self._stats['tampered_detected'] += 1
-                return QRSVerificationResult(
+                result = QRSVerificationResult(
                     valid=False,
                     status=QRSStatus.TAMPERED,
                     qrs_id=qrs_data['qrs_id'],
                     verified_at=verified_at,
                     reason="Hash does not match original data - tampering detected"
                 )
-        
+                _audit(result.status, False, result.reason)
+                return result
+
         # Signature is valid
         self._stats['verified'] += 1
-        
-        # Log to ΛTRACE if available
-        if self.trace_logger:
-            await self._log_qrs_verification(qrs_data, True)
-        
-        return QRSVerificationResult(
+
+        verification_entry = QRSVerificationResult(
             valid=True,
             status=QRSStatus.VALID,
             qrs_id=qrs_data['qrs_id'],
@@ -345,6 +379,14 @@ class QRSManager:
                 'service': qrs_data.get('service', 'unknown')
             }
         )
+
+        _audit(verification_entry.status, True)
+
+        # Log to ΛTRACE if available
+        if self.trace_logger:
+            await self._log_qrs_verification(qrs_data, True)
+
+        return verification_entry
 
     async def batch_verify(
         self,
@@ -375,6 +417,13 @@ class QRSManager:
             Dictionary with creation/verification statistics
         """
         return self._stats.copy()
+
+    def get_audit_trail(self, limit: Optional[int] = None) -> List[Dict[str, Any]]:
+        """Return recent QRS audit events."""
+
+        if limit is None or limit >= len(self._audit_trail):
+            return list(self._audit_trail)
+        return self._audit_trail[-limit:]
 
     def _compute_hash(
         self,
