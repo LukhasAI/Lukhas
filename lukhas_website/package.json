@@ -118,7 +118,7 @@
     "@jest/globals": "^29.7.0",
     "@lhci/cli": "^0.15.1",
     "@openapitools/openapi-generator-cli": "^2.13.4",
-    "@playwright/test": "^1.44.0",
+    "@playwright/test": "^1.56.1",
     "@tailwindcss/postcss": "^4.1.12",
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^16.3.0",
@@ -131,7 +131,7 @@
     "@types/react-dom": "^18.2.0",
     "@types/supertest": "^6.0.0",
     "@types/three": "^0.160.0",
-    "artillery": "^2.0.24",
+    "artillery": "^2.0.26",
     "autoprefixer": "^10.4.21",
     "concurrently": "^8.2.0",
     "eslint": "^8.55.0",
@@ -141,12 +141,18 @@
     "jest-environment-node": "^29.7.0",
     "msw": "^2.3.0",
     "nock": "^13.5.0",
+    "playwright": "^1.56.1",
     "postcss": "^8.4.32",
     "prisma": "^5.20.0",
     "supertest": "^7.0.0",
     "tailwindcss": "^4.1.12",
+    "tmp": "^0.2.5",
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
+  },
+  "overrides": {
+    "playwright": "^1.56.1",
+    "tmp": "^0.2.5"
   }
 }
