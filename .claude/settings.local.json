@@ -75,7 +75,9 @@
       "Bash(while read file)",
       "Bash(do echo \"Processing: $file\" sed -i '' 's/Trinity Framework/Constellation Framework/g' \"$file\" sed -i '' 's/trinity framework/constellation framework/g' \"$file\" done)",
       "Bash(do sed -i '' 's/Trinity Framework/Constellation Framework/g' \"$file\")",
-      "Bash(rg:*)"
+      "Bash(rg:*)",
+      "Bash(for dir in mcp-lukhas-sse mcp-server mcp-servers mcp_servers)",
+      "Bash(do echo \"=== $dir ===\")"
     ],
     "deny": [],
     "ask": [],

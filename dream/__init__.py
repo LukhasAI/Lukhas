@@ -1,43 +1,27 @@
-#!/usr/bin/env python3
 """
-🌙 Dream Module
-Core dream processing components for consciousness integration
+Compatibility shim: top-level `dream` module → labs.consciousness.dream
+
+This shim is temporary. It emits a DeprecationWarning to encourage imports
+to move to `labs.consciousness.dream`.
+
+The canonical dream implementation is in labs/consciousness/dream/.
+This compatibility layer will be removed after 2 releases (est. Q2 2026).
 """
+import importlib
+import warnings
 
-import logging
-from typing import Any, Optional
+warnings.warn(
+    "Top-level package 'dream' is deprecated; import 'labs.consciousness.dream' instead. "
+    "This compatibility shim will be removed after 2 releases.",
+    DeprecationWarning,
+    stacklevel=2
+)
 
-logger = logging.getLogger(__name__)
+# Dynamically load the canonical module
+_canonical_module = importlib.import_module("labs.consciousness.dream")
 
+# Re-export all public symbols
+__all__ = getattr(_canonical_module, '__all__', [])
 
-class DreamProcessor:
-    """Core dream processing functionality"""
-
-    def __init__(self):
-        self.state = "initialized"
-        logger.info("Dream processor initialized")
-
-    def process_dream(self, dream_data: dict[str, Any]) -> dict[str, Any]:
-        """Process dream data"""
-        return {"status": "processed", "dream": dream_data}
-
-
-class DreamBridge:
-    """Bridge for dream consciousness integration"""
-
-    def __init__(self):
-        self.processor = DreamProcessor()
-        logger.info("Dream bridge initialized")
-
-    def connect(self) -> bool:
-        """Establish dream bridge connection"""
-        return True
-
-
-def create_dream_bridge() -> DreamBridge:
-    """Create dream bridge instance"""
-    return DreamBridge()
-
-
-# Module initialization
-logger.info("✅ Dream module loaded")
+# Preserve module reference for backwards compatibility
+dream_module = _canonical_module

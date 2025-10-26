@@ -363,13 +363,62 @@
         }
       }
     },
+    "/v1/models": {
+      "get": {
+        "tags": [
+          "OpenAI Compatible"
+        ],
+        "summary": "List Models",
+        "description": "OpenAI-compatible models list endpoint.",
+        "operationId": "list_models_v1_models_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response List Models V1 Models Get"
+                }
+              }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/embeddings": {
       "post": {
         "tags": [
           "OpenAI Compatible"
         ],
         "summary": "Create Embeddings",
-        "description": "OpenAI-compatible embeddings endpoint (stub for RC soak testing).",
+        "description": "OpenAI-compatible embeddings endpoint with unique deterministic vectors.",
         "operationId": "create_embeddings_v1_embeddings_post",
         "requestBody": {
           "content": {
@@ -486,6 +535,102 @@
                 "schema": {
                   "type": "object",
                   "title": "Response Create Chat Completion V1 Chat Completions Post"
+                }
+              }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "headers": {
+              "X-Trace-Id": {
+                "$ref": "#/components/headers/X-Trace-Id"
+              },
+              "X-Service-Version": {
+                "$ref": "#/components/headers/X-Service-Version"
+              },
+              "X-RateLimit-Limit": {
+                "$ref": "#/components/headers/X-RateLimit-Limit"
+              },
+              "X-RateLimit-Remaining": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining"
+              },
+              "X-RateLimit-Reset": {
+                "$ref": "#/components/headers/X-RateLimit-Reset"
+              },
+              "X-RateLimit-Limit-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Limit-Requests"
+              },
+              "X-RateLimit-Remaining-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Remaining-Requests"
+              },
+              "X-RateLimit-Reset-Requests": {
+                "$ref": "#/components/headers/X-RateLimit-Reset-Requests"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/responses": {
+      "post": {
+        "tags": [
+          "OpenAI Compatible"
+        ],
+        "summary": "Create Response",
+        "description": "LUKHAS responses endpoint (OpenAI-compatible format).",
+        "operationId": "create_response_v1_responses_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "Request"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response Create Response V1 Responses Post"
                 }
               }
             },
