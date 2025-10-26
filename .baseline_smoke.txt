@@ -35,4 +35,22 @@ Makefile:65: warning: ignoring old commands for target `openapi-spec'
 Makefile:1543: warning: overriding commands for target `openapi-validate'
 Makefile:80: warning: ignoring old commands for target `openapi-validate'
 CI_QUALITY_GATES=1 python3 -m pytest -q tests/smoke -m "smoke" --maxfail=1 --disable-warnings
-..........                                                               [100%]
+E
+==================================== ERRORS ====================================
+___________________ ERROR at setup of test_core_api_imports ____________________
+__init__.py:76: in __getattr__
+    spec = importlib.util.find_spec(f"{__name__}.{name}")
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/util.py:94: in find_spec
+    parent = __import__(parent_name, fromlist=['__path__'])
+__init__.py:76: in __getattr__
+    spec = importlib.util.find_spec(f"{__name__}.{name}")
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/util.py:94: in find_spec
+    parent = __import__(parent_name, fromlist=['__path__'])
+__init__.py:76: in __getattr__
+    spec = importlib.util.find_spec(f"{__name__}.{name}")
+E   RecursionError: maximum recursion depth exceeded
+!!! Recursion detected (same locals & position)
+=========================== short test summary info ============================
+ERROR tests/smoke/test_entrypoints.py::test_core_api_imports - RecursionError...
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+make: *** [smoke] Error 1

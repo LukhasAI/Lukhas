@@ -20,7 +20,7 @@ jobs:
       - name: Install system deps
         run: |
           sudo apt-get update
-          sudo apt-get install -y netcat jq
+          sudo apt-get install -y netcat-openbsd jq
       - name: Check dev stub flag
         id: check_stub
         run: |

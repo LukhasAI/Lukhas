@@ -17,7 +17,7 @@ from typing import Any, Optional
 
 import numpy as np
 
-from .matriz_consciousness_signals import (  # noqa: TID252 TODO: convert to absolute import
+from core.matriz_consciousness_signals import (
     BioSymbolicData,
     ConsciousnessSignal,
     ConsciousnessSignalType,

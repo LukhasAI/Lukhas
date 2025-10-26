@@ -1,0 +1,80 @@
+{
+  "batch_id": "BATCH-JULES-STREAMLIT-UI-01",
+  "agent": "Jules",
+  "priority": "low",
+  "estimated_duration": "1.5 hours",
+  "created": "2025-10-26",
+  "description": "Streamlit UI integration and dashboard implementation",
+  "tasks": [
+    {
+      "task_id": "JULES-UI-01",
+      "title": "Configure Streamlit dependencies and imports",
+      "priority": "low",
+      "complexity": "low",
+      "estimated_time": "15 minutes",
+      "files": [
+        "requirements.txt",
+        "pyproject.toml",
+        "core/notion_sync.py",
+        "core/interfaces/logic/agent_self.py"
+      ],
+      "description": "Add streamlit to dependencies and uncomment/fix streamlit imports in multiple files",
+      "acceptance_criteria": [
+        "Add streamlit to requirements.txt with version pin",
+        "Update pyproject.toml optional dependencies",
+        "Uncomment streamlit imports in affected files",
+        "Verify imports work: python -c 'import streamlit'",
+        "Document streamlit version requirements"
+      ]
+    },
+    {
+      "task_id": "JULES-UI-02",
+      "title": "Implement LUKHAS Dashboard UI components",
+      "priority": "low",
+      "complexity": "medium",
+      "estimated_time": "1 hour",
+      "files": [
+        "core/interfaces/logic/agent_self.py",
+        "core/interfaces/ui/app.py"
+      ],
+      "description": "Complete streamlit dashboard implementation with module blocks, agent controls, and state management",
+      "acceptance_criteria": [
+        "Fix undefined variables (module_blocks, selected_module, re module)",
+        "Implement module block parsing and display",
+        "Add proper state management for agent toggling",
+        "Create sidebar controls for tier selection",
+        "Add reflective dream scheduler integration",
+        "Test dashboard runs: streamlit run core/interfaces/logic/agent_self.py"
+      ]
+    },
+    {
+      "task_id": "JULES-UI-03",
+      "title": "Wire up Notion sync dashboard integration",
+      "priority": "low",
+      "complexity": "low",
+      "estimated_time": "20 minutes",
+      "files": [
+        "core/notion_sync.py"
+      ],
+      "description": "Lines 68, 292: Enable streamlit integration for Notion sync status and controls",
+      "acceptance_criteria": [
+        "Uncomment streamlit sections",
+        "Create simple status dashboard for sync operations",
+        "Add sync controls (start/stop/refresh)",
+        "Display sync statistics and errors",
+        "Test Notion sync UI components"
+      ]
+    }
+  ],
+  "notes": [
+    "All Streamlit work is marked TODO: Install or implement streamlit",
+    "This is UI/dashboard work - lower priority than core functionality",
+    "May want to create separate streamlit app entrypoint",
+    "Consider responsive design and mobile compatibility",
+    "Document how to run the dashboard in README"
+  ],
+  "dependencies": {
+    "streamlit": ">=1.28.0",
+    "optional": "UI work is optional feature, not core functionality"
+  }
+}

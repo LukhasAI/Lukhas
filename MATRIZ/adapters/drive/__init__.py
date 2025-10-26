@@ -18,7 +18,7 @@ from typing import Any, ClassVar, Optional
 
 from consent.service import ConsentService
 
-from MATRIZ.adapters import (
+from matriz.adapters import (
     OperationResult,
     ResourceContent,
     ResourceMetadata,

@@ -35,7 +35,7 @@ import structlog
 # TAG:colony
 
 try:
-    from .crista_optimizer import NetworkConfig  # noqa: TID252 TODO: convert to absolute import
+    from core.integration.crista_optimizer import NetworkConfig
 except ImportError:
     # Fallback or placeholder if direct import fails (e.g. during isolated
     # testing or if structure changes)
