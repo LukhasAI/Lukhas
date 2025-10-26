@@ -21,6 +21,10 @@ import uuid
 from datetime import datetime, timezone
 from typing import Any, Optional
 
+# ΛTAG: consciousness_legacy_imports
+from core.consciousness.drift_detector import ConsciousnessDriftDetector
+from core.symbolic.glyph_specialist import GlyphConsensusResult, GlyphSpecialist
+
 # Configure logging
 logger = logging.getLogger("Enhanced.BrainIntegration")
 handler = logging.StreamHandler()
@@ -85,6 +89,130 @@ try:
     )
 except ImportError:
     DreamReflectionLoop = None
+
+
+class ConsciousnessLegacyConsensus:
+    """Legacy consciousness consensus orchestrated through GLYPH specialist."""
+
+    def __init__(
+        self,
+        glyph_specialist: GlyphSpecialist,
+        drift_detector: ConsciousnessDriftDetector,
+        telemetry_logger: logging.Logger,
+        drift_threshold: float = 0.3,
+    ) -> None:
+        self._glyph_specialist = glyph_specialist
+        self._drift_detector = drift_detector
+        self._telemetry_logger = telemetry_logger
+        self._drift_threshold = drift_threshold
+        self._last_result: Optional[dict[str, Any]] = None
+
+    def ingest_layer_snapshot(
+        self,
+        layer_id: str,
+        driftScore: float,
+        affect_delta: float,
+        glyph_markers: Optional[list[str]] = None,
+        metadata: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
+        """Record a snapshot and evaluate consensus."""
+
+        snapshot = self._drift_detector.record_snapshot(
+            layer_id=layer_id,
+            driftScore=driftScore,
+            affect_delta=affect_delta,
+            glyph_markers=glyph_markers or [],
+            metadata=metadata,
+        )
+        signals = self._drift_detector.build_glyph_signals()
+        if not signals:
+            self._last_result = self._build_result(None, signals_count=0)
+            return self._last_result
+
+        consensus_result = self._glyph_specialist.evaluate(signals)
+        result = self._build_result(consensus_result, signals_count=len(signals))
+
+        if not consensus_result.consensus or consensus_result.driftScore > self._drift_threshold:
+            self._emit_alert(result, snapshot)
+        else:
+            self._telemetry_logger.info(
+                "# ΛTAG: consciousness_legacy -- consensus stable",
+                extra={
+                    "layer_id": layer_id,
+                    "driftScore": result["driftScore"],
+                    "affect_delta": result["affect_delta"],
+                    "agreement_ratio": result["agreement_ratio"],
+                },
+            )
+
+        self._last_result = result
+        return result
+
+    def evaluate(self) -> dict[str, Any]:
+        """Evaluate consensus using existing signals."""
+        signals = self._drift_detector.build_glyph_signals()
+        if not signals:
+            self._last_result = self._build_result(None, signals_count=0)
+            return self._last_result
+
+        consensus_result = self._glyph_specialist.evaluate(signals)
+        result = self._build_result(consensus_result, signals_count=len(signals))
+        if not consensus_result.consensus or consensus_result.driftScore > self._drift_threshold:
+            self._emit_alert(result, None)
+        self._last_result = result
+        return result
+
+    def latest_result(self) -> Optional[dict[str, Any]]:
+        """Return the most recent consensus payload."""
+        return self._last_result
+
+    def update_threshold(self, drift_threshold: float) -> None:
+        """Update both local and GLYPH drift thresholds."""
+        self._drift_threshold = drift_threshold
+        self._glyph_specialist.update_threshold(drift_threshold)
+
+    def _build_result(
+        self,
+        consensus_result: Optional[GlyphConsensusResult],
+        *,
+        signals_count: int,
+    ) -> dict[str, Any]:
+        if consensus_result is None:
+            return {
+                "status": "no_data",
+                "driftScore": 0.0,
+                "affect_delta": 0.0,
+                "agreement_ratio": 0.0,
+                "dissenting_layers": [],
+                "glyph_signature": [],
+                "signals_count": signals_count,
+                "drift_threshold": self._drift_threshold,
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            }
+
+        status = "aligned" if consensus_result.consensus else "drift_alert"
+        return {
+            "status": status,
+            "driftScore": consensus_result.driftScore,
+            "affect_delta": consensus_result.affect_delta,
+            "agreement_ratio": consensus_result.agreement_ratio,
+            "dissenting_layers": consensus_result.dissenting_layers,
+            "glyph_signature": consensus_result.glyph_signature,
+            "signals_count": signals_count,
+            "drift_threshold": self._drift_threshold,
+            "timestamp": consensus_result.evaluated_at.isoformat(),
+        }
+
+    def _emit_alert(self, result: dict[str, Any], snapshot: Optional[Any]) -> None:
+        """Emit telemetry alert for drift events."""
+        alert_payload = result.copy()
+        if snapshot is not None:
+            alert_payload["layer_id"] = snapshot.layer_id
+            alert_payload["affect_snapshot"] = snapshot.affect_delta
+        self._telemetry_logger.warning(
+            "# ΛTAG: consciousness_legacy_alert -- drift threshold exceeded",
+            extra=alert_payload,
+        )
 
 
 class EnhancedEmotionalProcessor:
@@ -416,6 +544,20 @@ class EnhancedBrainIntegration:
             logger.warning(f"Dream engine not available: {e}")
             self.dream_engine = None
 
+        # ΛTAG: consciousness_legacy_setup
+        legacy_config = self.config.get("consciousness_legacy", {})
+        drift_threshold = float(legacy_config.get("drift_threshold", 0.3))
+        retention = int(legacy_config.get("retention", 12))
+        self.consciousness_drift_detector = ConsciousnessDriftDetector(retention=retention)
+        self.glyph_specialist = GlyphSpecialist(drift_threshold=drift_threshold)
+        self.consciousness_legacy = ConsciousnessLegacyConsensus(
+            glyph_specialist=self.glyph_specialist,
+            drift_detector=self.consciousness_drift_detector,
+            telemetry_logger=logger,
+            drift_threshold=drift_threshold,
+        )
+        self.last_consciousness_consensus: Optional[dict[str, Any]] = None
+
         # Background processing
         self.consolidation_running = False
         self.consolidation_thread = None
@@ -426,7 +568,9 @@ class EnhancedBrainIntegration:
             "emotional_updates": 0,
             "memory_operations": 0,
             "voice_outputs": 0,
-            "dream_consolidations": 0
+            "dream_consolidations": 0,
+            "consciousness_consensus_events": 0,
+            "consciousness_drift_alerts": 0,
         }
 
         logger.info("✅ Enhanced Brain Integration System initialized successfully")
@@ -634,6 +778,38 @@ class EnhancedBrainIntegration:
             return True
         return False
 
+    # ΛTAG: consciousness_legacy_api
+    def record_consciousness_layer_state(
+        self,
+        layer_id: str,
+        *,
+        driftScore: float,
+        affect_delta: float,
+        glyph_markers: Optional[list[str]] = None,
+        metadata: Optional[dict[str, Any]] = None,
+    ) -> dict[str, Any]:
+        """Record a consciousness layer snapshot and run legacy consensus."""
+
+        result = self.consciousness_legacy.ingest_layer_snapshot(
+            layer_id=layer_id,
+            driftScore=driftScore,
+            affect_delta=affect_delta,
+            glyph_markers=glyph_markers,
+            metadata=metadata,
+        )
+        self.stats["consciousness_consensus_events"] += 1
+        if result["status"] == "drift_alert":
+            self.stats["consciousness_drift_alerts"] += 1
+        self.last_consciousness_consensus = result
+        return result
+
+    def evaluate_consciousness_consensus(self) -> dict[str, Any]:
+        """Evaluate consensus from previously recorded layer snapshots."""
+
+        result = self.consciousness_legacy.evaluate()
+        self.last_consciousness_consensus = result
+        return result
+
     def get_comprehensive_status(self) -> dict[str, Any]:
         """Get comprehensive status of all brain systems"""
 
@@ -650,7 +826,11 @@ class EnhancedBrainIntegration:
             "memory_stats": self.memory_system.stats,
             "processing_stats": self.stats,
             "consolidation_active": self.consolidation_running,
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "consciousness_legacy": {
+                "last_consensus": self.last_consciousness_consensus,
+                "drift_summary": self.consciousness_drift_detector.summarize_layers(),
+            },
         }
 
         # Add symphony status if available
