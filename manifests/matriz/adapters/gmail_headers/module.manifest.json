@@ -6,7 +6,9 @@
   ],
   "confidence": 0.85,
   "description": "Auto-generated manifest for matriz.adapters.gmail_headers",
-  "dependencies": [],
+  "dependencies": [
+    "matriz"
+  ],
   "status": "integration",
   "tier": "integration",
   "lane": "matriz",

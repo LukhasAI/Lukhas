@@ -6,7 +6,9 @@
   ],
   "confidence": 0.9,
   "description": "Auto-generated manifest for core.identity",
-  "dependencies": [],
+  "dependencies": [
+    "core"
+  ],
   "status": "integration",
   "tier": "integration",
   "lane": "core",

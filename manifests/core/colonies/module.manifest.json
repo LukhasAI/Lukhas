@@ -6,7 +6,9 @@
   ],
   "confidence": 0.7,
   "description": "Auto-generated manifest for core.colonies",
-  "dependencies": [],
+  "dependencies": [
+    "core"
+  ],
   "status": "integration",
   "tier": "integration",
   "lane": "core",

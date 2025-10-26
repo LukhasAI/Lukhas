@@ -6,7 +6,11 @@
   ],
   "confidence": 0.85,
   "description": "MATRIZ cognitive engine core package",
-  "dependencies": [],
+  "dependencies": [
+    "core",
+    "lukhas",
+    "matriz"
+  ],
   "status": "integration",
   "tier": "integration",
   "lane": "matriz",

@@ -6,7 +6,10 @@
   ],
   "confidence": 0.85,
   "description": "Auto-generated manifest for matriz.adapters",
-  "dependencies": [],
+  "dependencies": [
+    "core",
+    "matriz"
+  ],
   "status": "integration",
   "tier": "integration",
   "lane": "matriz",

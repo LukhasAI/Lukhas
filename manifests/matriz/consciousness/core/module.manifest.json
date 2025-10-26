@@ -6,7 +6,9 @@
   ],
   "confidence": 0.88,
   "description": "Auto-generated manifest for matriz.consciousness.core",
-  "dependencies": [],
+  "dependencies": [
+    "core"
+  ],
   "status": "integration",
   "tier": "integration",
   "lane": "matriz",

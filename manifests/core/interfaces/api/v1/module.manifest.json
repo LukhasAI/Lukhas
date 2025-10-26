@@ -6,7 +6,10 @@
   ],
   "confidence": 0.7,
   "description": "Auto-generated manifest for core.interfaces.api.v1",
-  "dependencies": [],
+  "dependencies": [
+    "core",
+    "lukhas"
+  ],
   "status": "integration",
   "tier": "integration",
   "lane": "core",
