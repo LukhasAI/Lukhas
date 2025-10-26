@@ -4,10 +4,14 @@
 ---
 title: gemini
 slug: gemini.md
-source: claude.me
+primary_source: lukhas_context.md
+secondary_source: claude.me
 optimized_for: gemini_ai
 last_updated: 2025-10-26
+navigation_note: "lukhas_context.md files are the most comprehensive and frequently updated source of truth. gemini.md files provide Gemini-optimized summaries."
 ---
+
+> **For Gemini**: This file provides navigation context. For comprehensive details, check lukhas_context.md in this directory (primary source).
 
 ---
 title: me
@@ -30,6 +34,28 @@ updated: 2025-10-18
 ---
 # MATRIZ Cognitive DNA Engine
 *Symbolic Reasoning & Node-Based Thought Processing*
+
+## 🚨 MATRIZ Migration Update
+
+**Team Announcement (Ready to Share):**
+
+We've completed MATRIZ case standardization for all production code and integration tests!
+
+**Completed:**
+✅ serve/ (2 imports)
+✅ core/ (2 imports)  
+✅ tests/integration/ (20 imports)
+
+**Status:** 3 PRs in CI validation
+
+**Next:** tests/unit + tests/smoke (23 imports) - will migrate after current PRs pass CI
+
+**CI Mode:** Warning (logs occurrences, doesn't block)
+**Timeline:** Flip to blocking mode after critical tests are migrated and stable (~48 hours)
+
+**Action Required:** Avoid large MATRIZ-related changes until migrations merge. Use uppercase `from MATRIZ import X` for new code.
+
+Questions? See MATRIZ_MIGRATION_GUIDE.md
 
 ## Cognitive Architecture Overview
 

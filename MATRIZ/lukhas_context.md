@@ -22,6 +22,28 @@ contract_version: 1.0.0
 # MATRIZ Cognitive Engine
 *Memory-Attention-Thought-Risk-Intent-Action Pipeline*
 
+## 🚨 MATRIZ Migration Update
+
+**Team Announcement (Ready to Share):**
+
+We've completed MATRIZ case standardization for all production code and integration tests!
+
+**Completed:**
+✅ serve/ (2 imports)
+✅ core/ (2 imports)  
+✅ tests/integration/ (20 imports)
+
+**Status:** 3 PRs in CI validation
+
+**Next:** tests/unit + tests/smoke (23 imports) - will migrate after current PRs pass CI
+
+**CI Mode:** Warning (logs occurrences, doesn't block)
+**Timeline:** Flip to blocking mode after critical tests are migrated and stable (~48 hours)
+
+**Action Required:** Avoid large MATRIZ-related changes until migrations merge. Use uppercase `from MATRIZ import X` for new code.
+
+Questions? See MATRIZ_MIGRATION_GUIDE.md
+
 ## Cognitive Architecture Overview
 
 MATRIZ implements the **Memory-Attention-Thought-Risk-Intent-Action pipeline** with T4/0.01% implementation standards. With **20 Python files** orchestrating **16,042 frontend assets** (632MB), MATRIZ provides registry-based plugin architecture with constructor-aware instantiation patterns and Constellation Framework integration.
