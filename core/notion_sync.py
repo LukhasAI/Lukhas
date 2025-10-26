@@ -65,7 +65,7 @@ except ImportError:
 
 # Security and reflection imports
 
-import streamlit as st  # TODO: Install or implement streamlit
+import streamlit as st
 
 # Add the current directory to the Python path for imports
 sys.path.insert(0, str(Path(__file__).parent))
@@ -289,7 +289,7 @@ def run_legacy_streamlit_mode():
     This consolidates the original notion_sync.py Streamlit features.
     """
     try:
-        import streamlit as st  # TODO: Install or implement streamlit
+        import streamlit as st
 
         # Load configuration
         config_path = Path("config.json")

@@ -145,6 +145,96 @@ class EnergyBudget:
 
 
 @dataclass
+class DistributedEnergyTask:
+    """
+    Distributed energy task for coordinated execution across multiple nodes
+
+    Extends the basic energy task concept with distributed coordination
+    metadata for multi-node task execution and energy allocation.
+    """
+
+    task_id: str
+    name: str
+    priority: Priority
+    estimated_energy: float
+    estimated_duration: float
+    deadline: Optional[datetime] = None
+    energy_profile: EnergyProfile = EnergyProfile.STANDARD
+
+    # Distributed coordination fields
+    node_requirements: dict[str, float] = field(default_factory=dict)  # node_id -> energy
+    minimum_nodes: int = 1
+    maximum_nodes: Optional[int] = None
+    task_distribution_strategy: str = "balanced"  # balanced, priority, locality
+
+    # Energy budget and constraints
+    total_energy_budget: float = 0.0
+    energy_per_node_min: float = 0.0
+    energy_per_node_max: float = float('inf')
+
+    # Metadata and tracking
+    metadata: dict[str, Any] = field(default_factory=dict)
+    created_at: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+    coordinator_node_id: Optional[str] = None
+
+    def __post_init__(self):
+        """Initialize computed fields"""
+        if self.total_energy_budget == 0.0:
+            self.total_energy_budget = self.estimated_energy
+
+    def estimate_total_energy(self) -> float:
+        """
+        Estimate total energy required for distributed execution
+
+        Returns:
+            Total energy budget for the task
+        """
+        if self.node_requirements:
+            return sum(self.node_requirements.values())
+        return self.total_energy_budget
+
+    def get_node_allocation(self, available_nodes: list[str]) -> dict[str, float]:
+        """
+        Calculate energy allocation per node for this task
+
+        Args:
+            available_nodes: List of available node IDs
+
+        Returns:
+            Dictionary mapping node_id to allocated energy
+        """
+        if self.node_requirements:
+            # Use explicit requirements
+            return {
+                node_id: energy
+                for node_id, energy in self.node_requirements.items()
+                if node_id in available_nodes
+            }
+
+        # Distribute energy evenly across nodes
+        num_nodes = min(
+            len(available_nodes),
+            self.maximum_nodes if self.maximum_nodes else len(available_nodes)
+        )
+        num_nodes = max(num_nodes, self.minimum_nodes)
+
+        energy_per_node = self.total_energy_budget / num_nodes
+
+        return {
+            node_id: energy_per_node
+            for node_id in available_nodes[:num_nodes]
+        }
+
+    def can_execute_on_nodes(self, node_count: int) -> bool:
+        """Check if task can execute on given number of nodes"""
+        if node_count < self.minimum_nodes:
+            return False
+        if self.maximum_nodes and node_count > self.maximum_nodes:
+            return False
+        return True
+
+
+@dataclass
 class EnergyMetrics:
     """Comprehensive energy usage metrics and analytics"""
 
@@ -808,7 +898,7 @@ class EnergyAwareExecutionPlanner:
             self.logger.error("Failed to join energy cluster", error=str(e))
             return False
 
-    async def coordinate_distributed_task(self, distributed_task: DistributedEnergyTask) -> dict:  # noqa: F821  # TODO: DistributedEnergyTask
+    async def coordinate_distributed_task(self, distributed_task: DistributedEnergyTask) -> dict:
         """Coordinate task execution across multiple nodes"""
         if not self.coordination_active:
             raise Exception("Distributed coordination not active")

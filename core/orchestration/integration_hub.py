@@ -8,7 +8,7 @@ import asyncio
 import logging
 import time
 from enum import Enum
-from typing import Any
+from typing import Any, Optional
 
 # Golden Trio imports
 try:
@@ -37,6 +37,11 @@ except ImportError:
     get_bio_engine = None
     get_bio_integration_hub = None
     MitoEthicsSync = None
+
+try:
+    from bio.core import BioCore
+except ImportError:
+    BioCore = None
 
 try:
     from orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
@@ -107,6 +112,310 @@ except ImportError:
 logger = logging.getLogger(__name__)
 
 
+# ══════════════════════════════════════════════════════════════════════════════
+# Stub Implementations for Integration Systems
+# ══════════════════════════════════════════════════════════════════════════════
+
+
+class ABASIntegrationHub:
+    """
+    Adaptive Bio-Aware System (ABAS) Integration Hub - Stub Implementation
+
+    ABAS provides bio-symbolic integration for emotional gating, physiological
+    awareness, and adaptive bio-inspired processing patterns.
+
+    This is a stub implementation providing the interface contract.
+    Full implementation should be added in abas.integration.abas_integration_hub
+
+    TODO: Implement full ABAS integration with:
+    - Emotional state tracking and gating
+    - Bio-symbolic signal processing
+    - Physiological pattern recognition
+    - Adaptive resonance and homeostasis
+    - Integration with DAST and NIAS (Golden Trio)
+    """
+
+    def __init__(self, config: Optional[dict[str, Any]] = None):
+        """
+        Initialize ABAS Integration Hub
+
+        Args:
+            config: Configuration dictionary for ABAS systems
+        """
+        self.config = config or {}
+        self.active = False
+        self.emotional_state = {"valence": 0.0, "arousal": 0.0, "mode": "neutral"}
+        self.bio_signals = {}
+        self.bio_core: Any | None = None
+        # ΛTAG: symbolic_trace - capture bio-aware transitions for auditing
+        self._symbolic_trace: list[dict[str, Any]] = []
+        self._trace_limit = int(self.config.get("trace_limit", 128))
+
+        logger.info("ABAS Integration Hub initialized (stub implementation)")
+
+    async def start(self) -> None:
+        """Start ABAS integration services"""
+        self.active = True
+        logger.info("ABAS Integration Hub started (stub)")
+
+    async def stop(self) -> None:
+        """Stop ABAS integration services"""
+        self.active = False
+        logger.info("ABAS Integration Hub stopped (stub)")
+
+    async def process_emotional_signal(self, signal: dict[str, Any]) -> dict[str, Any]:
+        """
+        Process emotional signal for gating and adaptation
+
+        Args:
+            signal: Emotional signal data
+
+        Returns:
+            Processed signal with emotional context
+
+        TODO: Implement full emotional processing pipeline
+        """
+        gating_decision = "allow"
+        if self.bio_core is not None:
+            snapshot = self.bio_core.process_emotional_signal(signal)
+            payload = snapshot.as_dict() if hasattr(snapshot, "as_dict") else snapshot
+            self.receive_bio_state(payload)
+            gating_decision = "stabilize" if payload["driftScore"] > 0.6 else "allow"
+            self._record_trace(
+                "process_signal",
+                {
+                    "source": signal.get("source", "unknown"),
+                    "driftScore": payload["driftScore"],
+                    "gating_decision": gating_decision,
+                },
+            )
+            return {
+                "processed": True,
+                "emotional_context": payload,
+                "gating_decision": gating_decision,
+                "stub": False,
+            }
+
+        self._record_trace("process_signal_stub", {"source": signal.get("source", "unknown")})
+        return {
+            "processed": True,
+            "emotional_context": self.emotional_state,
+            "gating_decision": gating_decision,
+            "stub": True,
+        }
+
+    def get_emotional_state(self) -> dict[str, Any]:
+        """Get current emotional state"""
+        return self.emotional_state.copy()
+
+    def update_emotional_state(self, valence: float, arousal: float) -> None:
+        """
+        Update emotional state
+
+        Args:
+            valence: Emotional valence (-1.0 to 1.0)
+            arousal: Emotional arousal (0.0 to 1.0)
+        """
+        self.emotional_state["valence"] = max(-1.0, min(1.0, valence))
+        self.emotional_state["arousal"] = max(0.0, min(1.0, arousal))
+        self.emotional_state["mode"] = self._derive_mode()
+        if self.bio_core is not None:
+            snapshot = self.bio_core.sync_from_abas(self.emotional_state)
+            payload = snapshot.as_dict() if hasattr(snapshot, "as_dict") else snapshot
+            self.receive_bio_state(payload)
+        logger.debug(f"ABAS emotional state updated: {self.emotional_state}")
+        self._record_trace("update_emotional_state", self.emotional_state)
+
+    def attach_bio_core(self, bio_core: Any) -> None:
+        """Attach a BioCore implementation for bidirectional synchronization."""
+        self.bio_core = bio_core
+        self._record_trace("attach_bio_core", {"attached": bio_core is not None})
+        if bio_core is not None:
+            state = bio_core.get_emotional_state()
+            self.receive_bio_state(state)
+
+    def receive_bio_state(self, state: dict[str, Any]) -> None:
+        """Receive state updates originating from BioCore."""
+        valence = float(state.get("valence", self.emotional_state["valence"]))
+        arousal = float(state.get("arousal", self.emotional_state["arousal"]))
+        self.emotional_state["valence"] = max(-1.0, min(1.0, valence))
+        self.emotional_state["arousal"] = max(0.0, min(1.0, arousal))
+        # ΛTAG: affect_delta - maintain symbolic record of emotional shifts
+        affect_delta = state.get("affect_delta", {})
+        self.emotional_state["mode"] = self._derive_mode()
+        self.bio_signals = {
+            "energy": state.get("energy_budget", {}),
+            "circadian": state.get("circadian", {}),
+            "affect_delta": affect_delta,
+        }
+        self._record_trace(
+            "receive_bio_state",
+            {
+                "valence": self.emotional_state["valence"],
+                "arousal": self.emotional_state["arousal"],
+                "driftScore": state.get("driftScore"),
+                "mode": self.emotional_state["mode"],
+            },
+        )
+
+    def get_symbolic_trace(self) -> list[dict[str, Any]]:
+        """Return the recent symbolic trace entries."""
+        return list(self._symbolic_trace)
+
+    def _derive_mode(self) -> str:
+        valence = self.emotional_state.get("valence", 0.0)
+        arousal = self.emotional_state.get("arousal", 0.0)
+        if arousal < 0.25:
+            return "rest"
+        if valence >= 0.2:
+            return "engaged"
+        if valence <= -0.2:
+            return "alert"
+        return "neutral"
+
+    def _record_trace(self, event: str, payload: dict[str, Any]) -> None:
+        entry = {"event": event, "payload": payload, "timestamp": time.time()}
+        self._symbolic_trace.append(entry)
+        if len(self._symbolic_trace) > self._trace_limit:
+            self._symbolic_trace = self._symbolic_trace[-self._trace_limit :]
+
+
+class QIAGISystem:
+    """
+    Quantum-Inspired AGI (QI-AGI) System - Stub Implementation
+
+    Provides quantum-inspired cognitive processing including:
+    - Superposition-based decision making
+    - Entanglement for cross-component coherence
+    - Quantum annealing for optimization
+    - Uncertainty as fertile ground for creativity
+
+    This is a stub implementation providing the interface contract.
+    Full implementation should be added in qi.system_orchestrator
+
+    TODO: Implement full QI-AGI orchestration with:
+    - Quantum-inspired state superposition
+    - Multi-objective optimization with quantum annealing
+    - Entanglement patterns for consciousness coherence
+    - Measurement collapse for decision finalization
+    - Integration with MATRIZ cognitive engine
+    """
+
+    def __init__(self, config: Optional[dict[str, Any]] = None):
+        """
+        Initialize QI-AGI System
+
+        Args:
+            config: Configuration dictionary for quantum-inspired processing
+        """
+        self.config = config or {}
+        self.active = False
+        self.quantum_state = {"superposition_count": 0, "coherence": 1.0}
+        self.optimization_history = []
+
+        logger.info("QI-AGI System initialized (stub implementation)")
+
+    async def start(self) -> None:
+        """Start quantum-inspired processing"""
+        self.active = True
+        logger.info("QI-AGI System started (stub)")
+
+    async def stop(self) -> None:
+        """Stop quantum-inspired processing"""
+        self.active = False
+        logger.info("QI-AGI System stopped (stub)")
+
+    async def create_superposition(
+        self,
+        options: list[dict[str, Any]],
+        context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
+        """
+        Create quantum superposition of decision options
+
+        Args:
+            options: List of possible decision options
+            context: Context for the decision
+
+        Returns:
+            Superposition state with weighted options
+
+        TODO: Implement quantum superposition with probability amplitudes
+        """
+        self.quantum_state["superposition_count"] += 1
+
+        # Stub: Return uniform probability distribution
+        probability = 1.0 / len(options) if options else 0.0
+
+        return {
+            "superposition_id": f"sp_{self.quantum_state['superposition_count']}",
+            "options": options,
+            "probabilities": [probability] * len(options),
+            "coherence": self.quantum_state["coherence"],
+            "stub": True
+        }
+
+    async def measure_collapse(
+        self,
+        superposition_id: str,
+        measurement_context: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
+        """
+        Collapse quantum superposition to single decision
+
+        Args:
+            superposition_id: ID of superposition to collapse
+            measurement_context: Context for measurement
+
+        Returns:
+            Collapsed decision result
+
+        TODO: Implement quantum measurement with contextual collapse
+        """
+        return {
+            "collapsed": True,
+            "decision": {"action": "default", "confidence": 0.5},
+            "measurement_basis": measurement_context or {},
+            "stub": True
+        }
+
+    async def quantum_anneal(
+        self,
+        objective_function: str,
+        constraints: Optional[dict[str, Any]] = None
+    ) -> dict[str, Any]:
+        """
+        Perform quantum annealing optimization
+
+        Args:
+            objective_function: Description of optimization objective
+            constraints: Optimization constraints
+
+        Returns:
+            Optimized solution
+
+        TODO: Implement quantum annealing for multi-objective optimization
+        """
+        result = {
+            "optimized": True,
+            "solution": {"value": 0.0},
+            "energy": 1.0,
+            "stub": True
+        }
+
+        self.optimization_history.append(result)
+        return result
+
+    def get_quantum_metrics(self) -> dict[str, Any]:
+        """Get quantum system metrics"""
+        return {
+            "active": self.active,
+            "quantum_state": self.quantum_state.copy(),
+            "optimization_count": len(self.optimization_history),
+            "stub": True
+        }
+
+
 class SystemHealthState(Enum):
     """System health states inspired by mitochondrial ATP production"""
 
@@ -134,9 +443,23 @@ class SystemIntegrationHub:
 
         # Golden Trio systems
         self.dast_hub = DASTIntegrationHub()
-        self.abas_hub = ABASIntegrationHub()  # noqa: F821  # TODO: ABASIntegrationHub
+        self.abas_hub = ABASIntegrationHub()
         self.nias_hub = NIASIntegrationHub()
         self.trio_orchestrator = TrioOrchestrator()
+
+        if BioCore is not None:
+            core_config = getattr(self.core_hub, "config", {}) or {}
+            bio_config: dict[str, Any] = {}
+            if isinstance(core_config, dict):
+                bio_config = core_config.get("bio_core", {}) or {}
+            try:
+                self.bio_core = BioCore(config=bio_config)
+                self.bio_core.integrate_with_abas(self.abas_hub)
+            except Exception as exc:  # pragma: no cover - defensive logging
+                logger.error("Failed to initialize BioCore: %s", exc)
+                self.bio_core = None
+        else:
+            self.bio_core = None
 
         # Ethics systems
         self.ethics_service = EthicsService()
@@ -147,7 +470,7 @@ class SystemIntegrationHub:
 
         # Learning and quantum orchestration
         self.learning_engine = Learningengine()
-        self.qi_orchestrator = QIAGISystem(config=None)  # Will be configured  # noqa: F821  # TODO: QIAGISystem
+        self.qi_orchestrator = QIAGISystem(config=None)  # Will be configured with full quantum integration
 
         # Bio engine
         self.bio_engine = get_bio_engine()
@@ -170,6 +493,8 @@ class SystemIntegrationHub:
         self.system_health: dict[str, SystemHealthState] = {}
         self.phase_alignment: dict[str, float] = {}
         self.last_sync_time: dict[str, float] = {}
+        if self.bio_core is not None:
+            self.system_health["bio_core"] = SystemHealthState.OPTIMAL
 
         # Initialize connections
         self._initialize_oscillator()
@@ -221,6 +546,8 @@ class SystemIntegrationHub:
         self.core_hub.register_service("bio_engine", self.bio_engine)
         self.core_hub.register_service("bio_symbolic", self.bio_integration_hub)
         self.bio_engine.register_integration_callback = lambda cb: None  # Bio engine handles its own callbacks
+        if self.bio_core is not None:
+            self.core_hub.register_service("bio_core", self.bio_core)
 
         # Update phase alignment
         self._update_phase("core_systems", time.time())
@@ -298,6 +625,18 @@ class SystemIntegrationHub:
         while True:
             try:
                 current_time = time.time()
+
+                if self.bio_core is not None:
+                    snapshot = self.bio_core.step()
+                    reserve = snapshot.energy_budget.reserve
+                    if reserve > 0.5:
+                        self.system_health["bio_core"] = SystemHealthState.OPTIMAL
+                    elif reserve > 0.3:
+                        self.system_health["bio_core"] = SystemHealthState.STRESSED
+                    elif reserve > 0.1:
+                        self.system_health["bio_core"] = SystemHealthState.CRITICAL
+                    else:
+                        self.system_health["bio_core"] = SystemHealthState.HIBERNATING
 
                 # Check each system's health
                 for system_id in [

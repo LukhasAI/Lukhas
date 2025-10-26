@@ -1,0 +1,61 @@
+{
+  "batch_id": "BATCH-CODEX-BIO-INTEGRATION-01",
+  "agent": "codex",
+  "title": "Bio-Inspired System Integration - BioCore & Adapters",
+  "description": "Integrate bio-inspired systems (BioCore, bio.core) across orchestration and brain layers",
+  "priority": "MEDIUM",
+  "estimated_total_time": "2h",
+  "created": "2025-10-26",
+  "status": "pending",
+  "tasks": [
+    {
+      "task_id": "CODEX-BIO-01",
+      "title": "Implement BioCore integration",
+      "priority": "MEDIUM",
+      "complexity": "HIGH",
+      "estimated_time": "1.5h",
+      "files": [
+        "core/orchestration/brain/dashboard/main_dashboard.py",
+        "candidate/bio/core.py",
+        "lukhas/bio/core.py"
+      ],
+      "description": "Create or import BioCore class for bio-inspired adaptation. Should provide: emotional state tracking, circadian rhythm simulation, energy budgeting, homeostatic regulation.",
+      "acceptance_criteria": [
+        "BioCore class exists with get_emotional_state() method",
+        "Tracks emotional valence and arousal over time",
+        "Simulates circadian energy patterns",
+        "Integrates with ABAS (Adaptive Bio-Aware System)"
+      ],
+      "location": "core/orchestration/brain/dashboard/main_dashboard.py:56",
+      "todo_text": "TODO: BioCore"
+    },
+    {
+      "task_id": "CODEX-BIO-02",
+      "title": "Implement bio.core integration",
+      "priority": "MEDIUM",
+      "complexity": "MEDIUM",
+      "estimated_time": "30m",
+      "files": [
+        "core/orchestration/brain/dashboard/main_dashboard.py",
+        "candidate/bio/core.py"
+      ],
+      "description": "Import and integrate bio.core module for organic growth patterns and adaptation. May be same as BioCore or complementary system.",
+      "acceptance_criteria": [
+        "bio.core module imported successfully",
+        "No import errors or circular dependencies",
+        "Integration with dashboard metrics",
+        "Distinguishes from or merges with BioCore"
+      ],
+      "location": "core/orchestration/brain/dashboard/main_dashboard.py:57",
+      "todo_text": "TODO: bio.core"
+    }
+  ],
+  "dependencies": [
+    "candidate/bio/core.py",
+    "core/orchestration/integration_hub.py (ABASIntegrationHub)"
+  ],
+  "related_batches": [
+    "BATCH-CODEX-TYPE-SYSTEM-01"
+  ],
+  "notes": "Bio-inspired systems are part of the Constellation Framework (🌱 Bio star). Check if BioCore and bio.core are same or different systems. ABASIntegrationHub stub exists in integration_hub.py."
+}
