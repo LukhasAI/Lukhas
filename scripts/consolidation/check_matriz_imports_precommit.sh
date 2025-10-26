@@ -12,6 +12,13 @@ echo "Checking staged Python files for legacy 'matriz' imports..."
 
 # iterate staged files
 while IFS= read -r file; do
+  # Skip artifact/build directories
+  case "$file" in
+    artifacts/*|manifests/*|third_party/*|archive/*|dist/*|build/*|.pytest_cache/*|__pycache__/*)
+      continue
+      ;;
+  esac
+
   # Only check Python files
   case "$file" in
     *.py)

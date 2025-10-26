@@ -6,9 +6,9 @@ echo "MATRIZ legacy import check" > "$OUTFILE"
 echo "Searching repository for legacy 'matriz' imports..." >> "$OUTFILE"
 echo >> "$OUTFILE"
 
-# Perform a repository-wide grep (exclude .git)
+# Perform a repository-wide grep (exclude .git, artifacts, manifests, third_party, archive, build dirs)
 # Pattern matches "from matriz." and "import matriz" (word boundary).
-matches=$(grep -R --exclude-dir=.git -nE "(^|[^\w])from\s+matriz\.|(^|[^\w])import\s+matriz\b" . || true)
+matches=$(grep -R --exclude-dir={.git,artifacts,manifests,third_party,archive,dist,build,.pytest_cache,__pycache__} -nE "(^|[^\w])from\s+matriz\.|(^|[^\w])import\s+matriz\b" . || true)
 
 if [ -z "$matches" ]; then
   echo "No legacy 'matriz' imports found." | tee -a "$OUTFILE"
