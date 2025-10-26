@@ -1,12 +1,5 @@
-#!/usr/bin/env python3
-"""
-Integration tests for Parallel Reality Simulator
-"""
-import pytest
+"""Import-smoke for matriz.consciousness.dream.parallel_reality_simulator."""
 
-
-def test_parallel_reality_simulator_import():
-    """Test that parallel_reality_simulator can be imported"""
-    import matriz.consciousness.dream.parallel_reality_simulator
-
-    assert matriz.consciousness.dream.parallel_reality_simulator is not None
+def test_parallel_reality_simulator_imports():
+    mod = __import__("matriz.consciousness.dream.parallel_reality_simulator", fromlist=["*"])
+    assert mod is not None
