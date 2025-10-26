@@ -1,3 +1,4 @@
+import logging
 import time
 import uuid
 from datetime import datetime, timezone
@@ -7,15 +8,62 @@ from interfaces.api.v1.common.errors import ProcessingError, ValidationError
 from interfaces.api.v1.rest.models import ProcessRequest, ProcessResponse, SymbolicState
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
+
+# Import metrics infrastructure
+try:
+    from core.metrics import histogram, counter
+
+    api_request_duration = histogram(
+        "lukhas_api_request_duration_seconds",
+        "Duration of API processing requests",
+        labelnames=("endpoint", "status"),
+    )
+
+    api_requests_total = counter(
+        "lukhas_api_requests_total",
+        "Total number of API requests processed",
+        labelnames=("endpoint", "status"),
+    )
+
+    METRICS_AVAILABLE = True
+except ImportError:
+    logger.warning("Metrics infrastructure not available, using no-op metrics")
+    METRICS_AVAILABLE = False
+
+    class NoOpMetric:
+        """No-op metric for when Prometheus is unavailable."""
+        def labels(self, **kwargs):
+            return self
+        def observe(self, value):
+            pass
+        def inc(self, value=1):
+            pass
+
+    api_request_duration = NoOpMetric()
+    api_requests_total = NoOpMetric()
 
 
 def get_lukhas_core():
     return lukhas_core
 
 
-async def record_metrics(request_id: str, duration: float) -> None:
-    """Record processing metrics."""
-    # TODO: implement metrics recording
+async def record_metrics(request_id: str, duration: float, status: str = "success") -> None:
+    """Record processing metrics for API requests.
+
+    Args:
+        request_id: Unique identifier for the request
+        duration: Processing duration in seconds
+        status: Request status (success, error, validation_error)
+    """
+    try:
+        if METRICS_AVAILABLE:
+            api_request_duration.labels(endpoint="/process", status=status).observe(duration)
+            api_requests_total.labels(endpoint="/process", status=status).inc()
+            logger.debug(f"Recorded metrics for request {request_id}: {duration:.3f}s ({status})")
+    except Exception as e:
+        # Never fail request processing due to metrics errors
+        logger.error(f"Failed to record metrics for request {request_id}: {e}")
 
 
 @router.post("/", response_model=ProcessResponse)
@@ -30,6 +78,8 @@ async def process_request(
 
     try:
         if len(request.input_text) > 10000:
+            duration = time.time() - start_time
+            background_tasks.add_task(record_metrics, request_id, duration, "validation_error")
             raise ValidationError("Input text too long", "input_text")
 
         result = await core.process_unified_request(request.input_text, request.context)
@@ -43,7 +93,8 @@ async def process_request(
                 entropy=result["symbolic"].get("entropy", 0.0),
             )
 
-        background_tasks.add_task(record_metrics, request_id, time.time() - start_time)
+        duration = time.time() - start_time
+        background_tasks.add_task(record_metrics, request_id, duration, "success")
 
         return ProcessResponse(
             request_id=request_id,
@@ -51,7 +102,12 @@ async def process_request(
             result=result,
             symbolic_state=symbolic_state,
             metadata={"mode": request.mode.value, "version": "1.0.0"},
-            processing_time_ms=(time.time() - start_time) * 1000,
+            processing_time_ms=duration * 1000,
         )
+    except ValidationError:
+        # Re-raise validation errors (metrics already recorded above)
+        raise
     except Exception as e:
+        duration = time.time() - start_time
+        background_tasks.add_task(record_metrics, request_id, duration, "error")
         raise ProcessingError(f"Processing failed: {e!s}")
