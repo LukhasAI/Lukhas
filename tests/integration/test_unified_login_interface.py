@@ -1,12 +1,5 @@
-#!/usr/bin/env python3
-"""
-Integration tests for Unified Login Interface
-"""
-import pytest
+"""Import-smoke for core.governance.identity.unified_login_interface."""
 
-
-def test_unified_login_interface_import():
-    """Test that unified_login_interface can be imported"""
-    import core.governance.identity.unified_login_interface
-
-    assert core.governance.identity.unified_login_interface is not None
+def test_unified_login_interface_imports():
+    mod = __import__("core.governance.identity.unified_login_interface", fromlist=["*"])
+    assert mod is not None

@@ -1,3 +1,4 @@
+from __future__ import annotations
 """
 LUKHAS QR Code Generators (QRGs)
 

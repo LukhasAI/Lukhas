@@ -1,12 +1,5 @@
-#!/usr/bin/env python3
-"""
-Integration tests for Agent Coordination
-"""
-import pytest
+"""Import-smoke for matriz.consciousness.reflection.agent_coordination."""
 
-
-def test_agent_coordination_import():
-    """Test that agent_coordination can be imported"""
-    import matriz.consciousness.reflection.agent_coordination
-
-    assert matriz.consciousness.reflection.agent_coordination is not None
+def test_agent_coordination_imports():
+    mod = __import__("matriz.consciousness.reflection.agent_coordination", fromlist=["*"])
+    assert mod is not None
