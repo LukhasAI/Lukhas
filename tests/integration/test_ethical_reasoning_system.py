@@ -1,9 +1,8 @@
-#!/usr/bin/env python3
 """Integration tests for ethical_reasoning_system module."""
 import pytest
 
-
 class TestEthicalReasoningSystem:
+
     def test_module_imports(self):
-        import matriz.consciousness.reflection.ethical_reasoning_system
+        import MATRIZ.consciousness.reflection.ethical_reasoning_system
         assert matriz.consciousness.reflection.ethical_reasoning_system is not None
