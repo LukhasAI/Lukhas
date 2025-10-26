@@ -1,8 +1,5 @@
-#!/usr/bin/env python3
-"""Integration tests for validator_node module."""
-import pytest
+"""Import-smoke for matriz.nodes.validator_node."""
 
-class TestValidatorNode:
-    def test_module_imports(self):
-        import matriz.nodes.validator_node
-        assert matriz.nodes.validator_node is not None
+def test_validator_node_imports():
+    mod = __import__("matriz.nodes.validator_node", fromlist=["*"])
+    assert mod is not None

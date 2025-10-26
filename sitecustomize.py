@@ -78,3 +78,35 @@ try:
             importer.find_spec = _find_spec.__get__(importer, importer_cls)  # type: ignore[attr-defined]
 except Exception:  # pragma: no cover - best effort shim
     pass
+
+# Provide minimal urllib3 warning stubs when the dependency is unavailable.
+try:  # pragma: no cover - prefer real urllib3 when available
+    import urllib3 as _urllib3  # type: ignore
+except Exception:  # pragma: no cover - executed when urllib3 missing
+    urllib3_stub = types.ModuleType("urllib3")
+    exceptions_stub = types.ModuleType("urllib3.exceptions")
+
+    class NotOpenSSLWarning(Warning):
+        """Fallback for urllib3's SSL warning."""
+
+    class InsecureRequestWarning(Warning):
+        """Fallback for urllib3's insecure request warning."""
+
+    exceptions_stub.NotOpenSSLWarning = NotOpenSSLWarning
+    exceptions_stub.InsecureRequestWarning = InsecureRequestWarning
+
+    def _missing_attr(name: str):  # ΛTAG: governance_stub_guardian
+        raise AttributeError(
+            "urllib3 stub does not implement attribute %r; install urllib3 for full support" % name
+        )
+
+    def __getattr__(name: str):  # pragma: no cover - diagnostic helper
+        return _missing_attr(name)
+
+    urllib3_stub.__getattr__ = __getattr__  # type: ignore[attr-defined]
+    urllib3_stub.exceptions = exceptions_stub  # type: ignore[attr-defined]
+
+    sys.modules.setdefault("urllib3", urllib3_stub)
+    sys.modules.setdefault("urllib3.exceptions", exceptions_stub)
+else:  # pragma: no cover - real urllib3 available
+    sys.modules.setdefault("urllib3", _urllib3)

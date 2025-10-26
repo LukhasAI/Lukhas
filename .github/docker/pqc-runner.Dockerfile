@@ -19,6 +19,7 @@ RUN apt-get update && apt-get install -y \
     cmake \
     ninja-build \
     libssl-dev \
+    libssl3 \
     wget \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*

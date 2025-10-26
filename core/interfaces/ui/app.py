@@ -1,190 +1,99 @@
 """
 Enhanced Core TypeScript - Integrated from Advanced Systems
-Original: app.py
-Advanced: app.py
-Integration Date: 2025-05-31T07:55:30.341806
+Original: agent_self.py
+Advanced: agent_self.py
+Integration Date: 2025-05-31T07:55:30.358880
 """
+import os
+import re
+import streamlit as st
+from dotenv import load_dotenv
 
-#
-# ╔═══════════════════════════════════════════════════════════════════╗
-# ║ 📦 MODULE: app.py                                                 ║
-# ║ 🧾 DESCRIPTION: Main Streamlit dashboard for LUKHAS Agent          ║
-# ║ 🎮 TYPE: Assistant Layer / UI Logic                               ║
-# ║ 🛠️ AUTHOR: LUCΛS SYSTEMS                                          ║
-# ║ 🗓️ CREATED: 2025-04-22                                            ║
-# ║ 🔄 UPDATED: 2025-04-22                                            ║
-# ╚═══════════════════════════════════════════════════════════════════╝
+from core.lukhas_emotion_log import get_emotion_state
+from core.lukhas_widget_engine import create_symbolic_widget
 
-import streamlit as st  # Streamlit available - UI enabled
+# ─── Load Configs ─────────────────────────────────────────────────────────────
+load_dotenv()
+st.set_page_config(page_title="LUKHAS Dashboard", layout="wide")
 
-from core.dashboard_settings import get_paired_apps
+# ─── Sidebar ──────────────────────────────────────────────────────────────────
+st.sidebar.image("assets/logo.svg", use_column_width=True)
+st.sidebar.title("LUKHAS SYSTEMS")
+agent_enabled = st.sidebar.checkbox("🧠 Enable Symbolic Agent", value=False)
+user_tier = st.sidebar.selectbox("🔐 Access Tier", [0, 1, 2, 3, 4, 5], index=2)
+selected_module = st.sidebar.selectbox("📦 Module Focus", ["lukhas_self", "lukhas_scheduler", "lukhas_gatekeeper"])
 
-st.set_page_config(page_title="LUKHAS Agent Dashboard", layout="wide")
-st.title("🧠 LUKHAS - AGENT")
+if st.sidebar.button("🌙 Reflective Dream Scheduler"):
+    st.info("Reflective dream scheduling initiated…")
 
-# ─── Sidebar Controls ───────────────────────────────────────────────────────
-st.sidebar.title("Settings")
-lukhas_plugin_enabled = st.sidebar.checkbox(
-    "🧠 Enable LUKHAS Brain Add-on", value=False
-)
+# ─── Welcome Banner ───────────────────────────────────────────────────────────
+st.title("🌱 Welcome to LUKHAS Dashboard")
+st.markdown("> A modular Cognitive AI interface designed to reflect, assist, and adapt.")
 
-# Show user app pairing overview (mock user for now)
-paired_apps = get_paired_apps("user_123")
-if paired_apps:
-    st.sidebar.markdown("🧩 **Paired Apps:**")
-    for app in paired_apps:
-        st.sidebar.write(f"• {app}")
-
-# ─── LUKHAS Symbolic Brain Plugin Toggle ───────────────────────────────────────
-
-if lukhas_plugin_enabled:
+# ─── Symbolic Identity Preview ────────────────────────────────────────────────
+if agent_enabled:
     try:
-        from core.lukhas_overview_log import log_event
+        from core.lukhas_self import who_am_i
 
-        st.sidebar.success("🧠 LUKHAS symbolic brain is active.")
-        log_event(
-            "agent",
-            "LUKHAS symbolic agent activated via dashboard.",
-            tier=0,
-            source="app.py",
+        st.success("🧠 Agent Online: " + who_am_i())
+    except Exception as e:
+        st.error("⚠️ Agent module could not load.")
+        st.exception(e)
+
+# ─── GPT Assistant Prompt Area ────────────────────────────────────────────────
+st.markdown("## 🤖 Ask LUKHAS (powered by GPT)")
+prompt = st.text_input("💬 What would you like to ask?")
+if st.button("Ask GPT"):
+    try:
+        import openai
+
+        openai.api_key = os.getenv("OPENAI_API_KEY")
+        emotion_state = get_emotion_state()
+        enriched_prompt = f"[Mood: {emotion_state.get('emotion', 'neutral')}] {prompt}"
+        chat = openai.ChatCompletion.create(
+            model="gpt-4",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are a friendly symbolic co-agent.",
+                },
+                {"role": "user", "content": enriched_prompt},
+            ],
         )
-    except ImportError:
-        st.sidebar.error(
-            "⚠️ Could not load LUKHAS_AGENT_PLUGIN. Check folder structure."
-        )
+        st.markdown(f"**💡 LUKHAS says:** {chat.choices[0].message.content}")
+    except Exception as e:
+        st.error("GPT failed to respond.")
+        st.exception(e)
 
-# ─── Symbolic Widget Preview ──────────────────────────────────────────────────
+# ─── Dashboard Sections ───────────────────────────────────────────────────────
+col1, col2, col3 = st.columns(3)
 
-st.markdown("##  🧱 Symbolic Widget Preview")
+with col1:
+    st.subheader("📅 Dream Log")
+    st.info("Latest symbolic dreams and reflections will appear here.")
 
-try:
-    from core.lukhas_widget_engine import create_symbolic_widget
-except ImportError:
-    st.warning("⚠️ lukhas_widget_engine not found.")
-else:
-    widget_types = [
-        "travel",
-        "dining",
-        "dream",
-        "checkout",
-        "reminder",
-        "event_ticket",
-        "deliveroo",
-        "glovo",
-        "grubhub",
-        "uber_eats",
-        "cinema",
-        "ticketmaster",
-        "royal_mail",
-        "correos",
-        "laposte",
-        "usps",
-        "fedex",
-    ]
-    selected_widget = st.selectbox("🔧 Choose widget type", widget_types)
-    user_tier = st.slider("⭐️ Simulated Tier", 0, 5, 3)
+with col2:
+    st.subheader("📦 Memory Bubble")
+    st.success("No new memory events logged.")
 
-    if st.button("🎛️ Generate Widget"):
-        widget = create_symbolic_widget(selected_widget, user_tier)
-        # Styled Widget Display
-        if widget and "visual_style" in widget:
-            visual = widget["visual_style"]
-            st.markdown(
-                f"""
-                <div style='background-color:{visual["background_color"]};
-                            padding:16px; border-radius:12px; color:white;
-                            font-family:Inter,sans-serif; margin-bottom:16px;'>
-                    <h3 style='margin:0;'>{visual["emoji_header"]}</h3>
-                    <p><b>Vendor:</b> {widget.get("vendor", "N/A")}</p>
-                    <p><b>Type:</b> {widget.get("type", "N/A")}</p>
-                    <p><b>Status:</b> {widget.get("status", "N/A")}</p>
-                    <button style='padding:8px 16px; background-color:white; color:black; border:none;
-                                    border-radius:8px; cursor:pointer;'>Book Now</button>
-                </div>
-            """,
-                unsafe_allow_html=True,
-            )
-        else:
-            st.warning("⚠️ No visual style found in widget.")
+with col3:
+    st.subheader("🚗 Travel Widget (Upcoming)")
+    st.warning("Symbolic trip suggestions will appear when enabled.")
 
-        # Agent Handoff Preview (if vendor supported)
-        try:
-            from core.lukhas_agent_handoff import agent_handoff
+if agent_enabled:
+    st.markdown("## 🛫 Active Travel Widget (Preview)")
+    travel_widget = create_symbolic_widget("travel", user_tier=user_tier)
+    if travel_widget["status"] != "locked":
+        st.json(travel_widget)
 
-            handoff = agent_handoff(widget.get("vendor", ""))
-            if handoff["status"] == "ready":
-                st.markdown("###  🤝 Vendor Agent Preview")
-                st.markdown(
-                    f"""
-                    <div style='background-color:{handoff["theme_color"]}; padding:16px;
-                                border-radius:12px; color:white; font-family:Inter,
-    sans-serif;'>
-                        <b>{handoff["agent_name"]}</b> from <i>{widget["vendor"]}</i><br>
-                        {handoff["greeting"]}
-                    </div>
-                """,
-                    unsafe_allow_html=True,
-                )
-        except BaseException:
-            pass
+# ─── Footer Info ──────────────────────────────────────────────────────────────
+st.markdown("---")
+st.markdown("🛠 Powered by LUKHAS SYSTEMS — v1.0.0 | Modular Cognitive AI Layer | 2025")
 
-# ─── Display Selected Module Details ──────────────────────────────────────────
-
-selected_block = None
-for full_header, mod_name, body in module_blocks:  # noqa: F821  # TODO: module_blocks
-    if mod_name == selected_module:  # noqa: F821  # TODO: selected_module
-        selected_block = (full_header, body)
-        break
-
-if selected_block:
-    full_header, body = selected_block
-    # Attempt to split body into header info and footer (usage guide) by "##" headings
-    header_info_match = re.search(  # noqa: F821  # TODO: re
-        r"(## 📘 Header Info\s*\n```text\n.*?\n```)", body, re.DOTALL  # noqa: F821  # TODO: re
-    )
-    usage_guide_match = re.search(  # noqa: F821  # TODO: re
-        r"(## 📄 Usage Guide\s*\n```text\n.*?\n```)", body, re.DOTALL  # noqa: F821  # TODO: re
-    )
-
-    st.markdown("#")
-
-    if header_info_match:
-        st.markdown(header_info_match.group(1))
-    else:
-        # Fallback: show whole body as code block
-        st.markdown("```text\n" + body.strip() + "\n```")
-
-    if usage_guide_match:
-        st.markdown(usage_guide_match.group(1))
-else:
-    st.warning("Could not extract content for this module.")
-
-# ─────────────────────────────────────────────────────────────────────
-# 📘 DASHBOARD USAGE INSTRUCTIONS
-# ─────────────────────────────────────────────────────────────────────
-#
-# 🧠 LUKHAS AGENT DASHBOARD - v1.0.0
-#
-# 🛠 HOW TO LAUNCH:
-#   1. Activate your virtual environment:
-#        source .venv/bin/activate
-#   2. Run the dashboard:
-#        streamlit run app.py
-#
-# 📦 FEATURES:
-#   - Sidebar toggle for Agent core (LUKHAS symbolic modules)
-#   - Symbolic widget preview with DST and vendor handoff
-#   - Multi-tier access simulation (Tier 0–5)
-#   - Emotional state-aware scheduler (backend logic)
-#
-# 📡 PAIRED APPS OVERVIEW:
-#   - Visible in sidebar (linked from dashboard_settings)
-#   - Useful for showing what services/devices user has authorized
-#
-# 🔍 TROUBLESHOOTING:
-#   - If Streamlit fails to launch, ensure:
-#       • Virtual environment is active
-#       • Dependencies are installed (streamlit, etc.)
-#
-# END OF FILE
-# ─────────────────────────────────────────────────────────────────────
+# ─────────────────────────────────────────────────────────────────────────────
+# ✅ Ready for:
+# - Streamlit sharing
+# - Mobile browser
+# - iOS/Android app wrapper
+# - Progressive Web App extension
+# ─────────────────────────────────────────────────────────────────────────────
