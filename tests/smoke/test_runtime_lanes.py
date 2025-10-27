@@ -28,12 +28,12 @@ def test_no_labs_leak_after_importing_lukhas():
 
 
 def test_matriz_imports_cleanly():
-    """Test that matriz package imports without labs dependencies."""
-    import matriz
+    """Test that MATRIZ package imports without labs dependencies."""
+    import MATRIZ
 
-    # matriz should be able to import independently
-    assert "matriz" in sys.modules
-    print("✅ matriz imports cleanly")
+    # MATRIZ should be able to import independently
+    assert "MATRIZ" in sys.modules
+    print("✅ MATRIZ imports cleanly")
 
 
 if __name__ == "__main__":
