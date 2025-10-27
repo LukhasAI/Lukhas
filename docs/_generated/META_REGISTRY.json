@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "generated_at": "2025-10-05T11:49:43.150185+00:00",
+  "generated_at": "2025-10-27T03:19:28.388139+00:00",
   "source_registry": "docs/_generated/MODULE_REGISTRY.json",
   "module_count": 149,
   "modules": [
@@ -28,13 +28,7 @@
       "tags": [
         "SYSTEM_CLAUDE_AUDIT"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "TODO",
@@ -47,13 +41,7 @@
       "tags": [
         "TODO"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "__pycache__",
@@ -79,13 +67,7 @@
       "tags": [
         "adapters"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "agent",
@@ -99,13 +81,7 @@
         "agent",
         "consciousness"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "agents",
@@ -118,13 +94,7 @@
       "tags": [
         "agents"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "agents_external",
@@ -137,13 +107,7 @@
       "tags": [
         "agents_external"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "ai_orchestration",
@@ -160,13 +124,7 @@
         "orchestration",
         "workflow"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "alerts",
@@ -179,13 +137,7 @@
       "tags": [
         "alerts"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "analytics",
@@ -199,13 +151,7 @@
         "analytics",
         "authentication"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "api",
@@ -224,13 +170,7 @@
         "monitoring",
         "rest"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "archive",
@@ -243,13 +183,7 @@
       "tags": [
         "archive"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "artifacts",
@@ -262,13 +196,7 @@
       "tags": [
         "artifacts"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "assets",
@@ -281,13 +209,7 @@
       "tags": [
         "assets"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "audit",
@@ -300,13 +222,7 @@
       "tags": [
         "audit"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "benchmarks",
@@ -319,13 +235,7 @@
       "tags": [
         "benchmarks"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "bio",
@@ -339,13 +249,7 @@
         "bio",
         "consciousness"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "brain",
@@ -362,13 +266,7 @@
         "monitoring",
         "orchestration"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "branding",
@@ -400,13 +298,7 @@
         "oauth2",
         "orchestration"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "business",
@@ -420,13 +312,7 @@
         "authentication",
         "business"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "candidate",
@@ -442,13 +328,7 @@
         "fold-architecture",
         "t4-experimental"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "ci",
@@ -461,13 +341,7 @@
       "tags": [
         "ci"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "claude_army",
@@ -480,13 +354,7 @@
       "tags": [
         "claude_army"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "codex_artifacts",
@@ -499,13 +367,7 @@
       "tags": [
         "codex_artifacts"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "cognitive",
@@ -518,13 +380,7 @@
       "tags": [
         "cognitive"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "cognitive_core",
@@ -553,13 +409,7 @@
       "tags": [
         "completion"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "config",
@@ -591,13 +441,7 @@
         "phenomenological",
         "t4-experimental"
       ],
-      "coverage": {
-        "observed": 4.12,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 22.1
+      "health_score": 20
     },
     {
       "module": "consciousness.simulation",
@@ -616,13 +460,7 @@
         "matada",
         "t4-beta"
       ],
-      "coverage": {
-        "observed": 0.53,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.3
+      "health_score": 20
     },
     {
       "module": "consent",
@@ -635,13 +473,7 @@
       "tags": [
         "consent"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "contracts",
@@ -654,13 +486,7 @@
       "tags": [
         "contracts"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "core",
@@ -680,13 +506,7 @@
         "orchestration",
         "t4-experimental"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "core",
@@ -710,13 +530,7 @@
       "tags": [
         "dashboards"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "data",
@@ -729,13 +543,7 @@
       "tags": [
         "data"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "delegation_reports",
@@ -748,13 +556,7 @@
       "tags": [
         "delegation_reports"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "demos",
@@ -767,13 +569,7 @@
       "tags": [
         "demos"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "deployment",
@@ -786,13 +582,7 @@
       "tags": [
         "deployment"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "design-system",
@@ -818,13 +608,7 @@
       "tags": [
         "diagnostics"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "doc",
@@ -837,13 +621,7 @@
       "tags": [
         "doc"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "docker",
@@ -856,13 +634,7 @@
       "tags": [
         "docker"
       ],
-      "coverage": {
-        "observed": 24.67,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 32.3
+      "health_score": 20
     },
     {
       "module": "docs",
@@ -889,13 +661,7 @@
         "consciousness",
         "dream"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "dreams",
@@ -909,13 +675,7 @@
         "consciousness",
         "dreams"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "dreamweaver_helpers_bundle",
@@ -928,13 +688,7 @@
       "tags": [
         "dreamweaver_helpers_bundle"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "emotion",
@@ -947,13 +701,7 @@
       "tags": [
         "emotion"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "enforcement",
@@ -966,13 +714,7 @@
       "tags": [
         "enforcement"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "enterprise",
@@ -988,13 +730,7 @@
         "fold-architecture",
         "oauth2"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "environments",
@@ -1007,13 +743,7 @@
       "tags": [
         "environments"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "ethics",
@@ -1027,13 +757,7 @@
         "consciousness",
         "ethics"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "eval_runs",
@@ -1046,13 +770,7 @@
       "tags": [
         "eval_runs"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "examples",
@@ -1065,13 +783,7 @@
       "tags": [
         "examples"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "exports",
@@ -1084,13 +796,7 @@
       "tags": [
         "exports"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "feedback",
@@ -1103,13 +809,7 @@
       "tags": [
         "feedback"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "final-sweep",
@@ -1140,13 +840,7 @@
         "guardian",
         "policy"
       ],
-      "coverage": {
-        "observed": 0.23,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.1
+      "health_score": 20
     },
     {
       "module": "governance_extended",
@@ -1164,13 +858,7 @@
         "guardian",
         "policy"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "grafana",
@@ -1183,13 +871,7 @@
       "tags": [
         "grafana"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "graphs",
@@ -1202,13 +884,7 @@
       "tags": [
         "graphs"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "gtpsi",
@@ -1221,13 +897,7 @@
       "tags": [
         "gtpsi"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "guardian",
@@ -1240,13 +910,7 @@
       "tags": [
         "guardian"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "gymnasium_local",
@@ -1259,13 +923,7 @@
       "tags": [
         "gymnasium_local"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "healing",
@@ -1278,13 +936,7 @@
       "tags": [
         "healing"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "health_reports",
@@ -1297,13 +949,7 @@
       "tags": [
         "health_reports"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "hooks",
@@ -1316,13 +962,7 @@
       "tags": [
         "hooks"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "htmlcov",
@@ -1335,13 +975,7 @@
       "tags": [
         "htmlcov"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "identity",
@@ -1360,13 +994,7 @@
         "security",
         "webauthn"
       ],
-      "coverage": {
-        "observed": 36.5,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 38.2
+      "health_score": 20
     },
     {
       "module": "integrations",
@@ -1379,13 +1007,7 @@
       "tags": [
         "integrations"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "logs",
@@ -1398,13 +1020,7 @@
       "tags": [
         "logs"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "lukhas",
@@ -1456,13 +1072,7 @@
       "tags": [
         "lukhas_website"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "matriz",
@@ -1481,13 +1091,7 @@
         "symbolic-reasoning",
         "t4-experimental"
       ],
-      "coverage": {
-        "observed": 1.98,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 21.0
+      "health_score": 20
     },
     {
       "module": "mcp-lukhas-sse",
@@ -1540,13 +1144,7 @@
       "tags": [
         "mcp_servers"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "memory",
@@ -1565,13 +1163,7 @@
         "semantic",
         "temporal"
       ],
-      "coverage": {
-        "observed": 18.53,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 29.3
+      "health_score": 20
     },
     {
       "module": "mk",
@@ -1584,13 +1176,7 @@
       "tags": [
         "mk"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "models",
@@ -1603,13 +1189,7 @@
       "tags": [
         "models"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "modulation",
@@ -1623,13 +1203,7 @@
         "modulation",
         "orchestration"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "modules",
@@ -1642,13 +1216,7 @@
       "tags": [
         "modules"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "monitoring",
@@ -1662,13 +1230,7 @@
         "authentication",
         "monitoring"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "next_gen",
@@ -1681,13 +1243,7 @@
       "tags": [
         "next_gen"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "observability",
@@ -1700,13 +1256,7 @@
       "tags": [
         "observability"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "oneiric_core",
@@ -1722,13 +1272,7 @@
         "infrastructure",
         "oneiric_core"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "ops",
@@ -1741,13 +1285,7 @@
       "tags": [
         "ops"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "orchestration",
@@ -1763,13 +1301,7 @@
         "orchestration",
         "workflow"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "out",
@@ -1782,13 +1314,7 @@
       "tags": [
         "out"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "packages",
@@ -1801,13 +1327,7 @@
       "tags": [
         "packages"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "performance",
@@ -1821,13 +1341,7 @@
         "monitoring",
         "performance"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "perp_runs",
@@ -1840,13 +1354,7 @@
       "tags": [
         "perp_runs"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "personality",
@@ -1859,13 +1367,7 @@
       "tags": [
         "personality"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "phase1_verification_pack",
@@ -1878,13 +1380,7 @@
       "tags": [
         "phase1_verification_pack"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "policies",
@@ -1897,13 +1393,7 @@
       "tags": [
         "policies"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "presentations",
@@ -1916,13 +1406,7 @@
       "tags": [
         "presentations"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "products",
@@ -1938,13 +1422,7 @@
         "products",
         "t4-experimental"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "prometheus",
@@ -1957,13 +1435,7 @@
       "tags": [
         "prometheus"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "pytest_asyncio",
@@ -1976,13 +1448,7 @@
       "tags": [
         "pytest_asyncio"
       ],
-      "coverage": {
-        "observed": 8.96,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 24.5
+      "health_score": 20
     },
     {
       "module": "qi",
@@ -1997,13 +1463,7 @@
         "orchestration",
         "qi"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "quantum",
@@ -2019,13 +1479,7 @@
         "quantum-inspired",
         "superposition"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "quarantine",
@@ -2038,13 +1492,7 @@
       "tags": [
         "quarantine"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "rats",
@@ -2057,13 +1505,7 @@
       "tags": [
         "rats"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "reasoning",
@@ -2076,13 +1518,7 @@
       "tags": [
         "reasoning"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "recovered_components",
@@ -2095,13 +1531,7 @@
       "tags": [
         "recovered_components"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "reports",
@@ -2114,13 +1544,7 @@
       "tags": [
         "reports"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "rl",
@@ -2147,13 +1571,7 @@
       "tags": [
         "rules"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "samples",
@@ -2166,13 +1584,7 @@
       "tags": [
         "samples"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "sbom",
@@ -2185,13 +1597,7 @@
       "tags": [
         "sbom"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "schemas",
@@ -2204,13 +1610,7 @@
       "tags": [
         "schemas"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "scripts",
@@ -2226,13 +1626,7 @@
         "orchestration",
         "scripts"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "sdk",
@@ -2245,13 +1639,7 @@
       "tags": [
         "sdk"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "security",
@@ -2292,13 +1680,7 @@
         "orchestration",
         "serve"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "server",
@@ -2311,13 +1693,7 @@
       "tags": [
         "server"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "services",
@@ -2330,13 +1706,7 @@
       "tags": [
         "services"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "src",
@@ -2349,13 +1719,7 @@
       "tags": [
         "src"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "storage",
@@ -2368,13 +1732,7 @@
       "tags": [
         "storage"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "symbolic",
@@ -2388,13 +1746,7 @@
         "consciousness",
         "symbolic"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "system",
@@ -2407,13 +1759,7 @@
       "tags": [
         "system"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "tagging",
@@ -2427,13 +1773,7 @@
         "consciousness",
         "tagging"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "telemetry",
@@ -2446,13 +1786,7 @@
       "tags": [
         "telemetry"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "temp",
@@ -2465,13 +1799,7 @@
       "tags": [
         "temp"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "templates",
@@ -2497,13 +1825,7 @@
       "tags": [
         "test_data"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "test_results",
@@ -2516,13 +1838,7 @@
       "tags": [
         "test_results"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "tests",
@@ -2569,13 +1885,7 @@
       "tags": [
         "tests_new"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "third_party_stubs",
@@ -2601,13 +1911,7 @@
       "tags": [
         "tone"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "tools",
@@ -2651,13 +1955,7 @@
       "tags": [
         "trace_logs"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "transmission_bundle",
@@ -2670,13 +1968,7 @@
       "tags": [
         "transmission_bundle"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "universal_language",
@@ -2689,13 +1981,7 @@
       "tags": [
         "universal_language"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "utils",
@@ -2708,13 +1994,7 @@
       "tags": [
         "utils"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "var",
@@ -2727,13 +2007,7 @@
       "tags": [
         "var"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "vivox",
@@ -2746,13 +2020,7 @@
       "tags": [
         "vivox"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "vocabularies",
@@ -2765,13 +2033,7 @@
       "tags": [
         "vocabularies"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "vocabulary_refresh_data",
@@ -2784,13 +2046,7 @@
       "tags": [
         "vocabulary_refresh_data"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     },
     {
       "module": "website_v1",
@@ -2803,21 +2059,15 @@
       "tags": [
         "website_v1"
       ],
-      "coverage": {
-        "observed": 0.0,
-        "target": null,
-        "delta": null,
-        "meets_target": null
-      },
-      "health_score": 20.0
+      "health_score": 20
     }
   ],
   "summary": {
     "total_modules": 149,
-    "with_coverage": 125,
+    "with_coverage": 0,
     "with_benchmarks": 0,
     "meeting_coverage_target": 0,
     "meeting_sla": 0,
-    "avg_health_score": 20.3
+    "avg_health_score": 20.0
   }
 }
