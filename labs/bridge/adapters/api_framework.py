@@ -297,7 +297,7 @@ class JWTAdapter:
         try:
             # Decode token
             key = self.secret_key if self.algorithm == JWTAlgorithm.HS256 else self.public_key
-            
+
             payload = jwt.decode(
                 token,
                 key,
@@ -314,49 +314,62 @@ class JWTAdapter:
                     "verify_iss": True,
                 }
             )
-            
+
             # Parse claims
             claims = TokenClaims.from_dict(payload)
-            
+
+            validation_metadata = {
+                "algorithm": self.algorithm.value,
+                "issuer": self.issuer,
+                "lambda_id_verified": bool(claims.lambda_id),
+                "expected_type": expected_type.value if expected_type else None,
+                "scopes_checked": required_scopes or [],
+            }
+
             # Check revocation
             if claims.jti and claims.jti in self._revoked_tokens:
                 return TokenValidationResult(
                     valid=False,
                     error="Token has been revoked",
                     error_code="TOKEN_REVOKED",
+                    validation_metadata=validation_metadata,
                 )
-            
+
             # Verify token type
             if expected_type and claims.token_type != expected_type.value:
                 return TokenValidationResult(
                     valid=False,
                     error=f"Invalid token type: expected {expected_type.value}, got {claims.token_type}",
                     error_code="INVALID_TOKEN_TYPE",
+                    validation_metadata={
+                        **validation_metadata,
+                        "actual_type": claims.token_type,
+                    },
                 )
-            
+
             # Verify required scopes
             if required_scopes:
                 missing_scopes = set(required_scopes) - set(claims.scopes)
                 if missing_scopes:
                     return TokenValidationResult(
                         valid=False,
-                        error=f"Missing required scopes: {missing_scopes}",
+                        error=f"Missing required scopes: {sorted(missing_scopes)}",
                         error_code="INSUFFICIENT_SCOPES",
+                        validation_metadata={
+                            **validation_metadata,
+                            "missing_scopes": sorted(missing_scopes),
+                        },
                     )
-            
+
             # Verify ΛID presence (if required)
             if verify_lambda_id and self.lambda_id_integration and not claims.lambda_id:
                 logger.warning(f"Token missing ΛID: subject={claims.sub}")
-            
+
             # Successful validation
             return TokenValidationResult(
                 valid=True,
                 claims=claims,
-                validation_metadata={
-                    "algorithm": self.algorithm.value,
-                    "issuer": self.issuer,
-                    "lambda_id_verified": bool(claims.lambda_id),
-                }
+                validation_metadata=validation_metadata,
             )
             
         except jwt.ExpiredSignatureError:
@@ -382,12 +395,20 @@ class JWTAdapter:
                 valid=False,
                 error="Invalid signature",
                 error_code="INVALID_SIGNATURE",
+                validation_metadata={
+                    "expected_type": expected_type.value if expected_type else None,
+                    "scopes_checked": required_scopes or [],
+                },
             )
         except jwt.DecodeError as e:
             return TokenValidationResult(
                 valid=False,
                 error=f"Token decode error: {str(e)}",
                 error_code="DECODE_ERROR",
+                validation_metadata={
+                    "expected_type": expected_type.value if expected_type else None,
+                    "scopes_checked": required_scopes or [],
+                },
             )
         except Exception as e:
             logger.error(f"Token verification failed: {e}", exc_info=True)
@@ -395,6 +416,10 @@ class JWTAdapter:
                 valid=False,
                 error=f"Verification error: {str(e)}",
                 error_code="VERIFICATION_ERROR",
+                validation_metadata={
+                    "expected_type": expected_type.value if expected_type else None,
+                    "scopes_checked": required_scopes or [],
+                },
             )
     
     def refresh_token(
