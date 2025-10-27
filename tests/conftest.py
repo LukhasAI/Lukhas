@@ -6,7 +6,7 @@ import hmac
 import json
 import time
 import types
-from typing import Any, Dict
+from typing import Any, Dict, List, Optional, Union
 
 import sys
 
@@ -51,12 +51,12 @@ def _install_jwt_stub() -> None:
 
     def decode(
         token: str,
-        key: str | None = None,
-        algorithms: list[str] | None = None,
-        issuer: str | None = None,
-        audience: str | list[str] | None = None,
+        key: Optional[str] = None,
+        algorithms: Optional[List[str]] = None,
+        issuer: Optional[str] = None,
+        audience: Optional[Union[str, List[str]]] = None,
         leeway: int = 0,
-        options: Dict[str, Any] | None = None,
+        options: Optional[Dict[str, Any]] = None,
     ) -> Dict[str, Any]:
         options = options or {}
         verify_signature = options.get("verify_signature", True)
