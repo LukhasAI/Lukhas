@@ -78,7 +78,11 @@
       "Bash(rg:*)",
       "Bash(for dir in mcp-lukhas-sse mcp-server mcp-servers mcp_servers)",
       "Bash(do echo \"=== $dir ===\")",
-      "Bash(git rm:*)"
+      "Bash(git rm:*)",
+      "Bash(./scripts/consolidation/check_matriz_imports_precommit.sh:*)",
+      "Bash(./scripts/consolidation/check_matriz_imports_ci.sh:*)",
+      "Bash(git --no-pager diff:*)",
+      "Bash(gh run view:*)"
     ],
     "deny": [],
     "ask": [],

@@ -1,4 +1,4 @@
-# MATRIZ Migration - Autonomous Execution Plan
+x# MATRIZ Migration - Autonomous Execution Plan
 # tests/unit + tests/smoke Migration
 
 **Target Agent:** Claude Code, GitHub Copilot, or any autonomous AI agent
