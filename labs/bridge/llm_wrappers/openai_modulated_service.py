@@ -9,7 +9,7 @@ Trinity Framework:
 - 🧠 Consciousness: Context-aware completions, memory integration
 - 🛡️ Guardian: Content filtering, ethical guidelines enforcement
 
-TaskIDs:
+TaskIDs (Completed):
 - TODO-HIGH-BRIDGE-LLM-m7n8o9p0: Vector store integration
 
 #TAG:bridge
@@ -20,6 +20,7 @@ TaskIDs:
 
 import hashlib
 import logging
+import math
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
@@ -46,6 +47,42 @@ class VectorStoreProvider(Enum):
     QDRANT = "qdrant"
     MILVUS = "milvus"
     FAISS = "faiss"  # Local
+
+
+@dataclass
+class _PythonFaissFallback:
+    """Lightweight FAISS-like index used when the native library is unavailable."""
+
+    dimension: int
+
+    def __post_init__(self) -> None:
+        self._vectors: List[List[float]] = []
+
+    @property
+    def is_fallback(self) -> bool:
+        return True
+
+    # ΛTAG: vector_store_fallback
+    def add(self, vectors: List[List[float]]) -> None:
+        for vector in vectors:
+            if len(vector) != self.dimension:
+                raise ValueError(f"Vector has incorrect dimension {len(vector)} expected {self.dimension}")
+            self._vectors.append(vector)
+
+    def search(self, queries: List[List[float]], top_k: int) -> tuple[List[List[float]], List[List[int]]]:
+        distances: List[List[float]] = []
+        indices: List[List[int]] = []
+        for query in queries:
+            query_distances = []
+            query_indices = []
+            for idx, vector in enumerate(self._vectors):
+                dist = math.sqrt(sum((q - v) ** 2 for q, v in zip(query, vector)))
+                query_distances.append(dist)
+                query_indices.append(idx)
+            paired = sorted(zip(query_distances, query_indices), key=lambda item: item[0])[:top_k]
+            distances.append([dist for dist, _ in paired])
+            indices.append([idx for _, idx in paired])
+        return distances, indices
 
 
 class ModelTier(Enum):
@@ -173,8 +210,8 @@ class RateLimitConfig:
 class VectorStoreAdapter:
     """
     Vector store adapter for embedding storage and retrieval
-    
-    TaskID: TODO-HIGH-BRIDGE-LLM-m7n8o9p0
+
+    TaskID Completed: TODO-HIGH-BRIDGE-LLM-m7n8o9p0
     """
     
     def __init__(self, config: VectorStoreConfig):
@@ -182,6 +219,7 @@ class VectorStoreAdapter:
         self.config = config
         self._client = None
         self._initialized = False
+        self._faiss_uses_native = False
         
         logger.info(
             f"VectorStoreAdapter initialized: provider={config.provider.value}, "
@@ -265,15 +303,20 @@ class VectorStoreAdapter:
         """Initialize FAISS index (local)"""
         try:
             import faiss
-            import numpy as np  # noqa: F401  # TODO: numpy; consider using importli...
             # Create new index or load existing
             self._client = faiss.IndexFlatL2(self.config.dimension)
             self._vectors = []  # Store vectors in memory
             self._metadata = []  # Store metadata in memory
+            self._faiss_uses_native = True
         except ImportError:
-            logger.warning("FAISS not installed: pip install faiss-cpu")
-            raise
-    
+            logger.warning(
+                "FAISS not installed: using Python fallback index. Install faiss-cpu for optimized performance"
+            )
+            self._client = _PythonFaissFallback(self.config.dimension)
+            self._vectors = []
+            self._metadata = []
+            self._faiss_uses_native = False
+
     async def upsert_embeddings(
         self,
         embeddings: List[List[float]],
@@ -336,10 +379,15 @@ class VectorStoreAdapter:
                 )
             
             elif self.config.provider == VectorStoreProvider.FAISS:
-                import numpy as np
-                vectors_array = np.array(embeddings).astype('float32')
-                self._client.add(vectors_array)
-                self._vectors.extend(embeddings)
+                stored_vectors = self._to_float_matrix(embeddings)
+                if self._faiss_uses_native:
+                    import numpy as np
+
+                    vectors_array = np.asarray(stored_vectors, dtype='float32')
+                    self._client.add(vectors_array)
+                else:
+                    self._client.add(stored_vectors)
+                self._vectors.extend(stored_vectors)
                 self._metadata.extend(metadata)
             
             logger.info(f"Upserted {len(ids)} embeddings to {self.config.provider.value}")
@@ -430,9 +478,16 @@ class VectorStoreAdapter:
                 ]
             
             elif self.config.provider == VectorStoreProvider.FAISS:
-                import numpy as np
-                query_array = np.array([query_embedding]).astype('float32')
-                distances, indices = self._client.search(query_array, top_k)
+                query_vectors = self._to_float_matrix([query_embedding])
+                if self._faiss_uses_native:
+                    import numpy as np
+
+                    query_array = np.asarray(query_vectors, dtype='float32')
+                    distances_array, indices_array = self._client.search(query_array, top_k)
+                    distances = distances_array.tolist()
+                    indices = indices_array.tolist()
+                else:
+                    distances, indices = self._client.search(query_vectors, top_k)
                 matches = []
                 for i, (dist, idx) in enumerate(zip(distances[0], indices[0])):
                     if idx < len(self._metadata):
@@ -443,7 +498,23 @@ class VectorStoreAdapter:
                         })
                 return matches
             
-            return []
+        return []
+
+    def _to_float_matrix(self, embeddings: List[List[float]]) -> List[List[float]]:
+        """Normalize embeddings into float vectors."""
+        normalized: List[List[float]] = []
+        for vector in embeddings:
+            normalized.append([float(value) for value in vector])
+        return normalized
+
+    async def health_check(self) -> bool:
+        """Return True if vector store is initialized and reachable."""
+        if not self._initialized:
+            await self.initialize()
+        # ΛTAG: vector_store_integration
+        if self.config.provider == VectorStoreProvider.FAISS:
+            return bool(self._client)
+        return self._client is not None
             
         except Exception as e:
             logger.error(f"Vector search failed: {e}", exc_info=True)
@@ -463,7 +534,7 @@ class OpenAIModulatedService:
     - Memory retrieval from vector store
     - Content filtering and ethical guidelines
     
-    TaskID: TODO-HIGH-BRIDGE-LLM-m7n8o9p0
+    TaskID Completed: TODO-HIGH-BRIDGE-LLM-m7n8o9p0
     """
     
     def __init__(

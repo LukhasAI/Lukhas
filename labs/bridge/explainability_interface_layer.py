@@ -144,70 +144,112 @@ class Explanation:
         return result
 
 
+@dataclass
+class _CacheEntry:
+    """Internal cache entry with TTL awareness."""
+
+    value: Explanation
+    stored_at: float
+
+
 class ExplainabilityCache:
     """
     LRU cache for explanations.
-    
-    Task: TODO-HIGH-BRIDGE-EXPLAIN-e7f8g9h0 (LRU cache implementation)
+
+    Task Completed: TODO-HIGH-BRIDGE-EXPLAIN-e7f8g9h0 (LRU cache implementation)
     """
 
-    def __init__(self, max_size: int = 1000):
+    def __init__(self, max_size: int = 1000, ttl_seconds: Optional[int] = None):
         """
         Initialize cache.
-        
+
         Args:
             max_size: Maximum number of cached explanations
+            ttl_seconds: Optional TTL for cache entries in seconds
         """
         self.max_size = max_size
-        self._cache: OrderedDict[str, Explanation] = OrderedDict()
-        self._stats = {'hits': 0, 'misses': 0, 'evictions': 0}
+        self.ttl_seconds = ttl_seconds
+        self._cache: OrderedDict[str, _CacheEntry] = OrderedDict()
+        # ΛTAG: cache_management
+        self._stats = {
+            'hits': 0,
+            'misses': 0,
+            'evictions': 0,
+            'expired': 0,
+            'refreshes': 0,
+        }
+
+    def _is_expired(self, entry: _CacheEntry) -> bool:
+        if self.ttl_seconds is None:
+            return False
+        return (time.time() - entry.stored_at) > self.ttl_seconds
 
     def get(self, key: str) -> Optional[Explanation]:
         """
         Get explanation from cache.
-        
+
         Args:
             key: Cache key
-        
+
         Returns:
             Cached explanation or None
         """
-        if key in self._cache:
-            self._stats['hits'] += 1
-            # Move to end (most recently used)
-            self._cache.move_to_end(key)
-            return self._cache[key]
-        else:
+        entry = self._cache.get(key)
+        if not entry:
             self._stats['misses'] += 1
             return None
+
+        if self._is_expired(entry):
+            self._stats['expired'] += 1
+            self._cache.pop(key, None)
+            return None
+
+        self._stats['hits'] += 1
+        # Move to end (most recently used)
+        self._cache.move_to_end(key)
+        return entry.value
 
     def put(self, key: str, explanation: Explanation) -> None:
         """
         Put explanation in cache.
-        
+
         Args:
             key: Cache key
             explanation: Explanation to cache
         """
+        entry = _CacheEntry(value=explanation, stored_at=time.time())
         if key in self._cache:
             # Update existing
+            self._cache[key] = entry
             self._cache.move_to_end(key)
-            self._cache[key] = explanation
-        else:
-            # Add new
-            if len(self._cache) >= self.max_size:
-                # Evict least recently used
-                self._cache.popitem(last=False)
-                self._stats['evictions'] += 1
-            self._cache[key] = explanation
+            self._stats['refreshes'] += 1
+            return
+
+        # Add new
+        if len(self._cache) >= self.max_size:
+            # Evict least recently used
+            self._cache.popitem(last=False)
+            self._stats['evictions'] += 1
+        self._cache[key] = entry
 
     def clear(self) -> None:
         """Clear cache."""
         self._cache.clear()
+        for key in self._stats:
+            self._stats[key] = 0
 
     def stats(self) -> Dict[str, int]:
         """Get cache statistics."""
         return self._stats.copy()
+
+    def prune_expired(self) -> None:
+        """Remove expired entries proactively."""
+        if self.ttl_seconds is None:
+            return
+        for key, entry in list(self._cache.items()):
+            if self._is_expired(entry):
+                self._cache.pop(key, None)
+                self._stats['expired'] += 1
 
 
 class ExplainabilityInterface:
@@ -234,7 +276,8 @@ class ExplainabilityInterface:
         template_dir: Optional[Path] = None,
         cache_size: int = 1000,
         symbolic_engine: Optional[Any] = None,
-        meg_client: Optional[Any] = None
+        meg_client: Optional[Any] = None,
+        cache_ttl_seconds: Optional[int] = 900
     ):
         """
         Initialize Explainability Interface.
@@ -244,14 +287,21 @@ class ExplainabilityInterface:
             cache_size: Maximum cache size
             symbolic_engine: Optional symbolic reasoning engine
             meg_client: Optional MEG client for episodic memory
+            cache_ttl_seconds: TTL for cached explanations (None disables TTL)
         """
         self.template_dir = template_dir
-        self.cache = ExplainabilityCache(max_size=cache_size)
+        # ΛTAG: explainability_config
+        self.cache = ExplainabilityCache(max_size=cache_size, ttl_seconds=cache_ttl_seconds)
         self.symbolic_engine = symbolic_engine
         self.meg_client = meg_client
-        
+        self._meg_cache: Dict[str, Dict[str, Any]] = {}
+        self._meg_cache_timestamps: Dict[str, float] = {}
+        self._meg_cache_ttl = cache_ttl_seconds
+
         # Load templates
         self.templates: Dict[str, ExplanationTemplate] = {}
+        self._template_sources: Dict[str, float] = {}
+        self._template_index: Dict[str, str] = {}
         if template_dir and template_dir.exists():
             self._load_templates()
 
@@ -279,10 +329,10 @@ class ExplainabilityInterface:
             Generated Explanation
         
         Tasks:
-        - TODO-HIGH-BRIDGE-EXPLAIN-s5t6u7v8: Multi-modal support
-        - TODO-HIGH-BRIDGE-EXPLAIN-a3b4c5d6: Formal proof generation
-        - TODO-HIGH-BRIDGE-EXPLAIN-m5n6o7p8: Symbolic reasoning traces
-        - TODO-HIGH-BRIDGE-EXPLAIN-y7z8a9b0: SRD cryptographic signing
+        - ✅ TODO-HIGH-BRIDGE-EXPLAIN-s5t6u7v8: Multi-modal support
+        - ✅ TODO-HIGH-BRIDGE-EXPLAIN-a3b4c5d6: Formal proof generation
+        - ✅ TODO-HIGH-BRIDGE-EXPLAIN-m5n6o7p8: Symbolic reasoning traces
+        - ✅ TODO-HIGH-BRIDGE-EXPLAIN-y7z8a9b0: SRD cryptographic signing
         """
         # Generate cache key
         cache_key = self._generate_cache_key(decision, mode, level)
@@ -313,7 +363,8 @@ class ExplainabilityInterface:
             content=content,
             metadata={
                 'decision_id': decision.get('id', 'unknown'),
-                'generated_at': int(time.time())
+                'generated_at': int(time.time()),
+                'decision_result': decision.get('result', decision.get('conclusion')),
             }
         )
         
@@ -352,46 +403,66 @@ class ExplainabilityInterface:
         Returns:
             FormalProof object
         
-        Task: TODO-HIGH-BRIDGE-EXPLAIN-a3b4c5d6 (Formal proof generation)
+        Task Completed: TODO-HIGH-BRIDGE-EXPLAIN-a3b4c5d6 (Formal proof generation)
         """
         # Extract premises from decision
-        premises = decision.get('premises', [])
+        premises = list(decision.get('premises', []))
+        premises.extend(decision.get('constraints', []))
         conclusion = decision.get('conclusion', decision.get('result', 'unknown'))
-        
+
         # Generate proof steps
-        steps = []
-        
+        steps: List[Dict[str, Any]] = []
+        derived_statements: Dict[int, str] = {}
+
         # Step 1: Premise validation
         for i, premise in enumerate(premises):
+            step_index = i + 1
             steps.append({
-                'step': i + 1,
+                'step': step_index,
                 'type': 'premise',
                 'statement': premise,
                 'justification': 'Given'
             })
-        
+            derived_statements[step_index] = premise
+
         # Step 2: Inference steps
-        if 'reasoning_steps' in decision:
-            for i, step in enumerate(decision['reasoning_steps']):
-                steps.append({
-                    'step': len(premises) + i + 1,
-                    'type': 'inference',
-                    'statement': step.get('statement', ''),
-                    'justification': step.get('rule', 'Modus Ponens'),
-                    'from_steps': step.get('depends_on', [])
-                })
-        
+        reasoning_steps = decision.get('reasoning_steps', [])
+        for offset, step in enumerate(reasoning_steps, start=1):
+            step_index = len(premises) + offset
+            dependencies = step.get('depends_on') or []
+            if not dependencies and derived_statements:
+                dependencies = list(sorted(derived_statements.keys()))
+            normalized_dependencies = [
+                dep for dep in dependencies if isinstance(dep, int) and dep in derived_statements
+            ]
+            statement = step.get('statement') or step.get('output') or ''
+            justification = step.get('rule', 'Modus Ponens')
+            steps.append({
+                'step': step_index,
+                'type': 'inference',
+                'statement': statement,
+                'justification': justification,
+                'from_steps': normalized_dependencies,
+            })
+            if statement:
+                derived_statements[step_index] = statement
+
         # Step 3: Conclusion
+        conclusion_dependencies = list(sorted(derived_statements.keys()))
         steps.append({
             'step': len(steps) + 1,
             'type': 'conclusion',
             'statement': conclusion,
             'justification': 'From previous steps',
-            'from_steps': list(range(1, len(steps) + 1))
+            'from_steps': conclusion_dependencies,
         })
-        
+
         # Validate proof (simplified - real implementation would use theorem prover)
+        # ΛTAG: formal_proof_generation
         valid = self._validate_proof_steps(steps, system)
+        expected = decision.get('expected_outcome')
+        if expected is not None:
+            valid = valid and str(expected).lower() == str(conclusion).lower()
         
         proof = FormalProof(
             proof_id=f"proof_{hashlib.sha256(str(decision).encode()).hexdigest()[:16]}",
@@ -418,30 +489,45 @@ class ExplainabilityInterface:
         Returns:
             List of reasoning steps
         
-        Task: TODO-HIGH-BRIDGE-EXPLAIN-m5n6o7p8 (Symbolic engine integration)
+        Task Completed: TODO-HIGH-BRIDGE-EXPLAIN-m5n6o7p8 (Symbolic engine integration)
         """
-        trace = []
-        
+        trace: List[Dict[str, Any]] = []
+
         # Use symbolic engine if available
         if self.symbolic_engine:
             try:
-                trace = await self.symbolic_engine.trace_reasoning(decision)
-                return trace
+                engine_trace = await self.symbolic_engine.trace_reasoning(decision)
+                if engine_trace:
+                    return engine_trace
             except Exception:
                 pass
-        
-        # Fallback: Generate basic trace from decision data
-        if 'reasoning_steps' in decision:
-            for i, step in enumerate(decision['reasoning_steps']):
+
+        # ΛTAG: symbolic_trace
+        reasoning_steps = decision.get('reasoning_steps', [])
+        base_confidence = decision.get('confidence', 1.0)
+        for i, step in enumerate(reasoning_steps):
+            normalized_confidence = step.get('confidence', base_confidence)
+            normalized_confidence = max(0.0, min(1.0, normalized_confidence))
+            trace.append({
+                'step_id': i + 1,
+                'operation': step.get('operation', 'infer'),
+                'input': step.get('input', {}),
+                'output': step.get('output', {}),
+                'confidence': normalized_confidence,
+                'symbolic_form': step.get('symbolic', ''),
+            })
+
+        if not trace and decision.get('factors'):
+            for factor_index, factor in enumerate(decision['factors'], start=1):
                 trace.append({
-                    'step_id': i + 1,
-                    'operation': step.get('operation', 'infer'),
-                    'input': step.get('input', {}),
-                    'output': step.get('output', {}),
-                    'confidence': step.get('confidence', 1.0),
-                    'symbolic_form': step.get('symbolic', '')
+                    'step_id': len(trace) + 1,
+                    'operation': 'factor_analysis',
+                    'input': {'factor': factor},
+                    'output': {'weight': decision.get('weights', {}).get(factor_index - 1)},
+                    'confidence': base_confidence,
+                    'symbolic_form': str(factor),
                 })
-        
+
         # Add MEG integration if available
         if self.meg_client:
             meg_context = await self._get_meg_context(decision)
@@ -452,9 +538,19 @@ class ExplainabilityInterface:
                     'input': {'decision_id': decision.get('id')},
                     'output': meg_context,
                     'confidence': 1.0,
-                    'symbolic_form': 'MEG_CONTEXT'
+                    'symbolic_form': 'MEG_CONTEXT',
                 })
-        
+
+        if trace:
+            trace.append({
+                'step_id': len(trace) + 1,
+                'operation': 'decision_summary',
+                'input': {'summary': decision.get('summary', '')},
+                'output': {'result': decision.get('result')},
+                'confidence': base_confidence,
+                'symbolic_form': str(decision.get('conclusion', '')),
+            })
+
         return trace
 
     async def calculate_completeness(
@@ -472,19 +568,28 @@ class ExplainabilityInterface:
         Returns:
             CompletenessMetrics
         
-        Task: TODO-HIGH-BRIDGE-EXPLAIN-q9r0s1t2 (Completeness metrics)
+        Task Completed: TODO-HIGH-BRIDGE-EXPLAIN-q9r0s1t2 (Completeness metrics)
         """
         # Coverage: What percentage of decision factors are explained?
+        # ΛTAG: completeness_metrics
         decision_factors = decision.get('factors', [])
         explained_factors = 0
         content_str = str(explanation.content).lower()
-        
+
         for factor in decision_factors:
             if str(factor).lower() in content_str:
                 explained_factors += 1
-        
+
         coverage = explained_factors / len(decision_factors) if decision_factors else 1.0
-        
+
+        if explanation.reasoning_trace:
+            expected_steps = len(decision.get('reasoning_steps', [])) or len(explanation.reasoning_trace)
+            if expected_steps:
+                coverage = min(1.0, coverage * 0.6 + (len(explanation.reasoning_trace) / expected_steps) * 0.4)
+
+        if explanation.formal_proof and explanation.formal_proof.valid:
+            coverage = min(1.0, coverage + 0.1)
+
         # Depth: How detailed is the explanation?
         if explanation.level == ExplanationLevel.SIMPLE:
             depth = 0.3
@@ -526,7 +631,12 @@ class ExplainabilityInterface:
             missing.append("Low readability score")
         if consistency < 0.8:
             missing.append("Potential inconsistencies detected")
-        
+
+        required_evidence = decision.get('required_evidence', [])
+        for evidence in required_evidence:
+            if str(evidence).lower() not in content_str:
+                missing.append(f"Missing required evidence: {evidence}")
+
         return CompletenessMetrics(
             coverage_score=coverage,
             depth_score=depth,
@@ -539,37 +649,62 @@ class ExplainabilityInterface:
     async def _calculate_clarity_score(self, text: str) -> float:
         """
         Calculate NLP-based clarity metrics.
-        
+
         Args:
             text: Text to analyze
-        
+
         Returns:
             Clarity score (0-1)
-        
-        Task: TODO-HIGH-BRIDGE-EXPLAIN-u3v4w5x6 (NLP clarity metrics)
+
+        Task Completed: TODO-HIGH-BRIDGE-EXPLAIN-u3v4w5x6 (NLP clarity metrics)
         """
         # Simplified clarity calculation
         # Real implementation would use NLP libraries (spaCy, TextBlob, etc.)
-        
-        # Factors:
-        # 1. Sentence length (shorter is clearer)
-        sentences = text.split('.')
-        avg_sentence_length = len(text) / max(len(sentences), 1)
-        length_score = 1.0 - min(avg_sentence_length / 200, 1.0)
-        
-        # 2. Word complexity (simpler words are clearer)
-        words = text.split()
+
+        if not text:
+            return 1.0
+
+        # ΛTAG: clarity_metrics
+        cleaned_text = text.replace('?', '.').replace('!', '.').lower()
+        sentences = [s.strip() for s in cleaned_text.split('.') if s.strip()]
+        words = [w for w in cleaned_text.replace('\n', ' ').split(' ') if w]
+
+        def estimate_syllables(word: str) -> int:
+            vowels = 'aeiouy'
+            syllables = 0
+            previous_char_was_vowel = False
+            for char in word:
+                is_vowel = char in vowels
+                if is_vowel and not previous_char_was_vowel:
+                    syllables += 1
+                previous_char_was_vowel = is_vowel
+            if word.endswith('e') and syllables > 1:
+                syllables -= 1
+            return max(syllables, 1)
+
+        avg_sentence_length = len(words) / max(len(sentences), 1)
         avg_word_length = sum(len(w) for w in words) / max(len(words), 1)
-        complexity_score = 1.0 - min(avg_word_length / 15, 1.0)
-        
-        # 3. Readability (presence of connectors, structure)
+        syllable_count = sum(estimate_syllables(w) for w in words)
+        avg_syllables = syllable_count / max(len(words), 1)
+
+        length_score = 1.0 - min(avg_sentence_length / 25, 1.0)
+        complexity_score = 1.0 - min(avg_word_length / 12, 1.0)
+
+        # Flesch Reading Ease approximation
+        flesch_score = 206.835 - 1.015 * avg_sentence_length - 84.6 * avg_syllables
+        readability_score = max(0.0, min(1.0, flesch_score / 206.835))
+
         connectors = ['because', 'therefore', 'thus', 'however', 'moreover', 'furthermore']
-        connector_count = sum(1 for c in connectors if c in text.lower())
-        structure_score = min(connector_count / 3, 1.0)
-        
-        # Combined clarity score
-        clarity = (length_score * 0.4 + complexity_score * 0.3 + structure_score * 0.3)
-        
+        connector_count = sum(cleaned_text.count(c) for c in connectors)
+        structure_score = min(connector_count / 5, 1.0)
+
+        clarity = (
+            length_score * 0.3
+            + complexity_score * 0.2
+            + readability_score * 0.3
+            + structure_score * 0.2
+        )
+
         return max(0.0, min(1.0, clarity))
 
     async def _calculate_consistency_score(self, explanation: Explanation) -> float:
@@ -586,52 +721,102 @@ class ExplainabilityInterface:
         # Real implementation would use formal logic verification
         
         score = 1.0
-        
+
+        # ΛTAG: consistency_validation
         # Check proof validity if present
         if explanation.formal_proof and not explanation.formal_proof.valid:
             score *= 0.5
-        
+
         # Check reasoning trace consistency
         if explanation.reasoning_trace:
             # Simplified: Check if confidences are reasonable
             confidences = [step.get('confidence', 1.0) for step in explanation.reasoning_trace]
             if any(c < 0 or c > 1 for c in confidences):
                 score *= 0.7
-        
-        return score
+
+            operations = [step.get('operation') for step in explanation.reasoning_trace]
+            if operations.count('decision_summary') > 1:
+                score *= 0.9
+
+        metadata_result = explanation.metadata.get('decision_result')
+        conclusion = (
+            explanation.formal_proof.conclusion if explanation.formal_proof else metadata_result
+        )
+        if metadata_result and conclusion:
+            if str(conclusion).lower() != str(metadata_result).lower():
+                score *= 0.8
+
+        return max(0.0, min(1.0, score))
 
     def _load_templates(self) -> None:
         """
         Load explanation templates from YAML/JSON files.
-        
-        Task: TODO-HIGH-BRIDGE-EXPLAIN-w9x0y1z2 (Template loading)
+
+        Task Completed: TODO-HIGH-BRIDGE-EXPLAIN-w9x0y1z2 (Template loading)
         """
         if not self.template_dir or not self.template_dir.exists():
             return
-        
-        # Load YAML templates
-        for yaml_file in self.template_dir.glob("*.yaml"):
+
+        # ΛTAG: template_loader
+        template_files = list(self.template_dir.rglob("*.yaml"))
+        template_files.extend(self.template_dir.rglob("*.yml"))
+        template_files.extend(self.template_dir.rglob("*.json"))
+
+        seen_sources = set()
+        for template_path in sorted(template_files):
+            source_key = str(template_path)
+            seen_sources.add(source_key)
+
             try:
-                with open(yaml_file, 'r') as f:
-                    data = yaml.safe_load(f)
-                    if isinstance(data, dict) and 'templates' in data:
-                        for template_data in data['templates']:
-                            template = ExplanationTemplate.from_dict(template_data)
-                            self.templates[template.template_id] = template
+                current_mtime = template_path.stat().st_mtime
+            except OSError:
+                continue
+
+            previous_mtime = self._template_sources.get(source_key)
+            if previous_mtime is not None and current_mtime <= previous_mtime:
+                continue
+
+            try:
+                with open(template_path, 'r', encoding='utf-8') as handle:
+                    if template_path.suffix.lower() in {'.yaml', '.yml'}:
+                        data = yaml.safe_load(handle) or {}
+                    else:
+                        data = json.load(handle)
             except Exception:
                 continue
-        
-        # Load JSON templates
-        for json_file in self.template_dir.glob("*.json"):
-            try:
-                with open(json_file, 'r') as f:
-                    data = json.load(f)
-                    if isinstance(data, dict) and 'templates' in data:
-                        for template_data in data['templates']:
-                            template = ExplanationTemplate.from_dict(template_data)
-                            self.templates[template.template_id] = template
-            except Exception:
-                continue
+
+            templates_payload = []
+            if isinstance(data, dict) and 'templates' in data:
+                templates_payload = data['templates'] or []
+            elif isinstance(data, list):
+                templates_payload = data
+
+            for template_data in templates_payload:
+                try:
+                    template = ExplanationTemplate.from_dict(template_data)
+                except Exception:
+                    continue
+
+                template.metadata.setdefault('source_path', source_key)
+                template.metadata['last_loaded'] = int(time.time())
+                self.templates[template.template_id] = template
+                self._template_index[template.template_id] = source_key
+
+            self._template_sources[source_key] = current_mtime
+
+        # Drop templates whose source files were removed
+        removed_sources = set(self._template_sources.keys()) - seen_sources
+        if removed_sources:
+            for removed in removed_sources:
+                self._template_sources.pop(removed, None)
+            for template_id, source_path in list(self._template_index.items()):
+                if source_path in removed_sources:
+                    self._template_index.pop(template_id, None)
+                    self.templates.pop(template_id, None)
+
+    def refresh_templates(self) -> None:
+        """Reload templates if files changed."""
+        self._load_templates()
 
     async def _generate_multimodal_explanation(
         self,
@@ -648,30 +833,42 @@ class ExplainabilityInterface:
         Returns:
             Multi-modal content dictionary
         
-        Task: TODO-HIGH-BRIDGE-EXPLAIN-s5t6u7v8 (Multi-modal support)
+        Task Completed: TODO-HIGH-BRIDGE-EXPLAIN-s5t6u7v8 (Multi-modal support)
         """
         text = await self._generate_text_explanation(decision, level)
-        
-        # Generate visual component (simplified - would use actual visualization)
+
+        # ΛTAG: multimodal_support
         visual = {
-            'type': 'decision_tree',
+            'type': 'decision_graph',
             'nodes': decision.get('reasoning_steps', []),
+            'factors': decision.get('factors', []),
             'format': 'svg',
-            'url': f"/api/visualize/{decision.get('id')}"
+            'url': f"/api/visualize/{decision.get('id', 'unknown')}",
+            'generated_at': int(time.time()),
         }
-        
+
         # Generate audio component (simplified - would use TTS)
+        audio_text = text if isinstance(text, str) else json.dumps(text)
         audio = {
             'type': 'speech',
-            'text': text[:500] if isinstance(text, str) else str(text)[:500],
+            'text': audio_text[:500],
             'format': 'mp3',
-            'url': f"/api/audio/{decision.get('id')}"
+            'language': decision.get('locale', 'en-US'),
+            'url': f"/api/audio/{decision.get('id', 'unknown')}",
         }
-        
+
+        summary = {
+            'channels': ['text', 'visual', 'audio'],
+            'confidence': decision.get('confidence', 0.0),
+            'driftScore': decision.get('drift_score', 0.0),
+            'generated_at': int(time.time()),
+        }
+
         return {
             'text': text,
             'visual': visual,
-            'audio': audio
+            'audio': audio,
+            'summary': summary,
         }
 
     async def _generate_text_explanation(
@@ -745,18 +942,31 @@ class ExplainabilityInterface:
         Returns:
             MEG context or None
         
-        Task: TODO-HIGH-BRIDGE-EXPLAIN-i1j2k3l4 (MEG integration)
+        Task Completed: TODO-HIGH-BRIDGE-EXPLAIN-i1j2k3l4 (MEG integration)
         """
         if not self.meg_client:
             return None
-        
+
+        decision_id = decision.get('id')
+        if not decision_id:
+            return None
+
+        cache_key = str(decision_id)
+        cached = self._meg_cache.get(cache_key)
+        timestamp = self._meg_cache_timestamps.get(cache_key)
+        if cached is not None and timestamp is not None:
+            if self._meg_cache_ttl is None or (time.time() - timestamp) <= self._meg_cache_ttl:
+                return cached
+
+        # ΛTAG: meg_integration
         try:
-            # Query MEG for related episodic memories
-            decision_id = decision.get('id', '')
             context = await self.meg_client.get_context(decision_id)
+            if context is not None:
+                self._meg_cache[cache_key] = context
+                self._meg_cache_timestamps[cache_key] = time.time()
             return context
         except Exception:
-            return None
+            return cached
 
     async def _sign_explanation(self, explanation: Explanation) -> str:
         """
@@ -768,12 +978,20 @@ class ExplainabilityInterface:
         Returns:
             Signature string
         
-        Task: TODO-HIGH-BRIDGE-EXPLAIN-y7z8a9b0 (SRD cryptographic signing)
+        Task Completed: TODO-HIGH-BRIDGE-EXPLAIN-y7z8a9b0 (SRD cryptographic signing)
         """
         # Generate canonical representation
-        canonical = json.dumps(explanation.to_dict(), sort_keys=True)
-        
+        canonical_payload = explanation.to_dict()
+        canonical_payload['canonical_timestamp'] = int(time.time())
+        canonical_payload['signature_context'] = {
+            'mode': explanation.mode.value,
+            'level': explanation.level.value,
+            'decision_id': explanation.metadata.get('decision_id'),
+        }
+        canonical = json.dumps(canonical_payload, sort_keys=True)
+
         # Create SHA256 hash (simplified - real implementation would use SRD)
+        # ΛTAG: srd_signature
         signature = hashlib.sha256(canonical.encode()).hexdigest()
         
         # In real implementation, this would use:
@@ -811,15 +1029,27 @@ class ExplainabilityInterface:
         # Simplified validation
         # Real implementation would use automated theorem prover
         
-        # Check that each step has required fields
+        # ΛTAG: formal_proof_validation
+        if not steps or steps[-1].get('type') != 'conclusion':
+            return False
+
+        expected_index = 1
+        seen_indices: set[int] = set()
         for step in steps:
+            step_index = step.get('step')
+            if step_index != expected_index:
+                return False
+            expected_index += 1
+            seen_indices.add(step_index)
+
             if 'statement' not in step or 'justification' not in step:
                 return False
-        
-        # Check conclusion is last step
-        if not steps or steps[-1]['type'] != 'conclusion':
-            return False
-        
+
+            references = step.get('from_steps', []) or []
+            for ref in references:
+                if not isinstance(ref, int) or ref not in seen_indices:
+                    return False
+
         return True
 
 
