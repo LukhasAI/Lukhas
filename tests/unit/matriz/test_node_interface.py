@@ -27,7 +27,7 @@ pytestmark = pytest.mark.skipif(
 )
 
 try:
-    from matriz.core.node_interface import (
+    from MATRIZ.core.node_interface import (
         CognitiveNode,
         NodeLink,
         NodeProvenance,

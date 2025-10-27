@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import pytest
-from matriz.orchestration.service_async import (
+from MATRIZ.orchestration.service_async import (
     _reset_async_orchestrator_for_testing,
     get_async_orchestrator,
     run_async_matriz,

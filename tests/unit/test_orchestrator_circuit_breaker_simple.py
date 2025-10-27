@@ -7,8 +7,8 @@ Validates that circuit breaker integration is properly wired into the orchestrat
 
 from unittest.mock import Mock
 
-from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator
-from matriz.core.node_interface import CognitiveNode
+from MATRIZ.core.async_orchestrator import AsyncCognitiveOrchestrator
+from MATRIZ.core.node_interface import CognitiveNode
 
 
 def test_orchestrator_circuit_breaker_integration():
