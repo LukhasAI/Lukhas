@@ -121,7 +121,7 @@ def create_symbolic_widget(widget_type, user_tier, context_data=None):
 
     # Add DST-powered tracking logic
     import uuid
-    from datetime import datetime, timedelta
+    from datetime import datetime, timedelta, timezone
 
     # Assign DST tracking metadata
     widget["status"] = "sleeping"  # Default state

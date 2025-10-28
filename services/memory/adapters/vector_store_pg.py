@@ -591,10 +591,13 @@ class PostgreSQLVectorStore(BatchVectorStoreBase):
         total_updated = 0
         total_failed = 0
 
-        for result in results:
+        for result, batch_documents in zip(results, batches):
             if isinstance(result, Exception):
-                total_failed += len(batch)  # Assume all in batch failed  # noqa: F821  # TODO: batch
-                logger.error(f"Batch failed: {result}")
+                # ΛTAG: vector_batch_guard - preserve visibility into failed payloads
+                total_failed += len(batch_documents)
+                logger.error(
+                    "Batch failed", extra={"error": str(result), "batch_size": len(batch_documents)}
+                )
             else:
                 total_inserted += result.get('inserted', 0)
                 total_updated += result.get('updated', 0)

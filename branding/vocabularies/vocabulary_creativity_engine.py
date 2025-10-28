@@ -13,7 +13,7 @@ image interpretation, and visual communication.
 """
 
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Iterable, Sequence, Union
 
 from core.symbolic import VisualSymbol
 from symbolic.vocabularies.vision_vocabulary import VisionSymbolicVocabulary
@@ -47,6 +47,7 @@ class VocabularyCreativityEngine:
     def __init__(self):
         self.analysis_symbols = self._init_analysis_symbols()
         self.object_symbols = self._init_object_symbols()
+        self._object_symbol_lookup = self._build_object_symbol_lookup()
         self.color_symbols = self._init_color_symbols()
         self.emotion_symbols = self._init_emotion_symbols()
         self.composition_symbols = self._init_composition_symbols()
@@ -1006,11 +1007,65 @@ class VocabularyCreativityEngine:
 
         return f"{analysis_symbol} {provider_symbol} {confidence_symbol}"
 
-        for obj in detected_objects:  # noqa: F821  # TODO: detected_objects
-            if obj.lower() in object_symbolism:  # noqa: F821  # TODO: object_symbolism
-                symbolic_elements.extend(object_symbolism[obj.lower()])  # noqa: F821  # TODO: symbolic_elements
+    # ΛTAG: vision_symbolic_mapping
+    def map_detected_objects_to_symbols(
+        self, detected_objects: Union[Sequence[str], Iterable[str], None]
+    ) -> list[str]:
+        """Map detected object labels to unique symbolic elements."""
 
-        return list(set(symbolic_elements))  # Remove duplicates  # noqa: F821  # TODO: symbolic_elements
+        if not detected_objects:
+            return []
+
+        symbolic_elements: list[str] = []
+
+        for raw_object in detected_objects:
+            normalized = str(raw_object).strip().lower()
+            if not normalized:
+                continue
+
+            explicit_symbols = self._object_symbol_lookup.get(normalized)
+            if explicit_symbols:
+                symbolic_elements.extend(explicit_symbols)
+                continue
+
+            for symbol, visual_symbol in self.object_symbols.items():
+                if any(normalized in context for context in visual_symbol.usage_contexts):
+                    symbolic_elements.append(symbol)
+                    break
+
+        # Deterministic order for downstream symbolic pipelines
+        return sorted(set(symbolic_elements))
+
+    def _build_object_symbol_lookup(self) -> dict[str, list[str]]:
+        """Return canonical object → symbol mappings."""
+
+        return {
+            "house": ["🏠"],
+            "home": ["🏠"],
+            "building": ["🏠"],
+            "architecture": ["🏠"],
+            "tree": ["🌳"],
+            "plant": ["🌳"],
+            "vegetation": ["🌳"],
+            "forest": ["🌳"],
+            "car": ["🚗"],
+            "vehicle": ["🚗"],
+            "automobile": ["🚗"],
+            "person": ["👤"],
+            "human": ["👤"],
+            "face": ["👤"],
+            "dog": ["🐕"],
+            "cat": ["🐕"],
+            "animal": ["🐕"],
+            "pet": ["🐕"],
+            "phone": ["📱"],
+            "smartphone": ["📱"],
+            "device": ["📱"],
+            "technology": ["📱"],
+            "food": ["🍎"],
+            "fruit": ["🍎"],
+            "apple": ["🍎"],
+        }
 
     def get_quality_indicators(self, success: bool, confidence: float, processing_time: float) -> str:
         """Get quality indicator symbols based on analysis results."""
