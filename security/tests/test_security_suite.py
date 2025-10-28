@@ -43,51 +43,51 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
 # Import security components
 try:
-    pass  # from security... imports commented out
-    # (Original imports moved to comments)
-    # from security.access_control import (
-    #     AccessControlSystem,
-    #     ActionType,
-    #     Resource,
-    #     ResourceType,
-    #     Subject,
-    #     create_access_control_system,
-    # )
-    # from security.compliance_framework import (
-    #     ComplianceFramework,
-    #     ComplianceStandard,
-    #     ControlStatus,
-    #     create_compliance_framework,
-    # )
-    # from security.encryption_manager import (
-    #     EncryptionAlgorithm,
-    #     EncryptionManager,
-    #     KeyType,
-    #     KeyUsage,
-    #     create_encryption_manager,
-    # )
-    # from security.incident_response import (
-    #     IncidentCategory,
-    #     IncidentResponseSystem,
-    #     IncidentSeverity,
-    #     create_incident_response_system,
-    # )
-    # from security.input_validation import (
-    #     AIInputValidator,
-    #     AttackVector,
-    #     InputValidator,
-    #     ValidationResult,
-    #     create_ai_validator,
-    #     create_api_validator,
-    #     create_web_validator,
-    # )
-    # from security.security_monitor import (
-    #     EventType,
-    #     SecurityEvent,
-    #     SecurityMonitor,
-    #     ThreatLevel,
-    #     create_security_monitor,
-    # )
+    from lukhas_website.lukhas.security.access_control import (
+        AccessControlSystem,
+        ActionType,
+        Resource,
+        ResourceType,
+        Subject,
+        create_access_control_system,
+    )
+    from lukhas_website.lukhas.security.compliance_framework import (
+        ComplianceFramework,
+        ComplianceStandard,
+        ControlStatus,
+        EvidenceType,
+        RiskLevel,
+        create_compliance_framework,
+    )
+    from lukhas_website.lukhas.security.encryption_manager import (
+        EncryptionAlgorithm,
+        EncryptionManager,
+        KeyType,
+        KeyUsage,
+        create_encryption_manager,
+    )
+    from lukhas_website.lukhas.security.incident_response import (
+        IncidentCategory,
+        IncidentResponseSystem,
+        IncidentSeverity,
+        create_incident_response_system,
+    )
+    from lukhas_website.lukhas.security.input_validation import (
+        AIInputValidator,
+        AttackVector,
+        InputValidator,
+        ValidationResult,
+        create_ai_validator,
+        create_api_validator,
+        create_web_validator,
+    )
+    from lukhas_website.lukhas.security.security_monitor import (
+        EventType,
+        SecurityEvent,
+        SecurityMonitor,
+        ThreatLevel,
+        create_security_monitor,
+    )
     SECURITY_MODULES_AVAILABLE = True
 except ImportError as e:
     SECURITY_MODULES_AVAILABLE = False
@@ -657,8 +657,12 @@ class TestComplianceFramework(unittest.TestCase):
     def setUp(self):
         self.benchmark = PerformanceBenchmark("compliance", target_ms=5.0)
         self.test_dir = tempfile.mkdtemp()
-# See: https://github.com/LukhasAI/Lukhas/issues/620
-            "evidence_path": os.path.join(self.test_dir, "evidence")
+        evidence_path = os.path.join(self.test_dir, "evidence")
+        os.makedirs(evidence_path, exist_ok=True)
+
+        self.framework = create_compliance_framework({
+            "evidence_path": evidence_path,
+            "guardian_integration": False,
         })
 
     def tearDown(self):
@@ -680,8 +684,6 @@ class TestComplianceFramework(unittest.TestCase):
 
     def test_evidence_collection(self):
         """Test evidence collection."""
-        from security.compliance_framework import EvidenceType
-
         with self.benchmark.measure():
             evidence_id = self.framework.collect_evidence(
                 control_id="CC6.1",
@@ -696,8 +698,6 @@ class TestComplianceFramework(unittest.TestCase):
 
     def test_risk_assessment(self):
         """Test risk assessment."""
-        from security.compliance_framework import RiskLevel
-
         with self.benchmark.measure():
             risk_id = self.framework.run_risk_assessment(
                 title="Test Risk",
@@ -714,11 +714,12 @@ class TestComplianceFramework(unittest.TestCase):
         """Test compliance report generation."""
         with self.benchmark.measure():
             report = self.framework.generate_compliance_report(
-# See: https://github.com/LukhasAI/Lukhas/issues/621
+                ComplianceStandard.SOC2_TYPE2
             )
 
         self.assertIsNotNone(report.id)
         self.assertIn("Compliant", report.overall_status)
+        self.assertEqual(report.standard, ComplianceStandard.SOC2_TYPE2)
 
     def test_performance_benchmark(self):
         """Test compliance framework performance."""

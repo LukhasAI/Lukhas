@@ -13,20 +13,38 @@
 ║ 🛡️ GUARDIAN: Security and compliance testing
 ╚══════════════════════════════════════════════════════════════
 """
+import importlib
 import logging
+import sys
 from typing import Any, Optional
 
 import pytest
 
+# Provide compatibility bridge for labs consciousness signal modules when promoted modules are unavailable
+if "labs.core.matriz_consciousness_signals" not in sys.modules:
+    try:
+        sys.modules["labs.core.matriz_consciousness_signals"] = importlib.import_module("core.matriz_consciousness_signals")
+    except ImportError:
+        pass
+
 # Import consciousness identity modules for testing
 try:
-    from .consciousness_coherence_monitor import (
-        CoherenceAlert,
-        CoherenceAnomaly,  # noqa: F401  # TODO: .consciousness_coherence_monit...
-        CoherenceMetricType,
-        CoherenceState,  # noqa: F401  # TODO: .consciousness_coherence_monit...
-        IdentityCoherenceMonitor,
-    )
+    try:
+        from .consciousness_coherence_monitor import (
+            CoherenceAlert,
+            CoherenceAnomaly,  # noqa: F401  # TODO: .consciousness_coherence_monit...
+            CoherenceMetricType,
+            CoherenceState,  # noqa: F401  # TODO: .consciousness_coherence_monit...
+            IdentityCoherenceMonitor,
+        )
+    except ImportError:
+        from labs.core.identity.consciousness_coherence_monitor import (
+            CoherenceAlert,
+            CoherenceAnomaly,  # noqa: F401  # TODO: .consciousness_coherence_monit...
+            CoherenceMetricType,
+            CoherenceState,  # noqa: F401  # TODO: .consciousness_coherence_monit...
+            IdentityCoherenceMonitor,
+        )
     from .consciousness_namespace_isolation import (
         AccessPermissionType,
         ConsciousnessDomain,
@@ -34,12 +52,6 @@ try:
         IsolationLevel,
         NamespaceInstance,  # noqa: F401  # TODO: .consciousness_namespace_isola...
         NamespacePolicy,  # noqa: F401  # TODO: .consciousness_namespace_isola...
-    )
-    from .consciousness_tiered_authentication import (
-        AuthenticationCredential,
-        AuthenticationMethod,
-        ConsciousnessWebAuthnManager,
-        TieredAuthenticationEngine,
     )
 
     # See: https://github.com/LukhasAI/Lukhas/issues/559
@@ -56,15 +68,46 @@ try:
         IdentityConsciousnessType,
         MatrizConsciousnessIdentityManager,
     )
-    from .matriz_consciousness_identity_signals import (
-        AuthenticationTier,
-        ConstitutionalComplianceData,  # noqa: F401  # TODO: .matriz_consciousness_identity...
-        IdentityBiometricData,
-        MatrizConsciousnessIdentitySignalEmitter,
-        NamespaceIsolationData,  # noqa: F401  # TODO: .matriz_consciousness_identity...
-    )
+    try:
+        from .matriz_consciousness_identity_signals import (
+            AuthenticationTier,
+            ConstitutionalComplianceData,  # noqa: F401  # TODO: .matriz_consciousness_identity...
+            IdentityBiometricData,
+            MatrizConsciousnessIdentitySignalEmitter,
+            NamespaceIsolationData,  # noqa: F401  # TODO: .matriz_consciousness_identity...
+        )
+    except ImportError:
+        from labs.core.identity.matriz_consciousness_identity_signals import (
+            AuthenticationTier,
+            ConstitutionalComplianceData,  # noqa: F401  # TODO: .matriz_consciousness_identity...
+            IdentityBiometricData,
+            MatrizConsciousnessIdentitySignalEmitter,
+            NamespaceIsolationData,  # noqa: F401  # TODO: .matriz_consciousness_identity...
+        )
 except ImportError as e:
     pytest.skip(f"Consciousness identity modules not available: {e}", allow_module_level=True)
+
+TIERED_AUTH_AVAILABLE = True
+TIERED_AUTH_SKIP_REASON = ""
+try:
+    from .consciousness_tiered_authentication import (
+        AuthenticationCredential,
+        AuthenticationMethod,
+        ConsciousnessWebAuthnManager,
+        TieredAuthenticationEngine,
+    )
+except ImportError as tiered_import_error:
+    TIERED_AUTH_AVAILABLE = False
+    TIERED_AUTH_SKIP_REASON = f"consciousness_tiered_authentication unavailable: {tiered_import_error}"
+    AuthenticationCredential = None  # type: ignore[assignment]
+    AuthenticationMethod = None  # type: ignore[assignment]
+    ConsciousnessWebAuthnManager = None  # type: ignore[assignment]
+    TieredAuthenticationEngine = None  # type: ignore[assignment]
+
+if TIERED_AUTH_AVAILABLE:
+    TIERED_AUTH_SKIP_REASON = ""
+elif not TIERED_AUTH_SKIP_REASON:
+    TIERED_AUTH_SKIP_REASON = "consciousness_tiered_authentication module not available"
 
 
 logger = logging.getLogger(__name__)
@@ -199,6 +242,7 @@ class TestConsciousnessIdentityCore:
         assert updated_profile.cross_namespace_permissions == permissions
 
 
+@pytest.mark.skipif(not TIERED_AUTH_AVAILABLE, reason=TIERED_AUTH_SKIP_REASON)
 class TestTieredAuthentication:
     """Test suite for tiered authentication system"""
 
@@ -211,6 +255,16 @@ class TestTieredAuthentication:
     def webauthn_manager(self):
         """Create test WebAuthn manager"""
         return ConsciousnessWebAuthnManager()
+
+    def test_tiered_authentication_module_origin(self, auth_engine, webauthn_manager):
+        """Ensure tiered authentication components import from expected module"""
+
+        engine_module = type(auth_engine).__module__
+        manager_module = type(webauthn_manager).__module__
+
+        for module_name in (engine_module, manager_module):
+            assert module_name.endswith("consciousness_tiered_authentication")
+            assert module_name.split(".", 1)[0] in {"core", "labs", "candidate"}
 
     def create_test_credential(self, method: AuthenticationMethod, data: dict[str, Any]) -> AuthenticationCredential:
         """Create test authentication credential"""
@@ -779,6 +833,7 @@ class TestSignalEmission:
         assert metrics["performance_metrics"]["authentication_signals"] >= 3
 
 
+@pytest.mark.skipif(not TIERED_AUTH_AVAILABLE, reason=TIERED_AUTH_SKIP_REASON)
 class TestIntegrationScenarios:
     """Integration test scenarios for complete consciousness identity workflows"""
 
