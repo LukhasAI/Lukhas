@@ -65,7 +65,7 @@ echo "[run] Running import-health..."
 PYTHONPATH=. "$VENV/bin/python" "$WORKTREE/scripts/consolidation/check_import_health.py" --verbose 2>&1 | tee "$REPORTDIR/import_health_worktree.log" || true
 
 # Inspect import_health log for common ImportError hints
-if grep -q "ImportError\|ModuleNotFoundError" "$REPORTDIR/import_health_worktree.log" 2>/dev/null || true; then
+if grep -q "ImportError\|ModuleNotFoundError" "$REPORTDIR/import_health_worktree.log" 2>/dev/null; then
   echo "[run] import-health reported missing modules; extracting hints..."
   grep -nE "ImportError|ModuleNotFoundError" "$REPORTDIR/import_health_worktree.log" | sed -n '1,100p' > "$REPORTDIR/import_health_errors_snippet.txt" || true
   echo "[run] Installing minimal runtime deps (pydantic, streamlit) as common fixes..."
@@ -75,7 +75,7 @@ if grep -q "ImportError\|ModuleNotFoundError" "$REPORTDIR/import_health_worktree
 fi
 
 # Check final import-health PASS
-if grep -q "PASS" "$REPORTDIR/import_health_worktree.log" 2>/dev/null || true; then
+if grep -q "PASS" "$REPORTDIR/import_health_worktree.log" 2>/dev/null; then
   echo "[run] import-health indicates PASS or likely passed (check $REPORTDIR/import_health_worktree.log)"
 else
   echo "[run] import-health did not clearly PASS. Please check $REPORTDIR/import_health_worktree.log"
