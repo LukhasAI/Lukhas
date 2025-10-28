@@ -275,10 +275,10 @@ jobs:
             ### ℹ️ 6-Week Remediation Sprint Context
 
             **Note:** Score below threshold is expected during the 6-week remediation sprint (started 2025-10-09).
-            
+
             This is a **planned infrastructure implementation** focusing on:
             - **Phase 1 (Weeks 1-2)**: SBOM generation for all 51 modules → Target: 55/100
-            - **Phase 2 (Weeks 3-4)**: Attestation framework for 9 priority modules → Target: 70/100  
+            - **Phase 2 (Weeks 3-4)**: Attestation framework for 9 priority modules → Target: 70/100
             - **Phase 3 (Weeks 5-6)**: OpenTelemetry instrumentation → Target: 85/100
 
             **Important:** Zero critical or high vulnerabilities exist. Low score is due to missing enterprise security infrastructure (SBOM, attestation, telemetry), not actual security issues.
