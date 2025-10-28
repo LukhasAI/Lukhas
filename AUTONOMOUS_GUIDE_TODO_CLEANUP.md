@@ -1,477 +1,373 @@
-# Autonomous Guide: TODO Cleanup Campaign (Reduce 6,876 to <1,000)
+# Autonomous Guide: Candidate Lane Cleanup — T4 / 0.01% Standard
 
-**Goal:** Systematically reduce TODO/FIXME debt from 7,568 items to under 1,000
-**Priority:** Medium (Ongoing effort)
-**Estimated Time:** 10-15 hours over multiple sessions
-**Compatible With:** Claude Code, Codex, GitHub Copilot, Manual Execution
+**Goal (refined):** Elevate candidate -> core promotions so that promoted modules consistently meet a top-tier "0.01%" production-readiness bar. Ensure promotions are auditable, reversible, and aligned with OpenAI-style safety and governance principles.
 
----
+**Scope:** This guide governs *promotion* of modules from `candidate/` to `core/` or `lukhas/`. Candidate remains an experimental sandbox; this document **only** defines the safe, repeatable promotion pathway.
 
-## 📋 Current Status
-
-- **TODO Comments:** 6,876
-- **FIXME Comments:** 692
-- **Total Debt:** 7,568 items
-- **Target:** <1,000 items (87% reduction)
+**Principles (T4 lens):**
+- **Skeptical-by-default.** Assume candidate code has hidden failure modes. Promotion requires independent verification. 
+- **Human-in-the-loop.** Automation assists but does not approve promotions. A named owner and two reviewers (one security/infra) must sign off for every promotion.
+- **Auditability & Reproducibility.** Every step must be reproducible from CI logs, test artifacts, and an automated changelog.
+- **Least privilege & safety.** No secrets, keys, or destructive infra changes in candidate code. Any such change requires a dedicated security review.
+- **OpenAI alignment.** Changes that affect content generation, safety checks, ethical evaluation, or user-facing behavior require an explicit ethical compliance check and documentation of risk mitigation.
 
 ---
 
-## 🎯 Phase 1: Categorize and Prioritize (30 minutes)
+## Success Criteria (must all be satisfied before merge)
+1. **Static Analysis:** `ruff --select E,F,W` and `mypy` (where typing is present) pass with zero new errors.
+2. **Syntax:** `python -m py_compile` has 0 errors for changed files.
+3. **Formatting & Import Hygiene:** `black --check`, `isort --check`, and `ruff` import checks pass.
+4. **Tests:** Unit tests covering the module(s) at **>=90% coverage** (module-level). Integration/E2E tests where applicable must pass.
+5. **Performance:** Any performance-sensitive module must include benchmarks and not regress beyond a defined threshold (e.g., 5% latency/regression budget) in CI runs.
+6. **Security & Supply Chain:** SCA scan (e.g., `pip-audit` or GitHub Dependabot) and secret-scan pass. No unpinned or high-risk dependencies introduced.
+7. **Ethics & Policy:** For modules touching model outputs, safety, or user data, the **Ethics Gate** checklist is completed and signed by the Ethics reviewer.
+8. **Documentation & UX:** Docstring, README, and `usage` examples present and validated. Public APIs must include stable contracts and changelog notes.
+9. **Observability:** Logging, metrics (Prometheus), and a health check `/healthz` implemented for long-lived services.
+10. **Owner & Reviewers:** PR must list a named owner and two reviewers (one security/infra).
 
-### Step 1.1: Generate Full TODO Inventory
+---
+
+## Promotion Workflow (detailed)
+
+### Phase 0 — Pre-Promotion Triage (owner)
+- Create a promotion branch: `git checkout -b promote/<module>-YYYYMMDD`.
+- Add a short `PROMOTE.md` in the module folder describing why the module should be promoted, acceptance criteria, and risks.
+- Run lint and tests locally. Attach artifacts to PR.
+
+### Phase 1 — Automated Validation (CI Gate 1)
+CI runs the following pipeline stages (ordered):
+1. `checkout` + `setup` (pinned python version, venv).
+2. `static-analysis` — `ruff --fix` in fix-mode only for style; any remaining issues fail the build.
+3. `type-check` — `mypy --strict` (or configured subset). Failures block promotion.
+4. `format` — `black --check`, `isort --check`.
+5. `unit-tests` — `pytest -q --maxfail=1 --junitxml=report_unit.xml` (fail on any test failure).
+6. `coverage` — compute module-level coverage and fail if <90%.
+7. `integration` — if integration tests exist for the module; otherwise stage skipped.
+8. `security-scans` — `pip-audit`, `safety`, secret scanning.
+9. `benchmarks` — if `benchmarks/` exists, run and compare to baseline; fail if regression exceeds budget.
+10. `artifact-collection` — store test reports, coverage, lints, and benchmark results as CI artifacts.
+
+**CI gating rule:** No automatic merge. Pipeline success *unlocks* manual human review.
+
+### Phase 2 — Human Review & Sign-off (Gate 2)
+- **Reviewer 1 (tech lead):** checks design, API stability, tests.
+- **Reviewer 2 (security/infra):** checks runtime safety, secrets, dependency health.
+- **Ethics reviewer (if applicable):** confirms alignment with policy for any model-facing changes.
+- **Owner:** addresses review comments; when satisfied, adds approvals.
+
+Sign-off requires two approvals (tech lead + security) and ethics approval if applicable.
+
+### Phase 3 — Promotion Execution
+Once approved:
+- Move files: `git mv candidate/... core/...` in promotion branch.
+- Run `make smoke` and selected CI stages again on the promotion branch.
+- Create PR to `main` with explicit changelog and `PROMOTE.md` attached.
+- PR merge is performed by the owner or release manager after final validation.
+
+### Phase 4 — Post-Merge Validation & Monitoring
+- CI runs nightly smoke tests for 48 hours, and a canary deployment (if service) for 24–72 hours.
+- Metrics monitored for regressions; automated rollback triggers if key signals exceed thresholds.
+- Maintain a `promotion-audit.log` linking PR, artifacts, reviewers, and results.
+
+---
+
+## Automation snippets & helpful commands
+- Lint & compile check:
 ```bash
-cd /Users/agi_dev/LOCAL-REPOS/Lukhas
-
-# Generate TODO inventory
-grep -r "TODO" --include="*.py" . 2>/dev/null | \
-  grep -v ".git" | grep -v "__pycache__" | grep -v ".venv" \
-  > /tmp/todo_inventory.txt
-
-# Generate FIXME inventory
-grep -r "FIXME" --include="*.py" . 2>/dev/null | \
-  grep -v ".git" | grep -v "__pycache__" | grep -v ".venv" \
-  > /tmp/fixme_inventory.txt
-
-wc -l /tmp/todo_inventory.txt /tmp/fixme_inventory.txt
+python -m py_compile candidate/consciousness/dream_engine.py
+python -m ruff check candidate/consciousness/dream_engine.py --select E,F,W
+mypy --config-file mypy.ini candidate/consciousness/dream_engine.py
 ```
+- Run smoke: `make smoke`
+- Create promotion branch: `git checkout -b promote/dream-engine-$(date +%F)`
 
-### Step 1.2: Categorize by Lane
+---
+
+## Risk & Rollback
+- **Risk:** Promotion may expose unstable APIs or increase CPU/ram usage.
+- **Mitigation:** Canary, metrics, and automated rollback. Feature-flag runtime changes.
+
+**Rollback:** If post-merge issues detected, revert commit immediately and open a hotfix branch: 
 ```bash
-# Production lane (lukhas/)
-grep "lukhas/" /tmp/todo_inventory.txt | wc -l
-
-# Integration lane (core/)
-grep "core/" /tmp/todo_inventory.txt | wc -l
-
-# Development lane (candidate/)
-grep "candidate/" /tmp/todo_inventory.txt | wc -l
-
-# Other locations
-grep -v "lukhas/" /tmp/todo_inventory.txt | \
-  grep -v "core/" | grep -v "candidate/" | wc -l
-```
-
-### Step 1.3: Categorize by Priority Tags
-```bash
-# High priority
-grep -i "TODO-HIGH\|TODO:HIGH\|FIXME:CRITICAL" /tmp/todo_inventory.txt | wc -l
-
-# Medium priority
-grep -i "TODO-MED\|TODO:MED\|FIXME" /tmp/todo_inventory.txt | wc -l
-
-# Low priority / No tag
-grep -v "TODO-HIGH\|TODO-MED\|FIXME" /tmp/todo_inventory.txt | wc -l
-```
-
-### Step 1.4: Categorize by Type
-```bash
-# Create categorization script
-cat > /tmp/categorize_todos.py << 'EOF'
-import sys
-import re
-
-categories = {
-    'implementation': 0,
-    'documentation': 0,
-    'testing': 0,
-    'refactor': 0,
-    'cleanup': 0,
-    'bug': 0,
-    'performance': 0,
-    'security': 0,
-    'other': 0
-}
-
-keywords = {
-    'implementation': ['implement', 'add', 'create', 'build'],
-    'documentation': ['document', 'docstring', 'comment', 'explain'],
-    'testing': ['test', 'coverage', 'validation', 'verify'],
-    'refactor': ['refactor', 'clean', 'simplify', 'improve'],
-    'cleanup': ['remove', 'delete', 'unused', 'deprecated'],
-    'bug': ['fix', 'bug', 'issue', 'error'],
-    'performance': ['optimize', 'performance', 'speed', 'cache'],
-    'security': ['security', 'auth', 'permission', 'secret']
-}
-
-for line in sys.stdin:
-    line_lower = line.lower()
-    categorized = False
-    for category, kws in keywords.items():
-        if any(kw in line_lower for kw in kws):
-            categories[category] += 1
-            categorized = True
-            break
-    if not categorized:
-        categories['other'] += 1
-
-for cat, count in sorted(categories.items(), key=lambda x: -x[1]):
-    print(f"{cat:15s}: {count:5d}")
-EOF
-
-cat /tmp/todo_inventory.txt | python3 /tmp/categorize_todos.py
+git revert <merge-commit-sha>
+git push origin main
+# Open hotfix PR and re-run full validation
 ```
 
 ---
 
-## 🚀 Phase 2: Execute Cleanup by Strategy (Multiple Sessions)
+## Governance & Compliance (OpenAI alignment)
+- Every promoted module that interacts with models, user data, or safety controls must include an **Ethics Assessment**: objectives, threat model, mitigations, dataset provenance, privacy safeguards, and fallback behaviors.
+- Maintain a public/internal `TRANSPARENCY_SCORECARD.md` entry for each promotion recording validation status and outstanding risks.
+- No autopromotion: human sign-offs are mandatory. Automated helpers may prepare prospective PRs but cannot merge.
 
-### Strategy A: Delete Obsolete TODOs (High Impact, Low Effort)
+---
 
-**Target:** ~30% reduction (2,000+ items)
-
-**Step 2A.1: Identify Obsolete TODOs**
-```bash
-# TODOs in files that don't exist
-grep "TODO.*deprecat\|TODO.*old\|TODO.*legacy" /tmp/todo_inventory.txt > /tmp/obsolete_todos.txt
-
-# TODOs already implemented
-grep "TODO.*implement" /tmp/todo_inventory.txt | head -20
-# Manually verify if already done, mark for deletion
+## Appendix: Quick Promotion Checklist (to paste into PR body)
+```
+- [ ] PROMOTE.md attached and complete
+- [ ] Static analysis: PASS
+- [ ] Type checks: PASS
+- [ ] Formatting: PASS
+- [ ] Unit tests: PASS (>=90% coverage)
+- [ ] Integration tests: PASS
+- [ ] Benchmarks: PASS (within budget)
+- [ ] Security scans: PASS
+- [ ] Ethics gate (if applicable): Signed
+- [ ] Two approvals (tech + security)
+- [ ] Owner sign-off
+- [ ] Promotion-audit.log updated
 ```
 
-**Step 2A.2: Create Cleanup Branch**
-```bash
-git checkout -b cleanup/obsolete-todos-$(date +%Y-%m-%d)
+**Last updated:** 2025-10-28
 ```
+# Autonomous Guide: Fix Import Organization (E402 Violations) — T4 / 0.01% Standard
 
-**Step 2A.3: Delete Obsolete TODOs**
+**Goal (refined):** Reduce E402 violations to near-zero in production lanes and enforce import hygiene by CI. Use AST-safe codemods, deterministic formatting (`isort`), and a documented policy for legitimate runtime imports.
+
+**Scope:** Production lanes only (`lukhas/`, `core/`, `serve/`). Candidate/experimental lanes remain exempt except when promoting.
+
+**Principles:**
+- **Deterministic transformations.** Prefer AST-based rewrites over regex.
+- **Explainable exceptions.** Any legitimate mid-file import must include a `# noqa: E402 -- reason` comment referencing a short justification and an associated issue/PR.
+- **CI enforcement with escape hatch.** Block legacy imports by default in CI; allow temporary bypass via documented, time-limited exceptions.
+
+---
+
+## Success Criteria
+- **E402 count <= 1** for production directories (the remaining 1 for justified exception).
+- **PRs that touch imports include an automated dry-run report** showing AST changes and smoke tests passing.
+- **Automated audit** recorded in `IMPORT_MIGRATION_AUDIT.md` with list of exceptions and reasons.
+
+---
+
+## Recommended Toolchain & Steps
+1. `isort` — canonical import ordering and groups.
+2. `ruff --select E402,I001` — detect and help autofix import-related issues.
+3. `libcst` or `bowler`/AST-codemod — for safe import rewrite.
+4. `pytest`, `make smoke` — validate runtime behavior after migrations.
+
+### Phase 1 — Safe Auto-fix & Dry-run
+- Run auto-fix on production lanes only:
+```bash
+python3 -m ruff check lukhas/ core/ serve/ --select E402,I001 --fix
+isort --profile black --atomic $(git ls-files 'lukhas/**/*.py' 'core/**/*.py' 'serve/**/*.py')
+``` 
+- Run an AST dry-run rewriter for tricky patterns and generate a `dryrun_report.md` listing files & AST diffs.
+
+### Phase 2 — Manual Review for Runtime Imports
+- Search for:
+  - `sys.path.insert`, `sys.path.append`
+  - `importlib`, `__import__`, `eval`, `exec`
+  - Conditional imports behind `if`/`os.environ`
+- For each file where runtime import is truly required, add:
 ```python
-# Create deletion script
-cat > /tmp/delete_obsolete_todos.py << 'EOF'
-#!/usr/bin/env python3
-"""Delete obsolete TODO comments from Python files."""
-
-import re
-import sys
-from pathlib import Path
-
-def remove_todo_line(file_path, line_number):
-    """Remove a single TODO line from file."""
-    with open(file_path, 'r') as f:
-        lines = f.readlines()
-
-    # Remove the line (1-indexed to 0-indexed)
-    if 0 <= line_number - 1 < len(lines):
-        del lines[line_number - 1]
-
-    with open(file_path, 'w') as f:
-        f.writelines(lines)
-
-if __name__ == '__main__':
-    # Read obsolete_todos.txt
-    # Format: filepath:line_number:TODO text
-    with open('/tmp/obsolete_todos.txt') as f:
-        for line in f:
-            parts = line.split(':', 2)
-            if len(parts) >= 2:
-                filepath = parts[0]
-                try:
-                    line_num = int(parts[1])
-                    remove_todo_line(filepath, line_num)
-                    print(f"Removed TODO from {filepath}:{line_num}")
-                except (ValueError, FileNotFoundError) as e:
-                    print(f"Error: {e}")
-EOF
-
-python3 /tmp/delete_obsolete_todos.py
+# noqa: E402 -- runtime import required for plugin bootstrap, see ISSUE-XXXX for context
 ```
+- Link to an issue explaining the runtime requirement and mitigation.
 
-**Step 2A.4: Validate and Commit**
-```bash
-# Run smoke tests
-make smoke  # Must pass 10/10
+### Phase 3 — CI & Pre-Commit
+- Add pre-commit hooks for `ruff`, `isort`, and `black`.
+- Add CI job `import-health` that runs nightly and on PRs that change imports. Fail PRs that increase E402 count.
 
-# Commit
-git add .
-git commit -m "chore(cleanup): remove obsolete TODO comments
+### Phase 4 — Documentation & Exceptions
+- Add `IMPORT_MIGRATION_AUDIT.md` listing migrations and `noqa` exceptions.
+- Limit long-lived exceptions: tag them with `EXCEPTION-YYYYMMDD` and a TTL (e.g., 90 days). Auto-remind owners before expiry.
 
-Removed ~$(git diff --cached | grep -c "^-.*TODO") obsolete TODO comments that were:
-- Referring to already-implemented features
-- In deprecated/legacy code paths
-- Marked as obsolete
+---
 
-Impact: TODO count reduced from 6,876 to $(grep -r "TODO" --include="*.py" . | wc -l)
-
-🤖 Generated with Claude Code
-
-Co-Authored-By: Claude <noreply@anthropic.com>"
-
-git push origin cleanup/obsolete-todos-$(date +%Y-%m-%d)
-gh pr create --title "chore(cleanup): remove obsolete TODOs" --body "..."
+## Sample CI Snippet (GitHub Actions)
+```yaml
+name: Import Health
+on: [pull_request, schedule]
+schedule:
+  - cron: '0 2 * * *' # nightly
+jobs:
+  import-health:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install
+        run: pip install ruff isort
+      - name: Run Ruff E402 check
+        run: python3 -m ruff check lukhas/ core/ serve/ --select E402 --statistics
+      - name: Fail on increase
+        run: |
+          # fail if count > baseline (baseline stored in repo)
+          python scripts/import_health/fail_on_delta.py
 ```
 
 ---
 
-### Strategy B: Convert TODOs to GitHub Issues (Medium Impact, Medium Effort)
+## Governance (OpenAI alignment)
+- Any import change affecting model-serving code must undergo security & ethics review.
+- Justified `noqa: E402` comments must include a link to a public/internal issue documenting the runtime need and mitigation.
 
-**Target:** ~25% reduction (1,500+ items)
+---
 
-**Step 2B.1: Extract High-Value TODOs**
-```bash
-# Get TODO-HIGH items
-grep -i "TODO-HIGH" /tmp/todo_inventory.txt > /tmp/high_priority_todos.txt
+## Quick checklist
+- [ ] Run `ruff` fix on production lanes
+- [ ] Run `isort` with black profile
+- [ ] Run AST dry-run for remaining files
+- [ ] Add `noqa` with justification where needed
+- [ ] CI import-health job added and passing
+- [ ] Update `IMPORT_MIGRATION_AUDIT.md`
 
-# Get complex implementation TODOs
-grep -i "TODO.*implement.*feature\|TODO.*add.*system" /tmp/todo_inventory.txt \
-  > /tmp/complex_todos.txt
+**Last updated:** 2025-10-28
 ```
+# Autonomous Guide: TODO Cleanup Campaign — T4 / 0.01% Standard
 
-**Step 2B.2: Create GitHub Issues**
-```bash
-# For each high-priority TODO, create an issue
-while IFS= read -r line; do
-  file=$(echo "$line" | cut -d':' -f1)
-  linenum=$(echo "$line" | cut -d':' -f2)
-  todo_text=$(echo "$line" | cut -d':' -f3-)
+**Goal (refined):** Reduce actionable TODO/FIXME debt in production lanes to <1,000 with a verifiable trail linking each removed TODO to either: 1) deletion rationale, 2) GitHub issue, or 3) completed code change. Ensure machine-readable TODOs that support autonomous tooling and governance.
 
-  # Create issue
-  gh issue create \
-    --title "$(echo "$todo_text" | sed 's/TODO://g' | sed 's/^ *//g' | head -c 80)" \
-    --body "**Source:** $file:$linenum
+**Key changes vs. previous:**
+- Introduce a **machine-readable TODO format**.
+- Require **issue creation** for non-trivial TODOs and replace inline TODO with an issue reference.
+- Maintain **audit log** of automated deletions and migrations.
+- Enforce human review for bulk changes.
 
-$todo_text
+---
 
-**Context:** Migrated from inline TODO comment during cleanup campaign.
-**Priority:** High
-**Lane:** $(echo "$file" | cut -d'/' -f1)" \
-    --label "todo-migration,enhancement"
-
-  # Replace TODO with issue reference
-  # (Script to update file with issue link)
-
-done < /tmp/high_priority_todos.txt
-```
-
-**Step 2B.3: Replace TODOs with Issue Links**
+## Machine-readable TODO format (MANDATORY for new TODOs)
+All new TODOs must follow this pattern:
 ```python
-# Create replacement script
-cat > /tmp/replace_todo_with_issue.py << 'EOF'
-#!/usr/bin/env python3
-"""Replace TODO comments with GitHub issue references."""
-
-import re
-import subprocess
-
-def replace_todo_with_issue(file_path, line_number, issue_number):
-    """Replace TODO line with GitHub issue reference."""
-    with open(file_path, 'r') as f:
-        lines = f.readlines()
-
-    if 0 <= line_number - 1 < len(lines):
-        # Replace TODO with issue link
-        old_line = lines[line_number - 1]
-        indent = len(old_line) - len(old_line.lstrip())
-        new_line = ' ' * indent + f"# See: https://github.com/LukhasAI/Lukhas/issues/{issue_number}\n"
-        lines[line_number - 1] = new_line
-
-    with open(file_path, 'w') as f:
-        f.writelines(lines)
-
-# Usage: Called by parent script with file, line, issue number
-EOF
+# TODO[YYYY-MM-DD][PRIORITY:HIGH|MED|LOW][OWNER:@github-user][SCOPE:PROD|CANDIDATE|DOCS][ISSUE:optional-number] : Brief message
 ```
+Example:
+```python
+# TODO[2025-10-28][PRIORITY:HIGH][OWNER:@gonzo][SCOPE:PROD] : Add input validation to prevent X
+```
+This enables scripts to parse, prioritize, and auto-migrate TODOs.
 
 ---
 
-### Strategy C: Fix Simple TODOs (Low Impact, High Effort)
+## Success Criteria
+- **Production TODOs < 1,000** (excluding `candidate/`).
+- **All TODO-HIGH** items either implemented, converted to issues, or properly scheduled.
+- **Audit trail**: every removed TODO has an entry in `/tmp/todo_cleanup_report.md` and `TODO_CLEANUP_AUDIT.md`.
 
-**Target:** ~15% reduction (1,000+ items)
+---
 
-**Step 2C.1: Identify Simple TODOs**
+## Strategy (phased & audited)
+
+### Phase 1 — Inventory & Classification (automated)
+- Generate `todo_inventory.csv` with fields: `file,line,kind,priority,owner,scope,message`
+- Tools: `rg 'TODO\[' --line-number --hidden --glob '!**/.git/**'`
+
+### Phase 2 — Automated deletions (safe low-risk)
+- Script identifies obsolete TODOs (files deleted, TODOs referencing deprecated modules) and proposes deletions.
+- Produce `obsolete_todos_proposal.md` and create a PR with deletions. PR must be reviewed by one maintainer.
+
+### Phase 3 — Convert to issues (medium-risk)
+- For TODO-HIGH & complex TODOs, create GitHub issues using `gh issue create`.
+- Replace TODO with `# See: https://github.com/<org>/<repo>/issues/<n>` and add metadata fields.
+
+Automation snippet (pseudo):
 ```bash
-# TODOs that are simple docstring additions
-grep "TODO.*docstring\|TODO.*add comment" /tmp/todo_inventory.txt \
-  > /tmp/simple_docstring_todos.txt
-
-# TODOs that are simple type hint additions
-grep "TODO.*type.*hint\|TODO.*typing" /tmp/todo_inventory.txt \
-  > /tmp/simple_typing_todos.txt
+python scripts/todo_migration/create_issues.py --input /tmp/todo_inventory.csv --priority HIGH
+# This script returns mapping file: todo_to_issue_map.json
+python scripts/todo_migration/replace_todos_with_issues.py --map todo_to_issue_map.json
 ```
 
-**Step 2C.2: Fix in Batches**
-```bash
-git checkout -b cleanup/simple-docstrings-$(date +%Y-%m-%d)
+**Human gate:** A maintainer reviews the replacements and merges the PR.
 
-# For each simple TODO, implement the fix
-# Example: Add docstring
-# Before:
-#   def foo():
-#       # TODO: add docstring
-#       pass
-# After:
-#   def foo():
-#       """Brief description of foo."""
-#       pass
+### Phase 4 — Fix simple TODOs (low-risk)
+- Batch small fixes (docstrings, typing, small refactors) with tests. Each batch limited to 20 files and validated with `make smoke`.
 
-# Commit in small batches (10-20 files at a time)
-git add <files>
-git commit -m "docs: add docstrings to resolve TODO comments in <module>"
-```
+### Phase 5 — Archive candidate TODOs
+- Candidate lane TODOs are archived to `ARCHIVE/candidate_todos/` and excluded from production metrics. This must be a tracked operation with a PR describing scope.
 
 ---
 
-### Strategy D: Archive candidate/ TODOs (High Impact, Low Effort)
+## Audit & Metrics
+- Maintain `TODO_CLEANUP_AUDIT.md` with:
+  - Counts before/after
+  - Number of TODOs deleted, converted, fixed
+  - List of created issues with links
+- Expose `TODO_DEBT_SCORE` in `TRANSPARENCY_SCORECARD.md` computed as weighted sum: HIGH=10, MED=3, LOW=1.
 
-**Target:** ~20% reduction (1,500+ items)
+---
 
-**Rationale:** candidate/ lane is experimental - TODOs there are expected and don't count against production health.
+## Governance & Safety
+- Bulk automated edits (delete/replace > 100 TODOs) **require** two human approvals.
+- Any use of `gh issue create` automation must be done under a bot account with an audit trail.
+- Do not delete TODOs that reference security, privacy, or model-safety issues — convert to issues instead.
 
-**Step 2D.1: Tag candidate/ TODOs**
-```bash
-# Find all TODOs in candidate/
-grep "candidate/" /tmp/todo_inventory.txt > /tmp/candidate_todos.txt
-wc -l /tmp/candidate_todos.txt
+---
 
-# These don't need cleanup - they're part of experimental development
+## Quick checklist
+- [ ] `todo_inventory.csv` generated
+- [ ] `obsolete_todos_proposal.md` PR opened
+- [ ] High-priority TODOs converted to issues
+- [ ] Simple TODOs fixed in batches
+- [ ] Candidate TODOs archived
+- [ ] `TODO_CLEANUP_AUDIT.md` updated
+
+**Last updated:** 2025-10-28
 ```
+# Autonomous Guide: Complete MATRIZ Migration (Remaining Imports) — T4 / 0.01% Standard
 
-**Step 2D.2: Update Metrics to Exclude candidate/**
-```bash
-# Create filtered TODO count script
-cat > /tmp/count_production_todos.sh << 'EOF'
-#!/bin/bash
-# Count TODOs excluding candidate/ lane
-grep -r "TODO" --include="*.py" . 2>/dev/null | \
-  grep -v ".git" | grep -v "__pycache__" | grep -v ".venv" | \
-  grep -v "candidate/" | wc -l
-EOF
+**Goal (refined):** Complete the migration of legacy `matriz` imports to canonical `MATRIZ` across production and test suites with AST-safe tooling, narrow PRs, and CI enforcement. Verify correctness with smoke tests, benchmarks, and a nightly audit.
 
-chmod +x /tmp/count_production_todos.sh
-/tmp/count_production_todos.sh
+**Key additions:**
+- Add AST dry-run artifact for each PR.
+- Require per-PR `migration-summary.md` with import delta and risk statement.
+- Enforce 0 legacy imports in production after merge via CI with a 48h observation window before enabling blocking enforcement.
+
+---
+
+## Success Criteria
+- 0 legacy `matriz` imports in production/test code (exceptions only in archived/legacy folders).
+- Smoke tests passing 10/10 after each grouped migration PR.
+- Migration PRs limited to a single directory and a small set of files.
+
+---
+
+## Execution (robust)
+
+### Phase 0 — Baseline & Tools
+- Baseline: record current grep count to `MATRIZ_MIGRATION_BASELINE.md`.
+- Tooling: `scripts/consolidation/rewrite_matriz_imports.py` using `libcst` or `bowler` for AST accuracy.
+- Tests: `make smoke`, full test subset for affected tests.
+
+### Phase 1 — Grouped Migrations (1 directory per PR)
+For each directory (e.g., `tests/benchmarks/`):
+1. Branch: `migration/matriz-<group>-YYYYMMDD`.
+2. Dry run: `--dry-run --verbose` producing `dryrun_<group>.json` and `dryrun_<group>.html` (AST diffs).
+3. CI: Attach dry-run artifacts to PR and run `make smoke` and `pytest` for the group.
+4. Commit: AST rewriter applied; run `isort`, `ruff --fix` and `black` post-rewrite.
+5. PR: Include `migration-summary.md`:
+   - Files changed
+   - Imports updated
+   - Test outcomes
+   - Risk statement
+6. Merge after 2 reviewers sign off and smoke tests pass.
+
+Limit scope to <200 lines changed per PR when possible.
+
+### Phase 2 — Final Verification
+- Run global grep check for legacy imports and fail if >0 in production dirs.
+- Run `python3 scripts/generate_meta_registry.py` and `python3 scripts/consolidation/check_import_health.py`.
+
+### Phase 3 — Enable CI Enforcement
+- After 48h of stable main, flip CI `BLOCK_LEGACY` to `1` and publish a release note.
+
+---
+
+## Rollback & Hotfix
+- Revert the migration PR or revert main if migration causes regressions.
+- Maintain rollback instructions in `MATRIZ_MIGRATION_BASELINE.md`.
+
+---
+
+## Checklist
+- [ ] Baseline recorded
+- [ ] Tools verified (AST rewriter)
+- [ ] One PR per group created
+- [ ] Dry-run artifacts attached
+- [ ] Migration-summary.md included
+- [ ] Smoke tests passed
+- [ ] Post-merge nightly audit green
+- [ ] CI BLOCK_LEGACY flip scheduled after 48h
+
+**Last updated:** 2025-10-28
 ```
-
-**Production TODO Count (excluding candidate/):** Expected ~3,000-4,000
-
----
-
-## ✅ Phase 3: Verification (15 minutes)
-
-### Step 3.1: Count Remaining TODOs
-```bash
-# Total count
-grep -r "TODO" --include="*.py" . | grep -v ".git" | wc -l
-
-# Production count (excluding candidate/)
-grep -r "TODO" --include="*.py" . | grep -v ".git" | \
-  grep -v "candidate/" | wc -l
-
-# Target: <1,000 in production code
-```
-
-### Step 3.2: Generate Final Report
-```bash
-cat > /tmp/todo_cleanup_report.md << EOF
-# TODO Cleanup Campaign Report
-
-## Before
-- Total TODOs: 6,876
-- FIXMEs: 692
-- Total Debt: 7,568
-
-## After
-- Total TODOs: $(grep -r "TODO" --include="*.py" . | grep -v ".git" | wc -l)
-- FIXMEs: $(grep -r "FIXME" --include="*.py" . | grep -v ".git" | wc -l)
-- Production TODOs: $(grep -r "TODO" --include="*.py" . | grep -v ".git" | grep -v "candidate/" | wc -l)
-
-## Reduction
-- Absolute: $((6876 - $(grep -r "TODO" --include="*.py" . | grep -v ".git" | wc -l)))
-- Percentage: $(echo "scale=1; (6876 - $(grep -r "TODO" --include="*.py" . | grep -v ".git" | wc -l)) * 100 / 6876" | bc)%
-
-## Strategies Used
-- Deleted obsolete TODOs: XXX items
-- Converted to GitHub issues: XXX items
-- Fixed simple TODOs: XXX items
-- Excluded candidate/ lane: XXX items
-EOF
-
-cat /tmp/todo_cleanup_report.md
-```
-
----
-
-## 📋 Execution Checklist
-
-```
-Phase 1: Categorization
-[ ] Generate TODO/FIXME inventory
-[ ] Categorize by lane (lukhas/, core/, candidate/)
-[ ] Categorize by priority (HIGH, MED, LOW)
-[ ] Categorize by type (implementation, docs, etc.)
-
-Phase 2: Cleanup Strategies
-[ ] Strategy A: Delete obsolete TODOs (~2,000 items)
-[ ] Strategy B: Convert to GitHub issues (~1,500 items)
-[ ] Strategy C: Fix simple TODOs (~1,000 items)
-[ ] Strategy D: Exclude candidate/ (~1,500 items)
-
-Phase 3: Verification
-[ ] Count remaining TODOs
-[ ] Verify target met (<1,000 in production)
-[ ] Generate cleanup report
-[ ] Update documentation
-```
-
----
-
-## 🎯 Success Criteria
-
-### Must Achieve
-- ✅ Production TODO count <1,000 (excluding candidate/)
-- ✅ No TODO-HIGH items unaddressed
-- ✅ Smoke tests 10/10 PASS
-- ✅ All cleanup PRs documented
-
-### Should Achieve
-- ✅ GitHub issues created for complex TODOs
-- ✅ Simple TODOs resolved
-- ✅ Cleanup report generated
-
----
-
-## ⚠️ Important Notes
-
-### What NOT to Delete
-- ❌ TODOs with active work-in-progress
-- ❌ TODOs referencing known bugs with workarounds
-- ❌ TODOs in candidate/ (expected experimental work)
-- ❌ Security-related TODOs (convert to issues instead)
-
-### Best Practices
-1. **Batch commits:** Group 10-20 similar TODO fixes per commit
-2. **Test between batches:** Run smoke tests after each batch
-3. **Document decisions:** Note why TODOs were deleted/converted
-4. **Create issues for complex work:** Don't delete, migrate to tracking system
-
----
-
-## 📊 Expected Timeline
-
-- **Phase 1:** 30 minutes (categorization)
-- **Strategy A:** 2 hours (delete obsolete)
-- **Strategy B:** 4 hours (convert to issues)
-- **Strategy C:** 6 hours (fix simple)
-- **Strategy D:** 1 hour (exclude candidate/)
-- **Phase 3:** 30 minutes (verification)
-
-**Total:** ~14 hours over 3-4 sessions
-
----
-
-## 🤖 Autonomous Execution Notes
-
-**For AI Agents (Claude Code, Codex, Copilot):**
-
-1. **Start with Strategy A** - Highest impact, lowest risk
-2. **Validate frequently** - Smoke tests after each batch
-3. **Conservative deletions** - When in doubt, create an issue
-4. **Report progress** - Update user after each strategy
-5. **Emergency stop** - If smoke tests fail, stop and rollback
-
-**Success Signal:** Production TODO count <1,000 and smoke tests passing
-
----
-
-**Last Updated:** 2025-10-28
-**Status:** Ready for Autonomous Execution
-**Difficulty:** Medium-High (requires judgment)
-**Risk:** Low (if validated frequently)

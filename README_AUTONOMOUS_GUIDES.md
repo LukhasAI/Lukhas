@@ -7,6 +7,16 @@
 
 ---
 
+## 📌 Canonicalization Note (2025-10-28)
+
+A duplicate file (`Untitled-2.md`) that replicated the Candidate Lane Cleanup guide was removed to avoid drift. The **canonical** Candidate Lane Cleanup guide is:
+
+`AUTONOMOUS_GUIDE_CANDIDATE_CLEANUP.md`
+
+All references in this README have been updated to point to the canonical guide. If you want a different file to be canonical, tell me and I will reconcile and update references.
+
+---
+
 ## 📚 Available Guides
 
 ### 1. [MATRIZ Migration Completion](AUTONOMOUS_GUIDE_MATRIZ_COMPLETION.md)
@@ -44,7 +54,7 @@
 ---
 
 ### 3. [Import Organization (E402)](AUTONOMOUS_GUIDE_IMPORT_ORGANIZATION.md)
-**Goal:** Fix 1,978 "import not at top" violations
+**Goal:** Fix E402 "import not at top" violations in production lanes
 **Priority:** ⭐⭐ Medium
 **Time:** ~6-8 hours
 **Difficulty:** Easy-Medium
@@ -53,22 +63,22 @@
 **Quick Summary:**
 - Auto-fix safe cases with `ruff check --fix`
 - Manual fix complex cases (runtime imports)
-- Add `# noqa: E402` for legitimate exceptions
-- Focus on production lane first (lukhas/, core/, serve/)
+- Add `# noqa: E402` for legitimate exceptions (with justification and TTL)
+- Focus on production lane first (`lukhas/`, `core/`, `serve/`)
 
 **When to Execute:** Can start immediately, good for AI auto-fix
 
 ---
 
 ### 4. [Test Coverage Expansion](AUTONOMOUS_GUIDE_TEST_COVERAGE.md)
-**Goal:** Achieve 75%+ coverage for lukhas/ production lane
+**Goal:** Achieve target coverage for `lukhas/` production lane
 **Priority:** ⭐⭐⭐⭐ High (Long-term)
 **Time:** ~20-30 hours over multiple sprints
 **Difficulty:** Medium-High
 **Risk:** Low (additive only)
 
 **Quick Summary:**
-- **Phase 1:** Fix 223 test collection errors (CRITICAL)
+- **Phase 1:** Fix test collection errors (CRITICAL)
 - **Phase 2:** Measure current coverage baseline
 - **Phase 3:** Prioritize gaps (core, api, identity, consciousness)
 - **Phase 4:** Write missing tests (15-20 hours)
@@ -79,17 +89,17 @@
 ---
 
 ### 5. [Candidate Lane Cleanup](AUTONOMOUS_GUIDE_CANDIDATE_CLEANUP.md)
-**Goal:** Clean candidate/ modules for promotion to core/
+**Goal:** Clean `candidate/` modules for promotion to `core/`
 **Priority:** ⭐ Low (Only when promoting)
 **Time:** ~2-4 hours per module
 **Difficulty:** Medium
 **Risk:** Medium (requires careful validation)
 
 **Quick Summary:**
-- **DO NOT** clean all of candidate/ (it's experimental by design)
-- **ONLY** clean when promoting module to core/
-- Per-module: fix syntax → add tests → validate → move to core/
-- Requires 75%+ coverage before promotion
+- **DO NOT** clean all of `candidate/` (it's experimental by design)
+- **ONLY** clean when promoting a module to `core/`
+- Per-module: fix syntax → add tests → validate → move to `core/`
+- Requires **>=90% module-level unit-test coverage** for promoted modules (see canonical guide)
 
 **When to Execute:** Only when promoting specific modules, not as bulk cleanup
 
@@ -98,7 +108,7 @@
 ## 🎯 Recommended Execution Order
 
 ### Immediate Priority (Start Now)
-1. **Test Coverage - Phase 1** - Fix 223 collection errors (CRITICAL blocker)
+1. **Test Coverage - Phase 1** - Fix test collection errors (CRITICAL blocker)
 2. **Import Organization** - Auto-fix E402 with ruff (quick wins)
 
 ### Short-term (Next 1-2 Weeks)
@@ -146,9 +156,9 @@ All guides assume:
 |-------|--------|--------|--------|--------|
 | MATRIZ Completion | Legacy imports | 35 | 0 | 100% complete |
 | TODO Cleanup | TODO count | 6,876 | <1,000 | 87% reduction |
-| Import Organization | E402 violations | 1,978 | <100 | 95% reduction |
-| Test Coverage | lukhas/ coverage | Unknown | 75%+ | High confidence |
-| Candidate Cleanup | Syntax errors | 1,095 | Varies | Per-module |
+| Import Organization | E402 violations | ~1,978 | <=1 | ~100% reduction in production lanes |
+| Test Coverage | lukhas/ coverage | Unknown | Target (see coverage guide) | High confidence |
+| Candidate Cleanup | Syntax errors | 1,095 (candidate/) | Varies per module | Per-module
 
 **Total Expected Time:** 44-62 hours over 4-8 weeks
 
@@ -173,19 +183,19 @@ The codebase uses **3-lane architecture**:
 - **Integration (`core/`):** Moderate quality, tested → cleanup as needed
 - **Development (`candidate/`):** Experimental, intentionally messy → DON'T cleanup unless promoting
 
-**Many metrics are skewed by candidate/. Focus on production lane health.**
+**Many metrics are skewed by `candidate/`. Focus on production lane health.**
 
 ---
 
 ## 📝 Documentation Created This Session
 
 1. ✅ [CODEBASE_STATUS_2025-10-28.md](CODEBASE_STATUS_2025-10-28.md) - Comprehensive health report
-2. ✅ [AUTONOMOUS_GUIDE_MATRIZ_COMPLETION.md](AUTONOMOUS_GUIDE_MATRIZ_COMPLETION.md) - 130 lines
-3. ✅ [AUTONOMOUS_GUIDE_TODO_CLEANUP.md](AUTONOMOUS_GUIDE_TODO_CLEANUP.md) - 240 lines
-4. ✅ [AUTONOMOUS_GUIDE_IMPORT_ORGANIZATION.md](AUTONOMOUS_GUIDE_IMPORT_ORGANIZATION.md) - 74 lines
-5. ✅ [AUTONOMOUS_GUIDE_TEST_COVERAGE.md](AUTONOMOUS_GUIDE_TEST_COVERAGE.md) - 130 lines
-6. ✅ [AUTONOMOUS_GUIDE_CANDIDATE_CLEANUP.md](AUTONOMOUS_GUIDE_CANDIDATE_CLEANUP.md) - 98 lines
-7. ✅ [README_AUTONOMOUS_GUIDES.md](README_AUTONOMOUS_GUIDES.md) - This file
+2. ✅ [AUTONOMOUS_GUIDE_MATRIZ_COMPLETION.md](AUTONOMOUS_GUIDE_MATRIZ_COMPLETION.md)
+3. ✅ [AUTONOMOUS_GUIDE_TODO_CLEANUP.md](AUTONOMOUS_GUIDE_TODO_CLEANUP.md)
+4. ✅ [AUTONOMOUS_GUIDE_IMPORT_ORGANIZATION.md](AUTONOMOUS_GUIDE_IMPORT_ORGANIZATION.md)
+5. ✅ [AUTONOMOUS_GUIDE_TEST_COVERAGE.md](AUTONOMOUS_GUIDE_TEST_COVERAGE.md)
+6. ✅ [AUTONOMOUS_GUIDE_CANDIDATE_CLEANUP.md](AUTONOMOUS_GUIDE_CANDIDATE_CLEANUP.md)
+7. ✅ [README_AUTONOMOUS_GUIDES.md](README_AUTONOMOUS_GUIDES.md)
 
 **Total:** ~1,186 lines of autonomous execution guidance
 
@@ -197,7 +207,7 @@ The codebase uses **3-lane architecture**:
 - AST-safe automated tooling (MATRIZ rewriter)
 - Small, focused PRs (1-23 imports each)
 - Test-first validation (smoke tests before commit)
-- Detailed autonomous plans (463-line plan → 90/100 Codex success)
+- Detailed autonomous plans (high-quality automation scripts)
 
 **What to Improve:**
 - Task coordination (prevent duplicate TODO attempts)
@@ -232,5 +242,5 @@ cat AUTONOMOUS_GUIDE_TODO_CLEANUP.md
 ---
 
 **Last Updated:** 2025-10-28
-**Maintained By:** Claude Code (Sonnet 4.5)
+**Maintained By:** LUKHΛS Autonomous Guides
 **Status:** Production-Ready

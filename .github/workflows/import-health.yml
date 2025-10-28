@@ -1,0 +1,42 @@
+name: Import Health
+on:
+  pull_request:
+    paths:
+      - 'lukhas/**'
+      - 'core/**'
+      - 'serve/**'
+  schedule:
+    - cron: '0 2 * * *' # nightly
+
+jobs:
+  import-health:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff isort
+      - name: Run Ruff E402 check
+        id: ruff_check
+        run: |
+          mkdir -p artifacts/import_health
+          python -m ruff check lukhas/ core/ serve/ --select E402 --statistics > artifacts/import_health/ruff_e402.txt || true
+          wc -l artifacts/import_health/ruff_e402.txt || true
+      - name: Upload Ruff artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: import_health_ruff_e402
+          path: artifacts/import_health/ruff_e402.txt
+      - name: Fail on E402 delta
+        env:
+          BASELINE_FILE: '.github/import_health/baseline_e402_count.txt'
+        run: |
+          python scripts/import_health/fail_on_delta.py \
+            --ruff-output artifacts/import_health/ruff_e402.txt \
+            --baseline-file "$BASELINE_FILE" \
+            --fail-if-increase
