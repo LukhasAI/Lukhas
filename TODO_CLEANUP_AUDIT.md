@@ -44,3 +44,8 @@ The following security-related TODOs were converted to issues and labeled/flagge
 
 **Prepared by:** LUKHAS Autonomous Infrastructure
 **Date:** 2025-10-28
+
+## Post-merge verification (2025-10-28)
+- Smoke tests: `tests/smoke` passed (pytest output 100%).
+- Security labeling: Issue #552 now labeled `security`.
+- Backups/rollback: `.bak` files present; rollback available via reverting PR #631.
