@@ -440,7 +440,15 @@ class WebAuthnPasskeyManager:
             client_data = json.loads(client_data_bytes.decode("utf-8"))
 
             response_challenge = client_data.get("challenge")
-            if not response_challenge or response_challenge != challenge.get("challenge"):
+            stored_challenge = challenge.get("challenge")
+
+            if not response_challenge or not stored_challenge:
+                raise AuthenticationError("Challenge mismatch")
+
+            response_challenge_bytes = self._decode_base64(response_challenge)
+            stored_challenge_bytes = self._decode_base64(stored_challenge)
+
+            if response_challenge_bytes != stored_challenge_bytes:
                 raise AuthenticationError("Challenge mismatch")
 
             credential_id = credential.get("credential_id")
