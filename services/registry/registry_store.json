@@ -1,6 +1,6 @@
 {
-  "version": 1761644501,
-  "ts": 1761644501.8725998,
+  "version": 1761644665,
+  "ts": 1761644665.8872435,
   "entries": {
     "test_node::10f279e7": {
       "node_spec": {
@@ -581,6 +581,244 @@
         }
       },
       "registered_at": 1761644501.8338485
+    },
+    "test_node::62bc3f9b": {
+      "node_spec": {
+        "node_type": "test.node",
+        "metadata": {
+          "name": "test_node",
+          "version": "0.1.0",
+          "schema_version": "nodespec.v1",
+          "created_at": "2025-10-28"
+        },
+        "identity": {
+          "owner_id": "GLYMPH:test123",
+          "lane": "candidate",
+          "tier": 3,
+          "roles": [
+            "test"
+          ],
+          "capabilities_policy": {
+            "allow": [
+              "test/*"
+            ]
+          }
+        },
+        "interfaces": {
+          "inputs": [],
+          "outputs": [],
+          "signals": {
+            "emits": [],
+            "subscribes": []
+          }
+        },
+        "contracts": {
+          "performance_hints": {
+            "p50": 20,
+            "p95": 80,
+            "concurrency": 10,
+            "timeout_ms": 1000
+          }
+        },
+        "provenance_manifest": {
+          "glymph_enabled": true,
+          "signing_scheme": "dilithium2",
+          "pqc_compat": true
+        },
+        "security": {
+          "encryption": {
+            "envelope": "XChaCha20-Poly1305",
+            "kem": "kyber-768"
+          }
+        }
+      },
+      "registered_at": 1761644665.7705903
+    },
+    "memoria_adapter_v1::f5c9c6bf": {
+      "node_spec": {
+        "node_type": "matriz.memory.adapter",
+        "metadata": {
+          "name": "memoria_adapter_v1",
+          "version": "0.1.0",
+          "schema_version": "nodespec.v1",
+          "authors": [
+            "LUKHAS Team"
+          ],
+          "created_at": "2025-10-24"
+        },
+        "identity": {
+          "owner_id": "GLYMPH:a3f2...7890abc",
+          "lane": "core",
+          "tier": 3,
+          "roles": [
+            "matriz.memory",
+            "memoria.adapter"
+          ],
+          "capabilities_policy": {
+            "allow": [
+              "read:memory/episodic/*",
+              "write:memory/episodic/*"
+            ],
+            "deny": [
+              "write:memory/semantic/global"
+            ]
+          }
+        },
+        "interfaces": {
+          "inputs": [
+            {
+              "name": "StoreRequest",
+              "schema_ref": "schemas/store_request.json"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "StoreAck",
+              "schema_ref": "schemas/store_ack.json"
+            }
+          ],
+          "signals": {
+            "emits": [
+              {
+                "name": "memory_stored",
+                "latency_target_ms": 50
+              }
+            ],
+            "subscribes": [
+              {
+                "signal": "process_memory",
+                "handler": "process"
+              }
+            ]
+          }
+        },
+        "contracts": {
+          "performance_hints": {
+            "p50": 20,
+            "p95": 80,
+            "concurrency": 100,
+            "timeout_ms": 5000
+          },
+          "throughput_ops_sec": {
+            "target": 200
+          }
+        },
+        "provenance_manifest": {
+          "glymph_enabled": true,
+          "signing_scheme": "dilithium2",
+          "pqc_compat": true
+        },
+        "security": {
+          "encryption": {
+            "envelope": "XChaCha20-Poly1305",
+            "kem": "kyber-768"
+          }
+        },
+        "graceful_degradation": {
+          "modes": [
+            "reduced_index",
+            "no_persistence"
+          ]
+        },
+        "extraplanetary_policy": {
+          "intermittent_links": "DTN-store-forward",
+          "checkpoint_interval_seconds": 3600
+        }
+      },
+      "registered_at": 1761644665.824213
+    },
+    "memoria_adapter_v1::6dc45f87": {
+      "node_spec": {
+        "node_type": "matriz.memory.adapter",
+        "metadata": {
+          "name": "memoria_adapter_v1",
+          "version": "0.1.0",
+          "schema_version": "nodespec.v1",
+          "authors": [
+            "LUKHAS Team"
+          ],
+          "created_at": "2025-10-24"
+        },
+        "identity": {
+          "owner_id": "GLYMPH:a3f2...7890abc",
+          "lane": "core",
+          "tier": 3,
+          "roles": [
+            "matriz.memory",
+            "memoria.adapter"
+          ],
+          "capabilities_policy": {
+            "allow": [
+              "read:memory/episodic/*",
+              "write:memory/episodic/*"
+            ],
+            "deny": [
+              "write:memory/semantic/global"
+            ]
+          }
+        },
+        "interfaces": {
+          "inputs": [
+            {
+              "name": "StoreRequest",
+              "schema_ref": "schemas/store_request.json"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "StoreAck",
+              "schema_ref": "schemas/store_ack.json"
+            }
+          ],
+          "signals": {
+            "emits": [
+              {
+                "name": "memory_stored",
+                "latency_target_ms": 50
+              }
+            ],
+            "subscribes": [
+              {
+                "signal": "process_memory",
+                "handler": "process"
+              }
+            ]
+          }
+        },
+        "contracts": {
+          "performance_hints": {
+            "p50": 20,
+            "p95": 80,
+            "concurrency": 100,
+            "timeout_ms": 5000
+          },
+          "throughput_ops_sec": {
+            "target": 200
+          }
+        },
+        "provenance_manifest": {
+          "glymph_enabled": true,
+          "signing_scheme": "dilithium2",
+          "pqc_compat": true
+        },
+        "security": {
+          "encryption": {
+            "envelope": "XChaCha20-Poly1305",
+            "kem": "kyber-768"
+          }
+        },
+        "graceful_degradation": {
+          "modes": [
+            "reduced_index",
+            "no_persistence"
+          ]
+        },
+        "extraplanetary_policy": {
+          "intermittent_links": "DTN-store-forward",
+          "checkpoint_interval_seconds": 3600
+        }
+      },
+      "registered_at": 1761644665.8469725
     }
   }
 }
