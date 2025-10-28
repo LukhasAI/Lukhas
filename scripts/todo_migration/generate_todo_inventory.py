@@ -16,6 +16,7 @@ Usage:
 """
 
 import argparse
+import ast
 import csv
 import re
 import sys
@@ -41,6 +42,51 @@ TODO_PATTERNS = [
         re.IGNORECASE,
     ),
 ]
+
+DOCSTRING_TODO_LINE_PATTERN = re.compile(r"^(?:[-*]\s*)?TODO\b.*", re.IGNORECASE)
+STRING_PREFIX_PATTERN = re.compile(r"^[rbfuRBFU]+")
+
+
+def _strip_string_prefix(token_string: str) -> str:
+    match = STRING_PREFIX_PATTERN.match(token_string)
+    if match:
+        return token_string[match.end() :]
+    return token_string
+
+
+def _looks_like_triple_quoted(token_string: str) -> bool:
+    stripped = _strip_string_prefix(token_string)
+    return stripped.startswith('"""') or stripped.startswith("'''")
+
+
+def _extract_todos_from_string_token(
+    filepath: Path, token: tokenize.TokenInfo
+) -> List[Dict[str, str]]:
+    try:
+        string_value = ast.literal_eval(token.string)
+    except (ValueError, SyntaxError):
+        return []
+
+    if not isinstance(string_value, str):
+        return []
+
+    todos: List[Dict[str, str]] = []
+    for index, raw_line in enumerate(string_value.splitlines()):
+        stripped = raw_line.strip()
+        if not stripped or not DOCSTRING_TODO_LINE_PATTERN.match(stripped):
+            continue
+
+        normalized = stripped.lstrip("-* \t")
+        fake_comment = f"# {normalized}"
+
+        for pattern in TODO_PATTERNS:
+            match = pattern.search(fake_comment)
+            if match:
+                line_number = token.start[0] + index
+                todos.append(create_todo_entry(filepath, line_number, match.groups()))
+                break
+
+    return todos
 
 # Security/safety keywords that require special handling
 SECURITY_KEYWORDS = [
@@ -125,14 +171,14 @@ def scan_python_file(filepath: Path) -> Optional[List[Dict[str, str]]]:
     try:
         with tokenize.open(filepath) as f:  # type: ignore[attr-defined]
             for token in tokenize.generate_tokens(f.readline):
-                if token.type != tokenize.COMMENT:
-                    continue
-
-                for pattern in TODO_PATTERNS:
-                    match = pattern.search(token.string)
-                    if match:
-                        todos.append(create_todo_entry(filepath, token.start[0], match.groups()))
-                        break
+                if token.type == tokenize.COMMENT:
+                    for pattern in TODO_PATTERNS:
+                        match = pattern.search(token.string)
+                        if match:
+                            todos.append(create_todo_entry(filepath, token.start[0], match.groups()))
+                            break
+                elif token.type == tokenize.STRING and _looks_like_triple_quoted(token.string):
+                    todos.extend(_extract_todos_from_string_token(filepath, token))
     except (SyntaxError, tokenize.TokenError, OSError) as exc:
         print(f"Warning: Could not tokenize {filepath}: {exc}", file=sys.stderr)
         return None

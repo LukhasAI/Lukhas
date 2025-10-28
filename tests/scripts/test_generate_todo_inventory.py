@@ -40,3 +40,25 @@ def compute():
     assert todo["owner"] == "alice"
     assert todo["priority"] == "LOW"
     assert todo["message"] == "adjust computation"
+
+
+def test_python_docstring_todo_detected(tmp_path):
+    python_file = write_file(
+        tmp_path,
+        "docstring_todo.py",
+        '''
+def placeholder():
+    """TODO[owner:bob][priority:high]: implement placeholder"""
+    return None
+''',
+    )
+
+    todos = scan_file(python_file)
+
+    assert len(todos) == 1
+    todo = todos[0]
+    assert todo["file"] == str(python_file)
+    assert todo["line"] == "3"
+    assert todo["owner"] == "bob"
+    assert todo["priority"] == "HIGH"
+    assert todo["message"] == "implement placeholder"
