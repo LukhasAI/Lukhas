@@ -71,5 +71,12 @@ def mk_test_glyph(kind: str='intent', tags: dict=None, id_override: UUID | None=
 
 def mk_test_message(topic: str='contradiction', lane: str='experimental', payload: dict=None, glyph_kind: str='intent') -> MatrizMessage:
     """Create a test MatrizMessage with sensible defaults"""
-    return MatrizMessage(msg_id=uuid4(), ts=datetime.utcnow(), lane=lane, topic=topic, glyph=mk_test_glyph(glyph_kind), payload=payload or {})
+    return MatrizMessage(
+        msg_id=uuid4(),
+        ts=datetime.utcnow(),
+        lane=lane,
+        topic=topic,
+        glyph=mk_test_glyph(glyph_kind),
+        payload=payload or {}
+    )
 __all__ = ['mk_msg_from_json', 'mk_test_glyph', 'mk_test_message']
