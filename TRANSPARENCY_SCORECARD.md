@@ -10,3 +10,5 @@
 - Audit: `TODO_CLEANUP_AUDIT.md`
 - Smoke: tests/smoke passed (100%)
 - Labels: Issue #552 labeled `security`
+- Agent labels applied across issues: `agent:copilot`, `agent:codex`, `agent:claude`
+- Unit tests (scripts): 3 passed (`test_replace_todos.py`, `test_rewrite_matriz_imports.py`)

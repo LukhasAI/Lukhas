@@ -49,3 +49,9 @@ The following security-related TODOs were converted to issues and labeled/flagge
 - Smoke tests: `tests/smoke` passed (pytest output 100%).
 - Security labeling: Issue #552 now labeled `security`.
 - Backups/rollback: `.bak` files present; rollback available via reverting PR #631.
+
+## Agent triage and unit tests (2025-10-28)
+- Labels applied to all 78 issues: `todo-migration`, area labels (`security`/`identity`/`labs`/`qi`/`docs`/`misc`), and agent labels (`agent:copilot`, `agent:codex`, `agent:claude`).
+- Targeted unit tests passed:
+  - `.venv311/bin/pytest tests/unit/scripts/test_replace_todos.py` → pass
+  - `.venv311/bin/pytest tests/unit/scripts/test_rewrite_matriz_imports.py` → pass
