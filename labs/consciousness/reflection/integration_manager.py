@@ -273,7 +273,6 @@ class LukhasAGIIntegrationManager:
                     "text": user_input,
                     "context": context,
                     "cognitive_insights": cognitive_result,
-                    "cognitive_insights": cognitive_result,
                 }
                 brain_result = await self.components["brain_orchestrator"].orchestrate_processing(brain_input)
                 logger.info(" Brain orchestration processing complete")
@@ -291,7 +290,6 @@ class LukhasAGIIntegrationManager:
                 request_id=request_id,
                 user_input=user_input,
                 context=context,
-                cognitive_result=cognitive_result,
                 cognitive_result=cognitive_result,
                 brain_result=brain_result,
                 github_result=github_result,
@@ -313,8 +311,8 @@ class LukhasAGIIntegrationManager:
                 "integration_status": self.integration_status,
             }
 
-    async def _process_through_github_agi(self, user_input, context, cognitive_result, cognitive_result, brain_result):
-        """Process through GitHub App Cognitive AI capabilitie"""
+    async def _process_through_github_agi(self, user_input, context, cognitive_result, brain_result):
+        """Process through GitHub App Cognitive AI capabilities"""
 
         github_agi = self.components.get("github_app_agi")
         if not github_agi:
@@ -386,8 +384,8 @@ class LukhasAGIIntegrationManager:
             },
         }
 
-    async def _synthesize_cross_component_insights(self, cognitive_result, cognitive_result, brain_result, github_result):
-        """Synthesize insights across all component"""
+    async def _synthesize_cross_component_insights(self, cognitive_result, brain_result, github_result):
+        """Synthesize insights across all components"""
 
         synthesis = {
             "component_agreement_score": 0.0,
