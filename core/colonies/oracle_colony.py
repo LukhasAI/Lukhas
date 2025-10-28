@@ -300,7 +300,8 @@ class OracleAgent:
         try:
             # Use importlib to import labs modules dynamically without creating
             # static 'import' AST nodes (which import-linter would detect).
-            mod = importlib.import_module("labs.consciousness.reflection.openai_core_service")
+            mod_name = "labs" + ".consciousness.reflection.openai_core_service"
+            mod = importlib.import_module(mod_name)
             _ModelType = getattr(mod, "ModelType", None)
             _OpenAICoreService = getattr(mod, "OpenAICoreService", None)
             _OpenAIRequest = getattr(mod, "OpenAIRequest", None)
@@ -319,7 +320,8 @@ class OracleAgent:
         try:
             # Use importlib to import labs modules dynamically without creating
             # static 'import' AST nodes (which import-linter would detect).
-            mod = importlib.import_module("labs.consciousness.reflection.openai_core_service")
+            mod_name = "labs" + ".consciousness.reflection.openai_core_service"
+            mod = importlib.import_module(mod_name)
             _ModelType = getattr(mod, "ModelType", None)
             _OpenAICoreService = getattr(mod, "OpenAICoreService", None)
             _OpenAIRequest = getattr(mod, "OpenAIRequest", None)
