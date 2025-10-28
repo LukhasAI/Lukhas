@@ -59,6 +59,8 @@ from core.monitoring.drift_monitor import UnifiedDriftMonitor
 
 # Dashboard system imports
 from dashboard.core.dashboard_colony_agent import DashboardAgentRole, DashboardColonyAgent
+
+# Dashboard system imports
 from memory.systems.healix_memory_core import HealixMemoryCore
 
 logger = logging.getLogger("ΛTRACE.self_healing_manager")

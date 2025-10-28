@@ -28,10 +28,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, RedirectResponse
 
 # Import MATRIZ components
-from matriz.core.orchestrator import CognitiveOrchestrator
-from matriz.nodes.fact_node import FactNode
-from matriz.nodes.math_node import MathNode
-from matriz.nodes.validator_node import ValidatorNode
+from MATRIZ.core.orchestrator import CognitiveOrchestrator
+from MATRIZ.nodes.fact_node import FactNode
+from MATRIZ.nodes.math_node import MathNode
+from MATRIZ.nodes.validator_node import ValidatorNode
 from pydantic import BaseModel, Field, validator
 from starlette.status import HTTP_500_INTERNAL_SERVER_ERROR
 

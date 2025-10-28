@@ -14,9 +14,10 @@ class TestTop25HiddenGemsIntegration:
 
     def test_matriz_consciousness_modules_import(self):
         """Test that all MATRIZ consciousness modules can be imported."""
-        from MATRIZ.consciousness.cognitive import adapter
-        from MATRIZ.consciousness.core import engine_poetic
-        from MATRIZ.consciousness.reflection import (
+        # Module 1-11: MATRIZ consciousness
+        from matriz.consciousness.cognitive import adapter
+        from matriz.consciousness.core import engine_poetic
+        from matriz.consciousness.reflection import (
             dreamseed_unified,
             id_reasoning_engine,
             integrated_safety_system,
@@ -26,6 +27,7 @@ class TestTop25HiddenGemsIntegration:
             swarm,
             symbolic_drift_analyzer,
         )
+
         assert id_reasoning_engine is not None
         assert swarm is not None
         assert orchestration_service is not None
@@ -60,6 +62,7 @@ class TestTop25HiddenGemsIntegration:
 
     def test_core_system_modules_import(self):
         """Test that core system modules can be imported."""
+        # Module 16-27: Core system modules
         import core.oracle_nervous_system
         from core.api import service_stubs
         from core.audit import audit_decision_embedding_engine
@@ -72,6 +75,7 @@ class TestTop25HiddenGemsIntegration:
         from core.orchestration import gpt_colony_orchestrator
         from core.symbolic import vocabulary_creativity_engine
         from core.verifold import verifold_unified
+
         assert glyph_memory_integration is not None
         assert executive_decision_integrator is not None
         assert vocabulary_creativity_engine is not None

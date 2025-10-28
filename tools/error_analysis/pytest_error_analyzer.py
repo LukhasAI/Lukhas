@@ -64,7 +64,7 @@ class PytestErrorAnalyzer:
             content = f.read()
 
         # Extract test file paths
-        re.findall(r"ERROR (tests/[^\s]+)", content)
+        test_files = re.findall(r"ERROR (tests/[^\s]+)", content)
 
         # Parse error patterns
         for pattern_name, regex in self.PATTERNS.items():

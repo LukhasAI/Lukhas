@@ -1,10 +1,19 @@
-"""Security reports aggregation utilities."""
+"""Security reports module exposing validation and storage helpers."""
 
-from .aggregator import SecurityReportAggregator, SecurityReportError, SecuritySummary, VulnerabilityRecord
+from .core import (
+    SecurityReport,
+    SecurityReportRepository,
+    SecurityReportValidationError,
+    SeverityLevel,
+    build_secure_payload,
+    validate_report,
+)
 
 __all__ = [
-    "SecurityReportAggregator",
-    "SecurityReportError",
-    "SecuritySummary",
-    "VulnerabilityRecord",
+    "SecurityReport",
+    "SecurityReportRepository",
+    "SecurityReportValidationError",
+    "SeverityLevel",
+    "build_secure_payload",
+    "validate_report",
 ]

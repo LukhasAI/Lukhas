@@ -227,7 +227,7 @@ Lane-specific subjects:
 **Priority Score**: 70.8 | **Quality Score**: 77.0 | **Complexity**: medium (14h) | **Risk**: medium
 
 **Current**: `labs/consciousness/core/engine_complete.py`
-**Target**: `matriz/consciousness/core//engine_complete.py`
+**Target**: `matriz/consciousness/core/engine_complete.py`
 
 **Why**: 1177 LOC, 7 classes
 
@@ -238,7 +238,7 @@ Lane-specific subjects:
 1. **REVIEW**: Read labs/consciousness/core/engine_complete.py and understand architecture (1177 LOC, 7 classes, 5 functions)
 2. **CHECK_DEPS**: Identify and resolve external dependencies, add core imports if needed
 3. **CREATE_TESTS**: Write integration tests in tests/integration/test_engine_complete.py
-4. **MOVE**: git mv labs/consciousness/core/engine_complete.py matriz/consciousness/core//engine_complete.py
+4. **MOVE**: git mv labs/consciousness/core/engine_complete.py matriz/consciousness/core/engine_complete.py
 5. **UPDATE_IMPORTS**: Fix import paths in moved module and any dependent modules
 6. **INTEGRATE**: Wire into MATRIZ engine or core system (add to registry, update config)
 7. **TEST**: Run pytest tests/integration/ and tests/smoke/ to verify
@@ -252,7 +252,7 @@ Lane-specific subjects:
 **Priority Score**: 70.8 | **Quality Score**: 77.0 | **Complexity**: medium (12h) | **Risk**: medium
 
 **Current**: `labs/consciousness/core/engine.py`
-**Target**: `matriz/consciousness/core//engine.py`
+**Target**: `matriz/consciousness/core/engine.py`
 
 **Why**: 1014 LOC
 
@@ -263,7 +263,7 @@ Lane-specific subjects:
 1. **REVIEW**: Read labs/consciousness/core/engine.py and understand architecture (1014 LOC, 5 classes, 5 functions)
 2. **CHECK_DEPS**: Identify and resolve external dependencies, add core imports if needed
 3. **CREATE_TESTS**: Write integration tests in tests/integration/test_engine.py
-4. **MOVE**: git mv labs/consciousness/core/engine.py matriz/consciousness/core//engine.py
+4. **MOVE**: git mv labs/consciousness/core/engine.py matriz/consciousness/core/engine.py
 5. **UPDATE_IMPORTS**: Fix import paths in moved module and any dependent modules
 6. **INTEGRATE**: Wire into MATRIZ engine or core system (add to registry, update config)
 7. **TEST**: Run pytest tests/integration/ and tests/smoke/ to verify
@@ -427,7 +427,7 @@ Lane-specific subjects:
 **Priority Score**: 69.0 | **Quality Score**: 70.0 | **Complexity**: low (4h) | **Risk**: medium-high
 
 **Current**: `labs/governance/auth_guardian_integration.py`
-**Target**: `core/governance//auth_guardian_integration.py`
+**Target**: `core/governance/auth_guardian_integration.py`
 
 **Why**: already imports production code
 
@@ -438,7 +438,7 @@ Lane-specific subjects:
 1. **REVIEW**: Read labs/governance/auth_guardian_integration.py and understand architecture (555 LOC, 4 classes, 0 functions)
 2. **CHECK_DEPS**: Verify all imports from core/matriz are valid and available
 3. **CREATE_TESTS**: Write integration tests in tests/integration/test_auth_guardian_integration.py
-4. **MOVE**: git mv labs/governance/auth_guardian_integration.py core/governance//auth_guardian_integration.py
+4. **MOVE**: git mv labs/governance/auth_guardian_integration.py core/governance/auth_guardian_integration.py
 5. **UPDATE_IMPORTS**: Fix import paths in moved module and any dependent modules
 6. **INTEGRATE**: Wire into appropriate system component (update __init__.py, add exports)
 7. **TEST**: Run pytest tests/integration/ and tests/smoke/ to verify
@@ -452,7 +452,7 @@ Lane-specific subjects:
 **Priority Score**: 69.0 | **Quality Score**: 70.0 | **Complexity**: low (4h) | **Risk**: medium-high
 
 **Current**: `labs/governance/auth_glyph_registry.py`
-**Target**: `core/governance//auth_glyph_registry.py`
+**Target**: `core/governance/auth_glyph_registry.py`
 
 **Why**: already imports production code
 
@@ -463,7 +463,7 @@ Lane-specific subjects:
 1. **REVIEW**: Read labs/governance/auth_glyph_registry.py and understand architecture (602 LOC, 4 classes, 0 functions)
 2. **CHECK_DEPS**: Verify all imports from core/matriz are valid and available
 3. **CREATE_TESTS**: Write integration tests in tests/integration/test_auth_glyph_registry.py
-4. **MOVE**: git mv labs/governance/auth_glyph_registry.py core/governance//auth_glyph_registry.py
+4. **MOVE**: git mv labs/governance/auth_glyph_registry.py core/governance/auth_glyph_registry.py
 5. **UPDATE_IMPORTS**: Fix import paths in moved module and any dependent modules
 6. **INTEGRATE**: Wire into appropriate system component (update __init__.py, add exports)
 7. **TEST**: Run pytest tests/integration/ and tests/smoke/ to verify
@@ -477,7 +477,7 @@ Lane-specific subjects:
 **Priority Score**: 69.0 | **Quality Score**: 70.0 | **Complexity**: low (6h) | **Risk**: medium-high
 
 **Current**: `labs/governance/auth_cross_module_integration.py`
-**Target**: `core/governance//auth_cross_module_integration.py`
+**Target**: `core/governance/auth_cross_module_integration.py`
 
 **Why**: 6 classes, already imports production code
 
@@ -488,7 +488,7 @@ Lane-specific subjects:
 1. **REVIEW**: Read labs/governance/auth_cross_module_integration.py and understand architecture (689 LOC, 6 classes, 0 functions)
 2. **CHECK_DEPS**: Verify all imports from core/matriz are valid and available
 3. **CREATE_TESTS**: Write integration tests in tests/integration/test_auth_cross_module_integration.py
-4. **MOVE**: git mv labs/governance/auth_cross_module_integration.py core/governance//auth_cross_module_integration.py
+4. **MOVE**: git mv labs/governance/auth_cross_module_integration.py core/governance/auth_cross_module_integration.py
 5. **UPDATE_IMPORTS**: Fix import paths in moved module and any dependent modules
 6. **INTEGRATE**: Wire into appropriate system component (update __init__.py, add exports)
 7. **TEST**: Run pytest tests/integration/ and tests/smoke/ to verify

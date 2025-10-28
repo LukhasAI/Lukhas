@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 # Import LUKHAS identity components
 try:
     from .alias_format import make_alias, parse_alias, validate_alias_format
-# See: https://github.com/LukhasAI/Lukhas/issues/585
+    from .auth_service import (  # noqa: F401  # TODO: .auth_service.AuthResult; cons...
         AuthenticationService,
         AuthResult,
     )
@@ -36,7 +36,7 @@ try:
         TierLevel,
         normalize_tier,
     )
-# See: https://github.com/LukhasAI/Lukhas/issues/586
+    from .token_generator import (  # noqa: F401  # TODO: .token_generator.TokenClaims; ...
         EnvironmentSecretProvider,
         TokenClaims,
         TokenGenerator,
