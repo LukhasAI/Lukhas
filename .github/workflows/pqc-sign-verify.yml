@@ -5,55 +5,82 @@ on:
     paths:
       - 'services/registry/**'
       - '.github/workflows/pqc-sign-verify.yml'
+      - '.github/docker/pqc-runner.Dockerfile'
   pull_request:
     paths:
       - 'services/registry/**'
+      - '.github/workflows/pqc-sign-verify.yml'
 
 jobs:
-  pqc_check:
+  # Build the PQC runner image once
+  build_pqc_image:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
+      
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+      
+      - name: Build and Export PQC Runner Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: .github/docker/pqc-runner.Dockerfile
+          tags: lukhas-pqc-runner:ci
+          outputs: type=docker,dest=/tmp/pqc-runner.tar
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      
+      - name: Upload Docker Image
+        uses: actions/upload-artifact@v4
+        with:
+          name: pqc-runner-image
+          path: /tmp/pqc-runner.tar
+          retention-days: 1
 
-      - name: Build PQC Runner Image
+  # Run tests in the PQC container
+  pqc_tests:
+    needs: build_pqc_image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Download Docker Image
+        uses: actions/download-artifact@v4
+        with:
+          name: pqc-runner-image
+          path: /tmp
+      
+      - name: Load Docker Image
+        run: docker load --input /tmp/pqc-runner.tar
+      
+      - name: Run PQC Unit Tests
         run: |
-          echo "Building PQC runner Docker image..."
-          docker build -f .github/docker/pqc-runner.Dockerfile \
-            -t lukhas-pqc-runner:ci \
-            --cache-from type=gha \
-            --cache-to type=gha,mode=max \
-            .
-          echo "✓ PQC runner image built successfully"
-
-      - name: Run PQC Benchmark
-        run: |
-          echo "Running PQC benchmark..."
+          echo "Running PQC tests with liboqs in Docker container..."
+          mkdir -p tmp
+          
           docker run --rm \
-            -v $(pwd)/tmp:/workspace/tmp \
+            -v $(pwd):/workspace \
+            -w /workspace \
             lukhas-pqc-runner:ci \
-            pqc-bench --json > tmp/pqc_bench.json || {
-              echo "⚠️ pqc-bench failed, creating fallback marker"
-              mkdir -p tmp
-              echo '{"status":"fallback","message":"PQC bench not available"}' > tmp/pqc_bench.json
-              touch tmp/pqc_fallback_marker.txt
-            }
+            pytest tests/unit/services/registry/test_pqc_signer.py -v --tb=short
+          
+          echo "✓ PQC tests passed with Dilithium2 - no fallback!"
+      
+      - name: Run PQC Performance Benchmark
+        run: |
+          echo "Running PQC performance benchmark..."
+          mkdir -p tmp
+          
+          docker run --rm \
+            lukhas-pqc-runner:ci \
+            pqc-bench --json > tmp/pqc_bench.json
+          
           cat tmp/pqc_bench.json
-
+          echo "✓ PQC benchmark completed"
+      
       - name: Validate PQC Performance
         run: |
-          if [ -f tmp/pqc_fallback_marker.txt ]; then
-            echo "::warning::PQC in fallback mode - runner provisioning needed (issue #492)"
-            exit 0
-          fi
-
           # Check sign/verify latency thresholds
           sign_p95=$(jq -r '.sign_p95' tmp/pqc_bench.json)
           verify_p95=$(jq -r '.verify_p95' tmp/pqc_bench.json)
@@ -61,7 +88,7 @@ jobs:
           echo "Sign p95: ${sign_p95}ms (threshold: <50ms)"
           echo "Verify p95: ${verify_p95}ms (threshold: <10ms)"
 
-          # Validate thresholds (convert ms to comparison-friendly format)
+          # Validate thresholds
           if (( $(echo "$sign_p95 > 50" | bc -l) )); then
             echo "::error::Sign latency ${sign_p95}ms exceeds 50ms threshold"
             exit 1
@@ -73,7 +100,15 @@ jobs:
           fi
 
           echo "✓ PQC performance within SLO targets"
-
+      
+      - name: Verify No Fallback Marker
+        run: |
+          if [ -f tmp/pqc_fallback_marker.txt ]; then
+            echo "::error::Fallback marker found - PQC not properly enabled!"
+            exit 1
+          fi
+          echo "✓ No fallback marker - PQC fully operational"
+      
       - name: Upload PQC Artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -81,4 +116,3 @@ jobs:
           name: pqc-bench-results
           path: |
             tmp/pqc_bench.json
-            tmp/pqc_fallback_marker.txt
