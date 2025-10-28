@@ -386,39 +386,22 @@ class OracleColony(BaseColony):
         """Initialize the Oracle Colony."""
         await super().initialize()
 
-        # Attempt to import optional Labs/OpenAI integration at runtime. Doing
-        # this here (inside initialize) prevents a static top-level import that
-        # would create a production -> labs dependency visible to import-linter.
+        # Use a provider registry and config-based resolver to obtain an
+        # OpenAI-like provider. This keeps all `labs.*` imports in a separate
+        # plugin package (labs_integrations) which is loaded only by config.
         try:
-            # Load Labs/OpenAI integration lazily at runtime using importlib so
-            # there is no static AST import that import-linter detects. This
-            # keeps the integration optional while avoiding a production -> labs
-            # dependency at module import time.
-            mod = importlib.import_module(
-                "labs.consciousness.reflection.openai_core_service"
-            )
-            _ModelType = getattr(mod, "ModelType", None)
-            _OpenAICoreService = getattr(mod, "OpenAICoreService", None)
-            _OpenAIRequest = getattr(mod, "OpenAIRequest", None)
+            from core.adapters.config_resolver import make_resolver
+            from core.adapters.provider_registry import ProviderRegistry
 
-            # Publish into module globals so other methods can reference them.
-            globals().update(
-                {
-                    "ModelType": _ModelType,
-                    "OpenAICoreService": _OpenAICoreService,
-                    "OpenAIRequest": _OpenAIRequest,
-                }
-            )
-        except Exception:
-            # Labs/OpenAI integration is optional; continue without it.
-            # Keep silent and proceed — OpenAI features will be disabled.
-            pass
+            resolver = make_resolver()
+            registry = ProviderRegistry(resolver)
+            provider = registry.get_openai()
 
-        # Initialize OpenAI service (if available)
-        try:
-            self.openai_service = OpenAICoreService()
-            await self.openai_service.initialize()
-            logger.info("Oracle Colony initialized with OpenAI support")
+            # Provider implements the minimal OpenAIProvider protocol; we
+            # assign it to `openai_service` so the rest of the code can call
+            # the same methods (chat/complete/embed) as before.
+            self.openai_service = provider
+            logger.info("Oracle Colony initialized with configured OpenAI provider")
         except Exception as e:
             logger.warning(
                 "Oracle Colony initialized without OpenAI support",

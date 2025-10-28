@@ -1,0 +1,2 @@
+openai:
+  provider: "labs_integrations.openai_adapter:provide"
