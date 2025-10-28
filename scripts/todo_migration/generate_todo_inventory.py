@@ -19,8 +19,9 @@ import argparse
 import csv
 import re
 import sys
+import tokenize
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Optional, Tuple
 
 # Patterns to match TODO comments
 TODO_PATTERNS = [
@@ -59,11 +60,8 @@ SECURITY_KEYWORDS = [
     "compliance",
 ]
 
-VALID_PRIORITIES = {"CRITICAL", "HIGH", "MEDIUM", "LOW"}
-VALID_SCOPES = {"", "PROD", "CANDIDATE", "DOCS", "SECURITY"}
 
-
-def parse_todo_metadata(match_groups: tuple) -> Dict[str, str]:
+def parse_todo_metadata(match_groups: Tuple[Optional[str], ...]) -> Dict[str, str]:
     """Parse metadata from TODO comment groups."""
     metadata = {"priority": "MEDIUM", "owner": "", "scope": "", "kind": "TODO"}
 
@@ -92,85 +90,82 @@ def parse_todo_metadata(match_groups: tuple) -> Dict[str, str]:
     return metadata
 
 
-def validate_metadata(
-    metadata: Dict[str, str], *, filepath: Path, line_number: int
-) -> Dict[str, str]:
-    """Validate and normalize metadata values, logging issues when needed."""
-
-    normalized = dict(metadata)
-
-    priority = normalized.get("priority", "").upper()
-    if priority and priority not in VALID_PRIORITIES:
-        print(
-            (
-                "Warning: Invalid priority '%s' in %s:%s. "
-                "Defaulting to MEDIUM."
-            )
-            % (priority, filepath, line_number),
-            file=sys.stderr,
-        )
-        normalized["priority"] = "MEDIUM"
-
-    scope = normalized.get("scope", "").upper()
-    if scope and scope not in VALID_SCOPES:
-        print(
-            (
-                "Warning: Invalid scope '%s' in %s:%s. "
-                "Defaulting to UNKNOWN."
-            )
-            % (scope, filepath, line_number),
-            file=sys.stderr,
-        )
-        normalized["scope"] = "UNKNOWN"
-
-    return normalized
-
-
 def is_security_related(message: str) -> bool:
     """Check if TODO message contains security/safety keywords."""
     message_lower = message.lower()
     return any(keyword in message_lower for keyword in SECURITY_KEYWORDS)
 
 
-def scan_file(filepath: Path) -> List[Dict[str, str]]:
-    """Scan a file for TODO comments and return structured data."""
-    todos = []
+def create_todo_entry(
+    filepath: Path, line_num: int, match_groups: Tuple[Optional[str], ...]
+) -> Dict[str, str]:
+    message = (match_groups[-1] or "").strip()
+    metadata = parse_todo_metadata(match_groups[:-1])
+
+    if is_security_related(message):
+        metadata["scope"] = "SECURITY"
+        if metadata["priority"] == "MEDIUM":
+            metadata["priority"] = "HIGH"
+
+    return {
+        "file": str(filepath),
+        "line": str(line_num),
+        "kind": metadata["kind"],
+        "priority": metadata["priority"],
+        "owner": metadata["owner"],
+        "scope": metadata["scope"],
+        "message": message,
+    }
+
+
+def scan_python_file(filepath: Path) -> Optional[List[Dict[str, str]]]:
+    """Scan a Python file using the tokenizer to avoid string literals."""
+    todos: List[Dict[str, str]] = []
+
+    try:
+        with tokenize.open(filepath) as f:  # type: ignore[attr-defined]
+            for token in tokenize.generate_tokens(f.readline):
+                if token.type != tokenize.COMMENT:
+                    continue
+
+                for pattern in TODO_PATTERNS:
+                    match = pattern.search(token.string)
+                    if match:
+                        todos.append(create_todo_entry(filepath, token.start[0], match.groups()))
+                        break
+    except (SyntaxError, tokenize.TokenError, OSError) as exc:
+        print(f"Warning: Could not tokenize {filepath}: {exc}", file=sys.stderr)
+        return None
+
+    return todos
+
+
+def scan_generic_file(filepath: Path) -> List[Dict[str, str]]:
+    """Scan a non-Python file for TODO comments using regex."""
+    todos: List[Dict[str, str]] = []
+
     try:
         with open(filepath, "r", encoding="utf-8", errors="ignore") as f:
             for line_num, line in enumerate(f, start=1):
                 for pattern in TODO_PATTERNS:
                     match = pattern.search(line)
                     if match:
-                        groups = match.groups()
-                        message = groups[-1].strip()  # Last group is always the message
-                        metadata = parse_todo_metadata(groups[:-1])
-
-                        # Check for security keywords
-                        if is_security_related(message):
-                            metadata["scope"] = "SECURITY"
-                            if metadata["priority"] == "MEDIUM":
-                                metadata["priority"] = "HIGH"
-
-                        metadata = validate_metadata(
-                            metadata, filepath=filepath, line_number=line_num
-                        )
-
-                        todos.append(
-                            {
-                                "file": str(filepath),
-                                "line": str(line_num),
-                                "kind": metadata["kind"],
-                                "priority": metadata["priority"],
-                                "owner": metadata["owner"],
-                                "scope": metadata["scope"],
-                                "message": message,
-                            }
-                        )
-                        break  # Only match first pattern per line
-    except Exception as e:
-        print(f"Warning: Could not scan {filepath}: {e}", file=sys.stderr)
+                        todos.append(create_todo_entry(filepath, line_num, match.groups()))
+                        break
+    except Exception as exc:
+        print(f"Warning: Could not scan {filepath}: {exc}", file=sys.stderr)
 
     return todos
+
+
+def scan_file(filepath: Path) -> List[Dict[str, str]]:
+    """Scan a file for TODO comments and return structured data."""
+    if filepath.suffix.lower() == ".py":
+        python_todos = scan_python_file(filepath)
+        if python_todos is not None:
+            return python_todos
+
+    return scan_generic_file(filepath)
 
 
 def main():
