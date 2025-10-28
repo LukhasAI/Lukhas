@@ -65,7 +65,7 @@ def test_create_issues_dry_run_valid(tmp_path):
     assert entry["title"] == "[TODO] Add validation Second line"
 
 
-def test_create_issues_invalid_scope(tmp_path):
+def test_create_issues_invalid_scope_characters(tmp_path):
     clean_artifacts()
     csv_path = tmp_path / "todos.csv"
     rows = [
@@ -75,7 +75,7 @@ def test_create_issues_invalid_scope(tmp_path):
             "kind": "TODO",
             "priority": "HIGH",
             "owner": "@owner",
-            "scope": "unknown",
+            "scope": "bad scope",
             "message": "Missing scope should fail",
         }
     ]
@@ -102,3 +102,41 @@ def test_create_issues_invalid_scope(tmp_path):
         assert "invalid scope" in stderr
 
     assert not Path("artifacts/test_map.json").exists()
+
+
+def test_create_issues_allows_security_scope_and_critical_priority(tmp_path):
+    clean_artifacts()
+    csv_path = tmp_path / "todos.csv"
+    file_path = tmp_path / "module.py"
+    rows = [
+        {
+            "file": str(file_path),
+            "line": "12",
+            "kind": "TODO",
+            "priority": "CRITICAL",
+            "owner": "@owner",
+            "scope": "SECURITY",
+            "message": "Handle auth token refresh",
+        }
+    ]
+    write_inventory(csv_path, rows)
+
+    subprocess.check_call(
+        [
+            sys.executable,
+            CREATE,
+            "--input",
+            str(csv_path),
+            "--repo",
+            "lukhas/test",
+            "--dry-run",
+            "--out",
+            "test_map.json",
+        ]
+    )
+
+    outpath = Path("artifacts/test_map.json")
+    assert outpath.exists()
+    data = json.loads(outpath.read_text())
+    key = f"{rows[0]['file']}:{rows[0]['line']}"
+    assert data[key]["issue"] == 0

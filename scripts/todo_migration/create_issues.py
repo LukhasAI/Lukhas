@@ -18,8 +18,8 @@ from pathlib import Path
 from typing import Dict, List, Optional
 
 
-ALLOWED_PRIORITIES = {"LOW", "MED", "MEDIUM", "HIGH"}
-ALLOWED_SCOPES = {"PROD", "CANDIDATE", "DOCS"}
+ALLOWED_PRIORITIES = {"LOW", "MED", "MEDIUM", "HIGH", "CRITICAL"}
+SCOPE_PATTERN = re.compile(r"^[A-Z0-9_.-]+$")
 
 
 def normalize_priority(value: str) -> str:
@@ -30,6 +30,8 @@ def normalize_priority(value: str) -> str:
     normalized = value.strip().upper()
     if normalized == "MEDIUM":
         normalized = "MED"
+    elif normalized == "CRIT":
+        normalized = "CRITICAL"
     return normalized
 
 
@@ -78,7 +80,7 @@ def validate_row(row: Dict[str, str]) -> Dict[str, str]:
     line_number = str(int(raw_line))
 
     scope = (row.get("scope") or "").strip().upper()
-    if scope and scope not in ALLOWED_SCOPES:
+    if scope and not SCOPE_PATTERN.fullmatch(scope):
         raise ValueError(f"invalid scope '{scope}'")
 
     priority = normalize_priority(row.get("priority", ""))
