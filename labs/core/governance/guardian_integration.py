@@ -44,8 +44,8 @@ try:
         get_constitutional_framework,
     )
     from .constitutional_compliance_engine import (
-        ComplianceLevel,  # noqa: F401  # TODO: .constitutional_compliance_eng...
-        ComplianceResult,  # noqa: F401  # TODO: .constitutional_compliance_eng...
+# See: https://github.com/LukhasAI/Lukhas/issues/567
+# See: https://github.com/LukhasAI/Lukhas/issues/568
         ConstitutionalComplianceEngine,
         get_compliance_engine,
     )

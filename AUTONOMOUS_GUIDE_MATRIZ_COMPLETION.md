@@ -234,7 +234,7 @@ All new TODOs must follow this pattern:
 ```
 Example:
 ```python
-# TODO[2025-10-28][PRIORITY:HIGH][OWNER:@gonzo][SCOPE:PROD] : Add input validation to prevent X
+# See: https://github.com/LukhasAI/Lukhas/issues/553
 ```
 This enables scripts to parse, prioritize, and auto-migrate TODOs.
 

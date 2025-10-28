@@ -1,16 +1,548 @@
 [
   {
-    "file": "../../../../private/var/folders/x0/nwzv169j7vs2bp580bwfrd480000gn/T/pytest-of-agi_dev/pytest-10/test_replace_todo_dry_run0/mod.py",
-    "line": 1,
-    "issue": 123,
-    "repo": "org/repo",
-    "applied": false
+    "file": ".semgrep/lukhas-security.yaml",
+    "line": 547,
+    "issue": 552,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
   },
   {
-    "file": "/private/var/folders/x0/nwzv169j7vs2bp580bwfrd480000gn/T/pytest-of-agi_dev/pytest-10/test_replace_todo_dry_run0/mod.py",
-    "line": 1,
-    "issue": 123,
-    "repo": "org/repo",
-    "applied": false
+    "file": "AUTONOMOUS_GUIDE_MATRIZ_COMPLETION.md",
+    "line": 237,
+    "issue": 553,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "AUTONOMOUS_GUIDE_TODO_CLEANUP.md",
+    "line": 237,
+    "issue": 554,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "branding/apis/platform_integrations.py",
+    "line": 43,
+    "issue": 555,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "completion/BATCH-CODEX-CLEANUP-006.md",
+    "line": 25,
+    "issue": 556,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "completion/BATCH-CODEX-CLEANUP-006.md",
+    "line": 42,
+    "issue": 557,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "completion/BATCH-CODEX-CLEANUP-006.md",
+    "line": 45,
+    "issue": 558,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "core/identity/test_consciousness_identity_patterns.py",
+    "line": 43,
+    "issue": 559,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "core/identity/test_consciousness_identity_patterns.py",
+    "line": 46,
+    "issue": 560,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "docs/audits/TODO_CLEANUP_REPORT.md",
+    "line": 93,
+    "issue": 561,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "docs/gonzo/CRITICAL_SCAFFOLDS.md",
+    "line": 418,
+    "issue": 562,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "docs/gonzo/CRITICAL_SCAFFOLDS.md",
+    "line": 426,
+    "issue": 563,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "docs/gonzo/FAILED_SESSION.md",
+    "line": 404,
+    "issue": 564,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "docs/gonzo/FAILED_SESSION.md",
+    "line": 3976,
+    "issue": 565,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "docs/gonzo/matriz_prep/claude_copilot.md",
+    "line": 1025,
+    "issue": 566,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "labs/core/governance/guardian_integration.py",
+    "line": 47,
+    "issue": 567,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "labs/core/governance/guardian_integration.py",
+    "line": 48,
+    "issue": 568,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "labs/core/identity/test_consciousness_identity_patterns.py",
+    "line": 43,
+    "issue": 569,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "labs/core/identity/test_consciousness_identity_patterns.py",
+    "line": 46,
+    "issue": 570,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "labs/core/qi_financial/qi_financial_consciousness_engine.py",
+    "line": 27,
+    "issue": 571,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "labs/core/qi_financial/quantum_financial_consciousness_engine.py",
+    "line": 27,
+    "issue": 572,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "labs/core/quantum_financial/quantum_financial_consciousness_engine.py",
+    "line": 27,
+    "issue": 573,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "labs/core/symbolic_bridge/token_map.py",
+    "line": 7,
+    "issue": 574,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "labs/governance/identity/core/auth/webauthn_manager.py",
+    "line": 26,
+    "issue": 575,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "labs/governance/identity/core/auth/webauthn_manager.py",
+    "line": 27,
+    "issue": 576,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "labs/governance/identity/core/auth/webauthn_manager.py",
+    "line": 28,
+    "issue": 577,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "labs/governance/identity/core/auth/webauthn_manager.py",
+    "line": 29,
+    "issue": 578,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "labs/governance/identity/core/sing/sso_engine.py",
+    "line": 643,
+    "issue": 579,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "labs/governance/identity/core/sing/sso_engine.py",
+    "line": 648,
+    "issue": 580,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "lukhas_website/components/qrg-envelope.tsx",
+    "line": 23,
+    "issue": 581,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "lukhas_website/components/qrg-envelope.tsx",
+    "line": 24,
+    "issue": 582,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "lukhas_website/lukhas/api/oidc.py",
+    "line": 1098,
+    "issue": 583,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "lukhas_website/lukhas/api/routing_admin.py",
+    "line": 103,
+    "issue": 584,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "lukhas_website/lukhas/identity/test_lid_integration.py",
+    "line": 31,
+    "issue": 585,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "lukhas_website/lukhas/identity/test_lid_integration.py",
+    "line": 39,
+    "issue": 586,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "lukhas_website/lukhas/identity/test_lid_integration.py",
+    "line": 44,
+    "issue": 587,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "lukhas_website/lukhas/identity/test_lid_integration.py",
+    "line": 49,
+    "issue": 588,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "lukhas_website/lukhas/identity/webauthn_enhanced.py",
+    "line": 35,
+    "issue": 589,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "lukhas_website/lukhas/identity/webauthn_production.py",
+    "line": 69,
+    "issue": 590,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "lukhas_website/lukhas/identity/webauthn_production.py",
+    "line": 72,
+    "issue": 591,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "lukhas_website/lukhas/identity/webauthn_production.py",
+    "line": 73,
+    "issue": 592,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "lukhas_website/lukhas/identity/webauthn_production.py",
+    "line": 74,
+    "issue": 593,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "lukhas_website/lukhas/identity/webauthn_production.py",
+    "line": 75,
+    "issue": 594,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "lukhas_website/lukhas/identity/webauthn_production.py",
+    "line": 76,
+    "issue": 595,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "lukhas_website/lukhas/identity/webauthn_production.py",
+    "line": 77,
+    "issue": 596,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "lukhas_website/packages/auth/index.ts",
+    "line": 362,
+    "issue": 597,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "lukhas_website/packages/auth/passkeys.ts",
+    "line": 39,
+    "issue": 598,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "lukhas_website/packages/auth/passkeys.ts",
+    "line": 58,
+    "issue": 599,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "qi/bio/oscillators/oscillator.py",
+    "line": 263,
+    "issue": 600,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "qi/privacy/zero_knowledge_system.py",
+    "line": 55,
+    "issue": 601,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "qi/privacy/zero_knowledge_system.py",
+    "line": 69,
+    "issue": 602,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "qi/states/safe_blockchain.py",
+    "line": 93,
+    "issue": 603,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "qi/states/safe_blockchain.py",
+    "line": 109,
+    "issue": 604,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "qi/states/system_orchestrator.py",
+    "line": 70,
+    "issue": 605,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "qi/states/system_orchestrator.py",
+    "line": 72,
+    "issue": 606,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "qi/states/system_orchestrator.py",
+    "line": 84,
+    "issue": 607,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "qi/states/system_orchestrator.py",
+    "line": 141,
+    "issue": 608,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "scripts/todo_migration/generate_todo_inventory.py",
+    "line": 6,
+    "issue": 609,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "scripts/todo_migration/generate_todo_inventory.py",
+    "line": 8,
+    "issue": 610,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "security/tests/test_security_integration.py",
+    "line": 18,
+    "issue": 611,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "security/tests/test_security_suite.py",
+    "line": 281,
+    "issue": 612,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "security/tests/test_security_suite.py",
+    "line": 299,
+    "issue": 613,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "security/tests/test_security_suite.py",
+    "line": 309,
+    "issue": 614,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "security/tests/test_security_suite.py",
+    "line": 320,
+    "issue": 615,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "security/tests/test_security_suite.py",
+    "line": 339,
+    "issue": 616,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "security/tests/test_security_suite.py",
+    "line": 364,
+    "issue": 617,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "security/tests/test_security_suite.py",
+    "line": 378,
+    "issue": 618,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "security/tests/test_security_suite.py",
+    "line": 490,
+    "issue": 619,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "security/tests/test_security_suite.py",
+    "line": 660,
+    "issue": 620,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "security/tests/test_security_suite.py",
+    "line": 717,
+    "issue": 621,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "security/tests/test_security_unit.py",
+    "line": 18,
+    "issue": 622,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "security_reports/tests/test_security-reports_unit.py",
+    "line": 40,
+    "issue": 623,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "security_reports/tests/test_security-reports_unit.py",
+    "line": 46,
+    "issue": 624,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "security_reports/tests/test_security-reports_unit.py",
+    "line": 47,
+    "issue": 625,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "tests/unit/scripts/test_replace_todos.py",
+    "line": 20,
+    "issue": 626,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "tests/unit/tools/test_categorize_todos.py",
+    "line": 34,
+    "issue": 627,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "tests/unit/tools/test_todo_tooling.py",
+    "line": 37,
+    "issue": 628,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
+  },
+  {
+    "file": "tests/unit/tools/test_todo_tooling.py",
+    "line": 61,
+    "issue": 629,
+    "repo": "LukhasAI/Lukhas",
+    "applied": true
   }
 ]

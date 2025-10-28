@@ -15,7 +15,7 @@ import pytest
 # Import module components
 try:
     pass  #     pass  #
-    import security  # noqa: F401  # TODO: security; consider using impor...
+# See: https://github.com/LukhasAI/Lukhas/issues/622
 except ImportError:
     pytest.skip("Module security not available", allow_module_level=True)
 

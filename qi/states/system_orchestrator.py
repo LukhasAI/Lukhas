@@ -67,9 +67,9 @@ class QIAGISystem:
         self.distributed_orchestrator = DistributedQuantumSafeOrchestrator(config.cluster_config)  # noqa: F821  # TODO: DistributedQuantumSafeOrchestr...
 
         # Security infrastructure
-        self.security_mesh = SecurityMesh(  # noqa: F821  # TODO: SecurityMesh
+# See: https://github.com/LukhasAI/Lukhas/issues/605
             pqc_engine=PostQuantumCryptoEngine(config.crypto_config),  # noqa: F821  # TODO: PostQuantumCryptoEngine
-            zero_knowledge_engine=ZeroKnowledgePrivacyEngine(),  # noqa: F821  # TODO: ZeroKnowledgePrivacyEngine
+# See: https://github.com/LukhasAI/Lukhas/issues/606
             audit_blockchain=QISafeAuditBlockchain(),  # noqa: F821  # TODO: QISafeAuditBlockchain
         )
 
@@ -81,7 +81,7 @@ class QIAGISystem:
         self.qi_telemetry = QISafeTelemetry(export_endpoint=config.telemetry_endpoint, encryption_level="homomorphic")  # noqa: F821  # TODO: QISafeTelemetry
 
         # Regulatory compliance
-        self.compliance_engine = MultiJurisdictionComplianceEngine(  # noqa: F821  # TODO: MultiJurisdictionComplianceEng...
+# See: https://github.com/LukhasAI/Lukhas/issues/607
             frameworks=["GDPR", "CCPA", "PIPEDA", "LGPD"],
             audit_blockchain=self.security_mesh.audit_blockchain,
         )
@@ -138,7 +138,7 @@ class QIAGISystem:
         try:
             # 1. Validate request integrity
             if not await self.security_mesh.validate_request(request):
-                raise SecurityException("Request validation failed")  # noqa: F821  # TODO: SecurityException
+# See: https://github.com/LukhasAI/Lukhas/issues/608
 
             # 2. Extract features with privacy preservation
             private_features = await self.security_mesh.extract_private_features(request, preserve_privacy=True)

@@ -23,10 +23,10 @@ from typing import Any, Optional
 
 try:
     from webauthn import (
-        generate_authentication_options,  # noqa: F401  # TODO: webauthn.generate_authenticati...
-        generate_registration_options,  # noqa: F401  # TODO: webauthn.generate_registration...
-        verify_authentication_response,  # noqa: F401  # TODO: webauthn.verify_authentication...
-        verify_registration_response,  # noqa: F401  # TODO: webauthn.verify_registration_r...
+# See: https://github.com/LukhasAI/Lukhas/issues/575
+# See: https://github.com/LukhasAI/Lukhas/issues/576
+# See: https://github.com/LukhasAI/Lukhas/issues/577
+# See: https://github.com/LukhasAI/Lukhas/issues/578
     )
     from webauthn.helpers import structs
 

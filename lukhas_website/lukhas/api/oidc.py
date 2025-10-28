@@ -1095,7 +1095,7 @@ async def authenticate_with_tier(
     with tracer.start_span("api.oidc.authenticate_tier") as span:
         try:
             # Get tiered authentication system
-            auth_system = get_tiered_auth_system()  # noqa: F821  # TODO: get_tiered_auth_system
+# See: https://github.com/LukhasAI/Lukhas/issues/583
 
             # Prepare authentication request
             auth_request = {

@@ -260,7 +260,7 @@ class BioOscillator:
             # Hash token for comparison
             hashlib.sha256(token.encode()).hexdigest()
 
-            # TODO: Validate against token store
+            # See: https://github.com/LukhasAI/Lukhas/issues/600
             return True  # Placeholder
 
         except Exception as e:

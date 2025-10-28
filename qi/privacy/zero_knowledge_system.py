@@ -52,7 +52,7 @@ class ZeroKnowledgePrivacyEngine:
 
     async def create_privacy_preserving_proof(
         self,
-        statement: PrivacyStatement,  # noqa: F821  # TODO: PrivacyStatement
+# See: https://github.com/LukhasAI/Lukhas/issues/601
         witness: PrivateWitness,  # noqa: F821  # TODO: PrivateWitness
         proof_type: str = "adaptive",
     ) -> ZeroKnowledgeProof:  # noqa: F821  # TODO: ZeroKnowledgeProof
@@ -66,7 +66,7 @@ class ZeroKnowledgePrivacyEngine:
             else:
                 return await self._create_bulletproof(statement, witness)
 
-    async def _create_zksnark_proof(self, statement: PrivacyStatement, witness: PrivateWitness) -> ZkSnarkProof:  # noqa: F821  # TODO: PrivacyStatement
+# See: https://github.com/LukhasAI/Lukhas/issues/602
         """
         Create succinct non-interactive proof
         """

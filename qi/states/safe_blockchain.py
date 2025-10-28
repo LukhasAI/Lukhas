@@ -90,7 +90,7 @@ class QISafeAuditBlockchain:
         self,
         time_range: TimeRange,  # noqa: F821  # TODO: TimeRange
         compliance_framework: str,  # GDPR, CCPA, etc.
-    ) -> ComplianceReport:  # noqa: F821  # TODO: ComplianceReport
+# See: https://github.com/LukhasAI/Lukhas/issues/603
         """
         Generate cryptographically verifiable compliance report
         """
@@ -106,7 +106,7 @@ class QISafeAuditBlockchain:
         # Generate zero-knowledge proof of compliance
         compliance_proof = await self._generate_compliance_proof(decision_tree, compliance_framework)
 
-        return ComplianceReport(  # noqa: F821  # TODO: ComplianceReport
+# See: https://github.com/LukhasAI/Lukhas/issues/604
             merkle_root=decision_tree.root,
             compliance_proof=compliance_proof,
             block_range=(relevant_blocks[0].number, relevant_blocks[-1].number),

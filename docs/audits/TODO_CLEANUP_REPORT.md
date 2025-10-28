@@ -90,7 +90,7 @@ In `core/consciousness/id_reasoning_engine.py`:
 ### Good TODOs ✅
 ```python
 # TODO[GLYPH:specialist] - Implement consciousness node base class fallback
-# TODO: Verify signature using stored public key (SECURITY)
+# See: https://github.com/LukhasAI/Lukhas/issues/561
 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
 ```
 - Specific, actionable, categorized
