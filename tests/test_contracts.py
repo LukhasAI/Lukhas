@@ -26,7 +26,20 @@ class DummyNode(MatrizNode):
     version = CONTRACT_VERSION
 
     def handle(self, msg: MatrizMessage) -> MatrizResult:
-        return MatrizResult(ok=True, payload={'echo': msg.payload, 'processed': True}, trace={'handled_by': self.name, 'topic': msg.topic}, guardian_log=[f'dummy_processed_{msg.topic}'])
+        return MatrizResult(
+            ok=True,
+            payload={
+                'echo': msg.payload,
+                'processed': True
+            },
+            trace={
+                'handled_by': self.name,
+                'topic': msg.topic
+            },
+            guardian_log=[
+                f'dummy_processed_{msg.topic}'
+            ]
+        )
 
 class FailingNode(MatrizNode):
     """Node that simulates failures for testing"""
