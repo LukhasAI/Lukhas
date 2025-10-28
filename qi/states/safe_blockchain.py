@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import logging
+import uuid
+from dataclasses import dataclass
+from datetime import datetime, timezone
+from typing import Any, Optional, Tuple
 
 logger = logging.getLogger(__name__)
 
@@ -47,6 +53,21 @@ from hashlib import sha3_256
 import rlp
 
 
+@dataclass(slots=True)
+class ComplianceReport:
+    """Structured compliance report generated from blockchain state."""
+
+    report_id: str
+    framework: str
+    time_range: Any
+    merkle_root: Optional[str]
+    compliance_proof: Any
+    block_range: Optional[Tuple[int, int]]
+    cryptographic_attestation: Optional[str]
+    total_transactions: int
+    generated_at: datetime
+
+
 class QISafeAuditBlockchain:
     """
     Immutable audit trail with post-quantum signatures
@@ -88,30 +109,63 @@ class QISafeAuditBlockchain:
 
     async def generate_compliance_report(
         self,
-        time_range: TimeRange,  # noqa: F821  # TODO: TimeRange
+        time_range: Any,  # noqa: F821  # TODO: TimeRange
         compliance_framework: str,  # GDPR, CCPA, etc.
-# See: https://github.com/LukhasAI/Lukhas/issues/603
-        """
-        Generate cryptographically verifiable compliance report
-        """
+        # See: https://github.com/LukhasAI/Lukhas/issues/603
+    ) -> ComplianceReport:
+        """Generate cryptographically verifiable compliance report."""
+
         relevant_blocks = self._get_blocks_in_range(time_range)
 
         # Build Merkle tree of all decisions
         decision_tree = MerkleTree()  # noqa: F821  # TODO: MerkleTree
+        total_transactions = 0
         for block in relevant_blocks:
-            for tx in block.transactions:
-                if tx.type == "ai_decision_audit":
+            for tx in getattr(block, "transactions", []):
+                if getattr(tx, "type", None) == "ai_decision_audit":
                     decision_tree.add_leaf(tx.data)
+                    total_transactions += 1
 
         # Generate zero-knowledge proof of compliance
-        compliance_proof = await self._generate_compliance_proof(decision_tree, compliance_framework)
+        compliance_proof: Any = None
+        try:
+            compliance_proof = await self._generate_compliance_proof(decision_tree, compliance_framework)
+        except AttributeError:
+            logger.debug("Compliance proof generation not configured for safe blockchain")
+        except Exception as exc:  # pragma: no cover - defensive logging
+            logger.warning("Compliance proof generation failed: %s", exc, exc_info=True)
+            compliance_proof = {"error": str(exc)}
 
-# See: https://github.com/LukhasAI/Lukhas/issues/604
-            merkle_root=decision_tree.root,
+        merkle_root = getattr(decision_tree, "root", None)
+
+        cryptographic_attestation: Optional[str] = None
+        if merkle_root:
+            try:
+                cryptographic_attestation = await self._sign_report(merkle_root)
+            except AttributeError:
+                logger.debug("Report signing not configured for safe blockchain")
+            except Exception as exc:  # pragma: no cover - defensive logging
+                logger.warning("Compliance report signing failed: %s", exc, exc_info=True)
+                cryptographic_attestation = None
+
+        block_range: Optional[Tuple[int, int]] = None
+        if relevant_blocks:
+            block_range = (relevant_blocks[0].number, relevant_blocks[-1].number)
+
+        report = ComplianceReport(
+            report_id=f"compliance_{compliance_framework.lower()}_{uuid.uuid4().hex[:8]}",
+            framework=compliance_framework,
+            time_range=time_range,
+            merkle_root=merkle_root,
             compliance_proof=compliance_proof,
-            block_range=(relevant_blocks[0].number, relevant_blocks[-1].number),
-            cryptographic_attestation=await self._sign_report(decision_tree.root),
+            block_range=block_range,
+            cryptographic_attestation=cryptographic_attestation,
+            total_transactions=total_transactions,
+            generated_at=datetime.now(timezone.utc),
         )
+
+        # See: https://github.com/LukhasAI/Lukhas/issues/604
+        return report
 
 
 """
