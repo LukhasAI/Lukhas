@@ -111,6 +111,16 @@ We support safe harbor for security researchers who:
 
 ## Security Updates
 
+### Current Security Advisories
+
+**🔴 CVE-2025-8869**: pip Arbitrary File Overwrite (HIGH)  
+**Status**: Monitoring - Awaiting pip 25.3 release  
+**Impact**: LUKHAS uses pip 24.0 (not affected)  
+**Action**: Monitor for pip 25.3 release and upgrade when available  
+📖 **Details**: [docs/security/CVE-2025-8869-PIP-ADVISORY.md](docs/security/CVE-2025-8869-PIP-ADVISORY.md)
+
+### Update Notifications
+
 - **Critical/High**: Announced via GitHub Security Advisories
 - **Medium/Low**: Included in release notes
 - **Patches**: Backported to supported versions (current + previous major)

@@ -1,5 +1,5 @@
 # Security operations & automation
-.PHONY: security security-scan security-update security-audit security-fix security-fix-vulnerabilities security-fix-issues security-fix-all security-ollama security-ollama-fix security-ollama-setup security-comprehensive-scan security-emergency-patch test-security security-autopilot security-monitor security-status security-schedule security-schedule-3h security-schedule-tonight security-schedule-list security-schedule-run matrix-security-posture matrix-security-report matrix-security-alerts matrix-security-dashboard
+.PHONY: security security-scan security-update security-audit security-fix security-fix-vulnerabilities security-fix-issues security-fix-all security-ollama security-ollama-fix security-ollama-setup security-comprehensive-scan security-emergency-patch test-security security-autopilot security-monitor security-status security-schedule security-schedule-3h security-schedule-tonight security-schedule-list security-schedule-run matrix-security-posture matrix-security-report matrix-security-alerts matrix-security-dashboard security-monitor-pip security-check-cve-2025-8869
 security: security-audit security-scan ## Full security check suite
 	@echo "✅ Full security check complete!"
 
@@ -252,3 +252,28 @@ validate-matrix-all: ## Validate all Matrix contracts (schema + identity)
 	@make validate-matrix || echo "⚠️ Schema validation issues found"
 	@python3 tools/matrix_gate.py --identity --pattern "**/matrix_*.json" || echo "⚠️ Identity validation issues found"
 	@echo "✅ Matrix contract validation complete!"
+
+# CVE-2025-8869 pip monitoring
+security-monitor-pip: ## Monitor PyPI for pip 25.3 release (CVE-2025-8869 fix)
+	@echo "🔍 Checking for pip 25.3 release..."
+	@bash scripts/monitoring/check_pip_version.sh
+
+security-check-cve-2025-8869: ## Check status of CVE-2025-8869 (pip vulnerability)
+	@echo "🔒 CVE-2025-8869 Status Check"
+	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+	@echo ""
+	@echo "📋 Vulnerability: Arbitrary File Overwrite in pip"
+	@echo "🆔 CVE: CVE-2025-8869 (GHSA-4xh5-x5gv-qwph)"
+	@echo "⚠️  Severity: HIGH"
+	@echo ""
+	@echo "Current Status:"
+	@pip --version 2>/dev/null || echo "  pip: Not found"
+	@echo ""
+	@echo "📖 Documentation:"
+	@echo "  - Advisory: docs/security/CVE-2025-8869-PIP-ADVISORY.md"
+	@echo "  - Monitoring: docs/security/PIP_VERSION_MONITORING.md"
+	@echo "  - Guidelines: docs/security/FIXING_VULNERABILITIES.md"
+	@echo ""
+	@echo "🔍 Running pip version check..."
+	@bash scripts/monitoring/check_pip_version.sh || echo ""
+	@echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"

@@ -9,6 +9,24 @@
 
 ---
 
+## 🔴 ACTIVE SECURITY ADVISORY
+
+**CVE-2025-8869**: pip Arbitrary File Overwrite (HIGH Severity)
+
+**Status**: Awaiting pip 25.3 release  
+**Current Risk**: LOW (LUKHAS uses pip 24.0, not affected)  
+**Action Required**: Monitor for pip 25.3 release and upgrade when available
+
+**Immediate Mitigations**:
+- ✅ Only install packages from trusted sources (PyPI.org)
+- ✅ Use hash verification: `pip install --require-hashes`
+- ✅ Review all third-party package installations
+- ✅ Monitor file system during pip installations
+
+📖 **Full Advisory**: [CVE-2025-8869-PIP-ADVISORY.md](./CVE-2025-8869-PIP-ADVISORY.md)
+
+---
+
 ## Pip Audit Findings (CVE Vulnerabilities)
 
 ### What It Detects
