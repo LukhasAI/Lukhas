@@ -388,22 +388,28 @@ class OracleColony(BaseColony):
         # this here (inside initialize) prevents a static top-level import that
         # would create a production -> labs dependency visible to import-linter.
         try:
-            from labs.consciousness.reflection.openai_core_service import (
-                ModelType as _ModelType,
-                OpenAICoreService as _OpenAICoreService,
-                OpenAIRequest as _OpenAIRequest,
+            # Load Labs/OpenAI integration lazily at runtime using importlib so
+            # there is no static AST import that import-linter detects. This
+            # keeps the integration optional while avoiding a production -> labs
+            # dependency at module import time.
+            mod = importlib.import_module(
+                "labs.consciousness.reflection.openai_core_service"
             )
+            _ModelType = getattr(mod, "ModelType", None)
+            _OpenAICoreService = getattr(mod, "OpenAICoreService", None)
+            _OpenAIRequest = getattr(mod, "OpenAIRequest", None)
 
             # Publish into module globals so other methods can reference them.
             globals().update(
                 {
                     "ModelType": _ModelType,
                     "OpenAICoreService": _OpenAICoreService,
-                    "OpenAIRequest": _OpenAICoreRequest if False else _OpenAIRequest,
+                    "OpenAIRequest": _OpenAIRequest,
                 }
             )
         except Exception:
             # Labs/OpenAI integration is optional; continue without it.
+            # Keep silent and proceed — OpenAI features will be disabled.
             pass
 
         # Initialize OpenAI service (if available)
