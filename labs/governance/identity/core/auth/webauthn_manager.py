@@ -23,18 +23,28 @@ from typing import Any, Optional
 
 try:
     from webauthn import (
-# See: https://github.com/LukhasAI/Lukhas/issues/575
-# See: https://github.com/LukhasAI/Lukhas/issues/576
-# See: https://github.com/LukhasAI/Lukhas/issues/577
-# See: https://github.com/LukhasAI/Lukhas/issues/578
+        generate_authentication_options as lib_generate_authentication_options,
+        generate_registration_options as lib_generate_registration_options,
+        verify_authentication_response as lib_verify_authentication_response,
+        verify_registration_response as lib_verify_registration_response,
     )
-    from webauthn.helpers import structs
+    from webauthn.helpers import (
+        parse_authentication_credential_json as lib_parse_authentication_credential_json,
+        parse_registration_credential_json as lib_parse_registration_credential_json,
+        structs as webauthn_structs,
+    )
 
     WEBAUTHN_AVAILABLE = True
 except ImportError:
     # Fallback for systems without webauthn library
     WEBAUTHN_AVAILABLE = False
-    structs = None
+    webauthn_structs = None
+    lib_generate_authentication_options = None
+    lib_generate_registration_options = None
+    lib_verify_authentication_response = None
+    lib_verify_registration_response = None
+    lib_parse_authentication_credential_json = None
+    lib_parse_registration_credential_json = None
 
 
 class WebAuthnCredential:
@@ -103,16 +113,48 @@ class WebAuthnManager:
             },
         }
 
+    @staticmethod
+    def _base64url_encode(data: bytes) -> str:
+        """Encode bytes using URL-safe base64 without padding."""
+        return base64.urlsafe_b64encode(data).decode().rstrip("=")
+
+    @staticmethod
+    def _base64url_decode(data: Optional[str]) -> Optional[bytes]:
+        """Decode URL-safe base64 data, returning ``None`` on failure."""
+        if not data:
+            return None
+
+        padding = "=" * ((4 - len(data) % 4) % 4)
+        try:
+            return base64.urlsafe_b64decode(data + padding)
+        except Exception:
+            return None
+
+    @staticmethod
+    def _serialize_webauthn_options(options: Any) -> dict[str, Any]:
+        """Convert WebAuthn helper objects to dictionaries when possible."""
+        if options is None:
+            return {}
+
+        if hasattr(options, "model_dump"):
+            return options.model_dump()
+        if hasattr(options, "dict"):
+            return options.dict()
+        if hasattr(options, "to_dict"):
+            return options.to_dict()
+        if isinstance(options, dict):
+            return dict(options)
+        if hasattr(options, "__dict__"):
+            return dict(options.__dict__)
+
+        return {}
+
     def generate_registration_options(
         self, user_id: str, user_name: str, user_display_name: str, user_tier: int = 0
     ) -> dict[str, Any]:
         """🔐 Generate WebAuthn registration options for new credential"""
         try:
             start_time = time.time()
-
-            # Generate challenge
-            challenge = secrets.token_bytes(32)
-            challenge_b64 = base64.urlsafe_b64encode(challenge).decode().rstrip("=")
 
             # Get tier requirements
             tier_reqs = self.tier_requirements.get(user_tier, self.tier_requirements[0])
@@ -123,6 +165,30 @@ class WebAuthnManager:
                 existing_credentials = [
                     {"id": cred.credential_id, "type": "public-key"} for cred in self.credentials[user_id]
                 ]
+
+            # Generate challenge
+            challenge_bytes = secrets.token_bytes(32)
+            challenge_b64 = self._base64url_encode(challenge_bytes)
+
+            # Try WebAuthn library for option generation
+            library_options: Optional[dict[str, Any]] = None
+            if WEBAUTHN_AVAILABLE and lib_generate_registration_options:
+                try:
+                    library_obj = lib_generate_registration_options(
+                        rp_id=self.rp_id,
+                        rp_name=self.rp_name,
+                        user_id=user_id.encode(),
+                        user_name=user_name,
+                        user_display_name=user_display_name,
+                        timeout=60000,
+                        challenge=challenge_bytes,
+                    )
+                    library_options = self._serialize_webauthn_options(library_obj)
+                    lib_challenge = library_options.get("challenge") if isinstance(library_options, dict) else None
+                    if lib_challenge:
+                        challenge_b64 = lib_challenge
+                except Exception:
+                    library_options = None
 
             # Generate registration options
             registration_options = {
@@ -154,10 +220,24 @@ class WebAuthnManager:
                 },
             }
 
+            if library_options:
+                merged_extensions = dict(registration_options.get("extensions", {}))
+                lib_extensions = library_options.get("extensions") if isinstance(library_options, dict) else None
+                if isinstance(lib_extensions, dict):
+                    merged_extensions.update(lib_extensions)
+
+                for key, value in library_options.items():
+                    if key == "extensions":
+                        continue
+                    registration_options[key] = value
+
+                if merged_extensions:
+                    registration_options["extensions"] = merged_extensions
+
             # Store pending registration
             registration_id = f"reg_{secrets.token_hex(16)}"
             self.pending_registrations[registration_id] = {
-                "challenge": challenge,
+                "challenge": self._base64url_decode(challenge_b64) or challenge_bytes,
                 "challenge_b64": challenge_b64,
                 "user_id": user_id,
                 "user_tier": user_tier,
@@ -209,7 +289,75 @@ class WebAuthnManager:
             if not self._constitutional_validation(pending_reg["user_id"], "webauthn_registration", response):
                 return {"success": False, "error": "Guardian validation failed"}
 
-            # Extract and validate response components
+            # Prefer full verification when WebAuthn library is available
+            if (
+                WEBAUTHN_AVAILABLE
+                and lib_parse_registration_credential_json
+                and lib_verify_registration_response
+            ):
+                try:
+                    parsed_credential = lib_parse_registration_credential_json(json.dumps(response))
+                    verification = lib_verify_registration_response(
+                        credential=parsed_credential,
+                        expected_challenge=pending_reg["challenge_b64"].encode(),
+                        expected_origin=self.origin,
+                        expected_rp_id=self.rp_id,
+                    )
+
+                    if getattr(verification, "verified", False):
+                        credential_id_value = getattr(verification, "credential_id", None)
+                        public_key_value = getattr(verification, "credential_public_key", None)
+
+                        if isinstance(credential_id_value, (bytes, bytearray)):
+                            credential_id = self._base64url_encode(bytes(credential_id_value))
+                        else:
+                            credential_id = credential_id_value or response.get("id", "")
+
+                        if isinstance(public_key_value, (bytes, bytearray)):
+                            public_key = self._base64url_encode(bytes(public_key_value))
+                        else:
+                            public_key = public_key_value or response.get("response", {}).get("publicKey", "")
+
+                        authenticator_data = {
+                            "attestation_object": response.get("response", {}).get("attestationObject", ""),
+                            "client_data_json": response.get("response", {}).get("clientDataJSON", ""),
+                            "transports": response.get("transports", []),
+                        }
+
+                        credential = WebAuthnCredential(
+                            {
+                                "credential_id": credential_id,
+                                "public_key": public_key,
+                                "sign_count": getattr(verification, "sign_count", 0),
+                                "user_id": pending_reg["user_id"],
+                                "authenticator_data": authenticator_data,
+                                "tier_level": pending_reg["user_tier"],
+                                "device_type": self._determine_device_type(response),
+                            }
+                        )
+
+                        user_id = pending_reg["user_id"]
+                        self.credentials.setdefault(user_id, []).append(credential)
+                        del self.pending_registrations[registration_id]
+                        self._update_consciousness_patterns(user_id, "webauthn_credential_registered")
+
+                        verification_time = (time.time() - start_time) * 1000
+
+                        return {
+                            "success": True,
+                            "credential_id": credential.credential_id,
+                            "user_id": user_id,
+                            "tier_level": credential.tier_level,
+                            "device_type": credential.device_type,
+                            "verification_time_ms": verification_time,
+                            "guardian_approved": True,
+                            "constellation_compliant": True,
+                        }
+                except Exception:
+                    # Fallback to manual validation below
+                    pass
+
+            # Extract and validate response components manually as fallback
             try:
                 attestation_response = response.get("response", {})
                 client_data_json = attestation_response.get("clientDataJSON", "")
@@ -286,8 +434,8 @@ class WebAuthnManager:
             start_time = time.time()
 
             # Generate challenge
-            challenge = secrets.token_bytes(32)
-            challenge_b64 = base64.urlsafe_b64encode(challenge).decode().rstrip("=")
+            challenge_bytes = secrets.token_bytes(32)
+            challenge_b64 = self._base64url_encode(challenge_bytes)
 
             # Get allowed credentials
             allowed_credentials = []
@@ -305,6 +453,21 @@ class WebAuthnManager:
             # Get tier requirements
             tier_reqs = self.tier_requirements.get(tier_level, self.tier_requirements[0])
 
+            library_options: Optional[dict[str, Any]] = None
+            if WEBAUTHN_AVAILABLE and lib_generate_authentication_options:
+                try:
+                    library_obj = lib_generate_authentication_options(
+                        rp_id=self.rp_id,
+                        timeout=60000,
+                        challenge=challenge_bytes,
+                    )
+                    library_options = self._serialize_webauthn_options(library_obj)
+                    lib_challenge = library_options.get("challenge") if isinstance(library_options, dict) else None
+                    if lib_challenge:
+                        challenge_b64 = lib_challenge
+                except Exception:
+                    library_options = None
+
             # Generate authentication options
             auth_options = {
                 "challenge": challenge_b64,
@@ -318,10 +481,24 @@ class WebAuthnManager:
                 },
             }
 
+            if library_options:
+                merged_extensions = dict(auth_options.get("extensions", {}))
+                lib_extensions = library_options.get("extensions") if isinstance(library_options, dict) else None
+                if isinstance(lib_extensions, dict):
+                    merged_extensions.update(lib_extensions)
+
+                for key, value in library_options.items():
+                    if key == "extensions":
+                        continue
+                    auth_options[key] = value
+
+                if merged_extensions:
+                    auth_options["extensions"] = merged_extensions
+
             # Store pending authentication
             auth_id = f"auth_{secrets.token_hex(16)}"
             self.pending_authentications[auth_id] = {
-                "challenge": challenge,
+                "challenge": self._base64url_decode(challenge_b64) or challenge_bytes,
                 "challenge_b64": challenge_b64,
                 "user_id": user_id,
                 "tier_level": tier_level,
@@ -396,7 +573,58 @@ class WebAuthnManager:
             if not self._constitutional_validation(user_id, "webauthn_authentication", response):
                 return {"success": False, "error": "Guardian validation failed"}
 
-            # Extract and validate response components
+            if (
+                WEBAUTHN_AVAILABLE
+                and lib_parse_authentication_credential_json
+                and lib_verify_authentication_response
+            ):
+                try:
+                    parsed_credential = lib_parse_authentication_credential_json(json.dumps(response))
+                    verify_kwargs = {
+                        "credential": parsed_credential,
+                        "expected_challenge": pending_auth["challenge_b64"].encode(),
+                        "expected_rp_id": self.rp_id,
+                        "expected_origin": self.origin,
+                    }
+
+                    credential_public_key_bytes = self._base64url_decode(credential.public_key)
+                    if credential_public_key_bytes is not None:
+                        verify_kwargs["credential_public_key"] = credential_public_key_bytes
+                    if isinstance(credential.sign_count, int):
+                        verify_kwargs["credential_current_sign_count"] = credential.sign_count
+
+                    verification = lib_verify_authentication_response(**verify_kwargs)
+
+                    if getattr(verification, "verified", False):
+                        new_sign_count = getattr(verification, "new_sign_count", credential.sign_count + 1)
+                        if isinstance(new_sign_count, int):
+                            credential.sign_count = new_sign_count
+                        else:
+                            credential.sign_count += 1
+
+                        credential.last_used = datetime.now(timezone.utc).isoformat()
+                        del self.pending_authentications[authentication_id]
+                        self._update_consciousness_patterns(user_id, "webauthn_authentication_successful")
+
+                        verification_time = (time.time() - start_time) * 1000
+
+                        return {
+                            "success": True,
+                            "user_id": user_id,
+                            "credential_id": credential.credential_id,
+                            "tier_level": credential.tier_level,
+                            "device_type": credential.device_type,
+                            "sign_count": credential.sign_count,
+                            "verification_time_ms": verification_time,
+                            "guardian_approved": True,
+                            "constellation_compliant": True,
+                            "authentication_method": "webauthn_fido2",
+                        }
+                except Exception:
+                    # Fall back to manual checks below
+                    pass
+
+            # Extract and validate response components manually as fallback
             try:
                 auth_response = response.get("response", {})
                 client_data_json = auth_response.get("clientDataJSON", "")
