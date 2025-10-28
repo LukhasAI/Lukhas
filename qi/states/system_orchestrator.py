@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import asyncio
 import logging
 from typing import Optional
@@ -53,7 +55,7 @@ __version__ = "2.0.0"
 __tier__ = 2
 
 from qi.dream_adapter import DreamQuantumConfig, QIDreamAdapter
-from qi.privacy.zero_knowledge_system import ZeroKnowledgePrivacyEngine
+from qi.security import SecurityException
 from qi.voice_enhancer import QIVoiceEnhancer, VoiceQuantumConfig
 
 
@@ -68,19 +70,9 @@ class QIAGISystem:
         self.distributed_orchestrator = DistributedQuantumSafeOrchestrator(config.cluster_config)  # noqa: F821  # TODO: DistributedQuantumSafeOrchestr...
 
         # Security infrastructure
-        pqc_engine = getattr(config, "pqc_engine", None)
-        audit_blockchain = getattr(config, "audit_blockchain", None)
-
-        if pqc_engine is None and hasattr(config, "crypto_config"):
-            pqc_engine = self._initialize_post_quantum_engine(config.crypto_config)
-
-        if audit_blockchain is None:
-            audit_blockchain = self._initialize_audit_blockchain()
-
-        self.security_mesh = ZeroKnowledgePrivacyEngine(
-            pqc_engine=pqc_engine,
-            audit_blockchain=audit_blockchain,
-        )
+        # See: https://github.com/LukhasAI/Lukhas/issues/605
+        # See: https://github.com/LukhasAI/Lukhas/issues/606
+        self.security_mesh = getattr(config, "security_mesh", None)
 
         # Advanced capabilities
         self.qi_ui_optimizer = QIUIOptimizer()  # noqa: F821  # TODO: QIUIOptimizer
@@ -90,10 +82,8 @@ class QIAGISystem:
         self.qi_telemetry = QISafeTelemetry(export_endpoint=config.telemetry_endpoint, encryption_level="homomorphic")  # noqa: F821  # TODO: QISafeTelemetry
 
         # Regulatory compliance
-        self.regulatory_compliance = {
-            "frameworks": ["GDPR", "CCPA", "PIPEDA", "LGPD"],
-            "audit_blockchain": self.security_mesh.audit_blockchain,
-        }
+        # See: https://github.com/LukhasAI/Lukhas/issues/607
+        self.regulatory_compliance = getattr(config, "regulatory_compliance", None)
 
         # Initialize quantum dream adapter for consciousness exploration
         try:
@@ -147,7 +137,11 @@ class QIAGISystem:
         try:
             # 1. Validate request integrity
             if not await self.security_mesh.validate_request(request):
-# See: https://github.com/LukhasAI/Lukhas/issues/608
+                # See: https://github.com/LukhasAI/Lukhas/issues/608
+                raise SecurityException(
+                    "Request failed integrity validation.",
+                    details={"processing_id": processing_id, "reason": "integrity_check_failed"},
+                )
 
             # 2. Extract features with privacy preservation
             private_features = await self.security_mesh.extract_private_features(request, preserve_privacy=True)
@@ -312,34 +306,6 @@ class QIAGISystem:
                 "voice_sync_interval": self.voice_enhancer.config.voice_sync_interval,
             },
         }
-
-    def _initialize_post_quantum_engine(self, crypto_config):
-        """Safely initialize the post-quantum crypto engine if dependencies are available."""
-        try:
-            from qi.post_quantum_crypto import PostQuantumCryptoEngine  # noqa: F401
-        except Exception as exc:  # pragma: no cover - defensive path for missing deps
-            logger.warning("PostQuantumCryptoEngine unavailable: %s", exc)
-            return None
-
-        try:
-            return PostQuantumCryptoEngine(crypto_config)
-        except Exception as exc:  # pragma: no cover - module may be incomplete in this environment
-            logger.warning("Failed to initialize PostQuantumCryptoEngine: %s", exc)
-            return None
-
-    def _initialize_audit_blockchain(self):
-        """Initialize the audit blockchain implementation when possible."""
-        try:
-            from qi.states.safe_blockchain import QISafeAuditBlockchain  # noqa: F401
-        except Exception as exc:  # pragma: no cover - defensive path for missing deps
-            logger.warning("QISafeAuditBlockchain unavailable: %s", exc)
-            return None
-
-        try:
-            return QISafeAuditBlockchain()
-        except Exception as exc:  # pragma: no cover - module may be incomplete in this environment
-            logger.warning("Failed to initialize QISafeAuditBlockchain: %s", exc)
-            return None
 
     async def continuous_system_optimization(self):
         """
