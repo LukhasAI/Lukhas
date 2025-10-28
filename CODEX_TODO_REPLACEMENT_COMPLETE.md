@@ -1,3 +1,31 @@
+# CODEX TODO Replacement — Completion Report
+
+## Overview
+**Date:** 2025-10-28
+**Agent:** Codex (automation)
+**Batch:** TODO Replacement (78 TODOs)
+**PR:** https://github.com/LukhasAI/Lukhas/pull/631
+
+## Outcome
+- TODOs converted to issues: **78** (issues #552–#629)
+- Files updated: **38**
+- Mapping artifact: `artifacts/todo_to_issue_map.json`
+- Post-apply log: `artifacts/replace_todos_log.json`
+
+## Validation
+- Dry-run performed and logged to `artifacts/replace_todos_log.json` before apply.
+- Spot-checked generated issues for traceability and security flags.
+- No source logic changes introduced; edits were comment/string replacements linking to issues.
+
+## Follow-ups
+1. Triage and assign owners for issues **#552–#629** (security items prioritized).
+2. Optionally run `make smoke` or `pytest` subsets to double-check runtime behavior.
+3. If desired, revert or patch any changes in a follow-up PR (mapping file contains locations).
+
+## Notes
+This report accompanies `TODO_CLEANUP_AUDIT.md` and the transparency scorecard update in `TRANSPARENCY_SCORECARD.md`.
+
+**Prepared by:** LUKHAS Autonomous Infrastructure
 # ✅ Codex TODO Replacement - Complete (Local)
 
 Date: 2025-10-28
