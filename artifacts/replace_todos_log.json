@@ -1,13 +1,13 @@
 [
   {
-    "file": "../../../../private/var/folders/x0/nwzv169j7vs2bp580bwfrd480000gn/T/pytest-of-agi_dev/pytest-8/test_replace_todo_dry_run0/mod.py",
+    "file": "../../../../private/var/folders/x0/nwzv169j7vs2bp580bwfrd480000gn/T/pytest-of-agi_dev/pytest-10/test_replace_todo_dry_run0/mod.py",
     "line": 1,
     "issue": 123,
     "repo": "org/repo",
     "applied": false
   },
   {
-    "file": "/private/var/folders/x0/nwzv169j7vs2bp580bwfrd480000gn/T/pytest-of-agi_dev/pytest-8/test_replace_todo_dry_run0/mod.py",
+    "file": "/private/var/folders/x0/nwzv169j7vs2bp580bwfrd480000gn/T/pytest-of-agi_dev/pytest-10/test_replace_todo_dry_run0/mod.py",
     "line": 1,
     "issue": 123,
     "repo": "org/repo",

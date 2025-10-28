@@ -46,11 +46,13 @@ class ImportRewriter(ast.NodeTransformer):
         """Rewrite 'import matriz' → 'import MATRIZ'"""
         for alias in node.names:
             if alias.name == OLD_MODULE:
-                self.changes.append(f"Line {node.lineno}: import {OLD_MODULE} → import {NEW_MODULE}")
+                self.changes.append(
+                    f"Line {node.lineno}: import {OLD_MODULE} → import {NEW_MODULE}"
+                )
                 alias.name = NEW_MODULE
             elif alias.name.startswith(OLD_MODULE + "."):
                 old_name = alias.name
-                alias.name = NEW_MODULE + alias.name[len(OLD_MODULE):]
+                alias.name = NEW_MODULE + alias.name[len(OLD_MODULE) :]
                 self.changes.append(f"Line {node.lineno}: import {old_name} → import {alias.name}")
         return node
 
@@ -61,7 +63,7 @@ class ImportRewriter(ast.NodeTransformer):
             node.module = NEW_MODULE
         elif node.module and node.module.startswith(OLD_MODULE + "."):
             old_module = node.module
-            node.module = NEW_MODULE + node.module[len(OLD_MODULE):]
+            node.module = NEW_MODULE + node.module[len(OLD_MODULE) :]
             self.changes.append(f"Line {node.lineno}: from {old_module} → from {node.module}")
         return node
 
@@ -74,7 +76,7 @@ def rewrite_file(filepath: Path, dry_run: bool = False) -> Tuple[bool, List[str]
         (changed, change_list) - Whether file was changed and list of changes
     """
     try:
-        with open(filepath, 'r', encoding='utf-8') as f:
+        with open(filepath, "r", encoding="utf-8") as f:
             source = f.read()
     except (UnicodeDecodeError, PermissionError) as e:
         return False, [f"ERROR: Could not read file: {e}"]
@@ -95,6 +97,7 @@ def rewrite_file(filepath: Path, dry_run: bool = False) -> Tuple[bool, List[str]
     # Generate new source
     try:
         import astor
+
         new_source = astor.to_source(new_tree)
     except ImportError:
         # Fallback: use ast.unparse (Python 3.9+)
@@ -107,12 +110,12 @@ def rewrite_file(filepath: Path, dry_run: bool = False) -> Tuple[bool, List[str]
         return True, rewriter.changes
 
     # Backup original file
-    backup_path = filepath.with_suffix(filepath.suffix + '.bak')
-    with open(backup_path, 'w', encoding='utf-8') as f:
+    backup_path = filepath.with_suffix(filepath.suffix + ".bak")
+    with open(backup_path, "w", encoding="utf-8") as f:
         f.write(source)
 
     # Write new source
-    with open(filepath, 'w', encoding='utf-8') as f:
+    with open(filepath, "w", encoding="utf-8") as f:
         f.write(new_source)
 
     return True, rewriter.changes
@@ -124,7 +127,7 @@ def find_python_files(root_path: Path, exclude_patterns: List[str]) -> List[Path
 
     # Handle single file case
     if root_path.is_file():
-        if root_path.suffix == '.py':
+        if root_path.suffix == ".py":
             if not any(excl in str(root_path) for excl in exclude_patterns):
                 python_files.append(root_path)
         return python_files
@@ -132,10 +135,14 @@ def find_python_files(root_path: Path, exclude_patterns: List[str]) -> List[Path
     # Handle directory case
     for dirpath, dirnames, filenames in os.walk(root_path):
         # Skip excluded directories
-        dirnames[:] = [d for d in dirnames if not any(excl in str(Path(dirpath) / d) for excl in exclude_patterns)]
+        dirnames[:] = [
+            d
+            for d in dirnames
+            if not any(excl in str(Path(dirpath) / d) for excl in exclude_patterns)
+        ]
 
         for filename in filenames:
-            if filename.endswith('.py'):
+            if filename.endswith(".py"):
                 filepath = Path(dirpath) / filename
                 if not any(excl in str(filepath) for excl in exclude_patterns):
                     python_files.append(filepath)
@@ -160,20 +167,36 @@ Examples:
 
   # Verbose output
   python3 scripts/consolidation/rewrite_matriz_imports.py --dry-run --verbose
-        """
+        """,
     )
-    parser.add_argument('--dry-run', action='store_true', help='Preview changes without modifying files')
-    parser.add_argument('--path', type=str, default='.', help='Root path to scan (default: current directory)')
-    parser.add_argument('--verbose', '-v', action='store_true', help='Verbose output')
-    parser.add_argument('--no-backup', action='store_true', help='Skip creating .bak files (not recommended)')
+    parser.add_argument(
+        "--dry-run", action="store_true", help="Preview changes without modifying files"
+    )
+    parser.add_argument(
+        "--path", type=str, default=".", help="Root path to scan (default: current directory)"
+    )
+    parser.add_argument("--verbose", "-v", action="store_true", help="Verbose output")
+    parser.add_argument(
+        "--no-backup", action="store_true", help="Skip creating .bak files (not recommended)"
+    )
 
     args = parser.parse_args()
 
     # Exclude patterns
     exclude_patterns = [
-        '.git', '__pycache__', 'node_modules', '.venv', 'venv',
-        'htmlcov', 'dist', 'build', '*.egg-info', 'archive',
-        '.pytest_cache', '.mypy_cache', '.ruff_cache'
+        ".git",
+        "__pycache__",
+        "node_modules",
+        ".venv",
+        "venv",
+        "htmlcov",
+        "dist",
+        "build",
+        "*.egg-info",
+        "archive",
+        ".pytest_cache",
+        ".mypy_cache",
+        ".ruff_cache",
     ]
 
     root_path = Path(args.path).resolve()
@@ -181,13 +204,13 @@ Examples:
         print(f"ERROR: Path does not exist: {root_path}")
         return 1
 
-    print(f"{'='*70}")
-    print(f"MATRIZ Import Rewriter")
-    print(f"{'='*70}")
+    print(f"{'=' * 70}")
+    print("MATRIZ Import Rewriter")
+    print(f"{'=' * 70}")
     print(f"Mode: {'DRY RUN (preview only)' if args.dry_run else 'LIVE (modifying files)'}")
     print(f"Path: {root_path}")
     print(f"Rewrite: {OLD_MODULE} → {NEW_MODULE}")
-    print(f"{'='*70}\n")
+    print(f"{'=' * 70}\n")
 
     # Find Python files
     print("Scanning for Python files...")
@@ -211,9 +234,9 @@ Examples:
             total_changes += len(change_list)
 
             if args.verbose or args.dry_run:
-                print(f"\n{'='*70}")
+                print(f"\n{'=' * 70}")
                 print(f"File: {filepath.relative_to(root_path)}")
-                print(f"{'='*70}")
+                print(f"{'=' * 70}")
                 for change in change_list:
                     if change.startswith("ERROR:") or change.startswith("SKIP:"):
                         error_files.append((filepath, change))
@@ -229,15 +252,15 @@ Examples:
                     error_files.append((filepath, change))
 
     # Summary
-    print(f"\n{'='*70}")
-    print(f"SUMMARY")
-    print(f"{'='*70}")
+    print(f"\n{'=' * 70}")
+    print("SUMMARY")
+    print(f"{'=' * 70}")
     print(f"Files scanned:    {len(python_files)}")
     print(f"Files changed:    {len(changed_files)}")
     print(f"Total changes:    {total_changes}")
     print(f"Files skipped:    {len(skipped_files)}")
     print(f"Files with errors: {len(error_files)}")
-    print(f"{'='*70}\n")
+    print(f"{'=' * 70}\n")
 
     if changed_files:
         print("Changed files:")
@@ -266,18 +289,18 @@ Examples:
         print("   Remove --dry-run to apply changes")
     else:
         print("✅ Changes applied successfully")
-        print(f"   Backup files created with .bak extension")
-        print(f"\nNext steps:")
-        print(f"  1. Run tests: make smoke && python3 -m pytest")
-        print(f"  2. Verify imports: python3 -c 'import MATRIZ; print(\"OK\")'")
-        print(f"  3. Review changes: git diff")
-        print(f"  4. Commit: git add -A && git commit -m 'fix(imports): matriz → MATRIZ'")
+        print("   Backup files created with .bak extension")
+        print("\nNext steps:")
+        print("  1. Run tests: make smoke && python3 -m pytest")
+        print("  2. Verify imports: python3 -c 'import MATRIZ; print(\"OK\")'")
+        print("  3. Review changes: git diff")
+        print("  4. Commit: git add -A && git commit -m 'fix(imports): matriz → MATRIZ'")
 
     # Generate manifest artifact
     if changed_files or args.dry_run:
         artifacts_dir = Path("artifacts")
         artifacts_dir.mkdir(exist_ok=True)
-        
+
         manifest = {
             "timestamp": __import__("datetime").datetime.now().isoformat(),
             "mode": "dry-run" if args.dry_run else "live",
@@ -290,15 +313,15 @@ Examples:
             "files_skipped": len(skipped_files),
             "files_with_errors": len(error_files),
         }
-        
+
         manifest_path = artifacts_dir / "matriz_manifest.json"
         manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
-        
+
         if args.verbose:
             print(f"\n📄 Manifest written to: {manifest_path}")
 
     return 0 if not error_files else 1
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main())
