@@ -8,13 +8,12 @@ import asyncio
 import json
 import logging
 import os
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Optional
 
 import aiohttp
-from .oauth_helpers import OAuthTokenManager
 
 # Platform-specific imports
 try:
@@ -33,7 +32,7 @@ except ImportError:
 
 try:
     from linkedin_api import (
-        Linkedin,  # LinkedIn API  # noqa: F401
+        Linkedin,  # LinkedIn API  # noqa: F401  # TODO: linkedin_api.Linkedin; conside...
     )
 
     LINKEDIN_AVAILABLE = True
@@ -42,7 +41,7 @@ except ImportError:
 
 try:
     # See: https://github.com/LukhasAI/Lukhas/issues/555
-    from requests_oauthlib import OAuth2Session  # OAuth 2.0 session helper
+    from requests_oauthlib import OAuth2Session
 
     OAUTH_AVAILABLE = True
 except ImportError:
@@ -65,7 +64,6 @@ class APICredentials:
     username: Optional[str] = None
     pass_word: Optional[str] = None
     refresh_token: Optional[str] = None
-    token_expires_at: Optional[str] = None
 
 
 @dataclass
@@ -101,20 +99,16 @@ class PlatformAPIManager:
 
     def __init__(self, credentials_path: Optional[str] = None, timezone=None):
         self.base_path = Path(__file__).parent.parent
-        self.credentials_path = (
-            Path(credentials_path)
-            if credentials_path
-            else (self.base_path / "config" / "api_credentials.json")
-        )
+        self.credentials_path = credentials_path or (self.base_path / "config" / "api_credentials.json")
         self.logs_path = self.base_path / "logs"
-        self._credentials_file_loaded = False
 
         # Initialize components
         self.credentials: dict[str, APICredentials] = {}
         self.rate_limits: dict[str, RateLimitInfo] = {}
         self.platform_clients: dict[str, Any] = {}
+        self.oauth_tokens: dict[str, dict[str, Any]] = {}
+        self.oauth_refresh_margin = timedelta(minutes=5)
         self.logger = self._setup_logging()
-        self.oauth_session_factory = OAuth2Session if OAUTH_AVAILABLE else None
 
         # Load credentials and initialize clients
         self._load_credentials()
@@ -162,7 +156,6 @@ class PlatformAPIManager:
                     self.credentials[platform] = APICredentials(**creds)
 
                 self.logger.info(f"Loaded credentials for {len(self.credentials)} platforms")
-                self._credentials_file_loaded = True
             except Exception as e:
                 self.logger.error(f"Failed to load credentials from file: {e}")
 
@@ -280,6 +273,131 @@ class PlatformAPIManager:
         if "instagram" in self.credentials:
             self.logger.info("✅ Instagram API credentials loaded (custom implementation)")
 
+    def _get_token_endpoint(self, platform: str) -> Optional[str]:
+        """Return OAuth token endpoint for supported platforms."""
+
+        endpoints = {
+            "linkedin": "https://www.linkedin.com/oauth/v2/accessToken",
+            # Instagram uses the Facebook Graph API token endpoint
+            "instagram": "https://graph.facebook.com/oauth/access_token",
+        }
+
+        return endpoints.get(platform)
+
+    @staticmethod
+    def _parse_token_expiry(value: Any) -> Optional[datetime]:
+        """Parse an OAuth token expiry value into a timezone-aware datetime."""
+
+        if isinstance(value, (int, float)):
+            return datetime.fromtimestamp(float(value), tz=timezone.utc)
+
+        if isinstance(value, str):
+            try:
+                expiry = datetime.fromisoformat(value)
+                if expiry.tzinfo is None:
+                    expiry = expiry.replace(tzinfo=timezone.utc)
+                return expiry.astimezone(timezone.utc)
+            except ValueError:
+                try:
+                    return datetime.fromtimestamp(float(value), tz=timezone.utc)
+                except (ValueError, TypeError):
+                    return None
+
+        return None
+
+    async def _ensure_oauth_token(self, platform: str) -> Optional[str]:
+        """Ensure an OAuth access token exists and is fresh for the platform."""
+
+        creds = self.credentials.get(platform)
+        if not creds:
+            self.logger.error(f"OAuth credentials missing for {platform}")
+            return None
+
+        token_state = self.oauth_tokens.get(platform)
+        now = datetime.now(timezone.utc)
+
+        if token_state:
+            expires_at = token_state.get("expires_at")
+            if not expires_at or expires_at - now > self.oauth_refresh_margin:
+                return token_state["access_token"]
+
+        if creds.access_token and not token_state:
+            self.oauth_tokens[platform] = {"access_token": creds.access_token, "expires_at": None}
+            return creds.access_token
+
+        return await self._refresh_access_token(platform, creds)
+
+    async def _refresh_access_token(self, platform: str, creds: APICredentials) -> Optional[str]:
+        """Refresh the OAuth access token for the given platform."""
+
+        if not OAUTH_AVAILABLE or OAuth2Session is None:
+            if creds.access_token:
+                self.logger.warning(
+                    "requests_oauthlib not available; using cached %s access token", platform
+                )
+                return creds.access_token
+
+            self.logger.error("OAuth library unavailable and no access token present for %s", platform)
+            return None
+
+        token_url = self._get_token_endpoint(platform)
+        if not token_url:
+            self.logger.error(f"OAuth token endpoint not configured for {platform}")
+            return creds.access_token
+
+        if not creds.client_id or not creds.client_secret:
+            self.logger.error(f"OAuth client credentials missing for {platform}")
+            return creds.access_token
+
+        if not creds.refresh_token:
+            if creds.access_token:
+                self.logger.warning(
+                    "Refresh token missing for %s; using cached access token", platform
+                )
+                return creds.access_token
+
+            self.logger.error(f"Refresh token missing for {platform} and no cached access token")
+            return None
+
+        def _do_refresh() -> dict[str, Any]:
+            session = OAuth2Session(creds.client_id, token={"refresh_token": creds.refresh_token})
+            return session.refresh_token(
+                token_url,
+                refresh_token=creds.refresh_token,
+                client_id=creds.client_id,
+                client_secret=creds.client_secret,
+            )
+
+        try:
+            token_data = await asyncio.to_thread(_do_refresh)
+        except Exception as exc:  # pragma: no cover - defensive logging
+            self.logger.error(f"Failed to refresh {platform} access token: {exc}")
+            return creds.access_token
+
+        access_token = token_data.get("access_token")
+        if not access_token:
+            self.logger.error(f"OAuth refresh for {platform} did not include an access token")
+            return creds.access_token
+
+        expires_at = self._parse_token_expiry(token_data.get("expires_at"))
+        if not expires_at:
+            expires_in = token_data.get("expires_in")
+            if expires_in is not None:
+                try:
+                    expires_at = datetime.now(timezone.utc) + timedelta(seconds=int(expires_in))
+                except (TypeError, ValueError):
+                    expires_at = None
+
+        self.oauth_tokens[platform] = {"access_token": access_token, "expires_at": expires_at}
+        creds.access_token = access_token
+
+        new_refresh = token_data.get("refresh_token")
+        if new_refresh:
+            creds.refresh_token = new_refresh
+
+        self.logger.info(f"🔄 Refreshed OAuth token for {platform}")
+        return access_token
+
     async def post_to_twitter(self, content: str, media_paths: Optional[list[str]] = None) -> PostResult:
         """Post to Twitter/𝕏 using API v2"""
 
@@ -348,9 +466,15 @@ class PlatformAPIManager:
             if not await self._check_rate_limit("linkedin"):
                 return PostResult(success=False, platform="linkedin", error="Rate limit exceeded")
 
-            # LinkedIn API requires OAuth 2.0 flow
-            access_token = await self._ensure_linkedin_access_token(creds)
+            access_token = await self._ensure_oauth_token("linkedin")
+            if not access_token:
+                return PostResult(
+                    success=False,
+                    platform="linkedin",
+                    error="LinkedIn access token unavailable",
+                )
 
+            # LinkedIn API requires OAuth 2.0 flow
             headers = {
                 "Authorization": f"Bearer {access_token}",
                 "Content-Type": "application/json",
@@ -407,69 +531,6 @@ class PlatformAPIManager:
             self.logger.error(f"❌ Failed to post to LinkedIn: {e}")
             return PostResult(success=False, platform="linkedin", error=str(e))
 
-    async def _ensure_linkedin_access_token(self, creds: APICredentials) -> str:
-        """Ensure a valid LinkedIn OAuth access token is available."""
-
-        if not creds.access_token or self._should_refresh_linkedin_token(creds):
-            if not self.oauth_session_factory:
-                raise RuntimeError(
-                    "requests_oauthlib is required for LinkedIn OAuth token refresh, but it is not installed."
-                )
-
-            # Delegate token management to the OAuthTokenManager helper which
-            # performs a synchronous refresh via an injected session factory.
-            manager = OAuthTokenManager(self.oauth_session_factory, logger=self.logger)
-            return await asyncio.to_thread(manager.get_access_token, creds=creds, token_url="https://www.linkedin.com/oauth/v2/accessToken")
-
-        return creds.access_token
-
-    def _should_refresh_linkedin_token(self, creds: APICredentials) -> bool:
-        """Determine whether the LinkedIn token should be refreshed."""
-
-        if not creds.access_token:
-            return True
-
-        if not creds.token_expires_at:
-            return False
-
-        try:
-            expires_at_str = creds.token_expires_at
-            if expires_at_str.endswith("Z"):
-                expires_at_str = expires_at_str.replace("Z", "+00:00")
-            expires_at = datetime.fromisoformat(expires_at_str)
-        except ValueError:
-            self.logger.warning("Unable to parse LinkedIn token expiry, forcing refresh.")
-            return True
-
-        if expires_at.tzinfo is None:
-            expires_at = expires_at.replace(tzinfo=timezone.utc)
-
-        # Refresh if token expires within the next five minutes
-        return expires_at <= datetime.now(timezone.utc) + timedelta(minutes=5)
-
-    def _refresh_linkedin_token(self, creds: APICredentials) -> str:
-        """(Deprecated) kept for compatibility. Use OAuthTokenManager instead."""
-
-        # Backwards-compatible wrapper that delegates to OAuthTokenManager
-        manager = OAuthTokenManager(self.oauth_session_factory, logger=self.logger)
-        access_token = manager.get_access_token(creds=creds, token_url="https://www.linkedin.com/oauth/v2/accessToken")
-        self._persist_credentials()
-        return access_token
-
-    def _persist_credentials(self) -> None:
-        """Persist credentials to disk when loaded from a file."""
-
-        if not self._credentials_file_loaded:
-            return
-
-        try:
-            serialized = {platform: asdict(creds) for platform, creds in self.credentials.items()}
-            self.credentials_path.parent.mkdir(parents=True, exist_ok=True)
-            with open(self.credentials_path, "w", encoding="utf-8") as f:
-                json.dump(serialized, f, indent=2)
-        except Exception as exc:  # pragma: no cover - defensive logging
-            self.logger.warning(f"Failed to persist API credentials: {exc}")
-
     async def post_to_reddit(self, title: str, content: str, subreddit: str = "test") -> PostResult:
         """Post to Reddit using PRAW"""
 
@@ -513,11 +574,19 @@ class PlatformAPIManager:
             return PostResult(success=False, platform="instagram", error="Instagram credentials not configured")
 
         try:
-            self.credentials["instagram"]
+            creds = self.credentials["instagram"]
 
             # Check rate limits
             if not await self._check_rate_limit("instagram"):
                 return PostResult(success=False, platform="instagram", error="Rate limit exceeded")
+
+            access_token = await self._ensure_oauth_token("instagram")
+            if not access_token and not creds.access_token:
+                return PostResult(
+                    success=False,
+                    platform="instagram",
+                    error="Instagram access token unavailable",
+                )
 
             # Instagram requires image upload via Graph API
             # This is a simplified version - full implementation would handle
