@@ -278,6 +278,32 @@ class GuardianIntegrationMiddleware:
             # Extract decision data from function parameters
             decision_data = self._extract_decision_data(func, args, kwargs)
 
+            compliance_outcome = await self._evaluate_constitutional_compliance(decision_type, decision_data)
+            if compliance_outcome:
+                decision_data = dict(decision_data)
+                decision_data["constitutional_compliance"] = {
+                    "allowed": compliance_outcome["allowed"],
+                    "score": compliance_outcome.get("score"),
+                    "source": compliance_outcome.get("source"),
+                    "details": compliance_outcome.get("details"),
+                }
+
+                if not compliance_outcome["allowed"]:
+                    guardian_decision = self._create_compliance_block_decision(
+                        decision_type, decision_data, compliance_outcome
+                    )
+                    await self._handle_blocked_decision(guardian_decision, func, args, kwargs)
+                    self.integration_metrics["decisions_blocked"] += 1
+                    return None
+
+                required_actions = compliance_outcome.get("required_actions") or []
+                if required_actions:
+                    logger.info(
+                        "⚖️ Constitutional compliance recommended actions for %s: %s",
+                        func.__name__,
+                        ", ".join(map(str, required_actions)),
+                    )
+
             # Check cache if cache_key provided
             if cache_key:
                 cached_decision = self._get_cached_decision(cache_key)
@@ -346,6 +372,32 @@ class GuardianIntegrationMiddleware:
             # Extract decision data
             decision_data = self._extract_decision_data(func, args, kwargs)
 
+            compliance_outcome = await self._evaluate_constitutional_compliance(decision_type, decision_data)
+            if compliance_outcome:
+                decision_data = dict(decision_data)
+                decision_data["constitutional_compliance"] = {
+                    "allowed": compliance_outcome["allowed"],
+                    "score": compliance_outcome.get("score"),
+                    "source": compliance_outcome.get("source"),
+                    "details": compliance_outcome.get("details"),
+                }
+
+                if not compliance_outcome["allowed"]:
+                    guardian_decision = self._create_compliance_block_decision(
+                        decision_type, decision_data, compliance_outcome
+                    )
+                    await self._handle_blocked_decision(guardian_decision, func, args, kwargs)
+                    self.integration_metrics["decisions_blocked"] += 1
+                    return None
+
+                required_actions = compliance_outcome.get("required_actions") or []
+                if required_actions:
+                    logger.info(
+                        "⚖️ Constitutional compliance recommended actions for %s: %s",
+                        func.__name__,
+                        ", ".join(map(str, required_actions)),
+                    )
+
             # Evaluate with Guardian System
             guardian_decision = await self._evaluate_with_guardian(decision_type, decision_data, explanation_type)
 
@@ -406,6 +458,183 @@ class GuardianIntegrationMiddleware:
                 decision_data[param] = kwargs[param]
 
         return decision_data
+
+    async def _evaluate_constitutional_compliance(
+        self, decision_type: DecisionType, decision_data: dict[str, Any]
+    ) -> Optional[dict[str, Any]]:
+        """Evaluate decision data against constitutional compliance systems"""
+
+        try:
+            decision_context = self._map_decision_type_to_context(decision_type)
+            user_id = decision_data.get("user_id")
+
+            if self.compliance_engine:
+                result = await self.compliance_engine.check_constitutional_compliance(
+                    decision_context, decision_data, user_id
+                )
+
+                allowed = bool(getattr(result, "decision_allowed", False) and getattr(result, "overall_compliant", False))
+                explanation = (
+                    getattr(result, "compliance_explanation", "")
+                    or getattr(result, "violation_summary", "")
+                    or "Constitutional compliance evaluation"
+                )
+
+                principle_checks = {}
+                for principle, check in getattr(result, "principle_checks", {}).items():
+                    key = getattr(principle, "value", str(principle))
+                    principle_checks[key] = {
+                        "compliant": getattr(check, "compliant", True),
+                        "score": getattr(check, "compliance_score", 1.0),
+                        "confidence": getattr(check, "confidence", 1.0),
+                    }
+
+                return {
+                    "allowed": allowed,
+                    "explanation": explanation,
+                    "score": float(getattr(result, "overall_compliance_score", 0.0)),
+                    "confidence": float(getattr(result, "confidence_in_decision", 0.0)),
+                    "required_actions": list(getattr(result, "required_actions", [])),
+                    "source": "compliance_engine",
+                    "details": {
+                        "overall_compliant": getattr(result, "overall_compliant", False),
+                        "compliance_level": getattr(result, "compliance_level", None),
+                        "principle_checks": principle_checks,
+                    },
+                    "max_risk_level": getattr(result, "max_risk_level", None),
+                    "processing_time_ms": float(getattr(result, "total_processing_time_ms", 0.0)),
+                }
+
+            framework = self.constitutional_framework
+            if framework is None:
+                try:
+                    framework = get_constitutional_framework()
+                    self.constitutional_framework = framework
+                except Exception as framework_error:  # pragma: no cover - defensive logging
+                    logger.warning(
+                        "⚠️ Unable to load constitutional framework: %s",
+                        framework_error,
+                    )
+                    return None
+
+            if framework:
+                allowed, violations = await framework.evaluate_decision(decision_context, decision_data, user_id)
+
+                violation_details = []
+                explanation_parts = []
+                max_risk_level = None
+
+                for violation in violations:
+                    principle = getattr(violation.principle, "value", getattr(violation.principle, "name", "unknown"))
+                    severity = getattr(violation.severity, "value", getattr(violation.severity, "name", "unknown"))
+                    details = getattr(violation, "details", {})
+
+                    violation_details.append({
+                        "principle": principle,
+                        "severity": severity,
+                        "details": details,
+                    })
+
+                    description = details.get("description") or details.get("pattern")
+                    if description:
+                        explanation_parts.append(f"{principle}: {description}")
+
+                    current_level = max_risk_level
+                    candidate_level = violation.severity
+                    if current_level is None:
+                        max_risk_level = candidate_level
+                    else:
+                        current_value = getattr(current_level, "value", str(current_level)).lower()
+                        candidate_value = getattr(candidate_level, "value", str(candidate_level)).lower()
+                        order = {"low": 0, "medium": 1, "high": 2, "critical": 3}
+                        if order.get(candidate_value, -1) > order.get(current_value, -1):
+                            max_risk_level = candidate_level
+
+                explanation = (
+                    "; ".join(explanation_parts)
+                    if explanation_parts
+                    else ("Constitutional compliance upheld" if allowed else "Constitutional compliance violations detected")
+                )
+
+                return {
+                    "allowed": bool(allowed),
+                    "explanation": explanation,
+                    "score": 1.0 if allowed else 0.0,
+                    "confidence": 0.7 if allowed else 0.85,
+                    "required_actions": ["request_human_review"] if violations and not allowed else [],
+                    "source": "constitutional_framework",
+                    "details": {"violations": violation_details},
+                    "max_risk_level": max_risk_level,
+                    "processing_time_ms": 0.0,
+                }
+
+        except Exception as error:  # pragma: no cover - defensive logging
+            logger.error("❌ Constitutional compliance evaluation failed: %s", error)
+
+        return None
+
+    def _create_compliance_block_decision(
+        self, decision_type: DecisionType, decision_data: dict[str, Any], compliance_outcome: dict[str, Any]
+    ) -> GuardianDecision:
+        """Create Guardian decision representing a constitutional compliance block"""
+
+        explanation = compliance_outcome.get("explanation") or "Constitutional compliance violation detected"
+        score = float(compliance_outcome.get("score") or 0.0)
+        max_risk_level = compliance_outcome.get("max_risk_level")
+        safety_level = self._derive_safety_level_from_risk(max_risk_level)
+
+        return GuardianDecision(
+            decision_id=f"compliance_{hash(str(decision_data)) % 100000}",
+            decision_type=decision_type,
+            allowed=False,
+            confidence=float(compliance_outcome.get("confidence") or 0.9),
+            safety_level=safety_level,
+            constitutional_compliant=False,
+            constitutional_score=score,
+            drift_score=0.1,
+            drift_severity="low",
+            timestamp=datetime.now(timezone.utc),
+            processing_time_ms=float(compliance_outcome.get("processing_time_ms") or 1.0),
+            explanation=explanation,
+            context={"constitutional_compliance": compliance_outcome},
+        )
+
+    def _map_decision_type_to_context(self, decision_type: DecisionType) -> DecisionContext:
+        """Map Guardian decision types to constitutional decision contexts"""
+
+        mapping = {
+            DecisionType.USER_INTERACTION: DecisionContext.USER_INTERACTION,
+            DecisionType.CONTENT_GENERATION: DecisionContext.CONTENT_GENERATION,
+            DecisionType.DATA_PROCESSING: DecisionContext.DATA_PROCESSING,
+            DecisionType.MODEL_INFERENCE: DecisionContext.REASONING_TASK,
+            DecisionType.SYSTEM_OPERATION: DecisionContext.SYSTEM_OPERATION,
+            DecisionType.API_CALL: DecisionContext.EXTERNAL_API,
+            DecisionType.MEMORY_ACCESS: DecisionContext.DATA_PROCESSING,
+            DecisionType.EXTERNAL_REQUEST: DecisionContext.EXTERNAL_API,
+        }
+
+        return mapping.get(decision_type, DecisionContext.SYSTEM_OPERATION)
+
+    def _derive_safety_level_from_risk(self, risk_level: Any) -> SafetyLevel:
+        """Derive Guardian safety level from constitutional risk level"""
+
+        if hasattr(risk_level, "value"):
+            risk_value = str(risk_level.value).lower()
+        elif isinstance(risk_level, str):
+            risk_value = risk_level.lower()
+        else:
+            risk_value = ""
+
+        if risk_value == "critical":
+            return SafetyLevel.CRITICAL
+        if risk_value == "high":
+            return SafetyLevel.DANGER
+        if risk_value == "medium":
+            return SafetyLevel.WARNING
+        if risk_value == "low":
+            return SafetyLevel.CAUTION
+
+        return SafetyLevel.WARNING
 
     def _get_cached_decision(self, cache_key: str) -> Optional[GuardianDecision]:
         """Get cached Guardian decision"""
