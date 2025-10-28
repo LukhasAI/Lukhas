@@ -136,6 +136,11 @@ class WebAuthnManager:
         if options is None:
             return {}
 
+        if hasattr(options, "model_dump_json"):
+            try:
+                return json.loads(options.model_dump_json())
+            except (TypeError, ValueError):
+                pass
         if hasattr(options, "model_dump"):
             try:
                 return options.model_dump(mode="json")
