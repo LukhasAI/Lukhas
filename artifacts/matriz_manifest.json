@@ -1,0 +1,12 @@
+{
+  "timestamp": "2025-10-28T11:16:58.286504",
+  "mode": "dry-run",
+  "old_module": "matriz",
+  "new_module": "MATRIZ",
+  "root_path": "/private/var/folders/x0/nwzv169j7vs2bp580bwfrd480000gn/T/pytest-of-agi_dev/pytest-11/test_no_changes_for_strings0/mod2.py",
+  "files_scanned": 1,
+  "files_changed": [],
+  "total_changes": 0,
+  "files_skipped": 0,
+  "files_with_errors": 0
+}

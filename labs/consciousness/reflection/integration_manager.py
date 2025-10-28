@@ -1,33 +1,16 @@
-import logging
-
 #!/usr/bin/env python3
-"""
-
+"""Integration manager for orchestrating Cognitive AI subsystems."""
 #TAG:consciousness
 #TAG:reflection
 #TAG:neuroplastic
 #TAG:colony
-
-
-Lukhas System Cognitive Integration Manager
-====================================
-Central integration manager for connecting Cognitive capabilities across
-the entire Lukhas ecosystem.
-
-This manager coordinates:
-1. Main Lukhas Cognitive AI Orchestrator
-2. Cognitive Core Cognitive Enhancement
-3. Brain Orchestration Integration
-4. Bot GitHub App Cognitive capabilities
-5. Legacy system compatibility
-
-Enhanced: 2025-7-2
-Author: Lukhas AI Team
-"""
 import asyncio
+import logging
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
+
+from core.orchestration.brain.lukhas_agi_orchestrator import lukhas_agi_orchestrator
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -94,10 +77,6 @@ class LukhasAGIIntegrationManager:
     async def _initialize_agi_orchestrator(self):
         """Initialize the main Cognitive AI orchestrator"""
         try:
-            # SYNTAX_ERROR_FIXED:             from
-            # orchestration.brain.lukhas_agi_orchestrator import
-            # orchestration.brain.lukhas_agi_orchestrator
-
             success = await lukhas_agi_orchestrator.initialize_agi_system()
             if success:
                 self.components["cognitive_orchestrator"] = lukhas_agi_orchestrator

@@ -13,23 +13,18 @@ import asyncio
 import logging
 from typing import Any, Optional
 
+from core.orchestration.brain.lukhas_agi_orchestrator import (
+    LukhasAGIOrchestrator,
+    lukhas_agi_orchestrator,
+)
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("BotAGISystem")
 
 # Import the new Lukhas Cognitive AI Orchestrator
-try:
-    from core.orchestration.brain.lukhas_agi_orchestrator import (
-        LukhasAGIConfig,
-        LukhasAGIOrchestrator,
-        lukhas_agi_orchestrator,
-    )
-
-    AGI_ORCHESTRATOR_AVAILABLE = True
-    logger.info(" Lukhas Cognitive AI Orchestrator available")
-except ImportError as e:
-    AGI_ORCHESTRATOR_AVAILABLE = False
-    logger.warning(f"Lukhas Cognitive AI Orchestrator not available: {e}")
+AGI_ORCHESTRATOR_AVAILABLE = True
+logger.info(" Lukhas Cognitive AI Orchestrator available")
 
 
 class BotAGISystem:
@@ -40,23 +35,21 @@ class BotAGISystem:
     the enhanced Cognitive capabilities of the new orchestrator.
     """
 
-    def __init__(self, config: Optional[dict[str, Any] | LukhasAGIConfig] = None):
-        if isinstance(config, LukhasAGIConfig):
-            self.config = config
-        else:
-            self.config = config or {}
-
-        self.orchestrator = (
+    def __init__(self, config: Optional[dict[str, Any]] = None):
+        self.config = config or {}
+        self.orchestrator: LukhasAGIOrchestrator | None = (
             lukhas_agi_orchestrator if AGI_ORCHESTRATOR_AVAILABLE else None
         )
-        self.active = False
+        self.active = bool(self.orchestrator and self.orchestrator.is_active)
 
         logger.info(" Bot Cognitive AI System initialized (bridging to Lukhas Cognitive AI)")
 
     async def initialize(self) -> bool:
         """Initialize the Cognitive system"""
         if self.orchestrator:
-            return await self.orchestrator.initialize_agi_system()
+            success = await self.orchestrator.initialize_agi_system(start_background=False)
+            self.active = success
+            return success
         else:
             logger.warning("No Cognitive AI orchestrator available - running in legacy mode")
             self.active = True
@@ -82,7 +75,8 @@ class BotAGISystem:
 
         if self.orchestrator:
             # Start the orchestrator in background
-            asyncio.create_task(self.orchestrator.start_agi_orchestration())
+            await self.orchestrator.start_agi_orchestration()
+            self.active = True
 
         logger.info(" Bot Cognitive AI System started")
 
