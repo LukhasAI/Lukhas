@@ -56,6 +56,8 @@ try:
         ComplianceFramework,
         ComplianceStandard,
         ControlStatus,
+        EvidenceType,
+        RiskLevel,
         create_compliance_framework,
     )
     from lukhas_website.lukhas.security.encryption_manager import (
@@ -726,8 +728,6 @@ class TestComplianceFramework(unittest.TestCase):
 
     def test_evidence_collection(self):
         """Test evidence collection."""
-        from security.compliance_framework import EvidenceType
-
         with self.benchmark.measure():
             evidence_id = self.framework.collect_evidence(
                 control_id="CC6.1",
@@ -742,8 +742,6 @@ class TestComplianceFramework(unittest.TestCase):
 
     def test_risk_assessment(self):
         """Test risk assessment."""
-        from security.compliance_framework import RiskLevel
-
         with self.benchmark.measure():
             risk_id = self.framework.run_risk_assessment(
                 title="Test Risk",
