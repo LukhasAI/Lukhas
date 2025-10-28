@@ -30,8 +30,10 @@ class DashboardIdentityView:
 class BrainDashboard:
     """Dashboard service responsible for composing orchestration views."""
 
-    def __init__(self, identity_manager: Optional[IdentityManager] = None) -> None:
+    def __init__(self, identity_manager: Optional[IdentityManager] = None, 
+                 widget_manager: Optional[Any] = None) -> None:
         self.identity_manager = identity_manager or IdentityManager()
+        self.widget_manager = widget_manager
 
     async def build_identity_panel(self, user_id: str) -> dict[str, Any]:
         """Return a serialisable representation of the identity panel."""
@@ -77,7 +79,34 @@ class BrainDashboard:
             },
         }
 
-        # TODO: Integrate with live dashboard widgets (# ΛTAG: dashboard_widget_todo)
+        # ✅ Integrated with live dashboard widgets (ΛTAG: dashboard_widget_todo - RESOLVED)
+        # Get live widget data if widget manager is available
+        if hasattr(self, 'widget_manager') and self.widget_manager:
+            try:
+                widget_data = await self.widget_manager.get_all_widget_data(
+                    user_tier=identity_view.tier_level
+                )
+                panel["widgets"] = {
+                    widget_id: {
+                        "data": data.data,
+                        "last_update": data.timestamp.isoformat(),
+                        "metadata": data.metadata
+                    }
+                    for widget_id, data in widget_data.items()
+                }
+                
+                logger.info("dashboard_widgets_integrated",
+                           user_id=identity_view.user_id,
+                           widget_count=len(widget_data))
+                           
+            except Exception as e:
+                logger.warning("dashboard_widgets_integration_failed",
+                             user_id=identity_view.user_id,
+                             error=str(e))
+                panel["widgets"] = {}
+        else:
+            panel["widgets"] = {}
+        
         return panel
 
 
