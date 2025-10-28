@@ -45,7 +45,18 @@ def _stable_hash(data: Dict[str, Any]) -> str:
     digest = hashlib.sha256()
     if not isinstance(data, dict):
         data = {"value": data}
-    for key, value in sorted(data.items()):
+    
+    def _sort_key(item: tuple[Any, Any]) -> tuple[str, str]:
+        key, _ = item
+        key_type = type(key)
+        type_name = getattr(key_type, "__qualname__", key_type.__name__)
+        try:
+            key_repr = repr(key)
+        except Exception:  # pragma: no cover - defensive fallback
+            key_repr = object.__repr__(key)
+        return (type_name, key_repr)
+
+    for key, value in sorted(data.items(), key=_sort_key):
         digest.update(repr((key, value)).encode("utf-8"))
     return digest.hexdigest()
 
