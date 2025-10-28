@@ -1,20 +1,5 @@
-"""Utilities for working with repository TODO inventories."""
+"""Uppercase alias for :mod:`todo.scripts`."""
 
-from importlib import import_module as _import_module
+from __future__ import annotations
 
-categorize_todos = _import_module(".categorize_todos", __name__)
-
-PRIORITY_KEYWORDS = categorize_todos.PRIORITY_KEYWORDS
-TODORecord = categorize_todos.TODORecord
-extract_todo_context = categorize_todos.extract_todo_context
-generate_priority_files = categorize_todos.generate_priority_files
-load_exclusions = categorize_todos.load_exclusions
-
-__all__ = [
-    "categorize_todos",
-    "PRIORITY_KEYWORDS",
-    "TODORecord",
-    "extract_todo_context",
-    "generate_priority_files",
-    "load_exclusions",
-]
+from todo.scripts import *  # noqa: F401,F403
