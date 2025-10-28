@@ -137,7 +137,10 @@ class WebAuthnManager:
             return {}
 
         if hasattr(options, "model_dump"):
-            return options.model_dump()
+            try:
+                return options.model_dump(mode="json")
+            except TypeError:
+                return options.model_dump()
         if hasattr(options, "dict"):
             return options.dict()
         if hasattr(options, "to_dict"):
