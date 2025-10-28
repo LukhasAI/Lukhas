@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.1.0",
+  "module": {
+    "name": "lukhas.core.emotion",
+    "path": "core/emotion",
+    "type": "package",
+    "lane": "lukhas",
+    "colony": "consciousness"
+  },
+  "matriz_integration": {
+    "status": "partial",
+    "pipeline_nodes": [],
+    "cognitive_function": ""
+  },
+  "constellation_alignment": {
+    "primary_star": "🌊 Flow (Consciousness)",
+    "star_aliases": [],
+    "trinity_aspects": []
+  },
+  "capabilities": [
+    {
+      "name": "emotion_mapping",
+      "type": "processing",
+      "description": "Maps and processes emotional states",
+      "interfaces": []
+    }
+  ],
+  "dependencies": {
+    "internal": [],
+    "external": [],
+    "circular_dependencies": []
+  },
+  "exports": {
+    "classes": [],
+    "functions": [],
+    "constants": []
+  },
+  "testing": {
+    "has_tests": false,
+    "quality_tier": "T2_important",
+    "test_paths": []
+  },
+  "observability": {
+    "spans": [],
+    "metrics": [],
+    "logging": {
+      "logger_name": "lukhas.core.emotion",
+      "default_level": "INFO"
+    },
+    "events": {
+      "publishes": [],
+      "subscribes": []
+    }
+  },
+  "security": {
+    "requires_auth": false,
+    "data_classification": "internal",
+    "secrets_used": [],
+    "network_calls": false,
+    "sandboxed": true,
+    "policies": []
+  },
+  "metadata": {
+    "created": "2025-10-28T09:37:06.145655+00:00",
+    "last_updated": "2025-10-28T09:37:06.145655+00:00",
+    "manifest_generated": true,
+    "owner": "unassigned",
+    "documentation_url": "",
+    "tags": []
+  }
+}
