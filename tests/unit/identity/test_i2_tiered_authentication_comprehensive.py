@@ -389,7 +389,7 @@ class TestTieredAuthenticationEngine:
     else:
 
         @pytest.mark.skip(reason="Hypothesis not installed")
-        async def test_property_based_authentication_contexts(self, authenticator, ip_address, username, correlation_id):
+        async def test_property_based_authentication_contexts(self):
             """Skipped when Hypothesis is unavailable."""
             raise pytest.SkipTest("Hypothesis dependency is required")
 
