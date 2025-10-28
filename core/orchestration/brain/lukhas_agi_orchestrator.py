@@ -12,7 +12,7 @@ from typing import Any, Optional
 logger = logging.getLogger("lukhas_agi_orchestrator")
 
 
-@dataclass(slots=True)
+@dataclass
 class LukhasAGIConfig:
     """Configuration for the symbolic Lukhas AGI orchestrator."""
 
@@ -22,7 +22,7 @@ class LukhasAGIConfig:
     drift_threshold: float = 0.35
 
 
-@dataclass(slots=True)
+@dataclass
 class OrchestratorRuntimeState:
     """Runtime state container for the orchestrator."""
 
