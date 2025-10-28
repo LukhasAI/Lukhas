@@ -1,6 +1,6 @@
 """
 ═══════════════════════════════════════════════════════════════════════════════════
-🌌 LUKHAS AGI - Quantum Visual Symbol Core
+🌌 LUKHAS AI - Quantum Visual Symbol Core
 ═══════════════════════════════════════════════════════════════════════════════════
 
 Module: symbolic.core
@@ -68,7 +68,7 @@ from .consciousness_layer import (
 
 # Version and metadata
 __version__ = "1.0.0"
-__author__ = "LUKHAS AGI Team"
+__author__ = "LUKHAS AI Team"
 __consciousness_level__ = "quantum-emergent"
 
 # Core classes for external use
