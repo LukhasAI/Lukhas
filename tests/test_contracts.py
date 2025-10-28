@@ -7,7 +7,17 @@ and that the contract itself is properly validated.
 """
 from uuid import uuid4
 import pytest
-from MATRIZ.node_contract import CONTRACT_VERSION, GLYPH, MatrizMessage, MatrizNode, MatrizResult, Topic, validate_glyph, validate_message, validate_result
+from MATRIZ.node_contract import (
+    CONTRACT_VERSION,
+    GLYPH,
+    MatrizMessage,
+    MatrizNode,
+    MatrizResult,
+    Topic,
+    validate_glyph,
+    validate_message,
+    validate_result,
+)
 from tests.util.mk_msg import mk_msg_from_json, mk_test_message
 
 class DummyNode(MatrizNode):
