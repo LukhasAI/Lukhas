@@ -281,12 +281,21 @@ class GuardianIntegrationMiddleware:
             compliance_outcome = await self._evaluate_constitutional_compliance(decision_type, decision_data)
             if compliance_outcome:
                 decision_data = dict(decision_data)
-                decision_data["constitutional_compliance"] = {
+
+                compliance_metadata: dict[str, Any] = {
                     "allowed": compliance_outcome["allowed"],
                     "score": compliance_outcome.get("score"),
                     "source": compliance_outcome.get("source"),
                     "details": compliance_outcome.get("details"),
+                    "required_actions": list(compliance_outcome.get("required_actions") or []),
                 }
+
+                for field in ("explanation", "confidence", "max_risk_level", "processing_time_ms"):
+                    value = compliance_outcome.get(field)
+                    if value is not None:
+                        compliance_metadata[field] = value
+
+                decision_data["constitutional_compliance"] = compliance_metadata
 
                 if not compliance_outcome["allowed"]:
                     guardian_decision = self._create_compliance_block_decision(
@@ -296,7 +305,7 @@ class GuardianIntegrationMiddleware:
                     self.integration_metrics["decisions_blocked"] += 1
                     return None
 
-                required_actions = compliance_outcome.get("required_actions") or []
+                required_actions = compliance_metadata["required_actions"]
                 if required_actions:
                     logger.info(
                         "⚖️ Constitutional compliance recommended actions for %s: %s",
@@ -375,12 +384,21 @@ class GuardianIntegrationMiddleware:
             compliance_outcome = await self._evaluate_constitutional_compliance(decision_type, decision_data)
             if compliance_outcome:
                 decision_data = dict(decision_data)
-                decision_data["constitutional_compliance"] = {
+
+                compliance_metadata: dict[str, Any] = {
                     "allowed": compliance_outcome["allowed"],
                     "score": compliance_outcome.get("score"),
                     "source": compliance_outcome.get("source"),
                     "details": compliance_outcome.get("details"),
+                    "required_actions": list(compliance_outcome.get("required_actions") or []),
                 }
+
+                for field in ("explanation", "confidence", "max_risk_level", "processing_time_ms"):
+                    value = compliance_outcome.get(field)
+                    if value is not None:
+                        compliance_metadata[field] = value
+
+                decision_data["constitutional_compliance"] = compliance_metadata
 
                 if not compliance_outcome["allowed"]:
                     guardian_decision = self._create_compliance_block_decision(
@@ -390,7 +408,7 @@ class GuardianIntegrationMiddleware:
                     self.integration_metrics["decisions_blocked"] += 1
                     return None
 
-                required_actions = compliance_outcome.get("required_actions") or []
+                required_actions = compliance_metadata["required_actions"]
                 if required_actions:
                     logger.info(
                         "⚖️ Constitutional compliance recommended actions for %s: %s",

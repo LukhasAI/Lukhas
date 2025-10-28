@@ -189,7 +189,7 @@ class _AllowedComplianceResult:
     confidence_in_decision = 0.93
     compliance_explanation = "Constitutional review passed"
     violation_summary = ""
-    required_actions: list[str] = []
+    required_actions: list[str] = ["request_human_review"]
     max_risk_level = ViolationSeverity.LOW
     total_processing_time_ms = 6.0
     principle_checks = {}
@@ -257,6 +257,9 @@ async def test_guardian_monitor_includes_compliance_metadata_when_allowed():
     compliance_data = decision_payload.get("constitutional_compliance")
     assert compliance_data and compliance_data["allowed"] is True
     assert compliance_data["score"] == pytest.approx(_AllowedComplianceResult.overall_compliance_score)
+    assert compliance_data["required_actions"] == _AllowedComplianceResult.required_actions
+    assert compliance_data["explanation"] == _AllowedComplianceResult.compliance_explanation
+    assert compliance_data["confidence"] == pytest.approx(_AllowedComplianceResult.confidence_in_decision)
 
 
 @pytest.mark.asyncio
