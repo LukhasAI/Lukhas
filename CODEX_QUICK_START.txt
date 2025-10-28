@@ -1,0 +1,33 @@
+╔══════════════════════════════════════════════════════════════════╗
+║                  🤖 CODEX QUICK START CARD                       ║
+╠══════════════════════════════════════════════════════════════════╣
+║                                                                  ║
+║  📋 READ FIRST: CODEX_PARALLEL_SETUP.md                         ║
+║                                                                  ║
+║  🎯 RECOMMENDED TASK: TODO Replacement (1-2h, high value)       ║
+║                                                                  ║
+║  📁 FILES NEEDED:                                                ║
+║    • CODEX_PARALLEL_SETUP.md                                    ║
+║    • artifacts/todo_to_issue_map.json                           ║
+║    • artifacts/replace_todos_log.json                           ║
+║                                                                  ║
+║  🚀 COMMAND TO RUN:                                              ║
+║    python3 scripts/todo_migration/replace_todos_with_issues.py \║
+║      --map artifacts/todo_to_issue_map.json --apply             ║
+║                                                                  ║
+║  ✅ EXPECTED RESULT:                                             ║
+║    • 38 files updated                                           ║
+║    • TODOs replaced with GitHub issue links                     ║
+║    • 78 issues now referenced in code                           ║
+║                                                                  ║
+║  📝 AFTER EXECUTION:                                             ║
+║    git checkout -b chore/replace-todos-with-issue-links         ║
+║    git add -A                                                   ║
+║    git commit -m "chore(todos): replace 78 TODOs with links"    ║
+║    git push origin HEAD                                         ║
+║    gh pr create --fill                                          ║
+║    gh pr merge --merge --admin  # No CI needed                  ║
+║                                                                  ║
+║  💰 COST: $0 (no CI, local testing only)                        ║
+║                                                                  ║
+╚══════════════════════════════════════════════════════════════════╝
