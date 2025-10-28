@@ -6,5 +6,44 @@
   },
   "guardian_check": {
     "enabled": true
+  },
+  "supply_chain": {
+    "sbom_ref": "../sbom/quantum_bio_consciousness.cdx.json",
+    "licenses": [
+      "Apache-2.0"
+    ],
+    "sarif_report": "../artifacts/quantum_bio_consciousness.sarif.json",
+    "osv_snapshot": "../artifacts/quantum_bio_consciousness.osv.json",
+    "attestations": [
+      {
+        "type": "slsa.provenance",
+        "uri": "oci://registry/lukhas/quantum_bio_consciousness@sha256:pending"
+      }
+    ]
+  },
+  "telemetry": {
+    "opentelemetry_semconv_version": "1.37.0",
+    "spans": [
+      {
+        "name": "quantum_bio_consciousness.operation",
+        "attrs": [
+          "code.function",
+          "lukhas.module",
+          "lukhas.quantum_bio_consciousness.operation"
+        ]
+      }
+    ],
+    "metrics": [
+      {
+        "name": "lukhas.quantum_bio_consciousness.latency",
+        "unit": "s",
+        "type": "histogram"
+      },
+      {
+        "name": "lukhas.quantum_bio_consciousness.operations",
+        "unit": "1",
+        "type": "counter"
+      }
+    ]
   }
 }

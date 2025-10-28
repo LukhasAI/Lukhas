@@ -6,5 +6,44 @@
   },
   "guardian_check": {
     "enabled": true
+  },
+  "supply_chain": {
+    "sbom_ref": "../sbom/openai.cdx.json",
+    "licenses": [
+      "Apache-2.0"
+    ],
+    "sarif_report": "../artifacts/openai.sarif.json",
+    "osv_snapshot": "../artifacts/openai.osv.json",
+    "attestations": [
+      {
+        "type": "slsa.provenance",
+        "uri": "oci://registry/lukhas/openai@sha256:pending"
+      }
+    ]
+  },
+  "telemetry": {
+    "opentelemetry_semconv_version": "1.37.0",
+    "spans": [
+      {
+        "name": "openai.operation",
+        "attrs": [
+          "code.function",
+          "lukhas.module",
+          "lukhas.openai.operation"
+        ]
+      }
+    ],
+    "metrics": [
+      {
+        "name": "lukhas.openai.latency",
+        "unit": "s",
+        "type": "histogram"
+      },
+      {
+        "name": "lukhas.openai.operations",
+        "unit": "1",
+        "type": "counter"
+      }
+    ]
   }
 }

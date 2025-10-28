@@ -6,5 +6,44 @@
   },
   "guardian_check": {
     "enabled": true
+  },
+  "supply_chain": {
+    "sbom_ref": "../sbom/nodes.cdx.json",
+    "licenses": [
+      "Apache-2.0"
+    ],
+    "sarif_report": "../artifacts/nodes.sarif.json",
+    "osv_snapshot": "../artifacts/nodes.osv.json",
+    "attestations": [
+      {
+        "type": "slsa.provenance",
+        "uri": "oci://registry/lukhas/nodes@sha256:pending"
+      }
+    ]
+  },
+  "telemetry": {
+    "opentelemetry_semconv_version": "1.37.0",
+    "spans": [
+      {
+        "name": "nodes.operation",
+        "attrs": [
+          "code.function",
+          "lukhas.module",
+          "lukhas.nodes.operation"
+        ]
+      }
+    ],
+    "metrics": [
+      {
+        "name": "lukhas.nodes.latency",
+        "unit": "s",
+        "type": "histogram"
+      },
+      {
+        "name": "lukhas.nodes.operations",
+        "unit": "1",
+        "type": "counter"
+      }
+    ]
   }
 }

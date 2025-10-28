@@ -1,0 +1,82 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:d2408615e1af97a8d67297c8878e0f31",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-10-28T09:40:42.771484+00:00",
+    "tools": [
+      {
+        "vendor": "LUKHAS AI",
+        "name": "batch-sbom-generator",
+        "version": "1.0.0"
+      }
+    ],
+    "authors": [
+      {
+        "name": "LUKHAS Core Team",
+        "email": "core@lukhas.ai"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "lukhas-rl-coordination",
+      "name": "lukhas-rl-coordination",
+      "version": "1.0.0",
+      "description": "LUKHAS rl.coordination Module",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0"
+          }
+        }
+      ]
+    },
+    "manufacture": {
+      "name": "LUKHAS AI",
+      "url": [
+        "https://lukhas.ai"
+      ]
+    },
+    "properties": [
+      {
+        "name": "cdx:reproducible",
+        "value": "true"
+      },
+      {
+        "name": "lukhas:module",
+        "value": "rl.coordination"
+      },
+      {
+        "name": "lukhas:generated",
+        "value": "batch"
+      }
+    ]
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "python-stdlib",
+      "name": "python",
+      "version": "3.11+",
+      "purl": "pkg:generic/python@3.11",
+      "licenses": [
+        {
+          "license": {
+            "id": "PSF-2.0"
+          }
+        }
+      ],
+      "description": "Python Standard Library"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "lukhas-rl-coordination",
+      "dependsOn": [
+        "python-stdlib"
+      ]
+    }
+  ]
+}

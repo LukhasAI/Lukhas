@@ -77,7 +77,7 @@ class SecurityPostureMonitor:
                 telemetry['attestation_status'][module_name] = attestation_status
 
                 # Collect supply chain references
-                supply_chain = self._extract_supply_chain_data(contract, module_name)
+                supply_chain = self._extract_supply_chain_data(contract, module_name, contract_path)
                 telemetry['supply_chain_refs'][module_name] = supply_chain
 
                 # Collect telemetry coverage
@@ -126,30 +126,80 @@ class SecurityPostureMonitor:
             'verifier_version': rats_data.get('verifier_policy', {}).get('version', '')
         }
 
-    def _extract_supply_chain_data(self, contract: Dict, module: str) -> Dict:
+    def _extract_supply_chain_data(self, contract: Dict, module: str, contract_path: str = "") -> Dict:
         """Extract supply chain integrity data."""
         supply_chain = contract.get('supply_chain', {})
+        sbom_ref = supply_chain.get('sbom_ref', '')
+        
+        # Check if SBOM file actually exists
+        sbom_exists = False
+        if sbom_ref:
+            # Resolve relative path from contract location
+            if contract_path:
+                contract_dir = Path(contract_path).parent
+                sbom_path = (contract_dir / sbom_ref).resolve()
+                sbom_exists = sbom_path.exists()
+            else:
+                # Fallback: check if it's an absolute path
+                sbom_exists = Path(sbom_ref).exists()
+        
+        # Check if provenance CID is not pending
+        provenance_cid = contract.get('causal_provenance', {}).get('ipld_root_cid', '')
+        provenance_valid = bool(provenance_cid and provenance_cid != 'bafybeipending')
 
         return {
-            'sbom_present': bool(supply_chain.get('sbom_ref')),
-            'sbom_ref': supply_chain.get('sbom_ref', ''),
-            'sbom_format': supply_chain.get('format', ''),
-            'provenance_available': bool(contract.get('causal_provenance', {}).get('ipld_root_cid')),
-            'provenance_cid': contract.get('causal_provenance', {}).get('ipld_root_cid', ''),
+            'sbom_present': sbom_exists,
+            'sbom_ref': sbom_ref,
+            'sbom_format': supply_chain.get('format', 'cyclonedx'),
+            'provenance_available': provenance_valid,
+            'provenance_cid': provenance_cid,
             'build_reproducible': supply_chain.get('reproducible', False)
         }
 
     def _extract_telemetry_coverage(self, contract: Dict, module: str) -> Dict:
         """Extract telemetry and observability coverage."""
         telemetry = contract.get('telemetry', {})
+        
+        # Handle both old and new telemetry formats
+        # New format has: opentelemetry_semconv_version, spans[], metrics[]
+        # Old format has: opentelemetry, metrics.enabled, traces.enabled, etc.
+        
+        has_otel = bool(
+            telemetry.get('opentelemetry') or 
+            telemetry.get('opentelemetry_semconv_version')
+        )
+        
+        # Check if metrics are configured (new format: list of metrics, old format: metrics.enabled)
+        has_metrics = bool(
+            telemetry.get('metrics') and (
+                isinstance(telemetry['metrics'], list) and len(telemetry['metrics']) > 0 or
+                isinstance(telemetry['metrics'], dict) and telemetry['metrics'].get('enabled')
+            )
+        )
+        
+        # Check if spans/traces are configured
+        has_traces = bool(
+            telemetry.get('spans') and isinstance(telemetry['spans'], list) and len(telemetry['spans']) > 0 or
+            telemetry.get('traces', {}).get('enabled')
+        )
+        
+        # Check if logs are structured
+        has_structured_logs = bool(telemetry.get('logs', {}).get('structured'))
+        
+        # Calculate coverage percentage based on configured features
+        coverage_components = [has_otel, has_metrics, has_traces, has_structured_logs]
+        coverage_pct = (sum(coverage_components) / len(coverage_components)) * 100
+        
+        # Use explicit coverage if provided, otherwise use calculated
+        instrumentation_coverage = telemetry.get('coverage_percentage', coverage_pct)
 
         return {
-            'otel_instrumented': bool(telemetry.get('opentelemetry')),
-            'metrics_exported': bool(telemetry.get('metrics', {}).get('enabled')),
-            'traces_exported': bool(telemetry.get('traces', {}).get('enabled')),
-            'logs_structured': bool(telemetry.get('logs', {}).get('structured')),
-            'semconv_version': telemetry.get('semconv_version', ''),
-            'instrumentation_coverage': telemetry.get('coverage_percentage', 0)
+            'otel_instrumented': has_otel,
+            'metrics_exported': has_metrics,
+            'traces_exported': has_traces,
+            'logs_structured': has_structured_logs,
+            'semconv_version': telemetry.get('semconv_version', telemetry.get('opentelemetry_semconv_version', '')),
+            'instrumentation_coverage': instrumentation_coverage
         }
 
     def _validate_attestation(self, rats_data: Dict) -> bool:
