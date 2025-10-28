@@ -19,8 +19,12 @@ logger = logging.getLogger("BotAGISystem")
 
 # Import the new Lukhas Cognitive AI Orchestrator
 try:
-    # SYNTAX_ERROR_FIXED:     from orchestration.brain.lukhas_agi_orchestrator
-    # import orchestration.brain.lukhas_agi_orchestrator, LukhasAGIConfig
+    from core.orchestration.brain.lukhas_agi_orchestrator import (
+        LukhasAGIConfig,
+        LukhasAGIOrchestrator,
+        lukhas_agi_orchestrator,
+    )
+
     AGI_ORCHESTRATOR_AVAILABLE = True
     logger.info(" Lukhas Cognitive AI Orchestrator available")
 except ImportError as e:
@@ -36,9 +40,15 @@ class BotAGISystem:
     the enhanced Cognitive capabilities of the new orchestrator.
     """
 
-    def __init__(self, config: Optional[dict[str, Any]] = None):
-        self.config = config or {}
-        self.orchestrator = lukhas_agi_orchestrator if AGI_ORCHESTRATOR_AVAILABLE else None  # noqa: F821  # TODO: lukhas_agi_orchestrator
+    def __init__(self, config: Optional[dict[str, Any] | LukhasAGIConfig] = None):
+        if isinstance(config, LukhasAGIConfig):
+            self.config = config
+        else:
+            self.config = config or {}
+
+        self.orchestrator = (
+            lukhas_agi_orchestrator if AGI_ORCHESTRATOR_AVAILABLE else None
+        )
         self.active = False
 
         logger.info(" Bot Cognitive AI System initialized (bridging to Lukhas Cognitive AI)")

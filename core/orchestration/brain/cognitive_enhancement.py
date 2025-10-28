@@ -17,7 +17,12 @@ import logging
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-logger = logging.getLogger("CognitiveAGIEnhancement", timezone)
+from core.orchestration.brain.lukhas_agi_orchestrator import (
+    LukhasAGIOrchestrator,
+    lukhas_agi_orchestrator,
+)
+
+logger = logging.getLogger("CognitiveAGIEnhancement")
 
 
 class CognitiveAGIEnhancement:
@@ -27,18 +32,19 @@ class CognitiveAGIEnhancement:
 
     def __init__(self, cognitive_engine=None):
         self.cognitive_engine = cognitive_engine
-        self.cognitive_orchestrator = None
+        self.cognitive_orchestrator: LukhasAGIOrchestrator | None = None
         self.enhancement_active = False
 
         # Try to import and initialize Cognitive AI orchestrator
         try:
-            # SYNTAX_ERROR_FIXED:             from
-            # orchestration.brain.lukhas_agi_orchestrator import
-            # orchestration.brain.lukhas_agi_orchestrator
-            self.cognitive_orchestrator = lukhas_agi_orchestrator  # noqa: F821  # TODO: lukhas_agi_orchestrator
+            self.cognitive_orchestrator = lukhas_agi_orchestrator
             logger.info(" Cognitive AI orchestrator connected to cognitive core")
-        except ImportError:
-            logger.warning("Cognitive AI orchestrator not available for cognitive enhancement")
+        except Exception as error:  # pragma: no cover - defensive
+            logger.warning(
+                "Cognitive AI orchestrator unavailable",
+                extra={"error": str(error)},
+            )
+            self.cognitive_orchestrator = None
 
     async def enhance_cognitive_processing(self, user_input: str, context: Optional[dict] = None):
         """
