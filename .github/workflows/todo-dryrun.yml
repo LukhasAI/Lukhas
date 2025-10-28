@@ -1,0 +1,113 @@
+name: TODO Migration Dry-Run
+
+on:
+  pull_request:
+    paths:
+      - 'lukhas/**'
+      - 'core/**'
+      - 'candidate/**'
+      - 'scripts/todo_migration/**'
+  schedule:
+    - cron: '0 4 * * *'  # nightly at 4 AM UTC
+
+jobs:
+  todo-dryrun:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install PyGithub requests
+      
+      - name: Generate TODO inventory
+        run: |
+          mkdir -p artifacts
+          # Count TODOs by directory
+          echo "# TODO Inventory ($(date))" > artifacts/todo_inventory.md
+          echo "" >> artifacts/todo_inventory.md
+          echo "## Summary" >> artifacts/todo_inventory.md
+          echo "" >> artifacts/todo_inventory.md
+          
+          # Production lanes
+          echo "### Production Lanes" >> artifacts/todo_inventory.md
+          lukhas_count=$(grep -r "TODO\|FIXME\|XXX" lukhas/ --include="*.py" 2>/dev/null | wc -l || echo "0")
+          core_count=$(grep -r "TODO\|FIXME\|XXX" core/ --include="*.py" 2>/dev/null | wc -l || echo "0")
+          serve_count=$(grep -r "TODO\|FIXME\|XXX" serve/ --include="*.py" 2>/dev/null | wc -l || echo "0")
+          echo "- \`lukhas/\`: $lukhas_count" >> artifacts/todo_inventory.md
+          echo "- \`core/\`: $core_count" >> artifacts/todo_inventory.md
+          echo "- \`serve/\`: $serve_count" >> artifacts/todo_inventory.md
+          
+          # Development lane
+          echo "" >> artifacts/todo_inventory.md
+          echo "### Development Lane" >> artifacts/todo_inventory.md
+          candidate_count=$(grep -r "TODO\|FIXME\|XXX" candidate/ --include="*.py" 2>/dev/null | wc -l || echo "0")
+          echo "- \`candidate/\`: $candidate_count" >> artifacts/todo_inventory.md
+          
+          # Calculate total
+          total=$((lukhas_count + core_count + serve_count + candidate_count))
+          echo "" >> artifacts/todo_inventory.md
+          echo "**Total:** $total TODOs/FIXMEs/XXXs" >> artifacts/todo_inventory.md
+          
+          # Show sample TODOs from production lanes
+          echo "" >> artifacts/todo_inventory.md
+          echo "## Sample TODOs (Production Lanes)" >> artifacts/todo_inventory.md
+          echo "" >> artifacts/todo_inventory.md
+          echo "\`\`\`" >> artifacts/todo_inventory.md
+          grep -r "TODO\|FIXME\|XXX" lukhas/ core/ serve/ --include="*.py" -n 2>/dev/null | head -20 >> artifacts/todo_inventory.md || true
+          echo "\`\`\`" >> artifacts/todo_inventory.md
+      
+      - name: Run TODO conversion dry-run (if mapping exists)
+        run: |
+          # Only run if we have a mapping file (from previous manual triage)
+          if [ -f "artifacts/todo_to_issue_map.json" ]; then
+            python3 scripts/todo_migration/replace_todos_with_issues.py \
+              --map artifacts/todo_to_issue_map.json \
+              --dry-run \
+              --verbose
+          else
+            echo "No todo_to_issue_map.json found. Skipping conversion dry-run."
+            echo "To enable conversion, create mapping with:"
+            echo "  python3 scripts/todo_migration/create_issues.py --input todo_inventory.csv --repo LukhasAI/Lukhas --dry-run"
+          fi
+      
+      - name: Upload TODO inventory
+        uses: actions/upload-artifact@v4
+        with:
+          name: todo-inventory
+          path: artifacts/todo_inventory.md
+      
+      - name: Upload conversion log (if exists)
+        uses: actions/upload-artifact@v4
+        if: hashFiles('artifacts/replace_todos_log.json') != ''
+        with:
+          name: todo-conversion-log
+          path: artifacts/replace_todos_log.json
+      
+      - name: Upload todo mapping (if exists)
+        uses: actions/upload-artifact@v4
+        if: hashFiles('artifacts/todo_to_issue_map.json') != ''
+        with:
+          name: todo-mapping
+          path: artifacts/todo_to_issue_map.json
+      
+      - name: Summary
+        run: |
+          echo "## TODO Migration Dry-Run Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          cat artifacts/todo_inventory.md >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Artifacts" >> $GITHUB_STEP_SUMMARY
+          echo "- \`todo-inventory\`: Current TODO counts by directory" >> $GITHUB_STEP_SUMMARY
+          if [ -f "artifacts/replace_todos_log.json" ]; then
+            echo "- \`todo-conversion-log\`: Conversion dry-run results" >> $GITHUB_STEP_SUMMARY
+          fi
+          if [ -f "artifacts/todo_to_issue_map.json" ]; then
+            echo "- \`todo-mapping\`: TODO → GitHub issue mapping" >> $GITHUB_STEP_SUMMARY
+          fi

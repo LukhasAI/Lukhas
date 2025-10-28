@@ -127,6 +127,63 @@ All references in this README have been updated to point to the canonical guide.
 
 ## 🤖 For AI Agents
 
+### Agent Assignments
+
+Each Autonomous Guide is mapped to a **primary agent** (owner) and **secondary agents** (reviewers/auditors):
+
+#### MATRIZ Migration Completion
+- **Primary:** **Codex** (AST codemods, patch generation)
+- **Secondary:** Claude HaikuGPT-5 / GPT-5 Preview (risk & ethics), Grok Code Fast (log/bench parsing), Claude Conner 4.5 (policy)
+- **Canonical scripts:** `scripts/consolidation/rewrite_matriz_imports.py`
+- **Run (dry-run):** `python3 scripts/consolidation/rewrite_matriz_imports.py --path lukhas core tests --dry-run --verbose`
+- **Apply (safe):** `python3 scripts/consolidation/rewrite_matriz_imports.py --path core tests --git-apply`
+- **CI workflow:** `.github/workflows/migration-dryrun.yml`
+- **Autonomy:** Dry-run only → human review → git-apply on new branch (human merge)
+
+#### TODO Cleanup Campaign
+- **Primary:** **GitHub Copilot** (interactive edits, test writing)
+- **Secondary:** Codex (automation scripts), Claude Conner 4.5 / Sonnet 4 (triage), Grok Code Fast (inventory parsing)
+- **Canonical scripts:** `scripts/todo_migration/create_issues.py`, `scripts/todo_migration/replace_todos_with_issues.py`
+- **Run (dry-run):** `python3 scripts/todo_migration/create_issues.py --input todo_inventory.csv --repo org/repo --dry-run`  
+  `python3 scripts/todo_migration/replace_todos_with_issues.py --map artifacts/todo_to_issue_map.json --dry-run`
+- **CI workflow:** `.github/workflows/todo-dryrun.yml`
+- **Autonomy:** Conservative: dry-run → small PRs (≤20 files) → human approvals for bulk (>100)
+
+#### Import Organization (E402)
+- **Primary:** **Codex** (AST transformers, per-file patches)
+- **Secondary:** GitHub Copilot (manual fixes & `noqa` justifications), Claude Conner 4.5 (security), Grok Code Fast
+- **Canonical scripts:** `scripts/consolidation/rewrite_matriz_imports.py` (reuse/mode for E402 work)
+- **Run (dry-run):** `python3 scripts/consolidation/rewrite_matriz_imports.py --path lukhas core serve --dry-run --verbose`
+- **CI workflow:** Use `import-health` job to upload `artifacts/patches` and run `scripts/import_health/fail_on_delta.py`
+- **Autonomy:** Dry-run + human review; `noqa` only with documented issue & TTL
+
+#### Test Coverage Expansion
+- **Primary:** **GitHub Copilot** (assisted test authoring inside VSCode)
+- **Secondary:** Codex (test harness generation), Claude HaikuGPT-5 / GPT-5 Preview (adversarial test design)
+- **Run:** `make smoke`, `pytest --maxfail=1`, coverage checks
+- **Autonomy:** Human-led; Copilot accelerates writing tests. PRs limited to small batches.
+
+#### Candidate Lane Cleanup (Promotion Path)
+- **Primary:** **GitHub Copilot** (interactive fixes & tests)
+- **Secondary:** Codex (promotion scripts), Claude Conner 4.5 (ethics), Grok Code Fast (logs)
+- **Workflow:** Follow `AUTONOMOUS_GUIDE_CANDIDATE_CLEANUP.md` → require `PROMOTE.md` and two approvals
+- **Autonomy:** Human-in-the-loop only; no autopromotion
+
+---
+
+### Operational Runbook
+
+**For all automated operations:**
+
+1. **Always start with dry-run** for automated scripts. Inspect `artifacts/*` before any write.  
+2. **Create a feature branch** for any `git-apply` operation: migrations should land on `migration/*` or `promote/*` branches.  
+3. **Run smoke tests** and targeted test suites after applying patches locally (before opening PR).  
+4. **Upload artifacts** in PR for reviewer inspection (per-file patches, migration summary, manifest).  
+5. **Reviewer gate:** Tech + Security approvals required for all production-lane changes.  
+6. **Canary & Monitor:** For services, require 48–72 hours observation and automated rollback triggers.
+
+---
+
 ### Prerequisites
 All guides assume:
 - Working directory: `/Users/agi_dev/LOCAL-REPOS/Lukhas`
@@ -238,6 +295,19 @@ cat AUTONOMOUS_GUIDE_IMPORT_ORGANIZATION.md
 cat AUTONOMOUS_GUIDE_TODO_CLEANUP.md
 # Execute Strategy A
 ```
+
+---
+
+## 🔗 Related Documentation
+
+- **[AGENTS.md](AGENTS.md)** - Agent coordination system with navigation guidance
+- **[CLAUDE.md](CLAUDE.md)** - Project-specific instructions and lane architecture
+- **[claude.me](claude.me)** - Master system architecture (7,000+ files)
+- **Infrastructure:**
+  - [candidate/PROMOTE.md](candidate/PROMOTE.md) - Promotion template
+  - [.github/PULL_REQUEST_TEMPLATE/](\.github/PULL_REQUEST_TEMPLATE/) - PR templates
+  - [.github/workflows/](\.github/workflows/) - CI/CD workflows
+  - [ETHICS_ASSESSMENT_TEMPLATE.md](ETHICS_ASSESSMENT_TEMPLATE.md) - Ethics framework
 
 ---
 
