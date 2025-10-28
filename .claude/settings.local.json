@@ -82,7 +82,8 @@
       "Bash(./scripts/consolidation/check_matriz_imports_precommit.sh:*)",
       "Bash(./scripts/consolidation/check_matriz_imports_ci.sh:*)",
       "Bash(git --no-pager diff:*)",
-      "Bash(gh run view:*)"
+      "Bash(gh run view:*)",
+      "Bash(gh pr checkout:*)"
     ],
     "deny": [],
     "ask": [],
