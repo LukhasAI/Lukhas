@@ -179,17 +179,21 @@ class ConsentRecord:
     data_categories: list[DataCategory]
     consent_method: str  # explicit, implicit, opt_in, opt_out
 
+    # Legal basis (non-defaults must come before defaults in dataclasses)
+    lawful_basis: DataProcessingPurpose
+
+    # Technical implementation (non-default before defaults)
+    consent_string: str  # IAB TCF or custom format
+
+    # Legal basis (defaults)
+    legitimate_interest_assessment: Optional[str] = None
+
     # Consent status
     active: bool = True
     withdrawn_at: Optional[datetime] = None
     withdrawal_method: Optional[str] = None
 
-    # Legal basis
-    lawful_basis: DataProcessingPurpose
-    legitimate_interest_assessment: Optional[str] = None
-
     # Technical implementation
-    consent_string: str  # IAB TCF or custom format
     consent_version: str = "1.0"
     privacy_policy_version: str = "1.0"
 
@@ -221,9 +225,9 @@ class DataSubjectRequest:
     verification_method: str
 
     # Processing status
+    due_date: datetime
     status: str = "received"  # received, verified, processing, completed, rejected
     assigned_to: Optional[str] = None
-    due_date: datetime
     completed_at: Optional[datetime] = None
 
     # Request fulfillment
@@ -254,12 +258,14 @@ class PrivacyImpactAssessment:
     # Assessment details
     project_name: str
     description: str
-    data_controller: str = "LUKHAS AI"
 
     # Data processing details
     data_categories: list[DataCategory]
     processing_purposes: list[DataProcessingPurpose]
     data_subjects: list[str]
+
+    # Controller (defaulted) and additional metadata
+    data_controller: str = "LUKHAS AI"
 
     # Risk assessment
     privacy_risks: list[dict[str, Any]] = field(default_factory=list)

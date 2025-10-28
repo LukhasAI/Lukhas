@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 
+from matriz.adapters.governance_adapter import UgovernanceAdapter
 from tests.util.mk_msg import mk_msg_from_json
 
 from MATRIZ.adapters.governance_adapter import UgovernanceAdapter
