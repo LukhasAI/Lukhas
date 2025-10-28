@@ -39,7 +39,7 @@ from typing import Any, Callable, Optional
 
 try:
     from ..security.secure_logging import get_security_logger
-    from .constitutional_ai import (  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept for core infrastructure (review and implement)
+    from .constitutional_ai import (
         DecisionContext,
         get_constitutional_framework,
     )
@@ -691,8 +691,10 @@ class GuardianIntegrationMiddleware:
     ) -> GuardianDecision:
         """Evaluate decision with Guardian System 2.0"""
         try:
+            guardian_decision: Optional[GuardianDecision] = None
+
             if self.guardian_system:
-                return await self.guardian_system.evaluate_decision(
+                guardian_decision = await self.guardian_system.evaluate_decision(
                     decision_type=decision_type,
                     decision_data=decision_data,
                     context={"integration": "middleware"},
@@ -700,8 +702,14 @@ class GuardianIntegrationMiddleware:
                     explanation_type=explanation_type,
                 )
             else:
-                # Fallback to basic safety check
-                return self._create_fallback_decision(decision_type, decision_data)
+                guardian_decision = self._create_fallback_decision(decision_type, decision_data)
+
+            if guardian_decision and self.compliance_engine:
+                await self._augment_with_compliance_result(
+                    guardian_decision, decision_type, decision_data
+                )
+
+            return guardian_decision
 
         except Exception as e:
             logger.error(f"❌ Guardian evaluation failed: {e}")
@@ -709,6 +717,126 @@ class GuardianIntegrationMiddleware:
                 return self._create_safe_decision(decision_type, decision_data)
             else:
                 return self._create_blocked_decision(decision_type, decision_data, str(e))
+
+    async def _augment_with_compliance_result(
+        self,
+        guardian_decision: GuardianDecision,
+        decision_type: DecisionType,
+        decision_data: dict[str, Any],
+    ) -> None:
+        """Augment Guardian decision with compliance engine result."""
+
+        try:
+            compliance_context = self._map_decision_type_to_context(decision_type)
+            compliance_result = await self.compliance_engine.check_constitutional_compliance(
+                compliance_context,
+                decision_data,
+                decision_data.get("user_id"),
+            )
+        except Exception as error:  # pragma: no cover - defensive logging
+            logger.error(f"❌ Compliance evaluation failed: {error}")
+            return
+
+        if not compliance_result:
+            return
+
+        compliance_context_data = guardian_decision.context.setdefault("compliance", {})
+        compliance_context_data.update(
+            {
+                "result_id": getattr(compliance_result, "result_id", None),
+                "overall_compliant": getattr(compliance_result, "overall_compliant", None),
+                "overall_score": getattr(compliance_result, "overall_compliance_score", None),
+                "decision_allowed": getattr(compliance_result, "decision_allowed", None),
+                "human_review_required": getattr(compliance_result, "human_review_required", False),
+                "explanation": getattr(compliance_result, "compliance_explanation", ""),
+            }
+        )
+
+        required_actions = getattr(compliance_result, "required_actions", None)
+        if required_actions:
+            compliance_context_data["required_actions"] = [
+                action.value if hasattr(action, "value") else str(action)
+                for action in required_actions
+            ]
+
+        principle_checks = getattr(compliance_result, "principle_checks", None)
+        if principle_checks:
+            compliance_context_data["principle_checks"] = {
+                (principle.value if hasattr(principle, "value") else str(principle)):
+                {
+                    "compliant": getattr(check, "compliant", None),
+                    "score": getattr(check, "compliance_score", None),
+                    "confidence": getattr(check, "confidence", None),
+                    "violations": getattr(check, "violations_detected", []),
+                }
+                for principle, check in principle_checks.items()
+            }
+
+        if "compliance_checks" not in self.integration_metrics:
+            self.integration_metrics["compliance_checks"] = 0
+        self.integration_metrics["compliance_checks"] += 1
+
+        guardian_decision.constitutional_score = min(
+            guardian_decision.constitutional_score,
+            getattr(compliance_result, "overall_compliance_score", guardian_decision.constitutional_score),
+        )
+
+        guardian_decision.constitutional_compliant = (
+            guardian_decision.constitutional_compliant
+            and getattr(compliance_result, "overall_compliant", True)
+        )
+
+        if not getattr(compliance_result, "overall_compliant", True):
+            severity = getattr(compliance_result, "max_risk_level", None)
+            safety_level = self._map_violation_severity_to_safety_level(severity)
+            if safety_level:
+                guardian_decision.safety_level = safety_level
+
+            if not getattr(compliance_result, "decision_allowed", True):
+                guardian_decision.allowed = False
+
+            violation_summary = getattr(compliance_result, "violation_summary", "")
+            if violation_summary:
+                compliance_context_data["violation_summary"] = violation_summary
+
+            explanation = getattr(compliance_result, "compliance_explanation", "")
+            if explanation:
+                guardian_decision.explanation = (
+                    f"{guardian_decision.explanation}\nCompliance: {explanation}".strip()
+                )
+
+    def _map_decision_type_to_context(self, decision_type: DecisionType) -> DecisionContext:
+        """Map Guardian decision types to compliance decision contexts."""
+
+        mapping = {
+            DecisionType.USER_INTERACTION: DecisionContext.USER_INTERACTION,
+            DecisionType.CONTENT_GENERATION: DecisionContext.CONTENT_GENERATION,
+            DecisionType.DATA_PROCESSING: DecisionContext.DATA_PROCESSING,
+            DecisionType.MODEL_INFERENCE: DecisionContext.REASONING_TASK,
+            DecisionType.SYSTEM_OPERATION: DecisionContext.SYSTEM_OPERATION,
+            DecisionType.API_CALL: DecisionContext.EXTERNAL_API,
+            DecisionType.MEMORY_ACCESS: DecisionContext.DATA_PROCESSING,
+            DecisionType.EXTERNAL_REQUEST: DecisionContext.EXTERNAL_API,
+        }
+
+        return mapping.get(decision_type, DecisionContext.SYSTEM_OPERATION)
+
+    def _map_violation_severity_to_safety_level(self, severity: Any) -> Optional[SafetyLevel]:
+        """Convert compliance violation severity to Guardian safety level."""
+
+        if severity is None:
+            return None
+
+        severity_value = getattr(severity, "value", str(severity)).lower()
+        severity_map = {
+            "low": SafetyLevel.CAUTION,
+            "medium": SafetyLevel.WARNING,
+            "moderate": SafetyLevel.WARNING,
+            "high": SafetyLevel.DANGER,
+            "critical": SafetyLevel.CRITICAL,
+        }
+
+        return severity_map.get(severity_value)
 
     def _create_fallback_decision(self, decision_type: DecisionType, decision_data: dict[str, Any]) -> GuardianDecision:
         """Create fallback Guardian decision"""
