@@ -122,7 +122,8 @@ class QISafeAuditBlockchain:
         total_transactions = 0
         for block in relevant_blocks:
             for tx in getattr(block, "transactions", []):
-                if getattr(tx, "type", None) == "ai_decision_audit":
+                tx_type = getattr(tx, "transaction_type", getattr(tx, "type", None))
+                if tx_type == "ai_decision_audit":
                     decision_tree.add_leaf(tx.data)
                     total_transactions += 1
 
