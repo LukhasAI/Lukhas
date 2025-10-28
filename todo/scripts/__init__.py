@@ -1,41 +1,20 @@
-"""Bridge for TODO.scripts."""
+"""Utilities for working with repository TODO inventories."""
 
-from __future__ import annotations
+from importlib import import_module as _import_module
 
-from importlib import import_module
-from typing import List
+categorize_todos = _import_module(".categorize_todos", __name__)
 
-__all__: List[str] = []
+PRIORITY_KEYWORDS = categorize_todos.PRIORITY_KEYWORDS
+TODORecord = categorize_todos.TODORecord
+extract_todo_context = categorize_todos.extract_todo_context
+generate_priority_files = categorize_todos.generate_priority_files
+load_exclusions = categorize_todos.load_exclusions
 
-
-def _bind(module_name: str) -> bool:
-    try:
-        module = import_module(module_name)
-    except Exception:
-        return False
-
-    for attr in dir(module):
-        if attr.startswith("_"):
-            continue
-        globals()[attr] = getattr(module, attr)
-        __all__.append(attr)
-    return True
-
-
-for candidate in (
-    "tools.todo.scripts",
-    "candidate.tools.todo.scripts",
-    "todo.scripts",
-):
-    if candidate == __name__:
-        continue
-    if _bind(candidate):
-        break
-else:
-
-    def list_tasks(*_args, **_kwargs):
-        """Fallback no-op TODO task listing."""
-
-        return []
-
-    __all__.append("list_tasks")
+__all__ = [
+    "categorize_todos",
+    "PRIORITY_KEYWORDS",
+    "TODORecord",
+    "extract_todo_context",
+    "generate_priority_files",
+    "load_exclusions",
+]
