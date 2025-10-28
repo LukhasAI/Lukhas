@@ -52,4 +52,5 @@ bandit>=1.7.5,<2.0.0
 # Testing frameworks for T4/0.01% standards
 hypothesis>=6.88.0,<7.0.0
 pytest-asyncio>=0.21.0,<1.0.0
-pytest-mock>=3.11.0,<4.0.0greenlet==3.2.4
+pytest-mock>=3.11.0,<4.0.0
+greenlet==3.2.4
