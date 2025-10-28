@@ -1,7 +1,6 @@
 import base64
 
 import pytest
-
 from labs.governance.identity.core.auth import webauthn_manager
 
 
@@ -36,7 +35,7 @@ class FakeStructs:
             self.user_verification = user_verification
 
     class PublicKeyCredentialDescriptor:
-        def __init__(self, *, type, id, transports=None):  # noqa: A002 - match library signature
+        def __init__(self, *, type, id, transports=None):  # - match library signature
             self.type = type
             self.id = id
             self.transports = transports

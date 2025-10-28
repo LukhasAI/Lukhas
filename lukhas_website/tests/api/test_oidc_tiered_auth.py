@@ -5,10 +5,9 @@ import sys
 import types
 from enum import Enum
 
-from pydantic import BaseModel
-
 import pytest
 from fastapi import HTTPException, status
+from pydantic import BaseModel
 
 PROJECT_ROOT = pathlib.Path(__file__).resolve().parents[2]
 if str(PROJECT_ROOT) not in sys.path:
@@ -255,7 +254,6 @@ if "multipart" not in sys.modules:
     sys.modules["multipart.multipart"] = multipart_submodule
 
 from lukhas.api import oidc
-
 
 pytestmark = pytest.mark.asyncio
 

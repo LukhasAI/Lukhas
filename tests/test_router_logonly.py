@@ -7,10 +7,10 @@ from unittest.mock import Mock
 import pytest
 from matriz.adapters.bio_adapter import BioAdapter
 from matriz.router import SymbolicMeshRouter
-from tests.util.mk_msg import mk_test_message
 
 from MATRIZ.adapters.bio_adapter import BioAdapter
 from MATRIZ.router import SymbolicMeshRouter
+from tests.util.mk_msg import mk_test_message
 
 
 def test_router_logonly_no_dispatch():

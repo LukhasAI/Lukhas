@@ -1,13 +1,11 @@
 import json
+import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from types import ModuleType
 from typing import Any
 
 import pytest
-
-import sys
-from types import ModuleType
-
 
 if "_bridgeutils" not in sys.modules:
     bridgeutils = ModuleType("_bridgeutils")

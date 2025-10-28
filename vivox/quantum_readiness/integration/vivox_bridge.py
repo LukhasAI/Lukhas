@@ -12,6 +12,7 @@ from datetime import datetime
 from typing import Any, Optional
 
 import numpy as np
+
 from core.common import get_logger
 
 from ..coherence.qsync_events import QISynchronizer, SyncType

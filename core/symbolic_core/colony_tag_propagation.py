@@ -7,6 +7,7 @@ from importlib import import_module, util
 from typing import Any, Callable
 
 import networkx as nx
+
 from core.colonies import (
     BaseColony,
     ConsensusResult,

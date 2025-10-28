@@ -6,7 +6,6 @@ import json
 from pathlib import Path
 
 import pytest
-
 from security_reports.aggregator import SecurityReportAggregator, SecurityReportError
 
 

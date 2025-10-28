@@ -5,7 +5,6 @@ from types import SimpleNamespace
 from typing import Any
 
 import pytest
-
 from qi.states import safe_blockchain
 
 
@@ -25,7 +24,7 @@ class DummyMerkleTree:
 
 
 class DummySigner:
-    async def sign(self, payload: bytes, include_timestamp: bool = True) -> str:  # noqa: ARG002
+    async def sign(self, payload: bytes, include_timestamp: bool = True) -> str:
         return f"signature:{len(payload)}"
 
 
@@ -59,10 +58,10 @@ class DummyBlockchain(safe_blockchain.QISafeAuditBlockchain):
         self.config = SimpleNamespace(block_size=1)
         self._blocks = blocks
 
-    def _get_blocks_in_range(self, time_range: Any):  # noqa: ARG002
+    def _get_blocks_in_range(self, time_range: Any):
         return list(self._blocks)
 
-    async def _generate_compliance_proof(self, decision_tree: DummyMerkleTree, framework: str):  # noqa: ARG002
+    async def _generate_compliance_proof(self, decision_tree: DummyMerkleTree, framework: str):
         return {
             "framework": framework,
             "leaf_count": len(decision_tree.leaf_hashes),

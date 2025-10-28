@@ -23,8 +23,9 @@ from typing import Dict, List, Optional, Union
 from uuid import uuid4
 
 import aioredis
-from core.logging import get_logger
 from cryptography.fernet import Fernet
+
+from core.logging import get_logger
 from observability.metrics import get_metrics_collector
 
 logger = get_logger(__name__)

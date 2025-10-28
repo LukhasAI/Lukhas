@@ -45,7 +45,7 @@ def _stable_hash(data: Dict[str, Any]) -> str:
     digest = hashlib.sha256()
     if not isinstance(data, dict):
         data = {"value": data}
-    
+
     def _sort_key(item: tuple[Any, Any]) -> tuple[str, str]:
         key, _ = item
         key_type = type(key)

@@ -13,10 +13,11 @@ Test Categories:
 5. Error handling and fallback tests
 6. Integration tests
 """
-import pytest
 import asyncio
-from unittest.mock import Mock, patch, AsyncMock
 from datetime import datetime, timezone
+from unittest.mock import AsyncMock, Mock, patch
+
+import pytest
 
 from core.orchestration.core import OrchestrationCore
 
@@ -27,7 +28,7 @@ class TestOrchestrationCoreInitialization:
     def test_init_with_default_config(self):
         """Test initialization with default configuration."""
         orchestrator = OrchestrationCore()
-        
+
         assert orchestrator.config == {}
         assert orchestrator.session_id is not None
         assert isinstance(orchestrator.start_time, datetime)
@@ -47,7 +48,7 @@ class TestOrchestrationCoreInitialization:
             "bio_core": {"enable_dreams": True},
         }
         orchestrator = OrchestrationCore(config=custom_config)
-        
+
         assert orchestrator.config == custom_config
         assert orchestrator.session_id is not None
         assert orchestrator.is_running is False
@@ -56,7 +57,7 @@ class TestOrchestrationCoreInitialization:
         """Test that each instance gets a unique session ID."""
         orchestrator1 = OrchestrationCore()
         orchestrator2 = OrchestrationCore()
-        
+
         assert orchestrator1.session_id != orchestrator2.session_id
 
 
@@ -75,9 +76,9 @@ class TestOrchestrationCoreComponentInitialization:
             mock_instance = Mock()
             mock_instance.initialize = AsyncMock()
             mock_memory_manager.return_value = mock_instance
-            
+
             await orchestrator._initialize_memory_system()
-            
+
             assert orchestrator.memory_manager == mock_instance
             mock_instance.initialize.assert_called_once()
 
@@ -86,7 +87,7 @@ class TestOrchestrationCoreComponentInitialization:
         """Test memory system initialization when MemoryManager not available."""
         with patch('core.orchestration.core.MemoryManager', None):
             await orchestrator._initialize_memory_system()
-            
+
             assert orchestrator.memory_manager is None
 
     @pytest.mark.asyncio
@@ -97,9 +98,9 @@ class TestOrchestrationCoreComponentInitialization:
             mock_instance = Mock()
             mock_instance.initialize = AsyncMock()
             mock_memory_manager.side_effect = [TypeError(), mock_instance]
-            
+
             await orchestrator._initialize_memory_system()
-            
+
             assert mock_memory_manager.call_count == 2
 
     @pytest.mark.asyncio
@@ -109,9 +110,9 @@ class TestOrchestrationCoreComponentInitialization:
             mock_instance = Mock()
             mock_instance.initialize = AsyncMock()
             mock_bio_core.return_value = mock_instance
-            
+
             await orchestrator._initialize_bio_core()
-            
+
             assert orchestrator.bio_core == mock_instance
             mock_instance.initialize.assert_called_once()
 
@@ -120,7 +121,7 @@ class TestOrchestrationCoreComponentInitialization:
         """Test bio core initialization when BioCore not available."""
         with patch('core.orchestration.core.BioCore', None):
             await orchestrator._initialize_bio_core()
-            
+
             assert orchestrator.bio_core is None
 
     @pytest.mark.asyncio
@@ -130,9 +131,9 @@ class TestOrchestrationCoreComponentInitialization:
             mock_instance = Mock()
             mock_instance.initialize = AsyncMock()
             mock_awareness.return_value = mock_instance
-            
+
             await orchestrator._initialize_awareness_system()
-            
+
             assert orchestrator.awareness_system == mock_instance
             mock_instance.initialize.assert_called_once()
 
@@ -141,7 +142,7 @@ class TestOrchestrationCoreComponentInitialization:
         """Test awareness system initialization when BioAwarenessSystem not available."""
         with patch('core.orchestration.core.BioAwarenessSystem', None):
             await orchestrator._initialize_awareness_system()
-            
+
             assert orchestrator.awareness_system is None
 
 
@@ -163,12 +164,12 @@ class TestOrchestrationCoreFullInitialization:
              patch.object(orchestrator, '_initialize_dream_engine', new_callable=AsyncMock) as mock_dream, \
              patch.object(orchestrator, '_register_core_modules', new_callable=AsyncMock) as mock_register, \
              patch.object(orchestrator, '_initiate_consciousness_loop', new_callable=AsyncMock) as mock_consciousness:
-            
+
             result = await orchestrator.initialize()
-            
+
             assert result is True
             assert orchestrator.is_running is True
-            
+
             # Verify all initialization methods were called in order
             mock_memory.assert_called_once()
             mock_bio.assert_called_once()
@@ -183,7 +184,7 @@ class TestOrchestrationCoreFullInitialization:
         """Test initialization failure handling."""
         with patch.object(orchestrator, '_initialize_memory_system', side_effect=Exception("Memory error")):
             result = await orchestrator.initialize()
-            
+
             assert result is False
             assert orchestrator.is_running is False
 
@@ -204,7 +205,7 @@ class TestOrchestrationCoreErrorHandling:
             await orchestrator._initialize_memory_system()
             assert orchestrator.memory_manager is None
 
-        # Test bio core failure  
+        # Test bio core failure
         with patch('core.orchestration.core.BioCore', side_effect=Exception("Bio error")):
             await orchestrator._initialize_bio_core()
             assert orchestrator.bio_core is None
@@ -222,7 +223,7 @@ class TestOrchestrationCoreIntegration:
     async def test_real_module_registry_integration(self):
         """Test integration with real ModuleRegistry."""
         orchestrator = OrchestrationCore()
-        
+
         # ModuleRegistry should be initialized
         assert orchestrator.module_registry is not None
         assert hasattr(orchestrator.module_registry, 'register')
@@ -230,17 +231,17 @@ class TestOrchestrationCoreIntegration:
     def test_emotional_state_structure(self):
         """Test emotional state has correct structure."""
         orchestrator = OrchestrationCore()
-        
+
         emotional_state = orchestrator.emotional_state
         assert 'valence' in emotional_state
-        assert 'arousal' in emotional_state  
+        assert 'arousal' in emotional_state
         assert 'dominance' in emotional_state
         assert all(isinstance(v, (int, float)) for v in emotional_state.values())
 
     def test_consciousness_level_initialization(self):
         """Test consciousness level is properly initialized."""
         orchestrator = OrchestrationCore()
-        
+
         assert isinstance(orchestrator.consciousness_level, (int, float))
         assert 0.0 <= orchestrator.consciousness_level <= 1.0
 

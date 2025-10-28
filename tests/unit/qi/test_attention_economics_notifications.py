@@ -6,7 +6,6 @@ from pathlib import Path
 
 import pytest
 
-
 QI_PACKAGE_PATH = Path(__file__).resolve().parents[3] / "qi"
 
 if "qi" not in sys.modules:

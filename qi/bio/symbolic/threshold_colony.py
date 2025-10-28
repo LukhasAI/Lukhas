@@ -17,6 +17,7 @@ from datetime import datetime, timedelta, timezone
 from typing import Any, Optional
 
 import numpy as np
+
 from core.colonies.base_colony import BaseColony
 from core.symbolism.tags import TagPermission, TagScope
 

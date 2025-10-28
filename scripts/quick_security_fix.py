@@ -5,9 +5,8 @@ Adds SBOM references to matrix contracts to resolve 102 security alerts.
 """
 
 import json
-import os
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 
 
 def add_sbom_reference_to_contract(contract_path: Path) -> bool:
@@ -16,12 +15,12 @@ def add_sbom_reference_to_contract(contract_path: Path) -> bool:
         # Read existing contract
         with open(contract_path, 'r') as f:
             contract = json.load(f)
-        
+
         # Check if SBOM reference already exists
         if 'sbom_reference' in contract:
             print(f"⏭️  SBOM reference already exists in {contract_path.name}")
             return False
-        
+
         # Create SBOM reference
         sbom_reference = {
             "sbom_reference": {
@@ -38,25 +37,25 @@ def add_sbom_reference_to_contract(contract_path: Path) -> bool:
                 }
             }
         }
-        
+
         # Add to contract
         contract.update(sbom_reference)
-        
+
         # Backup original
         backup_path = contract_path.with_suffix(".json.backup")
         if not backup_path.exists():
             contract_path.rename(backup_path)
-            
+
             # Write updated contract
             with open(contract_path, 'w') as f:
                 json.dump(contract, f, indent=2)
-            
+
             print(f"✅ Updated {contract_path.name}")
             return True
         else:
             print(f"⚠️  Backup already exists for {contract_path.name}")
             return False
-            
+
     except Exception as e:
         print(f"❌ Error updating {contract_path.name}: {e}")
         return False
@@ -66,32 +65,32 @@ def main():
     """Main function to fix security posture."""
     print("🛡️ Quick Security Posture Fix")
     print("Adding SBOM references to matrix contracts...")
-    
+
     contracts_dir = Path("contracts")
     if not contracts_dir.exists():
         print("❌ Contracts directory not found!")
         return 1
-    
+
     # Find all matrix contract files
     matrix_files = list(contracts_dir.glob("matrix_*.json"))
     print(f"📋 Found {len(matrix_files)} matrix contract files")
-    
+
     if not matrix_files:
         print("❌ No matrix contract files found!")
         return 1
-    
+
     # Update each contract
     updated_count = 0
     for contract_path in matrix_files:
         if add_sbom_reference_to_contract(contract_path):
             updated_count += 1
-    
-    print(f"\n📊 Summary:")
+
+    print("\n📊 Summary:")
     print(f"   Total contracts found: {len(matrix_files)}")
     print(f"   Contracts updated: {updated_count}")
-    print(f"   Expected security improvement: ~30-40 points")
-    print(f"   Estimated new score: 65-75/100 (up from 35/100)")
-    
+    print("   Expected security improvement: ~30-40 points")
+    print("   Estimated new score: 65-75/100 (up from 35/100)")
+
     if updated_count > 0:
         print(f"\n🎯 Success! Updated {updated_count} matrix contracts with SBOM references.")
         print("This should resolve many of the 102 security alerts and significantly improve the security posture score.")

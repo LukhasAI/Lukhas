@@ -4,8 +4,8 @@ import types
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Optional
 from types import SimpleNamespace
+from typing import Any, Optional
 
 import pytest
 
@@ -125,12 +125,12 @@ if "labs.core.governance.guardian_system_2" not in sys.modules:
     guardian_system_module.get_guardian_system = get_guardian_system
     sys.modules["labs.core.governance.guardian_system_2"] = guardian_system_module
 
+from labs.core.governance.constitutional_ai import DecisionContext, ViolationSeverity
 from labs.core.governance.guardian_integration import (
     GuardianIntegrationMiddleware,
     IntegrationConfig,
 )
 from labs.core.governance.guardian_system_2 import DecisionType, SafetyLevel
-from labs.core.governance.constitutional_ai import DecisionContext, ViolationSeverity
 
 
 class _DummyGuardianSystem:

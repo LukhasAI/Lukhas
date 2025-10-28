@@ -46,10 +46,11 @@ MODULE_NAME = "explainability_interface_layer"
 
 # Graceful imports with fallbacks for Lukhas integration
 try:
+    from reasoning.reasoning_engine import SymbolicEngine
+
     from ethics.meta_ethics_governor import MetaEthicsGovernor
     from ethics.self_reflective_debugger import SelfReflectiveDebugger
     from memory.emotional import EmotionalMemory
-    from reasoning.reasoning_engine import SymbolicEngine
 
     LUKHAS_INTEGRATION = True
     logger.info(

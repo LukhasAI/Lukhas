@@ -17,7 +17,6 @@ import sys
 from pathlib import Path
 from typing import Dict, List, Optional
 
-
 ALLOWED_PRIORITIES = {"LOW", "MED", "MEDIUM", "HIGH"}
 ALLOWED_SCOPES = {"PROD", "CANDIDATE", "DOCS"}
 

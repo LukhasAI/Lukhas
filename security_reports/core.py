@@ -8,9 +8,9 @@ leak into logs or analytics pipelines.
 
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass, replace
 from enum import Enum
-import re
 from typing import Any, Dict, Iterable, Mapping
 
 

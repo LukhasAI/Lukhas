@@ -6,7 +6,6 @@
 from __future__ import annotations
 
 import pytest
-
 from security_reports import (
     SecurityReport,
     SecurityReportRepository,

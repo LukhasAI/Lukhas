@@ -13,10 +13,10 @@ import logging
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-from core.interfaces.voice.core.sayit import VoiceProfile, VoiceProfileManager
-
 # Import voice systems
 from voice.synthesis import VoiceSynthesis
+
+from core.interfaces.voice.core.sayit import VoiceProfile, VoiceProfileManager
 
 
 class VoiceSystemIntegrator:

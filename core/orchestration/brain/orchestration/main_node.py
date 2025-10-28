@@ -32,6 +32,7 @@ try:
     # Backend components
     from backend.learning.meta_learning import MetaLearningSystem
     from backend.security.privacy_manager import PrivacyManager
+
     from core.identity.vault.lukhas_id import IdentityManager
 
     # Utils and config

@@ -1,8 +1,9 @@
 import pytest
+from flags.ff import Flags
+
 from core.quantum_financial.quantum_financial_consciousness_engine import (
     QuantumFinancialConsciousnessEngine,
 )
-from flags.ff import Flags
 
 
 @pytest.mark.asyncio

@@ -33,12 +33,13 @@ from typing import Any, Dict, List, Optional
 from fastapi import Depends, FastAPI, HTTPException, Security
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from pydantic import BaseModel, Field
+
 from observability.matriz_decorators import instrument
 from orchestration.externalized_orchestrator import get_externalized_orchestrator
 from orchestration.health_monitor import get_health_monitor
 from orchestration.routing_config import get_routing_config_manager
 from orchestration.routing_strategies import RoutingContext, get_routing_engine
-from pydantic import BaseModel, Field
 
 logger = logging.getLogger(__name__)
 

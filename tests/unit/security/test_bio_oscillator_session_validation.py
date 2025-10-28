@@ -2,14 +2,14 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
 import hashlib
-from pathlib import Path
 import importlib.machinery
 import importlib.util
 import logging
 import sys
 import types
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
 
 import pytest
 

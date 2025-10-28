@@ -26,10 +26,8 @@ import logging
 import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
-from typing import Any, Dict, Literal, Optional, Set
+from typing import Any, Dict, Literal, Optional, Set, cast
 from uuid import uuid4
-
-from typing import cast
 
 import argon2
 import pyotp
