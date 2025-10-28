@@ -81,13 +81,12 @@ try:
     #     create_api_validator,
     #     create_web_validator,
     # )
-    # from security.security_monitor import (
-    #     EventType,
-    #     SecurityEvent,
-    #     SecurityMonitor,
-    #     ThreatLevel,
-    #     create_security_monitor,
-    # )
+    from security.security_monitor import (
+        EventType,
+        SecurityMonitor,
+        ThreatLevel,
+        create_security_monitor,
+    )
     SECURITY_MODULES_AVAILABLE = True
 except ImportError as e:
     SECURITY_MODULES_AVAILABLE = False
@@ -487,7 +486,13 @@ class TestSecurityMonitor(unittest.TestCase):
 
     def setUp(self):
         self.benchmark = PerformanceBenchmark("security_monitor", target_ms=5.0)
-# See: https://github.com/LukhasAI/Lukhas/issues/619
+        monitor_config = {
+            "buffer_size": 512,
+            "processing_threads": 1,
+            "guardian_integration": False,
+        }
+        self.monitor = create_security_monitor(monitor_config)
+        # See: https://github.com/LukhasAI/Lukhas/issues/619
 
     def tearDown(self):
         self.monitor.shutdown()
