@@ -422,9 +422,11 @@ class Tiers:
         # TODO: TOTP check
         return AuthResult("T3", ok=False, reason="not_implemented")
 
-    def authenticate_T4(self, ctx) -> AuthResult:
-        # See: https://github.com/LukhasAI/Lukhas/issues/563
-        return AuthResult("T4", ok=False, reason="not_implemented")
+    async def authenticate_T4(self, ctx) -> AuthResult:
+        verification = await self._verify_webauthn(ctx)
+        if not verification.success:
+            return AuthResult("T4", ok=False, reason=verification.error_code or "invalid_webauthn_response")
+        return AuthResult("T4", ok=True, reason="hardware_key_authenticated")
 
     def authenticate_T5(self, ctx) -> AuthResult:
         # TODO: biometric attestation (mock provider)
