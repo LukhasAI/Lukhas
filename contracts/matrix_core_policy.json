@@ -198,5 +198,18 @@
     "lattice_commitment": null,
     "entanglement_witness": null,
     "superposition_state": "null"
+  },
+  "sbom_reference": {
+    "type": "cyclonedx",
+    "version": "1.5",
+    "location": "reports/sbom/cyclonedx.json",
+    "checksum": "generated_20251028_094133",
+    "generated_at": "2025-10-28T09:41:33.567027Z",
+    "compliance_status": "compliant",
+    "security_posture": {
+      "attestation_coverage": true,
+      "supply_chain_integrity": true,
+      "telemetry_compliance": true
+    }
   }
 }
