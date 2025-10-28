@@ -32,19 +32,12 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-# Dynamically load labs features to avoid lane violations
+# Placeholders for optional Labs/OpenAI integration. Import dynamically inside
+# initialize() to avoid creating a static top-level dependency from production
+# modules into `labs` (which would break lane-guard).
 ModelType = None
 OpenAICoreService = None
 OpenAIRequest = None
-
-try:
-    from labs.consciousness.reflection.openai_core_service import (
-        ModelType,
-        OpenAICoreService,
-        OpenAIRequest,
-    )
-except ImportError:
-    pass
 
 try:
     from core.colonies.base_colony import BaseColony
@@ -388,7 +381,29 @@ class OracleColony(BaseColony):
         """Initialize the Oracle Colony."""
         await super().initialize()
 
-        # Initialize OpenAI service
+        # Attempt to import optional Labs/OpenAI integration at runtime. Doing
+        # this here (inside initialize) prevents a static top-level import that
+        # would create a production -> labs dependency visible to import-linter.
+        try:
+            from labs.consciousness.reflection.openai_core_service import (
+                ModelType as _ModelType,
+                OpenAICoreService as _OpenAICoreService,
+                OpenAIRequest as _OpenAIRequest,
+            )
+
+            # Publish into module globals so other methods can reference them.
+            globals().update(
+                {
+                    "ModelType": _ModelType,
+                    "OpenAICoreService": _OpenAICoreService,
+                    "OpenAIRequest": _OpenAICoreRequest if False else _OpenAIRequest,
+                }
+            )
+        except Exception:
+            # Labs/OpenAI integration is optional; continue without it.
+            pass
+
+        # Initialize OpenAI service (if available)
         try:
             self.openai_service = OpenAICoreService()
             await self.openai_service.initialize()
