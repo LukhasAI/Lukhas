@@ -274,37 +274,20 @@ class GuardianIntegrationMiddleware:
 
         start_time = datetime.now(timezone.utc)
 
+        execution_result: Any = None
+        execution_completed = False
+        function_invoked = False
+
         try:
             # Extract decision data from function parameters
             decision_data = self._extract_decision_data(func, args, kwargs)
 
+            compliance_metadata: Optional[dict[str, Any]] = None
             compliance_outcome = await self._evaluate_constitutional_compliance(decision_type, decision_data)
             if compliance_outcome:
-                decision_data = dict(decision_data)
-
-                compliance_metadata: dict[str, Any] = {
-                    "required_actions": list(compliance_outcome.get("required_actions") or []),
-                for field in ("explanation", "confidence", "max_risk_level", "processing_time_ms"):
-                    value = compliance_outcome.get(field)
-                    if value is not None:
-                        compliance_metadata[field] = value
-
-                decision_data["constitutional_compliance"] = compliance_metadata
-
-                required_actions = compliance_metadata["required_actions"]
-                    "allowed": compliance_outcome["allowed"],
-                    "score": compliance_outcome.get("score"),
-                    "source": compliance_outcome.get("source"),
-                    "details": compliance_outcome.get("details"),
-                    "required_actions": list(compliance_outcome.get("required_actions") or []),
-                }
-
-                for field in ("explanation", "confidence", "max_risk_level", "processing_time_ms"):
-                    value = compliance_outcome.get(field)
-                    if value is not None:
-                        compliance_metadata[field] = value
-
-                decision_data["constitutional_compliance"] = compliance_metadata
+                decision_data, compliance_metadata = self._enrich_with_compliance_metadata(
+                    decision_data, compliance_outcome
+                )
 
                 if not compliance_outcome["allowed"]:
                     guardian_decision = self._create_compliance_block_decision(
@@ -314,7 +297,7 @@ class GuardianIntegrationMiddleware:
                     self.integration_metrics["decisions_blocked"] += 1
                     return None
 
-                required_actions = compliance_metadata["required_actions"]
+                required_actions = compliance_metadata.get("required_actions", [])
                 if required_actions:
                     logger.info(
                         "⚖️ Constitutional compliance recommended actions for %s: %s",
@@ -332,10 +315,15 @@ class GuardianIntegrationMiddleware:
                     guardian_decision = await self._evaluate_with_guardian(
                         decision_type, decision_data, explanation_type
                     )
+                    if compliance_metadata:
+                        self._attach_compliance_context(guardian_decision, compliance_metadata)
                     self._cache_decision(cache_key, guardian_decision)
             else:
                 # Evaluate with Guardian System
                 guardian_decision = await self._evaluate_with_guardian(decision_type, decision_data, explanation_type)
+
+            if compliance_metadata:
+                self._attach_compliance_context(guardian_decision, compliance_metadata)
 
             # Enforce decision if required
             if enforce_decision and not guardian_decision.allowed:
@@ -344,35 +332,30 @@ class GuardianIntegrationMiddleware:
                 return None
 
             # Execute original function
-            result = await func(*args, **kwargs)
+            function_invoked = True
+            execution_result = await func(*args, **kwargs)
+            execution_completed = True
 
             # Post-execution monitoring
-            await self._post_execution_monitoring(guardian_decision, result, decision_data)
+            await self._post_execution_monitoring(guardian_decision, execution_result, decision_data)
 
             self.integration_metrics["decisions_allowed"] += 1
             self.integration_metrics["successful_integrations"] += 1
 
-            return result
+            return execution_result
 
         except Exception as e:
             logger.error(f"❌ Guardian monitoring failed for {func.__name__}: {e}")
             self.integration_metrics["failed_integrations"] += 1
 
             if self.config.fail_open:
+                if execution_completed:
+                    return execution_result
+                if not function_invoked:
+                    return await func(*args, **kwargs)
 
-                compliance_metadata: dict[str, Any] = {
-                    "required_actions": list(compliance_outcome.get("required_actions") or []),
-                for field in ("explanation", "confidence", "max_risk_level", "processing_time_ms"):
-                    value = compliance_outcome.get(field)
-                    if value is not None:
-                        compliance_metadata[field] = value
-
-                decision_data["constitutional_compliance"] = compliance_metadata
-
-                required_actions = compliance_metadata["required_actions"]
-            else:
-                logger.error(f"🚫 Fail-closed mode: Blocking {func.__name__} due to monitoring failure")
-                raise
+            logger.error(f"🚫 Fail-closed mode: Blocking {func.__name__} due to monitoring failure")
+            raise
 
         finally:
             # Update metrics
@@ -395,28 +378,20 @@ class GuardianIntegrationMiddleware:
 
         start_time = datetime.now(timezone.utc)
 
+        execution_result: Any = None
+        execution_completed = False
+        function_invoked = False
+
         try:
             # Extract decision data
             decision_data = self._extract_decision_data(func, args, kwargs)
 
+            compliance_metadata: Optional[dict[str, Any]] = None
             compliance_outcome = await self._evaluate_constitutional_compliance(decision_type, decision_data)
             if compliance_outcome:
-                decision_data = dict(decision_data)
-
-                compliance_metadata: dict[str, Any] = {
-                    "allowed": compliance_outcome["allowed"],
-                    "score": compliance_outcome.get("score"),
-                    "source": compliance_outcome.get("source"),
-                    "details": compliance_outcome.get("details"),
-                    "required_actions": list(compliance_outcome.get("required_actions") or []),
-                }
-
-                for field in ("explanation", "confidence", "max_risk_level", "processing_time_ms"):
-                    value = compliance_outcome.get(field)
-                    if value is not None:
-                        compliance_metadata[field] = value
-
-                decision_data["constitutional_compliance"] = compliance_metadata
+                decision_data, compliance_metadata = self._enrich_with_compliance_metadata(
+                    decision_data, compliance_outcome
+                )
 
                 if not compliance_outcome["allowed"]:
                     guardian_decision = self._create_compliance_block_decision(
@@ -426,7 +401,7 @@ class GuardianIntegrationMiddleware:
                     self.integration_metrics["decisions_blocked"] += 1
                     return None
 
-                required_actions = compliance_metadata["required_actions"]
+                required_actions = compliance_metadata.get("required_actions", [])
                 if required_actions:
                     logger.info(
                         "⚖️ Constitutional compliance recommended actions for %s: %s",
@@ -437,6 +412,9 @@ class GuardianIntegrationMiddleware:
             # Evaluate with Guardian System
             guardian_decision = await self._evaluate_with_guardian(decision_type, decision_data, explanation_type)
 
+            if compliance_metadata:
+                self._attach_compliance_context(guardian_decision, compliance_metadata)
+
             # Enforce decision if required
             if enforce_decision and not guardian_decision.allowed:
                 await self._handle_blocked_decision(guardian_decision, func, args, kwargs)
@@ -444,24 +422,29 @@ class GuardianIntegrationMiddleware:
                 return None
 
             # Execute original function
-            result = func(*args, **kwargs)
+            function_invoked = True
+            execution_result = func(*args, **kwargs)
+            execution_completed = True
 
             # Post-execution monitoring
-            await self._post_execution_monitoring(guardian_decision, result, decision_data)
+            await self._post_execution_monitoring(guardian_decision, execution_result, decision_data)
 
             self.integration_metrics["decisions_allowed"] += 1
             self.integration_metrics["successful_integrations"] += 1
 
-            return result
+            return execution_result
 
         except Exception as e:
             logger.error(f"❌ Guardian monitoring failed for {func.__name__}: {e}")
             self.integration_metrics["failed_integrations"] += 1
 
             if self.config.fail_open:
-                return func(*args, **kwargs)
-            else:
-                raise
+                if execution_completed:
+                    return execution_result
+                if not function_invoked:
+                    return func(*args, **kwargs)
+
+            raise
 
         finally:
             processing_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
@@ -494,6 +477,48 @@ class GuardianIntegrationMiddleware:
                 decision_data[param] = kwargs[param]
 
         return decision_data
+
+    def _enrich_with_compliance_metadata(
+        self, decision_data: dict[str, Any], compliance_outcome: dict[str, Any]
+    ) -> tuple[dict[str, Any], dict[str, Any]]:
+        """Merge constitutional compliance outcome into the decision payload."""
+
+        enriched_data = dict(decision_data)
+
+        compliance_metadata: dict[str, Any] = {
+            "allowed": compliance_outcome.get("allowed"),
+            "score": compliance_outcome.get("score"),
+            "source": compliance_outcome.get("source"),
+            "details": compliance_outcome.get("details"),
+            "required_actions": list(compliance_outcome.get("required_actions") or []),
+        }
+
+        for field in ("explanation", "confidence", "max_risk_level", "processing_time_ms"):
+            value = compliance_outcome.get(field)
+            if value is not None:
+                compliance_metadata[field] = value
+
+        enriched_data["constitutional_compliance"] = compliance_metadata
+        return enriched_data, compliance_metadata
+
+    @staticmethod
+    def _attach_compliance_context(decision: GuardianDecision, compliance_metadata: dict[str, Any]) -> None:
+        """Ensure Guardian decisions retain constitutional compliance metadata."""
+
+        if not hasattr(decision, "context"):
+            return
+
+        context = getattr(decision, "context") or {}
+        if not isinstance(context, dict):  # pragma: no cover - defensive
+            context = {"original_context": context}
+
+        existing_metadata = context.get("constitutional_compliance")
+        if isinstance(existing_metadata, dict):
+            existing_metadata.update(compliance_metadata)
+        else:
+            context["constitutional_compliance"] = dict(compliance_metadata)
+
+        decision.context = context
 
     async def _evaluate_constitutional_compliance(
         self, decision_type: DecisionType, decision_data: dict[str, Any]

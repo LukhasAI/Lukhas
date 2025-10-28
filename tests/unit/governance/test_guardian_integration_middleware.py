@@ -136,6 +136,7 @@ from labs.core.governance.constitutional_ai import DecisionContext, ViolationSev
 class _DummyGuardianSystem:
     def __init__(self):
         self.calls: list[dict] = []
+        self.last_decision: Optional[SimpleNamespace] = None
 
     async def evaluate_decision(self, *, decision_type, decision_data, context, user_id, explanation_type):
         self.calls.append(
@@ -147,7 +148,7 @@ class _DummyGuardianSystem:
                 "explanation_type": explanation_type,
             }
         )
-        return SimpleNamespace(
+        decision = SimpleNamespace(
             decision_id="allow_123",
             decision_type=decision_type,
             allowed=True,
@@ -162,6 +163,8 @@ class _DummyGuardianSystem:
             explanation="Guardian approval",
             context={"source": "dummy"},
         )
+        self.last_decision = decision
+        return decision
 
 
 class _BlockingGuardianSystem:
@@ -263,7 +266,8 @@ async def test_guardian_monitor_includes_compliance_metadata_when_allowed():
     assert compliance_data["required_actions"] == _AllowedComplianceResult.required_actions
     assert compliance_data["explanation"] == _AllowedComplianceResult.compliance_explanation
     assert compliance_data["confidence"] == pytest.approx(_AllowedComplianceResult.confidence_in_decision)
-
+    decision_context = guardian_system.last_decision.context
+    assert decision_context["constitutional_compliance"]["required_actions"] == _AllowedComplianceResult.required_actions
 
 @pytest.mark.asyncio
 async def test_guardian_monitor_uses_constitutional_framework_fallback(monkeypatch):
