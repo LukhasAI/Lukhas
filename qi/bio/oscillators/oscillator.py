@@ -42,6 +42,8 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
+from qi.security.token_store import SessionTokenStore
+
 logger = logging.getLogger("bio_oscillator", timezone)
 
 
@@ -82,6 +84,7 @@ class BioOscillator:
     MAX_ENDOCRINE_VARIANCE = 0.5
     MOOD_LOCK_TIMEOUT = 60  # seconds
     MAX_PHASE_SHIFT = 0.5
+    _session_token_store: Optional[SessionTokenStore] = None
 
     def __init__(self, simulate_trauma_lock=False, auto_regulate_neuroplasticity=False):
         self.state = OscillatorState.INACTIVE
@@ -111,6 +114,21 @@ class BioOscillator:
         self.phase_relations: dict[str, float] = {}
 
         logger.info("Bio-oscillator initialized")
+
+    @classmethod
+    def configure_session_token_store(
+        cls, store: Optional[SessionTokenStore]
+    ) -> None:
+        """Configure the session token store used for verification."""
+
+        cls._session_token_store = store
+
+    def _get_session_token_store(self) -> SessionTokenStore:
+        """Return the configured session token store (create if needed)."""
+
+        if BioOscillator._session_token_store is None:
+            BioOscillator._session_token_store = SessionTokenStore()
+        return BioOscillator._session_token_store
 
     async def start_oscillation(
         self,
@@ -257,11 +275,12 @@ class BioOscillator:
             return False
 
         try:
-            # Hash token for comparison
-            hashlib.sha256(token.encode()).hexdigest()
+            store = self._get_session_token_store()
+            if not store.validate_token(token):
+                logger.warning("Session token rejected: not found or expired")
+                return False
 
-            # See: https://github.com/LukhasAI/Lukhas/issues/600
-            return True  # Placeholder
+            return True
 
         except Exception as e:
             logger.error(f"Token verification failed: {e!s}")
