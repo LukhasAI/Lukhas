@@ -59,6 +59,9 @@ SECURITY_KEYWORDS = [
     "compliance",
 ]
 
+VALID_PRIORITIES = {"CRITICAL", "HIGH", "MEDIUM", "LOW"}
+VALID_SCOPES = {"", "PROD", "CANDIDATE", "DOCS", "SECURITY"}
+
 
 def parse_todo_metadata(match_groups: tuple) -> Dict[str, str]:
     """Parse metadata from TODO comment groups."""
@@ -89,6 +92,40 @@ def parse_todo_metadata(match_groups: tuple) -> Dict[str, str]:
     return metadata
 
 
+def validate_metadata(
+    metadata: Dict[str, str], *, filepath: Path, line_number: int
+) -> Dict[str, str]:
+    """Validate and normalize metadata values, logging issues when needed."""
+
+    normalized = dict(metadata)
+
+    priority = normalized.get("priority", "").upper()
+    if priority and priority not in VALID_PRIORITIES:
+        print(
+            (
+                "Warning: Invalid priority '%s' in %s:%s. "
+                "Defaulting to MEDIUM."
+            )
+            % (priority, filepath, line_number),
+            file=sys.stderr,
+        )
+        normalized["priority"] = "MEDIUM"
+
+    scope = normalized.get("scope", "").upper()
+    if scope and scope not in VALID_SCOPES:
+        print(
+            (
+                "Warning: Invalid scope '%s' in %s:%s. "
+                "Defaulting to UNKNOWN."
+            )
+            % (scope, filepath, line_number),
+            file=sys.stderr,
+        )
+        normalized["scope"] = "UNKNOWN"
+
+    return normalized
+
+
 def is_security_related(message: str) -> bool:
     """Check if TODO message contains security/safety keywords."""
     message_lower = message.lower()
@@ -113,6 +150,10 @@ def scan_file(filepath: Path) -> List[Dict[str, str]]:
                             metadata["scope"] = "SECURITY"
                             if metadata["priority"] == "MEDIUM":
                                 metadata["priority"] = "HIGH"
+
+                        metadata = validate_metadata(
+                            metadata, filepath=filepath, line_number=line_num
+                        )
 
                         todos.append(
                             {
