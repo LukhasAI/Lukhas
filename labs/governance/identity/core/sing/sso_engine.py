@@ -31,11 +31,14 @@ class LambdaSSOEngine:
         self.active_tokens = {}
         self.service_registry = {}
         self.device_registry = {}
+        self.sync_token_registry = {}
 
         # SSO configuration
         self.token_expiry_hours = config.get("sso_token_expiry_hours", 24)
         self.max_concurrent_sessions = config.get("max_concurrent_sessions", 5)
         self.cross_platform_enabled = config.get("cross_platform_enabled", True)
+        self.max_sync_tokens_per_user = config.get("max_sync_tokens_per_user", 5)
+        self.sync_token_expiry_hours = config.get("sync_token_expiry_hours", 12)
 
         # Symbolic authentication methods
         self.auth_methods = {
@@ -645,8 +648,117 @@ class LambdaSSOEngine:
 
     def _register_sync_token(self, sync_token: dict) -> str:
         """Register sync token for cross-device use"""
-        # See: https://github.com/LukhasAI/Lukhas/issues/580
-        return f"SYNC_{secrets.token_hex(8)}"
+        if not isinstance(sync_token, dict):
+            raise TypeError("sync_token must be a dictionary")
+
+        required_fields = ["user_id", "device_id", "symbolic_signature"]
+        missing_fields = [field for field in required_fields if field not in sync_token]
+        if missing_fields:
+            raise ValueError(f"Sync token missing required fields: {', '.join(sorted(missing_fields))}")
+
+        user_id = sync_token["user_id"]
+        device_id = sync_token["device_id"]
+        symbolic_signature = sync_token["symbolic_signature"]
+        source_token_id = sync_token.get("source_token_id") or sync_token.get("token_id")
+        if not source_token_id:
+            raise ValueError("Sync token must reference a source token id")
+
+        if source_token_id not in self.active_tokens:
+            raise ValueError("Cannot register sync token for inactive source token")
+
+        def _parse_timestamp(timestamp: str) -> datetime:
+            parsed = datetime.fromisoformat(timestamp)
+            return parsed if parsed.tzinfo else parsed.replace(tzinfo=timezone.utc)
+
+        now = datetime.now(timezone.utc)
+
+        expires_at_raw = sync_token.get("expires_at")
+        if expires_at_raw:
+            expires_at = _parse_timestamp(expires_at_raw)
+            if expires_at <= now:
+                raise ValueError("Cannot register expired sync token")
+        else:
+            expires_at = now + timedelta(hours=self.sync_token_expiry_hours)
+            sync_token["expires_at"] = expires_at.isoformat()
+
+        issued_at_raw = sync_token.get("issued_at")
+        if issued_at_raw:
+            issued_at = _parse_timestamp(issued_at_raw)
+        else:
+            issued_at = now
+            sync_token["issued_at"] = issued_at.isoformat()
+
+        fingerprint_payload = {
+            "user_id": user_id,
+            "device_id": device_id,
+            "source_token_id": source_token_id,
+            "symbolic_signature": symbolic_signature,
+            "service_scope": sync_token.get("service_scope", []),
+        }
+        fingerprint = hashlib.sha256(
+            json.dumps(fingerprint_payload, sort_keys=True, separators=(",", ":")).encode()
+        ).hexdigest()
+
+        user_registry = self.sync_token_registry.setdefault(user_id, {})
+
+        # Drop expired entries before enforcing limits
+        expired_entries = []
+        for existing_id, entry in user_registry.items():
+            try:
+                entry_expiry = _parse_timestamp(entry["expires_at"])
+            except Exception:
+                expired_entries.append(existing_id)
+                continue
+
+            if entry_expiry <= now:
+                expired_entries.append(existing_id)
+
+        for entry_id in expired_entries:
+            user_registry.pop(entry_id, None)
+
+        # Deduplicate existing fingerprint
+        for existing_id, entry in user_registry.items():
+            if entry.get("fingerprint") == fingerprint:
+                entry["last_registered_at"] = now.isoformat()
+                entry["expires_at"] = sync_token["expires_at"]
+                entry["status"] = "active"
+                return existing_id
+
+        if len(user_registry) >= self.max_sync_tokens_per_user:
+            # Remove oldest token (by issued_at) to make room for new registration
+            oldest_id = min(
+                user_registry,
+                key=lambda token_id: _parse_timestamp(user_registry[token_id].get("issued_at", now.isoformat())),
+            )
+            user_registry.pop(oldest_id, None)
+
+        sync_token_id = sync_token.get("sync_token_id") or f"SYNC_{secrets.token_hex(12)}"
+
+        registry_entry = {
+            "sync_token_id": sync_token_id,
+            "device_id": device_id,
+            "source_token_id": source_token_id,
+            "symbolic_signature": symbolic_signature,
+            "issued_at": issued_at.isoformat(),
+            "expires_at": sync_token["expires_at"],
+            "status": "active",
+            "fingerprint": fingerprint,
+            "metadata": sync_token.get("metadata", {}),
+        }
+
+        if "service_scope" in sync_token:
+            registry_entry["service_scope"] = list(sync_token["service_scope"])
+
+        user_registry[sync_token_id] = registry_entry
+
+        # Record last sync token on the associated device registry if present
+        if user_id in self.device_registry and device_id in self.device_registry[user_id]:
+            self.device_registry[user_id][device_id]["last_sync_token"] = sync_token_id
+            self.device_registry[user_id][device_id]["trust_level"] = max(
+                0.7, self.device_registry[user_id][device_id].get("trust_level", 0.5)
+            )
+
+        return sync_token_id
 
     def _notify_services_token_revoked(self, token_data: dict):
         """Notify services about token revocation"""
