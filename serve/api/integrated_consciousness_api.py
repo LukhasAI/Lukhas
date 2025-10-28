@@ -10,6 +10,11 @@ import uuid
 from datetime import datetime, timezone
 from typing import Any, Optional
 
+from consciousness.interfaces.natural_language_interface import (
+    ConversationManager,
+    NaturalLanguageConsciousnessInterface,
+)
+from core.common import get_logger
 from dashboard.interpretability_dashboard import (
     UnifiedInterpretabilityDashboard,
 )
@@ -21,12 +26,6 @@ from feedback.user_feedback_system import (
     UserFeedbackSystem,
 )
 from pydantic import BaseModel, Field
-
-from consciousness.interfaces.natural_language_interface import (
-    ConversationManager,
-    NaturalLanguageConsciousnessInterface,
-)
-from core.common import get_logger
 
 logger = get_logger(__name__)
 

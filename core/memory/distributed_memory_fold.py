@@ -57,7 +57,6 @@ from typing import Any, Optional
 
 import aiohttp
 import numpy as np
-
 from core.common.config import get_config
 
 

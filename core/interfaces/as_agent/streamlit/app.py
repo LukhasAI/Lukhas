@@ -24,7 +24,6 @@ from pathlib import Path
 from typing import Iterable, Optional
 
 import streamlit as st
-
 from core.dashboard_settings import get_paired_apps
 
 logger = logging.getLogger(__name__)

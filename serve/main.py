@@ -3,9 +3,11 @@ import logging
 import time
 import uuid
 from typing import Any, Awaitable, Callable, Optional
+
 from fastapi import FastAPI, Header, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
+
 MATRIZ_AVAILABLE = False
 MEMORY_AVAILABLE = False
 try:
@@ -45,6 +47,7 @@ except Exception:
     def env_get(key: str, default: Optional[str]=None) -> Optional[str]:
         return _os.getenv(key, default)
 import os
+
 _ASYNC_ORCH_ENV = (env_get('LUKHAS_ASYNC_ORCH', '0') or '0').strip()
 ASYNC_ORCH_ENABLED = _ASYNC_ORCH_ENV == '1'
 _RUN_ASYNC_ORCH: Optional[Callable[[str], Awaitable[dict[str, Any]]]] = None
@@ -294,6 +297,7 @@ def openapi_export() -> dict[str, Any]:
     return app.openapi()
 if __name__ == '__main__':
     import os
+
     import uvicorn
     host = os.getenv('LUKHAS_BIND_HOST', '127.0.0.1')
     port = int(os.getenv('LUKHAS_BIND_PORT', '8000'))

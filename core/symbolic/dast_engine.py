@@ -9,6 +9,7 @@ Implements the task tracking and symbolic activity logic for the Golden Trio.
 Follows the Phase 2 Implementation Guide.
 """
 from __future__ import annotations
+
 import asyncio
 import json
 import logging
@@ -17,9 +18,11 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable, Optional
+
 from ethics.core import EthicalDecision, get_shared_ethics_engine
 from ethics.seedra import get_seedra
 from symbolic.core import Symbol, SymbolicVocabulary, get_symbolic_vocabulary
+
 logger = logging.getLogger(__name__)
 
 def _clamp(value: float, minimum: float=0.0, maximum: float=1.0) -> float:

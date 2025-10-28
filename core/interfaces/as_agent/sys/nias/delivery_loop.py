@@ -1,6 +1,6 @@
+from ethics.seedra.seedra_core import SEEDRACore
 from nias.core.nias_engine import NIASEngine
 
-from ethics.seedra.seedra_core import SEEDRACore
 from orchestration.golden_trio.trio_orchestrator import TrioOrchestrator
 
 """
