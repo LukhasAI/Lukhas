@@ -7,7 +7,9 @@ Critical for T4/0.01% operational excellence.
 """
 import os
 from unittest.mock import patch
+
 import pytest
+
 
 class TestOrchestratorLaneDefaults:
     """Test MATRIZ Orchestrator lane default behavior"""

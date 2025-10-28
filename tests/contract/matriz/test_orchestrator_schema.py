@@ -1,6 +1,8 @@
 import os
 import sys
+
 import pytest
+
 pytestmark = pytest.mark.skipif(sys.version_info < (3, 10), reason='matriz module requires Python 3.10+')
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 try:

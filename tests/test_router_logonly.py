@@ -3,10 +3,13 @@ Test router log-only mode - ensures no dispatch when DISPATCH_ENABLED=false
 """
 import os
 from unittest.mock import Mock
+
 import pytest
+
 from MATRIZ.adapters.bio_adapter import BioAdapter
 from MATRIZ.router import SymbolicMeshRouter
 from tests.util.mk_msg import mk_test_message
+
 
 def test_router_logonly_no_dispatch():
     """Verify router doesn't call node.handle() when in log-only mode"""

@@ -4,11 +4,10 @@ import base64
 import hashlib
 import hmac
 import json
+import sys
 import time
 import types
 from typing import Any, Dict, List, Optional, Union
-
-import sys
 
 
 def _install_jwt_stub() -> None:

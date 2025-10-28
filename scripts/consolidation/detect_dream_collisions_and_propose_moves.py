@@ -5,7 +5,9 @@ and prepare a safe, reviewable 'proposed_moves.sh' to move files into
 labs/consciousness/dream/{synthesis,helpers,results,helpers/<bundle>}
 Run with --dry-run to only print/report.
 """
-import os,sys,hashlib,argparse,shutil
+import argparse
+import hashlib
+import os
 
 SRC_DIRS = ['dream','dreams','dreamweaver_helpers_bundle']
 DEST_BASE = 'labs/consciousness/dream'
@@ -36,7 +38,7 @@ def detect_duplicates(files):
         for p in paths:
             try:
                 s=sha256(p)
-            except Exception as e:
+            except Exception:
                 s = None
             hash_map.setdefault(s,[]).append(p)
     dups = {h:ps for h,ps in hash_map.items() if len(ps)>1 and h is not None}

@@ -22,7 +22,6 @@ from typing import Any, Dict, List, Mapping, Optional, Sequence, Tuple
 
 from core.interfaces import ICognitiveNode
 from core.registry import resolve
-
 from metrics import (
     arbitration_decisions_total,
     constellation_star_activations,

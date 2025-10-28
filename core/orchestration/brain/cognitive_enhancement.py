@@ -49,7 +49,7 @@ class CognitiveAGIEnhancement:
             try:
                 await orchestrator.initialize_agi_system(start_background=False)
                 self.enhancement_active = True
-            except Exception as error:  # noqa: BLE001 - legacy orchestrator bootstrap
+            except Exception as error:  # - legacy orchestrator bootstrap
                 logger.warning(
                     "cognitive_enhancement_orchestrator_init_failed",
                     extra={"error": str(error)},

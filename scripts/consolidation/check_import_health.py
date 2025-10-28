@@ -14,7 +14,7 @@ import argparse
 import importlib
 import sys
 import warnings
-from typing import List, Tuple
+from typing import Tuple
 
 # Import paths to test
 IMPORT_TESTS = [

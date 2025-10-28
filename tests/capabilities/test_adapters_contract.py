@@ -4,10 +4,13 @@ Capability smoke tests for adapter contract compliance
 import importlib
 import pkgutil
 from pathlib import Path
-import MATRIZ.adapters
+
 import pytest
+
+import MATRIZ.adapters
 from MATRIZ.node_contract import MatrizNode, MatrizResult
 from tests.util.mk_msg import mk_test_message
+
 
 def discover_adapters():
     """Dynamically discover all adapter classes"""

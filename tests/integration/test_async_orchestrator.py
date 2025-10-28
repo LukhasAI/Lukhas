@@ -1,6 +1,7 @@
 """Integration tests for AsyncCognitiveOrchestrator."""
 import pytest
 
+
 def test_async_orchestrator_imports():
     """Test that async_orchestrator module can be imported."""
     from MATRIZ.core import async_orchestrator

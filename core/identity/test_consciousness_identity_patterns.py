@@ -40,10 +40,11 @@ try:
         AuthenticationMethod,
         ConsciousnessWebAuthnManager,
         TieredAuthenticationEngine,
-# See: https://github.com/LukhasAI/Lukhas/issues/559
     )
+
+    # See: https://github.com/LukhasAI/Lukhas/issues/559
     from .constitutional_ai_compliance import (
-# See: https://github.com/LukhasAI/Lukhas/issues/560
+        # See: https://github.com/LukhasAI/Lukhas/issues/560
         ConstitutionalAIValidator,
         ConstitutionalPrinciple,
         ConstitutionalValidationContext,

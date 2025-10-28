@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from typing import Any, Optional
 
 import structlog
+
 from core.identity.vault.lukhas_id import (
     IdentityManager,
     IdentityVerificationError,

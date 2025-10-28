@@ -1,6 +1,7 @@
 """Integration tests for core module."""
 import pytest
 
+
 class TestCore:
 
     def test_module_imports(self):

@@ -1,6 +1,7 @@
 """Integration tests for meta_cognitive_orchestrator_alt module."""
 import pytest
 
+
 class TestMetaCognitiveOrchestratorAlt:
 
     def test_module_imports(self):

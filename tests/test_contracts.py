@@ -6,7 +6,9 @@ These tests ensure all MATRIZ nodes comply with the frozen v1.0.0 contract
 and that the contract itself is properly validated.
 """
 from uuid import uuid4
+
 import pytest
+
 from MATRIZ.node_contract import (
     CONTRACT_VERSION,
     GLYPH,
@@ -19,6 +21,7 @@ from MATRIZ.node_contract import (
     validate_result,
 )
 from tests.util.mk_msg import mk_msg_from_json, mk_test_message
+
 
 class DummyNode(MatrizNode):
     """Dummy node for contract testing"""

@@ -2,6 +2,7 @@ import logging
 from typing import Any
 
 import networkx as nx
+
 from core.colonies import BaseColony, ConsensusResult, Tag, TagScope, get_mesh_topology_service
 
 logger = logging.getLogger(__name__)

@@ -5,7 +5,9 @@ Tests that all modules can be imported and their schemas are valid.
 """
 import json
 from pathlib import Path
+
 import pytest
+
 
 class TestTop25HiddenGemsIntegration:
     """Test suite for verifying all 25 integrated hidden gems modules."""
@@ -14,7 +16,16 @@ class TestTop25HiddenGemsIntegration:
         """Test that all MATRIZ consciousness modules can be imported."""
         from MATRIZ.consciousness.cognitive import adapter
         from MATRIZ.consciousness.core import engine_poetic
-        from MATRIZ.consciousness.reflection import dreamseed_unified, id_reasoning_engine, integrated_safety_system, memory_hub, orchestration_service, reflection_layer, swarm, symbolic_drift_analyzer
+        from MATRIZ.consciousness.reflection import (
+            dreamseed_unified,
+            id_reasoning_engine,
+            integrated_safety_system,
+            memory_hub,
+            orchestration_service,
+            reflection_layer,
+            swarm,
+            symbolic_drift_analyzer,
+        )
         assert id_reasoning_engine is not None
         assert swarm is not None
         assert orchestration_service is not None
@@ -148,7 +159,12 @@ class TestTop25HiddenGemsIntegration:
 
     def test_guardian_system_integration_classes(self):
         """Test that guardian_system_integration has expected classes."""
-        from core.governance.guardian_system_integration import GuardianSystemIntegration, GuardianValidationRequest, GuardianValidationResponse, ValidationResult
+        from core.governance.guardian_system_integration import (
+            GuardianSystemIntegration,
+            GuardianValidationRequest,
+            GuardianValidationResponse,
+            ValidationResult,
+        )
         assert GuardianSystemIntegration is not None
         assert GuardianValidationRequest is not None
         assert GuardianValidationResponse is not None
@@ -156,14 +172,23 @@ class TestTop25HiddenGemsIntegration:
 
     def test_consent_ledger_classes(self):
         """Test that consent_ledger has expected classes."""
-        from core.governance.consent_ledger.ledger_v1 import ConsentLedgerV1, ConsentType, PolicyVerdict
+        from core.governance.consent_ledger.ledger_v1 import (
+            ConsentLedgerV1,
+            ConsentType,
+            PolicyVerdict,
+        )
         assert ConsentLedgerV1 is not None
         assert PolicyVerdict is not None
         assert ConsentType is not None
 
     def test_id_reasoning_engine_classes(self):
         """Test that id_reasoning_engine has expected classes."""
-        from MATRIZ.consciousness.reflection.id_reasoning_engine import AccessTier, ComplianceRegion, EmotionalMemoryVector, LukhasIdManager
+        from MATRIZ.consciousness.reflection.id_reasoning_engine import (
+            AccessTier,
+            ComplianceRegion,
+            EmotionalMemoryVector,
+            LukhasIdManager,
+        )
         assert AccessTier is not None
         assert ComplianceRegion is not None
         assert EmotionalMemoryVector is not None

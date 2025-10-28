@@ -1,6 +1,7 @@
 """Integration tests for engine_complete module."""
 import pytest
 
+
 class TestEngineComplete:
 
     def test_module_imports(self):
