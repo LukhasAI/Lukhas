@@ -13,9 +13,6 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Optional
 
-from voice.audio_processing import LUKHASAudioProcessor, ProcessingQuality
-from voice.voice_modulator import VoiceModulationMode, VoiceModulator
-
 from bridge.voice.systems.voice_synthesis import (
     CoquiProvider,
     EdgeTTSProvider,

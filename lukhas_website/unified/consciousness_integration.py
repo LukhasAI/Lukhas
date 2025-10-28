@@ -13,13 +13,11 @@ from typing import Any
 
 # Import LUKHAS core systems
 try:
-    from emotion.service import EmotionService
-    from qi.engines.consciousness.engine import ConsciousnessEngine
-
     from consciousness.unified.auto_consciousness import AutoConsciousness
     from core.glyph.glyph_engine import GlyphEngine
     from emotion.service import EmotionService
     from memory.folds.memory_fold import MemoryFold
+    from qi.engines.consciousness.engine import ConsciousnessEngine
 except ImportError as e:
     print(f"Warning: Some LUKHAS modules not available: {e}")
 

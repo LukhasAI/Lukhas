@@ -6,8 +6,6 @@ End-to-end tests for the async orchestrator system.
 import asyncio
 
 import pytest
-from labs.core.orchestration.async_orchestrator import AsyncOrchestrator, CancellationToken
-
 from core.interfaces import CognitiveNodeBase
 from core.registry import register
 from labs.core.orchestration.async_orchestrator import AsyncOrchestrator, CancellationToken

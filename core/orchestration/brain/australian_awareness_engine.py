@@ -56,8 +56,9 @@ try:
         global_timestamp,
     )
 except Exception:  # pragma: no cover - fallback for import-time safety
-    from enum import Enum as _Enum
     from datetime import datetime as _dt, timezone as _tz
+    from enum import Enum as _Enum
+
     from pydantic import BaseModel as _BaseModel
 
     def global_timestamp() -> str:

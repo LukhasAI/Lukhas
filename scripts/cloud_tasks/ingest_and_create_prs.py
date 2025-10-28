@@ -27,12 +27,11 @@ Usage examples:
 
 import argparse
 import json
-import os
 import subprocess
 import sys
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
-from urllib.request import urlopen, Request
+from typing import Dict, List, Tuple
+from urllib.request import Request, urlopen
 
 
 def sh(cmd: List[str], check=True) -> subprocess.CompletedProcess:

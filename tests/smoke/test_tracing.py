@@ -10,9 +10,6 @@ import os
 
 from serve.main import app
 from starlette.testclient import TestClient
-
-from serve.main import app
-from starlette.testclient import TestClient
 from tests.smoke.fixtures import GOLDEN_AUTH_HEADERS
 
 AUTH_HEADERS = GOLDEN_AUTH_HEADERS

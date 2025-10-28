@@ -28,9 +28,6 @@ class LUKHASNeuralNetwork:
         """Initialize and connect all modules"""
         try:
             # Import module connectors
-            from emotion.neuroplastic_connector import EmotionConnector
-            from qi.neuroplastic_connector import QimConnector
-
             from bridge.neuroplastic_connector import BridgeConnector
             from consciousness.neuroplastic_connector import (
                 ConsciousnessConnector,
