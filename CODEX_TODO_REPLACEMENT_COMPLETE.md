@@ -2,9 +2,9 @@
 
 Date: 2025-10-28
 Task: Replace 78 TODOs with GitHub issue links
-Status: ✅ CHANGES COMMITTED LOCALLY
+Status: ✅ MERGED
 Branch: chore/replace-todos-with-issue-links
-PR: (pending)
+PR: #631 (merged)
 
 Results
 - ✅ 38 files updated
