@@ -4,9 +4,19 @@ from __future__ import annotations
 import hashlib
 import os
 from dataclasses import dataclass, field
+from datetime import datetime, timezone
 from typing import Iterable, Mapping, MutableMapping, Optional, Sequence
 
 from fastapi import Header, HTTPException, status
+
+try:
+    from core.interfaces.api.v1.v1.common.api_key_cache import (  # type: ignore
+        ApiKeyMetadata,
+        api_key_cache,
+    )
+except ModuleNotFoundError:  # pragma: no cover - offline fallback
+    ApiKeyMetadata = None  # type: ignore[assignment]
+    api_key_cache = None  # type: ignore[assignment]
 
 try:
     from core.policy_guard import PolicyGuard  # type: ignore
@@ -70,6 +80,7 @@ class TokenClaims:
     lane: str
     token_hash: str = field(repr=False)
     project_id: Optional[str] = None
+    subject: Optional[str] = None
 
     def has_scope(self, scope: str) -> bool:
         return scope in self.scopes
@@ -81,6 +92,42 @@ class TokenClaims:
 
 def _hash_token(token: str) -> str:
     return hashlib.sha256(token.encode("utf-8")).hexdigest()
+
+
+def _metadata_for_token(token: str) -> "ApiKeyMetadata":
+    if api_key_cache is None or ApiKeyMetadata is None:  # pragma: no cover - fallback safety
+        raise RuntimeError("API key cache unavailable; cannot verify tokens")
+
+    metadata = api_key_cache.lookup(token)
+    if metadata is None:
+        raise ValueError("unknown token")
+
+    if not metadata.is_active():
+        if getattr(metadata, "revoked", False):
+            raise PermissionError("token revoked")
+        expires_at = getattr(metadata, "expires_at", None)
+        if expires_at:
+            if isinstance(expires_at, datetime):
+                expires_at = expires_at.astimezone(timezone.utc)
+            raise PermissionError(f"token expired at {expires_at}")
+        raise PermissionError("token inactive")
+
+    return metadata
+
+
+def _string_attr(metadata: "ApiKeyMetadata", *keys: str) -> Optional[str]:
+    attributes = getattr(metadata, "attributes", {}) or {}
+    for key in keys:
+        value = attributes.get(key)
+        if value is None:
+            continue
+        if isinstance(value, str):
+            stripped = value.strip()
+            if stripped:
+                return stripped
+        else:
+            return str(value)
+    return None
 
 
 def _classify_token(token: str) -> tuple[str, str]:
@@ -145,6 +192,89 @@ def _risk_for(token_type: str, owner: str) -> float:
     return 0.15
 
 
+def _resolve_token_type(token: str, metadata: "ApiKeyMetadata") -> str:
+    hint = _string_attr(metadata, "token_type", "kind", "type", "category")
+    if hint:
+        return hint.lower()
+    token_type, _ = _classify_token(token)
+    return token_type if token_type != "unknown" else "pat"
+
+
+def _resolve_owner(token: str, metadata: "ApiKeyMetadata") -> str:
+    hint = _string_attr(metadata, "owner", "token_owner", "user", "user_id")
+    if hint:
+        return hint.lower()
+    _, owner = _classify_token(token)
+    if owner != "default":
+        return owner
+    fallback = getattr(metadata, "user_id", None)
+    if fallback:
+        return str(fallback).lower()
+    return "default"
+
+
+def _scopes_from_metadata(token_type: str, owner: str, metadata: "ApiKeyMetadata") -> tuple[str, ...]:
+    scopes = tuple(sorted(getattr(metadata, "scopes", ()) or ()))
+    if scopes:
+        return scopes
+
+    attr = getattr(metadata, "attributes", {}).get("scopes")
+    if isinstance(attr, (list, tuple, set)):
+        raw_scopes = {str(scope).strip() for scope in attr if str(scope).strip()}
+        if raw_scopes:
+            return tuple(sorted(raw_scopes))
+
+    return _scopes_for(token_type, owner)
+
+
+def _lane_from_metadata(token_type: str, owner: str, metadata: "ApiKeyMetadata") -> str:
+    lane_hint = _string_attr(metadata, "lane", "deployment_lane", "lane_hint")
+    if lane_hint:
+        return lane_hint.lower()
+
+    tier = getattr(metadata, "tier", None)
+    if tier is not None:
+        try:
+            tier_value = int(tier)
+        except (TypeError, ValueError):
+            tier_value = None
+        else:
+            if tier_value >= 3:
+                return "prod"
+            if tier_value == 2:
+                return "candidate"
+            if tier_value <= 1:
+                return "experimental"
+
+    return _lane_for(owner, token_type)
+
+
+def _org_from_metadata(owner: str, token_type: str, metadata: "ApiKeyMetadata") -> str:
+    org_hint = _string_attr(metadata, "org_id", "organization", "tenant", "org")
+    if org_hint:
+        return org_hint
+    return _derive_org(owner, token_type)
+
+
+def _risk_from_metadata(token_type: str, owner: str, metadata: "ApiKeyMetadata") -> float:
+    risk_hint = _string_attr(metadata, "risk", "risk_level", "risk_score")
+    if risk_hint:
+        try:
+            return float(risk_hint)
+        except ValueError:
+            pass
+    numeric_risk = getattr(metadata, "attributes", {}).get("risk_level")
+    if isinstance(numeric_risk, (int, float)):
+        return float(numeric_risk)
+    return _risk_for(token_type, owner)
+
+
+def _project_from_metadata(project_id: str | None, metadata: "ApiKeyMetadata") -> str | None:
+    if project_id:
+        return project_id
+    return _string_attr(metadata, "project_id", "default_project_id", "project")
+
+
 def verify_token_with_policy(
     token: str,
     *,
@@ -156,12 +286,16 @@ def verify_token_with_policy(
     if len(token) < 8:
         raise ValueError("token too short")
 
-    token_type, owner = _classify_token(token)
+    metadata = _metadata_for_token(token)
+    token_type = _resolve_token_type(token, metadata)
+    owner = _resolve_owner(token, metadata)
     if token_type == "unknown":
         raise ValueError("unsupported token format")
 
-    scopes = _scopes_for(token_type, owner)
-    lane = _lane_for(owner, token_type)
+    scopes = _scopes_from_metadata(token_type, owner, metadata)
+    lane = _lane_from_metadata(token_type, owner, metadata)
+    org_id = _org_from_metadata(owner, token_type, metadata)
+    resolved_project_id = _project_from_metadata(project_id, metadata)
     guard = PolicyGuard(lane=lane)
     guard.config.allowed_kinds.add("token_auth")
 
@@ -171,9 +305,11 @@ def verify_token_with_policy(
             "token_owner": owner,
             "token_type": token_type,
             "scopes": scopes,
-            "project_id": project_id,
+            "project_id": resolved_project_id,
+            "token_subject": getattr(metadata, "user_id", None),
+            "token_source": getattr(metadata, "attributes", {}).get("source"),
         },
-        risk_level=_risk_for(token_type, owner),
+        risk_level=_risk_from_metadata(token_type, owner, metadata),
         source_lane=lane if token_type == "service" else None,
     )
     if not decision.allow:
@@ -182,11 +318,12 @@ def verify_token_with_policy(
     claims = TokenClaims(
         token_type=token_type,
         owner=owner,
-        org_id=_derive_org(owner, token_type),
+        org_id=org_id,
         scopes=scopes,
         lane=lane,
         token_hash=_hash_token(token),
-        project_id=project_id,
+        project_id=resolved_project_id,
+        subject=getattr(metadata, "user_id", None),
     )
 
     if required_scopes:
