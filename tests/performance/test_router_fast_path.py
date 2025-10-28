@@ -147,7 +147,21 @@ class RouterFastPathLoadTest:
         normal_fast_rate = sum((1 for node in normal_results if node in fast_nodes)) / len(normal_results) * 100
         degraded_fast_rate = sum((1 for node in degraded_results if node in fast_nodes)) / len(degraded_results) * 100
         routing_adaptation = normal_fast_rate - degraded_fast_rate
-        results = {'test': 'adaptive_routing_degradation', 'normal_phase': {'fast_path_rate': round(normal_fast_rate, 1), 'node_distribution': self._count_node_usage(normal_results)}, 'degraded_phase': {'fast_path_rate': round(degraded_fast_rate, 1), 'node_distribution': self._count_node_usage(degraded_results)}, 'adaptation': {'routing_change_percent': round(routing_adaptation, 1), 'adaptive': routing_adaptation > 10.0}}
+        results = {
+            'test': 'adaptive_routing_degradation',
+            'normal_phase': {
+                'fast_path_rate': round(normal_fast_rate, 1),
+                'node_distribution': self._count_node_usage(normal_results)
+            },
+            'degraded_phase': {
+                'fast_path_rate': round(degraded_fast_rate, 1),
+                'node_distribution': self._count_node_usage(degraded_results)
+            },
+            'adaptation': {
+                'routing_change_percent': round(routing_adaptation, 1),
+                'adaptive': routing_adaptation > 10.0
+            }
+        }
         print('📊 Adaptive Routing Results:')
         print(f'   Normal Fast-Path: {normal_fast_rate:.1f}%')
         print(f'   Degraded Fast-Path: {degraded_fast_rate:.1f}%')
