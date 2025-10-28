@@ -46,7 +46,19 @@ def mk_msg_from_json(d: dict) -> MatrizMessage:
         glyph_data['version'] = '1.0.0'
     if 'tags' not in glyph_data:
         glyph_data['tags'] = {}
-    return MatrizMessage(msg_id=UUID(d['msg_id']) if 'msg_id' in d else uuid4(), ts=datetime.fromisoformat(d['ts']) if 'ts' in d else datetime.utcnow(), lane=d['lane'], topic=d['topic'], glyph=GLYPH(id=UUID(glyph_data['id']), kind=glyph_data['kind'], version=glyph_data['version'], tags=glyph_data['tags']), payload=d.get('payload', {}))
+    return MatrizMessage(
+        msg_id=UUID(d['msg_id']) if 'msg_id' in d else uuid4(),
+        ts=datetime.fromisoformat(d['ts']) if 'ts' in d else datetime.utcnow(),
+        lane=d['lane'],
+        topic=d['topic'],
+        glyph=GLYPH(
+            id=UUID(glyph_data['id']),
+            kind=glyph_data['kind'],
+            version=glyph_data['version'],
+            tags=glyph_data['tags']
+        ),
+        payload=d.get('payload', {})
+    )
 
 def mk_test_glyph(kind: str='intent', tags: dict=None, id_override: UUID | None=None) -> GLYPH:
     """Create a test GLYPH with stable defaults"""
