@@ -716,10 +716,11 @@ class Tiers:
         with time_hist(AUTH_LATENCY, tier="T2"):
             candidate_password = getattr(ctx, "password", None)
             stored_hash = getattr(ctx, "password_hash", None)
-            if stored_hash is None and hasattr(ctx, "credentials"):
-                stored_hash = ctx.credentials.get("password_hash")
-            if candidate_password is None and hasattr(ctx, "credentials"):
-                candidate_password = ctx.credentials.get("password")
+            credentials = getattr(ctx, "credentials", None)
+            if stored_hash is None and credentials is not None:
+                stored_hash = credentials.get("password_hash")
+            if candidate_password is None and credentials is not None:
+                candidate_password = credentials.get("password")
 
             if not stored_hash:
                 failure_reason = "missing_hash"
