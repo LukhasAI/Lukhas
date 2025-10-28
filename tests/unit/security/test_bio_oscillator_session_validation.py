@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
+import hashlib
 from pathlib import Path
 import importlib.machinery
 import importlib.util
@@ -76,10 +77,14 @@ def _load_modules():
     finally:
         logging.getLogger = original_get_logger
 
-    return oscillator_module.BioOscillator, token_module.SessionTokenStore
+    return (
+        oscillator_module.BioOscillator,
+        token_module.SessionTokenStore,
+        oscillator_module.SecurityContext,
+    )
 
 
-BioOscillator, SessionTokenStore = _load_modules()
+BioOscillator, SessionTokenStore, SecurityContext = _load_modules()
 
 
 @pytest.fixture
@@ -119,5 +124,27 @@ def test_verify_session_token_rejects_expired_token(tmp_path):
 
     try:
         assert not oscillator._verify_session_token("expiring-token")
+    finally:
+        BioOscillator.configure_session_token_store(None)
+
+
+@pytest.mark.asyncio
+async def test_verify_lukhas_id_registers_token_when_missing(tmp_path):
+    store = SessionTokenStore(state_dir=tmp_path)
+    BioOscillator.configure_session_token_store(store)
+    oscillator = BioOscillator()
+
+    security_context = SecurityContext(
+        lukhas_id="lambda-789",
+        access_level=3,
+        session_token="auto-registered-token",
+        verification_data={"session_metadata": {"source": "unit-test"}},
+    )
+
+    try:
+        assert await oscillator.verify_lukhas_id(security_context)
+        tokens = store.list_tokens()
+        token_hash = hashlib.sha256("auto-registered-token".encode("utf-8")).hexdigest()
+        assert token_hash in tokens
     finally:
         BioOscillator.configure_session_token_store(None)

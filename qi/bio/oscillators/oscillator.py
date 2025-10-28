@@ -253,6 +253,10 @@ class BioOscillator:
                 logger.error(f"Insufficient access level: {security_context.access_level}")
                 return False
 
+            # Ensure the session token is registered before validation
+            if not self._ensure_session_token_registered(security_context):
+                return False
+
             # Verify session token
             if not self._verify_session_token(security_context.session_token):
                 return False
@@ -285,6 +289,170 @@ class BioOscillator:
         except Exception as e:
             logger.error(f"Token verification failed: {e!s}")
             return False
+
+    def _ensure_session_token_registered(self, security_context: SecurityContext) -> bool:
+        """Register the provided session token when it is not yet known to the store."""
+
+        token = security_context.session_token
+        if not token:
+            logger.error("Missing session token in security context")
+            return False
+
+        try:
+            store = self._get_session_token_store()
+        except Exception as exc:  # pragma: no cover - defensive
+            logger.error(f"Unable to access session token store: {exc!s}")
+            return False
+
+        token_hash = hashlib.sha256(token.encode("utf-8")).hexdigest()
+
+        try:
+            existing_tokens = store.list_tokens()
+        except Exception as exc:  # pragma: no cover - defensive
+            logger.error(f"Unable to inspect session token store: {exc!s}")
+            return False
+
+        entry = existing_tokens.get(token_hash)
+        if entry is not None:
+            if entry.expires_at:
+                expires_at = self._parse_iso_datetime(entry.expires_at)
+                if expires_at and expires_at <= datetime.now(timezone.utc):
+                    logger.warning(
+                        "Session token expired at %s; revoking before re-validation",
+                        entry.expires_at,
+                    )
+                    store.revoke_token(token)
+                    return False
+
+            return True
+
+        metadata = self._build_session_token_metadata(security_context)
+        ttl_seconds = self._extract_session_token_ttl(security_context.verification_data)
+
+        try:
+            store.register_token(token, metadata=metadata, ttl_seconds=ttl_seconds)
+            logger.info(
+                "Registered session token for %s with access level %s",
+                security_context.lukhas_id,
+                security_context.access_level,
+            )
+            return True
+        except Exception as exc:
+            logger.error(f"Failed to register session token: {exc!s}")
+            return False
+
+    def _build_session_token_metadata(self, security_context: SecurityContext) -> dict[str, Any]:
+        """Assemble metadata persisted alongside the session token."""
+
+        metadata: dict[str, Any] = {
+            "lukhas_id": security_context.lukhas_id,
+            "access_level": security_context.access_level,
+        }
+
+        verification_data = security_context.verification_data or {}
+        additional = verification_data.get("session_metadata")
+        if isinstance(additional, dict):
+            for key, value in additional.items():
+                if isinstance(key, str) and self._is_simple_metadata_value(value):
+                    metadata[key] = value
+
+        for key in ("session_origin", "origin", "issued_at"):
+            value = verification_data.get(key)
+            if self._is_simple_metadata_value(value):
+                metadata[key] = value
+
+        return metadata
+
+    def _extract_session_token_ttl(self, verification_data: dict[str, Any]) -> Optional[int]:
+        """Derive a TTL from verification payloads when available."""
+
+        if not verification_data:
+            return None
+
+        ttl_keys = (
+            "session_token_ttl",
+            "session_token_ttl_seconds",
+            "session_ttl_seconds",
+            "token_ttl_seconds",
+            "ttl_seconds",
+            "expires_in",
+        )
+
+        for key in ttl_keys:
+            raw_value = verification_data.get(key)
+            ttl = self._coerce_positive_int(raw_value)
+            if ttl is not None:
+                return ttl
+
+        expiry_keys = (
+            "session_expires_at",
+            "session_token_expires_at",
+            "expires_at",
+            "expiration",
+            "expiry",
+        )
+
+        for key in expiry_keys:
+            raw_value = verification_data.get(key)
+            if isinstance(raw_value, str):
+                expires_at = self._parse_iso_datetime(raw_value)
+                if expires_at is None:
+                    continue
+
+                ttl_seconds = int((expires_at - datetime.now(timezone.utc)).total_seconds())
+                if ttl_seconds > 0:
+                    return ttl_seconds
+
+        return None
+
+    def _parse_iso_datetime(self, value: str) -> Optional[datetime]:
+        """Parse ISO-8601 timestamps that may end with `Z`."""
+
+        if not value:
+            return None
+
+        normalized = value.strip()
+        if normalized.endswith("Z"):
+            normalized = normalized[:-1] + "+00:00"
+
+        try:
+            parsed = datetime.fromisoformat(normalized)
+        except ValueError:
+            logger.debug("Unable to parse ISO datetime: %s", value)
+            return None
+
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=timezone.utc)
+
+        return parsed.astimezone(timezone.utc)
+
+    @staticmethod
+    def _coerce_positive_int(value: Any) -> Optional[int]:
+        """Convert raw TTL representations to a positive integer when possible."""
+
+        if isinstance(value, bool) or value is None:
+            return None
+
+        if isinstance(value, (int, float)):
+            if value > 0:
+                return int(value)
+            return None
+
+        if isinstance(value, str):
+            try:
+                numeric = float(value)
+            except ValueError:
+                return None
+            if numeric > 0:
+                return int(numeric)
+
+        return None
+
+    @staticmethod
+    def _is_simple_metadata_value(value: Any) -> bool:
+        """Return True when the value can be safely persisted as JSON."""
+
+        return isinstance(value, (str, int, float, bool)) or value is None
 
     def _generate_access_token(self) -> str:
         """Generate secure access token"""
