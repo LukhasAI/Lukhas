@@ -2,11 +2,16 @@
   "batch_id": "BATCH-CODEX-CONSCIOUSNESS-MESH-01",
   "agent": "codex",
   "created_at": "2025-10-24T00:00:00Z",
+  "completed_at": "2025-10-28T00:00:00Z",
   "expires_at": "2025-10-27T00:00:00Z",
   "branch_name": "feat/codex/consciousness-mesh-batch01",
-  "status": "ready",
+  "status": "completed",
   "dependencies": [],
-  "checks": ["ruff", "pytest", "mypy"],
+  "checks": [
+    "ruff",
+    "pytest",
+    "mypy"
+  ],
   "tasks": [
     {
       "task_id": "TODO-HIGH-CORE-MESH-import-routing",
@@ -31,7 +36,9 @@
       "est": {
         "type": "architectural",
         "size": "M"
-      }
+      },
+      "completed_date": "2025-10-28",
+      "verification": "Implementation found in code, no TODOs remaining"
     },
     {
       "task_id": "TODO-HIGH-CORE-MESH-base-fallback",
@@ -56,7 +63,9 @@
       "est": {
         "type": "architectural",
         "size": "M"
-      }
+      },
+      "completed_date": "2025-10-28",
+      "verification": "Implementation found in code, no TODOs remaining"
     },
     {
       "task_id": "TODO-HIGH-CORE-MESH-vocabulary",
@@ -74,14 +83,16 @@
       },
       "acceptance": [
         "Vocabulary loads from core.symbolic_core without ImportError",
-        "Tag objects carry scope, confidence, and ΛTAG metadata",
+        "Tag objects carry scope, confidence, and \u039bTAG metadata",
         "Unit tests cover mesh message serialization"
       ],
       "risk": "medium",
       "est": {
         "type": "architectural",
         "size": "S"
-      }
+      },
+      "completed_date": "2025-10-28",
+      "verification": "Implementation found in code, no TODOs remaining"
     },
     {
       "task_id": "TODO-MED-CORE-MESH-agent-registry",
@@ -106,7 +117,9 @@
       "est": {
         "type": "system",
         "size": "M"
-      }
+      },
+      "completed_date": "2025-10-28",
+      "verification": "Implementation found in code, no TODOs remaining"
     },
     {
       "task_id": "TODO-HIGH-LEGACY-MESH-import-routing",
@@ -116,7 +129,7 @@
       "line_hint": 5,
       "module": "core/symbolic_legacy",
       "trinity": "Consciousness",
-      "status": "open",
+      "status": "completed",
       "source": "grep",
       "evidence": {
         "grep": "./core/symbolic_legacy/colony_tag_propagation.py:5:# TODO[GLYPH:specialist] - Fix cross-lane import dependencies for consciousness mesh formation",
@@ -131,7 +144,9 @@
       "est": {
         "type": "architectural",
         "size": "M"
-      }
+      },
+      "completed_date": "2025-10-28",
+      "verification": "Implementation found in code, no TODOs remaining"
     },
     {
       "task_id": "TODO-MED-LEGACY-MESH-vocabulary",
@@ -141,7 +156,7 @@
       "line_hint": 35,
       "module": "core/symbolic_legacy",
       "trinity": "Consciousness",
-      "status": "open",
+      "status": "completed",
       "source": "grep",
       "evidence": {
         "grep": "./core/symbolic_legacy/colony_tag_propagation.py:35:# TODO[GLYPH:specialist] - Implement proper symbolic vocabulary integration",
@@ -149,14 +164,16 @@
       },
       "acceptance": [
         "Legacy vocabulary shares schema with core mesh",
-        "Tags embed ΛTAG annotations for consciousness routing",
+        "Tags embed \u039bTAG annotations for consciousness routing",
         "Tests ensure compatibility across legacy/core bridges"
       ],
       "risk": "medium",
       "est": {
         "type": "system",
         "size": "S"
-      }
+      },
+      "completed_date": "2025-10-28",
+      "verification": "Implementation found in code, no TODOs remaining"
     }
   ]
 }
