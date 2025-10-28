@@ -13,26 +13,25 @@ Usage:
 This script only reports. It does not change files.
 """
 
-import os
 import subprocess
 from pathlib import Path
 
-REPO_ROOT = Path('.').resolve()
+REPO_ROOT = Path(".").resolve()
 FILES = [
-    'AUTONOMOUS_GUIDE_CANDIDATE_CLEANUP.md',
-    'AUTONOMOUS_GUIDE_MATRIZ_COMPLETION.md',
-    'AUTONOMOUS_GUIDE_TODO_CLEANUP.md',
-    'AUTONOMOUS_GUIDE_IMPORT_ORGANIZATION.md',
-    'README_AUTONOMOUS_GUIDES.md',
-    'AGENTS.md',
+    "AUTONOMOUS_GUIDE_CANDIDATE_CLEANUP.md",
+    "AUTONOMOUS_GUIDE_MATRIZ_COMPLETION.md",
+    "AUTONOMOUS_GUIDE_TODO_CLEANUP.md",
+    "AUTONOMOUS_GUIDE_IMPORT_ORGANIZATION.md",
+    "README_AUTONOMOUS_GUIDES.md",
+    "AGENTS.md",
 ]
 WORKFLOWS = [
-    '.github/workflows/migration-dryrun.yml',
-    '.github/workflows/todo-dryrun.yml',
+    ".github/workflows/migration-dryrun.yml",
+    ".github/workflows/todo-dryrun.yml",
 ]
 EXPECTED_MARKERS = [
-    'Agent Responsibility Matrix',
-    'Last updated: 2025-10-28',
+    "Agent Responsibility Matrix",
+    "Last updated: 2025-10-28",
 ]
 
 
@@ -45,45 +44,52 @@ def run(cmd, cwd=REPO_ROOT):
 
 
 def check_file(path: Path):
-    result = {'path': str(path), 'exists': False, 'size': 0, 'markers': {}, 'head': None, 'git_log': None}
+    result = {
+        "path": str(path),
+        "exists": False,
+        "size": 0,
+        "markers": {},
+        "head": None,
+        "git_log": None,
+    }
     if path.exists():
-        result['exists'] = True
-        content = path.read_text(encoding='utf-8', errors='ignore')
-        result['size'] = len(content)
+        result["exists"] = True
+        content = path.read_text(encoding="utf-8", errors="ignore")
+        result["size"] = len(content)
         lines = content.splitlines()
-        result['head'] = '\n'.join(lines[:20]) if lines else ''
+        result["head"] = "\n".join(lines[:20]) if lines else ""
         for m in EXPECTED_MARKERS:
-            result['markers'][m] = (m in content)
+            result["markers"][m] = m in content
         git_cmd = f"git log -n 3 --pretty=format:'%h %ad %an - %s' -- {path}"
-        result['git_log'] = run(git_cmd)
+        result["git_log"] = run(git_cmd)
     return result
 
 
 def main():
-    print('\n=== AUTONOMOUS GUIDES PATCH STATUS CHECK ===\n')
-    print(f'Repo root: {REPO_ROOT}')
+    print("\n=== AUTONOMOUS GUIDES PATCH STATUS CHECK ===\n")
+    print(f"Repo root: {REPO_ROOT}")
 
     # git status
-    print('\n-- Git status summary (porcelain) --')
-    gs = run('git status --porcelain')
-    print(gs if gs else '(clean working tree)')
+    print("\n-- Git status summary (porcelain) --")
+    gs = run("git status --porcelain")
+    print(gs if gs else "(clean working tree)")
 
     all_ok = True
-    print('\n-- Files check --')
+    print("\n-- Files check --")
     for f in FILES:
         p = REPO_ROOT / f
         r = check_file(p)
         print(f"\nFile: {r['path']}")
         print(f"  Exists: {r['exists']}, Size: {r['size']}")
-        for m, v in r['markers'].items():
+        for m, v in r["markers"].items():
             print(f"  Marker '{m}': {'FOUND' if v else 'MISSING'}")
             if not v:
                 all_ok = False
-        if r['git_log']:
-            print('  Last commits:')
-            print('\n'.join('    ' + l for l in r['git_log'].splitlines()))
+        if r["git_log"]:
+            print("  Last commits:")
+            print("\n".join("    " + l for l in r["git_log"].splitlines()))
 
-    print('\n-- Workflows check --')
+    print("\n-- Workflows check --")
     for w in WORKFLOWS:
         p = REPO_ROOT / w
         exists = p.exists()
@@ -91,19 +97,22 @@ def main():
         if not exists:
             all_ok = False
 
-    print('\n-- Additional quick scans --')
+    print("\n-- Additional quick scans --")
     grep_cmd = "rg --hidden --no-ignore -n 'Agent Responsibility Matrix' || true"
     grep_out = run(grep_cmd)
-    print('\nFound Agent Responsibility Matrix occurrences:')
-    print(grep_out if grep_out else '(none)')
+    print("\nFound Agent Responsibility Matrix occurrences:")
+    print(grep_out if grep_out else "(none)")
 
-    print('\nSummary:')
+    print("\nSummary:")
     if all_ok:
-        print('  All expected files and markers appear present.')
+        print("  All expected files and markers appear present.")
     else:
-        print('  Some files or markers are missing — inspect output above.')
+        print("  Some files or markers are missing — inspect output above.")
 
-    print('\nIf anything looks missing, open the file or run `git log -p <file>` to inspect changes.')
+    print(
+        "\nIf anything looks missing, open the file or run `git log -p <file>` to inspect changes."
+    )
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

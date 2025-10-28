@@ -23,10 +23,11 @@ Safety features:
 - Detailed change report
 """
 
+import argparse
 import ast
+import json
 import os
 import sys
-import argparse
 from pathlib import Path
 from typing import List, Tuple
 
@@ -121,6 +122,14 @@ def find_python_files(root_path: Path, exclude_patterns: List[str]) -> List[Path
     """Find all Python files, excluding specified patterns."""
     python_files = []
 
+    # Handle single file case
+    if root_path.is_file():
+        if root_path.suffix == '.py':
+            if not any(excl in str(root_path) for excl in exclude_patterns):
+                python_files.append(root_path)
+        return python_files
+
+    # Handle directory case
     for dirpath, dirnames, filenames in os.walk(root_path):
         # Skip excluded directories
         dirnames[:] = [d for d in dirnames if not any(excl in str(Path(dirpath) / d) for excl in exclude_patterns)]
@@ -263,6 +272,30 @@ Examples:
         print(f"  2. Verify imports: python3 -c 'import MATRIZ; print(\"OK\")'")
         print(f"  3. Review changes: git diff")
         print(f"  4. Commit: git add -A && git commit -m 'fix(imports): matriz → MATRIZ'")
+
+    # Generate manifest artifact
+    if changed_files or args.dry_run:
+        artifacts_dir = Path("artifacts")
+        artifacts_dir.mkdir(exist_ok=True)
+        
+        manifest = {
+            "timestamp": __import__("datetime").datetime.now().isoformat(),
+            "mode": "dry-run" if args.dry_run else "live",
+            "old_module": OLD_MODULE,
+            "new_module": NEW_MODULE,
+            "root_path": str(root_path),
+            "files_scanned": len(python_files),
+            "files_changed": [str(f) for f in changed_files],
+            "total_changes": total_changes,
+            "files_skipped": len(skipped_files),
+            "files_with_errors": len(error_files),
+        }
+        
+        manifest_path = artifacts_dir / "matriz_manifest.json"
+        manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+        
+        if args.verbose:
+            print(f"\n📄 Manifest written to: {manifest_path}")
 
     return 0 if not error_files else 1
 
