@@ -53,6 +53,7 @@ async def test_ensure_oauth_token_without_library(monkeypatch, manager):
 
     assert token == "cached-token"
     assert manager.oauth_tokens["linkedin"]["access_token"] == "cached-token"
+    assert "validated_at" in manager.oauth_tokens["linkedin"]
 
 
 @pytest.mark.asyncio
@@ -102,3 +103,37 @@ async def test_refresh_oauth_token(monkeypatch, manager):
     assert captured["request"]["token_url"] == "https://www.linkedin.com/oauth/v2/accessToken"
     assert captured["request"]["kwargs"]["client_id"] == "client-id"
     assert captured["request"]["kwargs"]["client_secret"] == "client-secret"
+
+
+@pytest.mark.asyncio
+async def test_refresh_triggered_when_expiry_missing(monkeypatch, manager):
+    manager.credentials["linkedin"] = APICredentials(
+        platform="linkedin",
+        api_key="",
+        api_secret="",
+        client_id="client-id",
+        client_secret="client-secret",
+        access_token="stale-token",
+        refresh_token="refresh-token",
+    )
+    manager.oauth_tokens["linkedin"] = {"access_token": "stale-token", "expires_at": None}
+
+    call_count = {"count": 0}
+
+    async def fake_refresh(self, platform, creds):
+        call_count["count"] += 1
+        expires_at = datetime.now(timezone.utc) + timedelta(hours=1)
+        self.oauth_tokens[platform] = {
+            "access_token": "fresh-token",
+            "expires_at": expires_at,
+        }
+        return "fresh-token"
+
+    monkeypatch.setattr(PlatformAPIManager, "_refresh_access_token", fake_refresh, raising=False)
+
+    first = await manager._ensure_oauth_token("linkedin")
+    second = await manager._ensure_oauth_token("linkedin")
+
+    assert first == "fresh-token"
+    assert second == "fresh-token"
+    assert call_count["count"] == 1

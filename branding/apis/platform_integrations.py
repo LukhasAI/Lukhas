@@ -318,14 +318,49 @@ class PlatformAPIManager:
 
         if token_state:
             expires_at = token_state.get("expires_at")
-            if not expires_at or expires_at - now > self.oauth_refresh_margin:
+            if expires_at:
+                if expires_at - now > self.oauth_refresh_margin:
+                    return token_state["access_token"]
+            else:
+                validated_at: Optional[datetime] = token_state.get("validated_at")
+                if validated_at and now - validated_at < self.oauth_refresh_margin:
+                    return token_state["access_token"]
+
+                refreshed = await self._refresh_access_token(platform, creds)
+                if refreshed:
+                    return refreshed
+
+                token_state["validated_at"] = now
+                self.oauth_tokens[platform] = token_state
                 return token_state["access_token"]
 
         if creds.access_token and not token_state:
-            self.oauth_tokens[platform] = {"access_token": creds.access_token, "expires_at": None}
+            refreshed = await self._refresh_access_token(platform, creds)
+            if refreshed:
+                if platform not in self.oauth_tokens:
+                    self.oauth_tokens[platform] = {
+                        "access_token": refreshed,
+                        "expires_at": None,
+                        "validated_at": now,
+                    }
+                return refreshed
+
+            self.oauth_tokens[platform] = {
+                "access_token": creds.access_token,
+                "expires_at": None,
+                "validated_at": now,
+            }
             return creds.access_token
 
-        return await self._refresh_access_token(platform, creds)
+        token = await self._refresh_access_token(platform, creds)
+        if token and platform not in self.oauth_tokens:
+            self.oauth_tokens[platform] = {
+                "access_token": token,
+                "expires_at": None,
+                "validated_at": now,
+            }
+
+        return token
 
     async def _refresh_access_token(self, platform: str, creds: APICredentials) -> Optional[str]:
         """Refresh the OAuth access token for the given platform."""
