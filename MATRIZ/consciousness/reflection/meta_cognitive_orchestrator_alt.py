@@ -1,7 +1,16 @@
 import logging
+import asyncio
+import copy
+import hashlib
+import re
+import sys
+import uuid
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from enum import Enum
+from typing import Any, Optional
+import numpy as np
 
-#!/usr/bin/env python3
-# DEPRECATED: Functionality consolidated into unified_orchestrator.py
 """
 
 #TAG:consciousness
@@ -44,18 +53,8 @@ Original Location: brain/legacy/enhanced_bot_primary.py
 Commercial Integration: 2025-01-27 (QC Session)
 Priority: CRITICAL - Enterprise platform enhancement
 """
-import asyncio
-import copy
-import hashlib
-import re
-import sys
-import uuid
-from dataclasses import dataclass, field
-from datetime import datetime, timezone
-from enum import Enum
-from typing import Any, Optional
 
-import numpy as np
+
 
 # Configure logging for AI operations
 logging.basicConfig(

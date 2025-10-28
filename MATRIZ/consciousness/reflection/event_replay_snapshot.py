@@ -1,8 +1,22 @@
 from __future__ import annotations
-
 import logging
+import asyncio
+import contextlib
+import gzip
+import hashlib
+import json
+import pickle
+import threading
+import time
+from collections import defaultdict, deque
+from dataclasses import dataclass
+from enum import Enum
+from pathlib import Path
+from typing import Any, Callable, Optional
+import aiofiles
+from core.common import get_logger
+from .actor_system import Actor, ActorMessage, ActorSystem
 
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -18,25 +32,10 @@ This module implements event sourcing with replay capabilities and state
 snapshotting for efficient recovery and debugging of the actor system.
 """
 
-import asyncio
-import contextlib
-import gzip
-import hashlib
-import json
-import pickle
-import threading
-import time
-from collections import defaultdict, deque
-from dataclasses import dataclass
-from enum import Enum
-from pathlib import Path
-from typing import Any, Callable, Optional
 
-import aiofiles
 
-from core.common import get_logger
 
-from .actor_system import Actor, ActorMessage, ActorSystem
+
 
 logger = get_logger(__name__)
 

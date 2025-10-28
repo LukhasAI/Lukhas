@@ -1,7 +1,16 @@
-#!/usr/bin/env python3
 import logging
+import asyncio
+import uuid
+from collections import defaultdict
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from enum import Enum
+from typing import Any
+from core.common import GLYPHToken, get_logger
+from core.common.exceptions import LukhasError
+from core.interfaces import CoreInterface
+from core.interfaces.dependency_injection import register_service
 
-logger = logging.getLogger(__name__)
 """
 Reality Synthesis Engine
 ========================
@@ -16,18 +25,8 @@ Features:
 - Integration with LUKHAS Constellation Framework
 """
 
-import asyncio
-import uuid
-from collections import defaultdict
-from dataclasses import dataclass, field
-from datetime import datetime, timezone
-from enum import Enum
-from typing import Any
 
-from core.common import GLYPHToken, get_logger
-from core.common.exceptions import LukhasError
-from core.interfaces import CoreInterface
-from core.interfaces.dependency_injection import register_service
+
 
 logger = get_logger(__name__)
 

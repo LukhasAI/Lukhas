@@ -1,4 +1,13 @@
 from __future__ import annotations
+import asyncio
+import logging
+import time
+from abc import ABC, abstractmethod
+from collections import deque
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from enum import Enum
+from typing import Any, Optional
 
 """
 
@@ -50,15 +59,7 @@ Dream → Memory → Reflection → Directive → Action → Drift → Evolution
 ΛTODO: Add colony discovery mechanisms for distributed deployments
 AIDEA: Implement colony consciousness evolution tracking
 """
-import asyncio
-import logging
-import time
-from abc import ABC, abstractmethod
-from collections import deque
-from dataclasses import dataclass, field
-from datetime import datetime, timezone
-from enum import Enum
-from typing import Any, Optional
+
 
 # Import colony infrastructure
 try:

@@ -1,10 +1,28 @@
 from __future__ import annotations
 
-#!/usr/bin/env python3
+import asyncio
+import json
 import logging
+from dataclasses import (
+    asdict,  # ΛTRACE_CHANGE: Added field and asdict
+    dataclass,
+    field,
+)
+from datetime import datetime, timedelta, timezone  # ΛTRACE_CHANGE: Added timezone
+from pathlib import Path
+from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
+import numpy as np  # ΛTRACE_ADD: For neuroplasticity calculations
+from bio.qi_layer import QIBioOscillator
+from bio.systems.orchestration.bio_orchestrator import BioOrchestrator
+from dream.core import DreamPhase
+from qi.processing_core import QIProcessingCore
 
+from consciousness.awareness.awareness_engine import AwarenessEngine
+from core.unified.integration import UnifiedIntegration
+from ethics.engine import EthicalFramework, EthicalRiskLevel, QIEthics
+
+#!/usr/bin/env python3
 """
 
 #TAG:consciousness
@@ -39,27 +57,7 @@ __module_name__ = "Quantum Awareness System"
 __version__ = "2.0.0"
 __tier__ = 2
 
-
-import asyncio
-import json
-from dataclasses import (
-    asdict,  # ΛTRACE_CHANGE: Added field and asdict
-    dataclass,
-    field,
-)
-from datetime import datetime, timedelta, timezone  # ΛTRACE_CHANGE: Added timezone
-from pathlib import Path
-from typing import Any, Optional
-
-import numpy as np  # ΛTRACE_ADD: For neuroplasticity calculations
-from bio.qi_layer import QIBioOscillator
-from bio.systems.orchestration.bio_orchestrator import BioOrchestrator
-from dream.core import DreamPhase
-from qi.processing_core import QIProcessingCore
-
-from consciousness.awareness.awareness_engine import AwarenessEngine
-from core.unified.integration import UnifiedIntegration
-from ethics.engine import EthicalFramework, EthicalRiskLevel, QIEthics
+logger = logging.getLogger(__name__)
 
 
 @dataclass

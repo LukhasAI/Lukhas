@@ -1,7 +1,20 @@
 import logging
 from datetime import timezone
+import asyncio
+import contextlib
+import hashlib
+import json
+import math
+import statistics
+import time
+from collections import Counter, defaultdict, deque
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
+from enum import Enum, auto
+from pathlib import Path
+from typing import Any, Callable, Optional
+from core.common import get_logger
 
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -37,21 +50,8 @@ logger = logging.getLogger(__name__)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import asyncio
-import contextlib
-import hashlib
-import json
-import math
-import statistics
-import time
-from collections import Counter, defaultdict, deque
-from dataclasses import dataclass, field
-from datetime import datetime, timedelta
-from enum import Enum, auto
-from pathlib import Path
-from typing import Any, Callable, Optional
 
-from core.common import get_logger
+
 
 # Rich terminal output
 try:

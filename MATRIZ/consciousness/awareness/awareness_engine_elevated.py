@@ -1,5 +1,17 @@
 from __future__ import annotations
 
+import asyncio
+import json
+import logging
+import uuid
+from abc import ABC, abstractmethod
+from dataclasses import dataclass
+from datetime import datetime, timezone
+from enum import Enum
+from typing import Any, Optional, Protocol
+
+from pydantic import BaseModel, Field
+
 """
 
 #TAG:consciousness
@@ -24,17 +36,6 @@ Author: Lukhas AI Research Team
 Version: 2.0.0 - Elevated Edition
 Date: June 2025
 """
-import asyncio
-import json
-import logging
-import uuid
-from abc import ABC, abstractmethod
-from dataclasses import dataclass
-from datetime import datetime, timezone
-from enum import Enum
-from typing import Any, Optional, Protocol
-
-from pydantic import BaseModel, Field
 
 # ——— Configuration & Utilities —————————————————————————————— #
 

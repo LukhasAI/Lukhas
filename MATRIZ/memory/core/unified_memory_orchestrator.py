@@ -1,7 +1,16 @@
-#!/usr/bin/env python3
 import logging
+import asyncio
+import contextlib
+import hashlib
+import json
+from collections import defaultdict, deque
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from enum import Enum
+from typing import Any, Optional, Union
+import numpy as np
+from core.common import get_logger
 
-logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - UNIFIED MEMORY ORCHESTRATOR
@@ -17,20 +26,10 @@ logger = logging.getLogger(__name__)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import asyncio
-import contextlib
-import hashlib
-import json
-from collections import defaultdict, deque
-from dataclasses import dataclass, field
-from datetime import datetime, timezone
-from enum import Enum
-from typing import Any, Optional, Union
 
-import numpy as np
+
 
 # Import logging
-from core.common import get_logger
 
 logger = get_logger(__name__)
 

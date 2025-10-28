@@ -1,9 +1,19 @@
 from __future__ import annotations
-
-#!/usr/bin/env python3
 import logging
+import asyncio
+import random
+import uuid
+from collections import defaultdict
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from enum import Enum
+from typing import Any, Optional
+from core.common import GLYPHSymbol, GLYPHToken, get_logger
+from core.common.exceptions import LukhasError, ValidationError
+from core.interfaces import CoreInterface
+from core.interfaces.dependency_injection import get_service, register_service
+from .parallel_reality_safety import (
 
-logger = logging.getLogger(__name__)
 """
 Parallel Reality Simulator for Dream Engine
 ==========================================
@@ -18,21 +28,9 @@ Features:
 - Memory integration for reality experiences
 """
 
-import asyncio
-import random
-import uuid
-from collections import defaultdict
-from dataclasses import dataclass, field
-from datetime import datetime, timezone
-from enum import Enum
-from typing import Any, Optional
 
-from core.common import GLYPHSymbol, GLYPHToken, get_logger
-from core.common.exceptions import LukhasError, ValidationError
-from core.interfaces import CoreInterface
-from core.interfaces.dependency_injection import get_service, register_service
 
-from .parallel_reality_safety import (
+
     DriftMetrics,
     ParallelRealitySafetyFramework,
     SafetyLevel,

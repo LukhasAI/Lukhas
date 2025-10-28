@@ -1,20 +1,7 @@
-import logging
-
-logger = logging.getLogger(__name__)
-"""
-
-#TAG:consciousness
-#TAG:reflection
-#TAG:neuroplastic
-#TAG:colony
-
-
-Consolidated module for better performance
-"""
-
 import asyncio
 import hashlib
 import json
+import logging
 import math
 import random
 import string
@@ -47,6 +34,19 @@ from hybrid_memory_fold import (
 from memory_fold_system import MemoryFoldSystem, MemoryItem
 from optimized_hybrid_memory_fold import OptimizedHybridMemoryFold
 from optimized_memory_item import OptimizedMemoryItem, create_optimized_memory
+
+"""
+
+#TAG:consciousness
+#TAG:reflection
+#TAG:neuroplastic
+#TAG:colony
+
+
+Consolidated module for better performance
+"""
+
+logger = logging.getLogger(__name__)
 
 
 def create_hybrid_memory_fold(

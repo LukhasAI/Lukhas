@@ -1,5 +1,16 @@
+import asyncio
+import hashlib
+import json
 import logging
-from datetime import timezone
+import os
+from abc import ABC, abstractmethod
+from collections import deque
+from dataclasses import asdict, dataclass, field
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any, Optional
+
+import numpy as np
 
 # ═══════════════════════════════════════════════════════════════════════════
 # FILENAME: engine_complete.py
@@ -29,18 +40,6 @@ Features:
 Performance Target: <250ms context handoff times
 Compliance: Drift threshold 0.15, ethics enforcement enabled
 """
-import asyncio
-import hashlib
-import json
-import os
-from abc import ABC, abstractmethod
-from collections import deque
-from dataclasses import asdict, dataclass, field
-from datetime import datetime
-from pathlib import Path
-from typing import Any, Optional
-
-import numpy as np
 
 # Initialize logger
 logger = logging.getLogger("ΛTRACE.consciousness.core_consciousness.cognitive_consciousness_engine_complete")

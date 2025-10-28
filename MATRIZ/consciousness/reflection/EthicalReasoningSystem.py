@@ -1,7 +1,16 @@
 import logging
 from datetime import timezone
+import asyncio
+import json
+import time
+import uuid
+from collections import defaultdict, deque
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
+from enum import Enum, auto
+from typing import Any, Optional
+import numpy as np
 
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -34,17 +43,8 @@ ETHICAL ARCHITECTURE:
 - Real-time moral monitoring and ethical drift detection
 """
 
-import asyncio
-import json
-import time
-import uuid
-from collections import defaultdict, deque
-from dataclasses import dataclass, field
-from datetime import datetime, timedelta
-from enum import Enum, auto
-from typing import Any, Optional
 
-import numpy as np
+
 
 # Ethical reasoning libraries
 

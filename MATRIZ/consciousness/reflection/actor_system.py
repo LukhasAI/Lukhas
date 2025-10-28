@@ -1,6 +1,16 @@
 import logging
+import asyncio
+import json
+import logging
+import threading
+import time
+import uuid
+from abc import ABC
+from dataclasses import asdict, dataclass
+from enum import Enum
+from typing import Any, Callable, Optional, Union
+from core.common import get_logger
 
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -26,18 +36,8 @@ logger = logging.getLogger(__name__)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import asyncio
-import json
-import logging
-import threading
-import time
-import uuid
-from abc import ABC
-from dataclasses import asdict, dataclass
-from enum import Enum
-from typing import Any, Callable, Optional, Union
 
-from core.common import get_logger
+
 
 try:  # Optional dependency for distributed comms; keep import-safe during tests
     from .p2p_communication import P2PNode  # type: ignore

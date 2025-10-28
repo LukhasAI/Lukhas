@@ -1,8 +1,18 @@
 from __future__ import annotations
-
 import logging
+import asyncio
+import contextlib
+import hashlib
+import json
+import threading
+import time
+from collections import defaultdict, deque
+from dataclasses import dataclass, field
+from enum import Enum
+from typing import Any, Callable, Optional
+import numpy as np
+from core.common import get_logger
 
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -19,20 +29,9 @@ prevention mechanisms to protect the distributed actor system from propagating e
 and system-wide collapse.
 """
 
-import asyncio
-import contextlib
-import hashlib
-import json
-import threading
-import time
-from collections import defaultdict, deque
-from dataclasses import dataclass, field
-from enum import Enum
-from typing import Any, Callable, Optional
 
-import numpy as np
 
-from core.common import get_logger
+
 
 try:
     from .actor_system import ActorRef

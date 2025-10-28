@@ -1,9 +1,19 @@
 from __future__ import annotations
-
 import logging
 from datetime import timezone
+import hashlib
+import json
+import threading
+import time
+import uuid
+from dataclasses import asdict, dataclass, field
+from datetime import datetime
+from enum import Enum
+from typing import Any, Optional
+from core.cluster_sharding import ShardManager
+from core.common import get_logger
+from core.event_sourcing import Event, EventStore, get_global_event_store
 
-#!/usr/bin/env python3
 """
 
 #TAG:consciousness
@@ -52,19 +62,8 @@ from datetime import timezone
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
-import hashlib
-import json
-import threading
-import time
-import uuid
-from dataclasses import asdict, dataclass, field
-from datetime import datetime
-from enum import Enum
-from typing import Any, Optional
 
-from core.cluster_sharding import ShardManager
-from core.common import get_logger
-from core.event_sourcing import Event, EventStore, get_global_event_store
+
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)

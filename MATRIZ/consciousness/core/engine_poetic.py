@@ -1,4 +1,14 @@
 import logging
+import asyncio
+from collections import deque
+from dataclasses import dataclass
+from datetime import datetime, timezone
+from enum import Enum
+from typing import Any, Optional
+
+import numpy as np
+
+from core.common import get_logger
 
 #!/usr/bin/env python3
 """
@@ -76,16 +86,6 @@ import logging
 ║ Symbolic Tags: {ΛCONSCIOUSNESS}, {ΛMIRROR}, {ΛPHI}, {ΛQUALIA}, {ΛAWARENESS}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
-import asyncio
-from collections import deque
-from dataclasses import dataclass
-from datetime import datetime, timezone
-from enum import Enum
-from typing import Any, Optional
-
-import numpy as np
-
-from core.common import get_logger
 
 # Initialize logger for consciousness tracing
 logger = logging.getLogger("ΛTRACE.consciousness.engine")
