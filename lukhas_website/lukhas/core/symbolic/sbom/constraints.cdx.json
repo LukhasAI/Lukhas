@@ -1,0 +1,70 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:3eb03e69-237f-4b6b-834c-c9868ab7c566",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-10-28T09:37:11Z",
+    "tools": [
+      {
+        "vendor": "LUKHAS AI",
+        "name": "matrix-sbom-generator",
+        "version": "1.0.0"
+      }
+    ],
+    "authors": [
+      {
+        "name": "LUKHAS Core Team",
+        "email": "core@lukhas.ai"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "lukhas-core.symbolic.constraints",
+      "name": "lukhas-core.symbolic.constraints",
+      "version": "1.0.0",
+      "description": "LUKHAS core.symbolic.constraints module",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0"
+          }
+        }
+      ]
+    },
+    "manufacture": {
+      "name": "LUKHAS AI",
+      "url": [
+        "https://lukhas.ai"
+      ]
+    },
+    "properties": [
+      {
+        "name": "cdx:reproducible",
+        "value": "true"
+      },
+      {
+        "name": "lukhas:module",
+        "value": "core.symbolic.constraints"
+      }
+    ]
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "lukhas-core-dep",
+      "name": "lukhas-core",
+      "version": "1.0.0",
+      "description": "LUKHAS core dependencies"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "lukhas-core.symbolic.constraints",
+      "dependsOn": [
+        "lukhas-core-dep"
+      ]
+    }
+  ]
+}

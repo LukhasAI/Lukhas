@@ -1,0 +1,70 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:f3347b58-b4dd-43aa-9100-f2a4661cd098",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-10-28T09:37:11Z",
+    "tools": [
+      {
+        "vendor": "LUKHAS AI",
+        "name": "matrix-sbom-generator",
+        "version": "1.0.0"
+      }
+    ],
+    "authors": [
+      {
+        "name": "LUKHAS Core Team",
+        "email": "core@lukhas.ai"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "lukhas-governance.consent_ledger",
+      "name": "lukhas-governance.consent_ledger",
+      "version": "1.0.0",
+      "description": "LUKHAS governance.consent_ledger module",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0"
+          }
+        }
+      ]
+    },
+    "manufacture": {
+      "name": "LUKHAS AI",
+      "url": [
+        "https://lukhas.ai"
+      ]
+    },
+    "properties": [
+      {
+        "name": "cdx:reproducible",
+        "value": "true"
+      },
+      {
+        "name": "lukhas:module",
+        "value": "governance.consent_ledger"
+      }
+    ]
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "lukhas-core-dep",
+      "name": "lukhas-core",
+      "version": "1.0.0",
+      "description": "LUKHAS core dependencies"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "lukhas-governance.consent_ledger",
+      "dependsOn": [
+        "lukhas-core-dep"
+      ]
+    }
+  ]
+}

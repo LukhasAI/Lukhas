@@ -6,5 +6,18 @@
   },
   "guardian_check": {
     "enabled": true
+  },
+  "telemetry": {
+    "opentelemetry_semconv_version": "1.37.0",
+    "coverage_percentage": 70,
+    "metrics": [],
+    "spans": []
+  },
+  "supply_chain": {
+    "sbom_ref": "../sbom/compliance.cdx.json",
+    "licenses": [
+      "Apache-2.0"
+    ],
+    "reproducible": true
   }
 }

@@ -1,0 +1,70 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:06784782-35d4-49d8-be1f-3647eb6e3b5e",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-10-28T09:37:11Z",
+    "tools": [
+      {
+        "vendor": "LUKHAS AI",
+        "name": "matrix-sbom-generator",
+        "version": "1.0.0"
+      }
+    ],
+    "authors": [
+      {
+        "name": "LUKHAS Core Team",
+        "email": "core@lukhas.ai"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "lukhas-bridge",
+      "name": "lukhas-bridge",
+      "version": "1.0.0",
+      "description": "LUKHAS bridge module",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0"
+          }
+        }
+      ]
+    },
+    "manufacture": {
+      "name": "LUKHAS AI",
+      "url": [
+        "https://lukhas.ai"
+      ]
+    },
+    "properties": [
+      {
+        "name": "cdx:reproducible",
+        "value": "true"
+      },
+      {
+        "name": "lukhas:module",
+        "value": "bridge"
+      }
+    ]
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "lukhas-core-dep",
+      "name": "lukhas-core",
+      "version": "1.0.0",
+      "description": "LUKHAS core dependencies"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "lukhas-bridge",
+      "dependsOn": [
+        "lukhas-core-dep"
+      ]
+    }
+  ]
+}

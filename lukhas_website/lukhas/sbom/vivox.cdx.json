@@ -1,0 +1,70 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:abcd45b5-169a-4cdb-bbab-211a8819bd3d",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-10-28T09:37:11Z",
+    "tools": [
+      {
+        "vendor": "LUKHAS AI",
+        "name": "matrix-sbom-generator",
+        "version": "1.0.0"
+      }
+    ],
+    "authors": [
+      {
+        "name": "LUKHAS Core Team",
+        "email": "core@lukhas.ai"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "lukhas-vivox",
+      "name": "lukhas-vivox",
+      "version": "1.0.0",
+      "description": "LUKHAS vivox module",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0"
+          }
+        }
+      ]
+    },
+    "manufacture": {
+      "name": "LUKHAS AI",
+      "url": [
+        "https://lukhas.ai"
+      ]
+    },
+    "properties": [
+      {
+        "name": "cdx:reproducible",
+        "value": "true"
+      },
+      {
+        "name": "lukhas:module",
+        "value": "vivox"
+      }
+    ]
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "lukhas-core-dep",
+      "name": "lukhas-core",
+      "version": "1.0.0",
+      "description": "LUKHAS core dependencies"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "lukhas-vivox",
+      "dependsOn": [
+        "lukhas-core-dep"
+      ]
+    }
+  ]
+}

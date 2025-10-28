@@ -143,13 +143,35 @@ class SecurityPostureMonitor:
         """Extract telemetry and observability coverage."""
         telemetry = contract.get('telemetry', {})
 
+        # Check for opentelemetry_semconv_version (actual structure)
+        has_otel = bool(telemetry.get('opentelemetry_semconv_version') or 
+                       telemetry.get('opentelemetry'))
+        
+        # Check if metrics are defined (list of metric definitions)
+        metrics = telemetry.get('metrics', [])
+        has_metrics = bool(metrics) if isinstance(metrics, list) else bool(metrics.get('enabled', False))
+        
+        # Check if spans/traces are defined (list of span definitions)
+        spans = telemetry.get('spans', [])
+        has_traces = bool(spans) if isinstance(spans, list) else bool(telemetry.get('traces', {}).get('enabled', False))
+        
+        # Check for structured logging
+        logs_structured = bool(telemetry.get('logs', {}).get('structured', False))
+        
+        # Get semconv version
+        semconv_version = (telemetry.get('opentelemetry_semconv_version') or 
+                          telemetry.get('semconv_version', ''))
+        
+        # Get coverage percentage - default to 0 if not set
+        coverage = telemetry.get('coverage_percentage', 0)
+
         return {
-            'otel_instrumented': bool(telemetry.get('opentelemetry')),
-            'metrics_exported': bool(telemetry.get('metrics', {}).get('enabled')),
-            'traces_exported': bool(telemetry.get('traces', {}).get('enabled')),
-            'logs_structured': bool(telemetry.get('logs', {}).get('structured')),
-            'semconv_version': telemetry.get('semconv_version', ''),
-            'instrumentation_coverage': telemetry.get('coverage_percentage', 0)
+            'otel_instrumented': has_otel,
+            'metrics_exported': has_metrics,
+            'traces_exported': has_traces,
+            'logs_structured': logs_structured,
+            'semconv_version': semconv_version,
+            'instrumentation_coverage': coverage
         }
 
     def _validate_attestation(self, rats_data: Dict) -> bool:

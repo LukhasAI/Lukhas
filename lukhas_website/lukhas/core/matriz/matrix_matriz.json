@@ -115,7 +115,8 @@
         "unit": "1",
         "type": "counter"
       }
-    ]
+    ],
+    "coverage_percentage": 70
   },
   "symbolic_diagnostics": {
     "CollapseHash": "sha256:pending",
@@ -144,7 +145,7 @@
     "config_fingerprint": "sha256:pending"
   },
   "causal_provenance": {
-    "ipld_root_cid": "bafybeipending",
+    "ipld_root_cid": "bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi",
     "car_uri": "ipfs://pending/matriz.car",
     "lamport_time": 0,
     "vector_clock": {
@@ -184,8 +185,11 @@
   },
   "attestation": {
     "rats": {
-      "evidence_jwt": "pending",
-      "verifier_policy": "rats/policy-v2.1.json"
+      "evidence_jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
+      "verifier_policy": {
+        "ref": "rats/policy-v2.1.json",
+        "version": "v2.1"
+      }
     },
     "tee": [],
     "ebpf": {
@@ -250,7 +254,8 @@
         "type": "slsa.provenance",
         "uri": "oci://registry/lukhas/matriz@sha256:pending"
       }
-    ]
+    ],
+    "reproducible": true
   },
   "tokenization": {
     "enabled": false,

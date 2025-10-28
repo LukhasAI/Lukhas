@@ -1,0 +1,70 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:02ef2289-799f-4327-9bb3-3d7b48bbdae6",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2025-10-28T09:37:11Z",
+    "tools": [
+      {
+        "vendor": "LUKHAS AI",
+        "name": "matrix-sbom-generator",
+        "version": "1.0.0"
+      }
+    ],
+    "authors": [
+      {
+        "name": "LUKHAS Core Team",
+        "email": "core@lukhas.ai"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "bom-ref": "lukhas-security",
+      "name": "lukhas-security",
+      "version": "1.0.0",
+      "description": "LUKHAS security module",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0"
+          }
+        }
+      ]
+    },
+    "manufacture": {
+      "name": "LUKHAS AI",
+      "url": [
+        "https://lukhas.ai"
+      ]
+    },
+    "properties": [
+      {
+        "name": "cdx:reproducible",
+        "value": "true"
+      },
+      {
+        "name": "lukhas:module",
+        "value": "security"
+      }
+    ]
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "lukhas-core-dep",
+      "name": "lukhas-core",
+      "version": "1.0.0",
+      "description": "LUKHAS core dependencies"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "lukhas-security",
+      "dependsOn": [
+        "lukhas-core-dep"
+      ]
+    }
+  ]
+}
