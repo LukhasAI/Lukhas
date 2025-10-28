@@ -1,8 +1,9 @@
 import json
 from pathlib import Path
 
-from MATRIZ.adapters.emotion_adapter import UemotionAdapter
 from tests.util.mk_msg import mk_msg_from_json
+
+from MATRIZ.adapters.emotion_adapter import UemotionAdapter
 
 GOLDEN = Path("tests/fixtures/golden/emotion_adapter")
 

@@ -1,8 +1,9 @@
 import json
 from pathlib import Path
 
-from MATRIZ.adapters.memory_adapter import MemoryAdapter
 from tests.util.mk_msg import mk_msg_from_json
+
+from MATRIZ.adapters.memory_adapter import MemoryAdapter
 
 GOLDEN = Path("tests/fixtures/golden/memory_adapter")
 

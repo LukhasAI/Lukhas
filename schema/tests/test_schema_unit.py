@@ -64,6 +64,7 @@ class TestSchemaCore:
         """Test proper error handling patterns."""
         try:
             from core.exceptions import LUKHASException
+
             from schema import SchemaCore
 
             component = SchemaCore()

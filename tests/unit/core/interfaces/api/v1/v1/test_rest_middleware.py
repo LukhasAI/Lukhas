@@ -6,16 +6,15 @@ import time
 from dataclasses import dataclass
 
 import pytest
-from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse
-from fastapi.testclient import TestClient
-
 from core.interfaces.api.v1.v1.rest import middleware
 from core.interfaces.api.v1.v1.rest.middleware import (
     RateLimitConfig,
     RateLimitMiddleware,
     require_tier,
 )
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
+from fastapi.testclient import TestClient
 
 
 @dataclass

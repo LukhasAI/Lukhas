@@ -12,7 +12,6 @@ from enum import Enum
 from typing import Any, Optional
 
 from cognition.symbolic_feedback_loop import SymbolicState
-
 from identity.identity_core import AccessTier
 
 # Import existing LUKHΛS components

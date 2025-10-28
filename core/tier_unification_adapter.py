@@ -27,7 +27,6 @@ from functools import wraps
 from typing import Any, Callable, Optional, Union
 
 import structlog
-
 from core.identity_integration import TierMappingConfig, get_identity_client
 
 logger = structlog.get_logger(__name__)

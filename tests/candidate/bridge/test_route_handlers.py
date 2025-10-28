@@ -1,5 +1,4 @@
 import pytest
-
 from bridge.api_gateway.route_handlers import RouteHandlers
 
 

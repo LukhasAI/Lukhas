@@ -16,13 +16,14 @@ except ImportError:
             super().__init__(message)
 
 
-from interfaces.api import API_PREFIX
 from interfaces.api.v1.rest.routers import (
     health_router,
     metrics_router,
     process_router,
     tasks_router,
 )
+
+from interfaces.api import API_PREFIX
 
 app = FastAPI(
     title="LUKHAS Cognitive AI API",

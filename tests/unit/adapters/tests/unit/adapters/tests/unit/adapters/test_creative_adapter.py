@@ -1,8 +1,9 @@
 import json
 from pathlib import Path
 
-from MATRIZ.adapters.creative_adapter import CreativeAdapter
 from tests.util.mk_msg import mk_msg_from_json
+
+from MATRIZ.adapters.creative_adapter import CreativeAdapter
 
 GOLDEN = Path("tests/fixtures/golden/creative_adapter")
 

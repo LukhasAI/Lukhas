@@ -12,7 +12,6 @@ from types import SimpleNamespace
 from typing import Optional
 
 import pytest
-
 from core.reliability.ratelimit import RateLimiter
 
 

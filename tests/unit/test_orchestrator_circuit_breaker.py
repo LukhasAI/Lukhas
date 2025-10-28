@@ -11,7 +11,6 @@ import time
 from unittest.mock import Mock, patch
 
 import pytest
-
 from core.reliability.circuit_breaker import get_circuit_health
 
 # pytest-asyncio is already configured globally

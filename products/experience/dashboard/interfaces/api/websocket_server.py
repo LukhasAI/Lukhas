@@ -55,6 +55,10 @@ from enum import Enum
 from typing import Any, Callable, Optional
 
 import uvicorn
+from core.colonies.ethics_swarm_colony import get_ethics_swarm_colony
+
+# LUKHAS system imports
+from core.oracle_nervous_system import get_oracle_nervous_system
 from dashboard.core.dashboard_colony_agent import create_dashboard_colony_swarm
 from dashboard.core.dynamic_tab_system import DynamicTabSystem
 from dashboard.core.morphing_engine import MorphingEngine
@@ -64,11 +68,6 @@ from dashboard.core.self_healing_manager import SelfHealingManager
 from dashboard.core.universal_adaptive_dashboard import UniversalAdaptiveDashboard
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
-
-from core.colonies.ethics_swarm_colony import get_ethics_swarm_colony
-
-# LUKHAS system imports
-from core.oracle_nervous_system import get_oracle_nervous_system
 
 logger = logging.getLogger("ΛTRACE.websocket_server", timezone)
 

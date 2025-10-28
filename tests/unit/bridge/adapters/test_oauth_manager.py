@@ -4,7 +4,6 @@
 # criticality: P1
 
 import pytest
-
 from bridge.external_adapters.oauth_manager import OAuthManager, OAuthProvider
 
 
