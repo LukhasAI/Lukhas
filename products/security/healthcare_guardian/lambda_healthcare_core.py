@@ -71,6 +71,7 @@ try:
 except ImportError:
     try:
         # Try alternative imports from root core
+        from consciousness.awareness import ConsciousnessEngine
         from core.glyph import GLYPHEngine
         from governance.guardian_system import GuardianSystem
         from identity.lid_core import LIDCore

@@ -20,6 +20,8 @@ from feedback.user_feedback_system import (
 )
 from pydantic import BaseModel, Field, validator
 
+from core.common import get_logger
+
 logger = get_logger(__name__)
 
 # Create FastAPI app

@@ -9,6 +9,9 @@ import asyncio
 from typing import Any, Mapping
 
 import pytest
+from labs.core.orchestration.async_orchestrator import AsyncOrchestrator
+from prometheus_client import REGISTRY
+
 from core.interfaces import CognitiveNodeBase
 from core.registry import _REG, register
 from labs.core.orchestration.async_orchestrator import AsyncOrchestrator

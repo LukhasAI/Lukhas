@@ -15,6 +15,8 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
+from labs.core.orchestration.async_orchestrator import AsyncOrchestrator
+
 from core.interfaces import CognitiveNodeBase
 from labs.core.orchestration.async_orchestrator import AsyncOrchestrator
 

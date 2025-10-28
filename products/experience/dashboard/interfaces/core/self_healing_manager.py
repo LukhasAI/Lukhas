@@ -54,6 +54,10 @@ from bio.core.symbolic_adaptive_threshold_colony import AdaptiveThresholdColony
 
 # Import existing LUKHAS adaptive systems
 from bio.core.symbolic_fallback_systems import BioSymbolicFallbackManager
+
+# Dashboard system imports
+from dashboard.core.dashboard_colony_agent import DashboardAgentRole, DashboardColonyAgent
+
 from core.event_bus import EventBus
 from core.monitoring.drift_monitor import UnifiedDriftMonitor
 

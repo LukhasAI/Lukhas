@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
 
+from matriz.adapters.contradiction_adapter import ContradictionAdapter
+
 from tests.util.mk_msg import mk_msg_from_json
 
 from MATRIZ.adapters.contradiction_adapter import ContradictionAdapter

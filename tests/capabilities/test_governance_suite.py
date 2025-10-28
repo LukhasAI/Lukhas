@@ -20,8 +20,9 @@ from memory.sync import MemorySynchronizer, SyncBudgetConfig, SyncResult
 
 # Skip these tests if required dependencies are missing
 try:
-    from core.consciousness_stream import ConsciousnessStream
     from storage.events import Event, EventStore
+
+    from core.consciousness_stream import ConsciousnessStream
     DEPS_AVAILABLE = True
 except ImportError:
     DEPS_AVAILABLE = False

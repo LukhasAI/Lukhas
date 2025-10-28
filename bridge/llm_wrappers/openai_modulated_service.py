@@ -33,6 +33,8 @@ def get_analytics():
 
 from branding.policy.terminology import normalize_chunk, normalize_output
 from openai.tooling import build_tools_from_allowlist, get_all_tools
+
+from metrics import get_metrics_collector
 from orchestration.signals.homeostasis import (
     HomeostasisController,
     ModulationParams,
@@ -918,8 +920,9 @@ def resume_with_tools(
     import asyncio
     import json
 
-    from audit.tool_analytics import get_analytics
     from tools.tool_executor import get_tool_executor
+
+    from audit.tool_analytics import get_analytics
 
     analytics = get_analytics()
     executor = get_tool_executor()

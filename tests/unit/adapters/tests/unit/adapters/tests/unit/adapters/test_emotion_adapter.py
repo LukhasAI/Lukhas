@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
 
+from matriz.adapters.emotion_adapter import UemotionAdapter
+
 from tests.util.mk_msg import mk_msg_from_json
 
 from MATRIZ.adapters.emotion_adapter import UemotionAdapter

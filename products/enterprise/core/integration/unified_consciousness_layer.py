@@ -51,10 +51,11 @@ except ImportError:
 
 # T4 Agent components
 try:
-    from governance.ethics.constitutional_ai import ConstitutionalFramework
-    from governance.security.access_control import ProductionPermissionManager
     from performance.extreme_auth_optimization import ExtremeAuthPerformanceOptimizer
     from tools.t4_quality_gate_validator import T4QualityGateValidator
+
+    from governance.ethics.constitutional_ai import ConstitutionalFramework
+    from governance.security.access_control import ProductionPermissionManager
 
     AGENT_COMPONENTS_AVAILABLE = True
 except ImportError as e:

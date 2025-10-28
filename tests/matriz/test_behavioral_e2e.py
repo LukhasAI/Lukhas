@@ -9,6 +9,8 @@ with real cognitive processing and validation of outputs.
 import asyncio
 
 import pytest
+from labs.core.orchestration.async_orchestrator import AsyncOrchestrator
+
 from core.registry import register
 from labs.core.orchestration.async_orchestrator import AsyncOrchestrator
 from nodes.example_nodes import ActionNode, DecisionNode, IntentNode, ThoughtNode, VisionNode
