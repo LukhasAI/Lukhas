@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-MATRIZ AGI Core Module
+MATRIZ AI Core Module
 
 This module contains the core interfaces and orchestration components
 for the MATRIZ (Memory, Attention, Thought, Action, Decision, Awareness)
