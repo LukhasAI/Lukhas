@@ -188,11 +188,11 @@ ls -la .github/workflows/artifacts/pqc_*
 3. Add to whitelist if needed
 4. Update guard logic if pattern detected
 
-### PQC Fallback
-1. Check for `pqc_fallback_marker.txt` artifact
-2. Verify liboqs installation on runner
-3. Check python-oqs bindings
-4. Escalate to infrastructure team
+### PQC Provisioning ✅ **RESOLVED** (Issue #492)
+1. ~~Check for `pqc_fallback_marker.txt` artifact~~ - No longer applicable
+2. CI now uses Docker container with liboqs pre-installed
+3. Tests run with real Dilithium2 signatures
+4. Performance validated automatically in CI workflow
 
 ## SLO Tracking
 

@@ -3,6 +3,8 @@
 ## Overview
 This directory contains Docker configurations for PQC-enabled CI runners used in MATRIZ-007 PQC migration.
 
+**Status**: ✅ **ENABLED IN CI** - liboqs provisioned via Docker container (Issue #492)
+
 ## PQC Runner Image
 
 ### Build
@@ -18,23 +20,52 @@ docker run --rm lukhas-pqc-runner:latest
 # Run performance benchmark
 docker run --rm lukhas-pqc-runner:latest pqc-bench
 
+# Run PQC tests
+docker run --rm -v $(pwd):/workspace -w /workspace \
+  lukhas-pqc-runner:latest \
+  pytest tests/unit/services/registry/test_pqc_signer.py -v
+
 # Interactive shell
 docker run --rm -it lukhas-pqc-runner:latest bash
 ```
 
-### Use in CI
-Update `.github/workflows/pqc-sign-verify.yml`:
+### CI Integration
+
+The `pqc-sign-verify.yml` workflow now runs tests inside the PQC Docker container:
 
 ```yaml
 jobs:
-  pqc-test:
+  build_pqc_image:
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/lukhasai/lukhas-pqc-runner:latest
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and Export PQC Runner Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: .github/docker/pqc-runner.Dockerfile
+          tags: lukhas-pqc-runner:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+  
+  pqc_tests:
+    needs: build_pqc_image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run PQC Unit Tests
+        run: |
+          docker run --rm \
+            -v $(pwd):/workspace -w /workspace \
+            lukhas-pqc-runner:ci \
+            pytest tests/unit/services/registry/test_pqc_signer.py -v
 ```
+
+**Key Benefits**:
+- ✅ No fallback markers - tests run with real Dilithium2
+- ✅ Docker build cache for fast CI runs
+- ✅ Isolated PQC environment matches production
+- ✅ Easy to reproduce locally
 
 ### Available Tools
 
@@ -167,9 +198,28 @@ with oqs.Signature('Dilithium2') as sig:
 - Container runs as root by default - consider adding USER directive for production
 - Image includes build tools - create slim production variant if needed
 
+## Issue Resolution
+
+**Issue #492: PQC runner provisioning - enable liboqs in CI** - ✅ **RESOLVED**
+
+**Solution**: CI now runs all PQC tests inside the liboqs-enabled Docker container instead of attempting to install libraries on the base runner.
+
+**Changes Made**:
+1. Refactored `.github/workflows/pqc-sign-verify.yml` to run tests in Docker container
+2. Split into build and test jobs for efficient caching
+3. Removed fallback marker generation - tests now require real PQC or fail
+4. Added explicit verification that no fallback occurs
+
+**Result**:
+- ✅ CI has liboqs provisioned via Docker
+- ✅ No `pqc_fallback_marker.txt` artifacts in successful runs  
+- ✅ Dilithium2 signatures work in CI (not HMAC fallback)
+- ✅ Performance targets validated: sign <50ms, verify <10ms
+
 ## Related Documentation
 
 - [MATRIZ-007 PQC Migration](../../docs/ops/POST_MERGE_ACTIONS.md#matriz-007-pqc-migration-timeline)
+- [Issue #492: PQC runner provisioning](https://github.com/LukhasAI/Lukhas/issues/492)
 - [Monitoring Config](../../docs/ops/monitoring_config.md)
 - [liboqs Documentation](https://github.com/open-quantum-safe/liboqs)
 - [python-oqs Documentation](https://github.com/open-quantum-safe/liboqs-python)

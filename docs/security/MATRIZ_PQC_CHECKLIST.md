@@ -5,10 +5,11 @@ Migrate registry checkpoint signing from HMAC → PQC signatures (Dilithium2) an
 
 ## Steps (practical)
 
-### 1. Prototype & CI
+### 1. Prototype & CI ✅ **COMPLETE**
 - Add `pqc-sign-verify` CI job (present).
 - Ensure `python-oqs` or binding for liboqs available in CI image.
-- CI must produce `pqc_fallback_marker.txt` when PQC libs missing.
+- **Status**: CI now runs with liboqs via Docker container (Issue #492 resolved)
+- No fallback markers - CI uses real Dilithium2 or fails
 
 ### 2. Key generation (offline / secure host)
 Generate long-term Dilithium2 keypair on HSM/KMS if supported:
@@ -44,7 +45,7 @@ oqs-cli genkey --alg Dilithium2 --out private.pem public.pem
 - Load test: signing latency measured; must remain within checkpoint SLO (e.g., < 200ms for server).
 
 ## Risks & mitigations
-- **Risk:** PQC libs absent on CI/runners → add fallback marker and create MATRIZ-007 to install native libs.
+- **Risk:** PQC libs absent on CI/runners → **RESOLVED** via Docker container with liboqs (Issue #492)
 - **Risk:** private key compromise → require HSM + rotation + immediate revocation policy.
 
 ## PQC Library Setup (Local Development)
