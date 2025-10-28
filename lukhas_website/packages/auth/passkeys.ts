@@ -36,7 +36,7 @@ export async function finishRegistration({ userId, response }: {
   userId: string;
   response: any;
 }) {
-  // TODO: Verify attestation, store credential
+# See: https://github.com/LukhasAI/Lukhas/issues/598
   return { success: true, credentialId: response.id };
 }
 
@@ -55,6 +55,6 @@ export async function finishAuthentication({ userId, response, deviceId }: {
   response: any;
   deviceId?: string;
 }) {
-  // TODO: Verify assertion, check credential
+# See: https://github.com/LukhasAI/Lukhas/issues/599
   return { ok: true, userId };
 }

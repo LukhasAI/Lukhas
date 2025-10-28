@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 # Import LUKHAS identity components
 try:
     from .alias_format import make_alias, parse_alias, validate_alias_format
-    from .auth_service import (  # noqa: F401  # TODO: .auth_service.AuthResult; cons...
+# See: https://github.com/LukhasAI/Lukhas/issues/585
         AuthenticationService,
         AuthResult,
     )
@@ -36,17 +36,17 @@ try:
         TierLevel,
         normalize_tier,
     )
-    from .token_generator import (  # noqa: F401  # TODO: .token_generator.TokenClaims; ...
+# See: https://github.com/LukhasAI/Lukhas/issues/586
         EnvironmentSecretProvider,
         TokenClaims,
         TokenGenerator,
     )
-    from .token_introspection import (  # noqa: F401  # TODO: .token_introspection.Introspec...
+# See: https://github.com/LukhasAI/Lukhas/issues/587
         IntrospectionRequest,
         IntrospectionResponse,
         TokenIntrospectionService,
     )
-    from .token_validator import (  # noqa: F401  # TODO: .token_validator.ValidationRes...
+# See: https://github.com/LukhasAI/Lukhas/issues/588
         TokenValidator,
         ValidationContext,
         ValidationResult,

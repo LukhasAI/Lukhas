@@ -278,7 +278,7 @@ class TestEncryptionManager(unittest.TestCase):
 
     def test_key_generation(self):
         """Test key generation."""
-        em = create_encryption_manager()  # noqa: F821  # TODO: create_encryption_manager
+# See: https://github.com/LukhasAI/Lukhas/issues/612
 
         # Test AES key generation
         with self.benchmark.measure():
@@ -296,7 +296,7 @@ class TestEncryptionManager(unittest.TestCase):
 
     def test_aes_encryption_decryption(self):
         """Test AES encryption and decryption."""
-        em = create_encryption_manager()  # noqa: F821  # TODO: create_encryption_manager
+# See: https://github.com/LukhasAI/Lukhas/issues/613
         key_id = em.generate_key(KeyType.AES_256, KeyUsage.DATA_ENCRYPTION)  # noqa: F821  # TODO: KeyType
 
         test_data = "This is sensitive test data! 🔐"
@@ -306,7 +306,7 @@ class TestEncryptionManager(unittest.TestCase):
             encrypted_result = em.encrypt(test_data, key_id)
 
         self.assertIsNotNone(encrypted_result.encrypted_data)
-        self.assertEqual(encrypted_result.algorithm, EncryptionAlgorithm.AES_256_GCM)  # noqa: F821  # TODO: EncryptionAlgorithm
+# See: https://github.com/LukhasAI/Lukhas/issues/614
 
         # Test decryption
         with self.benchmark.measure():
@@ -317,7 +317,7 @@ class TestEncryptionManager(unittest.TestCase):
 
     def test_rsa_encryption_decryption(self):
         """Test RSA encryption and decryption."""
-        em = create_encryption_manager()  # noqa: F821  # TODO: create_encryption_manager
+# See: https://github.com/LukhasAI/Lukhas/issues/615
         key_id = em.generate_key(KeyType.RSA_2048, KeyUsage.ENCRYPTION)  # noqa: F821  # TODO: KeyType
 
         test_data = "RSA test data"
@@ -336,7 +336,7 @@ class TestEncryptionManager(unittest.TestCase):
 
     def test_password_hashing(self):
         """Test password hashing and verification."""
-        em = create_encryption_manager()  # noqa: F821  # TODO: create_encryption_manager
+# See: https://github.com/LukhasAI/Lukhas/issues/616
 
         password = "SuperSecurePassword123!"
 
@@ -361,7 +361,7 @@ class TestEncryptionManager(unittest.TestCase):
 
     def test_key_rotation(self):
         """Test key rotation."""
-        em = create_encryption_manager()  # noqa: F821  # TODO: create_encryption_manager
+# See: https://github.com/LukhasAI/Lukhas/issues/617
         original_key_id = em.generate_key(KeyType.AES_256, KeyUsage.DATA_ENCRYPTION)  # noqa: F821  # TODO: KeyType
 
         # Rotate key
@@ -375,7 +375,7 @@ class TestEncryptionManager(unittest.TestCase):
 
     def test_performance_benchmark(self):
         """Test encryption performance."""
-        em = create_encryption_manager()  # noqa: F821  # TODO: create_encryption_manager
+# See: https://github.com/LukhasAI/Lukhas/issues/618
         key_id = em.generate_key(KeyType.AES_256, KeyUsage.DATA_ENCRYPTION)  # noqa: F821  # TODO: KeyType
 
         test_data = "Performance test data" * 100  # Larger data
@@ -487,7 +487,7 @@ class TestSecurityMonitor(unittest.TestCase):
 
     def setUp(self):
         self.benchmark = PerformanceBenchmark("security_monitor", target_ms=5.0)
-        self.monitor = create_security_monitor({"processing_threads": 2})  # noqa: F821  # TODO: create_security_monitor
+# See: https://github.com/LukhasAI/Lukhas/issues/619
 
     def tearDown(self):
         self.monitor.shutdown()
@@ -657,7 +657,7 @@ class TestComplianceFramework(unittest.TestCase):
     def setUp(self):
         self.benchmark = PerformanceBenchmark("compliance", target_ms=5.0)
         self.test_dir = tempfile.mkdtemp()
-        self.framework = create_compliance_framework({  # noqa: F821  # TODO: create_compliance_framework
+# See: https://github.com/LukhasAI/Lukhas/issues/620
             "evidence_path": os.path.join(self.test_dir, "evidence")
         })
 
@@ -714,7 +714,7 @@ class TestComplianceFramework(unittest.TestCase):
         """Test compliance report generation."""
         with self.benchmark.measure():
             report = self.framework.generate_compliance_report(
-                ComplianceStandard.SOC2_TYPE2  # noqa: F821  # TODO: ComplianceStandard
+# See: https://github.com/LukhasAI/Lukhas/issues/621
             )
 
         self.assertIsNotNone(report.id)

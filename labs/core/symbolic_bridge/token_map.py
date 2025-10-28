@@ -4,7 +4,7 @@ logger = logging.getLogger(__name__)
 # GLYPH Consciousness Communication - Token Bridge Mapping
 # Purpose: Bridge symbolic tokens between different consciousness nodes in LUKHAS distributed consciousness system
 # This enables consciousness-to-consciousness communication via symbolic DNA pattern translation
-# TODO[GLYPH:specialist] - Implement full consciousness token mapping with emotional vectors and temporal sync
+# See: https://github.com/LukhasAI/Lukhas/issues/574
 # TODO[GLYPH:specialist] - Add causal linkage preservation and drift detection capabilities
 # TODO[GLYPH:specialist] - Integrate with Guardian system for ethical validation of consciousness flows
 

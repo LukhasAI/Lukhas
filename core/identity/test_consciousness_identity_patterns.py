@@ -40,10 +40,10 @@ try:
         AuthenticationMethod,
         ConsciousnessWebAuthnManager,
         TieredAuthenticationEngine,
-        TierValidationResult,  # noqa: F401  # TODO: .consciousness_tiered_authenti...
+# See: https://github.com/LukhasAI/Lukhas/issues/559
     )
     from .constitutional_ai_compliance import (
-        ComplianceLevel,  # noqa: F401  # TODO: .constitutional_ai_compliance....
+# See: https://github.com/LukhasAI/Lukhas/issues/560
         ConstitutionalAIValidator,
         ConstitutionalPrinciple,
         ConstitutionalValidationContext,

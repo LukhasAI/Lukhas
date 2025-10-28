@@ -401,7 +401,7 @@ branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_abot_cli.py
 
 branding/apis/platform_integrations.py
 34:    from linkedin_api import Linkedin  # LinkedIn API  # noqa: F401  # TODO: linkedin_api.Linkedin; conside...
-41:    import requests_oauthlib  # OAuth for various platforms  # noqa: F401  # TODO: requests_oauthlib; consider us...
+# See: https://github.com/LukhasAI/Lukhas/issues/564
 
 branding/engines/lukhas_content_platform/bots/lambda_bot_enterprise_multi_brain_symphony_lambda_bot.py
 39:    )  # noqa: F401  # TODO: MultiBrainSymphony.BrainRegion...
@@ -3973,7 +3973,7 @@ except ImportError:
     LINKEDIN_AVAILABLE = False
 
 try:
-    import requests_oauthlib  # OAuth for various platforms  # noqa: F401  # TODO: requests_oauthlib; consider us...
+# See: https://github.com/LukhasAI/Lukhas/issues/565
 
     OAUTH_AVAILABLE = True
 except ImportError:

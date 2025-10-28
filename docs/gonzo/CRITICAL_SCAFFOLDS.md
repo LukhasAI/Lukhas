@@ -415,7 +415,7 @@ class Tiers:
         return AuthResult("T1", ok=True)
 
     def authenticate_T2(self, ctx) -> AuthResult:
-        # TODO: argon2id password verify
+        # See: https://github.com/LukhasAI/Lukhas/issues/562
         return AuthResult("T2", ok=False, reason="not_implemented")
 
     def authenticate_T3(self, ctx) -> AuthResult:
@@ -423,7 +423,7 @@ class Tiers:
         return AuthResult("T3", ok=False, reason="not_implemented")
 
     def authenticate_T4(self, ctx) -> AuthResult:
-        # TODO: WebAuthn challenge/verify
+        # See: https://github.com/LukhasAI/Lukhas/issues/563
         return AuthResult("T4", ok=False, reason="not_implemented")
 
     def authenticate_T5(self, ctx) -> AuthResult:

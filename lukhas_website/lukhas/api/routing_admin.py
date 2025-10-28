@@ -100,7 +100,7 @@ router.add_middleware(
 # Authentication dependency
 async def get_admin_user(credentials: HTTPAuthorizationCredentials = Security(security)):
     """Validate admin authentication"""
-    # TODO: Implement proper admin authentication
+    # See: https://github.com/LukhasAI/Lukhas/issues/584
     # For now, just check for presence of token
     if not credentials or not credentials.credentials:
         raise HTTPException(status_code=401, detail="Admin authentication required")

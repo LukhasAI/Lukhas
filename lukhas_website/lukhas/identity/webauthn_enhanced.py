@@ -32,7 +32,7 @@ import structlog
 
 # Import existing LUKHAS WebAuthn infrastructure
 try:
-    from .webauthn import (  # noqa: F401  # TODO: .webauthn.WebAuthnCredential; ...
+# See: https://github.com/LukhasAI/Lukhas/issues/589
         WebAuthnCredential,
         WebAuthnManager,
     )

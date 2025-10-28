@@ -640,12 +640,12 @@ class LambdaSSOEngine:
 
     def _create_device_sync_token(self, user_tokens: dict, device_id: str) -> dict:
         """Create device-specific sync token"""
-        # TODO: Implement device sync token creation
+        # See: https://github.com/LukhasAI/Lukhas/issues/579
         return {}
 
     def _register_sync_token(self, sync_token: dict) -> str:
         """Register sync token for cross-device use"""
-        # TODO: Implement sync token registration
+        # See: https://github.com/LukhasAI/Lukhas/issues/580
         return f"SYNC_{secrets.token_hex(8)}"
 
     def _notify_services_token_revoked(self, token_data: dict):

@@ -544,7 +544,7 @@ rules:
       - pattern-either:
           - pattern: |
               def authenticate_λid(...):
-                  # TODO: implement authentication
+                  # See: https://github.com/LukhasAI/Lukhas/issues/552
                   return True
           - pattern: |
               if DEVELOPMENT_MODE:

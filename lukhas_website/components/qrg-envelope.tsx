@@ -20,8 +20,8 @@ export default function QRGEnvelope({ filename, sizeMB, level, onOpen }: QRGEnve
     setError(null);
 
     try {
-      // TODO: Real authentication challenge (WebAuthn / device key)
-      // TODO: Audit Λ-trace for security logging
+# See: https://github.com/LukhasAI/Lukhas/issues/581
+# See: https://github.com/LukhasAI/Lukhas/issues/582
 
       // Simulate authentication delay
       await new Promise(resolve => setTimeout(resolve, 1500));

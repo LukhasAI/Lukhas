@@ -17,7 +17,7 @@ def test_replace_todo_dry_run(tmp_path):
     clean_artifacts()
     f = tmp_path / "mod.py"
     f.write_text(
-        "# TODO[2025-10-28][PRIORITY:HIGH][OWNER:@gonzo][SCOPE:PROD] : Fix this\nprint('hi')\n"
+# See: https://github.com/LukhasAI/Lukhas/issues/626
     )
 
     mapfile = tmp_path / "map.json"

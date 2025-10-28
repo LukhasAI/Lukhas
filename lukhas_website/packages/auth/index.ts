@@ -359,7 +359,7 @@ export class LambdaAuthSystem {
     try {
       // Get stored credential (this requires credential ID lookup)
       // For now, this is a placeholder - would need to implement credential lookup
-      const storedCredential: any = null; // TODO: Implement credential lookup
+# See: https://github.com/LukhasAI/Lukhas/issues/597
 
       const verification = await this.passkeyManager.verifyAuthentication(
         challengeId,

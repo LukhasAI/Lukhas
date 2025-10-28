@@ -40,7 +40,7 @@ except ImportError:
     LINKEDIN_AVAILABLE = False
 
 try:
-    import requests_oauthlib  # OAuth for various platforms  # noqa: F401  # TODO: requests_oauthlib; consider us...
+# See: https://github.com/LukhasAI/Lukhas/issues/555
 
     OAUTH_AVAILABLE = True
 except ImportError:

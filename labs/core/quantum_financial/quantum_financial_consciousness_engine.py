@@ -24,7 +24,7 @@ class AbundanceCalculator:
 class ConsciousnessTokenProtocol:
     def issue_tokens(
         self, amount: float
-    ) -> str:  # TODO[QUANTUM-BIO:specialist] - Amount determines quantum token consciousness value
+# See: https://github.com/LukhasAI/Lukhas/issues/573
         return f"token_{random.randint(1000, 9999)}"
 
 
