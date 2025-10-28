@@ -323,37 +323,33 @@ class PlatformAPIManager:
                     return token_state["access_token"]
             else:
                 validated_at: Optional[datetime] = token_state.get("validated_at")
-                if validated_at and now - validated_at < self.oauth_refresh_margin:
-                    return token_state["access_token"]
-
-                refreshed = await self._refresh_access_token(platform, creds)
-                if refreshed:
-                    return refreshed
-
-                token_state["validated_at"] = now
-                self.oauth_tokens[platform] = token_state
+                if not validated_at or now - validated_at >= self.oauth_refresh_margin:
+                    refreshed = await self._refresh_access_token(platform, creds)
+                    token_state = self.oauth_tokens.get(platform, token_state)
+                    if not refreshed:
+                        return token_state.get("access_token")
                 return token_state["access_token"]
 
         if creds.access_token and not token_state:
             refreshed = await self._refresh_access_token(platform, creds)
-            if refreshed:
-                if platform not in self.oauth_tokens:
-                    self.oauth_tokens[platform] = {
-                        "access_token": refreshed,
-                        "expires_at": None,
-                        "validated_at": now,
-                    }
-                return refreshed
+            token_state = self.oauth_tokens.get(platform)
+            if refreshed and token_state:
+                return token_state.get("access_token", refreshed)
 
-            self.oauth_tokens[platform] = {
-                "access_token": creds.access_token,
-                "expires_at": None,
-                "validated_at": now,
-            }
+            if not token_state:
+                self.oauth_tokens[platform] = {
+                    "access_token": creds.access_token,
+                    "expires_at": None,
+                    "validated_at": now,
+                }
             return creds.access_token
 
         token = await self._refresh_access_token(platform, creds)
-        if token and platform not in self.oauth_tokens:
+        if token:
+            token_state = self.oauth_tokens.get(platform)
+            if token_state:
+                return token_state.get("access_token", token)
+
             self.oauth_tokens[platform] = {
                 "access_token": token,
                 "expires_at": None,
@@ -365,12 +361,25 @@ class PlatformAPIManager:
     async def _refresh_access_token(self, platform: str, creds: APICredentials) -> Optional[str]:
         """Refresh the OAuth access token for the given platform."""
 
+        def _record_validation(token: str, expires_at: Optional[datetime]) -> str:
+            state: dict[str, Any] = self.oauth_tokens.get(platform, {}).copy()
+            state["access_token"] = token
+            state["expires_at"] = expires_at
+            if expires_at is None:
+                state["validated_at"] = datetime.now(timezone.utc)
+            else:
+                state.pop("validated_at", None)
+            self.oauth_tokens[platform] = state
+            return token
+
         if not OAUTH_AVAILABLE or OAuth2Session is None:
             if creds.access_token:
                 self.logger.warning(
                     "requests_oauthlib not available; using cached %s access token", platform
                 )
-                return creds.access_token
+                return _record_validation(
+                    creds.access_token, self.oauth_tokens.get(platform, {}).get("expires_at")
+                )
 
             self.logger.error("OAuth library unavailable and no access token present for %s", platform)
             return None
@@ -378,18 +387,28 @@ class PlatformAPIManager:
         token_url = self._get_token_endpoint(platform)
         if not token_url:
             self.logger.error(f"OAuth token endpoint not configured for {platform}")
-            return creds.access_token
+            if creds.access_token:
+                return _record_validation(
+                    creds.access_token, self.oauth_tokens.get(platform, {}).get("expires_at")
+                )
+            return None
 
         if not creds.client_id or not creds.client_secret:
             self.logger.error(f"OAuth client credentials missing for {platform}")
-            return creds.access_token
+            if creds.access_token:
+                return _record_validation(
+                    creds.access_token, self.oauth_tokens.get(platform, {}).get("expires_at")
+                )
+            return None
 
         if not creds.refresh_token:
             if creds.access_token:
                 self.logger.warning(
                     "Refresh token missing for %s; using cached access token", platform
                 )
-                return creds.access_token
+                return _record_validation(
+                    creds.access_token, self.oauth_tokens.get(platform, {}).get("expires_at")
+                )
 
             self.logger.error(f"Refresh token missing for {platform} and no cached access token")
             return None
@@ -407,7 +426,11 @@ class PlatformAPIManager:
             token_data = await asyncio.to_thread(_do_refresh)
         except Exception as exc:  # pragma: no cover - defensive logging
             self.logger.error(f"Failed to refresh {platform} access token: {exc}")
-            return creds.access_token
+            if creds.access_token:
+                return _record_validation(
+                    creds.access_token, self.oauth_tokens.get(platform, {}).get("expires_at")
+                )
+            return None
 
         access_token = token_data.get("access_token")
         if not access_token:
@@ -423,7 +446,7 @@ class PlatformAPIManager:
                 except (TypeError, ValueError):
                     expires_at = None
 
-        self.oauth_tokens[platform] = {"access_token": access_token, "expires_at": expires_at}
+        _record_validation(access_token, expires_at)
         creds.access_token = access_token
 
         new_refresh = token_data.get("refresh_token")

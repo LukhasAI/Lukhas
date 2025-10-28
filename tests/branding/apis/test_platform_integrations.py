@@ -5,6 +5,9 @@ from datetime import datetime, timedelta, timezone
 
 import pytest
 
+if "aiohttp" not in sys.modules:
+    sys.modules["aiohttp"] = types.ModuleType("aiohttp")
+
 if "_bridgeutils" not in sys.modules:
     bridgeutils = types.ModuleType("_bridgeutils")
 
@@ -137,3 +140,54 @@ async def test_refresh_triggered_when_expiry_missing(monkeypatch, manager):
     assert first == "fresh-token"
     assert second == "fresh-token"
     assert call_count["count"] == 1
+
+
+@pytest.mark.asyncio
+async def test_refresh_retries_after_validation_margin(monkeypatch, manager):
+    manager.credentials["linkedin"] = APICredentials(
+        platform="linkedin",
+        api_key="",
+        api_secret="",
+        client_id="client-id",
+        client_secret="client-secret",
+        access_token="stale-token",
+        refresh_token="refresh-token",
+    )
+
+    initial_state = {
+        "access_token": "stale-token",
+        "expires_at": None,
+        "validated_at": datetime.now(timezone.utc) - timedelta(minutes=10),
+    }
+    manager.oauth_tokens["linkedin"] = initial_state
+
+    call_count = {"count": 0}
+
+    async def fake_refresh(self, platform, creds):
+        call_count["count"] += 1
+        state = self.oauth_tokens.get(platform, {}).copy()
+        state.update(
+            {
+                "access_token": "stale-token",
+                "expires_at": None,
+                "validated_at": datetime.now(timezone.utc),
+            }
+        )
+        self.oauth_tokens[platform] = state
+        return "stale-token"
+
+    monkeypatch.setattr(PlatformAPIManager, "_refresh_access_token", fake_refresh, raising=False)
+
+    first = await manager._ensure_oauth_token("linkedin")
+    assert first == "stale-token"
+    assert call_count["count"] == 1
+
+    second = await manager._ensure_oauth_token("linkedin")
+    assert second == "stale-token"
+    assert call_count["count"] == 1
+
+    manager.oauth_tokens["linkedin"]["validated_at"] -= manager.oauth_refresh_margin
+
+    third = await manager._ensure_oauth_token("linkedin")
+    assert third == "stale-token"
+    assert call_count["count"] == 2
