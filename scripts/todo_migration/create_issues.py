@@ -16,6 +16,7 @@ import sys
 from pathlib import Path
 from typing import Optional
 
+
 def run_gh_issue_create(title: str, body: str, labels: str = "") -> int:
     """Create issue using gh CLI and return issue number. Raises on failure."""
     cmd = ["gh", "issue", "create", "--title", title, "--body", body]
@@ -35,8 +36,12 @@ def run_gh_issue_create(title: str, body: str, labels: str = "") -> int:
         issue_number = -1
     return issue_number
 
-def create_issue_rest(repo: str, token: str, title: str, body: str, labels: Optional[str] = None) -> int:
+
+def create_issue_rest(
+    repo: str, token: str, title: str, body: str, labels: Optional[str] = None
+) -> int:
     import requests  # type: ignore
+
     url = f"https://api.github.com/repos/{repo}/issues"
     headers = {"Authorization": f"token {token}", "Accept": "application/vnd.github.v3+json"}
     payload = {"title": title, "body": body}
@@ -47,9 +52,14 @@ def create_issue_rest(repo: str, token: str, title: str, body: str, labels: Opti
     data = r.json()
     return data.get("number", -1)
 
+
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--input", required=True, help="todo_inventory.csv (file,line,kind,priority,owner,scope,message)")
+    p.add_argument(
+        "--input",
+        required=True,
+        help="todo_inventory.csv (file,line,kind,priority,owner,scope,message)",
+    )
     p.add_argument("--repo", required=True, help="owner/repo")
     p.add_argument("--dry-run", action="store_true")
     p.add_argument("--out", default="todo_to_issue_map.json")
@@ -61,16 +71,18 @@ def main():
         reader = csv.DictReader(fh)
         for row in reader:
             # required fields: file,line,message,priority
-            title = f"[TODO] {row.get('message','').strip()[:80]}"
+            title = f"[TODO] {row.get('message', '').strip()[:80]}"
             body = (
-                f"**Source:** `{row.get('file','')}`:{row.get('line','')}\n\n"
-                f"**Priority:** {row.get('priority','')}\n\n"
-                f"**Original line:**\n```\n{row.get('message','')}\n```\n\n"
+                f"**Source:** `{row.get('file', '')}`:{row.get('line', '')}\n\n"
+                f"**Priority:** {row.get('priority', '')}\n\n"
+                f"**Original line:**\n```\n{row.get('message', '')}\n```\n\n"
                 f"**Auto-migrated from inline TODO**\n\n"
-                f"**Scope:** {row.get('scope','')}\n"
+                f"**Scope:** {row.get('scope', '')}\n"
             )
             labels = "todo-migration"
-            print(f"Would create issue: {title}") if args.dry_run else print(f"Creating issue: {title}")
+            print(f"Would create issue: {title}") if args.dry_run else print(
+                f"Creating issue: {title}"
+            )
             try:
                 if args.dry_run:
                     issue_number = 0
@@ -81,7 +93,9 @@ def main():
                     except Exception:
                         token = os.environ.get("GITHUB_TOKEN")
                         if not token:
-                            raise RuntimeError("No gh CLI and no GITHUB_TOKEN; cannot create issue.")
+                            raise RuntimeError(
+                                "No gh CLI and no GITHUB_TOKEN; cannot create issue."
+                            )
                         issue_number = create_issue_rest(args.repo, token, title, body, labels)
                 created += 1
                 mapping_key = f"{row.get('file')}:{row.get('line')}"
@@ -91,7 +105,14 @@ def main():
                     "repo": args.repo,
                 }
             except Exception as e:
-                print("ERROR creating issue for", row.get("file"), row.get("line"), ":", e, file=sys.stderr)
+                print(
+                    "ERROR creating issue for",
+                    row.get("file"),
+                    row.get("line"),
+                    ":",
+                    e,
+                    file=sys.stderr,
+                )
 
     # write mapping
     Path("artifacts").mkdir(exist_ok=True)
@@ -99,6 +120,7 @@ def main():
     with open(outpath, "w", encoding="utf-8") as of:
         json.dump(mapping, of, indent=2)
     print(f"Wrote mapping to {outpath}. Created {created} issues (dry_run={args.dry_run}).")
+
 
 if __name__ == "__main__":
     main()

@@ -371,3 +371,82 @@ Limit scope to <200 lines changed per PR when possible.
 
 **Last updated:** 2025-10-28
 ```
+
+# Autonomous Guide: Complete MATRIZ Migration (Remaining Imports) — T4 / 0.01% Standard
+
+**Goal (refined):** Complete the migration of legacy `matriz` imports to canonical `MATRIZ` across production and test suites with AST-safe tooling, narrow PRs, and CI enforcement. Verify correctness with smoke tests, benchmarks, and a nightly audit.
+
+**Key additions:**
+- Add AST dry-run artifact for each PR.
+- Require per-PR `migration-summary.md` with import delta and risk statement.
+- Enforce 0 legacy imports in production after merge via CI with a 48h observation window before enabling blocking enforcement.
+
+---
+
+## Agent Assignment (Primary / Secondary)
+
+- **Primary Agent:** **Codex** — ideal for writing AST codemods, producing per-file unified-diff patches, and orchestrating `git-apply` flows. Use Codex to generate `rewrite_matriz_imports.py` and patch artifacts.
+- **Secondary Agents:**
+  - **Claude HaikuGPT-5 / GPT-5 Preview** — high-level risk & ethics review; produce canary plans and threat models.
+  - **Grok Code Fast** — fast parsing of CI logs and benchmark outputs; validates regression budgets.
+  - **Claude Conner 4.5** — final policy and security sign-off.
+
+**Autonomy & Safety:** Use **dry-run** by default. Codex generates per-file patches and aggregated patch. Human reviewers must inspect `dryrun` artifacts and migration-summary before `--git-apply`. Enable CI blocking only after 48h of stable main.
+
+---
+
+## Success Criteria
+- 0 legacy `matriz` imports in production/test code (exceptions only in archived/legacy folders).
+- Smoke tests passing 10/10 after each grouped migration PR.
+- Migration PRs limited to a single directory and a small set of files.
+
+---
+
+## Execution (robust)
+
+### Phase 0 — Baseline & Tools
+- Baseline: record current grep count to `MATRIZ_MIGRATION_BASELINE.md`.
+- Tooling: `scripts/consolidation/rewrite_matriz_imports.py` using `libcst` or `bowler` for AST accuracy.
+- Tests: `make smoke`, full test subset for affected tests.
+
+### Phase 1 — Grouped Migrations (1 directory per PR)
+For each directory (e.g., `tests/benchmarks/`):
+1. Branch: `migration/matriz-<group>-YYYYMMDD`.
+2. Dry run: `--dry-run --verbose` producing `dryrun_<group>.json` and `dryrun_<group>.html` (AST diffs).
+3. CI: Attach dry-run artifacts to PR and run `make smoke` and `pytest` for the group.
+4. Commit: AST rewriter applied; run `isort`, `ruff --fix` and `black` post-rewrite.
+5. PR: Include `migration-summary.md`:
+   - Files changed
+   - Imports updated
+   - Test outcomes
+   - Risk statement
+6. Merge after 2 reviewers sign off and smoke tests pass.
+
+Limit scope to <200 lines changed per PR when possible.
+
+### Phase 2 — Final Verification
+- Run global grep check for legacy imports and fail if >0 in production dirs.
+- Run `python3 scripts/generate_meta_registry.py` and `python3 scripts/consolidation/check_import_health.py`.
+
+### Phase 3 — Enable CI Enforcement
+- After 48h of stable main, flip CI `BLOCK_LEGACY` to `1` and publish a release note.
+
+---
+
+## Rollback & Hotfix
+- Revert the migration PR or revert main if migration causes regressions.
+- Maintain rollback instructions in `MATRIZ_MIGRATION_BASELINE.md`.
+
+---
+
+## Checklist
+- [ ] Baseline recorded
+- [ ] Tools verified (AST rewriter)
+- [ ] One PR per group created
+- [ ] Dry-run artifacts attached
+- [ ] Migration-summary.md included
+- [ ] Smoke tests passed
+- [ ] Post-merge nightly audit green
+- [ ] CI BLOCK_LEGACY flip scheduled after 48h
+
+**Last updated:** 2025-10-28

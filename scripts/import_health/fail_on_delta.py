@@ -10,6 +10,7 @@ import argparse
 import sys
 from pathlib import Path
 
+
 def count_e402_from_ruff_file(path: Path) -> int:
     # ruff output file — we'll count lines or parse numbers.
     try:
@@ -32,6 +33,7 @@ def count_e402_from_ruff_file(path: Path) -> int:
             return 0
     return count
 
+
 def read_baseline(path: Path) -> int:
     if not path.exists():
         return 0
@@ -39,6 +41,7 @@ def read_baseline(path: Path) -> int:
         return int(path.read_text().strip())
     except Exception:
         return 0
+
 
 def main():
     p = argparse.ArgumentParser()
@@ -54,6 +57,7 @@ def main():
         sys.exit(1)
     print("E402 delta OK.")
     sys.exit(0)
+
 
 if __name__ == "__main__":
     main()

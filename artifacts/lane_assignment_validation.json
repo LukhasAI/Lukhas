@@ -1,9 +1,0 @@
-{
-  "valid": true,
-  "issues": [],
-  "warnings": [],
-  "compliance_status": {},
-  "promotion_recommendations": [
-    "\u2705 identity_webauthn: Ready for promotion to production_canary - CI job and alerts implemented"
-  ]
-}
