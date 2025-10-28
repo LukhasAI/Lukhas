@@ -33,7 +33,12 @@ class FastMockNode(CognitiveNode):
     def process(self, data: Dict) -> Dict:
         time.sleep(self.latency_ms / 1000.0)
         self.process_count += 1
-        return {'answer': f'Fast response from {self.name}', 'confidence': 0.9, 'node': self.name, 'process_count': self.process_count}
+        return {
+            'answer': f'Fast response from {self.name}',
+            'confidence': 0.9,
+            'node': self.name,
+            'process_count': self.process_count
+        }
 
 class SlowMockNode(CognitiveNode):
     """Mock node with slow response time"""
