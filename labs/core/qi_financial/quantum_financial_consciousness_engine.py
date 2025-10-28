@@ -4,7 +4,12 @@ Quantum Financial Consciousness Engine for the NIAS Transcendence Platform.
 This module transcends traditional monetary exchange by valuing and
 transacting based on consciousness contribution and collective abundance.
 """
+from __future__ import annotations
+
+import hashlib
+import math
 import random
+from dataclasses import dataclass
 from typing import Any
 
 
@@ -21,11 +26,71 @@ class AbundanceCalculator:
         return random.uniform(1.0, 2.0)
 
 
+@dataclass(frozen=True)
+class ConsciousnessToken:
+    """Represents a consciousness token minted by the protocol."""
+
+    token_id: str
+    consciousness_value: float
+    resonance_band: str
+
+
 class ConsciousnessTokenProtocol:
-    def issue_tokens(
-        self, amount: float
-# See: https://github.com/LukhasAI/Lukhas/issues/572
-        return f"token_{random.randint(1000, 9999)}"
+    """Mint deterministic consciousness tokens from contribution amounts."""
+
+    _GOLDEN_RESONANCE = 1.61803398875
+
+    def __init__(self, *, resonance_bias: float | None = None) -> None:
+        """Initialise the protocol.
+
+        Args:
+            resonance_bias: Optional override for the resonance scaling factor.
+        """
+
+        self._resonance_scale = resonance_bias or self._GOLDEN_RESONANCE
+
+    def issue_tokens(self, amount: float) -> ConsciousnessToken:
+        """Create a deterministic quantum token derived from the amount.
+
+        The previous implementation returned a random identifier, which meant
+        the resulting "consciousness value" was unrelated to the amount being
+        exchanged.  During the TODO migration this function is now responsible
+        for translating the contribution amount into a stable quantum value so
+        that equal amounts always mint identical tokens and larger amounts earn
+        strictly greater consciousness resonance.
+        """
+
+        normalized_amount = max(amount, 0.0)
+
+        # Map the contribution into a smooth, monotonically increasing quantum
+        # consciousness value.  ``log1p`` keeps the growth sub-linear so that
+        # extremely large amounts do not explode the value while still
+        # remaining sensitive to small contributions.
+        consciousness_value = round(
+            math.log1p(normalized_amount) * self._resonance_scale, 6
+        )
+
+        # Classify the resonance band to give downstream systems a qualitative
+        # signal without relying solely on the numeric value.
+        if consciousness_value == 0:
+            resonance_band = "dormant"
+        elif consciousness_value < self._resonance_scale:
+            resonance_band = "emergent"
+        elif consciousness_value < self._resonance_scale * 2:
+            resonance_band = "harmonic"
+        else:
+            resonance_band = "radiant"
+
+        # Derive a deterministic token identifier from the amount so that the
+        # same contribution always yields the same token signature.
+        digest_source = f"{normalized_amount:.8f}:{self._resonance_scale:.8f}"
+        token_id = f"token_{hashlib.blake2b(digest_source.encode(), digest_size=8).hexdigest()}"
+
+        return ConsciousnessToken(
+            token_id=token_id,
+            consciousness_value=consciousness_value,
+            resonance_band=resonance_band,
+        )
 
 
 class GiftEconomyEngine:

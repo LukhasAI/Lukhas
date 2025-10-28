@@ -6,6 +6,7 @@
 from datetime import datetime, timedelta, timezone
 
 import pytest
+
 from governance.consent.consent_manager import (
     AdvancedConsentManager,
     ConsentMethod,

@@ -15,25 +15,33 @@ Features:
 """
 
 import base64
+import importlib.util
 import json
 import secrets
 import time
+from dataclasses import asdict, is_dataclass
 from datetime import datetime, timedelta, timezone
-from typing import Any, Optional
+from typing import Any, Callable, Optional
 
 try:
-    from webauthn import (
-# See: https://github.com/LukhasAI/Lukhas/issues/575
-# See: https://github.com/LukhasAI/Lukhas/issues/576
-# See: https://github.com/LukhasAI/Lukhas/issues/577
-# See: https://github.com/LukhasAI/Lukhas/issues/578
-    )
-    from webauthn.helpers import structs
+    if importlib.util.find_spec("webauthn") is not None:
+        from webauthn import (
+            generate_authentication_options as _generate_authentication_options,
+            generate_registration_options as _generate_registration_options,
+        )
+        from webauthn.helpers import structs
 
-    WEBAUTHN_AVAILABLE = True
+        WEBAUTHN_AVAILABLE = True
+    else:
+        WEBAUTHN_AVAILABLE = False
+        _generate_registration_options = None
+        _generate_authentication_options = None
+        structs = None
 except ImportError:
     # Fallback for systems without webauthn library
     WEBAUTHN_AVAILABLE = False
+    _generate_registration_options = None
+    _generate_authentication_options = None
     structs = None
 
 
@@ -124,35 +132,41 @@ class WebAuthnManager:
                     {"id": cred.credential_id, "type": "public-key"} for cred in self.credentials[user_id]
                 ]
 
-            # Generate registration options
-            registration_options = {
-                "challenge": challenge_b64,
-                "rp": {"name": self.rp_name, "id": self.rp_id},
-                "user": {
-                    "id": base64.urlsafe_b64encode(user_id.encode()).decode().rstrip("="),
-                    "name": user_name,
-                    "displayName": user_display_name,
-                },
-                "pubKeyCredParams": [
-                    {"alg": -7, "type": "public-key"},  # ES256
-                    {"alg": -35, "type": "public-key"},  # ES384
-                    {"alg": -36, "type": "public-key"},  # ES512
-                    {"alg": -8, "type": "public-key"},  # EdDSA
-                    {"alg": -257, "type": "public-key"},  # RS256
-                ],
-                "authenticatorSelection": {
-                    "authenticatorAttachment": tier_reqs.get("platform_attachment", "any"),
-                    "userVerification": ("required" if tier_reqs.get("user_verification", False) else "preferred"),
-                    "residentKey": ("required" if tier_reqs.get("resident_key", False) else "preferred"),
-                },
-                "attestation": "direct" if user_tier >= 3 else "none",
-                "excludeCredentials": existing_credentials,
-                "timeout": 60000,  # 60 seconds
-                "extensions": {
-                    "credProps": True,
-                    "hmacCreateSecret": user_tier >= 4,
-                },
-            }
+            # Generate registration options baseline
+            registration_options = self._build_manual_registration_options(
+                challenge_b64,
+                existing_credentials,
+                tier_reqs,
+                user_display_name,
+                user_id,
+                user_name,
+                user_tier,
+            )
+
+            # Augment with official webauthn library when available
+            if WEBAUTHN_AVAILABLE and _generate_registration_options is not None:
+                try:
+                    library_options = _generate_registration_options(
+                        rp_id=self.rp_id,
+                        rp_name=self.rp_name,
+                        user_id=user_id.encode(),
+                        user_name=user_name,
+                        user_display_name=user_display_name,
+                        challenge=challenge,
+                        attestation=self._resolve_attestation_preference(user_tier),
+                        authenticator_selection=self._resolve_authenticator_selection(tier_reqs),
+                        exclude_credentials=self._resolve_exclude_credentials(existing_credentials),
+                        timeout=60000,
+                        extensions=self._resolve_registration_extensions(user_tier),
+                    )
+                    registration_options = self._merge_library_options(
+                        registration_options,
+                        library_options,
+                        challenge_b64,
+                    )
+                    challenge_b64 = registration_options["challenge"]
+                except Exception:
+                    pass
 
             # Store pending registration
             registration_id = f"reg_{secrets.token_hex(16)}"
@@ -305,18 +319,33 @@ class WebAuthnManager:
             # Get tier requirements
             tier_reqs = self.tier_requirements.get(tier_level, self.tier_requirements[0])
 
-            # Generate authentication options
-            auth_options = {
-                "challenge": challenge_b64,
-                "rpId": self.rp_id,
-                "allowCredentials": allowed_credentials,
-                "userVerification": ("required" if tier_reqs.get("user_verification", False) else "preferred"),
-                "timeout": 60000,  # 60 seconds
-                "extensions": {
-                    "hmacGetSecret": tier_level >= 4,
-                    "credProps": True,
-                },
-            }
+            # Generate authentication options baseline
+            auth_options = self._build_manual_authentication_options(
+                allowed_credentials,
+                challenge_b64,
+                tier_level,
+                tier_reqs,
+            )
+
+            if WEBAUTHN_AVAILABLE and _generate_authentication_options is not None:
+                try:
+                    library_options = _generate_authentication_options(
+                        rp_id=self.rp_id,
+                        challenge=challenge,
+                        allow_credentials=self._resolve_allow_credentials(allowed_credentials),
+                        user_verification=self._resolve_user_verification(tier_reqs),
+                        timeout=60000,
+                        extensions=self._resolve_authentication_extensions(tier_level),
+                    )
+                    auth_options = self._merge_library_options(
+                        auth_options,
+                        library_options,
+                        challenge_b64,
+                        challenge_key="challenge",
+                    )
+                    challenge_b64 = auth_options["challenge"]
+                except Exception:
+                    pass
 
             # Store pending authentication
             auth_id = f"auth_{secrets.token_hex(16)}"
@@ -527,6 +556,213 @@ class WebAuthnManager:
 
     # Helper methods
 
+    def _build_manual_registration_options(
+        self,
+        challenge_b64: str,
+        existing_credentials: list[dict[str, Any]],
+        tier_reqs: dict[str, Any],
+        user_display_name: str,
+        user_id: str,
+        user_name: str,
+        user_tier: int,
+    ) -> dict[str, Any]:
+        return {
+            "challenge": challenge_b64,
+            "rp": {"name": self.rp_name, "id": self.rp_id},
+            "user": {
+                "id": base64.urlsafe_b64encode(user_id.encode()).decode().rstrip("="),
+                "name": user_name,
+                "displayName": user_display_name,
+            },
+            "pubKeyCredParams": [
+                {"alg": -7, "type": "public-key"},
+                {"alg": -35, "type": "public-key"},
+                {"alg": -36, "type": "public-key"},
+                {"alg": -8, "type": "public-key"},
+                {"alg": -257, "type": "public-key"},
+            ],
+            "authenticatorSelection": {
+                "authenticatorAttachment": tier_reqs.get("platform_attachment", "any"),
+                "userVerification": ("required" if tier_reqs.get("user_verification", False) else "preferred"),
+                "residentKey": ("required" if tier_reqs.get("resident_key", False) else "preferred"),
+            },
+            "attestation": "direct" if user_tier >= 3 else "none",
+            "excludeCredentials": existing_credentials,
+            "timeout": 60000,
+            "extensions": self._resolve_registration_extensions(user_tier),
+        }
+
+    def _build_manual_authentication_options(
+        self,
+        allowed_credentials: list[dict[str, Any]],
+        challenge_b64: str,
+        tier_level: int,
+        tier_reqs: dict[str, Any],
+    ) -> dict[str, Any]:
+        return {
+            "challenge": challenge_b64,
+            "rpId": self.rp_id,
+            "allowCredentials": allowed_credentials,
+            "userVerification": ("required" if tier_reqs.get("user_verification", False) else "preferred"),
+            "timeout": 60000,
+            "extensions": self._resolve_authentication_extensions(tier_level),
+        }
+
+    def _merge_library_options(
+        self,
+        base_options: dict[str, Any],
+        library_options: Any,
+        fallback_challenge_b64: str,
+        *,
+        challenge_key: str = "challenge",
+    ) -> dict[str, Any]:
+        merged = dict(base_options)
+        library_dict = _coerce_to_dict(library_options)
+        normalized = _normalize_options(library_dict)
+
+        for key, value in normalized.items():
+            target_key = key
+            if key == "exclude_credentials":
+                target_key = "excludeCredentials"
+            elif key == "allow_credentials":
+                target_key = "allowCredentials"
+            elif key == "rp_id":
+                target_key = "rpId"
+            elif key == "user_verification":
+                target_key = "userVerification"
+
+            if target_key == challenge_key:
+                merged[target_key] = self._ensure_challenge_base64(value, fallback_challenge_b64)
+            else:
+                merged[target_key] = value
+
+        if challenge_key not in merged:
+            merged[challenge_key] = fallback_challenge_b64
+
+        return merged
+
+    def _ensure_challenge_base64(self, value: Any, fallback: str) -> str:
+        if isinstance(value, (bytes, bytearray)):
+            return base64.urlsafe_b64encode(value).decode().rstrip("=")
+        if isinstance(value, str):
+            return value
+        return fallback
+
+    def _resolve_attestation_preference(self, user_tier: int) -> Any:
+        if structs and hasattr(structs, "AttestationConveyancePreference"):
+            attr = "DIRECT" if user_tier >= 3 else "NONE"
+            return getattr(structs.AttestationConveyancePreference, attr, attr.lower())
+        return "direct" if user_tier >= 3 else "none"
+
+    def _resolve_authenticator_selection(self, tier_reqs: dict[str, Any]) -> Any:
+        if not structs:
+            return None
+
+        attachment_value = tier_reqs.get("platform_attachment")
+        authenticator_attachment = None
+        if attachment_value and hasattr(structs, "AuthenticatorAttachment"):
+            attr_name = attachment_value.replace("-", "_").upper()
+            authenticator_attachment = getattr(structs.AuthenticatorAttachment, attr_name, None)
+
+        resident_key = (
+            getattr(structs.ResidentKeyRequirement, "REQUIRED", "required")
+            if tier_reqs.get("resident_key", False)
+            else getattr(structs.ResidentKeyRequirement, "PREFERRED", "preferred")
+        )
+        user_verification = (
+            getattr(structs.UserVerificationRequirement, "REQUIRED", "required")
+            if tier_reqs.get("user_verification", False)
+            else getattr(structs.UserVerificationRequirement, "PREFERRED", "preferred")
+        )
+
+        authenticator_selection_cls = getattr(structs, "AuthenticatorSelectionCriteria", None)
+        if authenticator_selection_cls is None:
+            return None
+
+        try:
+            return authenticator_selection_cls(
+                authenticator_attachment=authenticator_attachment,
+                resident_key=resident_key,
+                user_verification=user_verification,
+            )
+        except Exception:
+            return None
+
+    def _resolve_exclude_credentials(self, existing_credentials: list[dict[str, Any]]) -> Any:
+        if not structs or not hasattr(structs, "PublicKeyCredentialDescriptor"):
+            return existing_credentials
+
+        descriptors = []
+        descriptor_cls = getattr(structs, "PublicKeyCredentialDescriptor")
+        for cred in existing_credentials:
+            try:
+                descriptors.append(
+                    descriptor_cls(
+                        type=cred.get("type", "public-key"),
+                        id=cred.get("id"),
+                        transports=cred.get("transports"),
+                    )
+                )
+            except Exception:
+                return existing_credentials
+        return descriptors
+
+    def _resolve_registration_extensions(self, user_tier: int) -> dict[str, Any]:
+        extensions = {
+            "credProps": True,
+            "hmacCreateSecret": user_tier >= 4,
+        }
+
+        if structs and hasattr(structs, "RegistrationExtensionInputs"):
+            try:
+                extension_cls: Callable[..., Any] = getattr(structs, "RegistrationExtensionInputs")
+                return extension_cls(**extensions)  # type: ignore[return-value]
+            except Exception:
+                return extensions
+
+        return extensions
+
+    def _resolve_authentication_extensions(self, tier_level: int) -> dict[str, Any]:
+        extensions = {
+            "hmacGetSecret": tier_level >= 4,
+            "credProps": True,
+        }
+
+        if structs and hasattr(structs, "AuthenticationExtensionsClientInputs"):
+            try:
+                extension_cls: Callable[..., Any] = getattr(structs, "AuthenticationExtensionsClientInputs")
+                return extension_cls(**extensions)  # type: ignore[return-value]
+            except Exception:
+                return extensions
+
+        return extensions
+
+    def _resolve_allow_credentials(self, allowed_credentials: list[dict[str, Any]]) -> Any:
+        if not structs or not hasattr(structs, "PublicKeyCredentialDescriptor"):
+            return allowed_credentials
+
+        descriptor_cls = getattr(structs, "PublicKeyCredentialDescriptor")
+        descriptors = []
+        for cred in allowed_credentials:
+            try:
+                descriptors.append(
+                    descriptor_cls(
+                        type=cred.get("type", "public-key"),
+                        id=cred.get("id"),
+                        transports=cred.get("transports"),
+                    )
+                )
+            except Exception:
+                return allowed_credentials
+        return descriptors
+
+    def _resolve_user_verification(self, tier_reqs: dict[str, Any]) -> Any:
+        required = tier_reqs.get("user_verification", False)
+        if structs and hasattr(structs, "UserVerificationRequirement"):
+            attr = "REQUIRED" if required else "PREFERRED"
+            return getattr(structs.UserVerificationRequirement, attr, attr.lower())
+        return "required" if required else "preferred"
+
     def _determine_device_type(self, response: dict[str, Any]) -> str:
         """Determine device type from WebAuthn response"""
         transports = response.get("transports", [])
@@ -648,9 +884,41 @@ class WebAuthnManager:
         device_dist = {}
         for creds in self.credentials.values():
             for cred in creds:
-                device_type = cred.device_type
+                device_type = cred.device_type or "unknown"
                 device_dist[device_type] = device_dist.get(device_type, 0) + 1
         return device_dist
+
+
+def _coerce_to_dict(options: Any) -> dict[str, Any]:
+    if options is None:
+        return {}
+
+    if hasattr(options, "model_dump") and callable(options.model_dump):
+        return options.model_dump()
+
+    if hasattr(options, "dict") and callable(options.dict):
+        return options.dict()
+
+    if is_dataclass(options):
+        return asdict(options)
+
+    if isinstance(options, dict):
+        return options
+
+    if hasattr(options, "__dict__"):
+        return dict(options.__dict__)
+
+    return {}
+
+
+def _normalize_options(value: Any) -> Any:
+    if isinstance(value, dict):
+        return {key: _normalize_options(val) for key, val in value.items()}
+    if isinstance(value, list):
+        return [_normalize_options(item) for item in value]
+    if hasattr(value, "value"):
+        return value.value
+    return value
 
 
 # Alias for compatibility

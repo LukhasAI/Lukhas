@@ -21,6 +21,51 @@ All errors from the Lukhas OpenAI façade follow OpenAI-compatible JSON shapes.
 
 ---
 
+## 403 Forbidden (Insufficient Permissions)
+
+**When**: Token is valid but lacks required scope(s)
+
+```json
+{
+  "error": {
+    "type": "insufficient_permissions",
+    "message": "Missing required scope(s): api.write",
+    "code": "insufficient_permissions",
+    "missing_scopes": ["api.write"]
+  }
+}
+```
+
+**Headers**: None
+
+**Resolution**:
+- Request a token with the required scopes
+- Adjust the integration to request fewer privileges
+
+---
+
+## 403 Forbidden (Policy Denied)
+
+**When**: Policy guard rejects the request based on lane or risk posture
+
+```json
+{
+  "error": {
+    "type": "policy_denied",
+    "message": "Token denied by policy",
+    "code": "policy_denied"
+  }
+}
+```
+
+**Headers**: None
+
+**Resolution**:
+- Confirm the deployment lane allows the requested operation
+- Contact the platform team if you believe the decision is incorrect
+
+---
+
 ## 429 Rate Limit Exceeded
 
 **When**: Request rate exceeds configured limits

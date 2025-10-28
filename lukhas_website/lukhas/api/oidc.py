@@ -61,6 +61,27 @@ logger = logging.getLogger(__name__)
 tracer = trace.get_tracer(__name__)
 security = HTTPBearer(auto_error=False)
 
+try:
+    from ..governance.guardian_system import GuardianSystem
+    from ..identity.tiers import (
+        SecurityPolicy,
+        TieredAuthenticator,
+        create_tiered_authenticator,
+    )
+
+    TIERED_AUTH_SYSTEM_AVAILABLE = True
+except ImportError:
+    GuardianSystem = None  # type: ignore[assignment]
+    SecurityPolicy = None  # type: ignore[assignment]
+    TieredAuthenticator = None  # type: ignore[assignment]
+    create_tiered_authenticator = None  # type: ignore[assignment]
+    TIERED_AUTH_SYSTEM_AVAILABLE = False
+    logger.warning("Tiered authentication system components not available")
+
+_tiered_auth_system: Optional["TieredAuthenticator"] = None
+_guardian_system: Optional["GuardianSystem"] = None
+_tiered_auth_lock = asyncio.Lock()
+
 # Global instances
 metrics_collector = get_metrics_collector()
 rate_limiter = get_rate_limiter()
@@ -87,6 +108,45 @@ router = APIRouter(
         500: {"model": ErrorResponse, "description": "Internal Server Error"}
     }
 )
+
+
+async def get_tiered_auth_system() -> "TieredAuthenticator":
+    """Lazily initialize and return the tiered authentication system."""
+
+    if not TIERED_AUTH_SYSTEM_AVAILABLE:
+        logger.warning("Tiered authentication system requested but unavailable")
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Tiered authentication system unavailable",
+        )
+
+    global _tiered_auth_system, _guardian_system
+
+    if _tiered_auth_system is not None:
+        return _tiered_auth_system
+
+    async with _tiered_auth_lock:
+        if _tiered_auth_system is not None:
+            return _tiered_auth_system
+
+        try:
+            if _guardian_system is None:
+                _guardian_system = GuardianSystem()
+
+            _tiered_auth_system = create_tiered_authenticator(
+                security_policy=SecurityPolicy(),
+                guardian_system=_guardian_system,
+            )
+
+            logger.info("Tiered authentication system initialized for OIDC integration")
+            return _tiered_auth_system
+        except Exception as exc:
+            logger.exception("Failed to initialize tiered authentication system for OIDC integration")
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Tiered authentication system initialization failed",
+            ) from exc
+
 
 # Security middleware and dependencies
 
@@ -1095,7 +1155,9 @@ async def authenticate_with_tier(
     with tracer.start_span("api.oidc.authenticate_tier") as span:
         try:
             # Get tiered authentication system
-# See: https://github.com/LukhasAI/Lukhas/issues/583
+            auth_system = await get_tiered_auth_system()
+
+            # See: https://github.com/LukhasAI/Lukhas/issues/583
 
             # Prepare authentication request
             auth_request = {

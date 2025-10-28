@@ -6,6 +6,7 @@
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
+
 from bridge.external_adapters.gmail_adapter import GmailAdapter, GmailMessage
 from bridge.external_adapters.oauth_manager import OAuthManager
 

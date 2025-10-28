@@ -11,6 +11,7 @@ from collections import defaultdict
 from typing import Optional
 
 import numpy as np
+
 from core.common import get_logger
 
 # TAG:consciousness

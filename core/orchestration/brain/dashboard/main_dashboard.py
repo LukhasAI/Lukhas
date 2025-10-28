@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from typing import Any, Optional
 
 import structlog
+
 from core.identity.vault.lukhas_id import (
     IdentityManager,
     IdentityVerificationError,
@@ -83,10 +84,10 @@ class BrainDashboard:
 
 class HealixDashboard:
     """Placeholder for Healix dashboard functionality."""
-    
+
     def __init__(self):
         self.status = "initialized"
-    
+
     def render(self):
         """Placeholder render method."""
         return {"status": "placeholder"}

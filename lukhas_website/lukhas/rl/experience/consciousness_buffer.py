@@ -21,9 +21,9 @@ from typing import Any
 
 import numpy as np
 import torch
-from observability.matriz_decorators import instrument
 
 from memory import MemoryFoldSystem
+from observability.matriz_decorators import instrument
 
 logger = logging.getLogger(__name__)
 

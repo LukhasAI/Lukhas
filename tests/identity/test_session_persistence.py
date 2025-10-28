@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Dict, Optional
 
 import pytest
+
 from identity.session_store import (
     RedisSessionStore,
     SessionData,

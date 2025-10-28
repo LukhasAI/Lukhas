@@ -26,14 +26,14 @@ import uvicorn
 from fastapi import BackgroundTasks, Depends, FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, RedirectResponse
+from pydantic import BaseModel, Field, validator
+from starlette.status import HTTP_500_INTERNAL_SERVER_ERROR
 
 # Import MATRIZ components
 from MATRIZ.core.orchestrator import CognitiveOrchestrator
 from MATRIZ.nodes.fact_node import FactNode
 from MATRIZ.nodes.math_node import MathNode
 from MATRIZ.nodes.validator_node import ValidatorNode
-from pydantic import BaseModel, Field, validator
-from starlette.status import HTTP_500_INTERNAL_SERVER_ERROR
 
 # Configure logging
 logging.basicConfig(
