@@ -260,6 +260,9 @@ async def test_guardian_monitor_includes_compliance_metadata_when_allowed():
     assert compliance_data["required_actions"] == _AllowedComplianceResult.required_actions
     assert compliance_data["explanation"] == _AllowedComplianceResult.compliance_explanation
     assert compliance_data["confidence"] == pytest.approx(_AllowedComplianceResult.confidence_in_decision)
+    assert compliance_data["required_actions"] == _AllowedComplianceResult.required_actions
+    assert compliance_data["explanation"] == _AllowedComplianceResult.compliance_explanation
+    assert compliance_data["confidence"] == pytest.approx(_AllowedComplianceResult.confidence_in_decision)
 
 
 @pytest.mark.asyncio

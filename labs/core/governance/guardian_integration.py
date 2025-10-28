@@ -283,6 +283,15 @@ class GuardianIntegrationMiddleware:
                 decision_data = dict(decision_data)
 
                 compliance_metadata: dict[str, Any] = {
+                    "required_actions": list(compliance_outcome.get("required_actions") or []),
+                for field in ("explanation", "confidence", "max_risk_level", "processing_time_ms"):
+                    value = compliance_outcome.get(field)
+                    if value is not None:
+                        compliance_metadata[field] = value
+
+                decision_data["constitutional_compliance"] = compliance_metadata
+
+                required_actions = compliance_metadata["required_actions"]
                     "allowed": compliance_outcome["allowed"],
                     "score": compliance_outcome.get("score"),
                     "source": compliance_outcome.get("source"),
@@ -350,8 +359,17 @@ class GuardianIntegrationMiddleware:
             self.integration_metrics["failed_integrations"] += 1
 
             if self.config.fail_open:
-                logger.warning(f"⚠️ Fail-open mode: Allowing {func.__name__} despite monitoring failure")
-                return await func(*args, **kwargs)
+
+                compliance_metadata: dict[str, Any] = {
+                    "required_actions": list(compliance_outcome.get("required_actions") or []),
+                for field in ("explanation", "confidence", "max_risk_level", "processing_time_ms"):
+                    value = compliance_outcome.get(field)
+                    if value is not None:
+                        compliance_metadata[field] = value
+
+                decision_data["constitutional_compliance"] = compliance_metadata
+
+                required_actions = compliance_metadata["required_actions"]
             else:
                 logger.error(f"🚫 Fail-closed mode: Blocking {func.__name__} due to monitoring failure")
                 raise
