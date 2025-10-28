@@ -28,25 +28,34 @@ logger = logging.getLogger(__name__)
 # Import LUKHAS identity components
 try:
     from .alias_format import make_alias, parse_alias, validate_alias_format
-# See: https://github.com/LukhasAI/Lukhas/issues/585
+
+    # See: https://github.com/LukhasAI/Lukhas/issues/585
+    from .auth_service import (
         AuthenticationService,
         AuthResult,
     )
-    from .tier_system import (  # noqa: F401  # TODO: .tier_system.TierLevel; consid...
+
+    from .tier_system import (
         TierLevel,
         normalize_tier,
     )
-# See: https://github.com/LukhasAI/Lukhas/issues/586
+
+    # See: https://github.com/LukhasAI/Lukhas/issues/586
+    from .token_generator import (
         EnvironmentSecretProvider,
         TokenClaims,
         TokenGenerator,
     )
-# See: https://github.com/LukhasAI/Lukhas/issues/587
+
+    # See: https://github.com/LukhasAI/Lukhas/issues/587
+    from .token_introspection import (
         IntrospectionRequest,
         IntrospectionResponse,
         TokenIntrospectionService,
     )
-# See: https://github.com/LukhasAI/Lukhas/issues/588
+
+    # See: https://github.com/LukhasAI/Lukhas/issues/588
+    from .token_validator import (
         TokenValidator,
         ValidationContext,
         ValidationResult,
@@ -230,6 +239,16 @@ class LiDTokenSystemTest:
                 zone="test"
             )
 
+            if not isinstance(token_response.claims, TokenClaims):
+                raise AssertionError(
+                    "Token generator returned claims that do not match TokenClaims dataclass"
+                )
+
+            if token_response.claims.lukhas_namespace != claims["lukhas_namespace"]:
+                raise AssertionError(
+                    "Generated token claims namespace does not match requested namespace"
+                )
+
             generation_time = (time.time() - start_time) * 1000
 
             self.metrics.append(PerformanceMetrics(
@@ -256,6 +275,30 @@ class LiDTokenSystemTest:
                 token_response.jwt,
                 validation_context
             )
+
+            if not isinstance(validation_result, ValidationResult):
+                raise AssertionError("Token validator returned unexpected result type")
+
+            expected_tier = normalize_tier(claims["lukhas_tier"])
+            if not isinstance(expected_tier, TierLevel):
+                raise AssertionError("Normalized tier should resolve to a TierLevel enum value")
+            if validation_result.tier_level != expected_tier:
+                raise AssertionError(
+                    "ValidationResult tier level did not match normalized token tier"
+                )
+
+            if not validation_result.guardian_approved:
+                raise AssertionError("Guardian approval expected during validation")
+
+            if validation_result.namespace != token_response.claims.lukhas_namespace:
+                raise AssertionError(
+                    "Validation namespace mismatch between token and validator"
+                )
+
+            if validation_result.validation_time_ms <= 0:
+                raise AssertionError(
+                    "Validation time metrics must be recorded for successful validation"
+                )
 
             validation_time = (time.time() - start_time) * 1000
 
@@ -323,6 +366,9 @@ class LiDTokenSystemTest:
                 auth_method="lid_token"
             )
 
+            if not isinstance(auth_result, AuthResult):
+                raise AssertionError("Authentication service returned unexpected result type")
+
             auth_time = (time.time() - start_time) * 1000
 
             self.metrics.append(PerformanceMetrics(
@@ -346,6 +392,9 @@ class LiDTokenSystemTest:
             start_time = time.time()
 
             token_auth_result = self.auth_service.authenticate_token(auth_result.session_token)
+
+            if not isinstance(token_auth_result, AuthResult):
+                raise AssertionError("Token authentication returned unexpected result type")
 
             token_auth_time = (time.time() - start_time) * 1000
 
