@@ -83,7 +83,13 @@ class RouterFastPathLoadTest:
         async def process_request(request_id: int) -> Dict:
             query = f'Test query {request_id}: What is {request_id * 2}?'
             result = await self.orchestrator.process_query(query)
-            return {'id': request_id, 'success': 'error' not in result, 'latency_ms': result.get('metrics', {}).get('total_duration_ms', 0), 'selected_node': self._extract_selected_node(result), 'within_budget': result.get('metrics', {}).get('within_budget', False)}
+            return {
+                'id': request_id,
+                'success': 'error' not in result,
+                'latency_ms': result.get('metrics', {}).get('total_duration_ms', 0),
+                'selected_node': self._extract_selected_node(result),
+                'within_budget': result.get('metrics', {}).get('within_budget', False)
+            }
         tasks = [process_request(i) for i in range(num_requests)]
         request_results = await asyncio.gather(*tasks, return_exceptions=True)
         total_time = time.perf_counter() - start_time
