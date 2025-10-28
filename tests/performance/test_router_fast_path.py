@@ -100,7 +100,25 @@ class RouterFastPathLoadTest:
         latencies = [r['latency_ms'] for r in successful_results]
         avg_latency = statistics.mean(latencies) if latencies else 0
         p95_latency = statistics.quantiles(latencies, n=20)[18] if len(latencies) >= 20 else max(latencies) if latencies else 0
-        results = {'test': 'router_fast_path_load', 'num_requests': num_requests, 'successful_requests': len(successful_results), 'fast_path_selections': fast_selections, 'fast_path_rate_percent': round(fast_path_rate, 1), 'total_time_seconds': round(total_time, 2), 'throughput_rps': round(len(successful_results) / total_time, 1), 'latency_ms': {'average': round(avg_latency, 2), 'p95': round(p95_latency, 2)}, 'slo_compliance': {'target_fast_path_rate': 80.0, 'actual_fast_path_rate': round(fast_path_rate, 1), 'compliant': fast_path_rate >= 80.0}, 'node_usage': self._analyze_node_usage()}
+        results = {
+            'test': 'router_fast_path_load',
+            'num_requests': num_requests,
+            'successful_requests': len(successful_results),
+            'fast_path_selections': fast_selections,
+            'fast_path_rate_percent': round(fast_path_rate, 1),
+            'total_time_seconds': round(total_time, 2),
+            'throughput_rps': round(len(successful_results) / total_time, 1),
+            'latency_ms': {
+                'average': round(avg_latency, 2),
+                'p95': round(p95_latency, 2),
+            },
+            'slo_compliance': {
+                'target_fast_path_rate': 80.0,
+                'actual_fast_path_rate': round(fast_path_rate, 1),
+                'compliant': fast_path_rate >= 80.0,
+            },
+            'node_usage': self._analyze_node_usage(),
+        }
         print('📊 Fast-Path Selection Results:')
         print(f'   Fast-Path Rate: {fast_path_rate:.1f}% (target: ≥80%)')
         print(f'   Success Rate: {len(successful_results)}/{num_requests}')
