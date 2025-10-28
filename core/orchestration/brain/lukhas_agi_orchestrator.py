@@ -14,7 +14,7 @@ logger = logging.getLogger("lukhas_agi_orchestrator")
 # ✅ TODO: Replace stub orchestration logic with production multi-agent routing once available.
 
 
-@dataclass(slots=True)
+@dataclass
 class SymbolicTraceEntry:
     """Snapshot of orchestrator metrics for symbolic tracing."""
 
@@ -34,7 +34,7 @@ class SymbolicTraceEntry:
         }
 
 
-@dataclass(slots=True)
+@dataclass
 class OrchestratorMetrics:
     """Mutable metrics container for orchestrator state."""
 
