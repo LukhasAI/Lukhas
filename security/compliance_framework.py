@@ -110,8 +110,8 @@ def _normalise_control_status(value: Any) -> ControlStatus:
             if status.value == normalized:
                 return status
 
-    # Unknown or falsy values default to not implemented.
-    return ControlStatus.NOT_IMPLEMENTED if not value else ControlStatus.PARTIALLY_IMPLEMENTED
+    # Unknown values default to not implemented to avoid overstating compliance.
+    return ControlStatus.NOT_IMPLEMENTED
 
 
 def _score_to_level(score: int) -> RiskLevel:
