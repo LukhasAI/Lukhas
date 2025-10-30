@@ -1,71 +1,61 @@
-# @generated LUKHAS scaffold v1.0
-# template_id: module.scaffold/v1
-# template_commit: f95979630
-"""Unit tests for the :mod:`security_reports` module."""
+"""Unit tests for the security_reports configuration helpers."""
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import pytest
-from security_reports import (
-    SecurityReport,
-    SecurityReportRepository,
-    SecurityReportValidationError,
-    SeverityLevel,
-    build_secure_payload,
-    validate_report,
-)
+import yaml
+
+from security_reports import SecurityReportsConfig, load_config
+from security_reports.configuration import SecurityConfigurationError
 
 
-@pytest.mark.unit
-def test_build_secure_payload_redacts_sensitive_values():
-    report = SecurityReport(
-        report_id="rep-001",
-        severity=SeverityLevel.HIGH,
-        summary="API token exposed in request logs",
-        details={
-            "api_token": "abcd-1234",
-            "endpoint": "/v1/audit",
-        },
+CONFIG_PATH = Path(__file__).resolve().parent.parent / "config" / "config.yaml"
+
+
+def test_load_config_returns_secure_defaults():
+    config = load_config(CONFIG_PATH)
+
+    assert isinstance(config, SecurityReportsConfig)
+    assert config.name == "security_reports"
+    assert config.version == "1.0.0"
+    assert config.performance_monitoring is True
+    assert config.is_secure()
+
+
+def test_load_config_disallows_debug_mode(temp_dir: Path) -> None:
+    insecure_payload = {
+        "module": {"name": "security_reports", "version": "1.0.0", "description": "test"},
+        "runtime": {"log_level": "INFO", "debug_mode": True, "performance_monitoring": True},
+    }
+
+    insecure_config = temp_dir / "config.yaml"
+    insecure_config.write_text(yaml.safe_dump(insecure_payload), encoding="utf-8")
+
+    with pytest.raises(SecurityConfigurationError):
+        load_config(insecure_config)
+
+
+def test_is_secure_flags_low_log_levels():
+    config = SecurityReportsConfig(
+        name="security_reports",
+        version="1.0.0",
+        description="test",
+        log_level="INFO",
+        debug_mode=False,
+        performance_monitoring=True,
     )
 
-    payload = build_secure_payload(report)
+    assert config.is_secure()
 
-    assert payload["report_id"] == "rep-001"
-    assert payload["severity"] == "high"
-    assert payload["details"]["api_token"] == "[REDACTED]"
-    assert payload["details"]["endpoint"] == "/v1/audit"
-
-
-@pytest.mark.unit
-def test_validate_report_rejects_sensitive_detail_values():
-    report = SecurityReport(
-        report_id="rep-002",
-        severity=SeverityLevel.MEDIUM,
-        summary="Service account credential rotated",
-        details={"status": "rotated", "notes": "token=abcd-1234"},
+    insecure = SecurityReportsConfig(
+        name="security_reports",
+        version="1.0.0",
+        description="test",
+        log_level="DEBUG",
+        debug_mode=False,
+        performance_monitoring=True,
     )
 
-    with pytest.raises(SecurityReportValidationError):
-        validate_report(report)
-
-
-@pytest.mark.unit
-def test_repository_upsert_and_search_returns_sanitised_reports():
-    repo = SecurityReportRepository()
-    report = SecurityReport(
-        report_id="rep-003",
-        severity=SeverityLevel.CRITICAL,
-        summary="Compromised credential detected",
-        details={
-            "credential_id": "cred-123",
-            "admin_password": "hunter2",
-        },
-    )
-
-    repo.upsert(report)
-
-    stored = repo.get("rep-003")
-    assert stored.details["admin_password"] == "[REDACTED]"
-
-    critical_reports = repo.search_by_severity("CRITICAL")
-    assert critical_reports == [stored]
+    assert not insecure.is_secure()

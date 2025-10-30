@@ -1,19 +1,8 @@
-"""Security reports module exposing validation and storage helpers."""
+"""Security reports module utilities."""
 
-from .core import (
-    SecurityReport,
-    SecurityReportRepository,
-    SecurityReportValidationError,
-    SeverityLevel,
-    build_secure_payload,
-    validate_report,
-)
+from .configuration import SecurityReportsConfig, load_config
 
 __all__ = [
-    "SecurityReport",
-    "SecurityReportRepository",
-    "SecurityReportValidationError",
-    "SeverityLevel",
-    "build_secure_payload",
-    "validate_report",
+    "SecurityReportsConfig",
+    "load_config",
 ]
