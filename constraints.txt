@@ -553,9 +553,9 @@ gitpython==3.1.45 \
     --hash=sha256:85b0ee964ceddf211c41b9f27a49086010a190fd8132a24e21f362a4b36a791c \
     --hash=sha256:8908cb2e02fb3b93b7eb0f2827125cb699869470432cc885f019b8fd0fccff77
     # via streamlit
-googleapis-common-protos==1.70.0 \
-    --hash=sha256:0e1b44e0ea153e6594f9f394fef15193a68aaaea2d843f83e2742717ca753257 \
-    --hash=sha256:b8bfcca8c25a2bb253e0e0b0adaf8c00773e5e6af6fd92397576680b807e0fd8
+googleapis-common-protos==1.71.0 \
+    --hash=sha256:1aec01e574e29da63c80ba9f7bbf1ccfaacf1da877f23609fe236ca7c72a2e2e \
+    --hash=sha256:59034a1d849dc4d18971997a72ac56246570afdd17f9369a0ff68218d50ab78c
     # via
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-exporter-otlp-proto-http

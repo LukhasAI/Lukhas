@@ -32,8 +32,8 @@ from fastapi import (
 )
 from fastapi.responses import JSONResponse, StreamingResponse
 
-from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
 from adapters.openai import TokenClaims, require_bearer
+from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
 
 from .schemas import ModulatedChatRequest, ModulatedChatResponse
 
