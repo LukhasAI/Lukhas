@@ -42,12 +42,27 @@ except Exception:  # pragma: no cover - metrics optional in tests
 # OpenTelemetry instrumentation
 try:
     from observability.otel_instrumentation import (
-        initialize_otel_instrumentation,  # noqa: F401  # TODO: observability.otel_inst...
+        initialize_otel_instrumentation,
         instrument_matriz_stage,
         matriz_pipeline_span,
     )
 
     OTEL_AVAILABLE = True
+    
+    # Initialize OpenTelemetry instrumentation
+    def _ensure_otel_initialized():
+        """Ensure OpenTelemetry is properly initialized for MATRIZ."""
+        try:
+            initialize_otel_instrumentation()
+        except Exception as error:
+            logger.warning(
+                "otel_initialization_failed",
+                error=str(error),
+                msg="OpenTelemetry initialization failed, continuing without tracing"
+            )
+            
+    _ensure_otel_initialized()
+    
 except ImportError:
     OTEL_AVAILABLE = False
 
