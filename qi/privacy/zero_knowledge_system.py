@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import logging
-from typing import Any
+from dataclasses import dataclass, field
+from typing import Any, Mapping, MutableMapping
 
 logger = logging.getLogger(__name__)
 
@@ -40,6 +43,33 @@ from bulletproofs import BulletproofSystem
 from zksnark import ZkSnark
 
 
+@dataclass(slots=True)
+class PrivacyStatement:
+    """Metadata describing a zero-knowledge proof statement."""
+
+    statement_id: str
+    requires_non_interactive: bool
+    circuit_size: int
+    public_input: Any
+    metadata: MutableMapping[str, Any] = field(default_factory=dict)
+
+    def is_suitable_for_adaptive_mode(self, *, threshold: int = 10000) -> bool:
+        """Return ``True`` when the statement fits the adaptive proof parameters."""
+
+        return self.requires_non_interactive and self.circuit_size < threshold
+
+    def describe(self) -> Mapping[str, Any]:
+        """Provide a read-only view of statement details for auditing."""
+
+        return {
+            "statement_id": self.statement_id,
+            "requires_non_interactive": self.requires_non_interactive,
+            "circuit_size": self.circuit_size,
+            "public_input": self.public_input,
+            "metadata": dict(self.metadata),
+        }
+
+
 class ZeroKnowledgePrivacyEngine:
     """
     Implements zero-knowledge proofs for private AI interactions
@@ -53,6 +83,7 @@ class ZeroKnowledgePrivacyEngine:
     async def create_privacy_preserving_proof(
         self,
 # See: https://github.com/LukhasAI/Lukhas/issues/601
+        statement: PrivacyStatement,
         witness: PrivateWitness,  # noqa: F821  # TODO: PrivateWitness
         proof_type: str = "adaptive",
     ) -> ZeroKnowledgeProof:  # noqa: F821  # TODO: ZeroKnowledgeProof
@@ -61,7 +92,7 @@ class ZeroKnowledgePrivacyEngine:
         """
         if proof_type == "adaptive":
             # Choose optimal proof system based on statement
-            if statement.requires_non_interactive and statement.circuit_size < 10000:
+            if statement.is_suitable_for_adaptive_mode():
                 return await self._create_zksnark_proof(statement, witness)
             else:
                 return await self._create_bulletproof(statement, witness)
