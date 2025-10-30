@@ -42,9 +42,10 @@ class TestSchemaEndToEnd:
     def test_consciousness_system_integration(self):
         """Test integration with full consciousness system."""
         try:
+            from schema import SchemaCore
+
             from consciousness import ConsciousnessCore
             from memory import MemoryCore
-            from schema import SchemaCore
 
             # Initialize full system stack
             consciousness = ConsciousnessCore()

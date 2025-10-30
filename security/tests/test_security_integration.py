@@ -8,14 +8,15 @@
 Integration tests for security module.
 """
 
+import importlib
+import types
 import unittest
 
 import pytest
 
 # Import module for integration testing
 try:
-    pass  #     pass  #
-# See: https://github.com/LukhasAI/Lukhas/issues/611
+    SECURITY_MODULE = importlib.import_module("security")
 except ImportError:
     pytest.skip("Module security not available", allow_module_level=True)
 
@@ -31,6 +32,7 @@ class TestSecurityIntegration(unittest.TestCase):
             "integration_mode": True,
             "timeout": 30
         }
+        cls.security_module = SECURITY_MODULE
 
     def setUp(self):
         """Set up individual test."""
@@ -44,7 +46,8 @@ class TestSecurityIntegration(unittest.TestCase):
     def test_module_startup_shutdown(self):
         """Test complete module startup and shutdown cycle."""
         # Test module lifecycle
-        pass
+        self.assertIsInstance(self.security_module, types.ModuleType)
+        self.assertEqual(self.security_module.__name__, "security")
 
     @pytest.mark.integration
     def test_external_dependencies(self):

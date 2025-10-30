@@ -1,0 +1,37 @@
+
+==================================== ERRORS ====================================
+________ ERROR collecting tests/core/identity/test_identity_manager.py _________
+ImportError while importing test module '/Users/A_G_I/GitHub/Lukhas/tests/core/identity/test_identity_manager.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/core/identity/test_identity_manager.py:4: in <module>
+    from core.identity.vault.lukhas_id import (
+core/identity/vault/__init__.py:3: in <module>
+    from core.identity.vault.lukhas_id import (
+core/identity/vault/lukhas_id.py:11: in <module>
+    import structlog
+E   ModuleNotFoundError: No module named 'structlog'
+_ ERROR collecting tests/core/orchestration/brain/spine/test_healix_integration.py _
+ImportError while importing test module '/Users/A_G_I/GitHub/Lukhas/tests/core/orchestration/brain/spine/test_healix_integration.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/core/orchestration/brain/spine/test_healix_integration.py:5: in <module>
+    from core.consciousness.drift_detector import DriftDetector
+E   ImportError: cannot import name 'DriftDetector' from 'core.consciousness.drift_detector' (/Users/A_G_I/GitHub/Lukhas/core/consciousness/drift_detector.py)
+___________ ERROR collecting tests/core/symbolic/test_dast_engine.py ___________
+ImportError while importing test module '/Users/A_G_I/GitHub/Lukhas/tests/core/symbolic/test_dast_engine.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/core/symbolic/test_dast_engine.py:4: in <module>
+    from core.symbolic.dast_engine import (
+core/symbolic/dast_engine.py:23: in <module>
+    from ethics.seedra import get_seedra
+E   ImportError: cannot import name 'get_seedra' from 'ethics.seedra' (/Users/A_G_I/GitHub/Lukhas/ethics/seedra/__init__.py)
+------------------------------- Captured stdout --------------------------------
+Warning: Failed to import from governance.ethics: cannot import name 'EthicsEngine' from 'governance.ethics.ethics_engine' (/Users/A_G_I/GitHub/Lukhas/governance/ethics/ethics_engine.py)
+=========================== short test summary info ============================
+ERROR tests/core/identity/test_identity_manager.py
+ERROR tests/core/orchestration/brain/spine/test_healix_integration.py
+ERROR tests/core/symbolic/test_dast_engine.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 3 errors during collection !!!!!!!!!!!!!!!!!!!!
+3 errors in 1.16s

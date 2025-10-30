@@ -1,0 +1,626 @@
+[
+  {
+    "issue": 552,
+    "area": "security",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/.semgrep/lukhas-security.yaml:547",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 553,
+    "area": "misc",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/AUTONOMOUS_GUIDE_MATRIZ_COMPLETION.md:237",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 554,
+    "area": "misc",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/AUTONOMOUS_GUIDE_TODO_CLEANUP.md:237",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 555,
+    "area": "misc",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/branding/apis/platform_integrations.py:43",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 556,
+    "area": "misc",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/completion/BATCH-CODEX-CLEANUP-006.md:25",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 557,
+    "area": "misc",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/completion/BATCH-CODEX-CLEANUP-006.md:42",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 558,
+    "area": "misc",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/completion/BATCH-CODEX-CLEANUP-006.md:45",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 559,
+    "area": "identity",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/core/identity/test_consciousness_identity_patterns.py:43",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 560,
+    "area": "identity",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/core/identity/test_consciousness_identity_patterns.py:46",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 561,
+    "area": "docs",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/audits/TODO_CLEANUP_REPORT.md:93",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 562,
+    "area": "docs",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/gonzo/CRITICAL_SCAFFOLDS.md:418",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 563,
+    "area": "docs",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/gonzo/CRITICAL_SCAFFOLDS.md:426",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 565,
+    "area": "docs",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/gonzo/FAILED_SESSION.md:3976",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 564,
+    "area": "docs",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/gonzo/FAILED_SESSION.md:404",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 566,
+    "area": "docs",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/docs/gonzo/matriz_prep/claude_copilot.md:1025",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 567,
+    "area": "labs",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/core/governance/guardian_integration.py:47",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 568,
+    "area": "labs",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/core/governance/guardian_integration.py:48",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 569,
+    "area": "identity",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/core/identity/test_consciousness_identity_patterns.py:43",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 570,
+    "area": "identity",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/core/identity/test_consciousness_identity_patterns.py:46",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 571,
+    "area": "labs",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/core/qi_financial/qi_financial_consciousness_engine.py:27",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 572,
+    "area": "labs",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/core/qi_financial/quantum_financial_consciousness_engine.py:27",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 573,
+    "area": "labs",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/core/quantum_financial/quantum_financial_consciousness_engine.py:27",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 574,
+    "area": "labs",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/core/symbolic_bridge/token_map.py:7",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 575,
+    "area": "identity",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/governance/identity/core/auth/webauthn_manager.py:26",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 576,
+    "area": "identity",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/governance/identity/core/auth/webauthn_manager.py:27",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 577,
+    "area": "identity",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/governance/identity/core/auth/webauthn_manager.py:28",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 578,
+    "area": "identity",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/governance/identity/core/auth/webauthn_manager.py:29",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 579,
+    "area": "identity",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/governance/identity/core/sing/sso_engine.py:643",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 580,
+    "area": "identity",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/labs/governance/identity/core/sing/sso_engine.py:648",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 581,
+    "area": "identity",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/components/qrg-envelope.tsx:23",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 582,
+    "area": "identity",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/components/qrg-envelope.tsx:24",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 583,
+    "area": "identity",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/lukhas/api/oidc.py:1098",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 584,
+    "area": "identity",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/lukhas/api/routing_admin.py:103",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 585,
+    "area": "identity",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/lukhas/identity/test_lid_integration.py:31",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 586,
+    "area": "identity",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/lukhas/identity/test_lid_integration.py:39",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 587,
+    "area": "identity",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/lukhas/identity/test_lid_integration.py:44",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 588,
+    "area": "identity",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/lukhas/identity/test_lid_integration.py:49",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 589,
+    "area": "identity",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/lukhas/identity/webauthn_enhanced.py:35",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 590,
+    "area": "identity",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/lukhas/identity/webauthn_production.py:69",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 591,
+    "area": "identity",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/lukhas/identity/webauthn_production.py:72",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 592,
+    "area": "identity",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/lukhas/identity/webauthn_production.py:73",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 593,
+    "area": "identity",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/lukhas/identity/webauthn_production.py:74",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 594,
+    "area": "identity",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/lukhas/identity/webauthn_production.py:75",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 595,
+    "area": "identity",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/lukhas/identity/webauthn_production.py:76",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 596,
+    "area": "identity",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/lukhas/identity/webauthn_production.py:77",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 597,
+    "area": "identity",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/packages/auth/index.ts:362",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 598,
+    "area": "identity",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/packages/auth/passkeys.ts:39",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 599,
+    "area": "identity",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/lukhas_website/packages/auth/passkeys.ts:58",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 600,
+    "area": "qi",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/qi/bio/oscillators/oscillator.py:263",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 601,
+    "area": "qi",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/qi/privacy/zero_knowledge_system.py:55",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 602,
+    "area": "qi",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/qi/privacy/zero_knowledge_system.py:69",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 604,
+    "area": "qi",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/qi/states/safe_blockchain.py:109",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 603,
+    "area": "qi",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/qi/states/safe_blockchain.py:93",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 608,
+    "area": "qi",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/qi/states/system_orchestrator.py:141",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 605,
+    "area": "qi",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/qi/states/system_orchestrator.py:70",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 606,
+    "area": "qi",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/qi/states/system_orchestrator.py:72",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 607,
+    "area": "qi",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/qi/states/system_orchestrator.py:84",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 609,
+    "area": "misc",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/scripts/todo_migration/generate_todo_inventory.py:6",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 610,
+    "area": "misc",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/scripts/todo_migration/generate_todo_inventory.py:8",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 611,
+    "area": "security",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/security/tests/test_security_integration.py:18",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 612,
+    "area": "security",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/security/tests/test_security_suite.py:281",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 613,
+    "area": "security",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/security/tests/test_security_suite.py:299",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 614,
+    "area": "security",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/security/tests/test_security_suite.py:309",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 615,
+    "area": "security",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/security/tests/test_security_suite.py:320",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 616,
+    "area": "security",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/security/tests/test_security_suite.py:339",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 617,
+    "area": "security",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/security/tests/test_security_suite.py:364",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 618,
+    "area": "security",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/security/tests/test_security_suite.py:378",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 619,
+    "area": "security",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/security/tests/test_security_suite.py:490",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 620,
+    "area": "security",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/security/tests/test_security_suite.py:660",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 621,
+    "area": "security",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/security/tests/test_security_suite.py:717",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 622,
+    "area": "security",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/security/tests/test_security_unit.py:18",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 623,
+    "area": "security",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/security_reports/tests/test_security-reports_unit.py:40",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 624,
+    "area": "security",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/security_reports/tests/test_security-reports_unit.py:46",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 625,
+    "area": "security",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/security_reports/tests/test_security-reports_unit.py:47",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 626,
+    "area": "misc",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/scripts/test_replace_todos.py:20",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 627,
+    "area": "misc",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/tools/test_categorize_todos.py:34",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 628,
+    "area": "misc",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/tools/test_todo_tooling.py:37",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  },
+  {
+    "issue": 629,
+    "area": "misc",
+    "location": "/Users/agi_dev/LOCAL-REPOS/Lukhas/tests/unit/tools/test_todo_tooling.py:61",
+    "assigned": [],
+    "comment_posted": true,
+    "error": ""
+  }
+]

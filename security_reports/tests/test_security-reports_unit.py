@@ -1,78 +1,71 @@
 # @generated LUKHAS scaffold v1.0
 # template_id: module.scaffold/v1
 # template_commit: f95979630
-# do_not_edit: true
-# human_editable: false
-#
-"""
-Unit tests for security-reports module.
-"""
+"""Unit tests for the :mod:`security_reports` module."""
 
-import unittest
+from __future__ import annotations
 
 import pytest
-
-# Import module components
-try:
-    pass  # Placeholder
-    pass  #     pass  #
-except ImportError:
-    pytest.skip("Module security-reports not available", allow_module_level=True)
-
-
-class TestSecurityReportsModule(unittest.TestCase):
-    """Unit tests for security-reports module core functionality."""
-
-    def setUp(self):
-        """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "security-reports",
-            "test_mode": True
-        }
-
-    def tearDown(self):
-        """Clean up after tests."""
-        pass
-
-    def test_module_import(self):
-        """Test that module can be imported successfully."""
-        # import security_reports  # Module name with hyphen - skipping
-# See: https://github.com/LukhasAI/Lukhas/issues/623
-
-    def test_module_version(self):
-        """Test module has version information."""
-        # import security_reports  # Module name with hyphen - skipping
-        # Most modules should have version info
-# See: https://github.com/LukhasAI/Lukhas/issues/624
-# See: https://github.com/LukhasAI/Lukhas/issues/625
-
-    def test_module_initialization(self):
-        """Test module can be initialized."""
-        # Add module-specific initialization tests
-        pass
-
-    @pytest.mark.unit
-    def test_core_functionality(self):
-        """Test core module functionality."""
-        # Add tests for main module features
-        pass
-
-    @pytest.mark.unit
-    def test_error_handling(self):
-        """Test module error handling."""
-        # Test various error conditions
-        pass
-
-    @pytest.mark.unit
-    def test_configuration_validation(self):
-        """Test configuration validation."""
-        # Test config loading and validation
-        pass
+from security_reports import (
+    SecurityReport,
+    SecurityReportRepository,
+    SecurityReportValidationError,
+    SeverityLevel,
+    build_secure_payload,
+    validate_report,
+)
 
 
-# Test individual components if entrypoints available
+@pytest.mark.unit
+def test_build_secure_payload_redacts_sensitive_values():
+    report = SecurityReport(
+        report_id="rep-001",
+        severity=SeverityLevel.HIGH,
+        summary="API token exposed in request logs",
+        details={
+            "api_token": "abcd-1234",
+            "endpoint": "/v1/audit",
+        },
+    )
+
+    payload = build_secure_payload(report)
+
+    assert payload["report_id"] == "rep-001"
+    assert payload["severity"] == "high"
+    assert payload["details"]["api_token"] == "[REDACTED]"
+    assert payload["details"]["endpoint"] == "/v1/audit"
 
 
+@pytest.mark.unit
+def test_validate_report_rejects_sensitive_detail_values():
+    report = SecurityReport(
+        report_id="rep-002",
+        severity=SeverityLevel.MEDIUM,
+        summary="Service account credential rotated",
+        details={"status": "rotated", "notes": "token=abcd-1234"},
+    )
 
-if __name__ == "__main__":
-    unittest.main()
+    with pytest.raises(SecurityReportValidationError):
+        validate_report(report)
+
+
+@pytest.mark.unit
+def test_repository_upsert_and_search_returns_sanitised_reports():
+    repo = SecurityReportRepository()
+    report = SecurityReport(
+        report_id="rep-003",
+        severity=SeverityLevel.CRITICAL,
+        summary="Compromised credential detected",
+        details={
+            "credential_id": "cred-123",
+            "admin_password": "hunter2",
+        },
+    )
+
+    repo.upsert(report)
+
+    stored = repo.get("rep-003")
+    assert stored.details["admin_password"] == "[REDACTED]"
+
+    critical_reports = repo.search_by_severity("CRITICAL")
+    assert critical_reports == [stored]

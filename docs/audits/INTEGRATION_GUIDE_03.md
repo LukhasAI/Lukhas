@@ -552,7 +552,7 @@ Lane-specific subjects:
 **Priority Score**: 74.2 | **Quality Score**: 73.1 | **Complexity**: low (12h) | **Risk**: medium-high
 
 **Current**: `labs/consciousness/dream/colony_dream_coordinator.py`
-**Target**: `matriz/consciousness/dream//colony_dream_coordinator.py`
+**Target**: `matriz/consciousness/dream/colony_dream_coordinator.py`
 
 **Why**: 8 classes, already imports production code
 
@@ -563,7 +563,7 @@ Lane-specific subjects:
 1. **REVIEW**: Read labs/consciousness/dream/colony_dream_coordinator.py and understand architecture (899 LOC, 8 classes, 0 functions)
 2. **CHECK_DEPS**: Verify all imports from core/matriz are valid and available
 3. **CREATE_TESTS**: Write integration tests in tests/integration/test_colony_dream_coordinator.py
-4. **MOVE**: git mv labs/consciousness/dream/colony_dream_coordinator.py matriz/consciousness/dream//colony_dream_coordinator.py
+4. **MOVE**: git mv labs/consciousness/dream/colony_dream_coordinator.py matriz/consciousness/dream/colony_dream_coordinator.py
 5. **UPDATE_IMPORTS**: Fix import paths in moved module and any dependent modules
 6. **INTEGRATE**: Wire into MATRIZ engine or core system (add to registry, update config)
 7. **TEST**: Run pytest tests/integration/ and tests/smoke/ to verify
@@ -577,7 +577,7 @@ Lane-specific subjects:
 **Priority Score**: 74.0 | **Quality Score**: 85.0 | **Complexity**: medium (16h) | **Risk**: low
 
 **Current**: `labs/consciousness/awareness/awareness_engine_elevated.py`
-**Target**: `matriz/consciousness/awareness//awareness_engine_elevated.py`
+**Target**: `matriz/consciousness/awareness/awareness_engine_elevated.py`
 
 **Why**: 1288 LOC, 21 classes, high quality score
 
@@ -588,7 +588,7 @@ Lane-specific subjects:
 1. **REVIEW**: Read labs/consciousness/awareness/awareness_engine_elevated.py and understand architecture (1288 LOC, 21 classes, 5 functions)
 2. **CHECK_DEPS**: Identify and resolve external dependencies, add core imports if needed
 3. **CREATE_TESTS**: Write integration tests in tests/integration/test_awareness_engine_elevated.py
-4. **MOVE**: git mv labs/consciousness/awareness/awareness_engine_elevated.py matriz/consciousness/awareness//awareness_engine_elevated.py
+4. **MOVE**: git mv labs/consciousness/awareness/awareness_engine_elevated.py matriz/consciousness/awareness/awareness_engine_elevated.py
 5. **UPDATE_IMPORTS**: Fix import paths in moved module and any dependent modules
 6. **INTEGRATE**: Wire into MATRIZ engine or core system (add to registry, update config)
 7. **TEST**: Run pytest tests/integration/ and tests/smoke/ to verify

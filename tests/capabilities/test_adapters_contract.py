@@ -5,7 +5,9 @@ import importlib
 import pkgutil
 from pathlib import Path
 
+import matriz.adapters
 import pytest
+from matriz.node_contract import MatrizNode, MatrizResult
 
 import MATRIZ.adapters
 from MATRIZ.node_contract import MatrizNode, MatrizResult

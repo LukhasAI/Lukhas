@@ -31,7 +31,7 @@ logger.setLevel(logging.INFO)
 
 # Import MultiBrainSymphony components with fallback paths
 try:
-    from core.orchestration.brain.MultiBrainSymphony import (
+    from .MultiBrainSymphony import (  # TODO: convert to absolute import
         DreamBrainSpecialist,
         LearningBrainSpecialist,
         MemoryBrainSpecialist,
@@ -59,26 +59,26 @@ except ImportError:
 
 # Import new AI components from Lukhas repository integration
 try:
-    from core.orchestration.brain.compliance.ai_compliance_manager import (
-        AIComplianceManager,
+    from .compliance.ai_compliance_manager import (
+        AIComplianceManager,  # TODO: convert to absolute import
     )
-    from core.orchestration.brain.ethics.ethical_hierarchy import (
-        EthicalHierarchy,
+    from .ethics.ethical_hierarchy import (
+        EthicalHierarchy,  # TODO: convert to absolute import
     )
-    from core.orchestration.brain.governance.dao_governance_node import (
-        DAOGovernanceNode,
+    from .governance.dao_governance_node import (
+        DAOGovernanceNode,  # TODO: convert to absolute import
     )
-    from core.orchestration.brain.memory.enhanced_memory_manager import (
-        EnhancedMemoryManager,
+    from .memory.enhanced_memory_manager import (
+        EnhancedMemoryManager,  # TODO: convert to absolute import
     )
-    from core.orchestration.brain.meta_cognitive.reflective_introspection_system import (
-        ReflectiveIntrospectionSystem,
+    from .meta_cognitive.reflective_introspection_system import (
+        ReflectiveIntrospectionSystem,  # TODO: convert to absolute import
     )
-    from core.orchestration.brain.prediction.predictive_resource_manager import (
-        PredictiveResourceManager,
+    from .prediction.predictive_resource_manager import (
+        PredictiveResourceManager,  # TODO: convert to absolute import
     )
-    from core.orchestration.brain.reasoning.causal_reasoning_module import (
-        CausalReasoningModule,
+    from .reasoning.causal_reasoning_module import (
+        CausalReasoningModule,  # TODO: convert to absolute import
     )
     ADVANCED_AGI_COMPONENTS = True
 except ImportError:
@@ -141,7 +141,7 @@ except ImportError:
 
 # Import Lukhas_ID identity system
 try:
-    from core.orchestration.Lukhas_ID import (
+    from ..Lukhas_ID import (  # TODO: convert to absolute import
         AccessTier,
         ConsentLevel,
         get_current_user,

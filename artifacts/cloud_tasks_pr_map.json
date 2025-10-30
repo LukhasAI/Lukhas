@@ -1,0 +1,526 @@
+{
+  "counts": {
+    "branches_total": 73,
+    "branches_with_pr": 73,
+    "branches_without_pr": 0
+  },
+  "branches_without_pr": [],
+  "mapping": {
+    "codex/achieve-100%-python-compilation-success": [
+      {
+        "number": 146,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/146"
+      }
+    ],
+    "codex/achieve-100%-python-compilation-success-7hnkgc": [
+      {
+        "number": 147,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/147"
+      }
+    ],
+    "codex/apply-safe-autofixes-with-ruff": [
+      {
+        "number": 172,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/172"
+      }
+    ],
+    "codex/clean-up-visual-debt-and-micro-perf-issues": [
+      {
+        "number": 174,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/174"
+      }
+    ],
+    "codex/complete-all-todos-in-documentation-ybz6rk": [
+      {
+        "number": 284,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/284"
+      }
+    ],
+    "codex/complete-phase-3-of-agent-integration-racevt": [
+      {
+        "number": 480,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/480"
+      }
+    ],
+    "codex/complete-phase-5-of-integration": [
+      {
+        "number": 486,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/486"
+      }
+    ],
+    "codex/exec-plan-ph1-3": [
+      {
+        "number": 431,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/431"
+      }
+    ],
+    "codex/execute-batch-integration-workflow": [
+      {
+        "number": 476,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/476"
+      }
+    ],
+    "codex/execute-matriz-migration-autonomous-plan": [
+      {
+        "number": 533,
+        "state": "MERGED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/533"
+      }
+    ],
+    "codex/find-and-execute-high-priority-todos": [
+      {
+        "number": 529,
+        "state": "MERGED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/529"
+      }
+    ],
+    "codex/find-and-execute-todos-in-repo-8rviom": [
+      {
+        "number": 156,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/156"
+      }
+    ],
+    "codex/find-and-fix-syntax-or-lint-errors": [
+      {
+        "number": 129,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/129"
+      }
+    ],
+    "codex/find-and-fix-syntax-or-lint-errors-4vqlsm": [
+      {
+        "number": 136,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/136"
+      }
+    ],
+    "codex/find-and-fix-syntax-or-lint-errors-fzjsvu": [
+      {
+        "number": 137,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/137"
+      }
+    ],
+    "codex/find-and-fix-syntax-or-lint-errors-hcj7ra": [
+      {
+        "number": 135,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/135"
+      }
+    ],
+    "codex/find-and-fix-syntax-or-lint-errors-hxp180": [
+      {
+        "number": 138,
+        "state": "MERGED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/138"
+      }
+    ],
+    "codex/find-and-fix-syntax-or-lint-errors-oifyr5": [
+      {
+        "number": 130,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/130"
+      }
+    ],
+    "codex/find-and-implement-high-priority-todos": [
+      {
+        "number": 536,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/536"
+      }
+    ],
+    "codex/find-and-implement-high-priority-todos-vg20gh": [
+      {
+        "number": 538,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/538"
+      }
+    ],
+    "codex/fix-code-quality-issues-with-ruff": [
+      {
+        "number": 173,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/173"
+      }
+    ],
+    "codex/fix-critical-bug-in-framework-integration": [
+      {
+        "number": 361,
+        "state": "MERGED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/361"
+      }
+    ],
+    "codex/fix-logger-issues-in-reflection-modules": [
+      {
+        "number": 478,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/478"
+      }
+    ],
+    "codex/fix-mypy-type-safety-issues": [
+      {
+        "number": 142,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/142"
+      }
+    ],
+    "codex/fix-mypy-type-safety-issues-r2p50e": [
+      {
+        "number": 143,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/143"
+      }
+    ],
+    "codex/fix-syntax-and-lint-errors-in-codebase": [
+      {
+        "number": 131,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/131"
+      }
+    ],
+    "codex/fix-syntax-and-lint-errors-in-codebase-0kfovc": [
+      {
+        "number": 134,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/134"
+      }
+    ],
+    "codex/fix-syntax-and-lint-errors-in-codebase-2ofooj": [
+      {
+        "number": 132,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/132"
+      }
+    ],
+    "codex/fix-syntax-and-lint-errors-in-codebase-5fvfot": [
+      {
+        "number": 133,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/133"
+      }
+    ],
+    "codex/fix-syntax-errors-and-blockers": [
+      {
+        "number": 171,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/171"
+      }
+    ],
+    "codex/github-mention-todo]-implement-sync-token-registration": [
+      {
+        "number": 636,
+        "state": "OPEN",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/636"
+      }
+    ],
+    "codex/github-mention-todo]-security-consider-using-impor": [
+      {
+        "number": 637,
+        "state": "OPEN",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/637"
+      }
+    ],
+    "codex/implement-auth-and-rate-limiting-middleware": [
+      {
+        "number": 516,
+        "state": "MERGED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/516"
+      }
+    ],
+    "codex/implement-batch-codex-bio-integration-01.json": [
+      {
+        "number": 518,
+        "state": "MERGED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/518"
+      }
+    ],
+    "codex/implement-batch-codex-import-cleanup-01.json": [
+      {
+        "number": 521,
+        "state": "MERGED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/521"
+      }
+    ],
+    "codex/implement-custom-handlers-from-json": [
+      {
+        "number": 520,
+        "state": "MERGED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/520"
+      }
+    ],
+    "codex/implement-gesture-scoring-and-interpretation": [
+      {
+        "number": 514,
+        "state": "MERGED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/514"
+      }
+    ],
+    "codex/implement-glyph-consensus-from-batch-codex": [
+      {
+        "number": 519,
+        "state": "MERGED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/519"
+      }
+    ],
+    "codex/implement-identitymanager-integration": [
+      {
+        "number": 515,
+        "state": "MERGED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/515"
+      }
+    ],
+    "codex/implement-multibrain-specialists-json": [
+      {
+        "number": 522,
+        "state": "MERGED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/522"
+      }
+    ],
+    "codex/implement-no-op-guard-for-commits": [
+      {
+        "number": 481,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/481"
+      }
+    ],
+    "codex/implement-no-op-guard-for-commits-rmow1c": [
+      {
+        "number": 482,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/482"
+      }
+    ],
+    "codex/implement-phase-4-from-agent_codex": [
+      {
+        "number": 485,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/485"
+      }
+    ],
+    "codex/implement-phase-6-from-documentation": [
+      {
+        "number": 484,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/484"
+      }
+    ],
+    "codex/implement-phase-7-from-documentation": [
+      {
+        "number": 483,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/483"
+      }
+    ],
+    "codex/implement-processes-from-batch-codex-quantum-integration-01": [
+      {
+        "number": 524,
+        "state": "MERGED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/524"
+      }
+    ],
+    "codex/implement-ui-variable-fixes-from-batch-codex-streamlit-fix-0": [
+      {
+        "number": 517,
+        "state": "MERGED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/517"
+      }
+    ],
+    "codex/improve-test-coverage-of-repository": [
+      {
+        "number": 523,
+        "state": "MERGED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/523"
+      }
+    ],
+    "codex/increase-test-coverage-by-15-to-20-percent": [
+      {
+        "number": 535,
+        "state": "MERGED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/535"
+      }
+    ],
+    "codex/increase-test-coverage-by-15-to-20-percent-b6fj9b": [
+      {
+        "number": 537,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/537"
+      }
+    ],
+    "codex/increase-test-coverage-by-20%": [
+      {
+        "number": 124,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/124"
+      }
+    ],
+    "codex/increase-test-coverage-for-consciousness-system": [
+      {
+        "number": 148,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/148"
+      }
+    ],
+    "codex/increase-test-coverage-for-consciousness-system-r4c96p": [
+      {
+        "number": 149,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/149"
+      }
+    ],
+    "codex/increase-test-coverage-in-priority-area": [
+      {
+        "number": 528,
+        "state": "MERGED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/528"
+      }
+    ],
+    "codex/integrate-144-modules-into-production": [
+      {
+        "number": 475,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/475"
+      }
+    ],
+    "codex/integrate-asynccognitiveorchestrator-service": [
+      {
+        "number": 471,
+        "state": "MERGED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/471"
+      }
+    ],
+    "codex/locate-and-complete-todos-in-/branding": [
+      {
+        "number": 312,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/312"
+      }
+    ],
+    "codex/locate-codex_complete_task_brief-file": [
+      {
+        "number": 439,
+        "state": "MERGED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/439"
+      }
+    ],
+    "codex/locate-codex_jules_task_brief.md": [
+      {
+        "number": 440,
+        "state": "MERGED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/440"
+      }
+    ],
+    "codex/prepare-for-codex-phase-2": [
+      {
+        "number": 376,
+        "state": "MERGED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/376"
+      }
+    ],
+    "codex/read-agents.md-and-modify-batch-file": [
+      {
+        "number": 507,
+        "state": "MERGED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/507"
+      }
+    ],
+    "codex/read-the-openai-facade-fast-track-package": [
+      {
+        "number": 469,
+        "state": "MERGED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/469"
+      }
+    ],
+    "codex/rebase-pr-on-latest-main-branch": [
+      {
+        "number": 368,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/368"
+      }
+    ],
+    "codex/reduce-mypy-errors-by-80%": [
+      {
+        "number": 123,
+        "state": "MERGED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/123"
+      },
+      {
+        "number": 113,
+        "state": "MERGED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/113"
+      }
+    ],
+    "codex/refer-to-initiation-prompt-for-details": [
+      {
+        "number": 632,
+        "state": "MERGED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/632"
+      }
+    ],
+    "codex/refer-to-initiation-prompt-in-codex3": [
+      {
+        "number": 634,
+        "state": "MERGED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/634"
+      }
+    ],
+    "codex/resolve-circular-dependencies-in-imports-mzr1qo": [
+      {
+        "number": 145,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/145"
+      }
+    ],
+    "codex/review-agents.md-and-update-batch-codex-symbolic-engine-01": [
+      {
+        "number": 508,
+        "state": "MERGED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/508"
+      }
+    ],
+    "codex/standardize-datetime-to-utc": [
+      {
+        "number": 141,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/141"
+      }
+    ],
+    "codex/standardize-datetime-to-utc-icy0dq": [
+      {
+        "number": 154,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/154"
+      }
+    ],
+    "codex/standardize-datetime-to-utc-ko5zq3": [
+      {
+        "number": 153,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/153"
+      }
+    ],
+    "codex/standardize-datetime-to-utc-ynznn1": [
+      {
+        "number": 152,
+        "state": "CLOSED",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/152"
+      }
+    ],
+    "codex/type-system-batch-01-20251026": [
+      {
+        "number": 638,
+        "state": "OPEN",
+        "url": "https://github.com/LukhasAI/Lukhas/pull/638"
+      }
+    ]
+  }
+}
