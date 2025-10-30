@@ -27,6 +27,16 @@ if TYPE_CHECKING:
     from core.colonies.consensus_mechanisms import ColonyConsensus
     from core.colonies.enhanced_colony import ConsensusResult, EnhancedReasoningColony
     from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
+else:
+    # Provide runtime placeholders so annotations and demo helpers resolve
+    OpenAICapability = Any
+    OpenAIModulatedService = Any
+    ColonyConsensus = Any
+    ConsensusResult = Any
+    EnhancedReasoningColony = Any
+    Signal = Any
+    SignalBus = Any
+    SignalType = Any
 
 
 def _lazy_import(module_name: str):
@@ -717,8 +727,14 @@ async def demo_orchestrator():
     orchestrator = GPTColonyOrchestrator()
 
     # Register a colony
-    colony = EnhancedReasoningColony("demo-colony")
-    orchestrator.register_colony("demo-colony", colony)
+    _, enhanced_colony_cls = _get_enhanced_colony_classes()
+    if enhanced_colony_cls is not None:
+        colony = enhanced_colony_cls("demo-colony")
+        orchestrator.register_colony("demo-colony", colony)
+    else:
+        logger.warning(
+            "EnhancedReasoningColony integration unavailable; demo colony registration skipped"
+        )
 
     print("🎭 GPT-Colony Orchestrator Demo")
     print("=" * 50)
