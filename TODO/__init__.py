@@ -1,5 +1,5 @@
-"""TODO tooling package for legacy compatibility."""
+"""Uppercase alias for :mod:`todo`."""
 
-from . import scripts  # re-export namespace for convenience
+from __future__ import annotations
 
-__all__ = ["scripts"]
+from todo import *  # noqa: F401,F403
