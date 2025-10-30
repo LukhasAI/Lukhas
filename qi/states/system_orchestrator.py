@@ -65,11 +65,30 @@ class QIAGISystem:
     """
 
     def __init__(self, config: SystemConfig):  # noqa: F821  # TODO: SystemConfig
-        # Security infrastructure
-        # See: https://github.com/LukhasAI/Lukhas/issues/605
-        # See: https://github.com/LukhasAI/Lukhas/issues/606
         security_mesh = getattr(config, "security_mesh", None)
         if security_mesh is None:
+            raise SecurityException(
+                "QIAGISystem requires a configured security mesh for request integrity validation.",
+                code="missing_security_mesh",
+                details={"config_type": type(config).__name__},
+            )
+
+        validate_request = getattr(security_mesh, "validate_request", None)
+        if not callable(validate_request):
+            raise SecurityException(
+                "Security mesh must expose a callable 'validate_request' attribute.",
+                code="invalid_security_mesh",
+                details={
+                    "config_type": type(config).__name__,
+                    "mesh_type": type(security_mesh).__name__,
+                },
+            )
+
+        self.security_mesh = security_mesh
+
+        # Core components with quantum enhancement
+        self.qi_neural_core = QINeuralSymbolicProcessor(config.qi_security_config)  # noqa: F821  # TODO: QINeuralSymbolicProcessor
+        self.distributed_orchestrator = DistributedQuantumSafeOrchestrator(config.cluster_config)  # noqa: F821  # TODO: DistributedQuantumSafeOrchestr...
             raise SecurityException(
                 "QIAGISystem requires a configured security mesh for request integrity validation.",
                 code="missing_security_mesh",

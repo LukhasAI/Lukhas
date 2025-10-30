@@ -60,6 +60,20 @@ def _install_orchestrator_dependency_stubs(module) -> None:
     module.QISafeTelemetry = _StubTelemetry
 
 
+def _install_orchestrator_dependency_stubs(module) -> None:
+    module.QINeuralSymbolicProcessor = lambda *args, **kwargs: SimpleNamespace()
+    module.DistributedQuantumSafeOrchestrator = lambda *args, **kwargs: SimpleNamespace()
+    module.QIUIOptimizer = lambda *args, **kwargs: SimpleNamespace()
+    module.QIAssociativeMemoryBank = lambda *args, **kwargs: SimpleNamespace()
+
+    class _StubTelemetry:
+        def __init__(self, *args, **kwargs):
+            self.args = args
+            self.kwargs = kwargs
+
+    module.QISafeTelemetry = _StubTelemetry
+
+
 class _StubDreamQuantumConfig:
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
@@ -115,6 +129,24 @@ SecurityException = importlib.import_module("qi.security").SecurityException
 QIAGISystem = importlib.import_module("qi.states.system_orchestrator").QIAGISystem
 
 
+
+
+def test_qiagisystem_init_requires_security_mesh():
+    orchestrator_module = importlib.import_module("qi.states.system_orchestrator")
+    _install_orchestrator_dependency_stubs(orchestrator_module)
+
+    class _StubConfig:
+        qi_security_config = object()
+        cluster_config = object()
+        telemetry_endpoint = "https://telemetry.invalid"
+
+    config = _StubConfig()
+
+    with pytest.raises(SecurityException) as exc_info:
+        orchestrator_module.QIAGISystem(config)
+
+    assert exc_info.value.code == "missing_security_mesh"
+    assert exc_info.value.details.get("config_type") == config.__class__.__name__
 class _StubSecurityMesh:
     def __init__(self, *, valid: bool) -> None:
         self._valid = valid
