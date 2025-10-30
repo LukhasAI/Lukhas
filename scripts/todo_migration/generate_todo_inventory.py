@@ -229,6 +229,12 @@ def main():
         help="Exclude patterns (can specify multiple times)",
     )
     parser.add_argument("--root", default=".", help="Root directory to scan")
+    parser.add_argument(
+        "--max-files",
+        type=int,
+        default=None,
+        help="Maximum number of files to scan (useful for smoke checks)",
+    )
     args = parser.parse_args()
 
     # Default exclusions
@@ -285,6 +291,13 @@ def main():
         scanned_count += 1
         todos = scan_file(filepath)
         all_todos.extend(todos)
+
+        if args.max_files is not None and scanned_count >= args.max_files:
+            print(
+                f"⏭️  Reached max-files limit ({args.max_files}); stopping early",
+                file=sys.stderr,
+            )
+            break
 
     # Filter by priority if specified
     if args.priority:
