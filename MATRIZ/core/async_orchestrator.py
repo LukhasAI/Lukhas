@@ -305,7 +305,7 @@ class AsyncCognitiveOrchestrator:
         total_timeout: float = 0.250,  # 250ms total budget
     ):
         """
-        Initialize async orchestrator with timeout configuration.
+        Initialize async orchestrator with adaptive timeout configuration.
 
         Args:
             stage_timeouts: Custom timeout per stage type
@@ -317,7 +317,7 @@ class AsyncCognitiveOrchestrator:
         self.execution_trace = []
         self.matriz_graph = {}
 
-        # Timeout configuration
+        # Timeout configuration with adaptive learning
         self.stage_timeouts = dict(StageConfig.DEFAULT_TIMEOUTS)
         if stage_timeouts:
             self.stage_timeouts.update(stage_timeouts)
@@ -326,9 +326,78 @@ class AsyncCognitiveOrchestrator:
             self.stage_critical.update(stage_critical)
         self.total_timeout = total_timeout
 
-        # Performance tracking
+        # Performance tracking with adaptive optimization
         self.metrics = OrchestrationMetrics()
         self.node_health = {}  # Track node performance for adaptive routing
+        
+        # Adaptive timeout learning
+        self.timeout_history = {}  # Track timeout effectiveness per stage
+        self.adaptive_timeout_enabled = True
+        self.timeout_learning_rate = 0.1  # How fast to adapt timeouts
+        self.min_timeout_samples = 10  # Minimum samples before adapting
+
+    def _get_adaptive_timeout(self, stage_type: StageType) -> float:
+        """Get adaptive timeout based on historical performance."""
+        
+        base_timeout = self.stage_timeouts.get(stage_type, StageConfig.DEFAULT_TIMEOUTS[stage_type])
+        
+        if not self.adaptive_timeout_enabled:
+            return base_timeout
+            
+        # Get timeout history for this stage
+        stage_key = stage_type.value
+        if stage_key not in self.timeout_history:
+            self.timeout_history[stage_key] = {
+                "successful_durations": [],
+                "timeout_count": 0,
+                "total_attempts": 0,
+                "current_timeout": base_timeout
+            }
+        
+        history = self.timeout_history[stage_key]
+        
+        # Need sufficient samples to adapt
+        if history["total_attempts"] < self.min_timeout_samples:
+            return base_timeout
+            
+        # Calculate adaptive timeout based on P95 of successful requests
+        if history["successful_durations"]:
+            durations = sorted(history["successful_durations"])
+            p95_duration_sec = durations[int(len(durations) * 0.95)] / 1000.0
+            
+            # Adaptive timeout = P95 duration + 50% buffer
+            adaptive_timeout = p95_duration_sec * 1.5
+            
+            # Clamp to reasonable bounds (50% to 300% of base timeout)
+            min_timeout = base_timeout * 0.5
+            max_timeout = base_timeout * 3.0
+            adaptive_timeout = max(min_timeout, min(max_timeout, adaptive_timeout))
+            
+            # Apply learning rate for gradual adaptation
+            current = history["current_timeout"]
+            history["current_timeout"] = current + self.timeout_learning_rate * (adaptive_timeout - current)
+            
+            return history["current_timeout"]
+        
+        return base_timeout
+
+    def _update_timeout_history(self, stage_type: StageType, result: StageResult) -> None:
+        """Update timeout history for adaptive learning."""
+        
+        stage_key = stage_type.value
+        if stage_key not in self.timeout_history:
+            return
+            
+        history = self.timeout_history[stage_key]
+        history["total_attempts"] += 1
+        
+        if result.success:
+            history["successful_durations"].append(result.duration_ms)
+            # Keep only recent 100 samples for adaptation
+            if len(history["successful_durations"]) > 100:
+                history["successful_durations"] = history["successful_durations"][-100:]
+        elif result.timeout:
+            history["timeout_count"] += 1
 
     def register_node(self, name: str, node: "CognitiveNode"):
         """Register a cognitive node"""
@@ -348,6 +417,82 @@ class AsyncCognitiveOrchestrator:
         if result.timeout:
             self.metrics.timeout_count += 1
         if result.success:
+            self.metrics.success_count += 1
+        else:
+            self.metrics.error_count += 1
+            
+        # Update timeout history for adaptive learning
+        self._update_timeout_history(result.stage_type, result)
+
+    def _update_node_health(self, node_name: str, success: bool, duration_ms: float) -> None:
+        """Update node health metrics for intelligent routing."""
+        
+        if node_name not in self.node_health:
+            self.node_health[node_name] = {
+                "success_count": 0,
+                "failure_count": 0,
+                "total_duration_ms": 0.0,
+                "p95_latency_ms": 0.0,
+                "recent_latencies": [],
+                "health_score": 1.0,  # 0.0 (unhealthy) to 1.0 (healthy)
+            }
+        
+        health = self.node_health[node_name]
+        
+        if success:
+            health["success_count"] += 1
+        else:
+            health["failure_count"] += 1
+            
+        health["total_duration_ms"] += duration_ms
+        health["recent_latencies"].append(duration_ms)
+        
+        # Keep only recent 50 latency samples
+        if len(health["recent_latencies"]) > 50:
+            health["recent_latencies"] = health["recent_latencies"][-50:]
+        
+        # Calculate P95 latency
+        if health["recent_latencies"]:
+            sorted_latencies = sorted(health["recent_latencies"])
+            health["p95_latency_ms"] = sorted_latencies[int(len(sorted_latencies) * 0.95)]
+        
+        # Calculate health score based on success rate and latency
+        total_requests = health["success_count"] + health["failure_count"]
+        if total_requests > 0:
+            success_rate = health["success_count"] / total_requests
+            # Penalize high latency (>100ms is considered slow)
+            latency_penalty = min(1.0, health["p95_latency_ms"] / 100.0)
+            health["health_score"] = success_rate * (2.0 - latency_penalty) / 2.0
+
+    def _select_best_node(self, required_capability: str) -> Optional[str]:
+        """Select the best performing node for a capability."""
+        
+        # Find nodes with required capability
+        candidate_nodes = []
+        for node_name, node in self.available_nodes.items():
+            if hasattr(node, 'capabilities') and required_capability in getattr(node, 'capabilities', []):
+                candidate_nodes.append(node_name)
+            elif hasattr(node, 'can_handle') and callable(getattr(node, 'can_handle')):
+                try:
+                    if node.can_handle(required_capability):
+                        candidate_nodes.append(node_name)
+                except Exception:
+                    continue
+        
+        if not candidate_nodes:
+            return None
+        
+        # Select node with best health score
+        best_node = None
+        best_score = -1.0
+        
+        for node_name in candidate_nodes:
+            health = self.node_health.get(node_name, {"health_score": 1.0})
+            if health["health_score"] > best_score:
+                best_score = health["health_score"]
+                best_node = node_name
+        
+        return best_node
             self.metrics.stages_completed += 1
         else:
             self.metrics.error_count += 1
