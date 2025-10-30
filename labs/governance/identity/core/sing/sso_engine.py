@@ -640,8 +640,134 @@ class LambdaSSOEngine:
 
     def _create_device_sync_token(self, user_tokens: dict, device_id: str) -> dict:
         """Create device-specific sync token"""
-        # See: https://github.com/LukhasAI/Lukhas/issues/579
-        return {}
+        if not device_id:
+            raise ValueError("Device ID required for sync token creation")
+
+        if not user_tokens:
+            raise ValueError("No tokens available for sync")
+
+        now = datetime.now(timezone.utc)
+        active_tokens: list[dict] = []
+        user_ids: set[str] = set()
+
+        for token in user_tokens.values():
+            if not isinstance(token, dict):
+                continue
+
+            user_id = token.get("user_id")
+            expires_at_raw = token.get("expires_at")
+
+            if not user_id or not expires_at_raw:
+                continue
+
+            try:
+                expires_at = datetime.fromisoformat(expires_at_raw)
+            except Exception:
+                continue
+
+            if expires_at <= now:
+                continue
+
+            active_tokens.append(token)
+            user_ids.add(user_id)
+
+        if not active_tokens:
+            raise ValueError("No active tokens available for sync")
+
+        if len(user_ids) != 1:
+            raise ValueError("Cannot sync tokens for multiple users")
+
+        user_id = active_tokens[0]["user_id"]
+
+        scope_set = {
+            scope
+            for token in active_tokens
+            for scope in token.get("service_scope", [])
+            if isinstance(scope, str)
+        }
+        aggregated_scope = sorted(scope_set) or ["basic"]
+
+        earliest_expiry = min(datetime.fromisoformat(token["expires_at"]) for token in active_tokens)
+
+        default_ttl_hours = min(self.token_expiry_hours, 12)
+        ttl_hours = self.config.get("device_sync_token_ttl_hours", default_ttl_hours)
+        try:
+            ttl_hours = float(ttl_hours)
+        except (TypeError, ValueError):
+            ttl_hours = float(default_ttl_hours)
+
+        max_expiry = now + timedelta(hours=ttl_hours)
+        expires_at_dt = min(earliest_expiry, max_expiry)
+
+        def _parse_created(token_data: dict) -> datetime:
+            created_raw = token_data.get("created_at")
+            if not created_raw:
+                return now
+            try:
+                return datetime.fromisoformat(created_raw)
+            except Exception:
+                return now
+
+        primary_token = max(active_tokens, key=_parse_created)
+
+        token_ids = sorted(token["token_id"] for token in active_tokens if token.get("token_id"))
+
+        binding_material = {
+            "device_id": device_id,
+            "token_ids": token_ids,
+            "user_id": user_id,
+            "issued_at": now.isoformat(),
+        }
+        binding_hash = hashlib.sha256(json.dumps(binding_material, sort_keys=True).encode()).hexdigest()
+
+        platform_support = sorted(
+            {
+                platform
+                for token in active_tokens
+                for platform in token.get("platform_compatibility", [])
+                if isinstance(platform, str)
+            }
+        )
+
+        biometric_enabled = any(token.get("biometric_fallback_enabled") for token in active_tokens)
+
+        trust_level = (
+            self.device_registry.get(user_id, {})
+            .get(device_id, {})
+            .get("trust_level")
+        )
+        if trust_level is None:
+            trust_level = 0.5
+
+        sync_token = {
+            "sync_token_id": f"SYNC_{secrets.token_hex(16)}",
+            "user_id": user_id,
+            "device_id": device_id,
+            "issued_at": now.isoformat(),
+            "expires_at": expires_at_dt.isoformat(),
+            "service_scope": aggregated_scope,
+            "symbolic_signature": self._generate_symbolic_signature(user_id, aggregated_scope),
+            "token_bindings": {
+                "token_ids": token_ids,
+                "binding_hash": binding_hash,
+            },
+            "metadata": {
+                "source_tokens": len(token_ids),
+                "primary_token": primary_token.get("token_id"),
+                "sync_nonce": secrets.token_hex(8),
+                "platform_support": platform_support,
+                "biometric_fallback": biometric_enabled,
+                "trust_level": trust_level,
+            },
+        }
+
+        if platform_support:
+            sync_token["platform_support"] = platform_support
+
+        if biometric_enabled:
+            sync_token["biometric_fallback"] = True
+
+        return sync_token
 
     def _register_sync_token(self, sync_token: dict) -> str:
         """Register sync token for cross-device use"""
