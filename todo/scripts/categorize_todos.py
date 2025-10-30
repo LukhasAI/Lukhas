@@ -216,13 +216,14 @@ def _iter_scannable_files(project_root: Path) -> Iterator[Path]:
 
 
 def load_exclusions(project_root: Path) -> List[str]:
+    root = project_root.resolve()
     todo_lines: List[str] = []
-    for file_path in _iter_scannable_files(project_root):
+    for file_path in _iter_scannable_files(root):
         try:
             contents = file_path.read_text(encoding="utf-8", errors="ignore")
         except Exception:
             continue
-        relative = f"./{file_path.relative_to(project_root).as_posix()}"
+        relative = f"./{file_path.relative_to(root).as_posix()}"
         for idx, line in enumerate(contents.splitlines(), start=1):
             if not PATTERN.search(line):
                 continue
