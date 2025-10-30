@@ -7,42 +7,60 @@ Enables hybrid AI decision-making with both centralized and distributed intellig
 Based on GPT5 audit recommendations for parallel AI orchestration.
 """
 import asyncio
+import importlib
 import logging
 import time
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, Optional, TYPE_CHECKING
 
-try:
+# For static typing only - avoid importing these heavy integration modules at
+# import-time so we don't create a production -> labs import edge.
+if TYPE_CHECKING:
     from labs.consciousness.reflection.openai_modulated_service import (
         OpenAICapability,
         OpenAIModulatedService,
     )
-except ImportError:
-    OpenAICapability = None
-    OpenAIModulatedService = None
-
-try:
     from core.colonies.consensus_mechanisms import ColonyConsensus
-except ImportError:
-    ColonyConsensus = None
-
-# Import our components
-try:
-    from core.colonies.enhanced_colony import (
-        ConsensusResult,
-        EnhancedReasoningColony,
-    )
-except ImportError:
-    ConsensusResult = None
-    EnhancedReasoningColony = None
-try:
+    from core.colonies.enhanced_colony import ConsensusResult, EnhancedReasoningColony
     from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
-except ImportError:
-    Signal = None
-    SignalBus = None
-    SignalType = None
+
+
+def _lazy_import(module_name: str):
+    """Import a module at runtime and return it or None on failure."""
+    try:
+        return importlib.import_module(module_name)
+    except Exception:
+        return None
+
+
+def _get_openai_classes():
+    mod = _lazy_import("labs.consciousness.reflection.openai_modulated_service")
+    if not mod:
+        return None, None
+    return getattr(mod, "OpenAICapability", None), getattr(mod, "OpenAIModulatedService", None)
+
+
+def _get_colony_consensus_class():
+    mod = _lazy_import("core.colonies.consensus_mechanisms")
+    if not mod:
+        return None
+    return getattr(mod, "ColonyConsensus", None)
+
+
+def _get_enhanced_colony_classes():
+    mod = _lazy_import("core.colonies.enhanced_colony")
+    if not mod:
+        return None, None
+    return getattr(mod, "ConsensusResult", None), getattr(mod, "EnhancedReasoningColony", None)
+
+
+def _get_signal_bus_classes():
+    mod = _lazy_import("orchestration.signals.signal_bus")
+    if not mod:
+        return None, None, None
+    return getattr(mod, "Signal", None), getattr(mod, "SignalBus", None), getattr(mod, "SignalType", None)
 
 logger = logging.getLogger(__name__)
 
@@ -98,12 +116,36 @@ class GPTColonyOrchestrator:
         openai_service: Optional[OpenAIModulatedService] = None,
         signal_bus: Optional[SignalBus] = None,
     ):
-        self.openai_service = openai_service or OpenAIModulatedService()
-        self.signal_bus = signal_bus or SignalBus()
+        # Resolve integration classes at runtime to avoid import-time edges
+        OpenAICapability, OpenAIModulatedService = _get_openai_classes()
+        ColonyConsensus = _get_colony_consensus_class()
+        ConsensusResult, EnhancedReasoningColony = _get_enhanced_colony_classes()
+        Signal, SignalBus, SignalType = _get_signal_bus_classes()
+
+        # Instantiate or accept provided services when available
+        if openai_service is not None:
+            self.openai_service = openai_service
+        elif OpenAIModulatedService is not None:
+            try:
+                self.openai_service = OpenAIModulatedService()
+            except Exception:
+                self.openai_service = None
+        else:
+            self.openai_service = None
+
+        if signal_bus is not None:
+            self.signal_bus = signal_bus
+        elif SignalBus is not None:
+            try:
+                self.signal_bus = SignalBus()
+            except Exception:
+                self.signal_bus = None
+        else:
+            self.signal_bus = None
 
         # Colony management
-        self.colonies: dict[str, EnhancedReasoningColony] = {}
-        self.colony_consensus: dict[str, ColonyConsensus] = {}
+        self.colonies: dict[str, Any] = {}
+        self.colony_consensus: dict[str, Any] = {}
 
         # Task management
         self.active_tasks: dict[str, OrchestrationTask] = {}
