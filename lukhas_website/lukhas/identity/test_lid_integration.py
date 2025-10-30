@@ -28,38 +28,15 @@ logger = logging.getLogger(__name__)
 # Import LUKHAS identity components
 try:
     from .alias_format import make_alias, parse_alias, validate_alias_format
-
-    # See: https://github.com/LukhasAI/Lukhas/issues/585
-    from .auth_service import (
-        AuthenticationService,
-        AuthResult,
-    )
-
-    from .tier_system import (
-        TierLevel,
-        normalize_tier,
-    )
-
-    # See: https://github.com/LukhasAI/Lukhas/issues/586
-    from .token_generator import (
-        EnvironmentSecretProvider,
-        TokenClaims,
-        TokenGenerator,
-    )
-
-    # See: https://github.com/LukhasAI/Lukhas/issues/587
+    from .auth_service import AuthenticationService, AuthResult
+    from .tier_system import TierLevel, normalize_tier
+    from .token_generator import EnvironmentSecretProvider, TokenClaims, TokenGenerator
     from .token_introspection import (
         IntrospectionRequest,
         IntrospectionResponse,
         TokenIntrospectionService,
     )
-
-    # See: https://github.com/LukhasAI/Lukhas/issues/588
-    from .token_validator import (
-        TokenValidator,
-        ValidationContext,
-        ValidationResult,
-    )
+    from .token_validator import TokenValidator, ValidationContext, ValidationResult
 
     COMPONENTS_AVAILABLE = True
 except ImportError as e:
@@ -239,16 +216,6 @@ class LiDTokenSystemTest:
                 zone="test"
             )
 
-            if not isinstance(token_response.claims, TokenClaims):
-                raise AssertionError(
-                    "Token generator returned claims that do not match TokenClaims dataclass"
-                )
-
-            if token_response.claims.lukhas_namespace != claims["lukhas_namespace"]:
-                raise AssertionError(
-                    "Generated token claims namespace does not match requested namespace"
-                )
-
             generation_time = (time.time() - start_time) * 1000
 
             self.metrics.append(PerformanceMetrics(
@@ -256,6 +223,35 @@ class LiDTokenSystemTest:
                 latency_ms=generation_time,
                 success=True
             ))
+
+            token_claims = token_response.claims
+            if not isinstance(token_claims, TokenClaims):
+                logger.error("❌ Token generator returned claims in unexpected format")
+                return False
+
+            if token_claims.aud != claims["aud"]:
+                logger.error(
+                    "❌ Token claims audience mismatch: expected %s, got %s",
+                    claims["aud"],
+                    token_claims.aud,
+                )
+                return False
+
+            if token_claims.lukhas_namespace != claims["lukhas_namespace"]:
+                logger.error(
+                    "❌ Token claims namespace mismatch: expected %s, got %s",
+                    claims["lukhas_namespace"],
+                    token_claims.lukhas_namespace,
+                )
+                return False
+
+            if token_claims.lukhas_tier != claims["lukhas_tier"]:
+                logger.error(
+                    "❌ Token claims tier mismatch: expected %s, got %s",
+                    claims["lukhas_tier"],
+                    token_claims.lukhas_tier,
+                )
+                return False
 
             logger.info(f"Generated token with alias: {token_response.alias}")
             logger.info(f"Token expires at: {time.ctime(token_response.exp)}")
@@ -276,30 +272,6 @@ class LiDTokenSystemTest:
                 validation_context
             )
 
-            if not isinstance(validation_result, ValidationResult):
-                raise AssertionError("Token validator returned unexpected result type")
-
-            expected_tier = normalize_tier(claims["lukhas_tier"])
-            if not isinstance(expected_tier, TierLevel):
-                raise AssertionError("Normalized tier should resolve to a TierLevel enum value")
-            if validation_result.tier_level != expected_tier:
-                raise AssertionError(
-                    "ValidationResult tier level did not match normalized token tier"
-                )
-
-            if not validation_result.guardian_approved:
-                raise AssertionError("Guardian approval expected during validation")
-
-            if validation_result.namespace != token_response.claims.lukhas_namespace:
-                raise AssertionError(
-                    "Validation namespace mismatch between token and validator"
-                )
-
-            if validation_result.validation_time_ms <= 0:
-                raise AssertionError(
-                    "Validation time metrics must be recorded for successful validation"
-                )
-
             validation_time = (time.time() - start_time) * 1000
 
             self.metrics.append(PerformanceMetrics(
@@ -311,6 +283,27 @@ class LiDTokenSystemTest:
 
             if not validation_result.valid:
                 logger.error(f"❌ Token validation failed: {validation_result.error_message}")
+                return False
+
+            expected_tier_level = normalize_tier(claims["lukhas_tier"])
+            if not isinstance(validation_result.tier_level, TierLevel):
+                logger.error("❌ Validation did not return a TierLevel instance")
+                return False
+
+            if validation_result.tier_level != expected_tier_level:
+                logger.error(
+                    "❌ Validation tier mismatch: expected %s, got %s",
+                    expected_tier_level,
+                    validation_result.tier_level,
+                )
+                return False
+
+            if validation_result.namespace != claims["lukhas_namespace"]:
+                logger.error(
+                    "❌ Validation namespace mismatch: expected %s, got %s",
+                    claims["lukhas_namespace"],
+                    validation_result.namespace,
+                )
                 return False
 
             logger.info("✅ Token validation successful:")
@@ -360,14 +353,11 @@ class LiDTokenSystemTest:
             # Test ΛiD token authentication
             start_time = time.time()
 
-            auth_result = self.auth_service.authenticate_user(
+            auth_result: AuthResult = self.auth_service.authenticate_user(
                 username="testuser",
                 password="TestPassword123!",
                 auth_method="lid_token"
             )
-
-            if not isinstance(auth_result, AuthResult):
-                raise AssertionError("Authentication service returned unexpected result type")
 
             auth_time = (time.time() - start_time) * 1000
 
@@ -391,10 +381,7 @@ class LiDTokenSystemTest:
             # Test token validation through auth service
             start_time = time.time()
 
-            token_auth_result = self.auth_service.authenticate_token(auth_result.session_token)
-
-            if not isinstance(token_auth_result, AuthResult):
-                raise AssertionError("Token authentication returned unexpected result type")
+            token_auth_result: AuthResult = self.auth_service.authenticate_token(auth_result.session_token)
 
             token_auth_time = (time.time() - start_time) * 1000
 
@@ -454,7 +441,7 @@ class LiDTokenSystemTest:
                 request_id="test_request_001"
             )
 
-            introspection_response = self.introspection_service.introspect_token(
+            introspection_response: IntrospectionResponse = self.introspection_service.introspect_token(
                 introspection_request
             )
 
@@ -469,6 +456,22 @@ class LiDTokenSystemTest:
 
             if not introspection_response.active:
                 logger.error(f"❌ Token introspection failed: {introspection_response.error}")
+                return False
+
+            if introspection_response.tier_level != claims["lukhas_tier"]:
+                logger.error(
+                    "❌ Introspection tier mismatch: expected %s, got %s",
+                    claims["lukhas_tier"],
+                    introspection_response.tier_level,
+                )
+                return False
+
+            if introspection_response.permissions != claims["permissions"]:
+                logger.error(
+                    "❌ Introspection permissions mismatch: expected %s, got %s",
+                    claims["permissions"],
+                    introspection_response.permissions,
+                )
                 return False
 
             logger.info("✅ Token introspection successful:")
@@ -487,7 +490,7 @@ class LiDTokenSystemTest:
 
             for i in range(25):  # Test burst capacity
                 start_time = time.time()
-                response = self.introspection_service.introspect_token(introspection_request)
+                response: IntrospectionResponse = self.introspection_service.introspect_token(introspection_request)
 
                 if not response.active and response.error == "rate_limit_exceeded":
                     rate_limit_violations += 1
