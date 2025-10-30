@@ -27,22 +27,27 @@ logger = logging.getLogger(__name__)
 
 # Import LUKHAS identity components
 try:
+    # ruff: noqa: F401  # integration test imports are intentionally unused outside setup
     from .alias_format import make_alias, parse_alias, validate_alias_format
+    # See: https://github.com/LukhasAI/Lukhas/issues/585
     from .auth_service import AuthenticationService, AuthResult
     from .tier_system import (
         TierLevel,
         normalize_tier,
     )
+    # See: https://github.com/LukhasAI/Lukhas/issues/586
     from .token_generator import (
         EnvironmentSecretProvider,
         TokenClaims,
         TokenGenerator,
     )
+    # See: https://github.com/LukhasAI/Lukhas/issues/587
     from .token_introspection import (
         IntrospectionRequest,
         IntrospectionResponse,
         TokenIntrospectionService,
     )
+    # See: https://github.com/LukhasAI/Lukhas/issues/588
     from .token_validator import (
         TokenValidator,
         ValidationContext,
