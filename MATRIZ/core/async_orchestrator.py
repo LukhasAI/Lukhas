@@ -451,11 +451,17 @@ class AsyncCognitiveOrchestrator:
 
         selected_node_name = decision_result.data if decision_result.success else "default"
 
-        # Stage 3: Main Processing
+        # Stage 3: Main Processing - Enhanced node selection with fallback
         if selected_node_name not in self.available_nodes:
-            return self._build_error_response(
-                f"Node {selected_node_name} not available", stage_results, pipeline_start
-            )
+            # Try to find any available node as fallback
+            available_node_names = list(self.available_nodes.keys())
+            if available_node_names:
+                selected_node_name = available_node_names[0]  # Use first available node
+                logger.warning(f"Selected node not available, using fallback: {selected_node_name}")
+            else:
+                return self._build_error_response(
+                    f"No nodes available (requested: {selected_node_name})", stage_results, pipeline_start
+                )
 
         node = self.available_nodes[selected_node_name]
 
@@ -687,3 +693,119 @@ class AsyncCognitiveOrchestrator:
             report["circuit_breaker_health"] = get_circuit_health()
 
         return report
+
+    def get_health_report(self) -> Dict[str, Any]:
+        """Get comprehensive health report for monitoring and diagnostics"""
+        return {
+            "status": "healthy" if len(self.available_nodes) > 0 else "degraded",
+            "available_nodes": list(self.available_nodes.keys()),
+            "node_count": len(self.available_nodes),
+            "stage_timeouts": {k.value: v for k, v in self.stage_timeouts.items()},
+            "stage_critical": {k.value: v for k, v in self.stage_critical.items()},
+            "total_timeout": self.total_timeout,
+            "orchestrator_metrics": asdict(self.metrics),
+            "context_summary": self.get_context_summary(),
+            "node_health": self.node_health,
+            "performance_summary": {
+                "total_nodes": len(self.available_nodes),
+                "healthy_nodes": sum(1 for h in self.node_health.values() 
+                                   if h.get("success_count", 0) > h.get("failure_count", 0)),
+                "circuit_breaker_status": get_circuit_health() if CIRCUIT_BREAKER_AVAILABLE else "not_available"
+            }
+        }
+
+    # === ENHANCED ASYNC INTERFACE FOR INTEGRATION ===
+    
+    async def process_query_async(self, user_input: str) -> Dict[str, Any]:
+        """
+        Async interface for query processing - delegates to process_query.
+        Added for compatibility with async orchestrator test patterns.
+        """
+        return await self.process_query(user_input)
+    
+    def register_async_node(self, name: str, async_processor) -> None:
+        """
+        Register an async processing function as a cognitive node.
+        
+        Args:
+            name: Node identifier  
+            async_processor: Async function that takes data and returns result
+        """
+        
+        class AsyncNodeWrapper(CognitiveNode):
+            """Wrapper to make async functions compatible with CognitiveNode interface"""
+            
+            def __init__(self, async_func):
+                self.async_func = async_func
+                self.node_id = name
+                self.capabilities = ["async_processing"]
+                
+            def process(self, node_input: Dict[str, Any]) -> Dict[str, Any]:
+                """
+                Synchronous wrapper that runs async function.
+                Note: This is called from within an async context via run_in_executor.
+                """
+                try:
+                    # Create new event loop for this thread if needed
+                    loop = asyncio.new_event_loop()
+                    asyncio.set_event_loop(loop)
+                    try:
+                        return loop.run_until_complete(self.async_func(node_input))
+                    finally:
+                        loop.close()
+                except Exception as e:
+                    return {"error": f"Async node processing failed: {str(e)}"}
+                    
+            def validate_output(self, output: Dict[str, Any]) -> bool:
+                """Basic validation for async node outputs"""
+                return isinstance(output, dict) and "error" not in output
+        
+        # Register the wrapped async node
+        wrapped_node = AsyncNodeWrapper(async_processor)
+        self.register_node(name, wrapped_node)
+        print(f"✓ Registered async node: {name}")
+
+    # === CONTEXT PRESERVATION ENHANCEMENTS ===
+    
+    def preserve_context(self, context_data: Dict[str, Any]) -> str:
+        """
+        Preserve context data for cross-orchestration continuity.
+        
+        Returns:
+            Context ID for retrieval
+        """
+        context_id = f"ctx_{int(time.time() * 1000)}_{len(self.context_memory)}"
+        context_entry = {
+            "id": context_id,
+            "data": context_data,
+            "timestamp": time.time(),
+            "preserved_at": time.perf_counter()
+        }
+        self.context_memory.append(context_entry)
+        
+        # Limit context memory to prevent unbounded growth
+        if len(self.context_memory) > 1000:
+            self.context_memory = self.context_memory[-500:]  # Keep most recent 500
+            
+        return context_id
+    
+    def restore_context(self, context_id: str) -> Optional[Dict[str, Any]]:
+        """
+        Restore preserved context data.
+        
+        Returns:
+            Context data if found, None otherwise
+        """
+        for entry in self.context_memory:
+            if entry["id"] == context_id:
+                return entry["data"]
+        return None
+    
+    def get_context_summary(self) -> Dict[str, Any]:
+        """Get summary of preserved context for monitoring"""
+        return {
+            "total_contexts": len(self.context_memory),
+            "oldest_timestamp": min((c["timestamp"] for c in self.context_memory), default=0),
+            "newest_timestamp": max((c["timestamp"] for c in self.context_memory), default=0),
+            "memory_usage_mb": len(str(self.context_memory)) / (1024 * 1024)
+        }
