@@ -26,7 +26,7 @@ python-dotenv==1.2.1
 pyttsx3==2.99
 pytz==2025.2
 PyYAML==6.0.2
-qiskit==2.2.0
+qiskit==2.2.2
 qrcode==8.2
 Requests==2.32.5
 rich==14.2.0
