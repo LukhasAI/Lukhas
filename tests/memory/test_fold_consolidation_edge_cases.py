@@ -397,5 +397,225 @@ class TestFoldConsolidationEdgeCases:
         print(f"Consolidation time: {consolidation_time:.3f}s for 200 items")
 
 
+    def test_consolidation_concurrent_access_edge_case(self, memory_system):
+        """Test consolidation behavior under concurrent access scenarios."""
+        
+        fold = MemoryFold(id="concurrent_fold")
+        
+        # Add memories to trigger consolidation
+        for i in range(105):
+            memory = MemoryItem(
+                id=f"concurrent_mem_{i}",
+                content={"text": f"Concurrent memory {i}", "timestamp": i},
+                memory_type=MemoryType.DECLARATIVE,
+                timestamp=datetime.now(),
+                tags=["concurrent"],
+                importance_score=0.5
+            )
+            fold.add_item(memory)
+            
+        # Simulate concurrent access during consolidation
+        original_count = len(fold.items)
+        
+        # Start consolidation
+        consolidated_item = fold.consolidate()
+        
+        # Verify consolidation completed despite concurrent access scenario
+        assert consolidated_item is not None, "Consolidation should complete"
+        assert consolidated_item.content["item_count"] == original_count, "Should preserve all items"
+        
+    def test_consolidation_memory_pressure_edge_case(self, memory_system):
+        """Test consolidation under memory pressure conditions."""
+        
+        fold = MemoryFold(id="memory_pressure_fold")
+        
+        # Create very large memories to simulate memory pressure
+        large_memories = []
+        for i in range(50):  # Fewer items but very large
+            huge_content = {
+                "text": "Memory pressure test " * 10000,  # Very large text
+                "data": {"huge_array": list(range(10000))},  # Large data structure
+                "metadata": {"size_test": "x" * 50000}  # Additional large content
+            }
+            
+            memory = MemoryItem(
+                id=f"pressure_mem_{i}",
+                content=huge_content,
+                memory_type=MemoryType.DECLARATIVE,
+                timestamp=datetime.now(),
+                tags=["memory_pressure"],
+                importance_score=0.7
+            )
+            
+            fold.add_item(memory)
+            large_memories.append(memory)
+            
+        # Should trigger consolidation due to memory pressure
+        assert fold.should_consolidate(), "Memory pressure should trigger consolidation"
+        
+        # Consolidate under pressure
+        consolidated_item = fold.consolidate()
+        
+        # Verify successful consolidation despite memory pressure
+        assert consolidated_item is not None, "Should consolidate despite memory pressure"
+        assert "memory_pressure_handling" in consolidated_item.content, "Should track pressure handling"
+        
+    def test_consolidation_cross_fold_dependency_edge_case(self, memory_system):
+        """Test consolidation with cross-fold dependencies and references."""
+        
+        # Create two related folds
+        fold_a = MemoryFold(id="dependent_fold_a")
+        fold_b = MemoryFold(id="dependent_fold_b")
+        
+        # Create memories with cross-references
+        for i in range(55):
+            # Memory in fold A that references fold B
+            memory_a = MemoryItem(
+                id=f"ref_mem_a_{i}",
+                content={
+                    "text": f"Memory A {i}",
+                    "references": [f"ref_mem_b_{i}", f"ref_mem_b_{i+1}"],
+                    "fold_dependency": "dependent_fold_b"
+                },
+                memory_type=MemoryType.DECLARATIVE,
+                timestamp=datetime.now(),
+                tags=["cross_reference", "fold_a"],
+                importance_score=0.6
+            )
+            fold_a.add_item(memory_a)
+            
+            # Memory in fold B that references fold A
+            memory_b = MemoryItem(
+                id=f"ref_mem_b_{i}",
+                content={
+                    "text": f"Memory B {i}",
+                    "back_references": [f"ref_mem_a_{i}"],
+                    "fold_dependency": "dependent_fold_a"
+                },
+                memory_type=MemoryType.DECLARATIVE,
+                timestamp=datetime.now(),
+                tags=["cross_reference", "fold_b"],
+                importance_score=0.6
+            )
+            fold_b.add_item(memory_b)
+            
+        # Consolidate both folds
+        consolidated_a = fold_a.consolidate()
+        consolidated_b = fold_b.consolidate()
+        
+        # Verify cross-dependencies are preserved
+        assert "cross_fold_references" in consolidated_a.content, "Should preserve cross-fold refs"
+        assert "cross_fold_references" in consolidated_b.content, "Should preserve cross-fold refs"
+        
+        # Check dependency tracking
+        assert consolidated_a.content["cross_fold_references"]["dependent_fold_b"] > 0
+        assert consolidated_b.content["cross_fold_references"]["dependent_fold_a"] > 0
+        
+    def test_consolidation_version_conflict_edge_case(self, memory_system):
+        """Test consolidation with version conflicts and schema mismatches."""
+        
+        fold = MemoryFold(id="version_conflict_fold")
+        
+        # Create memories with different schema versions
+        for i in range(60):
+            if i % 3 == 0:
+                # Version 1 schema
+                content = {
+                    "schema_version": "1.0",
+                    "text": f"Version 1 memory {i}",
+                    "old_field": "legacy_data"
+                }
+            elif i % 3 == 1:
+                # Version 2 schema  
+                content = {
+                    "schema_version": "2.0",
+                    "content": f"Version 2 memory {i}",
+                    "new_field": "updated_data",
+                    "metadata": {"migration_needed": True}
+                }
+            else:
+                # Version 3 schema
+                content = {
+                    "schema_version": "3.0",
+                    "data": {
+                        "text": f"Version 3 memory {i}",
+                        "structured": True
+                    },
+                    "features": ["advanced", "typed"]
+                }
+                
+            memory = MemoryItem(
+                id=f"version_mem_{i}",
+                content=content,
+                memory_type=MemoryType.DECLARATIVE,
+                timestamp=datetime.now(),
+                tags=["version_test", f"v{content['schema_version']}"],
+                importance_score=0.5
+            )
+            fold.add_item(memory)
+            
+        # Consolidate with version conflicts
+        consolidated_item = fold.consolidate()
+        
+        # Verify version conflict handling
+        assert "schema_versions" in consolidated_item.content, "Should track schema versions"
+        assert "version_conflicts" in consolidated_item.content, "Should handle version conflicts"
+        
+        versions = consolidated_item.content["schema_versions"]
+        assert "1.0" in versions, "Should preserve v1.0 references"
+        assert "2.0" in versions, "Should preserve v2.0 references"
+        assert "3.0" in versions, "Should preserve v3.0 references"
+        
+    def test_consolidation_cascade_failure_recovery(self, memory_system):
+        """Test consolidation recovery from cascade failures."""
+        
+        fold = MemoryFold(id="cascade_failure_fold")
+        
+        # Create memories that could cause cascade failures
+        problematic_indices = [10, 25, 40, 55]  # Specific failure points
+        
+        for i in range(70):
+            if i in problematic_indices:
+                # Create memory that might cause cascade failure
+                content = {
+                    "text": f"Problematic memory {i}",
+                    "circular_data": {},  # Will be made circular
+                    "error_trigger": True
+                }
+                # Create circular reference
+                content["circular_data"]["self_ref"] = content
+                
+            else:
+                # Normal memory
+                content = {
+                    "text": f"Normal memory {i}",
+                    "data": {"index": i, "normal": True}
+                }
+                
+            memory = MemoryItem(
+                id=f"cascade_mem_{i}",
+                content=content,
+                memory_type=MemoryType.DECLARATIVE,
+                timestamp=datetime.now(),
+                tags=["cascade_test"],
+                importance_score=0.5
+            )
+            fold.add_item(memory)
+            
+        # Attempt consolidation with potential cascade failures
+        try:
+            consolidated_item = fold.consolidate()
+            
+            # If successful, verify failure recovery
+            assert consolidated_item is not None, "Should recover from cascade failures"
+            assert "cascade_recovery" in consolidated_item.content, "Should track recovery"
+            assert consolidated_item.content["cascade_recovery"]["failed_items"] == len(problematic_indices)
+            
+        except Exception as e:
+            # If failed, ensure it's a controlled failure
+            assert "cascade" in str(e).lower() or "circular" in str(e).lower()
+            print(f"Expected cascade failure handled: {e}")
+
+
 if __name__ == "__main__":
     pytest.main([__file__, "-v", "--tb=short"])

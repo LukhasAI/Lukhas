@@ -27,10 +27,11 @@ Constellation Framework: Flow Star (🌊) coordination hub
 from __future__ import annotations
 
 import logging
+import os
 import time
 from typing import Any, Dict, List, Optional
 
-from fastapi import Depends, FastAPI, HTTPException, Security
+from fastapi import Depends, FastAPI, HTTPException, Request, Security, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from pydantic import BaseModel, Field
@@ -40,11 +41,44 @@ from orchestration.externalized_orchestrator import get_externalized_orchestrato
 from orchestration.health_monitor import get_health_monitor
 from orchestration.routing_config import get_routing_config_manager
 from orchestration.routing_strategies import RoutingContext, get_routing_engine
+from identity.auth_service import verify_token
 
 logger = logging.getLogger(__name__)
 
 # Security
 security = HTTPBearer()
+
+
+def _parse_env_list(env_var: str, default: Optional[str] = None) -> List[str]:
+    """Parse a comma-separated environment variable into a list."""
+
+    value = os.getenv(env_var)
+    if value is None:
+        value = default
+
+    if not value:
+        return []
+
+    return [item.strip() for item in value.split(",") if item.strip()]
+
+
+ADMIN_PERMISSION = "routing:admin"
+ADMIN_ALLOWED_AUDIENCES = _parse_env_list(
+    "ROUTING_ADMIN_ALLOWED_AUDIENCES", "lukhas-routing-admin"
+)
+ADMIN_ALLOWED_ISSUERS = _parse_env_list("ROUTING_ADMIN_ALLOWED_ISSUERS")
+
+_ADMIN_MAX_TOKEN_AGE_RAW = os.getenv("ROUTING_ADMIN_MAX_TOKEN_AGE_SECONDS", "3600").strip()
+ADMIN_MAX_TOKEN_AGE_SECONDS: Optional[int]
+try:
+    parsed_token_age = int(_ADMIN_MAX_TOKEN_AGE_RAW)
+    ADMIN_MAX_TOKEN_AGE_SECONDS = parsed_token_age if parsed_token_age > 0 else None
+except ValueError:
+    logger.warning(
+        "Invalid ROUTING_ADMIN_MAX_TOKEN_AGE_SECONDS value '%s'; defaulting to 3600",
+        _ADMIN_MAX_TOKEN_AGE_RAW,
+    )
+    ADMIN_MAX_TOKEN_AGE_SECONDS = 3600
 
 # Pydantic models for API
 class RoutingPreviewRequest(BaseModel):
@@ -98,15 +132,78 @@ router.add_middleware(
 )
 
 # Authentication dependency
-async def get_admin_user(credentials: HTTPAuthorizationCredentials = Security(security)):
-    """Validate admin authentication"""
-    # See: https://github.com/LukhasAI/Lukhas/issues/584
-    # For now, just check for presence of token
-    if not credentials or not credentials.credentials:
-        raise HTTPException(status_code=401, detail="Admin authentication required")
+async def get_admin_user(
+    request: Request,
+    credentials: HTTPAuthorizationCredentials = Security(security)
+):
+    """Validate admin authentication via the identity service."""
 
-    # In production, validate JWT token and check admin permissions
-    return {"user_id": "admin", "permissions": ["routing:admin"]}
+    if not credentials or not credentials.credentials:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Admin authentication required",
+        )
+
+    if credentials.scheme.lower() != "bearer":
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Unsupported authentication scheme",
+        )
+
+    token = credentials.credentials.strip()
+    if not token:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Admin authentication required",
+        )
+
+    client_ip = request.client.host if request.client else None
+    verification_kwargs: Dict[str, Any] = {
+        "request_context": {
+            "client_ip": client_ip,
+            "user_agent": request.headers.get("user-agent"),
+        }
+    }
+
+    if ADMIN_ALLOWED_AUDIENCES:
+        verification_kwargs["allowed_audiences"] = ADMIN_ALLOWED_AUDIENCES
+    if ADMIN_ALLOWED_ISSUERS:
+        verification_kwargs["allowed_issuers"] = ADMIN_ALLOWED_ISSUERS
+    if ADMIN_MAX_TOKEN_AGE_SECONDS:
+        verification_kwargs["max_token_age_seconds"] = ADMIN_MAX_TOKEN_AGE_SECONDS
+        verification_kwargs["require_fresh_token"] = True
+
+    try:
+        admin_claims = await verify_token(token, **verification_kwargs)
+    except ValueError as exc:
+        logger.warning("Admin token verification failed: %s", exc)
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid admin credentials",
+        ) from exc
+    except Exception as exc:
+        logger.error("Admin authentication error: %s", exc)
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Admin authentication failure",
+        ) from exc
+
+    permissions = admin_claims.get("permissions") or []
+    if ADMIN_PERMISSION not in permissions:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Admin permissions required",
+        )
+
+    user_id = admin_claims.get("user_id") or admin_claims.get("sub") or "unknown"
+
+    admin_context = dict(admin_claims)
+    admin_context["user_id"] = user_id
+    admin_context["permissions"] = permissions
+
+    logger.info("Admin authentication successful for user %s", user_id)
+
+    return admin_context
 
 @router.get("/health")
 async def health_check():

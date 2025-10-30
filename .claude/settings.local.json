@@ -83,7 +83,15 @@
       "Bash(./scripts/consolidation/check_matriz_imports_ci.sh:*)",
       "Bash(git --no-pager diff:*)",
       "Bash(gh run view:*)",
-      "Bash(gh pr checkout:*)"
+      "Bash(gh pr checkout:*)",
+      "Bash(.venv/bin/python3:*)",
+      "Bash(for pr in 640 645 650 655 660)",
+      "Bash(do echo \"=== Testing PR #$pr ===\" gh pr checkout $pr)",
+      "Bash({ echo \"SKIP\")",
+      "Bash(continue)",
+      "Bash(} if make smoke)",
+      "Bash(then echo \"✅ PASS\" else echo \"❌ FAIL\" fi git checkout main 2)",
+      "Bash(/dev/null done)"
     ],
     "deny": [],
     "ask": [],

@@ -23,11 +23,10 @@ from typing import Any, Dict, List
 # Add LUKHAS to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator
-from matriz.nodes.fact_node import FactNode
-from matriz.nodes.math_node import MathNode
-
 from core.matriz.optimized_orchestrator import OptimizedAsyncOrchestrator
+from MATRIZ.core.async_orchestrator import AsyncCognitiveOrchestrator
+from MATRIZ.nodes.fact_node import FactNode
+from MATRIZ.nodes.math_node import MathNode
 
 
 @dataclass
