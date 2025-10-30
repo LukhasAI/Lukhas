@@ -14,6 +14,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 import aiohttp
+from .oauth_helpers import OAuthTokenManager
 
 # Platform-specific imports
 try:
@@ -415,7 +416,10 @@ class PlatformAPIManager:
                     "requests_oauthlib is required for LinkedIn OAuth token refresh, but it is not installed."
                 )
 
-            return await asyncio.to_thread(self._refresh_linkedin_token, creds)
+            # Delegate token management to the OAuthTokenManager helper which
+            # performs a synchronous refresh via an injected session factory.
+            manager = OAuthTokenManager(self.oauth_session_factory, logger=self.logger)
+            return await asyncio.to_thread(manager.get_access_token, creds=creds, token_url="https://www.linkedin.com/oauth/v2/accessToken")
 
         return creds.access_token
 
@@ -444,53 +448,12 @@ class PlatformAPIManager:
         return expires_at <= datetime.now(timezone.utc) + timedelta(minutes=5)
 
     def _refresh_linkedin_token(self, creds: APICredentials) -> str:
-        """Refresh the LinkedIn OAuth token using requests_oauthlib."""
+        """(Deprecated) kept for compatibility. Use OAuthTokenManager instead."""
 
-        if not self.oauth_session_factory:
-            raise RuntimeError("OAuth session factory is not configured for LinkedIn token refresh.")
-
-        if not creds.client_id or not creds.client_secret or not creds.refresh_token:
-            raise RuntimeError("LinkedIn OAuth refresh requires client_id, client_secret, and refresh_token.")
-
-        token_url = "https://www.linkedin.com/oauth/v2/accessToken"
-
-        session = self.oauth_session_factory(
-            creds.client_id,
-            token={
-                "access_token": creds.access_token or "",
-                "refresh_token": creds.refresh_token,
-                "token_type": "Bearer",
-            },
-            auto_refresh_url=token_url,
-            auto_refresh_kwargs={"client_id": creds.client_id, "client_secret": creds.client_secret},
-        )
-
-        token = session.refresh_token(
-            token_url,
-            refresh_token=creds.refresh_token,
-            client_id=creds.client_id,
-            client_secret=creds.client_secret,
-        )
-
-        access_token = token.get("access_token")
-        if not access_token:
-            raise RuntimeError("LinkedIn OAuth refresh did not return an access token.")
-
-        expires_in = token.get("expires_in")
-        expires_at = None
-        if isinstance(expires_in, (int, float)):
-            expires_at = datetime.now(timezone.utc) + timedelta(seconds=int(expires_in))
-
-        if token.get("refresh_token"):
-            creds.refresh_token = token["refresh_token"]
-
-        creds.access_token = access_token
-        creds.token_expires_at = expires_at.isoformat() if expires_at else None
-
-        self.logger.info("🔄 Refreshed LinkedIn OAuth access token.")
-
+        # Backwards-compatible wrapper that delegates to OAuthTokenManager
+        manager = OAuthTokenManager(self.oauth_session_factory, logger=self.logger)
+        access_token = manager.get_access_token(creds=creds, token_url="https://www.linkedin.com/oauth/v2/accessToken")
         self._persist_credentials()
-
         return access_token
 
     def _persist_credentials(self) -> None:
