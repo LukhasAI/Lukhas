@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """
 GPT-Colony Parallel Orchestrator
 ================================
@@ -117,17 +119,30 @@ class GPTColonyOrchestrator:
         signal_bus: Optional[SignalBus] = None,
     ):
         # Resolve integration classes at runtime to avoid import-time edges
-        OpenAICapability, OpenAIModulatedService = _get_openai_classes()
-        ColonyConsensus = _get_colony_consensus_class()
-        ConsensusResult, EnhancedReasoningColony = _get_enhanced_colony_classes()
-        Signal, SignalBus, SignalType = _get_signal_bus_classes()
+        (
+            openai_capability_cls,
+            openai_modulated_service_cls,
+        ) = _get_openai_classes()
+        colony_consensus_cls = _get_colony_consensus_class()
+        consensus_result_cls, enhanced_colony_cls = _get_enhanced_colony_classes()
+        signal_cls, signal_bus_cls, signal_type_cls = _get_signal_bus_classes()
+
+        # Cache the lazily imported classes for later use
+        self._openai_capability_cls = openai_capability_cls
+        self._openai_modulated_service_cls = openai_modulated_service_cls
+        self._colony_consensus_cls = colony_consensus_cls
+        self._consensus_result_cls = consensus_result_cls
+        self._enhanced_colony_cls = enhanced_colony_cls
+        self._signal_cls = signal_cls
+        self._signal_bus_cls = signal_bus_cls
+        self._signal_type_cls = signal_type_cls
 
         # Instantiate or accept provided services when available
         if openai_service is not None:
             self.openai_service = openai_service
-        elif OpenAIModulatedService is not None:
+        elif self._openai_modulated_service_cls is not None:
             try:
-                self.openai_service = OpenAIModulatedService()
+                self.openai_service = self._openai_modulated_service_cls()
             except Exception:
                 self.openai_service = None
         else:
@@ -135,9 +150,9 @@ class GPTColonyOrchestrator:
 
         if signal_bus is not None:
             self.signal_bus = signal_bus
-        elif SignalBus is not None:
+        elif self._signal_bus_cls is not None:
             try:
-                self.signal_bus = SignalBus()
+                self.signal_bus = self._signal_bus_cls()
             except Exception:
                 self.signal_bus = None
         else:
@@ -165,11 +180,22 @@ class GPTColonyOrchestrator:
     def register_colony(self, colony_id: str, colony: EnhancedReasoningColony):
         """Register a colony for orchestration"""
         self.colonies[colony_id] = colony
-        self.colony_consensus[colony_id] = ColonyConsensus(colony_id, self.signal_bus)
+        if self._colony_consensus_cls is None:
+            logger.warning(
+                "ColonyConsensus integration unavailable; skipping consensus setup for %s",
+                colony_id,
+            )
+            return
+
+        self.colony_consensus[colony_id] = self._colony_consensus_cls(
+            colony_id, self.signal_bus
+        )
 
         # Register some default agents
-        for i in range(5):
-            self.colony_consensus[colony_id].register_agent(f"{colony_id}_agent_{i}", weight=1.0)
+        consensus = self.colony_consensus[colony_id]
+        if hasattr(consensus, "register_agent"):
+            for i in range(5):
+                consensus.register_agent(f"{colony_id}_agent_{i}", weight=1.0)
 
         logger.info(f"Registered colony {colony_id} for orchestration")
 
@@ -205,8 +231,9 @@ class GPTColonyOrchestrator:
         self._update_metrics(result)
 
         # Emit completion signal
+        signal_type = self._signal_type_cls.TRUST if self._signal_type_cls else None
         await self._emit_signal(
-            SignalType.TRUST,
+            signal_type,
             result.confidence,
             {
                 "task_id": task.task_id,
@@ -569,10 +596,13 @@ class GPTColonyOrchestrator:
 
     async def _process_with_gpt(self, task: OrchestrationTask) -> Optional[dict[str, Any]]:
         """Process task with GPT model"""
+        if not self.openai_service or self._openai_capability_cls is None:
+            return None
+
         try:
             response = await self.openai_service.process_modulated_request(
                 module="orchestrator",
-                capability=OpenAICapability.REASONING,
+                capability=self._openai_capability_cls.REASONING,
                 data={"prompt": task.content, "context": task.context},
             )
 
@@ -653,9 +683,12 @@ class GPTColonyOrchestrator:
             self.performance_metrics["avg_processing_time"] * 0.9 + result.processing_time * 0.1
         )
 
-    async def _emit_signal(self, signal_type: SignalType, level: float, metadata: dict):
+    async def _emit_signal(self, signal_type: Any, level: float, metadata: dict):
         """Emit signal through signal bus"""
-        signal = Signal(
+        if not signal_type or not self.signal_bus or self._signal_cls is None:
+            return
+
+        signal = self._signal_cls(
             name=signal_type,
             source="gpt_colony_orchestrator",
             level=level,
