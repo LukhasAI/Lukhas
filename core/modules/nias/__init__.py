@@ -44,25 +44,25 @@ class VoiceNarrator(Protocol):
     def narrate(self, text: str, metadata: dict[str, Any]) -> None:
         """Narrate text with given metadata context"""
         ...
-        
+
     def is_available(self) -> bool:
         """Check if narration service is available"""
         ...
-        
+
     def get_voice_settings(self) -> dict[str, Any]:
         """Get current voice configuration"""
         ...
 
 class EnhancedVoiceNarrator:
     """Enhanced implementation of the voice narrator with consciousness-awareness"""
-    
+
     def __init__(self, config: dict[str, Any]):
         self.config = config
         self.enabled = config.get("enabled", True)
         self.engine = config.get("engine", "internal")
         self.voice_id = config.get("voice_id", "LUKHAS-AI-NARRATOR")
         self.consciousness_level = config.get("consciousness_level", "basic")
-        
+
         # Voice processing state
         self.narration_queue = []
         self.processing_stats = {
@@ -71,14 +71,14 @@ class EnhancedVoiceNarrator:
             "failed_narrations": 0,
             "last_narration": None
         }
-        
+
         logger.info(f"EnhancedVoiceNarrator initialized - Engine: {self.engine}, Voice: {self.voice_id}")
 
     def is_available(self) -> bool:
         """Check if narration service is available"""
         if not self.enabled:
             return False
-            
+
         # Check engine-specific availability
         if self.engine == "elevenlabs":
             return self._check_elevenlabs_availability()
@@ -86,7 +86,7 @@ class EnhancedVoiceNarrator:
             return self._check_azure_availability()
         else:
             return True  # Internal engine always available
-            
+
     def _check_elevenlabs_availability(self) -> bool:
         """Check ElevenLabs API availability"""
         api_key = self.config.get("api_key")
@@ -94,7 +94,7 @@ class EnhancedVoiceNarrator:
             logger.warning("ElevenLabs API key not configured")
             return False
         return True
-        
+
     def _check_azure_availability(self) -> bool:
         """Check Azure Speech Service availability"""
         # Add Azure-specific checks
@@ -116,11 +116,11 @@ class EnhancedVoiceNarrator:
         if not self.enabled:
             logger.debug("Voice narration disabled")
             return
-            
+
         try:
             # Update stats
             self.processing_stats["total_narrations"] += 1
-            
+
             # Process narration based on engine
             if self.engine == "elevenlabs" and self.is_available():
                 self._narrate_elevenlabs(text, metadata)
@@ -128,54 +128,54 @@ class EnhancedVoiceNarrator:
                 self._narrate_azure(text, metadata)
             else:
                 self._narrate_internal(text, metadata)
-                
+
             # Update success stats
             self.processing_stats["successful_narrations"] += 1
             self.processing_stats["last_narration"] = time.time()
-            
+
         except Exception as e:
             self.processing_stats["failed_narrations"] += 1
             logger.error(f"Voice narration failed: {e}")
-            
+
             # Fallback to internal narration
             self._narrate_internal(text, metadata)
-            
+
     def _narrate_elevenlabs(self, text: str, metadata: dict[str, Any]) -> None:
         """Narrate using ElevenLabs API (production implementation)"""
         dream_id = metadata.get("dream_id", "unknown")
         consciousness_level = metadata.get("consciousness_level", self.consciousness_level)
-        
+
         # For now, log with production formatting
         # TODO: Implement actual ElevenLabs API integration
         logger.info(f"🎙 [ElevenLabs] Narrating dream {dream_id} (consciousness: {consciousness_level})")
         print(f"[LUKHAS-AI Voice] {text}")
-        
+
     def _narrate_azure(self, text: str, metadata: dict[str, Any]) -> None:
         """Narrate using Azure Speech Service (production implementation)"""
         dream_id = metadata.get("dream_id", "unknown")
-        
-        # For now, log with production formatting  
+
+        # For now, log with production formatting
         # TODO: Implement actual Azure Speech Service integration
         logger.info(f"🎙 [Azure Speech] Narrating dream {dream_id}")
         print(f"[LUKHAS-AI Voice] {text}")
-        
+
     def _narrate_internal(self, text: str, metadata: dict[str, Any]) -> None:
         """Internal narration implementation (always available)"""
         dream_id = metadata.get("dream_id", "unknown")
         consciousness_level = metadata.get("consciousness_level", "basic")
         priority = metadata.get("priority", "normal")
-        
+
         # Consciousness-aware formatting
         prefix = "🌟" if consciousness_level == "advanced" else "🎙"
-        
+
         logger.info(f"{prefix} [Internal] Narrating dream {dream_id} (priority: {priority})")
-        
+
         # Enhanced console output with consciousness context
         if consciousness_level == "advanced":
             print(f"[LUKHAS-AI Consciousness Voice] ✨ {text}")
         else:
             print(f"[LUKHAS-AI Voice] {text}")
-            
+
     def queue_narration(self, text: str, metadata: dict[str, Any], priority: str = "normal") -> None:
         """Queue narration for batch processing"""
         narration_item = {
@@ -184,21 +184,21 @@ class EnhancedVoiceNarrator:
             "priority": priority,
             "queued_at": time.time()
         }
-        
+
         # Insert based on priority
         if priority == "high":
             self.narration_queue.insert(0, narration_item)
         else:
             self.narration_queue.append(narration_item)
-            
+
         logger.debug(f"Queued narration (priority: {priority}), queue size: {len(self.narration_queue)}")
-        
+
     def process_queue(self) -> None:
         """Process queued narrations"""
         while self.narration_queue:
             item = self.narration_queue.pop(0)
             self.narrate(item["text"], item["metadata"])
-            
+
     def get_queue_status(self) -> dict[str, Any]:
         """Get narration queue status"""
         return {
@@ -218,10 +218,10 @@ class StubVoiceNarrator:
         dream_id = metadata.get("dream_id", "unknown")
         logger.info(f"🎙 [Legacy] Narrating dream: {dream_id}")
         print(f"[NIAS Narration] {text}")
-        
+
     def is_available(self) -> bool:
         return True
-        
+
     def get_voice_settings(self) -> dict[str, Any]:
         return {"engine": "stub", "voice_id": "legacy"}
 
@@ -241,7 +241,7 @@ ENHANCED_TTS_CONFIG = {
 
 # Legacy configuration for backward compatibility
 TTS_CONFIG = {
-    "engine": "elevenlabs", 
+    "engine": "elevenlabs",
     "voice_id": "JULES-AI-NARRATOR",
     "api_key": "env_var:TTS_API_KEY",
 }
