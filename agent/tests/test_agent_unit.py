@@ -107,11 +107,11 @@ class Testget_agent_system_status(unittest.TestCase):
         pass
 
 
-class Testis_available(unittest.TestCase):
-    """Tests for is_available component."""
+class Testis_available_intelligence_bridge(unittest.TestCase):
+    """Tests for is_available component from intelligence_bridge."""
 
     def test_is_available_import(self):
-        """Test is_available can be imported."""
+        """Test is_available can be imported from intelligence_bridge."""
         try:
             from agent.intelligence_bridge import is_available
             self.assertIsNotNone(is_available)
