@@ -39,10 +39,17 @@ async def test_generate_compliance_report_builds_structured_report(monkeypatch):
         SimpleNamespace(
             number=1,
             transactions=[
-                SimpleNamespace(type="ai_decision_audit", data={"decision_id": "a1"})
+                SimpleNamespace(
+                    transaction_type="ai_decision_audit", data={"decision_id": "a1"}
+                )
             ],
         ),
-        SimpleNamespace(number=2, transactions=[SimpleNamespace(type="other", data={})]),
+        SimpleNamespace(
+            number=2,
+            transactions=[
+                SimpleNamespace(transaction_type="other", data={})
+            ],
+        ),
     ]
 
     async def _fake_generate_proof(tree, framework):  # type: ignore[no-untyped-def]
@@ -67,3 +74,27 @@ async def test_generate_compliance_report_builds_structured_report(monkeypatch):
     assert report.cryptographic_attestation == "signature:root-1"
     assert report.report_id.startswith("compliance_gdpr_")
     assert report.generated_at.tzinfo is not None
+
+
+@pytest.mark.asyncio
+async def test_generate_compliance_report_handles_legacy_type_field(monkeypatch):
+    """Legacy transactions may still expose the `type` attribute."""
+
+    monkeypatch.setattr(safe_blockchain, "MerkleTree", _DummyMerkleTree, raising=False)
+
+    audit_blockchain = safe_blockchain.QISafeAuditBlockchain.__new__(safe_blockchain.QISafeAuditBlockchain)
+
+    audit_blockchain._get_blocks_in_range = lambda _: [  # type: ignore[attr-defined]
+        SimpleNamespace(
+            number=3,
+            transactions=[SimpleNamespace(type="ai_decision_audit", data={"decision_id": "legacy"})],
+        )
+    ]
+
+    audit_blockchain._generate_compliance_proof = lambda *_, **__: None  # type: ignore[attr-defined]
+    audit_blockchain._sign_report = lambda *_: None  # type: ignore[attr-defined]
+
+    report = await audit_blockchain.generate_compliance_report(SimpleNamespace(), "SOC2")
+
+    assert report.total_transactions == 1
+    assert report.merkle_root == "root-1"

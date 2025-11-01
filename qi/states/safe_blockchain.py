@@ -122,9 +122,16 @@ class QISafeAuditBlockchain:
         total_transactions = 0
         for block in relevant_blocks:
             for tx in getattr(block, "transactions", []):
-                tx_type = getattr(tx, "transaction_type", getattr(tx, "type", None))
+                tx_type = self._resolve_transaction_type(tx)
                 if tx_type == "ai_decision_audit":
-                    decision_tree.add_leaf(tx.data)
+                    payload = self._extract_transaction_payload(tx)
+                    if payload is None:
+                        logger.debug(
+                            "Skipping audit transaction without payload: tx=%r", tx
+                        )
+                        continue
+
+                    decision_tree.add_leaf(payload)
                     total_transactions += 1
 
         # Generate zero-knowledge proof of compliance
@@ -167,6 +174,47 @@ class QISafeAuditBlockchain:
 
         # See: https://github.com/LukhasAI/Lukhas/issues/604
         return report
+
+
+    @staticmethod
+    def _resolve_transaction_type(transaction: Any) -> Optional[str]:
+        """Best-effort extraction of a transaction's type."""
+
+        primary = getattr(transaction, "transaction_type", None)
+        if primary:
+            return primary
+
+        legacy = getattr(transaction, "type", None)
+        if legacy:
+            return legacy
+
+        if isinstance(transaction, dict):
+            for key in ("transaction_type", "type"):
+                value = transaction.get(key)
+                if value:
+                    return value
+
+        data = getattr(transaction, "data", None)
+        if isinstance(data, dict):
+            for key in ("transaction_type", "type"):
+                value = data.get(key)
+                if value:
+                    return value
+
+        return None
+
+    @staticmethod
+    def _extract_transaction_payload(transaction: Any) -> Any:
+        """Retrieve the payload stored on the transaction."""
+
+        payload = getattr(transaction, "data", None)
+        if payload is not None:
+            return payload
+
+        if isinstance(transaction, dict):
+            return transaction.get("data")
+
+        return None
 
 
 """
