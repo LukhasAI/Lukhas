@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-log = logging.getLogger(__name__)  # noqa: F821  # TODO: logging
 import logging
 
+log = logging.getLogger(__name__)  # TODO: logging
 logger = logging.getLogger(__name__)
 
 """
