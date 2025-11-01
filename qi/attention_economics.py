@@ -4,6 +4,7 @@ Quantum Attention Economics
 AI-powered attention valuation system with quantum entanglement properties.
 Creates ethical attention economy with consent-based trading.
 """
+import inspect
 import json
 import logging
 import math
@@ -15,6 +16,173 @@ from typing import Any, Optional
 from openai import AsyncOpenAI
 
 logger = logging.getLogger(__name__)
+
+
+class ConsciousnessHubMessenger:
+    """Lightweight adapter for sending notifications to the consciousness hub."""
+
+    _CANDIDATE_FACTORIES = (
+        ("consciousness.consciousness_hub", "get_consciousness_hub"),
+        ("consciousness.consciousness_hub", "ConsciousnessHub"),
+        ("consciousness.reflection.consciousness_hub", "get_consciousness_hub"),
+        ("consciousness.reflection.consciousness_hub", "ConsciousnessHub"),
+        ("labs.consciousness.reflection.consciousness_hub", "get_consciousness_hub"),
+        ("labs.consciousness.reflection.consciousness_hub", "ConsciousnessHub"),
+    )
+
+    def __init__(self):
+        self._hub: Optional[Any] = None
+        self._load_attempted = False
+        self._working_method = None
+
+    def _resolve_hub(self) -> Optional[Any]:
+        """Attempt to import and instantiate the consciousness hub."""
+
+        if self._hub is not None or self._load_attempted:
+            return self._hub
+
+        self._load_attempted = True
+
+        for module_name, factory_name in self._CANDIDATE_FACTORIES:
+            try:
+                module = __import__(module_name, fromlist=[factory_name])
+            except ImportError as exc:  # pragma: no cover - optional dependency
+                logger.debug("Consciousness hub module %s unavailable: %s", module_name, exc)
+                continue
+
+            factory = getattr(module, factory_name, None)
+            if factory is None:
+                continue
+
+            try:
+                hub_candidate = factory() if callable(factory) else None
+            except Exception as exc:  # pragma: no cover - defensive logging
+                logger.debug(
+                    "Consciousness hub factory %s from %s failed: %s",
+                    factory_name,
+                    module_name,
+                    exc,
+                )
+                continue
+
+            if inspect.isawaitable(hub_candidate):
+                logger.debug(
+                    "Consciousness hub factory %s returned awaitable; skipping synchronous resolution",
+                    factory_name,
+                )
+                continue
+
+            if hub_candidate is not None:
+                self._hub = hub_candidate
+                break
+
+        if self._hub is None:
+            try:
+                from labs.core.integration.hub_registry import get_hub_registry
+
+                registry = get_hub_registry()
+                self._hub = registry.get_hub("consciousness")
+            except ImportError as exc:  # pragma: no cover - optional dependency
+                logger.debug("Hub registry unavailable for consciousness hub lookup: %s", exc)
+            except Exception as exc:  # pragma: no cover - defensive logging
+                logger.debug("Failed to retrieve consciousness hub from registry: %s", exc)
+
+        if self._hub is None:
+            logger.debug("Consciousness hub could not be resolved")
+
+        return self._hub
+
+    def _candidate_methods(self) -> list[Any]:
+        hub = self._resolve_hub()
+        if hub is None:
+            return []
+
+        if self._working_method is not None:
+            return [self._working_method]
+
+        method_names = [
+            "send_notification",
+            "enqueue_notification",
+            "publish_event",
+            "emit_event",
+            "process_event",
+            "handle_event",
+            "dispatch_event",
+        ]
+
+        methods: list[Any] = []
+        for name in method_names:
+            method = getattr(hub, name, None)
+            if callable(method):
+                methods.append(method)
+
+        return methods
+
+    async def send_notification(self, channel: str, payload: dict[str, Any]) -> bool:
+        """Send a notification to the consciousness hub if available."""
+
+        envelope = {
+            "channel": channel,
+            "payload": payload,
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+        }
+
+        methods = self._candidate_methods()
+        if not methods:
+            return False
+
+        for method in methods:
+            try:
+                if await self._try_call(method, channel, payload, envelope):
+                    self._working_method = method
+                    return True
+            except Exception as exc:  # pragma: no cover - defensive logging
+                logger.exception(
+                    "Failed to send notification via consciousness hub method %s: %s",
+                    getattr(method, "__name__", repr(method)),
+                    exc,
+                )
+
+        return False
+
+    async def _try_call(
+        self,
+        method: Any,
+        channel: str,
+        payload: dict[str, Any],
+        envelope: dict[str, Any],
+    ) -> bool:
+        """Attempt to invoke a candidate hub method with flexible signatures."""
+
+        call_attempts = [
+            ((channel, envelope), {}),
+            ((channel, payload), {}),
+            ((envelope,), {}),
+            ((payload,), {}),
+            ((), {"channel": channel, "payload": payload}),
+            ((), {"event_type": channel, "payload": payload}),
+            ((), {"event_type": channel, "event": payload}),
+            ((), {"notification": envelope}),
+        ]
+
+        for args, kwargs in call_attempts:
+            try:
+                result = method(*args, **kwargs)
+            except TypeError as exc:
+                message = str(exc).lower()
+                if any(keyword in message for keyword in ("positional", "keyword", "argument")):
+                    continue
+                raise
+
+            if inspect.isawaitable(result):
+                result = await result
+
+            if result is False:
+                return False
+
+            return True
+
+        return False
 
 
 class AttentionTokenType(Enum):
@@ -87,8 +255,13 @@ class QIAttentionEconomics:
     - Ethical constraints on attention manipulation
     """
 
-    def __init__(self, openai_api_key: Optional[str] = None):
+    def __init__(
+        self,
+        openai_api_key: Optional[str] = None,
+        consciousness_messenger: Optional[ConsciousnessHubMessenger] = None,
+    ):
         self.openai = AsyncOpenAI(api_key=openai_api_key) if openai_api_key else None
+        self._consciousness_messenger = consciousness_messenger or ConsciousnessHubMessenger()
 
         # Token storage
         self.tokens: dict[str, AttentionToken] = {}
@@ -290,21 +463,68 @@ class QIAttentionEconomics:
         if len(tokens) < 2:
             return False
 
-        # Check all tokens belong to consenting users
-        user_ids = {t.owner_id for t in tokens}
-
         # Create entanglement
         for token in tokens:
             token.entangled_with = [t.token_id for t in tokens if t.token_id != token.token_id]
 
         logger.info(f"Created {entanglement_type} entanglement between {len(tokens)} tokens")
 
-        # Notify users of entanglement
-        for _user_id in user_ids:
-            # TODO: Send notification through consciousness hub
-            pass
+        await self._notify_entanglement(tokens, entanglement_type)
 
         return True
+
+    async def _notify_entanglement(
+        self, tokens: list[AttentionToken], entanglement_type: str
+    ) -> None:
+        """Notify the consciousness hub about a new entanglement."""
+
+        if not tokens or self._consciousness_messenger is None:
+            return
+
+        all_token_ids = [token.token_id for token in tokens]
+
+        owner_map: dict[str, list[AttentionToken]] = {}
+        for token in tokens:
+            owner_map.setdefault(token.owner_id, []).append(token)
+
+        unique_owner_ids = list(owner_map)
+
+        for owner_id, owner_tokens in owner_map.items():
+            payload = {
+                "event": {
+                    "type": "attention.entanglement.created",
+                    "entanglement_type": entanglement_type,
+                    "token_ids": all_token_ids,
+                    "owner_token_ids": [t.token_id for t in owner_tokens],
+                    "owner_token_types": [t.token_type.value for t in owner_tokens],
+                    "created_at": datetime.now(timezone.utc).isoformat(),
+                },
+                "recipient": {
+                    "user_id": owner_id,
+                    "delivery_preference": "consciousness_hub",
+                },
+                "metadata": {
+                    "total_tokens": len(all_token_ids),
+                    "owner_token_count": len(owner_tokens),
+                    "unique_owner_ids": unique_owner_ids,
+                },
+            }
+
+            try:
+                success = await self._consciousness_messenger.send_notification(
+                    channel="attention.entanglement.created",
+                    payload=payload,
+                )
+            except Exception as exc:  # pragma: no cover - defensive logging
+                logger.exception(
+                    "Failed to notify consciousness hub for owner %s: %s", owner_id, exc
+                )
+                continue
+
+            if not success:
+                logger.warning(
+                    "Consciousness hub notification declined for owner %s", owner_id
+                )
 
     async def submit_attention_bid(self, bid: AttentionBid) -> dict[str, Any]:
         """Submit a bid for user attention"""

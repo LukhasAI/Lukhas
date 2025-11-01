@@ -6,10 +6,10 @@ import pytest
 pytestmark = pytest.mark.skipif(sys.version_info < (3, 10), reason='matriz module requires Python 3.10+')
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 try:
-    from MATRIZ.core.node_interface import CognitiveNode
-    from MATRIZ.core.orchestrator import CognitiveOrchestrator
-    from MATRIZ.nodes.math_node import MathNode
-    from MATRIZ.nodes.validator_node import ValidatorNode
+    from matriz.core.node_interface import CognitiveNode
+    from matriz.core.orchestrator import CognitiveOrchestrator
+    from matriz.nodes.math_node import MathNode
+    from matriz.nodes.validator_node import ValidatorNode
 except ImportError:
 
     class CognitiveNode:

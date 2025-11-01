@@ -567,6 +567,96 @@ rules:
       likelihood: LOW
       subcategory: [auth-bypass]
 
+  - id: lukhas-authentication-stub
+    patterns:
+      - pattern-either:
+          - pattern: |
+              def $FUNC(...):
+                  ...
+                  return True
+          - pattern: |
+              async def $FUNC(...):
+                  ...
+                  return True
+          - pattern: |
+              def $FUNC(...):
+                  ...
+                  return {"authenticated": True, ...}
+          - pattern: |
+              async def $FUNC(...):
+                  ...
+                  return {"authenticated": True, ...}
+          - pattern: |
+              def $FUNC(...):
+                  ...
+                  $RESULT = {"authenticated": True, ...}
+                  ...
+                  return $RESULT
+          - pattern: |
+              async def $FUNC(...):
+                  ...
+                  $RESULT = {"authenticated": True, ...}
+                  ...
+                  return $RESULT
+          - pattern: |
+              def $FUNC(...):
+                  ...
+                  return {"success": True, ...}
+          - pattern: |
+              async def $FUNC(...):
+                  ...
+                  return {"success": True, ...}
+          - pattern: |
+              def $FUNC(...):
+                  ...
+                  return mock_identity(...)
+          - pattern: |
+              async def $FUNC(...):
+                  ...
+                  return mock_identity(...)
+          - pattern: |
+              def $FUNC(...):
+                  ...
+                  pass
+          - pattern: |
+              async def $FUNC(...):
+                  ...
+                  pass
+      - metavariable-regex:
+          metavariable: $FUNC
+          regex: "(?i)auth"
+      - pattern-not: |
+          def $FUNC(...):
+              ...
+              $OBJ.authenticate(...)
+      - pattern-not: |
+          async def $FUNC(...):
+              ...
+              $OBJ.authenticate(...)
+      - pattern-not: |
+          def $FUNC(...):
+              ...
+              raise
+      - pattern-not: |
+          async def $FUNC(...):
+              ...
+              raise
+    message: |
+      Authentication function returns unconditional success or placeholder logic.
+
+      Functions handling authentication must perform real validation and propagate failures.
+
+      Fix: Integrate ΛiD validation, Guardian checks, or other identity services instead of returning static success.
+    languages: [python]
+    severity: ERROR
+    metadata:
+      category: security
+      technology: [lukhas, identity, lambda-id]
+      confidence: MEDIUM
+      impact: HIGH
+      likelihood: MEDIUM
+      subcategory: [auth-bypass]
+
   - id: guardian-system-disabled
     patterns:
       - pattern-either:

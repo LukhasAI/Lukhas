@@ -17,7 +17,7 @@ MATRIZ case standardization is complete with a compatibility layer that allows b
 
 ### 2. Compatibility Layer Added ✅
 - `MATRIZ/__init__.py` updated with sys.modules aliasing
-- Both `import matriz` and `import MATRIZ` work
+- Both `import matriz` and `import matriz` work
 - DeprecationWarning emitted for lowercase imports
 - Commit: `aed134f9b`
 
@@ -45,9 +45,9 @@ Full list: `/tmp/matriz_imports.lst`
 
 **✅ CORRECT (Use This):**
 ```python
-from MATRIZ.core import AsyncCognitiveOrchestrator
-from MATRIZ.adapters import EmotionAdapter
-import MATRIZ
+from matriz.core import AsyncCognitiveOrchestrator
+from matriz.adapters import EmotionAdapter
+import matriz
 ```
 
 **⚠️  DEPRECATED (Will Be Removed Q2 2026):**
@@ -85,7 +85,7 @@ from matriz.core import AsyncCognitiveOrchestrator
 
 **After:**
 ```python
-from MATRIZ.core import AsyncCognitiveOrchestrator
+from matriz.core import AsyncCognitiveOrchestrator
 ```
 
 ## How to Migrate (AST Rewriter - Recommended)
@@ -161,7 +161,7 @@ Run repo-wide grep nightly and create a ticket with the current inventory of `ma
 
 Both import styles work:
 ```bash
-python3 -c "import matriz; import MATRIZ; print('Same?', matriz is MATRIZ)"
+python3 -c "import matriz; import matriz; print('Same?', matriz is MATRIZ)"
 # Output: DeprecationWarning... Same? True
 ```
 

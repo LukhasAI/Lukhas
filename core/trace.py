@@ -10,7 +10,7 @@ Usage:
 from datetime import datetime, timezone
 from typing import Any, Dict, Optional
 
-from MATRIZ.node_contract import GLYPH
+from matriz.node_contract import GLYPH
 
 
 def mk_crumb(event: str, glyph: Optional[GLYPH]=None, **kv: Any) -> Dict[str, Any]:

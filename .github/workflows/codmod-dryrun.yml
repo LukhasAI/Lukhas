@@ -1,0 +1,29 @@
+name: Codemod Dry-run
+
+on:
+  workflow_dispatch:
+
+jobs:
+  codemod-dryrun:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install codemod deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install libcst import-linter
+      - name: Run codemod (dry-run)
+        run: |
+          python3 scripts/codemods/replace_labs_with_provider.py --outdir /tmp/codmod_patches
+      - name: Upload patches
+        uses: actions/upload-artifact@v4
+        with:
+          name: codemod-patches
+          path: /tmp/codmod_patches
+

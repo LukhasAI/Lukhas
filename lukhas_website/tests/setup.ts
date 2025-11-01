@@ -1,1 +1,2 @@
-// Auto-generated test setup placeholder
+const jestDom = require('@testing-library/jest-dom');
+void jestDom;

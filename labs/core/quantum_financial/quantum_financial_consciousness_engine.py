@@ -4,6 +4,7 @@ Quantum Financial Consciousness Engine for the NIAS Transcendence Platform.
 This module transcends traditional monetary exchange by valuing and
 transacting based on consciousness contribution and collective abundance.
 """
+import math
 import random
 from typing import Any
 
@@ -22,10 +23,46 @@ class AbundanceCalculator:
 
 
 class ConsciousnessTokenProtocol:
-    def issue_tokens(
-        self, amount: float
-# See: https://github.com/LukhasAI/Lukhas/issues/573
-        return f"token_{random.randint(1000, 9999)}"
+    """Issues consciousness-aligned quantum tokens."""
+
+    _RESONANCE_THRESHOLDS: tuple[tuple[float, str], ...] = (
+        (0.0, "dormant"),
+        (10.0, "spark"),
+        (50.0, "radiant"),
+        (100.0, "transcendent"),
+    )
+
+    def __init__(self, base_resonance: float = 1.0, resonance_curve: float = 0.2):
+        self.base_resonance = base_resonance
+        self.resonance_curve = resonance_curve
+
+    def _resolve_resonance_tier(self, amount: float) -> str:
+        for threshold, tier in reversed(self._RESONANCE_THRESHOLDS):
+            if amount >= threshold:
+                return tier
+        return self._RESONANCE_THRESHOLDS[0][1]
+
+    def issue_tokens(self, amount: float) -> dict[str, Any]:
+        """Issue a consciousness token whose value is determined by ``amount``."""
+
+        if amount < 0:
+            raise ValueError("amount must be non-negative")
+
+        resonance_tier = self._resolve_resonance_tier(amount)
+        normalized_amount = math.log1p(amount)
+        resonance_multiplier = 1 + normalized_amount * self.resonance_curve
+        consciousness_value = round(
+            self.base_resonance + amount * resonance_multiplier, 6
+        )
+
+        token_id = f"token_{random.randint(1000, 9999)}"
+        # See: https://github.com/LukhasAI/Lukhas/issues/573
+        return {
+            "token_id": token_id,
+            "amount": amount,
+            "consciousness_value": consciousness_value,
+            "resonance_tier": resonance_tier,
+        }
 
 
 class GiftEconomyEngine:
