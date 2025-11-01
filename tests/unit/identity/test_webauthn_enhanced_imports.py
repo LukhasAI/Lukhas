@@ -67,22 +67,32 @@ def _install_structlog_stub() -> None:
     sys.modules["structlog"] = structlog_module
 
 
-def _load_module_from_file(name: str, file_path: Path) -> ModuleType:
+def _load_module_from_file(
+    name: str,
+    file_path: Path,
+    *,
+    package_override: str | None = IDENTITY_PACKAGE,
+) -> ModuleType:
     _install_structlog_stub()
     _ensure_identity_packages()
 
     spec = importlib.util.spec_from_file_location(name, file_path)
     module = importlib.util.module_from_spec(spec)
-    module.__package__ = IDENTITY_PACKAGE
+    if package_override is not None:
+        module.__package__ = package_override
     sys.modules[name] = module
     assert spec.loader is not None
     spec.loader.exec_module(module)
     return module
 
 
-def _reload_enhanced_module() -> ModuleType:
+def _reload_enhanced_module(*, package_override: str | None = IDENTITY_PACKAGE) -> ModuleType:
     sys.modules.pop(MODULE_PATH, None)
-    return _load_module_from_file(MODULE_PATH, ENHANCED_FILE)
+    return _load_module_from_file(
+        MODULE_PATH,
+        ENHANCED_FILE,
+        package_override=package_override,
+    )
 
 
 def test_webauthn_dependencies_available_sets_flag_true():
@@ -110,5 +120,26 @@ def test_webauthn_dependency_failure_sets_flag_false():
         sys.modules.pop(MODULE_PATH, None)
         if original_module is not None:
             sys.modules[BASE_MODULE_PATH] = original_module
+        else:
+            sys.modules.pop(BASE_MODULE_PATH, None)
+
+
+def test_webauthn_absolute_import_fallback_without_package_context():
+    """The module falls back to absolute imports when package context is missing."""
+
+    original_base = sys.modules.pop(BASE_MODULE_PATH, None)
+
+    try:
+        module = _reload_enhanced_module(package_override=None)
+
+        assert module.WEBAUTHN_BASE_AVAILABLE is True
+
+        base_module = sys.modules[BASE_MODULE_PATH]
+        assert module.WebAuthnCredential is base_module.WebAuthnCredential
+        assert module.WebAuthnManager is base_module.WebAuthnManager
+    finally:
+        sys.modules.pop(MODULE_PATH, None)
+        if original_base is not None:
+            sys.modules[BASE_MODULE_PATH] = original_base
         else:
             sys.modules.pop(BASE_MODULE_PATH, None)

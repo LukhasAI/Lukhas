@@ -36,10 +36,19 @@ try:
         WebAuthnCredential,
         WebAuthnManager,
     )
-    WEBAUTHN_BASE_AVAILABLE = True
 except ImportError:
-    WEBAUTHN_BASE_AVAILABLE = False
-    structlog.get_logger(__name__).warning("Base WebAuthn service not available")
+    try:
+        from lukhas_website.lukhas.identity.webauthn import (
+            WebAuthnCredential,
+            WebAuthnManager,
+        )
+    except ImportError:
+        WEBAUTHN_BASE_AVAILABLE = False
+        structlog.get_logger(__name__).warning("Base WebAuthn service not available")
+    else:
+        WEBAUTHN_BASE_AVAILABLE = True
+else:
+    WEBAUTHN_BASE_AVAILABLE = True
 
 # Import Guardian system for security validation
 try:
