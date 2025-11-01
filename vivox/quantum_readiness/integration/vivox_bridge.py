@@ -1,14 +1,10 @@
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 VIVOX.QREADY Integration Bridge
 Connects quantum readiness layer with other VIVOX modules
 """
 
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 import numpy as np

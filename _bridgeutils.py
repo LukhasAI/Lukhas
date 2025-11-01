@@ -4,6 +4,8 @@ from __future__ import annotations
 import warnings
 from importlib import import_module
 from types import ModuleType
+from typing import Callable, Iterable, Mapping
+
 __all__ = [
     "bridge",
     "bridge_from_candidates",
