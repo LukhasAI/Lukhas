@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 import logging
-from typing import Any
+from dataclasses import dataclass, field
+from typing import Any, Mapping
 
 logger = logging.getLogger(__name__)
 
@@ -40,6 +43,29 @@ from bulletproofs import BulletproofSystem
 from zksnark import ZkSnark
 
 
+@dataclass(slots=True)
+class PrivacyStatement:
+    """Structured description of the computation to be proven privately."""
+
+    statement_id: str
+    """Unique identifier for the privacy statement used for caching."""
+
+    public_input: Mapping[str, Any]
+    """Public inputs that can be shared with verifiers."""
+
+    requires_non_interactive: bool
+    """Whether the proof must be non-interactive (favors zk-SNARKs)."""
+
+    circuit_size: int
+    """Estimated size of the arithmetic circuit for the computation."""
+
+    description: str = ""
+    """Human readable description of the statement."""
+
+    metadata: dict[str, Any] = field(default_factory=dict)
+    """Additional structured metadata associated with the statement."""
+
+
 class ZeroKnowledgePrivacyEngine:
     """
     Implements zero-knowledge proofs for private AI interactions
@@ -52,12 +78,17 @@ class ZeroKnowledgePrivacyEngine:
 
     async def create_privacy_preserving_proof(
         self,
-# See: https://github.com/LukhasAI/Lukhas/issues/601
+        statement: PrivacyStatement,
         witness: PrivateWitness,  # noqa: F821  # TODO: PrivateWitness
         proof_type: str = "adaptive",
     ) -> ZeroKnowledgeProof:  # noqa: F821  # TODO: ZeroKnowledgeProof
         """
         Generate ZK proof for private computation
+
+        Args:
+            statement: Description of the computation being proven.
+            witness: Private witness data bound to the proof.
+            proof_type: Strategy for proof generation (adaptive selects best system).
         """
         if proof_type == "adaptive":
             # Choose optimal proof system based on statement
