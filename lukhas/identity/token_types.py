@@ -99,6 +99,21 @@ def validate_token_claims(claims: Dict[str, Any]) -> TokenClaims:
     return cast(TokenClaims, claims)
 
 
+def aud_as_list(aud: Union[str, List[str]]) -> List[str]:
+    """Return audience as a list of strings, normalizing single string values.
+
+    This helper is intentionally conservative and does not mutate inputs.
+    """
+    if isinstance(aud, str):
+        return [aud]
+    return list(aud)
+
+
+def get_aud_list(claims: "TokenClaims") -> List[str]:
+    """Return the ``aud`` claim as a list of strings from validated claims."""
+    return aud_as_list(claims["aud"])  # type: ignore[index]
+
+
 def validate_token_introspection(response: Dict[str, Any]) -> TokenIntrospection:
     """Validate an RFC 7662 token introspection response.
 
@@ -147,4 +162,6 @@ __all__ = [
     "get_remaining_lifetime",
     "mk_exp",
     "mk_iat",
+    "aud_as_list",
+    "get_aud_list",
 ]
