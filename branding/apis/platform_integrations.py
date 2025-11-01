@@ -419,7 +419,15 @@ class PlatformAPIManager:
             # Delegate token management to the OAuthTokenManager helper which
             # performs a synchronous refresh via an injected session factory.
             manager = OAuthTokenManager(self.oauth_session_factory, logger=self.logger)
-            return await asyncio.to_thread(manager.get_access_token, creds=creds, token_url="https://www.linkedin.com/oauth/v2/accessToken")
+            access_token = await asyncio.to_thread(
+                manager.get_access_token,
+                creds=creds,
+                token_url="https://www.linkedin.com/oauth/v2/accessToken",
+            )
+
+            self._persist_credentials()
+
+            return access_token
 
         return creds.access_token
 
