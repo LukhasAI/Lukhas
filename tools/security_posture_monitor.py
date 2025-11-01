@@ -16,6 +16,134 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 
+def _coerce_str(value: Any) -> str:
+    """Convert ``value`` to a trimmed string, returning an empty string for falsy values."""
+
+    if value is None:
+        return ''
+    if isinstance(value, str):
+        return value.strip()
+    return str(value).strip()
+
+
+def _has_items(value: Any) -> bool:
+    """Return ``True`` when ``value`` represents a non-empty collection."""
+
+    if value is None:
+        return False
+    if isinstance(value, (list, tuple, set, dict)):
+        return bool(value)
+    return bool(value)
+
+
+def _is_policy_configured(policy: Any) -> bool:
+    """Return ``True`` if the attestation policy is configured with real data."""
+
+    if isinstance(policy, dict):
+        if not policy:
+            return False
+        version = _coerce_str(policy.get('version'))
+        identifier = _coerce_str(policy.get('id'))
+        if version.lower() in {'', 'pending', 'tbd'} and identifier.lower() in {'', 'pending', 'tbd'}:
+            return False
+        return True
+
+    if isinstance(policy, str):
+        normalized = policy.strip().lower()
+        return normalized not in {'', 'pending', 'todo', 'tbd'}
+
+    return bool(policy)
+
+
+def _policy_version(policy: Any) -> str:
+    """Best-effort extraction of a verifier policy version string."""
+
+    if isinstance(policy, dict):
+        version = _coerce_str(policy.get('version'))
+        if version:
+            return version
+        identifier = _coerce_str(policy.get('id'))
+        if identifier:
+            return identifier
+        ref = _coerce_str(policy.get('ref'))
+        if ref:
+            return ref
+        return ''
+
+    if isinstance(policy, str):
+        return policy.strip()
+
+    return ''
+
+
+def _is_telemetry_feature_enabled(config: Any) -> bool:
+    """Interpret telemetry configuration blocks of varying shapes."""
+
+    if isinstance(config, bool):
+        return config
+
+    if isinstance(config, dict):
+        if 'enabled' in config:
+            return bool(config.get('enabled'))
+        if 'active' in config:
+            return bool(config.get('active'))
+        return bool(config)
+
+    if isinstance(config, (list, tuple, set)):
+        return bool(config)
+
+    if isinstance(config, str):
+        normalized = config.strip().lower()
+        if normalized in {'', 'disabled', 'none', 'off'}:
+            return False
+        return True
+
+    return bool(config)
+
+
+def _logs_are_structured(logs_config: Any) -> bool:
+    """Return ``True`` if structured logging appears to be enabled."""
+
+    if isinstance(logs_config, dict):
+        if 'structured' in logs_config:
+            return bool(logs_config.get('structured'))
+        if 'enabled' in logs_config:
+            return bool(logs_config.get('enabled'))
+        return bool(logs_config)
+
+    if isinstance(logs_config, bool):
+        return logs_config
+
+    if isinstance(logs_config, str):
+        normalized = logs_config.strip().lower()
+        if normalized in {'', 'disabled', 'none', 'off'}:
+            return False
+        return True
+
+    return bool(logs_config)
+
+
+def _estimate_telemetry_coverage(
+    otel_instrumented: bool,
+    metrics_exported: bool,
+    traces_exported: bool,
+    logs_structured: bool,
+) -> float:
+    """Heuristically estimate coverage when explicit metrics are missing."""
+
+    score = 0.0
+    if otel_instrumented:
+        score += 40.0
+    if metrics_exported:
+        score += 25.0
+    if traces_exported:
+        score += 25.0
+    if logs_structured:
+        score += 10.0
+
+    return score
+
+
 @dataclass
 class SecurityAlert:
     """Represents a security alert with severity and context."""
@@ -114,42 +242,92 @@ class SecurityPostureMonitor:
 
     def _extract_attestation_status(self, contract: Dict, module: str) -> Dict:
         """Extract attestation health status."""
-        attestation = contract.get('attestation', {})
-        rats_data = attestation.get('rats', {})
+        attestation = contract.get('attestation') or {}
+        if not isinstance(attestation, dict):
+            attestation = {}
+
+        rats_data = attestation.get('rats') or {}
+        if not isinstance(rats_data, dict):
+            rats_data = {}
+
+        verifier_policy = rats_data.get('verifier_policy')
+        verifier_configured = _is_policy_configured(verifier_policy)
+        verifier_version = _policy_version(verifier_policy)
+
+        evidence = rats_data.get('evidence_jwt')
+        evidence_collected = bool(evidence and evidence != 'pending')
 
         return {
-            'verifier_configured': bool(rats_data.get('verifier_policy')),
-            'evidence_collected': bool(rats_data.get('evidence_jwt') and
-                                     rats_data.get('evidence_jwt') != 'pending'),
+            'verifier_configured': verifier_configured,
+            'evidence_collected': evidence_collected,
             'attestation_valid': self._validate_attestation(rats_data),
-            'last_attestation': rats_data.get('timestamp', ''),
-            'verifier_version': rats_data.get('verifier_policy', {}).get('version', '')
+            'last_attestation': _coerce_str(rats_data.get('timestamp', '')),
+            'verifier_version': verifier_version,
         }
 
     def _extract_supply_chain_data(self, contract: Dict, module: str) -> Dict:
         """Extract supply chain integrity data."""
-        supply_chain = contract.get('supply_chain', {})
+        supply_chain = contract.get('supply_chain') or {}
+        if not isinstance(supply_chain, dict):
+            supply_chain = {}
+
+        causal_provenance = contract.get('causal_provenance') or {}
+        if not isinstance(causal_provenance, dict):
+            causal_provenance = {}
+
+        provenance_cid = _coerce_str(causal_provenance.get('ipld_root_cid', ''))
 
         return {
             'sbom_present': bool(supply_chain.get('sbom_ref')),
-            'sbom_ref': supply_chain.get('sbom_ref', ''),
-            'sbom_format': supply_chain.get('format', ''),
-            'provenance_available': bool(contract.get('causal_provenance', {}).get('ipld_root_cid')),
-            'provenance_cid': contract.get('causal_provenance', {}).get('ipld_root_cid', ''),
-            'build_reproducible': supply_chain.get('reproducible', False)
+            'sbom_ref': _coerce_str(supply_chain.get('sbom_ref', '')),
+            'sbom_format': _coerce_str(supply_chain.get('format', '')),
+            'provenance_available': bool(provenance_cid and provenance_cid != 'bafybeipending'),
+            'provenance_cid': provenance_cid,
+            'build_reproducible': bool(supply_chain.get('reproducible')),
         }
 
     def _extract_telemetry_coverage(self, contract: Dict, module: str) -> Dict:
         """Extract telemetry and observability coverage."""
-        telemetry = contract.get('telemetry', {})
+        telemetry = contract.get('telemetry') or {}
+        if not isinstance(telemetry, dict):
+            telemetry = {}
+
+        spans = telemetry.get('spans')
+        otel_instrumented = bool(telemetry.get('opentelemetry')) or _has_items(spans)
+
+        metrics_data = telemetry.get('metrics')
+        metrics_exported = _is_telemetry_feature_enabled(metrics_data)
+
+        traces_data = telemetry.get('traces')
+        if traces_data is None:
+            traces_exported = _has_items(spans)
+        else:
+            traces_exported = _is_telemetry_feature_enabled(traces_data)
+
+        logs_data = telemetry.get('logs')
+        logs_structured = _logs_are_structured(logs_data)
+
+        semconv_version = (
+            _coerce_str(telemetry.get('semconv_version'))
+            or _coerce_str(telemetry.get('opentelemetry_semconv_version'))
+        )
+
+        coverage = telemetry.get('coverage_percentage')
+        if not isinstance(coverage, (int, float)):
+            coverage = _estimate_telemetry_coverage(
+                otel_instrumented,
+                metrics_exported,
+                traces_exported,
+                logs_structured,
+            )
 
         return {
-            'otel_instrumented': bool(telemetry.get('opentelemetry')),
-            'metrics_exported': bool(telemetry.get('metrics', {}).get('enabled')),
-            'traces_exported': bool(telemetry.get('traces', {}).get('enabled')),
-            'logs_structured': bool(telemetry.get('logs', {}).get('structured')),
-            'semconv_version': telemetry.get('semconv_version', ''),
-            'instrumentation_coverage': telemetry.get('coverage_percentage', 0)
+            'otel_instrumented': otel_instrumented,
+            'metrics_exported': metrics_exported,
+            'traces_exported': traces_exported,
+            'logs_structured': logs_structured,
+            'semconv_version': semconv_version,
+            'instrumentation_coverage': float(coverage),
         }
 
     def _validate_attestation(self, rats_data: Dict) -> bool:
