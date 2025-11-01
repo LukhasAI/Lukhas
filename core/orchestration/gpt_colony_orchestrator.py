@@ -17,6 +17,17 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Optional, TYPE_CHECKING
 
+__all__ = [
+    "OrchestrationMode",
+    "OrchestrationTask",
+    "OrchestrationResult",
+    "GPTColonyOrchestrator",
+    "ConsensusResult",
+    "Signal",
+    "SignalBus",
+    "SignalType",
+]
+
 # For static typing only - avoid importing these heavy integration modules at
 # import-time so we don't create a production -> labs import edge.
 if TYPE_CHECKING:
