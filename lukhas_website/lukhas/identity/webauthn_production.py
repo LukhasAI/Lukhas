@@ -70,6 +70,8 @@ try:
 # See: https://github.com/LukhasAI/Lukhas/issues/590
         AuthenticatorAttachment,
         AuthenticatorSelectionCriteria,
+# See: https://github.com/LukhasAI/Lukhas/issues/590
+        PublicKeyCredentialDescriptor,
 # See: https://github.com/LukhasAI/Lukhas/issues/591
 # See: https://github.com/LukhasAI/Lukhas/issues/592
 # See: https://github.com/LukhasAI/Lukhas/issues/593
@@ -344,13 +346,16 @@ class WebAuthnManager:
             try:
                 # Get existing credentials for excludeCredentials
                 existing_credentials = await self.credential_store.get_credentials(user_id)
-                exclude_credentials = [
-                    {"id": cred.credential_id, "type": "public-key"}
-                    for cred in existing_credentials
+                active_credentials = [
+                    cred for cred in existing_credentials
                     if cred.status == CredentialStatus.ACTIVE
                 ]
 
                 if not WEBAUTHN_AVAILABLE:
+                    exclude_credentials = [
+                        {"id": cred.credential_id, "type": "public-key"}
+                        for cred in active_credentials
+                    ]
                     # Mock implementation for testing
                     challenge_id = secrets.token_urlsafe(32)
                     challenge = secrets.token_urlsafe(64)
@@ -387,6 +392,8 @@ class WebAuthnManager:
                         "attestation": "direct" if tier == AuthenticatorTier.T5_BIOMETRIC else "none",
                         "_challenge_id": challenge_id
                     }
+
+                exclude_credentials = self._build_credential_descriptors(active_credentials)
 
                 # Production WebAuthn implementation
                 user_verification = (
@@ -440,7 +447,7 @@ class WebAuthnManager:
                 span.set_attribute("challenge_id", challenge_id)
                 span.set_attribute("latency", latency)
 
-                options_dict = registration_options.model_dump()
+                options_dict = registration_options.model_dump(mode="json")
                 options_dict["_challenge_id"] = challenge_id
                 return options_dict
 
@@ -602,6 +609,14 @@ class WebAuthnManager:
                         if cred.status == CredentialStatus.ACTIVE and cred.tier.value >= tier.value
                     ]
 
+                    if not WEBAUTHN_AVAILABLE:
+                        allowed_credentials = [
+                            {"id": cred.credential_id, "type": "public-key"}
+                            for cred in active_credentials
+                        ]
+                    else:
+                        allowed_credentials = self._build_credential_descriptors(active_credentials)
+
                 if not WEBAUTHN_AVAILABLE:
                     # Mock implementation for testing
                     challenge_id = secrets.token_urlsafe(32)
@@ -681,7 +696,7 @@ class WebAuthnManager:
                 span.set_attribute("allowed_credentials", len(allowed_credentials))
                 span.set_attribute("latency", latency)
 
-                options_dict = authentication_options.model_dump()
+                options_dict = authentication_options.model_dump(mode="json")
                 options_dict["_challenge_id"] = challenge_id
                 return options_dict
 
@@ -836,6 +851,31 @@ class WebAuthnManager:
         if aaguid and aaguid in self.authenticator_metadata:
             return self.authenticator_metadata[aaguid]["name"]
         return "Unknown Device"
+
+    def _decode_credential_id(self, credential_id: Any) -> bytes:
+        """Decode credential ID into bytes for PublicKeyCredentialDescriptor."""
+        if isinstance(credential_id, bytes):
+            return credential_id
+
+        if isinstance(credential_id, str):
+            padding = "=" * (-len(credential_id) % 4)
+            try:
+                return base64.urlsafe_b64decode(credential_id + padding)
+            except (ValueError, binascii.Error):
+                return credential_id.encode()
+
+        raise TypeError("Unsupported credential_id type")
+
+    def _build_credential_descriptors(self, credentials: List[WebAuthnCredential]):
+        """Create PublicKeyCredentialDescriptor entries for provided credentials."""
+        if not WEBAUTHN_AVAILABLE:
+            raise RuntimeError("PublicKeyCredentialDescriptor is unavailable")
+
+        descriptors = []
+        for credential in credentials:
+            credential_id_bytes = self._decode_credential_id(credential.credential_id)
+            descriptors.append(PublicKeyCredentialDescriptor(id=credential_id_bytes))
+        return descriptors
 
     async def list_user_credentials(self, user_id: str) -> List[Dict[str, Any]]:
         """List all credentials for a user"""
