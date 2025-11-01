@@ -1,5 +1,5 @@
 import type { Passkey } from './database'
-import type { PasskeyCredential } from '../../packages/auth/types/auth.types'
+import type { PasskeyCredential } from '../../../packages/auth/types/auth.types'
 
 const DEFAULT_AAGUID = '00000000-0000-0000-0000-000000000000'
 
