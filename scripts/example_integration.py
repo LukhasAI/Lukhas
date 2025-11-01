@@ -102,8 +102,8 @@ def fix_imports(module_path: str):
     replacements = [
         ("from candidate.", "from "),
         ("from labs.", "from "),
-        ("from MATRIZ.", "from matriz."),
-        ("import MATRIZ", "import matriz"),
+        ("from matriz.", "from matriz."),
+        ("import matriz", "import matriz"),
         # Fix relative imports
         ("from ..consciousness", "from matriz.consciousness"),
         ("from ..memory", "from matriz.memory"),

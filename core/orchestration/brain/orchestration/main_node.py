@@ -32,7 +32,6 @@ try:
     # Backend components
     from backend.learning.meta_learning import MetaLearningSystem
     from backend.security.privacy_manager import PrivacyManager
-    from voice.speech_processor import SpeechProcessor
 
     from core.identity.vault.lukhas_id import IdentityManager
 

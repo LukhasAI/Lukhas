@@ -22,9 +22,10 @@ DEPENDENCIES:
 import logging
 from typing import Any
 
-from core.emotion.emotion_mapper_alt import EmotionMapper
+from emotion_mapper_alt import EmotionMapper
+
 from core.identity.vault.lukhas_id import has_access, log_access
-from core.orchestration.brain.spine.accent_adapter import AccentAdapter
+from orchestration.brain.spine.accent_adapter import AccentAdapter
 
 # Initialize logger
 logger = logging.getLogger("healix_mapper")

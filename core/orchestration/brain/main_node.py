@@ -31,7 +31,6 @@ try:
     # Backend components
     from backend.learning.meta_learning import MetaLearningSystem
     from backend.security.privacy_manager import PrivacyManager
-    from voice.speech_processor import SpeechProcessor
 
     # Utils and config
     from core.orchestration.brain.config.settings import load_settings

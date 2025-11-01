@@ -25,8 +25,8 @@ pytestmark = pytest.mark.skipif(
 )
 
 try:
-    from MATRIZ.core.node_interface import CognitiveNode, NodeState
-    from MATRIZ.core.orchestrator import CognitiveOrchestrator, ExecutionTrace
+    from matriz.core.node_interface import CognitiveNode, NodeState
+    from matriz.core.orchestrator import CognitiveOrchestrator, ExecutionTrace
 
     MATRIZ_AVAILABLE = True
 except ImportError:
