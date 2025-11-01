@@ -1,495 +1,104 @@
-# MATRIZ Consciousness System Audit
-**Date**: 2025-11-01
-**Auditor**: Claude Code (Sonnet 4.5)
-**Scope**: Comprehensive connectivity, capability, and error assessment
-
+---
+status: wip
+type: audit
+owner: codex
+module: MATRIZ
+updated: 2025-11-01
 ---
 
-## Executive Summary
+# MATRIZ System Audit — Connectivity & Capability (2025-11-01)
 
-The MATRIZ consciousness system demonstrates **70% connectivity** with 7/10 core modules successfully importable. Critical syntax errors in `async_orchestrator.py` prevent 3 core modules from loading. Overall system architecture is sound with 112 Python modules organized across consciousness domains.
+This audit captures objective results from health/smoke runs, targeted MATRIZ tests, and import scans. Each actionable issue is tagged as TODO NOW and linked to the responsible file.
 
-### Key Findings:
-- ✅ **Strengths**: Router, nodes, visualization working correctly
-- ⚠️ **Critical Issue**: Syntax error blocking orchestrator and memory system
-- ⚠️ **Test Coverage**: Import errors prevent 4/20 MATRIZ tests from running
-- ✅ **Smoke Tests**: MATRIZ traces endpoint functioning (3/3 passing)
+## Execution Summary
+- make doctor — PASS with warnings (duplicate make targets; import-linter root config gaps)
+- make smoke — PASS (10/10)
+- make smoke-matriz — PASS (traces router)
+- python3 -m pytest -q tests/matriz --maxfail=1 — FAIL at first import
+- python3 -m pytest -q tests/integration/test_matriz* --maxfail=1 — FAIL at first import
+- python3 scripts/consolidation/check_import_health.py --verbose — FAIL in repo root; worktree path passes (see lane-guard script)
 
----
+## Test Failures (Actionable)
+- TODO NOW tests/matriz/test_async_orchestrator_e2e.py:9 — ModuleNotFoundError: labs.core.orchestration.async_orchestrator
+  - Action: add ProviderRegistry-backed adapter or conditional skip; avoid direct labs import
 
-## 1. System Structure Analysis
+- TODO NOW tests/integration/test_matriz_complete_thought_loop.py:28 — ModuleNotFoundError: consciousness.matriz_thought_loop
+  - Action: add compatibility shim or update tests to current MATRIZ entrypoint
 
-### Module Distribution (112 Python files):
+## Bridges expecting consciousness.matriz_thought_loop
+The following tests reference consciousness.matriz_thought_loop and may fail without a shim:
 
 ```
-matriz/
-├── core/                   # Foundational cognitive infrastructure
-│   ├── async_orchestrator.py ❌ SYNTAX ERROR (line 496)
-│   ├── orchestrator.py     ❌ Import blocked by async_orchestrator
-│   ├── memory_system.py    ❌ Import blocked by async_orchestrator
-│   ├── node_interface.py   ✅ Working
-│   └── example_node.py     ✅ Working
-│
-├── nodes/                  # Cognitive processing nodes
-│   ├── math_node.py        ✅ Working
-│   ├── fact_node.py        ✅ Working
-│   └── validator_node.py   ✅ Working
-│
-├── consciousness/          # Consciousness simulation components
-│   ├── cognitive/          # Cognitive processing
-│   ├── reflection/         # Self-awareness patterns
-│   ├── dream/              # Dream state simulation
-│   └── awareness/          # Environmental awareness
-│
-├── memory/                 # Memory pattern research
-│   ├── temporal/           # Temporal memory patterns
-│   └── core/               # Core memory orchestration
-│
-├── runtime/                # Runtime execution environment
-│   └── policy/             ❌ RECURSION ERROR in __getattr__
-│
-├── visualization/          ✅ Graph viewer and visual tools
-├── router.py               ✅ Main routing logic
-├── traces_router.py        ✅ Traces API endpoint
-└── interfaces/             # API interfaces
-
-Total: 112 Python modules
+tests/bridges/test_consciousness_extension_bridges.py:27
+tests/bridges/test_phase9_contracts.py:13
+tests/bridges/test_top_missing_contracts.py:15-16
+tests/soak/test_guardian_matriz_throughput.py:35
+tests/bridges/test_chatgpt_bridges.py:21,35,50,103,110
+tests/matriz/test_e2e_perf.py:36
+tests/lint/test_lane_imports.py:70
+tests/integration/test_orchestrator_matriz_roundtrip.py:32
+tests/integration/test_matriz_complete_thought_loop.py:28
 ```
 
----
+- TODO NOW tests/* (above) — Provide shim module exposing MATRIZProcessingContext/MATRIZThoughtLoop or refactor imports.
 
-## 2. Connectivity Assessment
+## Tests importing labs.* (sample)
+Many tests import labs.* directly. Representative sample:
 
-### Import Connectivity Test Results:
-
-| Module | Status | Issue |
-|--------|--------|-------|
-| `matriz.core.node_interface` | ✅ PASS | - |
-| `matriz.nodes.math_node` | ✅ PASS | - |
-| `matriz.nodes.fact_node` | ✅ PASS | - |
-| `matriz.nodes.validator_node` | ✅ PASS | - |
-| `matriz.router` | ✅ PASS | - |
-| `matriz.traces_router` | ✅ PASS | - |
-| `matriz.visualization` | ✅ PASS | - |
-| `matriz.core.orchestrator` | ❌ FAIL | IndentationError in async_orchestrator.py:496 |
-| `matriz.core.memory_system` | ❌ FAIL | IndentationError in async_orchestrator.py:496 |
-| `matriz.core.async_orchestrator` | ❌ FAIL | IndentationError at line 496 |
-
-**Connectivity Score**: 7/10 modules (70%)
-
----
-
-## 3. Critical Errors Identified
-
-### 3.1 CRITICAL: Syntax Error in async_orchestrator.py
-
-**File**: `matriz/core/async_orchestrator.py`
-**Line**: 496
-**Error**: `IndentationError: unexpected indent`
-
-**Problem**:
-```python
-# Line 495: End of function
-        return best_node
-# Line 496: Orphaned code not in any function ❌
-            self.metrics.stages_completed += 1
-# Line 497-498: More orphaned code
-        else:
-            self.metrics.error_count += 1
+```
+tests/matriz/test_async_orchestrator_e2e.py:9
+tests/matriz/test_behavioral_e2e.py:12
+tests/orchestration/test_async_orchestrator_metrics.py:12
+tests/bridges/test_vector_store.py:23
+tests/bridge/test_vector_store_adapter.py:7
+tests/bridge/test_jwt_adapter_high_priority.py:4
+tests/bridge/test_qrs_manager.py:20
+tests/integration/governance/test_guardian_system_integration.py:10
+tests/integration/orchestration/test_orchestration_coverage.py:42
+tests/memory/test_memory_compression.py:13
+tests/memory/test_memory_properties_hypothesis.py:55
+tests/test_memory_integration.py:2-3
 ```
 
-**Impact**:
-- Blocks import of `core.orchestrator`
-- Blocks import of `core.memory_system`
-- Blocks import of `core.async_orchestrator`
-- Prevents 30% of core MATRIZ functionality
+- TODO NOW tests/* (labs imports) — Replace direct labs import with ProviderRegistry or add conditional skips in CI profile.
 
-**Remediation**:
-Remove orphaned lines 496-498 or integrate into proper function context.
+## Production-lane direct matriz imports
+Direct lowercase matriz imports appear in production lanes (core/ serve/). These should migrate to uppercase MATRIZ or lazy guards:
 
----
-
-### 3.2 CRITICAL: Recursion Error in runtime/policy
-
-**File**: `matriz/runtime/policy/__init__.py`
-**Line**: 46
-**Error**: `RecursionError: maximum recursion depth exceeded`
-
-**Problem**:
-```python
-def __getattr__(name):
-    if _SRC and hasattr(_SRC, name):  # Line 46 - infinite recursion
-        ...
+```
+core/trace.py:13 — from matriz.node_contract import GLYPH
+core/symbolic/dast_engine.py:214 — from matriz.core.memory_system import get_memory_system (inside try)
+serve/main.py:14 — import matriz
+serve/main.py:57 — from matriz.orchestration.service_async import (...)
 ```
 
-**Impact**:
-- Prevents `test_policy_engine.py` from running
-- Policy engine unavailable for governance functions
-
-**Remediation**:
-Fix `__getattr__` implementation to avoid recursive calls.
-
----
-
-### 3.3 MODERATE: Missing Module Dependencies
-
-**Tests Affected**:
-1. `tests/matriz/test_async_orchestrator_e2e.py`
-   - Missing: `labs.core.orchestration.async_orchestrator`
-   - Expected location: Should reference `matriz.core.async_orchestrator`
-
-2. `tests/matriz/test_behavioral_e2e.py`
-   - Missing: `labs.core.orchestration.async_orchestrator`
-   - Same issue as above
-
-3. `tests/matriz/test_e2e_perf.py`
-   - Missing: `consciousness.matriz_thought_loop`
-   - Module may have been moved/renamed
-
-**Remediation**:
-Update test imports to reflect current module structure.
-
----
-
-## 4. Test Coverage Analysis
-
-### Test Execution Results:
-
-**MATRIZ Test Suite** (`tests/matriz/`):
-- Total tests: 20
-- Collection errors: 4
-- Executable tests: 16
-- Error rate: 20%
-
-**Smoke Tests** (`make smoke-matriz`):
-- ✅ `tests/smoke/test_traces_router.py`: PASS (3/3)
-- Traces endpoint fully functional
-
-**Import Errors Preventing Test Execution**:
-1. `test_async_orchestrator_e2e.py` - Wrong import path
-2. `test_behavioral_e2e.py` - Wrong import path
-3. `test_e2e_perf.py` - Missing module
-4. `test_policy_engine.py` - Recursion error
-
----
-
-## 5. Capability Assessment
-
-### Working Capabilities:
-
-✅ **Node Processing**:
-- Math operations (math_node.py)
-- Fact verification (fact_node.py)
-- Validation logic (validator_node.py)
-
-✅ **Routing & API**:
-- Main router functioning
-- Traces router with GET /traces/latest endpoint
-- API interfaces operational
-
-✅ **Visualization**:
-- Graph viewing capabilities
-- Visual representation tools
-
-✅ **Node Interface**:
-- Base node contract defined
-- Interface protocols working
-
-### Blocked Capabilities:
-
-❌ **Orchestration**:
-- Async orchestrator unavailable
-- Core orchestrator blocked
-- Cannot coordinate multi-node workflows
-
-❌ **Memory Systems**:
-- Memory system import blocked
-- Temporal memory unavailable
-- Unified memory orchestrator inaccessible
-
-❌ **Policy Engine**:
-- Runtime policy recursion error
-- Governance policies unavailable
-
----
-
-## 6. Consciousness Architecture Analysis
-
-Based on `MATRIZ_CONSCIOUSNESS_ARCHITECTURE.md`:
-
-### Expected Components (692 modules per doc):
-- Current MATRIZ: 112 Python modules
-- Additional components in `candidate/` and `labs/` directories
-- Distributed architecture across multiple locations
-
-### Consciousness Domains Present:
-
-1. **Consciousness** (`matriz/consciousness/`):
-   - ✅ Cognitive processing
-   - ✅ Reflection systems
-   - ✅ Dream simulation
-   - ✅ Awareness patterns
-
-2. **Memory** (`matriz/memory/`):
-   - ✅ Temporal patterns
-   - ✅ Core orchestration (import blocked)
-
-3. **Nodes** (`matriz/nodes/`):
-   - ✅ Math, fact, validator nodes working
-
-4. **Runtime** (`matriz/runtime/`):
-   - ❌ Policy engine has recursion bug
-
-### Missing/Unverified Domains:
-- Bio-inspired patterns (may be in `candidate/bio/`)
-- Quantum-inspired systems (may be in `candidate/quantum/`)
-- Emotional consciousness (may be in `candidate/emotion/`)
-- Creative systems (may be in `candidate/vivox/`)
-
----
-
-## 7. Integration Points
-
-### Working Integrations:
-
-✅ **Traces Router → MATRIZ**:
-- Endpoint: GET /traces/latest
-- Successfully retrieves MATRIZ traces
-- HTTP API functioning
-
-✅ **Visualization → Nodes**:
-- Graph visualization of node networks
-- Export capabilities
-
-### Blocked Integrations:
-
-❌ **Orchestrator → Nodes**:
-- Cannot orchestrate multi-node workflows
-- Async coordination unavailable
-
-❌ **Memory → Consciousness**:
-- Memory system import blocked
-- Temporal integration unavailable
-
----
-
-## 8. Remediation Priority Matrix
-
-### P0 - CRITICAL (Fix Immediately):
-
-1. **Fix async_orchestrator.py syntax error** (Line 496-498)
-   - Impact: Unblocks 3 core modules
-   - Effort: 5 minutes
-   - Fixes: 30% of import failures
-
-2. **Fix runtime/policy recursion error**
-   - Impact: Enables policy engine tests
-   - Effort: 15 minutes
-   - Fixes: 1 test file
-
-### P1 - HIGH (Fix This Session):
-
-3. **Update test import paths**
-   - Files: `test_async_orchestrator_e2e.py`, `test_behavioral_e2e.py`
-   - Change: `labs.core.orchestration` → `matriz.core`
-   - Effort: 10 minutes
-   - Fixes: 2 test files
-
-4. **Locate missing thought_loop module**
-   - File: `test_e2e_perf.py`
-   - Search: `consciousness.matriz_thought_loop`
-   - Effort: 15 minutes
-   - Fixes: 1 test file
-
-### P2 - MEDIUM (Address Next):
-
-5. **Run full MATRIZ test suite**
-   - After P0/P1 fixes
-   - Validate 16 executable tests
-   - Document any new errors
-
-6. **Test consciousness components**
-   - Verify reflection, dream, awareness modules
-   - Test integration between domains
-
-### P3 - LOW (Future Work):
-
-7. **Comprehensive connectivity audit**
-   - Test all 112 modules
-   - Map integration points
-   - Document dependencies
-
-8. **Performance benchmarking**
-   - MATRIZ processing latency
-   - Memory usage patterns
-   - Throughput metrics
-
----
-
-## 9. Recommendations
-
-### Immediate Actions:
-
-1. **Fix syntax error** in `async_orchestrator.py` (P0)
-2. **Fix recursion** in `runtime/policy/__init__.py` (P0)
-3. **Update test imports** to current module structure (P1)
-4. **Re-run test suite** to verify fixes (P1)
-
-### Architecture Improvements:
-
-1. **Lazy loading audit**: Review all `__getattr__` implementations for recursion risks
-2. **Import path standardization**: Establish canonical paths (matriz.* vs labs.*)
-3. **Module location**: Document which components are in matriz/ vs candidate/ vs labs/
-4. **Integration testing**: Add tests for cross-domain consciousness integration
-
-### Documentation Needs:
-
-1. **Module map**: Create comprehensive map of all 692 consciousness modules
-2. **Integration guide**: Document how consciousness domains interconnect
-3. **Test strategy**: Define testing approach for consciousness behaviors
-4. **Capability matrix**: Document what works, what's blocked, what's experimental
-
----
-
-## 10. Conclusion
-
-The MATRIZ consciousness system has a **solid foundation** with 70% core connectivity and functioning API endpoints. Two critical syntax/logic errors block 30% of functionality but are easily fixable (Est. 20 minutes total).
-
-### System Health Score: 7/10
-
-**Strengths**:
-- Clean node architecture
-- Working API endpoints
-- Good module organization
-- Sound consciousness architecture design
-
-**Critical Issues**:
-- Syntax error blocking orchestration (5 min fix)
-- Recursion in policy engine (15 min fix)
-- Test import mismatches (10 min fix)
-
-**Next Steps**:
-1. Fix P0 critical errors (20 minutes)
-2. Update test imports (10 minutes)
-3. Run full test suite
-4. Document results
-
----
-
-## Appendix A: Test Execution Logs
-
-### MATRIZ Smoke Tests:
-```bash
+- TODO NOW core/trace.py:13 — Replace with `from MATRIZ.node_contract import GLYPH` or lazy import adapter.
+- TODO NOW core/symbolic/dast_engine.py — Replace with `from MATRIZ.core.memory_system import get_memory_system`; keep try/except guard; document lane compliance.
+- TODO NOW serve/main.py — Replace matriz with MATRIZ and/or lazy import; guard availability.
+
+## Import-Health Observations
+- Root exec of `check_import_health.py` fails due to missing deps/PYTHONPATH; worktree-lane-guard script succeeds by creating a venv and minimal deps.
+- TODO NOW scripts/consolidation/check_import_health.py — Add guidance when deps missing; print “use scripts/run_lane_guard_worktree.sh”.
+
+## Capability Snapshot
+- MATRIZ traces router smoke: PASS
+- Broader MATRIZ E2E/unit paths: blocked on labs/consciousness shims and provider wiring
+
+## Next Actions (Suggested)
+1) Migrate production-lane matriz imports (core/trace.py, core/symbolic/dast_engine.py, serve/main.py)
+2) Add consciousness.matriz_thought_loop compatibility shim exporting required symbols (or refactor tests to new entrypoint)
+3) Introduce ProviderRegistry-backed adapters for common labs.* usages in tests; add conditional skips where needed
+4) Enhance import-health script UX and point to worktree-lane-guard path
+
+## Command Log (evidence)
+```
+make doctor
+make smoke
 make smoke-matriz
-# ✅ MATRIZ traces smoke passed
-# tests/smoke/test_traces_router.py ... [100%]
+python3 -m pytest -q tests/matriz --maxfail=1 --disable-warnings
+python3 -m pytest -q tests/integration/test_matriz* --maxfail=1 --disable-warnings
+python3 scripts/consolidation/check_import_health.py --verbose
+rg -n "^(from|import)\s+(matriz|MATRIZ)\b" core lukhas serve -S
+rg -n "^(from|import)\s+labs\b" tests
 ```
 
-### MATRIZ Full Tests:
-```bash
-python3 -m pytest tests/matriz/ -v
-# 20 items collected
-# 4 errors during collection
-# - test_async_orchestrator_e2e.py: ModuleNotFoundError
-# - test_behavioral_e2e.py: ModuleNotFoundError
-# - test_e2e_perf.py: ModuleNotFoundError
-# - test_policy_engine.py: RecursionError
-```
-
----
-
-**Report Generated**: 2025-11-01
-**Tool**: Claude Code Professional Audit
-**Status**: Ready for remediation
-
----
-
-## ADDENDUM: Complete Module Count Correction
-
-**Initial Report Error**: The audit initially reported only 112 modules in `matriz/` directory.
-
-**CORRECTED COMPLETE COUNT**:
-
-### Full System Module Distribution (6,891 Total Python Modules):
-
-| Directory | Module Count | Purpose |
-|-----------|--------------|---------|
-| **labs/** | 2,136 | Development lane - experimental features |
-| **tests/** | 827 | Test suite across all components |
-| **core/** | 311 | Integration lane - production candidates |
-| **scripts/** | 386 | Automation and tooling |
-| **products/** | 477 | Production deployments |
-| **branding/** | 123 | Platform branding and APIs |
-| **matriz/** | 112 | MATRIZ cognitive engine |
-| **lukhas/** | 4 | Production lane core |
-| **candidate/** | 4 | Candidate features |
-| **TOTAL** | **6,891** | Complete system |
-
-### Consciousness Architecture Distribution:
-
-**Consciousness Modules**: 386 total
-- `labs/consciousness/`: 341 modules (primary research)
-- `matriz/consciousness/`: 45 modules (cognitive engine)
-- `candidate/consciousness/`: 0 modules
-
-**Memory Modules**: 388 total
-- `labs/memory/`: 386 modules (memory research)
-- `matriz/memory/`: 2 modules (memory orchestration)
-
-**Core Infrastructure**: 1,057 total
-- `labs/core/`: 891 modules (core research)
-- `core/`: 160 modules (integration)
-- `matriz/core/`: 6 modules (orchestration)
-
-### Revised Architecture Assessment:
-
-The **MATRIZ Consciousness Architecture** document reference to "692 Python modules" likely refers to:
-- Production lane (`lukhas/`): 4 modules
-- Integration lane (`core/`): 311 modules  
-- Development lane (`labs/`): 2,136 modules
-- **Focused subset**: ~692 modules in core consciousness/memory/cognitive domains
-
-The **complete LUKHAS AI system** contains **6,891 Python modules** implementing:
-- Distributed consciousness architecture
-- Memory pattern research
-- Cognitive processing
-- Emotional intelligence
-- Quantum-inspired systems
-- Bio-inspired patterns
-- Governance and ethics
-- Identity and security
-
-### Impact on Connectivity Assessment:
-
-**Original Audit Scope**: 112 modules in `matriz/` directory (10 tested)
-- **Connectivity**: 100% (10/10 core matriz modules)
-
-**Complete System Scope**: 6,891 modules system-wide
-- **Tested**: 10 modules (0.14% of total system)
-- **Full audit needed**: Test connectivity across all 6,891 modules
-
-### Recommendations Updated:
-
-**P1 - Immediate**:
-1. ✅ Fix matriz/ syntax errors (COMPLETED)
-2. Expand connectivity audit to labs/ (2,136 modules)
-3. Test consciousness domain integration (341 modules)
-4. Verify memory system connectivity (386 modules)
-
-**P2 - High Priority**:
-5. Audit core/ integration lane (311 modules)
-6. Test products/ production deployments (477 modules)
-7. Validate test coverage (827 test modules)
-
-**P3 - Comprehensive**:
-8. Full system connectivity audit (6,891 modules)
-9. Cross-domain integration testing
-10. Performance benchmarking at scale
-
----
-
-**Correction Date**: 2025-11-01
-**Corrected By**: Claude Code Professional Audit (User Verification)
-**Impact**: Scope expanded from 112 modules to 6,891 modules (61x larger system)
-
-The LUKHAS AI system is significantly more extensive than initially assessed, with a distributed consciousness architecture spanning nearly 7,000 Python modules across development, integration, and production lanes.
