@@ -16,12 +16,17 @@ from typing import Any, Dict
 
 try:
 <<<<<<< HEAD
+<<<<<<< HEAD
     from MATRIZ.core.async_orchestrator import AsyncCognitiveOrchestrator
     from MATRIZ.core.node_interface import CognitiveNode
 =======
     from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator
     from matriz.core.node_interface import CognitiveNode
 >>>>>>> origin/main
+=======
+    from MATRIZ.core.async_orchestrator import AsyncCognitiveOrchestrator
+    from MATRIZ.core.node_interface import CognitiveNode
+>>>>>>> 838f0f4e521c16d44c8fffbbebf08a4d174e9af8
     MATRIZ_AVAILABLE = True
 except ImportError:
     MATRIZ_AVAILABLE = False

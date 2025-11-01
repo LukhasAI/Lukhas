@@ -440,7 +440,86 @@ class AsyncCognitiveOrchestrator:
             self.metrics.timeout_count += 1
         if result.success:
             self.metrics.success_count += 1
+<<<<<<< HEAD:matriz/core/async_orchestrator.py
 <<<<<<< HEAD:MATRIZ/core/async_orchestrator.py
+=======
+        else:
+            self.metrics.error_count += 1
+            
+        # Update timeout history for adaptive learning
+        self._update_timeout_history(result.stage_type, result)
+
+    def _update_node_health(self, node_name: str, success: bool, duration_ms: float) -> None:
+        """Update node health metrics for intelligent routing."""
+        
+        if node_name not in self.node_health:
+            self.node_health[node_name] = {
+                "success_count": 0,
+                "failure_count": 0,
+                "total_duration_ms": 0.0,
+                "p95_latency_ms": 0.0,
+                "recent_latencies": [],
+                "health_score": 1.0,  # 0.0 (unhealthy) to 1.0 (healthy)
+            }
+        
+        health = self.node_health[node_name]
+        
+        if success:
+            health["success_count"] += 1
+        else:
+            health["failure_count"] += 1
+            
+        health["total_duration_ms"] += duration_ms
+        health["recent_latencies"].append(duration_ms)
+        
+        # Keep only recent 50 latency samples
+        if len(health["recent_latencies"]) > 50:
+            health["recent_latencies"] = health["recent_latencies"][-50:]
+        
+        # Calculate P95 latency
+        if health["recent_latencies"]:
+            sorted_latencies = sorted(health["recent_latencies"])
+            health["p95_latency_ms"] = sorted_latencies[int(len(sorted_latencies) * 0.95)]
+        
+        # Calculate health score based on success rate and latency
+        total_requests = health["success_count"] + health["failure_count"]
+        if total_requests > 0:
+            success_rate = health["success_count"] / total_requests
+            # Penalize high latency (>100ms is considered slow)
+            latency_penalty = min(1.0, health["p95_latency_ms"] / 100.0)
+            health["health_score"] = success_rate * (2.0 - latency_penalty) / 2.0
+
+    def _select_best_node(self, required_capability: str) -> Optional[str]:
+        """Select the best performing node for a capability."""
+        
+        # Find nodes with required capability
+        candidate_nodes = []
+        for node_name, node in self.available_nodes.items():
+            if hasattr(node, 'capabilities') and required_capability in getattr(node, 'capabilities', []):
+                candidate_nodes.append(node_name)
+            elif hasattr(node, 'can_handle') and callable(getattr(node, 'can_handle')):
+                try:
+                    if node.can_handle(required_capability):
+                        candidate_nodes.append(node_name)
+                except Exception:
+                    continue
+        
+        if not candidate_nodes:
+            return None
+        
+        # Select node with best health score
+        best_node = None
+        best_score = -1.0
+        
+        for node_name in candidate_nodes:
+            health = self.node_health.get(node_name, {"health_score": 1.0})
+            if health["health_score"] > best_score:
+                best_score = health["health_score"]
+                best_node = node_name
+        
+        return best_node
+            self.metrics.stages_completed += 1
+>>>>>>> 838f0f4e521c16d44c8fffbbebf08a4d174e9af8:MATRIZ/core/async_orchestrator.py
         else:
             self.metrics.error_count += 1
             
