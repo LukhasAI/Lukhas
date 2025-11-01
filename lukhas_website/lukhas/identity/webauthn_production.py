@@ -66,15 +66,7 @@ try:
     )
     from webauthn.helpers.structs import (
         AttestationConveyancePreference,
-# See: https://github.com/LukhasAI/Lukhas/issues/590
-        AuthenticatorAttachment,
         AuthenticatorSelectionCriteria,
-# See: https://github.com/LukhasAI/Lukhas/issues/591
-# See: https://github.com/LukhasAI/Lukhas/issues/592
-# See: https://github.com/LukhasAI/Lukhas/issues/593
-# See: https://github.com/LukhasAI/Lukhas/issues/594
-# See: https://github.com/LukhasAI/Lukhas/issues/595
-# See: https://github.com/LukhasAI/Lukhas/issues/596
         ResidentKeyRequirement,
         UserVerificationRequirement,
     )
@@ -82,6 +74,24 @@ try:
 except ImportError:
     logger.warning("WebAuthn library not available - using mock implementation")
     WEBAUTHN_AVAILABLE = False
+
+# ---------------------------------------------------------------------------
+# Compatibility shims
+# ---------------------------------------------------------------------------
+try:
+    from webauthn.helpers.structs import AuthenticatorAttachment as _AuthenticatorAttachment
+except ImportError:
+    class AuthenticatorAttachment(str, Enum):
+        """Compatibility shim when AuthenticatorAttachment is unavailable."""
+
+        PLATFORM = "platform"
+        CROSS_PLATFORM = "cross-platform"
+
+    logger.warning(
+        "WebAuthn library missing AuthenticatorAttachment enum - using compatibility shim"
+    )
+else:
+    AuthenticatorAttachment = _AuthenticatorAttachment
 
 
 class AuthenticatorType(Enum):
