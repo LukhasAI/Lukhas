@@ -48,6 +48,8 @@ from dataclasses import dataclass, field
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
 # Import security components
+_encryption_module = None
+
 try:
     pass  # from security... imports commented out
     # (Original imports moved to comments)
@@ -94,6 +96,7 @@ try:
     #     ThreatLevel,
     #     create_security_monitor,
     # )
+    from lukhas_website.lukhas.security import encryption_manager as _encryption_module
     from lukhas_website.lukhas.security.encryption_manager import (
         DecryptionResult,
         EncryptionResult,
@@ -229,13 +232,41 @@ class _TestEncryptionManager:
         }
 
 
-def create_encryption_manager(config: Optional[Dict[str, Any]] = None) -> _TestEncryptionManager:
-    """Factory for the simulated encryption manager used in tests."""
+def create_encryption_manager(config: Optional[Dict[str, Any]] = None):
+    """Create an encryption manager for tests with compatibility fallbacks."""
+
+    config = config or {}
+
+    if _encryption_module and getattr(_encryption_module, "CRYPTOGRAPHY_AVAILABLE", False):
+        factory = getattr(_encryption_module, "create_encryption_manager", None)
+        if callable(factory):
+            try:
+                return factory(config)
+            except Exception:
+                logging.getLogger(__name__).debug(
+                    "Falling back to simulated encryption manager after factory failure",
+                    exc_info=True,
+                )
+
+        manager_cls = getattr(_encryption_module, "EncryptionManager", None)
+        if manager_cls is not None:
+            try:
+                return manager_cls(
+                    key_store_path=config.get("key_store_path"),
+                    hsm_config=config.get("hsm_config"),
+                    auto_rotation=config.get("auto_rotation", True),
+                    key_retention_days=config.get("key_retention_days", 90),
+                )
+            except Exception:
+                logging.getLogger(__name__).debug(
+                    "Falling back to simulated encryption manager after class initialization failure",
+                    exc_info=True,
+                )
 
     return _TestEncryptionManager(config)
 
 
-em: Optional[_TestEncryptionManager] = None
+em: Optional[Any] = None
 
 # Configure logging
 logging.basicConfig(level=logging.WARNING)
