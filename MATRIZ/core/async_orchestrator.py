@@ -42,12 +42,27 @@ except Exception:  # pragma: no cover - metrics optional in tests
 # OpenTelemetry instrumentation
 try:
     from observability.otel_instrumentation import (
-        initialize_otel_instrumentation,  # noqa: F401  # TODO: observability.otel_inst...
+        initialize_otel_instrumentation,
         instrument_matriz_stage,
         matriz_pipeline_span,
     )
 
     OTEL_AVAILABLE = True
+    
+    # Initialize OpenTelemetry instrumentation
+    def _ensure_otel_initialized():
+        """Ensure OpenTelemetry is properly initialized for MATRIZ."""
+        try:
+            initialize_otel_instrumentation()
+        except Exception as error:
+            logger.warning(
+                "otel_initialization_failed",
+                error=str(error),
+                msg="OpenTelemetry initialization failed, continuing without tracing"
+            )
+            
+    _ensure_otel_initialized()
+    
 except ImportError:
     OTEL_AVAILABLE = False
 
@@ -290,7 +305,7 @@ class AsyncCognitiveOrchestrator:
         total_timeout: float = 0.250,  # 250ms total budget
     ):
         """
-        Initialize async orchestrator with timeout configuration.
+        Initialize async orchestrator with adaptive timeout configuration.
 
         Args:
             stage_timeouts: Custom timeout per stage type
@@ -302,7 +317,7 @@ class AsyncCognitiveOrchestrator:
         self.execution_trace = []
         self.matriz_graph = {}
 
-        # Timeout configuration
+        # Timeout configuration with adaptive learning
         self.stage_timeouts = dict(StageConfig.DEFAULT_TIMEOUTS)
         if stage_timeouts:
             self.stage_timeouts.update(stage_timeouts)
@@ -311,9 +326,78 @@ class AsyncCognitiveOrchestrator:
             self.stage_critical.update(stage_critical)
         self.total_timeout = total_timeout
 
-        # Performance tracking
+        # Performance tracking with adaptive optimization
         self.metrics = OrchestrationMetrics()
         self.node_health = {}  # Track node performance for adaptive routing
+        
+        # Adaptive timeout learning
+        self.timeout_history = {}  # Track timeout effectiveness per stage
+        self.adaptive_timeout_enabled = True
+        self.timeout_learning_rate = 0.1  # How fast to adapt timeouts
+        self.min_timeout_samples = 10  # Minimum samples before adapting
+
+    def _get_adaptive_timeout(self, stage_type: StageType) -> float:
+        """Get adaptive timeout based on historical performance."""
+        
+        base_timeout = self.stage_timeouts.get(stage_type, StageConfig.DEFAULT_TIMEOUTS[stage_type])
+        
+        if not self.adaptive_timeout_enabled:
+            return base_timeout
+            
+        # Get timeout history for this stage
+        stage_key = stage_type.value
+        if stage_key not in self.timeout_history:
+            self.timeout_history[stage_key] = {
+                "successful_durations": [],
+                "timeout_count": 0,
+                "total_attempts": 0,
+                "current_timeout": base_timeout
+            }
+        
+        history = self.timeout_history[stage_key]
+        
+        # Need sufficient samples to adapt
+        if history["total_attempts"] < self.min_timeout_samples:
+            return base_timeout
+            
+        # Calculate adaptive timeout based on P95 of successful requests
+        if history["successful_durations"]:
+            durations = sorted(history["successful_durations"])
+            p95_duration_sec = durations[int(len(durations) * 0.95)] / 1000.0
+            
+            # Adaptive timeout = P95 duration + 50% buffer
+            adaptive_timeout = p95_duration_sec * 1.5
+            
+            # Clamp to reasonable bounds (50% to 300% of base timeout)
+            min_timeout = base_timeout * 0.5
+            max_timeout = base_timeout * 3.0
+            adaptive_timeout = max(min_timeout, min(max_timeout, adaptive_timeout))
+            
+            # Apply learning rate for gradual adaptation
+            current = history["current_timeout"]
+            history["current_timeout"] = current + self.timeout_learning_rate * (adaptive_timeout - current)
+            
+            return history["current_timeout"]
+        
+        return base_timeout
+
+    def _update_timeout_history(self, stage_type: StageType, result: StageResult) -> None:
+        """Update timeout history for adaptive learning."""
+        
+        stage_key = stage_type.value
+        if stage_key not in self.timeout_history:
+            return
+            
+        history = self.timeout_history[stage_key]
+        history["total_attempts"] += 1
+        
+        if result.success:
+            history["successful_durations"].append(result.duration_ms)
+            # Keep only recent 100 samples for adaptation
+            if len(history["successful_durations"]) > 100:
+                history["successful_durations"] = history["successful_durations"][-100:]
+        elif result.timeout:
+            history["timeout_count"] += 1
 
     def register_node(self, name: str, node: "CognitiveNode"):
         """Register a cognitive node"""
@@ -333,6 +417,82 @@ class AsyncCognitiveOrchestrator:
         if result.timeout:
             self.metrics.timeout_count += 1
         if result.success:
+            self.metrics.success_count += 1
+        else:
+            self.metrics.error_count += 1
+            
+        # Update timeout history for adaptive learning
+        self._update_timeout_history(result.stage_type, result)
+
+    def _update_node_health(self, node_name: str, success: bool, duration_ms: float) -> None:
+        """Update node health metrics for intelligent routing."""
+        
+        if node_name not in self.node_health:
+            self.node_health[node_name] = {
+                "success_count": 0,
+                "failure_count": 0,
+                "total_duration_ms": 0.0,
+                "p95_latency_ms": 0.0,
+                "recent_latencies": [],
+                "health_score": 1.0,  # 0.0 (unhealthy) to 1.0 (healthy)
+            }
+        
+        health = self.node_health[node_name]
+        
+        if success:
+            health["success_count"] += 1
+        else:
+            health["failure_count"] += 1
+            
+        health["total_duration_ms"] += duration_ms
+        health["recent_latencies"].append(duration_ms)
+        
+        # Keep only recent 50 latency samples
+        if len(health["recent_latencies"]) > 50:
+            health["recent_latencies"] = health["recent_latencies"][-50:]
+        
+        # Calculate P95 latency
+        if health["recent_latencies"]:
+            sorted_latencies = sorted(health["recent_latencies"])
+            health["p95_latency_ms"] = sorted_latencies[int(len(sorted_latencies) * 0.95)]
+        
+        # Calculate health score based on success rate and latency
+        total_requests = health["success_count"] + health["failure_count"]
+        if total_requests > 0:
+            success_rate = health["success_count"] / total_requests
+            # Penalize high latency (>100ms is considered slow)
+            latency_penalty = min(1.0, health["p95_latency_ms"] / 100.0)
+            health["health_score"] = success_rate * (2.0 - latency_penalty) / 2.0
+
+    def _select_best_node(self, required_capability: str) -> Optional[str]:
+        """Select the best performing node for a capability."""
+        
+        # Find nodes with required capability
+        candidate_nodes = []
+        for node_name, node in self.available_nodes.items():
+            if hasattr(node, 'capabilities') and required_capability in getattr(node, 'capabilities', []):
+                candidate_nodes.append(node_name)
+            elif hasattr(node, 'can_handle') and callable(getattr(node, 'can_handle')):
+                try:
+                    if node.can_handle(required_capability):
+                        candidate_nodes.append(node_name)
+                except Exception:
+                    continue
+        
+        if not candidate_nodes:
+            return None
+        
+        # Select node with best health score
+        best_node = None
+        best_score = -1.0
+        
+        for node_name in candidate_nodes:
+            health = self.node_health.get(node_name, {"health_score": 1.0})
+            if health["health_score"] > best_score:
+                best_score = health["health_score"]
+                best_node = node_name
+        
+        return best_node
             self.metrics.stages_completed += 1
         else:
             self.metrics.error_count += 1
@@ -451,11 +611,17 @@ class AsyncCognitiveOrchestrator:
 
         selected_node_name = decision_result.data if decision_result.success else "default"
 
-        # Stage 3: Main Processing
+        # Stage 3: Main Processing - Enhanced node selection with fallback
         if selected_node_name not in self.available_nodes:
-            return self._build_error_response(
-                f"Node {selected_node_name} not available", stage_results, pipeline_start
-            )
+            # Try to find any available node as fallback
+            available_node_names = list(self.available_nodes.keys())
+            if available_node_names:
+                selected_node_name = available_node_names[0]  # Use first available node
+                logger.warning(f"Selected node not available, using fallback: {selected_node_name}")
+            else:
+                return self._build_error_response(
+                    f"No nodes available (requested: {selected_node_name})", stage_results, pipeline_start
+                )
 
         node = self.available_nodes[selected_node_name]
 
@@ -687,3 +853,119 @@ class AsyncCognitiveOrchestrator:
             report["circuit_breaker_health"] = get_circuit_health()
 
         return report
+
+    def get_health_report(self) -> Dict[str, Any]:
+        """Get comprehensive health report for monitoring and diagnostics"""
+        return {
+            "status": "healthy" if len(self.available_nodes) > 0 else "degraded",
+            "available_nodes": list(self.available_nodes.keys()),
+            "node_count": len(self.available_nodes),
+            "stage_timeouts": {k.value: v for k, v in self.stage_timeouts.items()},
+            "stage_critical": {k.value: v for k, v in self.stage_critical.items()},
+            "total_timeout": self.total_timeout,
+            "orchestrator_metrics": asdict(self.metrics),
+            "context_summary": self.get_context_summary(),
+            "node_health": self.node_health,
+            "performance_summary": {
+                "total_nodes": len(self.available_nodes),
+                "healthy_nodes": sum(1 for h in self.node_health.values() 
+                                   if h.get("success_count", 0) > h.get("failure_count", 0)),
+                "circuit_breaker_status": get_circuit_health() if CIRCUIT_BREAKER_AVAILABLE else "not_available"
+            }
+        }
+
+    # === ENHANCED ASYNC INTERFACE FOR INTEGRATION ===
+    
+    async def process_query_async(self, user_input: str) -> Dict[str, Any]:
+        """
+        Async interface for query processing - delegates to process_query.
+        Added for compatibility with async orchestrator test patterns.
+        """
+        return await self.process_query(user_input)
+    
+    def register_async_node(self, name: str, async_processor) -> None:
+        """
+        Register an async processing function as a cognitive node.
+        
+        Args:
+            name: Node identifier  
+            async_processor: Async function that takes data and returns result
+        """
+        
+        class AsyncNodeWrapper(CognitiveNode):
+            """Wrapper to make async functions compatible with CognitiveNode interface"""
+            
+            def __init__(self, async_func):
+                self.async_func = async_func
+                self.node_id = name
+                self.capabilities = ["async_processing"]
+                
+            def process(self, node_input: Dict[str, Any]) -> Dict[str, Any]:
+                """
+                Synchronous wrapper that runs async function.
+                Note: This is called from within an async context via run_in_executor.
+                """
+                try:
+                    # Create new event loop for this thread if needed
+                    loop = asyncio.new_event_loop()
+                    asyncio.set_event_loop(loop)
+                    try:
+                        return loop.run_until_complete(self.async_func(node_input))
+                    finally:
+                        loop.close()
+                except Exception as e:
+                    return {"error": f"Async node processing failed: {str(e)}"}
+                    
+            def validate_output(self, output: Dict[str, Any]) -> bool:
+                """Basic validation for async node outputs"""
+                return isinstance(output, dict) and "error" not in output
+        
+        # Register the wrapped async node
+        wrapped_node = AsyncNodeWrapper(async_processor)
+        self.register_node(name, wrapped_node)
+        print(f"✓ Registered async node: {name}")
+
+    # === CONTEXT PRESERVATION ENHANCEMENTS ===
+    
+    def preserve_context(self, context_data: Dict[str, Any]) -> str:
+        """
+        Preserve context data for cross-orchestration continuity.
+        
+        Returns:
+            Context ID for retrieval
+        """
+        context_id = f"ctx_{int(time.time() * 1000)}_{len(self.context_memory)}"
+        context_entry = {
+            "id": context_id,
+            "data": context_data,
+            "timestamp": time.time(),
+            "preserved_at": time.perf_counter()
+        }
+        self.context_memory.append(context_entry)
+        
+        # Limit context memory to prevent unbounded growth
+        if len(self.context_memory) > 1000:
+            self.context_memory = self.context_memory[-500:]  # Keep most recent 500
+            
+        return context_id
+    
+    def restore_context(self, context_id: str) -> Optional[Dict[str, Any]]:
+        """
+        Restore preserved context data.
+        
+        Returns:
+            Context data if found, None otherwise
+        """
+        for entry in self.context_memory:
+            if entry["id"] == context_id:
+                return entry["data"]
+        return None
+    
+    def get_context_summary(self) -> Dict[str, Any]:
+        """Get summary of preserved context for monitoring"""
+        return {
+            "total_contexts": len(self.context_memory),
+            "oldest_timestamp": min((c["timestamp"] for c in self.context_memory), default=0),
+            "newest_timestamp": max((c["timestamp"] for c in self.context_memory), default=0),
+            "memory_usage_mb": len(str(self.context_memory)) / (1024 * 1024)
+        }

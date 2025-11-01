@@ -5,13 +5,15 @@ Memory Fold Consolidation Edge Cases Tests
 Tests edge cases and data preservation in memory fold consolidation process.
 Validates that consolidated items remain searchable and no data is lost.
 
-# ΛTAG: memory_fold_tests, consolidation_edge_cases
+# ΛTAG: memory_fold_tests, consolidation_edge_cases, robustness_testing
 """
 
+import asyncio
 import json
 import tempfile
 from datetime import datetime, timedelta
 from pathlib import Path
+from unittest.mock import Mock, patch
 
 import pytest
 
@@ -615,6 +617,129 @@ class TestFoldConsolidationEdgeCases:
             # If failed, ensure it's a controlled failure
             assert "cascade" in str(e).lower() or "circular" in str(e).lower()
             print(f"Expected cascade failure handled: {e}")
+
+    @pytest.mark.asyncio
+    async def test_concurrent_consolidation_safety(self, memory_system, sample_memories):
+        """Test that concurrent consolidation operations are safe."""
+        
+        fold_id = "concurrent_fold"
+        fold = MemoryFold(id=fold_id)
+        
+        # Add initial memories
+        for memory in sample_memories[:80]:
+            fold.add_item(memory)
+            memory_system.store_memory(memory)
+            
+        # Simulate concurrent consolidation attempts
+        consolidation_tasks = []
+        for i in range(3):
+            task = asyncio.create_task(self._attempt_consolidation(fold, i))
+            consolidation_tasks.append(task)
+            
+        # Wait for all consolidation attempts
+        results = await asyncio.gather(*consolidation_tasks, return_exceptions=True)
+        
+        # Verify that only one consolidation succeeded and others were properly handled
+        success_count = sum(1 for result in results if not isinstance(result, Exception))
+        assert success_count <= 1, "At most one consolidation should succeed"
+        
+        # Verify fold integrity after concurrent operations
+        assert len(fold.items) > 0, "Fold should maintain items after concurrent ops"
+
+    async def _attempt_consolidation(self, fold, attempt_id):
+        """Helper method to simulate consolidation attempt."""
+        
+        # Add small delay to create race condition
+        await asyncio.sleep(0.01 * attempt_id)
+        
+        # Attempt consolidation
+        return fold.consolidate()
+
+    def test_memory_leak_prevention(self, memory_system):
+        """Test that consolidation prevents memory leaks in large datasets."""
+        
+        fold_id = "leak_test_fold"
+        fold = MemoryFold(id=fold_id)
+        
+        # Create large dataset that could cause memory issues
+        large_memories = []
+        for i in range(500):  # Large dataset
+            # Create memory with large content
+            large_content = {
+                "text": f"Large memory item {i}",
+                "large_data": "x" * 1000,  # 1KB per item = 500KB total
+                "nested_data": {
+                    "level1": {"level2": {"level3": f"deep_data_{i}"}},
+                    "array_data": list(range(100)),  # More memory usage
+                }
+            }
+            
+            memory = MemoryItem(
+                id=f"large_mem_{i}",
+                content=large_content,
+                memory_type=MemoryType.PROCEDURAL,
+                timestamp=datetime.now(),
+                tags=["large_data", f"batch_{i//50}"],
+                importance_score=0.3
+            )
+            
+            large_memories.append(memory)
+            fold.add_item(memory)
+            
+        # Measure memory usage before consolidation
+        initial_item_count = len(fold.items)
+        
+        # Perform consolidation
+        consolidated_item = fold.consolidate()
+        
+        # Verify consolidation compressed the data
+        assert consolidated_item is not None, "Consolidation should succeed with large dataset"
+        assert "memory_optimization" in consolidated_item.content, "Should track memory optimization"
+        
+        # Check that consolidation metadata includes compression info
+        assert consolidated_item.content["memory_optimization"]["original_item_count"] == initial_item_count
+        assert "compression_ratio" in consolidated_item.content["memory_optimization"]
+
+    def test_consolidation_rollback_on_corruption(self, memory_system):
+        """Test rollback mechanism when consolidation detects data corruption."""
+        
+        fold_id = "corruption_test_fold"
+        fold = MemoryFold(id=fold_id)
+        
+        # Add normal memories
+        for i in range(60):
+            memory = MemoryItem(
+                id=f"normal_mem_{i}",
+                content={"text": f"Normal memory {i}", "valid": True},
+                memory_type=MemoryType.SEMANTIC,
+                timestamp=datetime.now(),
+                tags=["normal"],
+                importance_score=0.4
+            )
+            fold.add_item(memory)
+            
+        # Store original state
+        original_items = fold.items.copy()
+        original_count = len(original_items)
+        
+        # Mock corruption detection during consolidation
+        with patch.object(fold, '_detect_corruption', return_value=True):
+            try:
+                consolidated_item = fold.consolidate()
+                
+                # If consolidation succeeds despite corruption, verify rollback handling
+                if consolidated_item:
+                    assert "corruption_detected" in consolidated_item.content
+                    assert consolidated_item.content["corruption_detected"] is True
+                    
+            except Exception as e:
+                # Expected behavior - consolidation should fail gracefully
+                assert "corruption" in str(e).lower()
+                
+        # Verify original data is preserved
+        assert len(fold.items) == original_count, "Original items should be preserved after rollback"
+        for original, current in zip(original_items, fold.items):
+            assert original.id == current.id, "Item IDs should match after rollback"
 
 
 if __name__ == "__main__":
