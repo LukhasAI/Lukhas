@@ -1,5 +1,5 @@
 // WebAuthn passkey implementation utilities (simplified server-side logic)
-import { createHash, randomBytes } from 'crypto';
+import { createHash, createVerify, randomBytes, verify as verifySignature } from 'crypto';
 
 type PublicKeyCredentialDescriptor = {
   type: 'public-key';
@@ -50,6 +50,8 @@ interface AuthenticationResult {
   error?: string;
 }
 
+type SupportedAlgorithm = 'ES256' | 'RS256' | 'EdDSA';
+
 interface StoredCredential {
   userId: string;
   credentialId: string;
@@ -59,6 +61,8 @@ interface StoredCredential {
   updatedAt: string;
   lastUsedAt?: string;
   lastDeviceId?: string;
+  publicKey: string;
+  algorithm: SupportedAlgorithm;
 }
 
 const registrationChallenges = new Map<string, string>();
@@ -181,6 +185,93 @@ function decodeUserHandle(userHandle: unknown): string | null {
   return buffer.toString('utf8');
 }
 
+function formatPemFromBuffer(buffer: Buffer): string {
+  const base64 = buffer.toString('base64');
+  const wrapped = base64.match(/.{1,64}/g)?.join('\n') ?? base64;
+  return `-----BEGIN PUBLIC KEY-----\n${wrapped}\n-----END PUBLIC KEY-----`;
+}
+
+function normalizePublicKey(value: unknown): string | null {
+  if (typeof value === 'string') {
+    const trimmed = value.trim();
+    if (!trimmed) {
+      return null;
+    }
+
+    if (trimmed.includes('BEGIN PUBLIC KEY')) {
+      return trimmed;
+    }
+
+    if (/^[A-Za-z0-9+/=\s]+$/.test(trimmed)) {
+      try {
+        const normalized = trimmed.replace(/\s+/g, '');
+        return formatPemFromBuffer(Buffer.from(normalized, 'base64'));
+      } catch {
+        // fall through to buffer formatting below
+      }
+    }
+
+    return formatPemFromBuffer(Buffer.from(trimmed, 'utf8'));
+  }
+
+  try {
+    const buffer = toBuffer(value);
+    if (!buffer.length) {
+      return null;
+    }
+
+    return formatPemFromBuffer(buffer);
+  } catch {
+    return null;
+  }
+}
+
+function normalizeAlgorithm(value: unknown): SupportedAlgorithm | null {
+  if (typeof value === 'number') {
+    if (value === -7) return 'ES256';
+    if (value === -257) return 'RS256';
+    if (value === -8) return 'EdDSA';
+  }
+
+  if (typeof value === 'string') {
+    const normalized = value.trim().toUpperCase();
+    if (normalized === 'ES256') return 'ES256';
+    if (normalized === 'RS256') return 'RS256';
+    if (normalized === 'EDDSA' || normalized === 'ED25519') return 'EdDSA';
+  }
+
+  return null;
+}
+
+function verifyAssertionSignature({
+  algorithm,
+  publicKey
+}: Pick<StoredCredential, 'algorithm' | 'publicKey'>, authenticatorData: Buffer, clientDataBuffer: Buffer, signature: Buffer): boolean {
+  if (!signature.length || !publicKey.trim()) {
+    return false;
+  }
+
+  const clientDataHash = createHash('sha256').update(clientDataBuffer).digest();
+  const signedData = Buffer.concat([authenticatorData, clientDataHash]);
+
+  try {
+    if (algorithm === 'RS256' || algorithm === 'ES256') {
+      const verifier = createVerify('sha256');
+      verifier.update(signedData);
+      verifier.end();
+      return verifier.verify(publicKey, signature);
+    }
+
+    if (algorithm === 'EdDSA') {
+      return verifySignature(null, signedData, publicKey, signature);
+    }
+  } catch {
+    return false;
+  }
+
+  return false;
+}
+
 function getAuthenticationChallengeKey(userId?: string): string {
   return userId ?? ANONYMOUS_CHALLENGE_KEY;
 }
@@ -261,6 +352,20 @@ export async function finishRegistration({
     return { success: false, error: 'Missing credential identifier' };
   }
 
+  const publicKey = normalizePublicKey(
+    response?.response?.publicKey ?? response?.publicKey
+  );
+  if (!publicKey) {
+    return { success: false, error: 'Missing credential public key' };
+  }
+
+  const algorithm =
+    normalizeAlgorithm(
+      response?.response?.algorithm ??
+        response?.response?.publicKeyAlgorithm ??
+        response?.publicKeyAlgorithm
+    ) ?? 'ES256';
+
   const now = new Date().toISOString();
   const transports = Array.isArray(response?.transports) ? response.transports : [];
 
@@ -270,7 +375,9 @@ export async function finishRegistration({
     signCount: 0,
     transports,
     createdAt: now,
-    updatedAt: now
+    updatedAt: now,
+    publicKey,
+    algorithm
   });
 
   return { success: true, credentialId };
@@ -331,7 +438,13 @@ export async function finishAuthentication({
     return { ok: false, error: 'Credential not recognized for user' };
   }
 
-  const clientData = parseClientDataJSON(response?.response?.clientDataJSON);
+  const rawClientData = response?.response?.clientDataJSON;
+  const clientDataBuffer = toBuffer(rawClientData);
+  if (!clientDataBuffer.length) {
+    return { ok: false, error: 'Invalid authentication client data' };
+  }
+
+  const clientData = parseClientDataJSON(clientDataBuffer);
   if (!clientData) {
     return { ok: false, error: 'Invalid authentication client data' };
   }
@@ -390,6 +503,15 @@ export async function finishAuthentication({
   const userHandle = decodeUserHandle(response?.response?.userHandle);
   if (userHandle && userHandle !== userId) {
     return { ok: false, error: 'User handle mismatch' };
+  }
+
+  const signature = toBuffer(response?.response?.signature);
+  if (!signature.length) {
+    return { ok: false, error: 'Missing assertion signature' };
+  }
+
+  if (!verifyAssertionSignature(storedCredential, authenticatorData, clientDataBuffer, signature)) {
+    return { ok: false, error: 'Invalid assertion signature' };
   }
 
   const updatedAt = new Date().toISOString();
