@@ -20,11 +20,11 @@ def _try(n: str):
     except Exception:
         return None
 
-# Try backends in order
+# Try backends in order (exclude self to prevent recursion)
 _CANDIDATES = (
     "lukhas_website.matriz.runtime.policy",
     "candidate.matriz.runtime.policy",
-    "matriz.runtime.policy",
+    # "matriz.runtime.policy",  # Removed - would cause self-import recursion
 )
 
 _SRC = None
@@ -43,6 +43,10 @@ for _cand in _CANDIDATES:
 
 def __getattr__(name: str):
     """Lazy attribute access fallback."""
-    if _SRC and hasattr(_SRC, name):
-        return getattr(_SRC, name)
+    if _SRC:
+        # Use try/except instead of hasattr to avoid recursion
+        try:
+            return getattr(_SRC, name)
+        except AttributeError:
+            pass
     raise AttributeError(f"module '{__name__}' has no attribute '{name}'")

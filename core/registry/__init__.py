@@ -4,16 +4,14 @@ Core Registry - Component registration and discovery.
 Provides register() function and _REG registry.
 """
 from __future__ import annotations
-
+import importlib as _importlib
 try:
-    from labs.core.identity.registry import _REG, register
+    _mod = _importlib.import_module("labs.core.identity.registry")
+    _REG = getattr(_mod, "_REG")
+    register = getattr(_mod, "register")
 except Exception:
-    # Fallback minimal definitions
-    def register(*args, **kwargs):
-        """Register a component (placeholder)."""
-        pass
-
-    _REG = {}
+    _REG = None
+    register = None
 
 # Add missing functions expected by tests
 def resolve(key: str):

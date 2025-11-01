@@ -22,6 +22,7 @@ requirements with sub-second validation performance.
 
 Integrates with ΛID system, GLYPH communication protocol, and Constellation Framework (🌌 8-star navigation).
 """
+import importlib as _importlib
 import hashlib
 import hmac
 import json
@@ -44,11 +45,10 @@ try:
 except ImportError:
     # Fallback for testing/development
     GlyphEngine = None
-
 try:
-    from labs.governance.identity.core.id_service.lambd_id_validator import LambdIDValidator
-except ImportError:
-    # Fallback for testing/development
+    _mod = _importlib.import_module("labs.governance.identity.core.id_service.lambd_id_validator")
+    LambdIDValidator = getattr(_mod, "LambdIDValidator")
+except Exception:
     LambdIDValidator = None
 
 # Configure logging for Constellation Framework compliance

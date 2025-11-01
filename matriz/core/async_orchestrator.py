@@ -493,9 +493,6 @@ class AsyncCognitiveOrchestrator:
                 best_node = node_name
         
         return best_node
-            self.metrics.stages_completed += 1
-        else:
-            self.metrics.error_count += 1
 
     def _finalize_metrics(self, stage_results: List[StageResult], total_duration_ms: float) -> None:
         self.metrics.total_duration_ms = total_duration_ms
