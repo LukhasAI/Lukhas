@@ -31,11 +31,13 @@
 - **Owner**: Codex
 - **Scope**: Code hygiene (rebased)
 - **Status**: 🟢 Ready, auto-merge enabled
+- **Rebase tracker**: Listed in [Operational Runbook — Rebased branches status](../ops/OPERATIONAL_RUNBOOK.md#rebased-branches-status)
 
 ### ✅ PR #386 (ruffA) - AUTO-MERGE ENABLED
 - **Owner**: Codex
 - **Scope**: Ruff A-tier fixes (rebased onto new Guardian YAML)
 - **Status**: 🟢 Ready, auto-merge enabled
+- **Rebase tracker**: Listed in [Operational Runbook — Rebased branches status](../ops/OPERATIONAL_RUNBOOK.md#rebased-branches-status)
 
 ---
 
