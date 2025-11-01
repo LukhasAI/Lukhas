@@ -53,6 +53,9 @@ __version__ = "2.0.0"
 __tier__ = 2
 
 from qi.dream_adapter import DreamQuantumConfig, QIDreamAdapter
+from qi.post_quantum_crypto import PostQuantumCryptoEngine
+from qi.states.safe_blockchain import QISafeAuditBlockchain
+from qi.states.security_mesh import SecurityMesh
 from qi.voice_enhancer import QIVoiceEnhancer, VoiceQuantumConfig
 
 
@@ -67,10 +70,11 @@ class QIAGISystem:
         self.distributed_orchestrator = DistributedQuantumSafeOrchestrator(config.cluster_config)  # noqa: F821  # TODO: DistributedQuantumSafeOrchestr...
 
         # Security infrastructure
-# See: https://github.com/LukhasAI/Lukhas/issues/605
-            pqc_engine=PostQuantumCryptoEngine(config.crypto_config),  # noqa: F821  # TODO: PostQuantumCryptoEngine
-# See: https://github.com/LukhasAI/Lukhas/issues/606
-            audit_blockchain=QISafeAuditBlockchain(),  # noqa: F821  # TODO: QISafeAuditBlockchain
+        self.security_mesh = SecurityMesh(
+            # See: https://github.com/LukhasAI/Lukhas/issues/605
+            pqc_engine=PostQuantumCryptoEngine(config.crypto_config),
+            # See: https://github.com/LukhasAI/Lukhas/issues/606
+            audit_blockchain=QISafeAuditBlockchain(),
         )
 
         # Advanced capabilities
