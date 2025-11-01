@@ -141,3 +141,21 @@ def _install_yaml_stub() -> None:
 
 _install_jwt_stub()
 _install_yaml_stub()
+
+
+# Pytest skip helpers for optional dependencies
+import pytest
+
+# Check if labs is available
+try:
+    import importlib
+    importlib.import_module("labs")
+    LABS_AVAILABLE = True
+except ImportError:
+    LABS_AVAILABLE = False
+
+# Skip decorator for tests requiring labs
+requires_labs = pytest.mark.skipif(
+    not LABS_AVAILABLE,
+    reason="labs not installed - skipping labs-dependent test"
+)
