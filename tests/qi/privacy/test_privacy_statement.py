@@ -120,3 +120,29 @@ def test_privacy_statement_from_mapping_keeps_source_data_isolated(privacy_modul
     payload["metadata"]["source"] = "mutated"
 
     assert statement.metadata == {"source": "legacy"}
+
+
+def test_proof_statement_from_privacy_creates_isolated_copy(privacy_module):
+    PrivacyStatement = privacy_module.PrivacyStatement
+    ProofStatement = privacy_module.ProofStatement
+
+    privacy_statement = PrivacyStatement(
+        statement_id="stmt-004",
+        requires_non_interactive=True,
+        circuit_size=1024,
+        public_input={"user_id": "anon"},
+        metadata={"scope": "private"},
+    )
+
+    proof_statement = ProofStatement.from_privacy(
+        privacy_statement, proof_system="zk-snark"
+    )
+
+    assert proof_statement.statement_id == "stmt-004"
+    assert proof_statement.proof_system == "zk-snark"
+    assert proof_statement.public_input == {"user_id": "anon"}
+    assert proof_statement.metadata == {"scope": "private"}
+
+    privacy_statement.metadata["scope"] = "updated"
+
+    assert proof_statement.metadata == {"scope": "private"}
