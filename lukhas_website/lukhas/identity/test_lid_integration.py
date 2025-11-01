@@ -56,7 +56,11 @@ try:
 
     COMPONENTS_AVAILABLE = True
 except ImportError as e:
-    logger.error(f"Failed to import ΛiD components: {e}")
+    logger.error(
+        "Failed to import ΛiD components: %s. Optional '_bridgeutils' package "
+        "is required for WebAuthn/passkey flows.",
+        e,
+    )
     COMPONENTS_AVAILABLE = False
 
 
