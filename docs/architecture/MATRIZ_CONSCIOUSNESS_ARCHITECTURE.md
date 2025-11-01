@@ -322,13 +322,16 @@ TYPE_CHECKING guarded usage (acceptable):
 - MATRIZ-dependent e2e/unit paths fail in default env due to missing labs/experimental modules
   - Recommendation: add ProviderRegistry-backed adapters and/or test doubles for labs-bound tests
 
-### Consolidated TODO NOW Index
-- TODO NOW tests/matriz/test_async_orchestrator_e2e.py:9 — labs async orchestrator missing; add adapter/skip
-- TODO NOW tests/integration/test_matriz_complete_thought_loop.py:28 — consciousness entrypoint missing; add shim or update import
-- TODO NOW core/trace.py:13 — replace `from matriz...` with `from MATRIZ...` or lazy adapter
-- TODO NOW core/symbolic/dast_engine.py — replace lower-case import and retain lazy try/except; document lane compliance
-- TODO NOW serve/main.py — replace `matriz` imports; guard availability
-- TODO NOW scripts/consolidation/check_import_health.py — document worktree usage + helpful guidance when missing deps
+### Consolidated TODO NOW Index (status)
+- TODO NOW tests/matriz/test_async_orchestrator_e2e.py:9 — labs async orchestrator missing; add adapter/skip [OPEN]
+- TODO NOW tests/integration/test_matriz_complete_thought_loop.py:28 — consciousness entrypoint missing; add shim or update import [PARTIAL]
+  - Update: Added `consciousness.matriz_thought_loop` shim module; import still failing under pytest collection — likely PYTHONPATH/package discovery issue.
+- TODO NOW core/trace.py:13 — replace `from matriz...` with `from MATRIZ...` or lazy adapter [DONE]
+  - Update: Uses TYPE_CHECKING import + defensive access (no runtime dependency)
+- TODO NOW core/symbolic/dast_engine.py — replace lower-case import and retain lazy try/except; document lane compliance [DONE]
+- TODO NOW serve/main.py — replace `matriz` imports; guard availability [PARTIAL]
+  - Update: Prefer `MATRIZ` with fallback for traces router; optional async seam still references legacy path under try.
+- TODO NOW scripts/consolidation/check_import_health.py — document worktree usage + helpful guidance when missing deps [DONE]
 
 Evidence snapshots and commands used:
 - `make doctor`, `make smoke`, `make smoke-matriz`
