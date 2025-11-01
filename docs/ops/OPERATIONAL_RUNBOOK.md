@@ -42,6 +42,14 @@ git push origin --delete develop/v0.03
 - ✅ CI gates: structure + smoke + legacy-import budget (passing)
 - ✅ develop/v0.03-prep rebased on main
 
+### Rebased branches status
+
+| Branch / PR | Base branch | Status | Notes |
+|-------------|-------------|--------|-------|
+| `develop/v0.03-prep` | `main` | ✅ Rebased | Force-updated to commit `47f10b80a` during 2025-10-06 cleanup; history preserved after rebase. |
+| **PR #385** (soft-audit batch) | `main` | 🟢 Auto-merge enabled | Hygiene batch rebased onto `main` and ready for merge once guardrails finish running. |
+| **PR #386** (ruffA fixes) | Guardian YAML baseline | 🟢 Auto-merge enabled | Ruff A-tier fixes stacked on the refreshed Guardian YAML branch after rebase alignment. |
+
 ## 3) Docs/Tests colocation
 
 ### Build/review mapping:

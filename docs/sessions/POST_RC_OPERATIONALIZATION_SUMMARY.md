@@ -28,6 +28,8 @@
 
 **Result**: Clean landing sequence with zero merge conflicts.
 
+Rebase alignment for each PR is tracked in the [Operational Runbook rebase table](../ops/OPERATIONAL_RUNBOOK.md#rebased-branches-status).
+
 ---
 
 ### ✅ 3. Monitoring Artifacts Created

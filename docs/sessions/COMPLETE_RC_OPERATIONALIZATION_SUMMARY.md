@@ -25,6 +25,8 @@ Successfully completed **100% of observability/CI deliverables** for v0.9.0-rc o
 
 **Result**: Clean landing sequence with zero conflicts, all CI gates passed.
 
+See the [Operational Runbook rebase table](../ops/OPERATIONAL_RUNBOOK.md#rebased-branches-status) for ongoing alignment and base-branch tracking.
+
 ---
 
 ## Phase 2: Monitoring Infrastructure ✅ COMPLETE

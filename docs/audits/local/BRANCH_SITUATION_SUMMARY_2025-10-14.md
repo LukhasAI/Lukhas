@@ -155,6 +155,8 @@ git merge --no-ff fix/codex10/ruffB1
 git push origin main
 ```
 
+> ℹ️ **Rebase visibility**: Track the rebased branch set (including PR #385/#386 and `develop/v0.03-prep`) via the [Operational Runbook rebase table](../../ops/OPERATIONAL_RUNBOOK.md#rebased-branches-status) for a single source of truth.
+
 ---
 
 ## What About PR #381?
