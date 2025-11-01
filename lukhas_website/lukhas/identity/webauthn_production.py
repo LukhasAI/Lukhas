@@ -12,6 +12,7 @@ Constellation Framework: Identity ⚛️ pillar with T4-T5 authentication tiers
 from __future__ import annotations
 
 import base64
+import binascii
 import json
 import logging
 import secrets
@@ -76,12 +77,27 @@ try:
 # See: https://github.com/LukhasAI/Lukhas/issues/595
 # See: https://github.com/LukhasAI/Lukhas/issues/596
         ResidentKeyRequirement,
+        PublicKeyCredentialDescriptor,
         UserVerificationRequirement,
     )
     WEBAUTHN_AVAILABLE = True
 except ImportError:
     logger.warning("WebAuthn library not available - using mock implementation")
     WEBAUTHN_AVAILABLE = False
+
+
+def _decode_credential_id(credential_id: str) -> Optional[bytes]:
+    """Decode a credential ID stored as URL-safe base64."""
+    padding = "=" * (-len(credential_id) % 4)
+    try:
+        return base64.b64decode(
+            f"{credential_id}{padding}",
+            altchars=b"-_",
+            validate=True
+        )
+    except (ValueError, binascii.Error) as exc:
+        logger.warning("Invalid credential_id encoding for WebAuthn descriptor: %s", exc)
+        return None
 
 
 class AuthenticatorType(Enum):
@@ -573,11 +589,11 @@ class WebAuthnManager:
 
             try:
                 # Get allowed credentials
-                allowed_credentials = []
+                active_credentials: List[WebAuthnCredential] = []
                 if user_id:
                     credentials = await self.credential_store.get_credentials(user_id)
-                    allowed_credentials = [
-                        {"id": cred.credential_id, "type": "public-key"}
+                    active_credentials = [
+                        cred
                         for cred in credentials
                         if cred.status == CredentialStatus.ACTIVE and cred.tier.value >= tier.value
                     ]
@@ -586,6 +602,11 @@ class WebAuthnManager:
                     # Mock implementation for testing
                     challenge_id = secrets.token_urlsafe(32)
                     challenge = secrets.token_urlsafe(64)
+
+                    allowed_credentials = [
+                        {"id": cred.credential_id, "type": "public-key"}
+                        for cred in active_credentials
+                    ]
 
                     # Store challenge
                     await self.credential_store.store_challenge(WebAuthnChallenge(
@@ -596,6 +617,8 @@ class WebAuthnManager:
                         expires_at=datetime.now(timezone.utc) + timedelta(minutes=5),
                         tier_required=tier
                     ))
+
+                    span.set_attribute("allowed_credentials", len(allowed_credentials))
 
                     return {
                         "challenge": challenge,
@@ -612,6 +635,18 @@ class WebAuthnManager:
                     if tier == AuthenticatorTier.T5_BIOMETRIC
                     else UserVerificationRequirement.PREFERRED
                 )
+
+                allowed_credentials = []
+                for cred in active_credentials:
+                    descriptor_bytes = _decode_credential_id(cred.credential_id)
+                    if descriptor_bytes is None:
+                        continue
+                    allowed_credentials.append(
+                        PublicKeyCredentialDescriptor(
+                            id=descriptor_bytes,
+                            type="public-key"
+                        )
+                    )
 
                 authentication_options = generate_authentication_options(
                     rp_id=self.rp_id,
