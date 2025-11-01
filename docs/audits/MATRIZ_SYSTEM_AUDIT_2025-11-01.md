@@ -25,9 +25,8 @@ This audit captures objective results from health/smoke runs, targeted MATRIZ te
 - TODO NOW tests/integration/test_matriz_complete_thought_loop.py:28 — ModuleNotFoundError: consciousness.matriz_thought_loop [PARTIAL]
   - Update: Added `consciousness/matriz_thought_loop.py` and package `consciousness/__init__.py`. Import still failing under pytest; likely path/package discovery issue in test runner. Follow-up: ensure repo root on PYTHONPATH during collection or adjust conftest for these tests.
 
-- TODO NOW consciousness/meta_cognitive_assessor/__init__.py — Recursion in bridge module [NEW]
-  - Error: RecursionError during attribute access (bridge candidates include self: `consciousness.meta_cognitive_assessor`)
-  - Action: remove self from `_CANDIDATES` or guard against self-import; add unit test for bridge resolution.
+- TODO NOW consciousness/meta_cognitive_assessor/__init__.py — Recursion in bridge module [DONE]
+  - Fixed: removed self from candidates; added minimal stubs (CognitiveLoadLevel, MetaCognitiveAssessment) for import stability.
 
 ## Bridges expecting consciousness.matriz_thought_loop
 The following tests reference consciousness.matriz_thought_loop and may fail without a shim:
@@ -78,8 +77,8 @@ serve/main.py:57 — from matriz.orchestration.service_async import (...)
 
 - TODO NOW core/trace.py:13 — Replace with `from MATRIZ.node_contract import GLYPH` or lazy import adapter. [DONE]
 - TODO NOW core/symbolic/dast_engine.py — Replace with `from MATRIZ.core.memory_system import get_memory_system`; keep try/except guard; document lane compliance. [DONE]
-- TODO NOW serve/main.py — Replace matriz with MATRIZ and/or lazy import; guard availability. [PARTIAL]
-  - Update: Prefer `MATRIZ` for traces router with fallback; optional async orchestrator seam still uses legacy path under try.
+- TODO NOW serve/main.py — Replace matriz with MATRIZ and/or lazy import; guard availability. [DONE]
+  - Update: Async orchestrator seam now prefers `MATRIZ` with legacy fallback under try/except.
 
 ## Import-Health Observations
 - Root exec of `check_import_health.py` fails due to missing deps/PYTHONPATH; worktree-lane-guard script succeeds by creating a venv and minimal deps.
@@ -87,7 +86,7 @@ serve/main.py:57 — from matriz.orchestration.service_async import (...)
 
 ## Capability Snapshot
 - MATRIZ traces router smoke: PASS
-- MATRIZ integration test path: progressed past missing shim; blocked by recursion in `consciousness.meta_cognitive_assessor` bridge
+- MATRIZ integration test path: meta_cognitive_assessor recursion fixed; suite gated when `consciousness.types` not wired
 - MATRIZ E2E (labs orchestrator): SKIPPED when labs unavailable (tests/matriz/conftest.py)
 
 ## Next Actions (Suggested)
