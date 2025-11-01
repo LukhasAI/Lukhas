@@ -54,9 +54,32 @@ __tier__ = 2
 
 from qi.dream_adapter import DreamQuantumConfig, QIDreamAdapter
 from qi.post_quantum_crypto import PostQuantumCryptoEngine
-from qi.states.safe_blockchain import QISafeAuditBlockchain
 from qi.states.security_mesh import SecurityMesh
 from qi.voice_enhancer import QIVoiceEnhancer, VoiceQuantumConfig
+
+try:
+    from qi.states.safe_blockchain import QISafeAuditBlockchain
+except ImportError as _safe_blockchain_import_error:  # pragma: no cover - defensive import guard
+    QISafeAuditBlockchain = None  # type: ignore[assignment]
+else:  # pragma: no cover - executed when dependency available
+    _safe_blockchain_import_error = None
+
+
+class _NoopAuditBlockchain:
+    """Fallback audit blockchain that keeps the orchestrator importable."""
+
+    def __init__(self) -> None:
+        logger.warning(
+            "QISafeAuditBlockchain unavailable; falling back to noop audit trail. "
+            "Install 'rlp' to enable full audit logging.",
+            exc_info=_safe_blockchain_import_error,
+        )
+
+    async def log_ai_decision(self, *args, **kwargs):  # noqa: D401 - delegated behaviour
+        """Record the AI decision (noop fallback)."""
+        logger.warning(
+            "Audit decision log skipped because QISafeAuditBlockchain could not be imported.",
+        )
 
 
 class QIAGISystem:
@@ -70,11 +93,14 @@ class QIAGISystem:
         self.distributed_orchestrator = DistributedQuantumSafeOrchestrator(config.cluster_config)  # noqa: F821  # TODO: DistributedQuantumSafeOrchestr...
 
         # Security infrastructure
+        audit_blockchain = (
+            QISafeAuditBlockchain() if QISafeAuditBlockchain is not None else _NoopAuditBlockchain()
+        )
         self.security_mesh = SecurityMesh(
             # See: https://github.com/LukhasAI/Lukhas/issues/605
             pqc_engine=PostQuantumCryptoEngine(config.crypto_config),
             # See: https://github.com/LukhasAI/Lukhas/issues/606
-            audit_blockchain=QISafeAuditBlockchain(),
+            audit_blockchain=audit_blockchain,
         )
 
         # Advanced capabilities
