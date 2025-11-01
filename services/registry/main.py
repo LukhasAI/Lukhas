@@ -82,6 +82,20 @@ else:
 _store: Dict[str, Dict[str, Any]] = {}
 
 
+class StaleCheckpointError(RuntimeError):
+    """Raised when a checkpoint's timestamp falls outside the freshness window."""
+
+
+def _purge_checkpoint_artifacts() -> None:
+    """Remove on-disk checkpoint artifacts (used when bootstrap detects stale data)."""
+
+    for artifact in (REGISTRY_STORE, REGISTRY_SIG, REGISTRY_META):
+        try:
+            artifact.unlink()
+        except FileNotFoundError:
+            continue
+
+
 def _normalize_nodespec_payload(payload: Dict[str, Any]) -> Dict[str, Any]:
     """Extract NodeSpec from payload allowing legacy wrapper format."""
 
@@ -164,7 +178,7 @@ def _verify_timestamp(timestamp: float) -> None:
 
     now = time.time()
     if abs(now - timestamp) > TIMESTAMP_TOLERANCE_SECONDS:
-        raise RuntimeError(
+        raise StaleCheckpointError(
             "Checkpoint timestamp outside allowed tolerance: "
             f"delta={abs(now - timestamp):.2f}s tolerance={TIMESTAMP_TOLERANCE_SECONDS}s"
         )
@@ -244,7 +258,7 @@ def save_checkpoint() -> Dict[str, Any]:
     return signature_bundle
 
 
-def load_checkpoint() -> None:
+def load_checkpoint(*, allow_stale_reset: bool = False) -> None:
     """Load checkpoint from disk and verify signatures."""
 
     if not REGISTRY_STORE.exists() or not REGISTRY_SIG.exists():
@@ -259,9 +273,22 @@ def load_checkpoint() -> None:
 
     signature_bundle = _read_signature_bundle(payload)
 
-    _verify_signature_bundle(payload, signature_bundle, raw_payload_bytes=payload_text.encode())
-
     global _store
+
+    try:
+        _verify_signature_bundle(
+            payload, signature_bundle, raw_payload_bytes=payload_text.encode()
+        )
+    except StaleCheckpointError:
+        if allow_stale_reset:
+            logger.warning(
+                "Stale registry checkpoint detected during bootstrap; resetting store"
+            )
+            _purge_checkpoint_artifacts()
+            _store = {}
+            return
+        raise
+
     _store = payload.get("entries", {}) or {}
     logger.info("Loaded registry checkpoint with %d entries", len(_store))
 
@@ -373,8 +400,14 @@ def health():
 
 
 # Attempt to load existing checkpoint at import time.
-try:
-    load_checkpoint()
-except RuntimeError as exc:  # pragma: no cover - service startup failure path
-    logger.error("Failed to load registry checkpoint: %s", exc)
-    raise
+BOOTSTRAP_LOAD = os.environ.get("REGISTRY_BOOTSTRAP_LOAD", "1").lower() not in {
+    "0",
+    "false",
+}
+
+if BOOTSTRAP_LOAD:
+    try:
+        load_checkpoint(allow_stale_reset=True)
+    except RuntimeError as exc:  # pragma: no cover - service startup failure path
+        logger.error("Failed to load registry checkpoint: %s", exc)
+        raise

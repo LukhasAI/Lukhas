@@ -1,0 +1,5 @@
+# Generated registry checkpoint artifacts
+checkpoint.sig
+checkpoint.meta.json
+registry_store.json
+.pqc_keys/
