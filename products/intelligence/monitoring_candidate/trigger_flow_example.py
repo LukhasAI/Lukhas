@@ -12,13 +12,12 @@ from datetime import datetime, timezone
 from typing import Any
 
 from bio.endocrine_integration import EndocrineIntegration
+from reasoning.causal.causal_inference import CausalInferenceEngine
 
 # Import LUKHAS modules to demonstrate data integration
 from consciousness.unified.auto_consciousness import AutoConsciousness
 from emotion.service import EmotionService
 from memory.memoria import Memoria
-from orchestration.signals.signal_bus import SignalBus
-from reasoning.causal.causal_inference import CausalInferenceEngine
 
 # Import our monitoring system
 from monitoring import (
@@ -26,6 +25,7 @@ from monitoring import (
     PlasticityTriggerType,
     start_complete_monitoring_system,
 )
+from orchestration.signals.signal_bus import SignalBus
 
 
 class LukhasDataFeeder:

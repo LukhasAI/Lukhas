@@ -1,0 +1,8 @@
+{
+  "security": ["security-team"],
+  "identity": ["identity-owner"],
+  "qi": ["qi-owner"],
+  "labs": ["labs-owner"],
+  "docs": ["docs-owner"],
+  "misc": ["maintainers"]
+}

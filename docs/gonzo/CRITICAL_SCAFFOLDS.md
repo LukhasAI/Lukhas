@@ -422,9 +422,11 @@ class Tiers:
         # TODO: TOTP check
         return AuthResult("T3", ok=False, reason="not_implemented")
 
-    def authenticate_T4(self, ctx) -> AuthResult:
-        # See: https://github.com/LukhasAI/Lukhas/issues/563
-        return AuthResult("T4", ok=False, reason="not_implemented")
+    async def authenticate_T4(self, ctx) -> AuthResult:
+        verification = await self._verify_webauthn(ctx)
+        if not verification.success:
+            return AuthResult("T4", ok=False, reason=verification.error_code or "invalid_webauthn_response")
+        return AuthResult("T4", ok=True, reason="hardware_key_authenticated")
 
     def authenticate_T5(self, ctx) -> AuthResult:
         # TODO: biometric attestation (mock provider)
@@ -699,7 +701,11 @@ from lukhas.observability.tracing import start_span
 lukhas/identity/tiers.py
 
 import time
+import argon2
+from argon2.exceptions import VerifyMismatchError
 from lukhas.observability.metrics import AUTH_LATENCY, AUTH_FAILURES, time_hist
+
+password_hasher = argon2.PasswordHasher()
 
 class Tiers:
     def authenticate_T1(self, ctx) -> AuthResult:
@@ -708,13 +714,33 @@ class Tiers:
 
     def authenticate_T2(self, ctx) -> AuthResult:
         start_ok = False
+        failure_reason = "invalid_credentials"
         with time_hist(AUTH_LATENCY, tier="T2"):
-            # TODO: argon2 verify -> set start_ok True if success
-            pass
+            candidate_password = getattr(ctx, "password", None)
+            stored_hash = getattr(ctx, "password_hash", None)
+            credentials = getattr(ctx, "credentials", None)
+            if stored_hash is None and credentials is not None:
+                stored_hash = credentials.get("password_hash")
+            if candidate_password is None and credentials is not None:
+                candidate_password = credentials.get("password")
+
+            if not stored_hash:
+                failure_reason = "missing_hash"
+            elif candidate_password is None:
+                failure_reason = "missing_credentials"
+            else:
+                try:
+                    password_hasher.verify(stored_hash, candidate_password)
+                except VerifyMismatchError:
+                    failure_reason = "invalid_credentials"
+                except Exception:
+                    failure_reason = "argon2_error"
+                else:
+                    start_ok = True
         if not start_ok:
-            AUTH_FAILURES.labels(tier="T2", reason="not_implemented").inc()
-            return AuthResult("T2", ok=False, reason="not_implemented")
-        return AuthResult("T2", ok=True)
+            AUTH_FAILURES.labels(tier="T2", reason=failure_reason).inc()
+            return AuthResult("T2", ok=False, reason=failure_reason)
+        return AuthResult("T2", ok=True, reason="password_authenticated")
 
 
 ⸻

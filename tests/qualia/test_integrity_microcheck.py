@@ -116,6 +116,7 @@ def test_microcheck_performance_overhead():
 def test_microcheck_no_false_positives():
     """Test that micro-check doesn't trigger false positives on stable corpus."""
     from aka_qualia.core import AkaQualia
+
     from monitoring.drift_manager import DriftManager
 
     q = AkaQualia()
@@ -218,6 +219,7 @@ def test_threshold_consistency():
     import os
 
     from aka_qualia.core import AkaQualia
+
     from monitoring.drift_manager import DriftManager
 
     # Set custom threshold for test
@@ -257,6 +259,7 @@ def test_dwell_after_successful_repair():
     import os
 
     from aka_qualia.core import AkaQualia
+
     from monitoring.drift_manager import DriftManager
 
     # Set short dwell period for test
@@ -304,6 +307,7 @@ def test_dwell_after_successful_repair():
 def test_microcheck_with_rate_limiting():
     """Test that micro-check respects repair rate limiting."""
     from aka_qualia.core import AkaQualia
+
     from monitoring.drift_manager import DriftManager
 
     q = AkaQualia()

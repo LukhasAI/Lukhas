@@ -19,6 +19,7 @@ import time
 
 import pytest
 from sqlalchemy.exc import DatabaseError, IntegrityError, OperationalError
+
 from tests.integration.candidate.aka_qualia.conftest import create_test_glyph, create_test_scene
 
 

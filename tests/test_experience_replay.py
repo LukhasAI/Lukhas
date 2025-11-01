@@ -11,6 +11,7 @@ import time
 from pathlib import Path
 
 import pytest
+
 from core.consciousness_stream import ConsciousnessStream
 
 

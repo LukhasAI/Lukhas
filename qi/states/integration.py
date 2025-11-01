@@ -46,6 +46,7 @@ import unittest
 
 import numpy as np
 from bio.symbolic import BioSymbolicOrchestrator as BioOrchestrator
+
 from core.bio_systems.qi_layer import QIBioOscillator
 
 
