@@ -1,22 +1,17 @@
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
-"""
-VIVOX.QREADY Integration Bridge
-Connects quantum readiness layer with other VIVOX modules
+"""VIVOX.QREADY Integration Bridge
+Connects quantum readiness layer with other VIVOX modules.
 """
 
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 import numpy as np
 
 from core.common import get_logger
 
-from ..coherence.qsync_events import QISynchronizer, SyncType
 from ..collapse.moral_superposition import EthicalDimension, MoralSuperposition
+from ..coherence.qsync_events import QISynchronizer, SyncType
 from ..core.qi_substrate import QIState, QIStateType, QISubstrate
 from ..core.qubit_collapse import CollapseType, QubitCollapseEngine
 
