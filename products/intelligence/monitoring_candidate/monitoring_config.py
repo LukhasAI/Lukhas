@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
-"""
-Monitoring Configuration
+"""Monitoring Configuration
 ========================
 Extended configuration system that includes endocrine parameters and
 biological-inspired monitoring settings for the enhanced LUKHAS system.

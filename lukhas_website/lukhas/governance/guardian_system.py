@@ -22,6 +22,8 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Dict, List, Optional
 
+from .guardian.core import EthicalSeverity
+
 logger = logging.getLogger(__name__)
 
 # Optional cryptographic signing
@@ -51,10 +53,6 @@ try:
 except ImportError:
     SCHEMA_VALIDATION = False
     logger.warning("jsonschema not available - schema validation disabled")
-
-# Import EthicalSeverity
-from .guardian.core import EthicalSeverity
-
 
 class GuardianJSONEncoder(json.JSONEncoder):
     """Custom JSON encoder for Guardian types"""
