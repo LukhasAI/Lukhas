@@ -3,6 +3,7 @@ Tests for the NIAS Transcendence system integration.
 """
 
 import pytest
+
 from core.collective.collective_ad_mind import CollectiveAdMind
 from core.consciousness.oracle.oracle import ConsciousnessOracle
 

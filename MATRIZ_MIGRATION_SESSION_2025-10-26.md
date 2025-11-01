@@ -75,7 +75,7 @@ Successfully completed **100% of production code** MATRIZ case standardization m
 - Imports: 23
 - Tests: ✅ 10/10 smoke tests pass
 - Autonomous Score: 90/100
-- Deviations: Minor (used `import MATRIZ as matriz` in one location, functionally correct)
+- Deviations: Minor (used `import matriz as matriz` in one location, functionally correct)
 - Merge: Squashed to main (admin override, bypassed pre-existing CI failures)
 - Status: ✅ Merged 2025-10-27 03:16:15Z
 
@@ -119,7 +119,7 @@ Successfully completed **100% of production code** MATRIZ case standardization m
 - **Plan Adherence**: Excellent (followed all phases)
 - **Validation**: ✅ Passed smoke tests
 - **Deviations**: Minor
-  - Used `import MATRIZ as matriz` in one location (functionally correct)
+  - Used `import matriz as matriz` in one location (functionally correct)
   - Could have been more explicit about "no aliasing" in plan
 - **Rollback Needed**: No
 - **Outcome**: Complete success, merged to main
@@ -228,7 +228,7 @@ Successfully completed **100% of production code** MATRIZ case standardization m
 1. **Plan Quality Matters**: 463-line plan with exact commands enabled zero-ambiguity execution
 2. **Phase Structure**: 6-phase approach (Prep → Apply → Validate → Commit → PR → Rollback) worked perfectly
 3. **Validation Checkpoints**: Embedded smoke test requirements caught issues early
-4. **Minor Deviations Acceptable**: `import MATRIZ as matriz` deviation was functionally correct
+4. **Minor Deviations Acceptable**: `import matriz as matriz` deviation was functionally correct
 5. **Reusability**: Same plan works for Claude Code, Codex, Copilot, manual execution
 
 ### Key Success Factors

@@ -7,6 +7,7 @@ import json
 
 import pytest
 import yaml
+
 from governance.ethics.enhanced_ethical_guardian import EnhancedEthicalGuardian
 
 

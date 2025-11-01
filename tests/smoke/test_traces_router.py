@@ -14,7 +14,7 @@ from starlette.testclient import TestClient
 def _make_app() -> FastAPI:
     app = FastAPI()
     # Import locally to avoid app-global side effects
-    from MATRIZ.traces_router import router
+    from matriz.traces_router import router
 
     app.include_router(router)
     return app

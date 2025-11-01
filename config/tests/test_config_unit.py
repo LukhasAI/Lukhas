@@ -63,9 +63,8 @@ class TestConfigCore:
     def test_error_handling(self):
         """Test proper error handling patterns."""
         try:
-            from core.exceptions import LUKHASException
-
             from config import ConfigCore
+            from core.exceptions import LUKHASException
 
             component = ConfigCore()
 

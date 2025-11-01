@@ -1,9 +1,10 @@
 import json
 from pathlib import Path
 
-from tests.util.mk_msg import mk_msg_from_json
+from matriz.adapters.consciousness_adapter import ConsciousnessAdapter
 
-from MATRIZ.adapters.consciousness_adapter import ConsciousnessAdapter
+from matriz.adapters.consciousness_adapter import ConsciousnessAdapter
+from tests.util.mk_msg import mk_msg_from_json
 
 GOLDEN = Path("tests/fixtures/golden/consciousness_adapter")
 

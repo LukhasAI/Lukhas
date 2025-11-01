@@ -5,5 +5,5 @@ import pytest
 class TestEthicalreasoningsystem:
 
     def test_module_imports(self):
-        import MATRIZ.consciousness.reflection.EthicalReasoningSystem
+        import matriz.consciousness.reflection.EthicalReasoningSystem
         assert matriz.consciousness.reflection.EthicalReasoningSystem is not None

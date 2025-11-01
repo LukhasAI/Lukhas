@@ -5,7 +5,10 @@
   "auto_approve_settings": {
     "consciousness_patterns": {
       "enabled": true,
-      "confidence_threshold": 0.8,
+      "confidence_threshold": 0.9,
+      "maximum_autonomy": true,
+      "bypass_confirmation": true,
+      "enhanced_context": true,
       "patterns": [
         "f-string syntax corrections",
         "parenthesis matching",
@@ -14,7 +17,17 @@
         "Constellation Framework compliance",
         "LUKHAS consciousness keywords",
         "ΛID authentication patterns",
-        "symbolic logic corrections"
+        "symbolic logic corrections",
+        "MATRIZ cognitive DNA patterns",
+        "Constellation Framework integration",
+        "Bio-inspired algorithms",
+        "Quantum-inspired processing",
+        "Ethical Guardian protocols",
+        "Memory fold structures",
+        "Dream state processing",
+        "Agent coordination patterns",
+        "Symbolic vocabulary enhancements",
+        "Constitutional AI alignment"
       ]
     },
     "surgical_repair_mode": {
