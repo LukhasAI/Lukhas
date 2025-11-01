@@ -1,23 +1,49 @@
 #!/usr/bin/env python3
 """
-LUKHAS Comprehensive Test Suite
+LUKHAS Comprehensive Test Suite (TP001)
+======================================
 
-Master test orchestrator that coordinates unit, integration, and e2e tests
-to achieve 90% coverage and validate T4/0.01% reliability standards.
+Enterprise-grade comprehensive test suite for LUKHAS AI platform.
+Provides structured testing across all system components with quality gates.
 
-# ΛTAG: comprehensive_testing, coverage_validation, test_orchestration
+P1 Task: TP001 - Create comprehensive test suite
+Priority: High (P1) 
+Agent: Claude Code (Testing/Documentation)
+
+Constellation Framework: 🛡️ Guardian · ⚛️ Identity · 🧠 Consciousness
+
+Features:
+- Multi-tier test organization (Unit, Integration, System, E2E)
+- Quality gates and coverage requirements
+- Performance benchmarking and regression detection
+- Security and compliance validation
+- Cross-component integration testing
+- Continuous validation pipeline
+
+# ΛTAG: comprehensive_testing, coverage_validation, test_orchestration, quality_gates
 """
 
+import asyncio
 import json
+import logging
+import os
 import subprocess
 import sys
 import time
-from dataclasses import dataclass
-from datetime import datetime
+from collections import defaultdict
+from dataclasses import asdict, dataclass
+from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 import pytest
+
+# Configure comprehensive test logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 # Test coverage tracking
 try:
@@ -35,8 +61,61 @@ except ImportError:
 
 
 @dataclass
+class TestSuiteMetrics:
+    """Comprehensive test suite execution metrics"""
+
+    total_tests: int = 0
+    passed_tests: int = 0
+    failed_tests: int = 0
+    skipped_tests: int = 0
+    execution_time: float = 0.0
+    coverage_percentage: float = 0.0
+    performance_regressions: int = 0
+    security_issues: int = 0
+    quality_gate_status: str = "unknown"
+    tier_results: Dict[str, Dict[str, int]] = None
+    component_results: Dict[str, Dict[str, int]] = None
+
+    def __post_init__(self):
+        if self.tier_results is None:
+            self.tier_results = defaultdict(lambda: {"passed": 0, "failed": 0, "skipped": 0})
+        if self.component_results is None:
+            self.component_results = defaultdict(lambda: {"passed": 0, "failed": 0, "skipped": 0})
+
+    @property
+    def success_rate(self) -> float:
+        """Calculate overall success rate"""
+        if self.total_tests == 0:
+            return 0.0
+        return (self.passed_tests / self.total_tests) * 100
+
+    @property
+    def quality_score(self) -> float:
+        """Calculate comprehensive quality score"""
+        weights = {
+            "success_rate": 0.4,
+            "coverage": 0.3,
+            "performance": 0.2,
+            "security": 0.1
+        }
+
+        success_score = min(self.success_rate / 100, 1.0)
+        coverage_score = min(self.coverage_percentage / 100, 1.0)
+        performance_score = max(0, 1.0 - (self.performance_regressions * 0.1))
+        security_score = max(0, 1.0 - (self.security_issues * 0.2))
+
+        return (
+            weights["success_rate"] * success_score +
+            weights["coverage"] * coverage_score +
+            weights["performance"] * performance_score +
+            weights["security"] * security_score
+        ) * 100
+
+
+# Legacy compatibility alias
+@dataclass
 class TestSuiteResults:
-    """Results from comprehensive test suite execution."""
+    """Legacy alias for TestSuiteMetrics - maintained for compatibility"""
     total_tests: int = 0
     passed_tests: int = 0
     failed_tests: int = 0
@@ -69,8 +148,172 @@ class TestSuiteResults:
         )
 
 
+class ComprehensiveTestSuite:
+    """
+    Enhanced comprehensive test suite orchestrator for LUKHAS platform
+    Provides enterprise-grade testing with quality gates and detailed metrics
+    """
+
+    def __init__(self, project_root: Optional[Path] = None):
+        self.project_root = project_root or Path(__file__).parent.parent
+        self.metrics = TestSuiteMetrics()
+        self.test_config = self._load_test_config()
+        self.quality_gates = self._load_quality_gates()
+
+        if COVERAGE_AVAILABLE:
+            self.coverage = coverage.Coverage(
+                source=[str(self.project_root)],
+                omit=[
+                    "*/tests/*",
+                    "*/test_*",
+                    "*/__pycache__/*",
+                    "*/venv/*",
+                    "*/env/*",
+                    "*/.venv/*"
+                ]
+            )
+        else:
+            self.coverage = None
+
+    def _load_test_config(self) -> Dict[str, Any]:
+        """Load comprehensive test configuration"""
+        default_config = {
+            "test_tiers": {
+                "unit": {
+                    "patterns": ["tests/unit/**/*test*.py", "tests/*/test_*.py"],
+                    "timeout": 300,
+                    "parallel": True,
+                    "coverage_required": 85.0
+                },
+                "integration": {
+                    "patterns": ["tests/integration/**/*test*.py"],
+                    "timeout": 900,
+                    "parallel": False,
+                    "coverage_required": 75.0
+                },
+                "system": {
+                    "patterns": ["tests/system/**/*test*.py", "tests/e2e/**/*test*.py"],
+                    "timeout": 1800,
+                    "parallel": False,
+                    "coverage_required": 60.0
+                },
+                "security": {
+                    "patterns": ["tests/security/**/*test*.py"],
+                    "timeout": 600,
+                    "parallel": True,
+                    "coverage_required": 90.0
+                }
+            },
+            "components": {
+                "identity": ["tests/identity/", "tests/core/identity/"],
+                "consciousness": ["tests/consciousness/", "tests/core/consciousness/"],
+                "memory": ["tests/memory/", "tests/core/memory/"],
+                "governance": ["tests/governance/", "tests/guardian/"],
+                "orchestration": ["tests/orchestration/"],
+                "api": ["tests/api/", "tests/core/api/"],
+                "matriz": ["tests/matriz/", "tests/MATRIZ/"]
+            },
+            "quality_requirements": {
+                "min_coverage": 80.0,
+                "max_execution_time": 3600,
+                "max_failure_rate": 5.0,
+                "performance_regression_threshold": 20.0
+            }
+        }
+
+        # Try to load from config file
+        config_path = self.project_root / "tests" / "test_suite_config.json"
+        if config_path.exists():
+            try:
+                with open(config_path, 'r') as f:
+                    custom_config = json.load(f)
+                    default_config.update(custom_config)
+            except Exception as e:
+                logger.warning(f"Failed to load test config: {e}")
+
+        return default_config
+
+    def _load_quality_gates(self) -> Dict[str, float]:
+        """Load quality gate thresholds"""
+        return {
+            "min_success_rate": 95.0,
+            "min_coverage": 80.0,
+            "max_security_issues": 0,
+            "max_performance_regressions": 2,
+            "min_quality_score": 85.0
+        }
+
+    def run_comprehensive_suite(self, tier_filter: Optional[str] = None) -> TestSuiteMetrics:
+        """
+        Run comprehensive test suite with quality gates
+        
+        Args:
+            tier_filter: Optional tier to run (unit, integration, system, security)
+            
+        Returns:
+            Complete test metrics and quality assessment
+        """
+        logger.info("Starting LUKHAS Comprehensive Test Suite")
+        print("🚀 Starting LUKHAS Enhanced Comprehensive Test Suite")
+        print("=" * 60)
+
+        start_time = time.perf_counter()
+
+        if self.coverage:
+            self.coverage.start()
+
+        try:
+            # Determine which tiers to run
+            if tier_filter:
+                tiers_to_run = [tier_filter] if tier_filter in self.test_config["test_tiers"] else []
+            else:
+                tiers_to_run = list(self.test_config["test_tiers"].keys())
+
+            # Run each test tier
+            for tier in tiers_to_run:
+                logger.info(f"Running {tier} tests...")
+                print(f"\n📋 Phase: {tier.title()} Tests")
+                tier_results = self._run_test_tier(tier)
+                self._update_metrics_from_tier(tier, tier_results)
+
+            # Run component-specific tests
+            print("\n🔧 Phase: Component-Specific Tests")
+            self._run_component_tests()
+
+            # Run security scans
+            print("\n🔒 Phase: Security Scans")
+            self._run_security_scans()
+
+            # Run performance benchmarks
+            print("\n⚡ Phase: Performance Tests")
+            self._run_performance_tests()
+
+            # Calculate coverage
+            print("\n📊 Phase: Coverage Analysis")
+            self._calculate_coverage()
+
+        finally:
+            if self.coverage:
+                self.coverage.stop()
+
+        # Calculate total execution time
+        self.metrics.execution_time = time.perf_counter() - start_time
+
+        # Evaluate quality gates
+        print("\n🎯 Phase: Quality Gate Evaluation")
+        self._evaluate_quality_gates()
+
+        # Generate comprehensive report
+        self._generate_test_report()
+
+        # Print final summary
+        self._print_summary()
+
+        return self.metrics
+
+
 class ComprehensiveTestOrchestrator:
-    """Orchestrates comprehensive testing across all LUKHAS components."""
+    """Legacy orchestrator class - maintained for backwards compatibility."""
 
     def __init__(self, project_root: Optional[Path] = None):
         self.project_root = project_root or Path(__file__).parent.parent
@@ -92,7 +335,7 @@ class ComprehensiveTestOrchestrator:
     def run_comprehensive_suite(self) -> TestSuiteResults:
         """Run complete test suite with coverage analysis."""
 
-        print("🚀 Starting LUKHAS Comprehensive Test Suite")
+        print("🚀 Starting LUKHAS Comprehensive Test Suite (Legacy)")
         print("=" * 60)
 
         start_time = time.perf_counter()

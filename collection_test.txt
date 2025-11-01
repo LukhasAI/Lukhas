@@ -1,0 +1,42 @@
+tests/core/consciousness/test_consciousness_legacy.py: 2
+tests/core/endocrine/test_hormone_system.py: 4
+tests/core/governance/examples/test_basic_example.py: 3
+tests/core/identity/test_identity_manager.py: 3
+tests/core/orchestration/test_lukhas_agi_orchestrator.py: 2
+tests/core/symbolic/test_colony_tag_propagation.py: 4
+tests/core/test_core_compat.py: 4
+tests/core/test_core_compat_alias.py: 2
+tests/core/test_ethics_swarm_colony.py: 3
+tests/core/test_fault_tolerance.py: 3
+tests/core/test_import_budget.py: 1
+tests/core/test_import_controller.py: 23
+tests/core/test_llm_guardrail_metrics.py: 1
+tests/core/test_matriz_lane_default.py: 3
+tests/core/test_orchestrator_lane_defaults.py: 8
+
+==================================== ERRORS ====================================
+_ ERROR collecting tests/core/orchestration/brain/spine/test_healix_integration.py _
+ImportError while importing test module '/Users/A_G_I/GitHub/Lukhas/tests/core/orchestration/brain/spine/test_healix_integration.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/core/orchestration/brain/spine/test_healix_integration.py:7: in <module>
+    from core.identity.vault import get_access_log, reset_registry
+E   ImportError: cannot import name 'get_access_log' from 'core.identity.vault' (/Users/A_G_I/GitHub/Lukhas/core/identity/vault/__init__.py)
+___________ ERROR collecting tests/core/symbolic/test_dast_engine.py ___________
+ImportError while importing test module '/Users/A_G_I/GitHub/Lukhas/tests/core/symbolic/test_dast_engine.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+tests/core/symbolic/test_dast_engine.py:4: in <module>
+    from core.symbolic.dast_engine import (
+core/symbolic/dast_engine.py:24: in <module>
+    from symbolic.core import Symbol, SymbolicVocabulary, get_symbolic_vocabulary
+E   ImportError: cannot import name 'Symbol' from 'symbolic.core' (/Users/A_G_I/GitHub/Lukhas/symbolic/core/__init__.py)
+------------------------------- Captured stdout --------------------------------
+Warning: Failed to import from governance.ethics: cannot import name 'EthicsEngine' from 'governance.ethics.ethics_engine' (/Users/A_G_I/GitHub/Lukhas/governance/ethics/ethics_engine.py)
+🌌 LUKHAS Quantum Visual Symbol Core v1.0.0 initialized
+   Consciousness Level: quantum-emergent
+   Components: 28 quantum-aware classes available
+=========================== short test summary info ============================
+ERROR tests/core/orchestration/brain/spine/test_healix_integration.py
+ERROR tests/core/symbolic/test_dast_engine.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 2 errors during collection !!!!!!!!!!!!!!!!!!!!

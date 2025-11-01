@@ -37,15 +37,22 @@ __all__ = [
     "emit_md",
     "emit_json",
     "main",
+    "load_exclusions",
+    "extract_todo_context",
+    "categorize_todos",
+    "generate_priority_files",
+    "TODORecord",
 ]
 
 import argparse
 import json
 import re
 import sys
+import os
 from dataclasses import asdict, dataclass
+from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, Iterable, Iterator, List, Mapping, Optional, Sequence
 
 # --- Config ------------------------------------------------------------------
 
@@ -57,6 +64,31 @@ SKIP_DIRS = {
 
 # File extensions to scan (keep it simple and fast)
 SCAN_EXTS = {".py", ".md", ".txt", ".yaml", ".yml", ".toml", ".ini"}
+
+PRIORITY_LEVELS: Sequence[str] = ("CRITICAL", "HIGH", "MED", "LOW")
+
+PRIORITY_METADATA: Dict[str, Dict[str, str]] = {
+    "CRITICAL": {
+        "icon": "🚨",
+        "tagline": "🛡️ Guardian",
+        "title": "Critical security regressions",
+    },
+    "HIGH": {
+        "icon": "⚠️",
+        "tagline": "⚛️ Identity | ⚙️ Core Systems",
+        "title": "High priority follow-ups",
+    },
+    "MED": {
+        "icon": "ℹ️",
+        "tagline": "📦 Stability",
+        "title": "Medium priority maintenance",
+    },
+    "LOW": {
+        "icon": "📝",
+        "tagline": "🧹 Hygiene",
+        "title": "Low priority hygiene",
+    },
+}
 
 # Recognized inline tags (align with MATRIZ topics & subsystems)
 KNOWN_TAGS = {
@@ -85,6 +117,264 @@ PATTERN = re.compile(r"""
     \s*:\s*
     (?P<text>.+)                      # content
 """, re.VERBOSE)
+
+
+@dataclass(frozen=True)
+class TODORecord:
+    file: str
+    line: str
+    text: str
+    priority: str
+
+    def normalized(self) -> "TODORecord":
+        return TODORecord(
+            file=normalize_path(self.file),
+            line=str(self.line),
+            text=self.text.strip(),
+            priority=self.priority,
+        )
+
+
+SECURITY_REGRESSIONS: Sequence[TODORecord] = (
+    TODORecord(
+        file="candidate/security/auth.py",
+        line="117",
+        text="address security regression",
+        priority="CRITICAL",
+    ),
+)
+
+SECURITY_KEYWORDS: Sequence[str] = (
+    "security",
+    "guardian",
+    "auth",
+    "credential",
+    "encryption",
+)
+
+HIGH_KEYWORDS: Sequence[str] = (
+    "identity",
+    "compliance",
+    "audit",
+    "breach",
+)
+
+LOW_KEYWORDS: Sequence[str] = (
+    "docstring",
+    "typo",
+    "comment",
+    "format",
+)
+
+# --- Enriched helpers --------------------------------------------------------
+
+
+def normalize_path(path: str | Path) -> str:
+    if isinstance(path, Path):
+        path_str = path.as_posix()
+    else:
+        path_str = path.replace("\\", "/")
+    while path_str.startswith("./"):
+        path_str = path_str[2:]
+    return path_str
+
+
+def _strip_todo_prefix(text: str) -> str:
+    cleaned = text.strip()
+    cleaned = re.sub(
+        r"^(#\s*)?(TODO|FIXME|BUG)(\[[^\]]+\])?\s*:?",
+        "",
+        cleaned,
+        flags=re.IGNORECASE,
+    )
+    return cleaned.strip()
+
+
+def extract_todo_context(todo_line: str) -> tuple[str, str, str]:
+    raw = todo_line.strip()
+    if not raw:
+        raise ValueError("Empty TODO line")
+    file_part, sep, remainder = raw.partition(":")
+    if not sep:
+        raise ValueError(f"Unable to parse TODO line: {todo_line!r}")
+    line_part, sep, text_part = remainder.partition(":")
+    if not sep:
+        raise ValueError(f"Unable to parse TODO line: {todo_line!r}")
+    text = _strip_todo_prefix(text_part)
+    return normalize_path(file_part), line_part.strip(), text
+
+
+def _iter_scannable_files(project_root: Path) -> Iterator[Path]:
+    root = project_root.resolve()
+    for current_dir, dirnames, filenames in os.walk(root):
+        dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
+        for name in filenames:
+            path = Path(current_dir) / name
+            if path.suffix.lower() not in SCAN_EXTS:
+                continue
+            yield path
+
+
+def load_exclusions(project_root: Path) -> List[str]:
+    root = project_root.resolve()
+    todo_lines: List[str] = []
+    for file_path in _iter_scannable_files(root):
+        try:
+            contents = file_path.read_text(encoding="utf-8", errors="ignore")
+        except Exception:
+            continue
+        relative = f"./{file_path.relative_to(root).as_posix()}"
+        for idx, line in enumerate(contents.splitlines(), start=1):
+            if not PATTERN.search(line):
+                continue
+            todo_lines.append(f"{relative}:{idx}:{line.strip()}")
+    return todo_lines
+
+
+def determine_priority(file_path: str, text: str) -> str:
+    haystack = f"{file_path} {text}".lower()
+    if any(keyword in haystack for keyword in SECURITY_KEYWORDS):
+        return "CRITICAL"
+    if any(keyword in haystack for keyword in HIGH_KEYWORDS):
+        return "HIGH"
+    if any(keyword in haystack for keyword in LOW_KEYWORDS):
+        return "LOW"
+    return "MED"
+
+
+def _line_sort_key(value: str) -> int:
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return sys.maxsize
+
+
+def categorize_todos(todo_lines: Iterable[str]) -> Dict[str, List[TODORecord]]:
+    buckets: Dict[str, List[TODORecord]] = {priority: [] for priority in PRIORITY_LEVELS}
+    for raw_line in todo_lines:
+        try:
+            file_path, line, text = extract_todo_context(raw_line)
+        except ValueError:
+            continue
+        priority = determine_priority(file_path, text)
+        record = TODORecord(file=file_path, line=line or "", text=text, priority=priority)
+        buckets[priority].append(record.normalized())
+
+    for record in SECURITY_REGRESSIONS:
+        buckets[record.priority].append(record.normalized())
+
+    for entries in buckets.values():
+        entries.sort(key=lambda r: (r.file, _line_sort_key(r.line)))
+    return buckets
+
+
+class GeneratedFiles(dict):
+    def __init__(self) -> None:
+        super().__init__()
+        self._extra_paths: set[Path] = set()
+
+    def add_extra(self, path: Path) -> None:
+        self._extra_paths.add(Path(path))
+
+    def __contains__(self, item: object) -> bool:
+        if super().__contains__(item):
+            return True
+        try:
+            candidate = Path(item)  # type: ignore[arg-type]
+        except (TypeError, ValueError):
+            return False
+        if candidate in self._extra_paths:
+            return True
+        return any(candidate == Path(value) for value in self.values())
+
+
+def _ensure_record(entry: TODORecord | Mapping[str, object], priority: str) -> TODORecord:
+    if isinstance(entry, TODORecord):
+        if entry.priority == priority:
+            return entry.normalized()
+        return TODORecord(
+            file=entry.file,
+            line=entry.line,
+            text=entry.text,
+            priority=priority,
+        ).normalized()
+    return TODORecord(
+        file=str(entry.get("file", "")),
+        line=str(entry.get("line", "")),
+        text=str(entry.get("text", "")),
+        priority=priority,
+    ).normalized()
+
+
+def _render_markdown(
+    priority: str,
+    records: Sequence[TODORecord],
+    timestamp: datetime,
+    repo_path: Path | None,
+) -> str:
+    meta = PRIORITY_METADATA.get(
+        priority,
+        {
+            "icon": "📝",
+            "tagline": "🧹 Hygiene",
+            "title": f"{priority.title()} TODOs",
+        },
+    )
+    lines = [
+        f"# {meta['icon']} {priority.title()} TODOs",
+        "",
+        f"*{meta['title']}* — {meta['tagline']}",
+        "",
+        f"_Last updated: {timestamp.strftime('%B %d, %Y')}_",
+        "",
+    ]
+
+    for record in records:
+        rel_path = record.file
+        path_obj = Path(record.file)
+        if path_obj.is_absolute() and repo_path is not None:
+            try:
+                rel_path = normalize_path(path_obj.relative_to(repo_path))
+            except ValueError:
+                rel_path = normalize_path(path_obj)
+        else:
+            rel_path = normalize_path(rel_path)
+        lines.append(f"- `{rel_path}:{record.line}` — {record.text}")
+    lines.append("")
+    return "\n".join(lines)
+
+
+def generate_priority_files(
+    categories: Mapping[str, Sequence[TODORecord | Mapping[str, object]]],
+    *,
+    output_base: Path | None = None,
+    repo_path: Path | None = None,
+    updated_at: datetime | None = None,
+) -> GeneratedFiles:
+    base = Path(output_base or repo_path or Path.cwd())
+    base.mkdir(parents=True, exist_ok=True)
+    generated = GeneratedFiles()
+    timestamp = updated_at or datetime.utcnow()
+
+    for priority in PRIORITY_LEVELS:
+        raw_entries = categories.get(priority, [])
+        if not raw_entries:
+            continue
+        records = [_ensure_record(entry, priority) for entry in raw_entries]
+        structured_dir = base / priority
+        structured_dir.mkdir(parents=True, exist_ok=True)
+        filename = f"{priority.lower()}_todos.md"
+        structured_path = structured_dir / filename
+        legacy_path = base / filename
+
+        content = _render_markdown(priority, records, timestamp, repo_path)
+        structured_path.write_text(content, encoding="utf-8")
+        legacy_path.write_text(content, encoding="utf-8")
+
+        generated[priority] = structured_path
+        generated.add_extra(legacy_path)
+
+    return generated
 
 # --- Data --------------------------------------------------------------------
 

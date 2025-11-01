@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from core.blockchain import BlockchainWrapper
-from core.consciousness.drift_detector import DriftDetector
+from core.consciousness.drift_detector import ConsciousnessDriftDetector
 from core.emotion import EmotionMapper
 from core.identity.vault import get_access_log, reset_registry
 from core.orchestration.brain.dashboard.main_dashboard import HealixDashboard
@@ -22,7 +22,7 @@ def test_emotion_mapper_basic_scoring() -> None:
 
 
 def test_drift_detector_summary() -> None:
-    detector = DriftDetector(drift_threshold=0.1)
+    detector = ConsciousnessDriftDetector(retention=12)
     baseline = {"emotion_vector": [0.5, 0.5, 0.5]}
     current = {"emotion_vector": [0.9, 0.1, 0.5]}
     summary = detector.summarize(baseline, current)
@@ -65,7 +65,7 @@ def test_healix_dashboard_builds_state() -> None:
     dashboard = HealixDashboard(
         accent_adapter=accent,
         emotion_mapper=EmotionMapper(),
-        drift_detector=DriftDetector(drift_threshold=0.05),
+        drift_detector=ConsciousnessDriftDetector(retention=12),
         widget=create_healix_widget(),
         blockchain=BlockchainWrapper(),
     )

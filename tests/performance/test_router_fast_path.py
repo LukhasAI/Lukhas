@@ -18,8 +18,8 @@ from typing import Dict, List
 import pytest
 
 try:
-    from MATRIZ.core.async_orchestrator import AsyncCognitiveOrchestrator
-    from MATRIZ.core.node_interface import CognitiveNode
+    from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator
+    from matriz.core.node_interface import CognitiveNode
     MATRIZ_AVAILABLE = True
 except ImportError:
     MATRIZ_AVAILABLE = False
