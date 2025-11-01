@@ -28,6 +28,17 @@ __all__ = [
     "SignalType",
 ]
 
+__all__ = [
+    "OrchestrationMode",
+    "OrchestrationTask",
+    "OrchestrationResult",
+    "GPTColonyOrchestrator",
+    "ConsensusResult",
+    "Signal",
+    "SignalBus",
+    "SignalType",
+]
+
 # For static typing only - avoid importing these heavy integration modules at
 # import-time so we don't create a production -> labs import edge.
 if TYPE_CHECKING:
