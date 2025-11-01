@@ -13,7 +13,7 @@ Lane Architecture:
 
 Import Rules:
 - MATRIZ can only import from standard libraries and approved integrations
-- lukhas modules cannot import MATRIZ directly
+- lukhas modules cannot import matriz directly
 - candidate cannot import production-critical components
 - Approved integration points explicitly allowed
 
@@ -308,7 +308,7 @@ class TestLaneImports:
         logger.info("✓ MATRIZ lane isolation maintained")
 
     def test_lukhas_cannot_import_matriz(self):
-        """Test root modules (former lukhas/) cannot import MATRIZ directly."""
+        """Test root modules (former lukhas/) cannot import matriz directly."""
         linter = LaneImportLinter()
 
         # Scan root-level module violations (after Phase 5B flattening)
