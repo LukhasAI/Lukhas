@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.1.0",
+  "module": {
+    "name": "core.widgets",
+    "path": "core/widgets",
+    "type": "package",
+    "lane": "core"
+  },
+  "matriz_integration": {
+    "status": "partial",
+    "pipeline_nodes": [
+      "attention"
+    ],
+    "cognitive_function": ""
+  },
+  "constellation_alignment": {
+    "primary_star": "🔬 Horizon (Vision)",
+    "star_aliases": [],
+    "trinity_aspects": []
+  },
+  "capabilities": [
+    {
+      "name": "attention_routing",
+      "type": "orchestration",
+      "description": "Routes and prioritizes cognitive attention",
+      "interfaces": []
+    },
+    {
+      "name": "perception_processing",
+      "type": "processing",
+      "description": "Processes visual and perceptual inputs",
+      "interfaces": []
+    }
+  ],
+  "dependencies": {
+    "internal": [],
+    "external": [],
+    "circular_dependencies": []
+  },
+  "exports": {
+    "classes": [],
+    "functions": [],
+    "constants": []
+  },
+  "testing": {
+    "has_tests": false,
+    "quality_tier": "T3_standard"
+  },
+  "observability": {
+    "spans": [],
+    "metrics": [],
+    "logging": {
+      "logger_name": "core.widgets",
+      "default_level": "INFO"
+    },
+    "events": {
+      "publishes": [],
+      "subscribes": []
+    }
+  },
+  "security": {
+    "requires_auth": false,
+    "data_classification": "internal",
+    "secrets_used": [],
+    "network_calls": false,
+    "sandboxed": true,
+    "policies": []
+  },
+  "metadata": {
+    "created": "2025-11-01T19:03:16Z",
+    "last_updated": "2025-11-01T19:03:16Z",
+    "manifest_generated": true,
+    "owner": "unassigned",
+    "documentation_url": "",
+    "tags": []
+  }
+}
