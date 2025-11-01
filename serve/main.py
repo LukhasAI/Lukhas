@@ -60,7 +60,7 @@ ASYNC_ORCH_ENABLED = _ASYNC_ORCH_ENV == "1"
 _RUN_ASYNC_ORCH: Optional[Callable[[str], Awaitable[dict[str, Any]]]] = None
 if ASYNC_ORCH_ENABLED:
     try:
-        from matriz.orchestration.service_async import (
+        from MATRIZ.orchestration.service_async import (
             run_async_matriz as _RUN_ASYNC_ORCH,  # type: ignore[assignment]
         )
     except Exception:

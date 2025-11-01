@@ -70,7 +70,10 @@ def test_import(module_name: str, description: str, verbose: bool = False) -> Tu
             return True, "OK"
 
     except ImportError as e:
-        return False, f"ImportError: {e}"
+        msg = f"ImportError: {e}"
+        if "No module named" in str(e):
+            msg += "\n     💡 TIP: Ensure PYTHONPATH includes repo root or use: ./scripts/run_lane_guard_worktree.sh"
+        return False, msg
     except Exception as e:
         return False, f"Unexpected error: {type(e).__name__}: {e}"
 
