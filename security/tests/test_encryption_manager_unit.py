@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import os
 import tempfile
 
 import pytest
@@ -21,12 +20,10 @@ class TestEncryptionManager:
 
     def setup_method(self) -> None:
         self.temp_dir = tempfile.TemporaryDirectory()
-        os.environ["LUKHAS_KEYSTORE"] = self.temp_dir.name
-        self.manager = create_encryption_manager()
+        self.manager = create_encryption_manager({"key_store_path": self.temp_dir.name})
 
     def teardown_method(self) -> None:
         self.temp_dir.cleanup()
-        os.environ.pop("LUKHAS_KEYSTORE", None)
 
     def test_generate_key_registers_metadata(self) -> None:
         key_id = self.manager.generate_key(KeyType.AES_256, KeyUsage.DATA_ENCRYPTION)
@@ -34,6 +31,7 @@ class TestEncryptionManager:
         assert key_id.startswith(KeyType.AES_256.value)
         metadata = self.manager.keys[key_id]
         assert metadata.is_active
+        assert metadata.usage is KeyUsage.DATA_ENCRYPTION
         assert metadata.algorithm is EncryptionAlgorithm.AES_256_GCM
 
     def test_encrypt_decrypt_round_trip_aes(self) -> None:
@@ -70,7 +68,7 @@ class TestEncryptionManager:
         password = "Sup3rSecret!"
         hashed = self.manager.hash_password(password)
 
-        assert hashed.startswith("pbkdf2$")
+        assert hashed.startswith("pbkdf2:")
         assert self.manager.verify_password(password, hashed)
         assert not self.manager.verify_password("wrong", hashed)
 
