@@ -33,7 +33,7 @@ import numpy as np
 import pytest
 
 # Import MATRIZ components
-from consciousness.matriz_thought_loop import MATRIZProcessingContext, MATRIZThoughtLoop
+from consciousness.matriz_thought_loop import matrizProcessingContext, MATRIZThoughtLoop
 from consciousness.types import ConsciousnessState
 
 logger = logging.getLogger(__name__)

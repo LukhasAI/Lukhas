@@ -93,7 +93,8 @@ if [ $MAKE_EXIT -eq 0 ]; then
 else
   echo "[run] make lane-guard failed. Inspecting for root-package mismatch..."
   # Heuristics: compare top-level dirs vs .importlinter entries
-  TOP_PKGS=$(find . -maxdepth 1 -type d -printf '%f\n' | egrep -v '^\.|venv|.venv|.git|node_modules' | tr '\n' ' ' | sed 's/ $//')
+  # Portable top-level package detection (avoid GNU-only -printf)
+  TOP_PKGS=$(ls -1d */ 2>/dev/null | sed 's#/##' | egrep -v '^\.|venv|.venv|.git|node_modules' | tr '\n' ' ' | sed 's/ $//')
   echo "[run] top-level packages: $TOP_PKGS" > "$REPORTDIR/top_level_packages.txt"
   # Read root packages from .importlinter and pyproject.toml
   if [ -f .importlinter ]; then

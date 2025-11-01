@@ -1,0 +1,2 @@
+2025-10-24T08:03:00Z OBSERVATION_START TG-009 PR#489 merged; guard active in scripts/batch_next.sh
+2025-10-26T06:00:00Z OBSERVATION_CHECK 46h elapsed; no guard activations recorded; extend observation through next batch integration cycle for real usage validation

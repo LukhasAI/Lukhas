@@ -17,7 +17,7 @@ from __future__ import annotations
 from datetime import datetime
 from uuid import UUID, uuid4
 
-from MATRIZ.node_contract import GLYPH, MatrizMessage
+from matriz.node_contract import GLYPH, MatrizMessage
 
 
 def mk_msg_from_json(d: dict) -> MatrizMessage:

@@ -3,7 +3,7 @@ from pathlib import Path
 
 from matriz.adapters.bridge_adapter import BridgeAdapter
 
-from MATRIZ.adapters.bridge_adapter import BridgeAdapter
+from matriz.adapters.bridge_adapter import BridgeAdapter
 from tests.util.mk_msg import mk_msg_from_json
 
 GOLDEN = Path("tests/fixtures/golden/bridge_adapter")

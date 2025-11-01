@@ -3973,10 +3973,12 @@ except ImportError:
     LINKEDIN_AVAILABLE = False
 
 try:
-# See: https://github.com/LukhasAI/Lukhas/issues/565
+    from requests_oauthlib import OAuth2Session  # LinkedIn OAuth session helper for secure token refresh
+    # See: https://github.com/LukhasAI/Lukhas/issues/565 for background on hardened OAuth handling
 
     OAUTH_AVAILABLE = True
 except ImportError:
+    OAuth2Session = None
     OAUTH_AVAILABLE = False
 
 

@@ -8,7 +8,7 @@ import asyncio
 import json
 import logging
 import os
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Optional
@@ -32,20 +32,21 @@ except ImportError:
 
 try:
     from linkedin_api import (
-        Linkedin,  # LinkedIn API  # noqa: F401
+        Linkedin,  # LinkedIn API client used when official endpoints are required
     )
 
     LINKEDIN_AVAILABLE = True
 except ImportError:
+    Linkedin = None
     LINKEDIN_AVAILABLE = False
 
 try:
-    # See: https://github.com/LukhasAI/Lukhas/issues/555
-    from requests_oauthlib import OAuth2Session  # OAuth 2.0 session helper
+    from requests_oauthlib import OAuth2Session  # OAuth client for LinkedIn integrations
+    # See: https://github.com/LukhasAI/Lukhas/issues/555 for security review context
 
     OAUTH_AVAILABLE = True
 except ImportError:
-    OAuth2Session = None  # type: ignore[assignment]
+    OAuth2Session = None
     OAUTH_AVAILABLE = False
 
 
@@ -64,7 +65,6 @@ class APICredentials:
     username: Optional[str] = None
     pass_word: Optional[str] = None
     refresh_token: Optional[str] = None
-    token_expires_at: Optional[str] = None
 
 
 @dataclass
@@ -100,20 +100,14 @@ class PlatformAPIManager:
 
     def __init__(self, credentials_path: Optional[str] = None, timezone=None):
         self.base_path = Path(__file__).parent.parent
-        self.credentials_path = (
-            Path(credentials_path)
-            if credentials_path
-            else (self.base_path / "config" / "api_credentials.json")
-        )
+        self.credentials_path = credentials_path or (self.base_path / "config" / "api_credentials.json")
         self.logs_path = self.base_path / "logs"
-        self._credentials_file_loaded = False
 
         # Initialize components
         self.credentials: dict[str, APICredentials] = {}
         self.rate_limits: dict[str, RateLimitInfo] = {}
         self.platform_clients: dict[str, Any] = {}
         self.logger = self._setup_logging()
-        self.oauth_session_factory = OAuth2Session if OAUTH_AVAILABLE else None
 
         # Load credentials and initialize clients
         self._load_credentials()
@@ -161,7 +155,6 @@ class PlatformAPIManager:
                     self.credentials[platform] = APICredentials(**creds)
 
                 self.logger.info(f"Loaded credentials for {len(self.credentials)} platforms")
-                self._credentials_file_loaded = True
             except Exception as e:
                 self.logger.error(f"Failed to load credentials from file: {e}")
 
@@ -348,10 +341,8 @@ class PlatformAPIManager:
                 return PostResult(success=False, platform="linkedin", error="Rate limit exceeded")
 
             # LinkedIn API requires OAuth 2.0 flow
-            access_token = await self._ensure_linkedin_access_token(creds)
-
             headers = {
-                "Authorization": f"Bearer {access_token}",
+                "Authorization": f"Bearer {creds.access_token}",
                 "Content-Type": "application/json",
                 "X-Restli-Protocol-Version": "2.0.0",
             }
@@ -405,107 +396,6 @@ class PlatformAPIManager:
         except Exception as e:
             self.logger.error(f"❌ Failed to post to LinkedIn: {e}")
             return PostResult(success=False, platform="linkedin", error=str(e))
-
-    async def _ensure_linkedin_access_token(self, creds: APICredentials) -> str:
-        """Ensure a valid LinkedIn OAuth access token is available."""
-
-        if not creds.access_token or self._should_refresh_linkedin_token(creds):
-            if not self.oauth_session_factory:
-                raise RuntimeError(
-                    "requests_oauthlib is required for LinkedIn OAuth token refresh, but it is not installed."
-                )
-
-            return await asyncio.to_thread(self._refresh_linkedin_token, creds)
-
-        return creds.access_token
-
-    def _should_refresh_linkedin_token(self, creds: APICredentials) -> bool:
-        """Determine whether the LinkedIn token should be refreshed."""
-
-        if not creds.access_token:
-            return True
-
-        if not creds.token_expires_at:
-            return False
-
-        try:
-            expires_at_str = creds.token_expires_at
-            if expires_at_str.endswith("Z"):
-                expires_at_str = expires_at_str.replace("Z", "+00:00")
-            expires_at = datetime.fromisoformat(expires_at_str)
-        except ValueError:
-            self.logger.warning("Unable to parse LinkedIn token expiry, forcing refresh.")
-            return True
-
-        if expires_at.tzinfo is None:
-            expires_at = expires_at.replace(tzinfo=timezone.utc)
-
-        # Refresh if token expires within the next five minutes
-        return expires_at <= datetime.now(timezone.utc) + timedelta(minutes=5)
-
-    def _refresh_linkedin_token(self, creds: APICredentials) -> str:
-        """Refresh the LinkedIn OAuth token using requests_oauthlib."""
-
-        if not self.oauth_session_factory:
-            raise RuntimeError("OAuth session factory is not configured for LinkedIn token refresh.")
-
-        if not creds.client_id or not creds.client_secret or not creds.refresh_token:
-            raise RuntimeError("LinkedIn OAuth refresh requires client_id, client_secret, and refresh_token.")
-
-        token_url = "https://www.linkedin.com/oauth/v2/accessToken"
-
-        session = self.oauth_session_factory(
-            creds.client_id,
-            token={
-                "access_token": creds.access_token or "",
-                "refresh_token": creds.refresh_token,
-                "token_type": "Bearer",
-            },
-            auto_refresh_url=token_url,
-            auto_refresh_kwargs={"client_id": creds.client_id, "client_secret": creds.client_secret},
-        )
-
-        token = session.refresh_token(
-            token_url,
-            refresh_token=creds.refresh_token,
-            client_id=creds.client_id,
-            client_secret=creds.client_secret,
-        )
-
-        access_token = token.get("access_token")
-        if not access_token:
-            raise RuntimeError("LinkedIn OAuth refresh did not return an access token.")
-
-        expires_in = token.get("expires_in")
-        expires_at = None
-        if isinstance(expires_in, (int, float)):
-            expires_at = datetime.now(timezone.utc) + timedelta(seconds=int(expires_in))
-
-        if token.get("refresh_token"):
-            creds.refresh_token = token["refresh_token"]
-
-        creds.access_token = access_token
-        creds.token_expires_at = expires_at.isoformat() if expires_at else None
-
-        self.logger.info("🔄 Refreshed LinkedIn OAuth access token.")
-
-        self._persist_credentials()
-
-        return access_token
-
-    def _persist_credentials(self) -> None:
-        """Persist credentials to disk when loaded from a file."""
-
-        if not self._credentials_file_loaded:
-            return
-
-        try:
-            serialized = {platform: asdict(creds) for platform, creds in self.credentials.items()}
-            self.credentials_path.parent.mkdir(parents=True, exist_ok=True)
-            with open(self.credentials_path, "w", encoding="utf-8") as f:
-                json.dump(serialized, f, indent=2)
-        except Exception as exc:  # pragma: no cover - defensive logging
-            self.logger.warning(f"Failed to persist API credentials: {exc}")
 
     async def post_to_reddit(self, title: str, content: str, subreddit: str = "test") -> PostResult:
         """Post to Reddit using PRAW"""

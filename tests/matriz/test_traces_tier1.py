@@ -11,7 +11,7 @@ LIVE = Path('reports/matriz/traces')
 
 def _make_app():
     app = FastAPI()
-    from MATRIZ.traces_router import router
+    from matriz.traces_router import router
     app.include_router(router)
     return app
 

@@ -1,4 +1,7 @@
-from consciousness.registry import ComponentType, ConsciousnessComponentRegistry
+from lukhas_website.lukhas.consciousness.registry import (
+    ComponentType,
+    ConsciousnessComponentRegistry,
+)
 
 
 def _register_component(
@@ -14,7 +17,7 @@ def _register_component(
         name=f"Component {component_id}",
         description="Test component",
         module_path="tests.unit.consciousness.stub_component",
-        triad_framework="🧠",
+        constellation_framework="🧠",
         dependencies=dependencies,
         activation_priority=priority,
     )

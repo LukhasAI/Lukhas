@@ -1824,3 +1824,14 @@ gates-all: ## Run project-wide T4 gates (best-effort)
 	@make nodespec-validate || true
 	@make registry-test || true
 	@echo "✅ Gates check complete"
+
+# ============================================================================
+# Claude Code PR Review Integration
+# ============================================================================
+
+claude-review: ## Request Claude Code review for current PR
+	@./scripts/request_claude_review.sh
+
+claude-setup-docs: ## Open Claude PR review setup documentation
+	@echo "📖 Claude Code PR Review Setup Guide"
+	@echo "Location: docs/development/CLAUDE_PR_REVIEW_SETUP.md"

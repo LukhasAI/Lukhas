@@ -357,6 +357,9 @@ docs/openapi/*.json
 manifests_phase4.tar.gz
 docs/audits/phase4_canary_meta.json
 
+# Tracked audit logs
+!docs/audits/noop_guard.log
+
 # Recovery and experimental directories (local only - 9.2 GB)
 # Keep these local for reference, do not commit
 lukhas_carousel_recovered/
@@ -370,3 +373,6 @@ lukhas_website_with_carousel_and_palette/
 
 # Personal workspace settings (keep local to avoid conflicts across devices)
 *.code-workspace
+
+# CI and developer artifacts
+artifacts/reports/

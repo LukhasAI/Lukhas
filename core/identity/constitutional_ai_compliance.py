@@ -1,3 +1,4 @@
+import importlib as _importlib
 import logging
 
 logger = logging.getLogger(__name__)
@@ -1251,18 +1252,11 @@ __all__ = [
     "PrincipleEvaluation",
     "constitutional_ai_validator",
 ]
-
-# Added for test compatibility (candidate.core.identity.constitutional_ai_compliance.ConstitutionalAIComplianceMonitor)
 try:
-    from labs.candidate.core.identity.constitutional_ai_compliance import (
-        ConstitutionalAIComplianceMonitor,
-    )
-except ImportError:
-    class ConstitutionalAIComplianceMonitor:
-        """Stub for ConstitutionalAIComplianceMonitor."""
-        def __init__(self, *args, **kwargs):
-            for key, value in kwargs.items():
-                setattr(self, key, value)
+    _mod = _importlib.import_module("labs.candidate.core.identity.constitutional_ai_compliance")
+    ConstitutionalAIComplianceMonitor = getattr(_mod, "ConstitutionalAIComplianceMonitor")
+except Exception:
+    ConstitutionalAIComplianceMonitor = None
 try:
     __all__  # type: ignore[name-defined]
 except NameError:

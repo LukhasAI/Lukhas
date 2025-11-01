@@ -1,6 +1,10 @@
 # Summary
 <!-- What changed and why -->
 
+## 🤖 AI-Assisted Review
+<!-- Optional: Uncomment to request automated Claude Code review -->
+<!-- @claude review this PR -->
+
 ## 🎯 MATRIZ Readiness
 
 **Required for all PRs touching `lukhas/`, `matriz/`, or `core/`**:

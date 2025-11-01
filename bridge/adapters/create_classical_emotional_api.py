@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
-from typing import Any
+"""LUKHAS Classical Emotional Intelligence API - Non-Quantum Alternative.
 
+Bio-symbolic emotional processing without quantum enhancement.
 """
-LUKHAS Classical Emotional Intelligence API - Non-Quantum Alternative
-Bio-symbolic emotional processing without quantum enhancement
-"""
+
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Optional
+from typing import Any, Optional
 
 import numpy as np
 import uvicorn
