@@ -55,6 +55,7 @@ try:
     from bridge.voice.bio_core.oscillator.qi_layer import QIBioOscillator
     from qi.processing.qi_engine import QIOscillator  # type: ignore
 
+
     LUKHAS_OSCILLATORS_AVAILABLE = True
     log.debug("LUKHAS Oscillators imported successfully from candidate lane.")
 except ImportError:
@@ -63,6 +64,7 @@ except ImportError:
         # type: ignore
         from bridge.voice.bio_core.oscillator.qi_layer import QIBioOscillator
         from qi.processing.qi_engine import QIOscillator  # type: ignore
+
 
         LUKHAS_OSCILLATORS_AVAILABLE = True
         log.debug("LUKHAS Oscillators imported successfully from production lane.")

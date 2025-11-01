@@ -39,6 +39,7 @@ try:
         MultiModelOrchestrator,
         WorkflowExecution,
     )
+
 except ImportError as e:
     pytest.skip(f"Phase 2 modules not available: {e}", allow_module_level=True)
 
