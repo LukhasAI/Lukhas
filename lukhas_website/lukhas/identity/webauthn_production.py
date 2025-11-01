@@ -430,7 +430,7 @@ class WebAuthnManager:
                 span.set_attribute("challenge_id", challenge_id)
                 span.set_attribute("latency", latency)
 
-                options_dict = registration_options.model_dump()
+                options_dict = registration_options.model_dump(mode="json")
                 options_dict["_challenge_id"] = challenge_id
                 return options_dict
 
@@ -658,7 +658,7 @@ class WebAuthnManager:
                 span.set_attribute("allowed_credentials", len(allowed_credentials))
                 span.set_attribute("latency", latency)
 
-                options_dict = authentication_options.model_dump()
+                options_dict = authentication_options.model_dump(mode="json")
                 options_dict["_challenge_id"] = challenge_id
                 return options_dict
 
