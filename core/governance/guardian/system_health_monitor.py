@@ -1,9 +1,3 @@
-from __future__ import annotations
-
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 System Health Monitor for LUKHAS AI - Comprehensive Memory Cascade and API Performance Monitoring
 
@@ -23,16 +17,17 @@ This module provides real-time monitoring of system health with focus on:
 #TAG:performance
 """
 
+from __future__ import annotations
+
 import asyncio
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
 import psutil
 
-# Add logging
 from core.common import get_logger
 
 logger = get_logger(__name__)

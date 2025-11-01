@@ -1,9 +1,3 @@
-from __future__ import annotations
-
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:governance
@@ -17,14 +11,11 @@ Author: lukhas AI Team
 This file is part of the LUKHAS (Logical Unified Knowledge Hyper-Adaptable System)
 Copyright (c) 2025 lukhas AI Research. All rights reserved.
 Licensed under the lukhas Core License - see LICENSE.md for details.
-"""
 
-"""
 Guardian Reflector Plugin - Ethical Reflection and Moral Reasoning Guardian
 
 This plugin provides comprehensive ethical analysis and moral reasoning capabilities
 for the LUKHAS AI system, ensuring all decisions and actions align with established
-for the lukhas AI system, ensuring all decisions and actions align with established
 ethical frameworks and moral principles.
 
 Key Features:
@@ -40,8 +31,10 @@ License: Proprietary
 Version: 1.0.0
 """
 
+from __future__ import annotations
+
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from enum import Enum
 from typing import Any, Optional
 
