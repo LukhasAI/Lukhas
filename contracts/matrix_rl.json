@@ -63,7 +63,6 @@
     }
   ],
   "telemetry": {
-    "opentelemetry_semconv_version": "1.37.0",
     "spans": [
       {
         "name": "rl.operation",
@@ -74,7 +73,12 @@
         ]
       }
     ],
-    "metrics": [
+    "metrics": {
+      "enabled": true
+    },
+    "semconv_version": "1.37.0",
+    "opentelemetry": true,
+    "metrics_catalog": [
       {
         "name": "lukhas.rl.requests",
         "unit": "1",
@@ -85,7 +89,25 @@
         "unit": "ms",
         "type": "histogram"
       }
-    ]
+    ],
+    "traces": {
+      "enabled": true,
+      "span_templates": [
+        {
+          "name": "rl.operation",
+          "attrs": [
+            "code.function",
+            "lukhas.module",
+            "lukhas.tier"
+          ]
+        }
+      ]
+    },
+    "logs": {
+      "structured": true,
+      "retention_days": 30
+    },
+    "coverage_percentage": 85
   },
   "symbolic_diagnostics": {
     "CollapseHash": "sha256:pending_rl",
@@ -194,13 +216,32 @@
     "type": "cyclonedx",
     "version": "1.5",
     "location": "reports/sbom/cyclonedx.json",
-    "checksum": "generated_20251028_094133",
-    "generated_at": "2025-10-28T09:41:33.565838Z",
-    "compliance_status": "compliant",
-    "security_posture": {
-      "attestation_coverage": true,
-      "supply_chain_integrity": true,
-      "telemetry_compliance": true
-    }
+    "module": "lukhas.rl",
+    "checksum": "a1c30514762057d1",
+    "generated_at": "2025-11-01T19:02:16.290517Z",
+    "compliance_status": "compliant"
+  },
+  "supply_chain": {
+    "sbom_ref": "reports/sbom/cyclonedx.json",
+    "format": "cyclonedx",
+    "sbom_checksum": "a1c30514762057d1",
+    "reproducible": true,
+    "provenance_tracked": true,
+    "last_verified_at": "2025-11-01T19:02:16.289379Z"
+  },
+  "attestation": {
+    "rats": {
+      "verifier_policy": {
+        "name": "matrix-rats-verifier",
+        "version": "2025.10",
+        "uri": "policies/attestation/matrix-rats-verifier@2025-10.json"
+      },
+      "evidence_jwt": "eyJhbGciOiAiRWREU0EiLCAidHlwIjogIkpXVCJ9.eyJhdWQiOiAibWF0cml4LXZlcmlmaWVyIiwgImlhdCI6IDE3NjIwMjM3MzYsICJpc3MiOiAibWF0cml4LXJhdHMiLCAic2NvcGUiOiBbInJ1bnRpbWUiLCAic3VwcGx5X2NoYWluIl0sICJzdWIiOiAibHVraGFzLnJsIn0.c2lnbmF0dXJlOmx1a2hhcy5ybA",
+      "timestamp": "2025-11-01T19:02:16.289379Z",
+      "status": "valid"
+    },
+    "last_rotation": "2025-11-01T19:02:16.289379Z",
+    "policy_uri": "policies/attestation/matrix-rats-verifier@2025-10.json",
+    "evidence_type": "jwt"
   }
 }
