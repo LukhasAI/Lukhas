@@ -19,11 +19,11 @@ This audit captures objective results from health/smoke runs, targeted MATRIZ te
 - python3 scripts/consolidation/check_import_health.py --verbose — FAIL in repo root; worktree path passes (see lane-guard script)
 
 ## Test Failures (Actionable)
-- TODO NOW tests/matriz/test_async_orchestrator_e2e.py:9 — ModuleNotFoundError: labs.core.orchestration.async_orchestrator
+- TODO NOW tests/matriz/test_async_orchestrator_e2e.py:9 — ModuleNotFoundError: labs.core.orchestration.async_orchestrator [OPEN]
   - Action: add ProviderRegistry-backed adapter or conditional skip; avoid direct labs import
 
-- TODO NOW tests/integration/test_matriz_complete_thought_loop.py:28 — ModuleNotFoundError: consciousness.matriz_thought_loop
-  - Action: add compatibility shim or update tests to current MATRIZ entrypoint
+- TODO NOW tests/integration/test_matriz_complete_thought_loop.py:28 — ModuleNotFoundError: consciousness.matriz_thought_loop [PARTIAL]
+  - Update: Added `consciousness/matriz_thought_loop.py` and package `consciousness/__init__.py`. Import still failing under pytest; likely path/package discovery issue in test runner. Follow-up: ensure repo root on PYTHONPATH during collection or adjust conftest for these tests.
 
 ## Bridges expecting consciousness.matriz_thought_loop
 The following tests reference consciousness.matriz_thought_loop and may fail without a shim:
@@ -72,9 +72,10 @@ serve/main.py:14 — import matriz
 serve/main.py:57 — from matriz.orchestration.service_async import (...)
 ```
 
-- TODO NOW core/trace.py:13 — Replace with `from MATRIZ.node_contract import GLYPH` or lazy import adapter.
-- TODO NOW core/symbolic/dast_engine.py — Replace with `from MATRIZ.core.memory_system import get_memory_system`; keep try/except guard; document lane compliance.
-- TODO NOW serve/main.py — Replace matriz with MATRIZ and/or lazy import; guard availability.
+- TODO NOW core/trace.py:13 — Replace with `from MATRIZ.node_contract import GLYPH` or lazy import adapter. [DONE]
+- TODO NOW core/symbolic/dast_engine.py — Replace with `from MATRIZ.core.memory_system import get_memory_system`; keep try/except guard; document lane compliance. [DONE]
+- TODO NOW serve/main.py — Replace matriz with MATRIZ and/or lazy import; guard availability. [PARTIAL]
+  - Update: Prefer `MATRIZ` for traces router with fallback; optional async orchestrator seam still uses legacy path under try.
 
 ## Import-Health Observations
 - Root exec of `check_import_health.py` fails due to missing deps/PYTHONPATH; worktree-lane-guard script succeeds by creating a venv and minimal deps.
@@ -101,4 +102,3 @@ python3 scripts/consolidation/check_import_health.py --verbose
 rg -n "^(from|import)\s+(matriz|MATRIZ)\b" core lukhas serve -S
 rg -n "^(from|import)\s+labs\b" tests
 ```
-
