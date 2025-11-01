@@ -50,8 +50,8 @@ jobs:
       - name: Validate PQC Performance
         run: |
           if [ -f tmp/pqc_fallback_marker.txt ]; then
-            echo "::warning::PQC in fallback mode - runner provisioning needed (issue #492)"
-            exit 0
+            echo "::error::PQC benchmark entered fallback mode - required dependencies missing"
+            exit 1
           fi
 
           # Check sign/verify latency thresholds
@@ -82,3 +82,4 @@ jobs:
           path: |
             tmp/pqc_bench.json
             tmp/pqc_fallback_marker.txt
+          if-no-files-found: ignore
