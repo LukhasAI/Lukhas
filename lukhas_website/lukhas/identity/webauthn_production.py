@@ -67,20 +67,11 @@ try:
     )
     from webauthn.helpers.structs import (
         AttestationConveyancePreference,
-# See: https://github.com/LukhasAI/Lukhas/issues/590
         AuthenticatorAttachment,
         AuthenticatorSelectionCriteria,
-# See: https://github.com/LukhasAI/Lukhas/issues/590
         PublicKeyCredentialDescriptor,
-# See: https://github.com/LukhasAI/Lukhas/issues/591
-# See: https://github.com/LukhasAI/Lukhas/issues/592
-# See: https://github.com/LukhasAI/Lukhas/issues/593
-# See: https://github.com/LukhasAI/Lukhas/issues/594
-# See: https://github.com/LukhasAI/Lukhas/issues/595
-# See: https://github.com/LukhasAI/Lukhas/issues/596
         RegistrationCredential,
         ResidentKeyRequirement,
-        PublicKeyCredentialDescriptor,
         UserVerificationRequirement,
     )
     WEBAUTHN_AVAILABLE = True
@@ -88,6 +79,20 @@ except ImportError:
     logger.warning("WebAuthn library not available - using mock implementation")
     WEBAUTHN_AVAILABLE = False
     RegistrationCredential = Any  # type: ignore[misc,assignment]
+
+# Import LUKHAS WebAuthn type definitions (TypedDict for type checking)
+# Resolves: #591, #592, #593, #594, #595, #596
+from lukhas_website.lukhas.identity.webauthn_types import (
+    AuthenticatorAssertionResponse,
+    AuthenticatorAttestationResponse,
+    CredentialCreationOptions,
+    CredentialRequestOptions,
+    PublicKeyCredential,
+    PublicKeyCredentialAssertion,
+    PublicKeyCredentialCreation,
+    VerifiedAuthentication,
+    VerifiedRegistration,
+)
 
 
 def _decode_credential_id(credential_id: str) -> Optional[bytes]:
