@@ -6,7 +6,6 @@
 from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
-
 from bridge.adapters.gmail_adapter import GmailAdapter, GmailContextIntegration
 from bridge.adapters.service_adapter_base import CapabilityToken
 

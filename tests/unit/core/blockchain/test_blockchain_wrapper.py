@@ -16,7 +16,6 @@ from datetime import datetime, timedelta
 from typing import Any
 
 import pytest
-
 from core.blockchain.blockchain_wrapper import BlockchainTransaction, BlockchainWrapper
 
 

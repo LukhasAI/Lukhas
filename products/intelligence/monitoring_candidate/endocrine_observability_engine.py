@@ -19,7 +19,6 @@ from pathlib import Path
 from typing import Any, Callable, Optional
 
 import structlog
-
 from core.endocrine.hormone_system import get_endocrine_system
 from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 

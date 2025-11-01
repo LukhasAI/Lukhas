@@ -18,7 +18,6 @@ from enum import Enum
 from typing import Any, Optional
 
 import structlog
-
 from orchestration.signals.signal_bus import SignalBus
 
 # Support both package and direct module execution import styles

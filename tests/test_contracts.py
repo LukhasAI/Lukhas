@@ -8,8 +8,7 @@ and that the contract itself is properly validated.
 from uuid import uuid4
 
 import pytest
-
-from MATRIZ.node_contract import (
+from matriz.node_contract import (
     CONTRACT_VERSION,
     GLYPH,
     MatrizMessage,

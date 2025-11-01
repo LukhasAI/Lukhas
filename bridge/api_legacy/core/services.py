@@ -17,9 +17,8 @@ except ImportError:
             self.detail = detail
             super().__init__(detail)
 
-from hub.service_registry import get_service
-
 from core.common import get_logger
+from hub.service_registry import get_service
 
 logger = get_logger(__name__)
 

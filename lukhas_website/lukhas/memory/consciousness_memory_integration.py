@@ -39,7 +39,6 @@ from typing import Any, Optional
 
 try:
     from async_manager import TaskPriority, get_consciousness_manager
-
     from consciousness.constellation_integration import get_constellation_integrator
     from consciousness.registry import ComponentType, get_consciousness_registry
     from core.common.config import get_config

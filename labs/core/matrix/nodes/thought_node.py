@@ -1,7 +1,7 @@
 """MATRIZ ThoughtNode implementation."""
 from typing import Any, Dict, List
 
-from MATRIZ.core.node_interface import NodeState
+from matriz.core.node_interface import NodeState
 
 from .base import BaseMatrixNode
 

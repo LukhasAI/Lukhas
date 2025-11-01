@@ -36,7 +36,7 @@ logger.setLevel(logging.INFO)
 
 # Import MultiBrainSymphony components with fallback paths
 try:
-    from core.orchestration.brain.integration.MultiBrainSymphony import (
+    from .MultiBrainSymphony import (  # TODO: convert to absolute import
         DreamBrainSpecialist,
         LearningBrainSpecialist,
         MemoryBrainSpecialist,

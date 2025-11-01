@@ -7,12 +7,11 @@ from unittest.mock import AsyncMock, MagicMock
 
 import nacl.encoding
 import pytest
-from nacl.signing import SigningKey
-
 from governance.identity.auth_backend.authentication_server import (
     AuthenticationServer,
     DataSubjectRight,
 )
+from nacl.signing import SigningKey
 
 
 @pytest.fixture

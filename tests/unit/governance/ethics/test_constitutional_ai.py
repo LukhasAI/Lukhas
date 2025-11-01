@@ -3,7 +3,6 @@
 # module_uid: governance.ethics.constitutional_ai
 # criticality: P1
 import pytest
-
 from governance.ethics.constitutional_ai import (
     ConstitutionalFramework,
     ConstitutionalPrinciple,

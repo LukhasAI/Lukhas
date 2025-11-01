@@ -4,7 +4,6 @@
 # criticality: P1
 
 import pytest
-
 from bridge.api.validation import SecurityValidator, ValidationErrorType
 
 

@@ -7,7 +7,6 @@ import sqlite3
 from pathlib import Path
 
 import pytest
-
 from core.governance.consent_ledger.ledger_v1 import ConsentLedgerV1, PolicyVerdict
 
 # ΛTAG: consent_ledger_integration

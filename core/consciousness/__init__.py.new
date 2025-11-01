@@ -273,7 +273,7 @@ except ImportError:
 __all__.extend(["AutoConsciousness", "AwarenessLevel"])
 
 try:
-    from candidate.consciousness import AwarenessEngine  # noqa: F401
+    from candidate.consciousness import AwarenessEngine
 except ImportError:
     class AwarenessEngine:  # type: ignore
         """Fallback awareness engine."""
@@ -288,7 +288,7 @@ except ImportError:
 __all__.append("AwarenessEngine")
 
 try:
-    from candidate.consciousness import ConsciousnessConfig  # noqa: F401
+    from candidate.consciousness import ConsciousnessConfig
 except ImportError:
     class ConsciousnessConfig:  # type: ignore
         """Fallback consciousness config."""
@@ -300,7 +300,7 @@ except ImportError:
 __all__.append("ConsciousnessConfig")
 
 try:
-    from candidate.consciousness import AwarenessSnapshot  # noqa: F401
+    from candidate.consciousness import AwarenessSnapshot
 except ImportError:
     class AwarenessSnapshot:  # type: ignore
         """Fallback awareness snapshot."""
@@ -312,7 +312,7 @@ except ImportError:
 __all__.append("AwarenessSnapshot")
 
 try:
-    from candidate.consciousness import ConsciousnessKernel  # noqa: F401
+    from candidate.consciousness import ConsciousnessKernel
 except ImportError:
     class ConsciousnessKernel:  # type: ignore
         """Fallback consciousness kernel."""
@@ -324,7 +324,7 @@ except ImportError:
 __all__.append("ConsciousnessKernel")
 
 try:
-    from candidate.consciousness import ConsciousnessState  # noqa: F401
+    from candidate.consciousness import ConsciousnessState
 except ImportError:
     from enum import Enum
     class ConsciousnessState(Enum):  # type: ignore
@@ -336,7 +336,7 @@ except ImportError:
 __all__.append("ConsciousnessState")
 
 try:
-    from candidate.consciousness import DreamEngine  # noqa: F401
+    from candidate.consciousness import DreamEngine
 except ImportError:
     class DreamEngine:  # type: ignore
         """Stub for DreamEngine."""
@@ -345,10 +345,10 @@ except ImportError:
 __all__.append("DreamEngine")
 
 try:
-    from candidate.consciousness import ConsciousnessStream  # noqa: F401
+    from candidate.consciousness import ConsciousnessStream
 except ImportError:
     try:
-        from consciousness.consciousness_stream import ConsciousnessStream  # noqa: F401
+        from consciousness.consciousness_stream import ConsciousnessStream
     except Exception:
         class ConsciousnessStream:  # type: ignore
             """Fallback consciousness stream."""
@@ -365,10 +365,10 @@ except ImportError:
 __all__.append("ConsciousnessStream")
 
 try:
-    from candidate.consciousness import ConsciousnessWrapper  # noqa: F401
+    from candidate.consciousness import ConsciousnessWrapper
 except ImportError:
     try:
-        from consciousness.consciousness_wrapper import ConsciousnessWrapper  # noqa: F401
+        from consciousness.consciousness_wrapper import ConsciousnessWrapper
     except Exception:
         class ConsciousnessWrapper:  # type: ignore
             """Fallback consciousness wrapper."""
@@ -382,10 +382,10 @@ except ImportError:
 __all__.append("ConsciousnessWrapper")
 
 try:
-    from candidate.consciousness import MetaCognitiveContext  # noqa: F401
+    from candidate.consciousness import MetaCognitiveContext
 except ImportError:
     try:
-        from consciousness.meta_cognitive_context import MetaCognitiveContext  # noqa: F401
+        from consciousness.meta_cognitive_context import MetaCognitiveContext
     except Exception:
         class MetaCognitiveContext(dict):  # type: ignore
             """Fallback meta cognitive context."""
@@ -393,7 +393,7 @@ except ImportError:
 __all__.append("MetaCognitiveContext")
 
 try:
-    from candidate.consciousness import DecisionContext  # noqa: F401
+    from candidate.consciousness import DecisionContext
 except ImportError:
     class DecisionContext(dict):  # type: ignore
         """Fallback decision context payload."""
@@ -401,7 +401,7 @@ except ImportError:
 __all__.append("DecisionContext")
 
 try:
-    from candidate.consciousness import SafetyMode  # noqa: F401
+    from candidate.consciousness import SafetyMode
 except ImportError:
     from enum import Enum
 
@@ -416,7 +416,7 @@ __all__.append("SafetyMode")
 
 # --- DreamEngine fallback export (safe append) ---
 try:
-    from .dream import DreamEngine  # type: ignore  # noqa: F401
+    from .dream import DreamEngine  # type: ignore
 except Exception:
     if "DreamEngine" not in globals():
         class DreamEngine:  # type: ignore
@@ -436,10 +436,10 @@ if "DreamEngine" not in __all__:
     __all__.append("DreamEngine")
 
 try:
-    from candidate.consciousness import DreamTrace  # noqa: F401
+    from candidate.consciousness import DreamTrace
 except ImportError:
     try:
-        from consciousness.dream.trace import DreamTrace  # noqa: F401
+        from consciousness.dream.trace import DreamTrace
     except Exception:
         class DreamTrace:  # type: ignore
             """Fallback dream trace recorder."""
@@ -461,7 +461,7 @@ if "DreamTrace" not in __all__:
     __all__.append("DreamTrace")
 
 try:
-    from candidate.consciousness import GuardianResponse  # noqa: F401
+    from candidate.consciousness import GuardianResponse
 except ImportError:
     class GuardianResponse(dict):  # type: ignore
         """Fallback guardian response payload."""
@@ -474,7 +474,7 @@ if "GuardianResponse" not in __all__:
     __all__.append("GuardianResponse")
 
 try:
-    from candidate.consciousness import ReflectionReport  # noqa: F401
+    from candidate.consciousness import ReflectionReport
 except ImportError:
     class ReflectionReport(dict):  # type: ignore
         """Fallback reflection report payload."""

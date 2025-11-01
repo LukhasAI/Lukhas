@@ -7,7 +7,6 @@ Validates tick handling, decimation, buffer management, and Prometheus metrics.
 from unittest.mock import Mock, patch
 
 import pytest
-
 from core.consciousness_ticker import ConsciousnessTicker
 
 

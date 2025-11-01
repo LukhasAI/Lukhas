@@ -83,7 +83,8 @@
       "Bash(./scripts/consolidation/check_matriz_imports_ci.sh:*)",
       "Bash(git --no-pager diff:*)",
       "Bash(gh run view:*)",
-      "Bash(gh pr checkout:*)"
+      "Bash(gh pr checkout:*)",
+      "Bash(.venv/bin/python3:*)"
     ],
     "deny": [],
     "ask": [],

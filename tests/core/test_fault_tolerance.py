@@ -1,7 +1,6 @@
 """Tests for Supervisor custom handler registration."""
 
 import pytest
-
 from core.fault_tolerance import SupervisionStrategy, Supervisor
 
 

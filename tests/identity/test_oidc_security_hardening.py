@@ -24,7 +24,6 @@ from datetime import datetime, timedelta, timezone
 from unittest.mock import AsyncMock, patch
 
 import pytest
-
 from identity.oidc_security_hardening import (
     OIDCSecurityEventType,
     OIDCSecurityHardening,
