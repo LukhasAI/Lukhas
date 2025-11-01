@@ -153,6 +153,15 @@ def get_remaining_lifetime(claims: TokenClaims) -> timedelta:
     return timedelta(seconds=remaining)
 
 
+def ensure_not_expired(claims: TokenClaims) -> None:
+    """Raise ValueError if the token represented by claims is expired.
+
+    Useful for guardrails in call sites that require non-expired tokens.
+    """
+    if is_token_expired(claims):
+        raise ValueError("token is expired")
+
+
 __all__ = [
     "TokenClaims",
     "TokenIntrospection",
@@ -164,4 +173,5 @@ __all__ = [
     "mk_iat",
     "aud_as_list",
     "get_aud_list",
+    "ensure_not_expired",
 ]
