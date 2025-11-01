@@ -36,62 +36,28 @@ import time
 import unittest
 from contextlib import contextmanager
 from datetime import datetime, timezone
-from typing import Any, Dict, Optional
+from typing import TYPE_CHECKING, Any, Dict, Optional
 
 # Add project root to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
 # Import security components
 try:
-    pass  # from security... imports commented out
-    # (Original imports moved to comments)
-    # from security.access_control import (
-    #     AccessControlSystem,
-    #     ActionType,
-    #     Resource,
-    #     ResourceType,
-    #     Subject,
-    #     create_access_control_system,
-    # )
-    # from security.compliance_framework import (
-    #     ComplianceFramework,
-    #     ComplianceStandard,
-    #     ControlStatus,
-    #     create_compliance_framework,
-    # )
-    # from security.encryption_manager import (
-    #     EncryptionAlgorithm,
-    #     EncryptionManager,
-    #     KeyType,
-    #     KeyUsage,
-    #     create_encryption_manager,
-    # )
-    # from security.incident_response import (
-    #     IncidentCategory,
-    #     IncidentResponseSystem,
-    #     IncidentSeverity,
-    #     create_incident_response_system,
-    # )
-    # from security.input_validation import (
-    #     AIInputValidator,
-    #     AttackVector,
-    #     InputValidator,
-    #     ValidationResult,
-    #     create_ai_validator,
-    #     create_api_validator,
-    #     create_web_validator,
-    # )
-    # from security.security_monitor import (
-    #     EventType,
-    #     SecurityEvent,
-    #     SecurityMonitor,
-    #     ThreatLevel,
-    #     create_security_monitor,
-    # )
+    from lukhas_website.lukhas.security.encryption_manager import (
+        KeyType,
+        KeyUsage,
+        create_encryption_manager,
+    )
     SECURITY_MODULES_AVAILABLE = True
 except ImportError as e:
     SECURITY_MODULES_AVAILABLE = False
     print(f"Security modules not available: {e}")
+
+if TYPE_CHECKING:  # pragma: no cover - import for type checkers only
+    from lukhas_website.lukhas.security.encryption_manager import EncryptionManager
+
+
+em: Optional["EncryptionManager"] = None
 
 # Configure logging
 logging.basicConfig(level=logging.WARNING)
@@ -270,7 +236,24 @@ class TestEncryptionManager(unittest.TestCase):
         os.environ["LUKHAS_KEYSTORE"] = os.path.join(self.test_dir, "keys")
         os.environ["LUKHAS_MASTER_PASSPHRASE"] = "test-passphrase-12345"
 
+        try:
+            manager_config = {
+                "key_store_path": os.environ["LUKHAS_KEYSTORE"],
+                "auto_rotation": False,
+            }
+            self.em = create_encryption_manager(manager_config)
+        except ImportError as exc:  # pragma: no cover - dependency guard
+            self.skipTest(f"Encryption manager dependencies unavailable: {exc}")
+
+        global em
+        em = self.em
+
     def tearDown(self):
+        global em
+        em = None
+
+        if hasattr(self, "em"):
+            self.em = None
         shutil.rmtree(self.test_dir)
         for var in ["LUKHAS_KEYSTORE", "LUKHAS_MASTER_PASSPHRASE"]:
             if var in os.environ:
