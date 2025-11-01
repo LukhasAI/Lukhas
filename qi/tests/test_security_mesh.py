@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 import pytest
 
-from qi.states.system_orchestrator import (
+from qi.security import (
     DEFAULT_COMPLIANCE_FRAMEWORKS,
     MultiJurisdictionComplianceEngine,
     ThreatLandscape,
