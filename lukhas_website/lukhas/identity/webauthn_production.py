@@ -75,6 +75,7 @@ try:
 # See: https://github.com/LukhasAI/Lukhas/issues/594
 # See: https://github.com/LukhasAI/Lukhas/issues/595
 # See: https://github.com/LukhasAI/Lukhas/issues/596
+        RegistrationCredential,
         ResidentKeyRequirement,
         UserVerificationRequirement,
     )
@@ -82,6 +83,7 @@ try:
 except ImportError:
     logger.warning("WebAuthn library not available - using mock implementation")
     WEBAUTHN_AVAILABLE = False
+    RegistrationCredential = Any  # type: ignore[misc,assignment]
 
 
 class AuthenticatorType(Enum):
@@ -488,7 +490,9 @@ class WebAuthnManager:
                     return credential
 
                 # Production WebAuthn implementation
-                credential = parse_registration_credential_json(json.dumps(credential_data))
+                credential: RegistrationCredential = parse_registration_credential_json(
+                    json.dumps(credential_data)
+                )
 
                 verification = verify_registration_response(
                     credential=credential,
