@@ -25,6 +25,10 @@ This audit captures objective results from health/smoke runs, targeted MATRIZ te
 - TODO NOW tests/integration/test_matriz_complete_thought_loop.py:28 — ModuleNotFoundError: consciousness.matriz_thought_loop [PARTIAL]
   - Update: Added `consciousness/matriz_thought_loop.py` and package `consciousness/__init__.py`. Import still failing under pytest; likely path/package discovery issue in test runner. Follow-up: ensure repo root on PYTHONPATH during collection or adjust conftest for these tests.
 
+- TODO NOW consciousness/meta_cognitive_assessor/__init__.py — Recursion in bridge module [NEW]
+  - Error: RecursionError during attribute access (bridge candidates include self: `consciousness.meta_cognitive_assessor`)
+  - Action: remove self from `_CANDIDATES` or guard against self-import; add unit test for bridge resolution.
+
 ## Bridges expecting consciousness.matriz_thought_loop
 The following tests reference consciousness.matriz_thought_loop and may fail without a shim:
 
@@ -83,7 +87,8 @@ serve/main.py:57 — from matriz.orchestration.service_async import (...)
 
 ## Capability Snapshot
 - MATRIZ traces router smoke: PASS
-- Broader MATRIZ E2E/unit paths: blocked on labs/consciousness shims and provider wiring
+- MATRIZ integration test path: progressed past missing shim; blocked by recursion in `consciousness.meta_cognitive_assessor` bridge
+- MATRIZ E2E (labs orchestrator): SKIPPED when labs unavailable (tests/matriz/conftest.py)
 
 ## Next Actions (Suggested)
 1) Migrate production-lane matriz imports (core/trace.py, core/symbolic/dast_engine.py, serve/main.py)
