@@ -37,14 +37,14 @@ def test_core_api_imports():
 @pytest.mark.smoke
 def test_matriz_api_imports():
     """Test that MATRIZ trace analysis APIs are available."""
-    # Test that we can import MATRIZ modules
+    # Test that we can import matriz modules
     try:
         # Import MATRIZ package and expose lowercase alias for compatibility in tests
-        import MATRIZ as matriz  # type: ignore
+        import matriz as matriz  # type: ignore
         assert matriz is not None
 
         # Verify we can import the traces router (main API)
-        from MATRIZ.traces_router import router as traces_router
+        from matriz.traces_router import router as traces_router
         assert traces_router is not None
         assert hasattr(traces_router, "routes")
 

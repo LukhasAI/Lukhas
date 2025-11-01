@@ -28,29 +28,20 @@ logger = logging.getLogger(__name__)
 # Import LUKHAS identity components
 try:
     from .alias_format import make_alias, parse_alias, validate_alias_format
-# See: https://github.com/LukhasAI/Lukhas/issues/585
-        AuthenticationService,
-        AuthResult,
-    )
-    from .tier_system import (  # noqa: F401  # TODO: .tier_system.TierLevel; consid...
-        TierLevel,
-        normalize_tier,
-    )
-# See: https://github.com/LukhasAI/Lukhas/issues/586
+    from .auth_service import AuthenticationService, AuthResult
+    from .tier_system import TierLevel, normalize_tier
+    from .token_generator import (
         EnvironmentSecretProvider,
         TokenClaims,
         TokenGenerator,
+        TokenResponse,
     )
-# See: https://github.com/LukhasAI/Lukhas/issues/587
+    from .token_introspection import (
         IntrospectionRequest,
         IntrospectionResponse,
         TokenIntrospectionService,
     )
-# See: https://github.com/LukhasAI/Lukhas/issues/588
-        TokenValidator,
-        ValidationContext,
-        ValidationResult,
-    )
+    from .token_validator import TokenValidator, ValidationContext, ValidationResult
 
     COMPONENTS_AVAILABLE = True
 except ImportError as e:
@@ -78,11 +69,19 @@ class LiDTokenSystemTest:
     def __init__(self):
         """Initialize test environment."""
         self.metrics: List[PerformanceMetrics] = []
-        self.secret_provider = None
-        self.token_generator = None
-        self.token_validator = None
-        self.auth_service = None
-        self.introspection_service = None
+        self.secret_provider: Optional[EnvironmentSecretProvider] = None
+        self.token_generator: Optional[TokenGenerator] = None
+        self.token_validator: Optional[TokenValidator] = None
+        self.auth_service: Optional[AuthenticationService] = None
+        self.introspection_service: Optional[TokenIntrospectionService] = None
+
+    def _normalize_validation_tier(self, validation_result: ValidationResult) -> TierLevel:
+        """Normalize validation tiers to consistent Enum values."""
+
+        if validation_result.tier_level is None:
+            return TierLevel.AUTHENTICATED
+
+        return normalize_tier(validation_result.tier_level)
 
     def setup_test_environment(self) -> bool:
         """
@@ -214,6 +213,11 @@ class LiDTokenSystemTest:
         logger.info("🧪 Testing ΛiD token generation and validation...")
 
         try:
+            if self.token_generator is None:
+                raise RuntimeError("Token generator not initialized")
+            if self.token_validator is None:
+                raise RuntimeError("Token validator not initialized")
+
             # Test token generation
             start_time = time.time()
 
@@ -224,11 +228,14 @@ class LiDTokenSystemTest:
                 "permissions": ["read", "write", "test"]
             }
 
-            token_response = self.token_generator.create(
+            token_response: TokenResponse = self.token_generator.create(
                 claims=claims,
                 realm="enterprise",
                 zone="test"
             )
+
+            if not isinstance(token_response.claims, TokenClaims):
+                raise TypeError("Token response did not include TokenClaims payload")
 
             generation_time = (time.time() - start_time) * 1000
 
@@ -252,7 +259,7 @@ class LiDTokenSystemTest:
                 user_agent="ΛiD-Test/1.0"
             )
 
-            validation_result = self.token_validator.validate(
+            validation_result: ValidationResult = self.token_validator.validate(
                 token_response.jwt,
                 validation_context
             )
@@ -270,12 +277,18 @@ class LiDTokenSystemTest:
                 logger.error(f"❌ Token validation failed: {validation_result.error_message}")
                 return False
 
+            normalized_tier = self._normalize_validation_tier(validation_result)
+
             logger.info("✅ Token validation successful:")
             logger.info(f"  - Alias: {validation_result.alias}")
             logger.info(f"  - Tier Level: {validation_result.tier_level}")
+            logger.info(f"  - Normalized Tier: {normalized_tier.name}")
             logger.info(f"  - Namespace: {validation_result.namespace}")
             logger.info(f"  - Guardian Approved: {validation_result.guardian_approved}")
             logger.info(f"  - Validation Time: {validation_result.validation_time_ms:.2f}ms")
+
+            if normalized_tier.value < TierLevel.AUTHENTICATED.value:
+                raise ValueError("Normalized tier below authenticated baseline")
 
             return True
 
@@ -294,6 +307,9 @@ class LiDTokenSystemTest:
         logger.info("🧪 Testing authentication service ΛiD integration...")
 
         try:
+            if self.auth_service is None:
+                raise RuntimeError("Authentication service not initialized")
+
             # Create test user
             start_time = time.time()
 
@@ -317,7 +333,7 @@ class LiDTokenSystemTest:
             # Test ΛiD token authentication
             start_time = time.time()
 
-            auth_result = self.auth_service.authenticate_user(
+            auth_result: AuthResult = self.auth_service.authenticate_user(
                 username="testuser",
                 password="TestPassword123!",
                 auth_method="lid_token"
@@ -345,7 +361,7 @@ class LiDTokenSystemTest:
             # Test token validation through auth service
             start_time = time.time()
 
-            token_auth_result = self.auth_service.authenticate_token(auth_result.session_token)
+            token_auth_result: AuthResult = self.auth_service.authenticate_token(auth_result.session_token)
 
             token_auth_time = (time.time() - start_time) * 1000
 
@@ -378,6 +394,11 @@ class LiDTokenSystemTest:
         logger.info("🧪 Testing token introspection service...")
 
         try:
+            if self.token_generator is None:
+                raise RuntimeError("Token generator not initialized")
+            if self.introspection_service is None:
+                raise RuntimeError("Introspection service not initialized")
+
             # Generate a test token first
             claims = {
                 "aud": "lukhas",
@@ -386,7 +407,7 @@ class LiDTokenSystemTest:
                 "permissions": ["read", "write", "admin"]
             }
 
-            token_response = self.token_generator.create(
+            token_response: TokenResponse = self.token_generator.create(
                 claims=claims,
                 realm="enterprise",
                 zone="prod"
@@ -405,7 +426,7 @@ class LiDTokenSystemTest:
                 request_id="test_request_001"
             )
 
-            introspection_response = self.introspection_service.introspect_token(
+            introspection_response: IntrospectionResponse = self.introspection_service.introspect_token(
                 introspection_request
             )
 
@@ -431,6 +452,10 @@ class LiDTokenSystemTest:
             logger.info(f"  - Permissions: {introspection_response.permissions}")
             logger.info(f"  - Guardian Approved: {introspection_response.guardian_approved}")
             logger.info(f"  - Validation Time: {introspection_response.validation_time_ms:.2f}ms")
+
+            if introspection_response.tier_level is not None:
+                normalized_introspection_tier = normalize_tier(introspection_response.tier_level)
+                logger.info(f"  - Normalized Tier: {normalized_introspection_tier.name}")
 
             # Test rate limiting
             logger.info("Testing rate limiting...")

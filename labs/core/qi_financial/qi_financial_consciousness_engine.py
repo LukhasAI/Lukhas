@@ -4,7 +4,11 @@ Qi Financial Consciousness Engine for the NIAS Transcendence Platform.
 This module transcends traditional monetary exchange by valuing and
 transacting based on consciousness contribution and collective abundance.
 """
+from __future__ import annotations
+
+import hashlib
 import random
+from dataclasses import dataclass
 from typing import Any
 
 
@@ -19,13 +23,54 @@ class AbundanceCalculator:
         self, contribution: dict[str, Any]
     ) -> float:  # TODO[QUANTUM-BIO:specialist] - Contribution used for consciousness calculation
         return random.uniform(1.0, 2.0)
+@dataclass(frozen=True)
+class ConsciousnessToken:
+    """Represents a consciousness-backed token issuance."""
+
+    token_id: str
+    amount: float
+    consciousness_value: float
 
 
 class ConsciousnessTokenProtocol:
-    def issue_tokens(
-        self, amount: float
-# See: https://github.com/LukhasAI/Lukhas/issues/571
-        return f"token_{random.randint(1000, 9999)}"
+    """Deterministic consciousness token issuance based on contribution amount."""
+
+    def __init__(
+        self,
+        *,
+        precision: int = 3,
+        min_multiplier: float = 0.85,
+        max_multiplier: float = 1.25,
+    ) -> None:
+        if min_multiplier <= 0:
+            raise ValueError("Minimum multiplier must be positive.")
+        if max_multiplier <= min_multiplier:
+            raise ValueError("Maximum multiplier must be greater than minimum multiplier.")
+
+        self._precision = precision
+        self._min_multiplier = min_multiplier
+        self._multiplier_range = max_multiplier - min_multiplier
+
+    def issue_tokens(self, amount: float) -> ConsciousnessToken:
+        """Issue consciousness tokens where amount deterministically sets the value."""
+
+        if amount <= 0:
+            raise ValueError("Amount must be positive to issue consciousness tokens.")
+
+        normalized_amount = round(amount, self._precision)
+        amount_key = f"{normalized_amount:.{self._precision}f}"
+        digest = hashlib.sha256(amount_key.encode("utf-8")).hexdigest()
+
+        token_id = f"token_{digest[:12]}"
+        multiplier_seed = int(digest[12:20], 16) / 0xFFFFFFFF
+        multiplier = self._min_multiplier + multiplier_seed * self._multiplier_range
+        consciousness_value = round(normalized_amount * multiplier, self._precision + 2)
+
+        return ConsciousnessToken(
+            token_id=token_id,
+            amount=normalized_amount,
+            consciousness_value=consciousness_value,
+        )
 
 
 class GiftEconomyEngine:

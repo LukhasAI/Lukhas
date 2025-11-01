@@ -734,7 +734,7 @@ Complete list with integration instructions.
 | Property | Value |
 |----------|-------|
 | Current Location | `labs/consciousness/awareness/awareness_engine_elevated.py` |
-| Target Location | `matriz/consciousness/awareness//awareness_engine_elevated.py` |
+| Target Location | `matriz/consciousness/awareness/awareness_engine_elevated.py` |
 | Complexity | medium |
 | Effort | 16 hours |
 | Risk Level | low |
@@ -753,7 +753,7 @@ Complete list with integration instructions.
 1. REVIEW: Read labs/consciousness/awareness/awareness_engine_elevated.py and understand architecture (1288 LOC, 21 classes, 5 functions)
 2. CHECK_DEPS: Identify and resolve external dependencies, add core imports if needed
 3. CREATE_TESTS: Write integration tests in tests/integration/test_awareness_engine_elevated.py
-4. MOVE: git mv labs/consciousness/awareness/awareness_engine_elevated.py matriz/consciousness/awareness//awareness_engine_elevated.py
+4. MOVE: git mv labs/consciousness/awareness/awareness_engine_elevated.py matriz/consciousness/awareness/awareness_engine_elevated.py
 5. UPDATE_IMPORTS: Fix import paths in moved module and any dependent modules
 6. INTEGRATE: Wire into MATRIZ engine or core system (add to registry, update config)
 7. TEST: Run pytest tests/integration/ and tests/smoke/ to verify
@@ -3704,7 +3704,7 @@ Complete list with integration instructions.
 | Property | Value |
 |----------|-------|
 | Current Location | `labs/consciousness/reflection/openai_core_service.py` |
-| Target Location | `matriz/consciousness/reflection//openai_core_service.py` |
+| Target Location | `matriz/consciousness/reflection/openai_core_service.py` |
 | Complexity | low |
 | Effort | 6 hours |
 | Risk Level | medium-high |
@@ -3723,7 +3723,7 @@ Complete list with integration instructions.
 1. REVIEW: Read labs/consciousness/reflection/openai_core_service.py and understand architecture (760 LOC, 9 classes, 4 functions)
 2. CHECK_DEPS: Verify all imports from core/matriz are valid and available
 3. CREATE_TESTS: Write integration tests in tests/integration/test_openai_core_service.py
-4. MOVE: git mv labs/consciousness/reflection/openai_core_service.py matriz/consciousness/reflection//openai_core_service.py
+4. MOVE: git mv labs/consciousness/reflection/openai_core_service.py matriz/consciousness/reflection/openai_core_service.py
 5. UPDATE_IMPORTS: Fix import paths in moved module and any dependent modules
 6. INTEGRATE: Wire into appropriate system component (update __init__.py, add exports)
 7. TEST: Run pytest tests/integration/ and tests/smoke/ to verify
@@ -3803,7 +3803,7 @@ Complete list with integration instructions.
 | Property | Value |
 |----------|-------|
 | Current Location | `labs/consciousness/dream/colony_dream_coordinator.py` |
-| Target Location | `matriz/consciousness/dream//colony_dream_coordinator.py` |
+| Target Location | `matriz/consciousness/dream/colony_dream_coordinator.py` |
 | Complexity | low |
 | Effort | 12 hours |
 | Risk Level | medium-high |
@@ -3822,7 +3822,7 @@ Complete list with integration instructions.
 1. REVIEW: Read labs/consciousness/dream/colony_dream_coordinator.py and understand architecture (899 LOC, 8 classes, 0 functions)
 2. CHECK_DEPS: Verify all imports from core/matriz are valid and available
 3. CREATE_TESTS: Write integration tests in tests/integration/test_colony_dream_coordinator.py
-4. MOVE: git mv labs/consciousness/dream/colony_dream_coordinator.py matriz/consciousness/dream//colony_dream_coordinator.py
+4. MOVE: git mv labs/consciousness/dream/colony_dream_coordinator.py matriz/consciousness/dream/colony_dream_coordinator.py
 5. UPDATE_IMPORTS: Fix import paths in moved module and any dependent modules
 6. INTEGRATE: Wire into appropriate system component (update __init__.py, add exports)
 7. TEST: Run pytest tests/integration/ and tests/smoke/ to verify
@@ -4001,7 +4001,7 @@ Complete list with integration instructions.
 | Property | Value |
 |----------|-------|
 | Current Location | `labs/consciousness/dream/reality_synthesis_engine.py` |
-| Target Location | `matriz/consciousness/dream//reality_synthesis_engine.py` |
+| Target Location | `matriz/consciousness/dream/reality_synthesis_engine.py` |
 | Complexity | low |
 | Effort | 4 hours |
 | Risk Level | medium-high |
@@ -4020,7 +4020,7 @@ Complete list with integration instructions.
 1. REVIEW: Read labs/consciousness/dream/reality_synthesis_engine.py and understand architecture (637 LOC, 5 classes, 2 functions)
 2. CHECK_DEPS: Verify all imports from core/matriz are valid and available
 3. CREATE_TESTS: Write integration tests in tests/integration/test_reality_synthesis_engine.py
-4. MOVE: git mv labs/consciousness/dream/reality_synthesis_engine.py matriz/consciousness/dream//reality_synthesis_engine.py
+4. MOVE: git mv labs/consciousness/dream/reality_synthesis_engine.py matriz/consciousness/dream/reality_synthesis_engine.py
 5. UPDATE_IMPORTS: Fix import paths in moved module and any dependent modules
 6. INTEGRATE: Wire into MATRIZ engine or core system (add to registry, update config)
 7. TEST: Run pytest tests/integration/ and tests/smoke/ to verify
@@ -4034,7 +4034,7 @@ Complete list with integration instructions.
 | Property | Value |
 |----------|-------|
 | Current Location | `labs/consciousness/reflection/service.py` |
-| Target Location | `matriz/consciousness/reflection//service.py` |
+| Target Location | `matriz/consciousness/reflection/service.py` |
 | Complexity | medium |
 | Effort | 12 hours |
 | Risk Level | medium-high |
@@ -4053,7 +4053,7 @@ Complete list with integration instructions.
 1. REVIEW: Read labs/consciousness/reflection/service.py and understand architecture (1211 LOC, 2 classes, 8 functions)
 2. CHECK_DEPS: Identify and resolve external dependencies, add core imports if needed
 3. CREATE_TESTS: Write integration tests in tests/integration/test_service.py
-4. MOVE: git mv labs/consciousness/reflection/service.py matriz/consciousness/reflection//service.py
+4. MOVE: git mv labs/consciousness/reflection/service.py matriz/consciousness/reflection/service.py
 5. UPDATE_IMPORTS: Fix import paths in moved module and any dependent modules
 6. INTEGRATE: Wire into appropriate system component (update __init__.py, add exports)
 7. TEST: Run pytest tests/integration/ and tests/smoke/ to verify
@@ -4067,7 +4067,7 @@ Complete list with integration instructions.
 | Property | Value |
 |----------|-------|
 | Current Location | `labs/consciousness/reflection/metalearningenhancementsystem.py` |
-| Target Location | `matriz/consciousness/reflection//metalearningenhancementsystem.py` |
+| Target Location | `matriz/consciousness/reflection/metalearningenhancementsystem.py` |
 | Complexity | low |
 | Effort | 10 hours |
 | Risk Level | medium-high |
@@ -4086,7 +4086,7 @@ Complete list with integration instructions.
 1. REVIEW: Read labs/consciousness/reflection/metalearningenhancementsystem.py and understand architecture (983 LOC, 3 classes, 2 functions)
 2. CHECK_DEPS: Verify all imports from core/matriz are valid and available
 3. CREATE_TESTS: Write integration tests in tests/integration/test_metalearningenhancementsystem.py
-4. MOVE: git mv labs/consciousness/reflection/metalearningenhancementsystem.py matriz/consciousness/reflection//metalearningenhancementsystem.py
+4. MOVE: git mv labs/consciousness/reflection/metalearningenhancementsystem.py matriz/consciousness/reflection/metalearningenhancementsystem.py
 5. UPDATE_IMPORTS: Fix import paths in moved module and any dependent modules
 6. INTEGRATE: Wire into MATRIZ engine or core system (add to registry, update config)
 7. TEST: Run pytest tests/integration/ and tests/smoke/ to verify
@@ -4100,7 +4100,7 @@ Complete list with integration instructions.
 | Property | Value |
 |----------|-------|
 | Current Location | `labs/consciousness/reflection/MetaLearningEnhancement.py` |
-| Target Location | `matriz/consciousness/reflection//MetaLearningEnhancement.py` |
+| Target Location | `matriz/consciousness/reflection/MetaLearningEnhancement.py` |
 | Complexity | low |
 | Effort | 10 hours |
 | Risk Level | medium-high |
@@ -4119,7 +4119,7 @@ Complete list with integration instructions.
 1. REVIEW: Read labs/consciousness/reflection/MetaLearningEnhancement.py and understand architecture (944 LOC, 3 classes, 2 functions)
 2. CHECK_DEPS: Verify all imports from core/matriz are valid and available
 3. CREATE_TESTS: Write integration tests in tests/integration/test_MetaLearningEnhancement.py
-4. MOVE: git mv labs/consciousness/reflection/MetaLearningEnhancement.py matriz/consciousness/reflection//MetaLearningEnhancement.py
+4. MOVE: git mv labs/consciousness/reflection/MetaLearningEnhancement.py matriz/consciousness/reflection/MetaLearningEnhancement.py
 5. UPDATE_IMPORTS: Fix import paths in moved module and any dependent modules
 6. INTEGRATE: Wire into appropriate system component (update __init__.py, add exports)
 7. TEST: Run pytest tests/integration/ and tests/smoke/ to verify
@@ -4199,7 +4199,7 @@ Complete list with integration instructions.
 | Property | Value |
 |----------|-------|
 | Current Location | `labs/consciousness/reflection/practical_optimizations.py` |
-| Target Location | `matriz/consciousness/reflection//practical_optimizations.py` |
+| Target Location | `matriz/consciousness/reflection/practical_optimizations.py` |
 | Complexity | medium |
 | Effort | 14 hours |
 | Risk Level | medium-high |
@@ -4218,7 +4218,7 @@ Complete list with integration instructions.
 1. REVIEW: Read labs/consciousness/reflection/practical_optimizations.py and understand architecture (937 LOC, 11 classes, 4 functions)
 2. CHECK_DEPS: Verify all imports from core/matriz are valid and available
 3. CREATE_TESTS: Write integration tests in tests/integration/test_practical_optimizations.py
-4. MOVE: git mv labs/consciousness/reflection/practical_optimizations.py matriz/consciousness/reflection//practical_optimizations.py
+4. MOVE: git mv labs/consciousness/reflection/practical_optimizations.py matriz/consciousness/reflection/practical_optimizations.py
 5. UPDATE_IMPORTS: Fix import paths in moved module and any dependent modules
 6. INTEGRATE: Wire into appropriate system component (update __init__.py, add exports)
 7. TEST: Run pytest tests/integration/ and tests/smoke/ to verify
@@ -4232,7 +4232,7 @@ Complete list with integration instructions.
 | Property | Value |
 |----------|-------|
 | Current Location | `labs/consciousness/reflection/client.py` |
-| Target Location | `matriz/consciousness/reflection//client.py` |
+| Target Location | `matriz/consciousness/reflection/client.py` |
 | Complexity | medium |
 | Effort | 14 hours |
 | Risk Level | medium-high |
@@ -4251,7 +4251,7 @@ Complete list with integration instructions.
 1. REVIEW: Read labs/consciousness/reflection/client.py and understand architecture (1724 LOC, 7 classes, 3 functions)
 2. CHECK_DEPS: Identify and resolve external dependencies, add core imports if needed
 3. CREATE_TESTS: Write integration tests in tests/integration/test_client.py
-4. MOVE: git mv labs/consciousness/reflection/client.py matriz/consciousness/reflection//client.py
+4. MOVE: git mv labs/consciousness/reflection/client.py matriz/consciousness/reflection/client.py
 5. UPDATE_IMPORTS: Fix import paths in moved module and any dependent modules
 6. INTEGRATE: Wire into appropriate system component (update __init__.py, add exports)
 7. TEST: Run pytest tests/integration/ and tests/smoke/ to verify
@@ -5453,7 +5453,7 @@ Complete list with integration instructions.
 | Property | Value |
 |----------|-------|
 | Current Location | `labs/consciousness/dream/parallel_reality_simulator.py` |
-| Target Location | `matriz/consciousness/dream//parallel_reality_simulator.py` |
+| Target Location | `matriz/consciousness/dream/parallel_reality_simulator.py` |
 | Complexity | low |
 | Effort | 10 hours |
 | Risk Level | medium-high |
@@ -5472,7 +5472,7 @@ Complete list with integration instructions.
 1. REVIEW: Read labs/consciousness/dream/parallel_reality_simulator.py and understand architecture (849 LOC, 4 classes, 1 functions)
 2. CHECK_DEPS: Verify all imports from core/matriz are valid and available
 3. CREATE_TESTS: Write integration tests in tests/integration/test_parallel_reality_simulator.py
-4. MOVE: git mv labs/consciousness/dream/parallel_reality_simulator.py matriz/consciousness/dream//parallel_reality_simulator.py
+4. MOVE: git mv labs/consciousness/dream/parallel_reality_simulator.py matriz/consciousness/dream/parallel_reality_simulator.py
 5. UPDATE_IMPORTS: Fix import paths in moved module and any dependent modules
 6. INTEGRATE: Wire into appropriate system component (update __init__.py, add exports)
 7. TEST: Run pytest tests/integration/ and tests/smoke/ to verify
@@ -5519,7 +5519,7 @@ Complete list with integration instructions.
 | Property | Value |
 |----------|-------|
 | Current Location | `labs/consciousness/reflection/federated_meta_learning.py` |
-| Target Location | `matriz/consciousness/reflection//federated_meta_learning.py` |
+| Target Location | `matriz/consciousness/reflection/federated_meta_learning.py` |
 | Complexity | low |
 | Effort | 10 hours |
 | Risk Level | medium-high |
@@ -5538,7 +5538,7 @@ Complete list with integration instructions.
 1. REVIEW: Read labs/consciousness/reflection/federated_meta_learning.py and understand architecture (927 LOC, 4 classes, 0 functions)
 2. CHECK_DEPS: Verify all imports from core/matriz are valid and available
 3. CREATE_TESTS: Write integration tests in tests/integration/test_federated_meta_learning.py
-4. MOVE: git mv labs/consciousness/reflection/federated_meta_learning.py matriz/consciousness/reflection//federated_meta_learning.py
+4. MOVE: git mv labs/consciousness/reflection/federated_meta_learning.py matriz/consciousness/reflection/federated_meta_learning.py
 5. UPDATE_IMPORTS: Fix import paths in moved module and any dependent modules
 6. INTEGRATE: Wire into appropriate system component (update __init__.py, add exports)
 7. TEST: Run pytest tests/integration/ and tests/smoke/ to verify
@@ -5552,7 +5552,7 @@ Complete list with integration instructions.
 | Property | Value |
 |----------|-------|
 | Current Location | `labs/consciousness/reflection/system.py` |
-| Target Location | `matriz/consciousness/reflection//system.py` |
+| Target Location | `matriz/consciousness/reflection/system.py` |
 | Complexity | low |
 | Effort | 10 hours |
 | Risk Level | medium-high |
@@ -5571,7 +5571,7 @@ Complete list with integration instructions.
 1. REVIEW: Read labs/consciousness/reflection/system.py and understand architecture (936 LOC, 4 classes, 0 functions)
 2. CHECK_DEPS: Verify all imports from core/matriz are valid and available
 3. CREATE_TESTS: Write integration tests in tests/integration/test_system.py
-4. MOVE: git mv labs/consciousness/reflection/system.py matriz/consciousness/reflection//system.py
+4. MOVE: git mv labs/consciousness/reflection/system.py matriz/consciousness/reflection/system.py
 5. UPDATE_IMPORTS: Fix import paths in moved module and any dependent modules
 6. INTEGRATE: Wire into MATRIZ engine or core system (add to registry, update config)
 7. TEST: Run pytest tests/integration/ and tests/smoke/ to verify
@@ -5585,7 +5585,7 @@ Complete list with integration instructions.
 | Property | Value |
 |----------|-------|
 | Current Location | `labs/consciousness/reflection/controller.py` |
-| Target Location | `matriz/consciousness/reflection//controller.py` |
+| Target Location | `matriz/consciousness/reflection/controller.py` |
 | Complexity | medium |
 | Effort | 14 hours |
 | Risk Level | medium-high |
@@ -5604,7 +5604,7 @@ Complete list with integration instructions.
 1. REVIEW: Read labs/consciousness/reflection/controller.py and understand architecture (905 LOC, 8 classes, 1 functions)
 2. CHECK_DEPS: Identify and resolve external dependencies, add core imports if needed
 3. CREATE_TESTS: Write integration tests in tests/integration/test_controller.py
-4. MOVE: git mv labs/consciousness/reflection/controller.py matriz/consciousness/reflection//controller.py
+4. MOVE: git mv labs/consciousness/reflection/controller.py matriz/consciousness/reflection/controller.py
 5. UPDATE_IMPORTS: Fix import paths in moved module and any dependent modules
 6. INTEGRATE: Wire into appropriate system component (update __init__.py, add exports)
 7. TEST: Run pytest tests/integration/ and tests/smoke/ to verify
@@ -5618,7 +5618,7 @@ Complete list with integration instructions.
 | Property | Value |
 |----------|-------|
 | Current Location | `labs/consciousness/reflection/awareness_system.py` |
-| Target Location | `matriz/consciousness/reflection//awareness_system.py` |
+| Target Location | `matriz/consciousness/reflection/awareness_system.py` |
 | Complexity | low |
 | Effort | 10 hours |
 | Risk Level | medium-high |
@@ -5637,7 +5637,7 @@ Complete list with integration instructions.
 1. REVIEW: Read labs/consciousness/reflection/awareness_system.py and understand architecture (995 LOC, 3 classes, 1 functions)
 2. CHECK_DEPS: Verify all imports from core/matriz are valid and available
 3. CREATE_TESTS: Write integration tests in tests/integration/test_awareness_system.py
-4. MOVE: git mv labs/consciousness/reflection/awareness_system.py matriz/consciousness/reflection//awareness_system.py
+4. MOVE: git mv labs/consciousness/reflection/awareness_system.py matriz/consciousness/reflection/awareness_system.py
 5. UPDATE_IMPORTS: Fix import paths in moved module and any dependent modules
 6. INTEGRATE: Wire into MATRIZ engine or core system (add to registry, update config)
 7. TEST: Run pytest tests/integration/ and tests/smoke/ to verify
@@ -5651,7 +5651,7 @@ Complete list with integration instructions.
 | Property | Value |
 |----------|-------|
 | Current Location | `labs/consciousness/reflection/meta_learning.py` |
-| Target Location | `matriz/consciousness/reflection//meta_learning.py` |
+| Target Location | `matriz/consciousness/reflection/meta_learning.py` |
 | Complexity | low |
 | Effort | 10 hours |
 | Risk Level | medium-high |
@@ -5670,7 +5670,7 @@ Complete list with integration instructions.
 1. REVIEW: Read labs/consciousness/reflection/meta_learning.py and understand architecture (927 LOC, 4 classes, 0 functions)
 2. CHECK_DEPS: Verify all imports from core/matriz are valid and available
 3. CREATE_TESTS: Write integration tests in tests/integration/test_meta_learning.py
-4. MOVE: git mv labs/consciousness/reflection/meta_learning.py matriz/consciousness/reflection//meta_learning.py
+4. MOVE: git mv labs/consciousness/reflection/meta_learning.py matriz/consciousness/reflection/meta_learning.py
 5. UPDATE_IMPORTS: Fix import paths in moved module and any dependent modules
 6. INTEGRATE: Wire into appropriate system component (update __init__.py, add exports)
 7. TEST: Run pytest tests/integration/ and tests/smoke/ to verify
@@ -5684,7 +5684,7 @@ Complete list with integration instructions.
 | Property | Value |
 |----------|-------|
 | Current Location | `labs/consciousness/reflection/distributed_state_manager.py` |
-| Target Location | `matriz/consciousness/reflection//distributed_state_manager.py` |
+| Target Location | `matriz/consciousness/reflection/distributed_state_manager.py` |
 | Complexity | low |
 | Effort | 4 hours |
 | Risk Level | medium-high |
@@ -5703,7 +5703,7 @@ Complete list with integration instructions.
 1. REVIEW: Read labs/consciousness/reflection/distributed_state_manager.py and understand architecture (577 LOC, 5 classes, 0 functions)
 2. CHECK_DEPS: Verify all imports from core/matriz are valid and available
 3. CREATE_TESTS: Write integration tests in tests/integration/test_distributed_state_manager.py
-4. MOVE: git mv labs/consciousness/reflection/distributed_state_manager.py matriz/consciousness/reflection//distributed_state_manager.py
+4. MOVE: git mv labs/consciousness/reflection/distributed_state_manager.py matriz/consciousness/reflection/distributed_state_manager.py
 5. UPDATE_IMPORTS: Fix import paths in moved module and any dependent modules
 6. INTEGRATE: Wire into appropriate system component (update __init__.py, add exports)
 7. TEST: Run pytest tests/integration/ and tests/smoke/ to verify
@@ -5717,7 +5717,7 @@ Complete list with integration instructions.
 | Property | Value |
 |----------|-------|
 | Current Location | `labs/consciousness/reflection/unified_memory_manager.py` |
-| Target Location | `matriz/consciousness/reflection//unified_memory_manager.py` |
+| Target Location | `matriz/consciousness/reflection/unified_memory_manager.py` |
 | Complexity | medium |
 | Effort | 12 hours |
 | Risk Level | medium-high |
@@ -5736,7 +5736,7 @@ Complete list with integration instructions.
 1. REVIEW: Read labs/consciousness/reflection/unified_memory_manager.py and understand architecture (1425 LOC, 4 classes, 0 functions)
 2. CHECK_DEPS: Identify and resolve external dependencies, add core imports if needed
 3. CREATE_TESTS: Write integration tests in tests/integration/test_unified_memory_manager.py
-4. MOVE: git mv labs/consciousness/reflection/unified_memory_manager.py matriz/consciousness/reflection//unified_memory_manager.py
+4. MOVE: git mv labs/consciousness/reflection/unified_memory_manager.py matriz/consciousness/reflection/unified_memory_manager.py
 5. UPDATE_IMPORTS: Fix import paths in moved module and any dependent modules
 6. INTEGRATE: Wire into appropriate system component (update __init__.py, add exports)
 7. TEST: Run pytest tests/integration/ and tests/smoke/ to verify
@@ -5750,7 +5750,7 @@ Complete list with integration instructions.
 | Property | Value |
 |----------|-------|
 | Current Location | `labs/consciousness/reflection/learning_system.py` |
-| Target Location | `matriz/consciousness/reflection//learning_system.py` |
+| Target Location | `matriz/consciousness/reflection/learning_system.py` |
 | Complexity | low |
 | Effort | 12 hours |
 | Risk Level | medium-high |
@@ -5769,7 +5769,7 @@ Complete list with integration instructions.
 1. REVIEW: Read labs/consciousness/reflection/learning_system.py and understand architecture (848 LOC, 9 classes, 0 functions)
 2. CHECK_DEPS: Verify all imports from core/matriz are valid and available
 3. CREATE_TESTS: Write integration tests in tests/integration/test_learning_system.py
-4. MOVE: git mv labs/consciousness/reflection/learning_system.py matriz/consciousness/reflection//learning_system.py
+4. MOVE: git mv labs/consciousness/reflection/learning_system.py matriz/consciousness/reflection/learning_system.py
 5. UPDATE_IMPORTS: Fix import paths in moved module and any dependent modules
 6. INTEGRATE: Wire into MATRIZ engine or core system (add to registry, update config)
 7. TEST: Run pytest tests/integration/ and tests/smoke/ to verify
@@ -5783,7 +5783,7 @@ Complete list with integration instructions.
 | Property | Value |
 |----------|-------|
 | Current Location | `labs/consciousness/reflection/agent_coordination.py` |
-| Target Location | `matriz/consciousness/reflection//agent_coordination.py` |
+| Target Location | `matriz/consciousness/reflection/agent_coordination.py` |
 | Complexity | low |
 | Effort | 8 hours |
 | Risk Level | medium-high |
@@ -5802,7 +5802,7 @@ Complete list with integration instructions.
 1. REVIEW: Read labs/consciousness/reflection/agent_coordination.py and understand architecture (690 LOC, 13 classes, 3 functions)
 2. CHECK_DEPS: Verify all imports from core/matriz are valid and available
 3. CREATE_TESTS: Write integration tests in tests/integration/test_agent_coordination.py
-4. MOVE: git mv labs/consciousness/reflection/agent_coordination.py matriz/consciousness/reflection//agent_coordination.py
+4. MOVE: git mv labs/consciousness/reflection/agent_coordination.py matriz/consciousness/reflection/agent_coordination.py
 5. UPDATE_IMPORTS: Fix import paths in moved module and any dependent modules
 6. INTEGRATE: Wire into appropriate system component (update __init__.py, add exports)
 7. TEST: Run pytest tests/integration/ and tests/smoke/ to verify
