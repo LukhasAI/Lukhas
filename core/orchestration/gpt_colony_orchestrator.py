@@ -28,16 +28,17 @@ __all__ = [
     "SignalType",
 ]
 
-__all__ = [
-    "OrchestrationMode",
-    "OrchestrationTask",
-    "OrchestrationResult",
-    "GPTColonyOrchestrator",
-    "ConsensusResult",
-    "Signal",
-    "SignalBus",
-    "SignalType",
-]
+# Runtime proxies populated lazily to avoid importing labs integrations during
+# module import. They are initialised with fallbacks below and refreshed with
+# the real implementations when available.
+OpenAICapability: Any
+OpenAIModulatedService: Any
+ColonyConsensus: Any
+ConsensusResult: Any
+EnhancedReasoningColony: Any
+Signal: Any
+SignalBus: Any
+SignalType: Any
 
 # For static typing only - avoid importing these heavy integration modules at
 # import-time so we don't create a production -> labs import edge.
@@ -147,6 +148,59 @@ def _get_signal_bus_classes():
         return None, None, None
     return getattr(mod, "Signal", None), getattr(mod, "SignalBus", None), getattr(mod, "SignalType", None)
 
+
+def _update_module_proxies(
+    openai_capability_cls: Optional[type],
+    openai_modulated_service_cls: Optional[type],
+    colony_consensus_cls: Optional[type],
+    consensus_result_cls: Optional[type],
+    enhanced_colony_cls: Optional[type],
+    signal_cls: Optional[type],
+    signal_bus_cls: Optional[type],
+    signal_type_cls: Optional[type],
+):
+    """Update module-level proxies when concrete implementations are available."""
+
+    global OpenAICapability
+    global OpenAIModulatedService
+    global ColonyConsensus
+    global ConsensusResult
+    global EnhancedReasoningColony
+    global Signal
+    global SignalBus
+    global SignalType
+
+    if openai_capability_cls is not None:
+        OpenAICapability = openai_capability_cls
+    if openai_modulated_service_cls is not None:
+        OpenAIModulatedService = openai_modulated_service_cls
+
+    if colony_consensus_cls is not None:
+        ColonyConsensus = colony_consensus_cls
+
+    if consensus_result_cls is not None:
+        ConsensusResult = consensus_result_cls
+    if enhanced_colony_cls is not None:
+        EnhancedReasoningColony = enhanced_colony_cls
+
+    if signal_cls is not None:
+        Signal = signal_cls
+    if signal_bus_cls is not None:
+        SignalBus = signal_bus_cls
+    if signal_type_cls is not None:
+        SignalType = signal_type_cls
+
+
+def _refresh_lazy_exports():
+    """Refresh module-level proxies with lazily imported integrations."""
+
+    _update_module_proxies(
+        *_get_openai_classes(),
+        _get_colony_consensus_class(),
+        *_get_enhanced_colony_classes(),
+        *_get_signal_bus_classes(),
+    )
+
 logger = logging.getLogger(__name__)
 
 
@@ -209,6 +263,17 @@ class GPTColonyOrchestrator:
         colony_consensus_cls = _get_colony_consensus_class()
         consensus_result_cls, enhanced_colony_cls = _get_enhanced_colony_classes()
         signal_cls, signal_bus_cls, signal_type_cls = _get_signal_bus_classes()
+
+        _update_module_proxies(
+            openai_capability_cls,
+            openai_modulated_service_cls,
+            colony_consensus_cls,
+            consensus_result_cls,
+            enhanced_colony_cls,
+            signal_cls,
+            signal_bus_cls,
+            signal_type_cls,
+        )
 
         # Cache the lazily imported classes for later use
         self._openai_capability_cls = openai_capability_cls
