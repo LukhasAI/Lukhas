@@ -21,7 +21,10 @@ def test_register_and_query():
     r = client.post("/api/v1/registry/register", json={"node_spec": ns, "mode": "dynamic"})
     assert r.status_code == 200
     regid = r.json()["registry_id"]
-    assert "checkpoint_sig" in r.json()
+    body = r.json()
+    assert "checkpoint_sig" in body
+    assert "checkpoint_signature" in body
+    assert body["checkpoint_sig"] == body["checkpoint_signature"]["signatures"]["hmac"]["signature"]
 
     # Query by signal
     q = client.get("/api/v1/registry/query?signal=memory_stored")
