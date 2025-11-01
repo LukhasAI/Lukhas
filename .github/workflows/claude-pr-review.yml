@@ -1,0 +1,113 @@
+name: Claude Code PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  pull_request_review_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  claude-review:
+    name: AI-Assisted Code Review
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Get PR diff
+        id: pr-diff
+        run: |
+          gh pr diff ${{ github.event.pull_request.number }} > pr-diff.txt
+          gh pr view ${{ github.event.pull_request.number }} --json title,body,files > pr-metadata.json
+          echo "Diff size: $(wc -l < pr-diff.txt) lines"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Check for review trigger
+        id: check-trigger
+        run: |
+          TRIGGER=false
+          if echo '${{ github.event.pull_request.body }}' | grep -qi '@claude'; then
+            TRIGGER=true
+          fi
+          if [ "${{ github.event_name }}" = "pull_request_review_comment" ]; then
+            if echo '${{ github.event.comment.body }}' | grep -qi '@claude'; then
+              TRIGGER=true
+            fi
+          fi
+          echo "trigger=$TRIGGER" >> $GITHUB_OUTPUT
+
+      - name: Claude Code Review via API
+        if: steps.check-trigger.outputs.trigger == 'true'
+        id: claude-review
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          DIFF=$(cat pr-diff.txt | head -c 50000)
+
+          cat > claude-request.json <<'REQEOF'
+          {
+            "model": "claude-sonnet-4-5-20250929",
+            "max_tokens": 4096,
+            "messages": [
+              {
+                "role": "user",
+                "content": "You are an expert code reviewer for the LUKHAS AI platform. Review this pull request and provide:\n\n1. Architecture Review: Check alignment with LUKHAS lane-based architecture\n2. Code Quality: Identify bugs, security issues, and code smells\n3. Lane Boundary Compliance: Ensure no invalid imports across lanes\n4. Best Practices: Suggest improvements\n5. Security: Flag any security concerns\n\nProvide a concise review with specific line references. Format as markdown."
+              }
+            ]
+          }
+          REQEOF
+
+          curl -X POST https://api.anthropic.com/v1/messages \
+            -H "Content-Type: application/json" \
+            -H "x-api-key: ${ANTHROPIC_API_KEY}" \
+            -H "anthropic-version: 2023-06-01" \
+            -d @claude-request.json \
+            -o response.json
+
+          jq -r '.content[0].text // "Error: Unable to generate review"' response.json > claude-review.md
+          echo "Review generated successfully"
+
+      - name: Post Claude Review as Comment
+        if: steps.check-trigger.outputs.trigger == 'true'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const review = fs.readFileSync('claude-review.md', 'utf8');
+            const comment = `## 🤖 Claude Code Review\n\n${review}\n\n---\n\n*Triggered by @claude mention | Powered by Claude Code*`;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: comment
+            });
+
+      - name: Add claude-reviewed label
+        if: steps.check-trigger.outputs.trigger == 'true'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['claude-reviewed', 'ai-assisted']
+            });
+
+      - name: Skip notice
+        if: steps.check-trigger.outputs.trigger != 'true'
+        run: echo "Claude review not triggered. Add @claude to PR description or comment to request review."
