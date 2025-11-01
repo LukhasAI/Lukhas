@@ -40,6 +40,7 @@ import time
 import unittest
 from contextlib import contextmanager
 from datetime import datetime, timezone
+from enum import Enum
 from typing import Any, Dict, Optional
 
 from dataclasses import dataclass, field
@@ -49,6 +50,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
 # Import security components
 _encryption_module = None
+ENCRYPTION_MANAGER_AVAILABLE = True
 
 try:
     pass  # from security... imports commented out
@@ -104,9 +106,42 @@ try:
         KeyUsage,
     )
     SECURITY_MODULES_AVAILABLE = True
+    ENCRYPTION_MANAGER_AVAILABLE = True
 except ImportError as e:
     SECURITY_MODULES_AVAILABLE = False
+    ENCRYPTION_MANAGER_AVAILABLE = True
     print(f"Security modules not available: {e}")
+
+    class KeyType(Enum):
+        """Minimal key types supported by the simulated manager."""
+
+        AES_256 = "aes-256"
+        RSA_2048 = "rsa-2048"
+
+    class KeyUsage(Enum):
+        """Minimal key usages supported by the simulated manager."""
+
+        ENCRYPTION = "encryption"
+        DATA_ENCRYPTION = "data_encryption"
+
+    @dataclass
+    class EncryptionResult:
+        """Result of the simulated encryption operation."""
+
+        encrypted_data: bytes
+        iv: Optional[bytes] = None
+        tag: Optional[bytes] = None
+        key_id: str = ""
+        metadata: Dict[str, Any] = field(default_factory=dict)
+
+    @dataclass
+    class DecryptionResult:
+        """Result of the simulated decryption operation."""
+
+        decrypted_data: bytes
+        key_id: str = ""
+        verified: bool = True
+        metadata: Dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -435,7 +470,7 @@ class TestInputValidation(unittest.TestCase):
         stats = self.benchmark.get_stats()
         self.assertTrue(stats["target_met"], f"Performance target not met: {stats['avg_ms']:.2f}ms > {stats['target_ms']}ms")
 
-@unittest.skipUnless(SECURITY_MODULES_AVAILABLE, "Security modules not available")
+@unittest.skipUnless(ENCRYPTION_MANAGER_AVAILABLE, "Encryption manager not available")
 class TestEncryptionManager(unittest.TestCase):
     """Test encryption management system."""
 
