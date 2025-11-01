@@ -662,9 +662,10 @@ class TestComplianceFramework(unittest.TestCase):
     def setUp(self):
         self.benchmark = PerformanceBenchmark("compliance", target_ms=5.0)
         self.test_dir = tempfile.mkdtemp()
-# See: https://github.com/LukhasAI/Lukhas/issues/620
+        self.framework = create_compliance_framework({
             "evidence_path": os.path.join(self.test_dir, "evidence")
         })
+        # See: https://github.com/LukhasAI/Lukhas/issues/620
 
     def tearDown(self):
         shutil.rmtree(self.test_dir)
