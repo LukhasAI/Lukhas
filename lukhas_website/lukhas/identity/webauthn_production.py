@@ -12,6 +12,7 @@ Constellation Framework: Identity ⚛️ pillar with T4-T5 authentication tiers
 from __future__ import annotations
 
 import base64
+import binascii
 import json
 import logging
 import secrets
@@ -19,7 +20,7 @@ import time
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, Iterable, List, Optional, Tuple
 
 from opentelemetry import trace
 from prometheus_client import Counter, Gauge, Histogram
@@ -53,6 +54,8 @@ webauthn_active_credentials = Gauge(
     ['user_tier', 'authenticator_type']
 )
 
+PublicKeyCredentialDescriptor = None
+
 try:
     from webauthn import (
         generate_authentication_options,
@@ -77,6 +80,7 @@ try:
 # See: https://github.com/LukhasAI/Lukhas/issues/596
         ResidentKeyRequirement,
         UserVerificationRequirement,
+        PublicKeyCredentialDescriptor,
     )
     WEBAUTHN_AVAILABLE = True
 except ImportError:
@@ -326,11 +330,11 @@ class WebAuthnManager:
             try:
                 # Get existing credentials for excludeCredentials
                 existing_credentials = await self.credential_store.get_credentials(user_id)
-                exclude_credentials = [
-                    {"id": cred.credential_id, "type": "public-key"}
-                    for cred in existing_credentials
+                active_credentials = [
+                    cred for cred in existing_credentials
                     if cred.status == CredentialStatus.ACTIVE
                 ]
+                exclude_credentials = self._build_public_key_credential_descriptors(active_credentials)
 
                 if not WEBAUTHN_AVAILABLE:
                     # Mock implementation for testing
@@ -576,11 +580,12 @@ class WebAuthnManager:
                 allowed_credentials = []
                 if user_id:
                     credentials = await self.credential_store.get_credentials(user_id)
-                    allowed_credentials = [
-                        {"id": cred.credential_id, "type": "public-key"}
+                    eligible_credentials = [
+                        cred
                         for cred in credentials
                         if cred.status == CredentialStatus.ACTIVE and cred.tier.value >= tier.value
                     ]
+                    allowed_credentials = self._build_public_key_credential_descriptors(eligible_credentials)
 
                 if not WEBAUTHN_AVAILABLE:
                     # Mock implementation for testing
@@ -777,6 +782,49 @@ class WebAuthnManager:
 
                 logger.error(f"WebAuthn authentication completion failed: {e}")
                 raise
+
+    def _build_public_key_credential_descriptors(
+        self,
+        credentials: Iterable[WebAuthnCredential]
+    ) -> List[Any]:
+        """Convert credentials to public key descriptors for WebAuthn options"""
+        descriptors: List[Any] = []
+        for credential in credentials:
+            descriptor = self._to_public_key_credential_descriptor(credential)
+            if descriptor is not None:
+                descriptors.append(descriptor)
+        return descriptors
+
+    def _to_public_key_credential_descriptor(self, credential: WebAuthnCredential) -> Optional[Any]:
+        """Build a PublicKeyCredentialDescriptor when the library is available"""
+        if WEBAUTHN_AVAILABLE and PublicKeyCredentialDescriptor is not None:
+            try:
+                return PublicKeyCredentialDescriptor(
+                    id=self._decode_credential_id(credential.credential_id),
+                    type="public-key",
+                )
+            except Exception as exc:
+                logger.warning(
+                    "Falling back to raw credential descriptor for %s: %s",
+                    credential.credential_id,
+                    exc,
+                )
+
+        return {"id": credential.credential_id, "type": "public-key"}
+
+    @staticmethod
+    def _decode_credential_id(credential_id: str) -> bytes:
+        """Decode a credential ID from base64, falling back to UTF-8 bytes"""
+        try:
+            padding = "=" * (-len(credential_id) % 4)
+            return base64.urlsafe_b64decode(credential_id + padding)
+        except (binascii.Error, ValueError) as exc:
+            logger.debug(
+                "Credential ID %s could not be base64 decoded: %s -- using raw bytes",
+                credential_id,
+                exc,
+            )
+            return credential_id.encode("utf-8")
 
     def _determine_authenticator_type(self, verification) -> AuthenticatorType:
         """Determine authenticator type from verification data"""

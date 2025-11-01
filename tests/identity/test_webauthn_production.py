@@ -10,6 +10,7 @@ biometric authentication, and performance validation.
 import base64
 import json
 import time
+import types
 from datetime import datetime, timedelta, timezone
 
 import pytest
@@ -404,6 +405,153 @@ class TestWebAuthnManager:
         assert verification_result["verified"] is True
         assert auth_credential.sign_count > 0
         assert auth_credential.last_used is not None
+
+    @pytest.mark.asyncio
+    async def test_begin_registration_builds_public_key_descriptors(self, monkeypatch):
+        """Ensure WebAuthn options use PublicKeyCredentialDescriptor when available"""
+        module = __import__("identity.webauthn_production", fromlist=["WEBAUTHN_AVAILABLE"])
+
+        monkeypatch.setattr(module, "WEBAUTHN_AVAILABLE", True)
+        descriptor_calls = []
+
+        class StubDescriptor:
+            def __init__(self, *, id, type):
+                descriptor_calls.append((id, type))
+                self.id = id
+                self.type = type
+
+        monkeypatch.setattr(module, "PublicKeyCredentialDescriptor", StubDescriptor)
+        monkeypatch.setattr(module, "AuthenticatorSelectionCriteria", lambda **kwargs: kwargs)
+        monkeypatch.setattr(module, "AuthenticatorAttachment", lambda value: value)
+        monkeypatch.setattr(
+            module,
+            "ResidentKeyRequirement",
+            types.SimpleNamespace(REQUIRED="required", DISCOURAGED="discouraged"),
+        )
+        monkeypatch.setattr(
+            module,
+            "AttestationConveyancePreference",
+            types.SimpleNamespace(DIRECT="direct", NONE="none"),
+        )
+        monkeypatch.setattr(
+            module,
+            "UserVerificationRequirement",
+            types.SimpleNamespace(REQUIRED="required", PREFERRED="preferred"),
+        )
+
+        class FakeRegistrationOptions:
+            def __init__(self, challenge, exclude_credentials):
+                self.challenge = challenge
+                self._exclude_credentials = exclude_credentials
+
+            def model_dump(self):
+                return {
+                    "challenge": self.challenge,
+                    "excludeCredentials": self._exclude_credentials,
+                }
+
+        def fake_generate_registration_options(**kwargs):
+            return FakeRegistrationOptions("reg-challenge", kwargs["exclude_credentials"])
+
+        monkeypatch.setattr(module, "generate_registration_options", fake_generate_registration_options)
+
+        store = WebAuthnCredentialStore()
+        stored_credential = WebAuthnCredential(
+            credential_id=base64.urlsafe_b64encode(b"existing-credential").decode().rstrip("="),
+            public_key="pk",
+            user_id="user_123",
+        )
+        await store.store_credential(stored_credential)
+
+        manager = module.WebAuthnManager(
+            rp_id="test", rp_name="Test RP", origin="https://test", credential_store=store
+        )
+
+        options = await manager.begin_registration(
+            user_id="user_123",
+            username="user@example.com",
+            display_name="User Example",
+        )
+
+        assert descriptor_calls == [(b"existing-credential", "public-key")]
+        assert any(isinstance(item, StubDescriptor) for item in options["excludeCredentials"])
+
+    @pytest.mark.asyncio
+    async def test_begin_authentication_uses_descriptors_for_allowed_credentials(self, monkeypatch):
+        """Ensure authentication options honour descriptor conversion with active credentials"""
+        module = __import__("identity.webauthn_production", fromlist=["WEBAUTHN_AVAILABLE"])
+
+        monkeypatch.setattr(module, "WEBAUTHN_AVAILABLE", True)
+        descriptor_calls = []
+
+        class StubDescriptor:
+            def __init__(self, *, id, type):
+                descriptor_calls.append((id, type))
+                self.id = id
+                self.type = type
+
+        monkeypatch.setattr(module, "PublicKeyCredentialDescriptor", StubDescriptor)
+        monkeypatch.setattr(
+            module,
+            "UserVerificationRequirement",
+            types.SimpleNamespace(REQUIRED="required", PREFERRED="preferred"),
+        )
+
+        class FakeAuthenticationOptions:
+            def __init__(self, challenge, allow_credentials):
+                self.challenge = challenge
+                self._allow_credentials = allow_credentials
+
+            def model_dump(self):
+                return {
+                    "challenge": self.challenge,
+                    "allowCredentials": self._allow_credentials,
+                }
+
+        def fake_generate_authentication_options(**kwargs):
+            return FakeAuthenticationOptions("auth-challenge", kwargs["allow_credentials"])
+
+        monkeypatch.setattr(module, "generate_authentication_options", fake_generate_authentication_options)
+
+        store = WebAuthnCredentialStore()
+
+        active_allowed = WebAuthnCredential(
+            credential_id=base64.urlsafe_b64encode(b"allowed-credential").decode().rstrip("="),
+            public_key="pk",
+            user_id="user_123",
+            tier=AuthenticatorTier.T4_STRONG,
+        )
+        suspended_credential = WebAuthnCredential(
+            credential_id="suspended",
+            public_key="pk",
+            user_id="user_123",
+            status=CredentialStatus.SUSPENDED,
+        )
+        low_tier_credential = WebAuthnCredential(
+            credential_id=base64.urlsafe_b64encode(b"low-tier").decode().rstrip("="),
+            public_key="pk",
+            user_id="user_123",
+            tier=AuthenticatorTier.T3_MFA,
+        )
+
+        await store.store_credential(active_allowed)
+        await store.store_credential(suspended_credential)
+        await store.store_credential(low_tier_credential)
+
+        manager = module.WebAuthnManager(
+            rp_id="test", rp_name="Test RP", origin="https://test", credential_store=store
+        )
+
+        options = await manager.begin_authentication(user_id="user_123", tier=AuthenticatorTier.T4_STRONG)
+
+        assert descriptor_calls == [(b"allowed-credential", "public-key")]
+        assert all(isinstance(item, StubDescriptor) for item in options["allowCredentials"])
+
+    def test_decode_credential_id_handles_non_base64(self):
+        """Fallback to UTF-8 bytes when credential IDs are not base64 encoded"""
+        raw_id = "credential#1"
+        decoded = self.manager._decode_credential_id(raw_id)
+        assert decoded == raw_id.encode("utf-8")
 
     @pytest.mark.asyncio
     async def test_authentication_tiers(self):
