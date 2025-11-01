@@ -2,11 +2,14 @@
 """
 Generate TODO inventory from codebase.
 
-Parses TODO comments in various formats:
+Parses TODO comments in various formats (see the linked issues for the exact
+formatting guidance):
 # See: https://github.com/LukhasAI/Lukhas/issues/609
-- # TODO: message
+- Python and shell comments that begin with the TODO keyword (prefixed with
+  '#').
 # See: https://github.com/LukhasAI/Lukhas/issues/610
-- /* TODO: message */
+- Block comments that wrap TODO statements using the C-style `/* ... */`
+  syntax.
 
 Output CSV: file,line,kind,priority,owner,scope,message
 
