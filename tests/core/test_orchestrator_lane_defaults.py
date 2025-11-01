@@ -32,7 +32,7 @@ class TestOrchestratorLaneDefaults:
 
     def test_orchestrator_uses_lane_in_context(self):
         """AsyncOrchestrator should use lane information in processing context"""
-        from MATRIZ.core.async_orchestrator import AsyncOrchestrator
+        from matriz.core.async_orchestrator import AsyncOrchestrator
         with patch.dict(os.environ, {}, clear=True):
             orchestrator = AsyncOrchestrator()
             assert orchestrator is not None
@@ -48,7 +48,7 @@ class TestOrchestratorLaneDefaults:
                 import os
                 resolved_lane = os.getenv('LUKHAS_LANE', 'canary').lower()
                 assert resolved_lane == lane
-                from MATRIZ.core.async_orchestrator import AsyncOrchestrator
+                from matriz.core.async_orchestrator import AsyncOrchestrator
                 orchestrator = AsyncOrchestrator()
                 assert orchestrator is not None
 
@@ -82,7 +82,7 @@ class TestOrchestratorLaneDefaults:
 
     def test_lane_integration_with_configuration(self):
         """Test that lane properly integrates with AsyncOrchestrator configuration"""
-        from MATRIZ.core.async_orchestrator import AsyncOrchestrator
+        from matriz.core.async_orchestrator import AsyncOrchestrator
         configs = [{}, {'MATRIZ_ASYNC': '1'}, {'MATRIZ_PARALLEL': '1', 'MATRIZ_MAX_PARALLEL': '5'}]
         for config in configs:
             with patch.dict(os.environ, {'LUKHAS_LANE': 'canary'}):

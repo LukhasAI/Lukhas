@@ -47,6 +47,7 @@ try:
 
     from governance.guardian_system import GuardianSystem
     from identity.core import IdentitySystem
+
 except ImportError as e:
     pytest.skip(f"Performance testing modules not available: {e}", allow_module_level=True)
 

@@ -1,78 +1,61 @@
-# @generated LUKHAS scaffold v1.0
-# template_id: module.scaffold/v1
-# template_commit: f95979630
-# do_not_edit: true
-# human_editable: false
-#
-"""
-Unit tests for security-reports module.
-"""
+"""Unit tests for the security_reports configuration helpers."""
 
-import unittest
+from __future__ import annotations
+
+from pathlib import Path
 
 import pytest
+import yaml
 
-# Import module components
-try:
-    pass  # Placeholder
-    pass  #     pass  #
-except ImportError:
-    pytest.skip("Module security-reports not available", allow_module_level=True)
+from security_reports import SecurityReportsConfig, load_config
+from security_reports.configuration import SecurityConfigurationError
 
 
-class TestSecurityReportsModule(unittest.TestCase):
-    """Unit tests for security-reports module core functionality."""
-
-    def setUp(self):
-        """Set up test fixtures."""
-        self.test_config = {
-            "module_name": "security-reports",
-            "test_mode": True
-        }
-
-    def tearDown(self):
-        """Clean up after tests."""
-        pass
-
-    def test_module_import(self):
-        """Test that module can be imported successfully."""
-        # import security_reports  # Module name with hyphen - skipping
-# See: https://github.com/LukhasAI/Lukhas/issues/623
-
-    def test_module_version(self):
-        """Test module has version information."""
-        # import security_reports  # Module name with hyphen - skipping
-        # Most modules should have version info
-# See: https://github.com/LukhasAI/Lukhas/issues/624
-# See: https://github.com/LukhasAI/Lukhas/issues/625
-
-    def test_module_initialization(self):
-        """Test module can be initialized."""
-        # Add module-specific initialization tests
-        pass
-
-    @pytest.mark.unit
-    def test_core_functionality(self):
-        """Test core module functionality."""
-        # Add tests for main module features
-        pass
-
-    @pytest.mark.unit
-    def test_error_handling(self):
-        """Test module error handling."""
-        # Test various error conditions
-        pass
-
-    @pytest.mark.unit
-    def test_configuration_validation(self):
-        """Test configuration validation."""
-        # Test config loading and validation
-        pass
+CONFIG_PATH = Path(__file__).resolve().parent.parent / "config" / "config.yaml"
 
 
-# Test individual components if entrypoints available
+def test_load_config_returns_secure_defaults():
+    config = load_config(CONFIG_PATH)
+
+    assert isinstance(config, SecurityReportsConfig)
+    assert config.name == "security_reports"
+    assert config.version == "1.0.0"
+    assert config.performance_monitoring is True
+    assert config.is_secure()
 
 
+def test_load_config_disallows_debug_mode(temp_dir: Path) -> None:
+    insecure_payload = {
+        "module": {"name": "security_reports", "version": "1.0.0", "description": "test"},
+        "runtime": {"log_level": "INFO", "debug_mode": True, "performance_monitoring": True},
+    }
 
-if __name__ == "__main__":
-    unittest.main()
+    insecure_config = temp_dir / "config.yaml"
+    insecure_config.write_text(yaml.safe_dump(insecure_payload), encoding="utf-8")
+
+    with pytest.raises(SecurityConfigurationError):
+        load_config(insecure_config)
+
+
+def test_is_secure_flags_low_log_levels():
+    config = SecurityReportsConfig(
+        name="security_reports",
+        version="1.0.0",
+        description="test",
+        log_level="INFO",
+        debug_mode=False,
+        performance_monitoring=True,
+    )
+
+    assert config.is_secure()
+
+    insecure = SecurityReportsConfig(
+        name="security_reports",
+        version="1.0.0",
+        description="test",
+        log_level="DEBUG",
+        debug_mode=False,
+        performance_monitoring=True,
+    )
+
+    assert not insecure.is_secure()

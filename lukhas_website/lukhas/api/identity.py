@@ -75,6 +75,7 @@ class TierAuthenticationRequest(BaseModel):
 
     # T4+ credentials
     webauthn_response: Optional[Dict[str, Any]] = Field(None, description="WebAuthn response for T4")
+    webauthn_challenge_id: Optional[str] = Field(None, description="Issued WebAuthn challenge identifier")
 
     # T5 credentials
     biometric_attestation: Optional[Dict[str, Any]] = Field(None, description="Biometric attestation for T5")
@@ -259,7 +260,12 @@ async def create_auth_context(
         biometric_attestation=auth_request.biometric_attestation,
         existing_tier=auth_request.existing_tier,
         session_id=auth_request.session_id,
-        nonce=auth_request.nonce
+        nonce=auth_request.nonce,
+        challenge_data=(
+            {"challenge_id": auth_request.webauthn_challenge_id}
+            if auth_request.webauthn_challenge_id
+            else None
+        )
     )
 
 
@@ -405,19 +411,25 @@ async def generate_webauthn_challenge(
     with anti-replay protection and Guardian integration.
     """
     try:
-        if not webauthn_service:
+        if authenticator and getattr(authenticator, "webauthn", None):
+            challenge_data = await authenticator.generate_webauthn_challenge(
+                username=challenge_request.user_id,
+                correlation_id=challenge_request.correlation_id,
+                ip_address=get_client_ip(request),
+                user_agent=get_user_agent(request),
+            )
+        elif webauthn_service:
+            challenge_data = await webauthn_service.generate_authentication_challenge(
+                user_id=challenge_request.user_id,
+                correlation_id=challenge_request.correlation_id or "",
+                ip_address=get_client_ip(request),
+                user_agent=get_user_agent(request)
+            )
+        else:
             raise HTTPException(
                 status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
                 detail="WebAuthn service unavailable"
             )
-
-        # Generate challenge
-        challenge_data = await webauthn_service.generate_authentication_challenge(
-            user_id=challenge_request.user_id,
-            correlation_id=challenge_request.correlation_id or "",
-            ip_address=get_client_ip(request),
-            user_agent=get_user_agent(request)
-        )
 
         return WebAuthnChallengeResponse(
             challenge_id=challenge_data["challenge_id"],
@@ -447,14 +459,18 @@ async def verify_webauthn_response(
     and user verification requirements for T4 tier authentication.
     """
     try:
-        if not webauthn_service:
+        if authenticator and getattr(authenticator, "webauthn", None):
+            service = authenticator.webauthn
+        else:
+            service = webauthn_service
+
+        if not service:
             raise HTTPException(
                 status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
                 detail="WebAuthn service unavailable"
             )
 
-        # Verify WebAuthn response
-        result = await webauthn_service.verify_authentication_response(
+        result = await service.verify_authentication_response(  # type: ignore[call-arg]
             challenge_id=verification_request.challenge_id,
             webauthn_response=verification_request.webauthn_response,
             correlation_id=verification_request.correlation_id or "",

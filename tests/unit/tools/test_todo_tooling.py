@@ -35,6 +35,7 @@ def test_extract_todo_context_normalizes_path() -> None:
 def test_categorize_todos_prioritizes_keywords() -> None:
     sample_lines = [
 # See: https://github.com/LukhasAI/Lukhas/issues/628
+        "candidate/security/auth.py:17:# TODO: Fix security vulnerability immediately",
         "tools/helpers.py:5:# TODO: add docstring for helper",
     ]
 
