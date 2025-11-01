@@ -41,14 +41,14 @@ class TestTop25HiddenGemsIntegration:
 
     def test_matriz_memory_modules_import(self):
         """Test that all MATRIZ memory modules can be imported."""
-        from MATRIZ.memory.core import unified_memory_orchestrator
-        from MATRIZ.memory.temporal import hyperspace_dream_simulator
+        from matriz.memory.core import unified_memory_orchestrator
+        from matriz.memory.temporal import hyperspace_dream_simulator
         assert unified_memory_orchestrator is not None
         assert hyperspace_dream_simulator is not None
 
     def test_matriz_orchestration_modules_import(self):
         """Test that MATRIZ orchestration modules can be imported."""
-        from MATRIZ.orchestration import async_orchestrator
+        from matriz.orchestration import async_orchestrator
         assert async_orchestrator is not None
 
     def test_core_governance_modules_import(self):
@@ -156,7 +156,7 @@ class TestTop25HiddenGemsIntegration:
         """Test that __init__.py files properly expose modules."""
         from core import governance
         assert hasattr(governance, 'guardian_system_integration')
-        from MATRIZ.consciousness import reflection
+        from matriz.consciousness import reflection
         assert hasattr(reflection, 'swarm')
         assert hasattr(reflection, 'id_reasoning_engine')
         assert hasattr(reflection, 'memory_hub')
@@ -187,7 +187,7 @@ class TestTop25HiddenGemsIntegration:
 
     def test_id_reasoning_engine_classes(self):
         """Test that id_reasoning_engine has expected classes."""
-        from MATRIZ.consciousness.reflection.id_reasoning_engine import (
+        from matriz.consciousness.reflection.id_reasoning_engine import (
             AccessTier,
             ComplianceRegion,
             EmotionalMemoryVector,

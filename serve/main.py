@@ -11,7 +11,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 MATRIZ_AVAILABLE = False
 MEMORY_AVAILABLE = False
 try:
-    import MATRIZ
+    import matriz
     MATRIZ_AVAILABLE = True
 except ImportError:
     pass

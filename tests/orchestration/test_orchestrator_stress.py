@@ -38,9 +38,9 @@ from unittest.mock import Mock, patch
 import pytest
 
 try:
-    from MATRIZ.core.async_orchestrator import AsyncCognitiveOrchestrator
-    from MATRIZ.core.node_interface import CognitiveNode
-    from MATRIZ.core.orchestrator import CognitiveOrchestrator
+    from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator
+    from matriz.core.node_interface import CognitiveNode
+    from matriz.core.orchestrator import CognitiveOrchestrator
     MATRIZ_AVAILABLE = True
 except ImportError:
     # Fallback for testing without full MATRIZ system

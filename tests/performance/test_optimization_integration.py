@@ -16,7 +16,7 @@ import pytest
 
 try:
     from core.api.api_system import EnhancedAPISystem
-    from MATRIZ.core.async_orchestrator import AsyncCognitiveOrchestrator, StageType
+    from matriz.core.async_orchestrator import AsyncCognitiveOrchestrator, StageType
     from memory.performance_optimizer import FoldPerformanceOptimizer, OptimizationResult
     PERFORMANCE_MODULES_AVAILABLE = True
 except ImportError:
@@ -201,7 +201,7 @@ class TestMATRIZAdaptiveTimeouts:
     def test_timeout_history_update(self, orchestrator):
         """Test timeout history update mechanism."""
         
-        from MATRIZ.core.async_orchestrator import StageResult
+        from matriz.core.async_orchestrator import StageResult
         
         stage_type = StageType.PROCESS
         
