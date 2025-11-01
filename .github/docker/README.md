@@ -3,7 +3,49 @@
 ## Overview
 This directory contains Docker configurations for PQC-enabled CI runners used in MATRIZ-007 PQC migration.
 
+## GitHub Actions Runner Provisioning
+
+The [`pqc-sign-verify`](../workflows/pqc-sign-verify.yml) workflow now provisions
+`liboqs` and the Python bindings directly on the hosted Ubuntu runner. This
+removes the dependency on a pre-built container image while keeping the Docker
+asset available for local development.
+
+### Installation Summary (CI)
+
+1. Install build tooling: `build-essential`, `cmake`, `ninja-build`, `libssl-dev`,
+   `pkg-config`, `jq`, and `bc`.
+2. Compile `liboqs` 0.9.2 into `$GITHUB_WORKSPACE/.oqs` (cached via
+   `actions/cache`).
+3. Export `LD_LIBRARY_PATH`, `PKG_CONFIG_PATH`, and `CMAKE_PREFIX_PATH` so the
+   runner can locate the shared library.
+4. `pip install liboqs-python==0.9.0`.
+5. Execute `scripts/pqc/pqc_bench.py --json` to produce `tmp/pqc_bench.json`.
+
+> The workflow fails fast whenever the benchmark falls back to legacy behaviour
+> (`pqc_fallback_marker.txt`). Resolve provisioning issues before re-running CI.
+
+### Local Runner Reproduction
+
+To mimic the CI environment locally:
+
+```bash
+sudo apt-get update && sudo apt-get install -y build-essential cmake ninja-build libssl-dev pkg-config jq bc
+git clone --depth 1 --branch 0.9.2 https://github.com/open-quantum-safe/liboqs.git
+cmake -S liboqs -B liboqs/build -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$PWD/.oqs -DBUILD_SHARED_LIBS=ON -DOQS_BUILD_ONLY_LIB=ON -DOQS_DIST_BUILD=ON
+cmake --build liboqs/build
+cmake --install liboqs/build
+export LD_LIBRARY_PATH=$PWD/.oqs/lib:$LD_LIBRARY_PATH
+export PKG_CONFIG_PATH=$PWD/.oqs/lib/pkgconfig:$PKG_CONFIG_PATH
+python3 -m pip install --upgrade pip
+python3 -m pip install liboqs-python==0.9.0
+python3 scripts/pqc/pqc_bench.py --json
+```
+
+The JSON output mirrors the CI artifact and enforces the same latency budgets.
+
 ## PQC Runner Image
+
+The Docker image remains available for reproducible builds and debugging.
 
 ### Build
 ```bash
@@ -16,34 +58,23 @@ docker build -f .github/docker/pqc-runner.Dockerfile -t lukhas-pqc-runner:latest
 docker run --rm lukhas-pqc-runner:latest
 
 # Run performance benchmark
-docker run --rm lukhas-pqc-runner:latest pqc-bench
+docker run --rm lukhas-pqc-runner:latest pqc-bench --json
 
 # Interactive shell
 docker run --rm -it lukhas-pqc-runner:latest bash
 ```
 
-### Use in CI
-Update `.github/workflows/pqc-sign-verify.yml`:
-
-```yaml
-jobs:
-  pqc-test:
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/lukhasai/lukhas-pqc-runner:latest
-      credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
-```
-
-> **Note:** The CI workflow now fails whenever the PQC benchmark falls back to the legacy marker file. Ensure the runner image is available to avoid breaking builds.
-
 ### Available Tools
 
 #### `pqc-bench`
-Quick performance benchmark for Dilithium2:
+Quick performance benchmark for Dilithium2. The CLI lives at
+[`scripts/pqc/pqc_bench.py`](../../scripts/pqc/pqc_bench.py) and can be invoked
+directly on any runner with liboqs installed:
 ```bash
-docker run --rm lukhas-pqc-runner:latest pqc-bench
+python3 scripts/pqc/pqc_bench.py --json
+
+# Equivalent Docker invocation
+docker run --rm lukhas-pqc-runner:latest pqc-bench --json
 ```
 
 Expected output:
