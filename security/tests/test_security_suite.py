@@ -531,6 +531,49 @@ class TestSecurityMonitor(unittest.TestCase):
         brute_force_threats = [t for t in active_threats.values() if "brute force" in t.name.lower()]
         self.assertGreater(len(brute_force_threats), 0)
 
+    def test_guardian_integration_annotations(self):
+        """Guardian integration should annotate detected threats."""
+        guardian_monitor = create_security_monitor(
+            {
+                "buffer_size": 128,
+                "processing_threads": 1,
+                "guardian_integration": True,
+            }
+        )
+        self.addCleanup(guardian_monitor.shutdown)
+
+        required_attempts = guardian_monitor.detectors[0].max_attempts
+        for attempt in range(required_attempts):
+            event = guardian_monitor.create_event(
+                event_type=EventType.AUTHENTICATION,  # noqa: F821  # TODO: EventType
+                source_ip="10.0.0.42",
+                user_id="guardian-user",
+                details={"success": False, "attempt": attempt + 1}
+            )
+            guardian_monitor.submit_event(event)
+
+        guardian_monitor.event_queue.join()
+
+        active_threats = guardian_monitor.get_active_threats()
+        self.assertTrue(active_threats, "Expected Guardian-enabled monitor to retain active threats after detection.")
+
+        guardian_annotations = [
+            (
+                threat.indicators.get("guardian_assessed"),
+                threat.indicators.get("guardian_context")
+            )
+            for threat in active_threats.values()
+        ]
+
+        self.assertTrue(
+            any(assessed for assessed, _ in guardian_annotations),
+            "Guardian integration should flag detected threats as assessed."
+        )
+        self.assertTrue(
+            any(context is not None for _, context in guardian_annotations),
+            "Guardian integration should attach context metadata to threats."
+        )
+
     def test_malicious_ip_detection(self):
         """Test malicious IP detection."""
         event = self.monitor.create_event(
