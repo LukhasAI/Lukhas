@@ -145,6 +145,7 @@ import { PasskeyManager } from './passkeys';
 import { MagicLinkManager } from './magic-links';
 import { JWKSManager } from './jwks';
 import type { DatabaseInterface } from './database';
+import { mapPasskeyToCredential } from './passkey-utils';
 
 /**
  * Complete authentication system configuration
@@ -357,9 +358,16 @@ export class LambdaAuthSystem {
     expectedOrigin: string
   ): Promise<AuthenticationResult> {
     try {
-      // Get stored credential (this requires credential ID lookup)
-      // For now, this is a placeholder - would need to implement credential lookup
-# See: https://github.com/LukhasAI/Lukhas/issues/597
+      const passkeyLookup = await this.config.database.getPasskeyByCredentialId(credential.id);
+      if (!passkeyLookup.success || !passkeyLookup.data) {
+        return {
+          success: false,
+          error: 'Passkey not found'
+        };
+      }
+
+      const passkeyRecord = passkeyLookup.data;
+      const storedCredential = mapPasskeyToCredential(passkeyRecord);
 
       const verification = await this.passkeyManager.verifyAuthentication(
         challengeId,
@@ -375,16 +383,7 @@ export class LambdaAuthSystem {
         };
       }
 
-      // Get user by passkey credential
-      const passkeyResult = await this.config.database.getPasskeyByCredentialId(credential.id);
-      if (!passkeyResult.success || !passkeyResult.data) {
-        return {
-          success: false,
-          error: 'Passkey not found'
-        };
-      }
-
-      const userResult = await this.config.database.getUserById(passkeyResult.data.user_id);
+      const userResult = await this.config.database.getUserById(passkeyRecord.user_id);
       if (!userResult.success || !userResult.data) {
         return {
           success: false,
@@ -393,12 +392,15 @@ export class LambdaAuthSystem {
       }
 
       const user = userResult.data;
+      const updatedSignCount = typeof verification.signCount === 'number'
+        ? verification.signCount
+        : passkeyRecord.sign_count;
 
       // Update passkey usage
-      await this.config.database.updatePasskey(passkeyResult.data.id, {
+      await this.config.database.updatePasskey(passkeyRecord.id, {
         last_used_at: new Date(),
-        use_count: passkeyResult.data.use_count + 1,
-        sign_count: verification.signCount
+        use_count: passkeyRecord.use_count + 1,
+        sign_count: updatedSignCount
       });
 
       // Create session and tokens
@@ -603,6 +605,7 @@ export class LambdaAuthSystem {
       };
     }
   }
+
 
   /**
    * Generate session token
