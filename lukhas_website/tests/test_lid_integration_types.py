@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import atexit
+import importlib
 import importlib.util
 import sys
 import types
@@ -10,16 +12,58 @@ from pathlib import Path
 BASE_PATH = Path(__file__).resolve().parents[1] / "lukhas"
 IDENTITY_PATH = BASE_PATH / "identity"
 
+_CREATED_PACKAGES: set[str] = set()
+_ORIGINAL_PATHS: dict[str, list[str]] = {}
+
 
 def ensure_package(name: str, path: Path) -> types.ModuleType:
     module = sys.modules.get(name)
     if module is None:
-        module = types.ModuleType(name)
-        module.__path__ = [str(path)]  # type: ignore[attr-defined]
-        sys.modules[name] = module
-    elif not hasattr(module, "__path__"):
-        module.__path__ = [str(path)]  # type: ignore[attr-defined]
+        try:
+            module = importlib.import_module(name)
+        except ModuleNotFoundError:
+            module = types.ModuleType(name)
+            module.__path__ = [str(path)]  # type: ignore[attr-defined]
+            sys.modules[name] = module
+            _CREATED_PACKAGES.add(name)
+            parent_name, _, attr = name.rpartition(".")
+            if parent_name:
+                parent_path = path.parent if path.parent != path else path
+                parent = ensure_package(parent_name, parent_path)
+                setattr(parent, attr, module)
+        else:
+            if hasattr(module, "__path__"):
+                if str(path) not in module.__path__:
+                    _ORIGINAL_PATHS.setdefault(name, list(module.__path__))
+                    module.__path__.append(str(path))
+            else:
+                module.__path__ = [str(path)]  # type: ignore[attr-defined]
+    else:
+        if hasattr(module, "__path__"):
+            if str(path) not in module.__path__:
+                _ORIGINAL_PATHS.setdefault(name, list(module.__path__))
+                module.__path__.append(str(path))
+        else:
+            module.__path__ = [str(path)]  # type: ignore[attr-defined]
     return module
+
+
+def _restore_packages() -> None:
+    for name in sorted(_CREATED_PACKAGES, reverse=True):
+        parent_name, _, attr = name.rpartition(".")
+        if parent_name:
+            parent = sys.modules.get(parent_name)
+            if parent is not None and hasattr(parent, attr):
+                delattr(parent, attr)
+        sys.modules.pop(name, None)
+
+    for name, original_path in _ORIGINAL_PATHS.items():
+        module = sys.modules.get(name)
+        if module is not None and hasattr(module, "__path__"):
+            module.__path__ = original_path
+
+
+atexit.register(_restore_packages)
 
 
 def stub_module(name: str) -> types.ModuleType:
