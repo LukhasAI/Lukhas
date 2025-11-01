@@ -747,8 +747,12 @@ class LambdaSSOEngine:
         signing_key = (
             self.config.get("device_sync_token_signing_key")
             or self.config.get("qr_glyph_signing_key")
-            or "LUKHAS_DEVICE_SYNC_SECRET_2024"
         )
+        if not signing_key:
+            raise ValueError(
+                "Device sync token signing key is not configured; provide"
+                " 'device_sync_token_signing_key' or 'qr_glyph_signing_key'."
+            )
         binding_payload = json.dumps(binding_material, sort_keys=True, separators=(",", ":"))
         binding_hash = hmac.new(
             str(signing_key).encode(), binding_payload.encode(), hashlib.sha256
