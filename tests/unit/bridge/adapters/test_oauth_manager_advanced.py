@@ -25,6 +25,8 @@ import time
 from typing import Optional
 
 import pytest
+
+pytest.importorskip("hypothesis")
 from hypothesis import assume, given, settings, strategies as st
 
 from bridge.external_adapters.oauth_manager import (

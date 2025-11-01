@@ -16,6 +16,7 @@ work with both cases due to aliasing, but uppercase is canonical. Migration wind
 from __future__ import annotations
 
 import importlib
+import os
 import sys
 import warnings
 from types import ModuleType
@@ -29,13 +30,20 @@ _canonical_name = "MATRIZ"
 _compat_name = "matriz"
 
 # If imported as 'matriz', alias to 'MATRIZ' and emit warning
+_suppress_warning = os.getenv("LUKHAS_SUPPRESS_MATRIZ_COMPAT_WARNING", "").lower() in {
+    "1",
+    "true",
+    "yes",
+}
+
 if __name__ == _compat_name:
-    warnings.warn(
-        f"Importing '{_compat_name}' (lowercase) is deprecated. Use 'from {_canonical_name} import X' instead. "
-        "This compatibility will be removed in Q2 2026.",
-        DeprecationWarning,
-        stacklevel=2,
-    )
+    if not _suppress_warning:
+        warnings.warn(
+            f"Importing '{_compat_name}' (lowercase) is deprecated. Use 'from {_canonical_name} import X' instead. "
+            "This compatibility will be removed in Q2 2026.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
     # Make available as uppercase too
     sys.modules[_canonical_name] = _this_module
 
