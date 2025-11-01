@@ -12,6 +12,7 @@ Constellation Framework: Identity ⚛️ pillar with T4-T5 authentication tiers
 from __future__ import annotations
 
 import base64
+import binascii
 import json
 import logging
 import secrets
@@ -75,6 +76,7 @@ try:
 # See: https://github.com/LukhasAI/Lukhas/issues/594
 # See: https://github.com/LukhasAI/Lukhas/issues/595
 # See: https://github.com/LukhasAI/Lukhas/issues/596
+        PublicKeyCredentialDescriptor,
         ResidentKeyRequirement,
         UserVerificationRequirement,
     )
@@ -82,6 +84,7 @@ try:
 except ImportError:
     logger.warning("WebAuthn library not available - using mock implementation")
     WEBAUTHN_AVAILABLE = False
+    PublicKeyCredentialDescriptor = None  # type: ignore[assignment]
 
 
 class AuthenticatorType(Enum):
@@ -280,6 +283,30 @@ class WebAuthnManager:
         # Initialize authenticator metadata
         self._load_authenticator_metadata()
 
+    @staticmethod
+    def _decode_credential_id(credential_id: str) -> bytes:
+        """Decode a URL-safe base64 credential identifier."""
+        padding = '=' * (-len(credential_id) % 4)
+        return base64.urlsafe_b64decode(credential_id + padding)
+
+    def _build_credential_descriptor(self, credential_id: str) -> Any:
+        """Build a credential descriptor for WebAuthn operations."""
+        if not WEBAUTHN_AVAILABLE or PublicKeyCredentialDescriptor is None:
+            return {"id": credential_id, "type": "public-key"}
+
+        try:
+            decoded_id = self._decode_credential_id(credential_id)
+            normalized_id = base64.urlsafe_b64encode(decoded_id).decode().rstrip("=")
+            if normalized_id != credential_id:
+                raise ValueError("Credential ID normalization mismatch")
+        except (ValueError, binascii.Error) as exc:
+            logger.warning(
+                "Failed to decode credential_id '%s' for descriptor: %s", credential_id, exc
+            )
+            return {"id": credential_id, "type": "public-key"}
+
+        return PublicKeyCredentialDescriptor(id=decoded_id, type="public-key")
+
     def _load_authenticator_metadata(self) -> None:
         """Load authenticator metadata for device recognition"""
         # In production, this would load from FIDO Alliance MDS
@@ -313,13 +340,16 @@ class WebAuthnManager:
                                display_name: str,
                                tier: AuthenticatorTier = AuthenticatorTier.T4_STRONG,
                                authenticator_attachment: Optional[str] = None,
-                               resident_key: bool = True) -> Dict[str, Any]:
+                               resident_key: bool = True,
+                               device_name: Optional[str] = None) -> Dict[str, Any]:
         """Begin WebAuthn credential registration"""
 
         with tracer.start_span("webauthn.begin_registration") as span:
             span.set_attribute("user_id", user_id)
             span.set_attribute("tier", tier.value)
             span.set_attribute("authenticator_attachment", authenticator_attachment or "any")
+            if device_name:
+                span.set_attribute("requested_device_name", device_name)
 
             start_time = time.time()
 
@@ -327,7 +357,7 @@ class WebAuthnManager:
                 # Get existing credentials for excludeCredentials
                 existing_credentials = await self.credential_store.get_credentials(user_id)
                 exclude_credentials = [
-                    {"id": cred.credential_id, "type": "public-key"}
+                    self._build_credential_descriptor(cred.credential_id)
                     for cred in existing_credentials
                     if cred.status == CredentialStatus.ACTIVE
                 ]
@@ -344,7 +374,8 @@ class WebAuthnManager:
                         user_id=user_id,
                         operation="registration",
                         expires_at=datetime.now(timezone.utc) + timedelta(minutes=5),
-                        tier_required=tier
+                        tier_required=tier,
+                        metadata={"requested_device_name": device_name} if device_name else {}
                     ))
 
                     return {
@@ -409,7 +440,8 @@ class WebAuthnManager:
                     user_id=user_id,
                     operation="registration",
                     expires_at=datetime.now(timezone.utc) + timedelta(minutes=5),
-                    tier_required=tier
+                    tier_required=tier,
+                    metadata={"requested_device_name": device_name} if device_name else {}
                 ))
 
                 # Record metrics
@@ -577,7 +609,7 @@ class WebAuthnManager:
                 if user_id:
                     credentials = await self.credential_store.get_credentials(user_id)
                     allowed_credentials = [
-                        {"id": cred.credential_id, "type": "public-key"}
+                        self._build_credential_descriptor(cred.credential_id)
                         for cred in credentials
                         if cred.status == CredentialStatus.ACTIVE and cred.tier.value >= tier.value
                     ]

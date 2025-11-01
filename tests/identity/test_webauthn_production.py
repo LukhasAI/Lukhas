@@ -11,19 +11,34 @@ import base64
 import json
 import time
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 
 import pytest
 
-from identity.webauthn_production import (
-    AuthenticatorTier,
-    AuthenticatorType,
-    CredentialStatus,
-    WebAuthnChallenge,
-    WebAuthnCredential,
-    WebAuthnCredentialStore,
-    WebAuthnManager,
-    get_webauthn_manager,
+import importlib.util
+import sys
+
+PACKAGE_ROOT = Path(__file__).resolve().parents[2] / "lukhas_website" / "lukhas"
+if str(PACKAGE_ROOT) not in sys.path:
+    sys.path.insert(0, str(PACKAGE_ROOT))
+
+MODULE_PATH = PACKAGE_ROOT / "identity" / "webauthn_production.py"
+spec = importlib.util.spec_from_file_location(
+    "lukhas_identity.webauthn_production", MODULE_PATH
 )
+webauthn_production = importlib.util.module_from_spec(spec)
+assert spec.loader is not None
+sys.modules[spec.name] = webauthn_production
+spec.loader.exec_module(webauthn_production)
+
+AuthenticatorTier = webauthn_production.AuthenticatorTier
+AuthenticatorType = webauthn_production.AuthenticatorType
+CredentialStatus = webauthn_production.CredentialStatus
+WebAuthnChallenge = webauthn_production.WebAuthnChallenge
+WebAuthnCredential = webauthn_production.WebAuthnCredential
+WebAuthnCredentialStore = webauthn_production.WebAuthnCredentialStore
+WebAuthnManager = webauthn_production.WebAuthnManager
+get_webauthn_manager = webauthn_production.get_webauthn_manager
 
 
 class TestWebAuthnCredential:
@@ -500,6 +515,61 @@ class TestWebAuthnManager:
         # Should allow empty credential list for discoverable credentials
         assert "allowCredentials" in options
         assert isinstance(options["allowCredentials"], list)
+
+    def test_decode_credential_id_round_trip(self):
+        """Credential IDs should round-trip through encoding helpers."""
+        original = b"credential-bytes"
+        encoded = base64.urlsafe_b64encode(original).decode().rstrip("=")
+
+        decoded = self.manager._decode_credential_id(encoded)
+
+        assert decoded == original
+
+    def test_build_descriptor_without_webauthn(self, monkeypatch):
+        """Fallback descriptor should be dict when WebAuthn is unavailable."""
+        monkeypatch.setattr(webauthn_production, "WEBAUTHN_AVAILABLE", False)
+        monkeypatch.setattr(webauthn_production, "PublicKeyCredentialDescriptor", None)
+
+        descriptor = self.manager._build_credential_descriptor("plain-id")
+
+        assert descriptor == {"id": "plain-id", "type": "public-key"}
+
+    def test_build_descriptor_with_webauthn(self, monkeypatch):
+        """Descriptor should use WebAuthn struct when available."""
+
+        class DummyDescriptor:
+            def __init__(self, *, id: bytes, type: str = "public-key", transports=None):
+                self.id = id
+                self.type = type
+                self.transports = transports
+
+        original = b"binary-data"
+        encoded = base64.urlsafe_b64encode(original).decode().rstrip("=")
+
+        monkeypatch.setattr(webauthn_production, "WEBAUTHN_AVAILABLE", True)
+        monkeypatch.setattr(webauthn_production, "PublicKeyCredentialDescriptor", DummyDescriptor)
+
+        descriptor = self.manager._build_credential_descriptor(encoded)
+
+        assert isinstance(descriptor, DummyDescriptor)
+        assert descriptor.id == original
+        assert descriptor.type == "public-key"
+
+    def test_build_descriptor_invalid_id_falls_back(self, monkeypatch):
+        """Invalid credential IDs should fall back to dict descriptors."""
+
+        class DummyDescriptor:
+            def __init__(self, *, id: bytes, type: str = "public-key", transports=None):
+                self.id = id
+                self.type = type
+                self.transports = transports
+
+        monkeypatch.setattr(webauthn_production, "WEBAUTHN_AVAILABLE", True)
+        monkeypatch.setattr(webauthn_production, "PublicKeyCredentialDescriptor", DummyDescriptor)
+
+        descriptor = self.manager._build_credential_descriptor("not-base64@@@")
+
+        assert descriptor == {"id": "not-base64@@@", "type": "public-key"}
 
     async def register_test_credential(self,
                                      user_id: str = "user_123",
