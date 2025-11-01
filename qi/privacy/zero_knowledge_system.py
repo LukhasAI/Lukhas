@@ -39,7 +39,7 @@ __module_name__ = "Quantum Zero Knowledge System"
 __version__ = "1.0.0"
 __tier__ = 2
 
-__all__ = ["PrivacyStatement", "ZeroKnowledgePrivacyEngine"]
+__all__ = ["ProofStatement", "PrivacyStatement", "ZeroKnowledgePrivacyEngine"]
 
 
 from bulletproofs import BulletproofSystem
@@ -90,6 +90,58 @@ class PrivacyStatement:
             circuit_size=payload["circuit_size"],
             public_input=payload["public_input"],
             metadata=metadata,
+        )
+
+
+@dataclass(slots=True)
+class ProofStatement:
+    """Describe a generated zero-knowledge proof artifact."""
+
+    statement_id: str
+    proof_system: str
+    public_input: Any
+    metadata: MutableMapping[str, Any] = field(default_factory=dict)
+
+    def describe(self) -> Mapping[str, Any]:
+        """Return a serialisable view of the proof metadata."""
+
+        return {
+            "statement_id": self.statement_id,
+            "proof_system": self.proof_system,
+            "public_input": self.public_input,
+            "metadata": dict(self.metadata),
+        }
+
+    @classmethod
+    def from_mapping(cls, payload: Mapping[str, Any]) -> "ProofStatement":
+        """Create a :class:`ProofStatement` from a mapping of attributes."""
+
+        raw_metadata = payload.get("metadata")
+        if raw_metadata is None:
+            metadata = {}
+        elif isinstance(raw_metadata, MutableMapping):
+            metadata = dict(raw_metadata)
+        else:
+            metadata = dict(raw_metadata)
+
+        return cls(
+            statement_id=payload["statement_id"],
+            proof_system=payload["proof_system"],
+            public_input=payload["public_input"],
+            metadata=metadata,
+        )
+
+    @classmethod
+    def from_privacy(
+        cls, statement: PrivacyStatement, *, proof_system: str
+    ) -> "ProofStatement":
+        """Build a proof statement that mirrors a :class:`PrivacyStatement`."""
+
+        return cls(
+            statement_id=statement.statement_id,
+            proof_system=proof_system,
+            public_input=statement.public_input,
+            metadata=dict(statement.metadata),
         )
 
 
