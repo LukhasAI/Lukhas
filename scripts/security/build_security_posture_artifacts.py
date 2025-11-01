@@ -262,7 +262,13 @@ def _module_sbom_payload(module: ModuleEntry, timestamp: dt.datetime) -> Mapping
     }
 
 
-def _attestation_payload(module: ModuleEntry, timestamp: dt.datetime, digest: str, git_rev: str) -> Mapping[str, object]:
+def _attestation_payload(
+    module: ModuleEntry,
+    timestamp: dt.datetime,
+    digest: str,
+    shared_digest: str,
+    git_rev: str,
+) -> Mapping[str, object]:
     provenance_cid = _generate_provenance_cid(module.name)
     return {
         "buildType": "https://slsa.dev/provenance/v1",
@@ -302,7 +308,7 @@ def _attestation_payload(module: ModuleEntry, timestamp: dt.datetime, digest: st
         "materials": [
             {
                 "uri": str(SHARED_SBOM_PATH),
-                "digest": {"sha256": _sha256_hex(module.name.encode("utf-8"))},
+                "digest": {"sha256": shared_digest},
             }
         ],
         "provenance": {
@@ -352,7 +358,13 @@ def _build_indexes(modules: Sequence[ModuleEntry], timestamp: dt.datetime, write
 
         if _should_attest(module.name):
             attested_modules += 1
-            att_payload = _attestation_payload(module, timestamp, pointer_digest, git_rev)
+            att_payload = _attestation_payload(
+                module,
+                timestamp,
+                pointer_digest,
+                shared_digest,
+                git_rev,
+            )
             att_path = ATTESTATION_DIR / f"{module.safe_name}.slsa.json"
             if write:
                 _write_json(PROJECT_ROOT / att_path, att_payload)
