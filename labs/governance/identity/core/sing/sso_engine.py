@@ -13,6 +13,7 @@ Supported SSO Methods:
 """
 
 import hashlib
+import hmac
 import json
 import secrets
 from datetime import datetime, timedelta, timezone
@@ -712,14 +713,6 @@ class LambdaSSOEngine:
 
         token_ids = sorted(token["token_id"] for token in active_tokens if token.get("token_id"))
 
-        binding_material = {
-            "device_id": device_id,
-            "token_ids": token_ids,
-            "user_id": user_id,
-            "issued_at": now.isoformat(),
-        }
-        binding_hash = hashlib.sha256(json.dumps(binding_material, sort_keys=True).encode()).hexdigest()
-
         platform_support = sorted(
             {
                 platform
@@ -738,6 +731,28 @@ class LambdaSSOEngine:
         )
         if trust_level is None:
             trust_level = 0.5
+
+        binding_material = {
+            "device_id": device_id,
+            "token_ids": token_ids,
+            "user_id": user_id,
+            "issued_at": now.isoformat(),
+            "expires_at": expires_at_dt.isoformat(),
+            "service_scope": aggregated_scope,
+            "platform_support": platform_support,
+            "biometric_fallback": bool(biometric_enabled),
+            "trust_level": trust_level,
+        }
+
+        signing_key = (
+            self.config.get("device_sync_token_signing_key")
+            or self.config.get("qr_glyph_signing_key")
+            or "LUKHAS_DEVICE_SYNC_SECRET_2024"
+        )
+        binding_payload = json.dumps(binding_material, sort_keys=True, separators=(",", ":"))
+        binding_hash = hmac.new(
+            str(signing_key).encode(), binding_payload.encode(), hashlib.sha256
+        ).hexdigest()
 
         sync_token = {
             "sync_token_id": f"SYNC_{secrets.token_hex(16)}",

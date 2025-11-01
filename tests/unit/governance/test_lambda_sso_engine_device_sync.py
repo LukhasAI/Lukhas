@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import hashlib
+import hmac
 import sys
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -36,7 +37,12 @@ def _build_token(
 
 
 def test_create_device_sync_token_builds_binding_hash_and_scope():
-    engine = LambdaSSOEngine({"device_sync_token_ttl_hours": 6})
+    engine = LambdaSSOEngine(
+        {
+            "device_sync_token_ttl_hours": 6,
+            "device_sync_token_signing_key": "test-device-sync-secret",
+        }
+    )
 
     now = datetime.now(timezone.utc)
     token_a = _build_token(
@@ -86,9 +92,17 @@ def test_create_device_sync_token_builds_binding_hash_and_scope():
         "token_ids": ["ΛSSO_a", "ΛSSO_b"],
         "user_id": "user-sync",
         "issued_at": sync_token["issued_at"],
+        "expires_at": sync_token["expires_at"],
+        "service_scope": ["basic", "email", "profile"],
+        "platform_support": ["ios", "mobile", "web"],
+        "biometric_fallback": True,
+        "trust_level": 0.9,
     }
-    expected_hash = hashlib.sha256(
-        json.dumps(expected_binding_material, sort_keys=True).encode()
+    expected_payload = json.dumps(
+        expected_binding_material, sort_keys=True, separators=(",", ":")
+    )
+    expected_hash = hmac.new(
+        b"test-device-sync-secret", expected_payload.encode(), hashlib.sha256
     ).hexdigest()
     assert sync_token["token_bindings"]["binding_hash"] == expected_hash
 
