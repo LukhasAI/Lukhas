@@ -4,10 +4,16 @@ import base64
 import hashlib
 import hmac
 import json
+import os
 import sys
 import time
 import types
+import warnings
 from typing import Any, Dict, List, Optional, Union
+
+
+os.environ.setdefault("LUKHAS_SUPPRESS_MATRIZ_COMPAT_WARNING", "1")
+warnings.filterwarnings("ignore", category=DeprecationWarning, module="matriz")
 
 
 def _install_jwt_stub() -> None:

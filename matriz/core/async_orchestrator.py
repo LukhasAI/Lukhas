@@ -21,7 +21,7 @@ from typing import Any, Dict, List, Optional
 from matriz.core.node_interface import CognitiveNode
 
 try:
-    from prometheus_client import Counter, Histogram
+    from prometheus_client import Counter, Histogram, REGISTRY
 except Exception:  # pragma: no cover - metrics optional in tests
 
     class _NoopMetric:
@@ -38,6 +38,7 @@ except Exception:  # pragma: no cover - metrics optional in tests
             return None
 
     Counter = Histogram = _NoopMetric  # type: ignore
+    REGISTRY = None  # type: ignore
 
 # OpenTelemetry instrumentation
 try:
@@ -103,24 +104,44 @@ _DEFAULT_LANE = os.getenv("LUKHAS_LANE", "canary").lower()
 
 # ΛTAG: orchestrator_metrics -- async pipeline stage instrumentation
 if isinstance(Histogram, type):
-    _ASYNC_PIPELINE_DURATION = Histogram(
+    def _register_histogram(*args, **kwargs):
+        try:
+            return Histogram(*args, **kwargs)
+        except ValueError:
+            if REGISTRY is not None:
+                existing = getattr(REGISTRY, "_names_to_collectors", {}).get(args[0])
+                if isinstance(existing, Histogram):
+                    return existing
+            raise
+
+    def _register_counter(*args, **kwargs):
+        try:
+            return Counter(*args, **kwargs)
+        except ValueError:
+            if REGISTRY is not None:
+                existing = getattr(REGISTRY, "_names_to_collectors", {}).get(args[0])
+                if isinstance(existing, Counter):
+                    return existing
+            raise
+
+    _ASYNC_PIPELINE_DURATION = _register_histogram(
         "lukhas_matriz_async_pipeline_duration_seconds",
         "Async MATRIZ pipeline duration",
         ["lane", "status", "within_budget"],
         buckets=[0.01, 0.05, 0.1, 0.15, 0.2, 0.25, 0.35, 0.5, 1.0],
     )
-    _ASYNC_PIPELINE_TOTAL = Counter(
+    _ASYNC_PIPELINE_TOTAL = _register_counter(
         "lukhas_matriz_async_pipeline_total",
         "Async MATRIZ pipeline executions",
         ["lane", "status", "within_budget"],
     )
-    _ASYNC_STAGE_DURATION = Histogram(
+    _ASYNC_STAGE_DURATION = _register_histogram(
         "lukhas_matriz_async_stage_duration_seconds",
         "Async MATRIZ stage duration",
         ["lane", "stage", "outcome"],
         buckets=[0.001, 0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5],
     )
-    _ASYNC_STAGE_TOTAL = Counter(
+    _ASYNC_STAGE_TOTAL = _register_counter(
         "lukhas_matriz_async_stage_total",
         "Async MATRIZ stage executions",
         ["lane", "stage", "outcome"],
@@ -226,6 +247,7 @@ class OrchestrationMetrics:
     stage_durations: Dict[str, float] = field(default_factory=dict)
     timeout_count: int = 0
     error_count: int = 0
+    success_count: int = 0
     stages_completed: int = 0
     stages_skipped: int = 0
 
