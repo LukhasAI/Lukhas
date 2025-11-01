@@ -64,8 +64,13 @@ if ASYNC_ORCH_ENABLED:
             run_async_matriz as _RUN_ASYNC_ORCH,  # type: ignore[assignment]
         )
     except Exception:
-        ASYNC_ORCH_ENABLED = False
-        logging.getLogger(__name__).warning('LUKHAS_ASYNC_ORCH=1 but async MATRIZ orchestrator unavailable; falling back to stub')
+        try:
+            from matriz.orchestration.service_async import (  # type: ignore
+                run_async_matriz as _RUN_ASYNC_ORCH,  # type: ignore[assignment]
+            )
+        except Exception:
+            ASYNC_ORCH_ENABLED = False
+            logging.getLogger(__name__).warning('LUKHAS_ASYNC_ORCH=1 but async MATRIZ orchestrator unavailable; falling back to stub')
 
 def _safe_import_router(module_path: str, attr: str='router') -> Optional[Any]:
     try:

@@ -326,8 +326,8 @@ TYPE_CHECKING guarded usage (acceptable):
 - TODO NOW tests/matriz/test_async_orchestrator_e2e.py:9 — labs async orchestrator missing; add adapter/skip [OPEN]
 - TODO NOW tests/integration/test_matriz_complete_thought_loop.py:28 — consciousness entrypoint missing; add shim or update import [PARTIAL]
   - Update: Added `consciousness.matriz_thought_loop` shim module; import still failing under pytest collection — likely PYTHONPATH/package discovery issue.
-- TODO NOW consciousness/meta_cognitive_assessor/__init__.py — recursion in bridge module [NEW]
-  - Update: Bridge includes self in candidates → infinite recursion; remove self or guard.
+- TODO NOW consciousness/meta_cognitive_assessor/__init__.py — recursion in bridge module [DONE]
+  - Update: Removed self from candidates and added minimal stubs for stability.
 - TODO NOW core/trace.py:13 — replace `from matriz...` with `from MATRIZ...` or lazy adapter [DONE]
   - Update: Uses TYPE_CHECKING import + defensive access (no runtime dependency)
 - TODO NOW core/symbolic/dast_engine.py — replace lower-case import and retain lazy try/except; document lane compliance [DONE]
