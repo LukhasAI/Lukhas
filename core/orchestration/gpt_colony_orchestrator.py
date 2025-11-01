@@ -28,15 +28,66 @@ if TYPE_CHECKING:
     from core.colonies.enhanced_colony import ConsensusResult, EnhancedReasoningColony
     from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 else:
+    class _OpenAICapabilityFallback(Enum):
+        REASONING = "reasoning"
+
+
+    class _OpenAIModulatedServiceFallback:
+        async def process_modulated_request(self, *args, **kwargs):  # pragma: no cover - fallback
+            raise RuntimeError("OpenAI modulated service integration unavailable")
+
+
+    @dataclass
+    class _ConsensusResultFallback:
+        decision: Any = None
+        confidence: float = 0.0
+        participation_rate: float = 0.0
+
+
+    class _ColonyConsensusFallback:
+        def __init__(self, colony_id: str, signal_bus: Any):
+            self.colony_id = colony_id
+            self.signal_bus = signal_bus
+            self._agents: dict[str, float] = {}
+
+        def register_agent(self, agent_id: str, weight: float = 1.0):
+            self._agents[agent_id] = weight
+
+
+    class _EnhancedReasoningColonyFallback:
+        def __init__(self, colony_id: str):
+            self.colony_id = colony_id
+
+        async def process_query(self, *args, **kwargs):  # pragma: no cover - fallback
+            return None
+
+
+    @dataclass
+    class _SignalFallback:
+        name: Any
+        source: str
+        level: float
+        metadata: dict[str, Any]
+
+
+    class _SignalBusFallback:
+        def publish(self, _signal: Any):  # pragma: no cover - fallback
+            return None
+
+
+    class _SignalTypeFallback(Enum):
+        TRUST = "trust"
+
+
     # Provide runtime placeholders so annotations and demo helpers resolve
-    OpenAICapability = Any
-    OpenAIModulatedService = Any
-    ColonyConsensus = Any
-    ConsensusResult = Any
-    EnhancedReasoningColony = Any
-    Signal = Any
-    SignalBus = Any
-    SignalType = Any
+    OpenAICapability = _OpenAICapabilityFallback
+    OpenAIModulatedService = _OpenAIModulatedServiceFallback
+    ColonyConsensus = _ColonyConsensusFallback
+    ConsensusResult = _ConsensusResultFallback
+    EnhancedReasoningColony = _EnhancedReasoningColonyFallback
+    Signal = _SignalFallback
+    SignalBus = _SignalBusFallback
+    SignalType = _SignalTypeFallback
 
 
 def _lazy_import(module_name: str):
