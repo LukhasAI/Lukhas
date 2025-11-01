@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
-"""
-Hormone-Driven Dashboard
+"""Hormone-Driven Dashboard
 ========================
 Advanced dashboard that visualizes biological-inspired metrics with predictive
 analytics, real-time monitoring, and contextual insights driven by endocrine state.

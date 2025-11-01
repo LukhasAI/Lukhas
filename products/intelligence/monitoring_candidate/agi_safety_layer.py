@@ -1,12 +1,8 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
-"""
-AGI Safety Layer Implementation
+"""AGI Safety Layer Implementation
 ===============================
 Constitutional AI principles with mathematical guarantees for safe AGI operation
-Based on insights from Altman, Amodei, and Hassabis
+Based on insights from Altman, Amodei, and Hassabis.
 """
 
 import asyncio

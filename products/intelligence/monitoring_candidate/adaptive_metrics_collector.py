@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
-"""
-Adaptive Metrics Collector
+"""Adaptive Metrics Collector
 ==========================
 Advanced metrics collection system that gathers multi-dimensional data
 with contextual awareness, biological correlation, and predictive analysis.

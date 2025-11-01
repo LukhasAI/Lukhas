@@ -129,9 +129,12 @@ class PolicyContext:
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary for JSON serialization."""
         result = {"operation_type": self.operation_type, "component": self.component}
-        if self.user_id: result["user_id"] = self.user_id
-        if self.tier: result["tier"] = self.tier
-        if self.lane: result["lane"] = self.lane
+        if self.user_id:
+            result["user_id"] = self.user_id
+        if self.tier:
+            result["tier"] = self.tier
+        if self.lane:
+            result["lane"] = self.lane
         return result
 
 

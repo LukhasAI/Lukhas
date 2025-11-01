@@ -1,15 +1,11 @@
 #!/usr/bin/env python3
-from __future__ import annotations
-
-import logging
-
-logger = logging.getLogger(__name__)
-"""
-Integrated Monitoring System
+"""Integrated Monitoring System
 ============================
 Central integration hub that connects all monitoring components with the existing
 SignalBus and HomeostasisController to create a unified monitoring ecosystem.
 """
+
+from __future__ import annotations
 
 import asyncio
 from collections import defaultdict, deque
