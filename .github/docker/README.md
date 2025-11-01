@@ -36,6 +36,8 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
 ```
 
+> **Note:** The CI workflow now fails whenever the PQC benchmark falls back to the legacy marker file. Ensure the runner image is available to avoid breaking builds.
+
 ### Available Tools
 
 #### `pqc-bench`

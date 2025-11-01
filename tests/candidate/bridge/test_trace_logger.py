@@ -1,6 +1,7 @@
 import json
 
 import pytest
+
 from bridge.trace_logger import (
     BridgeTraceLogger,
     TraceCategory,

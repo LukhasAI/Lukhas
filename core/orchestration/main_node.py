@@ -66,6 +66,9 @@ class AdaptiveAGISystem:
         """Load all system components"""
         try:
             # Frontend components
+            from learning.meta_learning import MetaLearningSystem
+            from voice.speech_processor import SpeechProcessor
+
             from core.common.interfaces.ui.adaptive.adaptive_interface_generator import (
                 AdaptiveInterfaceGenerator,
             )
@@ -81,12 +84,10 @@ class AdaptiveAGISystem:
             from governance.identity.core.id_service.identity_manager import (
                 IdentityManager,
             )
-            from learning.meta_learning import MetaLearningSystem
 
             # Backend components
             from memory.node import Node
             from orchestration.brain.privacy_manager import PrivacyManager
-            from voice.speech_processor import SpeechProcessor
 
             self.SpeechProcessor = SpeechProcessor
             self.AdaptiveImageGenerator = AdaptiveImageGenerator

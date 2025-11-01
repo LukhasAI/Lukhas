@@ -131,8 +131,9 @@ def test_insufficient_scope_returns_403():
     # This tests the scope validation logic
     # In a real scenario, we'd have protected endpoints requiring specific scopes
 
-    from adapters.openai.auth import require_bearer
     from fastapi import Header
+
+    from adapters.openai.auth import require_bearer
 
     # Test that require_bearer with required_scopes validates correctly
     token = "sk-lukhas-test-1234567890"

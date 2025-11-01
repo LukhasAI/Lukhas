@@ -31,6 +31,7 @@ PLACEHOLDER_PASSWORD_2 = "SecurePassword123!"  # nosec
 # Security imports with fallback handling
 try:
     from compliance.ai_compliance import ComplianceEngine
+
     from governance.guardian_system import GuardianSystem
     from identity.core import IdentitySystem
     from security.authentication import (

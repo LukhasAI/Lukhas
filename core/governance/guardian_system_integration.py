@@ -30,6 +30,7 @@ Core Components:
 
 Integrates with Constellation Framework, orchestration layer, and all LUKHAS agents.
 """
+import importlib as _importlib
 import asyncio
 import logging
 import time
@@ -49,44 +50,35 @@ except ImportError:
     ConsentLedgerV1 = None
     PolicyVerdict = None
     logging.warning("ConsentLedgerV1 not available - using fallback")
-
 try:
-    from labs.governance.guardian.drift_detector import (
-        AdvancedDriftDetector,
-        DriftSeverity,
-        DriftType,
-    )
-except ImportError:
+    _mod = _importlib.import_module("labs.governance.guardian.drift_detector")
+    AdvancedDriftDetector = getattr(_mod, "AdvancedDriftDetector")
+    DriftSeverity = getattr(_mod, "DriftSeverity")
+    DriftType = getattr(_mod, "DriftType")
+except Exception:
     AdvancedDriftDetector = None
-    DriftType = None
     DriftSeverity = None
-    logging.warning("AdvancedDriftDetector not available - using fallback")
-
+    DriftType = None
 try:
-    from labs.governance.identity.core.sent.policy_engine import (
-        ComprehensiveEthicsPolicyEngine,
-        EthicalFramework,
-        PolicyAction,
-    )
-except ImportError:
+    _mod = _importlib.import_module("labs.governance.identity.core.sent.policy_engine")
+    ComprehensiveEthicsPolicyEngine = getattr(_mod, "ComprehensiveEthicsPolicyEngine")
+    EthicalFramework = getattr(_mod, "EthicalFramework")
+    PolicyAction = getattr(_mod, "PolicyAction")
+except Exception:
     ComprehensiveEthicsPolicyEngine = None
     EthicalFramework = None
     PolicyAction = None
-    logging.warning("ComprehensiveEthicsPolicyEngine not available - using fallback")
-
 try:
-    from labs.governance.security.audit_system import (
-        AuditCategory,
-        AuditEventType,
-        AuditLevel,
-        ComprehensiveAuditSystem,
-    )
-except ImportError:
-    ComprehensiveAuditSystem = None
-    AuditEventType = None
+    _mod = _importlib.import_module("labs.governance.security.audit_system")
+    AuditCategory = getattr(_mod, "AuditCategory")
+    AuditEventType = getattr(_mod, "AuditEventType")
+    AuditLevel = getattr(_mod, "AuditLevel")
+    ComprehensiveAuditSystem = getattr(_mod, "ComprehensiveAuditSystem")
+except Exception:
     AuditCategory = None
+    AuditEventType = None
     AuditLevel = None
-    logging.warning("ComprehensiveAuditSystem not available - using fallback")
+    ComprehensiveAuditSystem = None
 
 # Core system integrations
 try:

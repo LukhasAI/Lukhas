@@ -4,10 +4,16 @@ import base64
 import hashlib
 import hmac
 import json
+import os
 import sys
 import time
 import types
+import warnings
 from typing import Any, Dict, List, Optional, Union
+
+
+os.environ.setdefault("LUKHAS_SUPPRESS_MATRIZ_COMPAT_WARNING", "1")
+warnings.filterwarnings("ignore", category=DeprecationWarning, module="matriz")
 
 
 def _install_jwt_stub() -> None:
@@ -141,3 +147,21 @@ def _install_yaml_stub() -> None:
 
 _install_jwt_stub()
 _install_yaml_stub()
+
+
+# Pytest skip helpers for optional dependencies
+import pytest
+
+# Check if labs is available
+try:
+    import importlib
+    importlib.import_module("labs")
+    LABS_AVAILABLE = True
+except ImportError:
+    LABS_AVAILABLE = False
+
+# Skip decorator for tests requiring labs
+requires_labs = pytest.mark.skipif(
+    not LABS_AVAILABLE,
+    reason="labs not installed - skipping labs-dependent test"
+)

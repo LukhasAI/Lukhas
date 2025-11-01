@@ -13,6 +13,7 @@ import time
 from datetime import datetime, timedelta, timezone
 
 import pytest
+
 from identity.webauthn_production import (
     AuthenticatorTier,
     AuthenticatorType,
@@ -499,6 +500,53 @@ class TestWebAuthnManager:
         # Should allow empty credential list for discoverable credentials
         assert "allowCredentials" in options
         assert isinstance(options["allowCredentials"], list)
+
+    def test_decode_credential_id_handles_base64(self):
+        """Ensure credential IDs are decoded from base64url strings."""
+        manager = self.manager
+        raw_bytes = b"credential-bytes"
+        encoded_id = base64.urlsafe_b64encode(raw_bytes).decode().rstrip("=")
+
+        decoded = manager._decode_credential_id(encoded_id)
+
+        assert decoded == raw_bytes
+
+    def test_decode_credential_id_falls_back_to_utf8(self):
+        """Non-base64 credential IDs should be UTF-8 encoded."""
+        manager = self.manager
+        credential_id = "non_base64_id"
+
+        decoded = manager._decode_credential_id(credential_id)
+
+        assert decoded == credential_id.encode()
+
+    def test_build_credential_descriptors(self, monkeypatch):
+        """Ensure credential descriptors use PublicKeyCredentialDescriptor."""
+        manager = self.manager
+        raw_bytes = b"descriptor-id"
+        encoded_id = base64.urlsafe_b64encode(raw_bytes).decode().rstrip("=")
+        credential = WebAuthnCredential(
+            credential_id=encoded_id,
+            public_key="pk",
+            user_id="user_123",
+        )
+
+        class DummyDescriptor:
+            def __init__(self, *, id):
+                self.id = id
+
+        monkeypatch.setattr(
+            "identity.webauthn_production.PublicKeyCredentialDescriptor",
+            DummyDescriptor,
+            raising=False,
+        )
+        monkeypatch.setattr("identity.webauthn_production.WEBAUTHN_AVAILABLE", True)
+
+        descriptors = manager._build_credential_descriptors([credential])
+
+        assert len(descriptors) == 1
+        assert isinstance(descriptors[0], DummyDescriptor)
+        assert descriptors[0].id == raw_bytes
 
     async def register_test_credential(self,
                                      user_id: str = "user_123",

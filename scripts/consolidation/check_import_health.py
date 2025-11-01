@@ -70,7 +70,10 @@ def test_import(module_name: str, description: str, verbose: bool = False) -> Tu
             return True, "OK"
 
     except ImportError as e:
-        return False, f"ImportError: {e}"
+        msg = f"ImportError: {e}"
+        if "No module named" in str(e):
+            msg += "\n     💡 TIP: Ensure PYTHONPATH includes repo root or use: ./scripts/run_lane_guard_worktree.sh"
+        return False, msg
     except Exception as e:
         return False, f"Unexpected error: {type(e).__name__}: {e}"
 
@@ -132,6 +135,12 @@ def main():
         print("❌ Import health check FAILED")
         print("   Some modules could not be imported")
         print("   Review errors above and fix import paths")
+        print()
+        print("Tip: Run isolated validation in a worktree (recommended):")
+        print("  bash scripts/run_lane_guard_worktree.sh")
+        print("This creates a venv, installs minimal deps, and runs import-health.")
+        print("If running locally, ensure PYTHONPATH includes repo root and install import-linter:")
+        print("  python3 -m pip install import-linter")
         return 1
 
     if deprecated > 0 and args.fail_on_deprecation:

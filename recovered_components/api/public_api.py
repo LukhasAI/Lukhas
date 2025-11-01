@@ -23,7 +23,6 @@ import uvicorn
 
 # Import LUKHAS components
 from branding_bridge import get_system_signature, get_triad_context, initialize_branding
-from core.security.auth import get_auth_system
 from fastapi import Depends, FastAPI, HTTPException, Request, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
@@ -31,6 +30,8 @@ from pydantic import BaseModel, ConfigDict, Field
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 from slowapi.util import get_remote_address
+
+from core.security.auth import get_auth_system
 
 # Configure logging
 logging.basicConfig(

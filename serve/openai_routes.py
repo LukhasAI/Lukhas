@@ -20,7 +20,6 @@ import time
 import uuid
 from typing import Any, AsyncGenerator, Dict, List, Optional, Union
 
-from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
 from fastapi import (
     APIRouter,
     Body,
@@ -32,6 +31,9 @@ from fastapi import (
     status,
 )
 from fastapi.responses import JSONResponse, StreamingResponse
+
+from adapters.openai import TokenClaims, require_bearer
+from bridge.llm_wrappers.openai_modulated_service import OpenAIModulatedService
 
 from .schemas import ModulatedChatRequest, ModulatedChatResponse
 
@@ -94,24 +96,17 @@ async def openai_metrics() -> JSONResponse:
 # ------------------------------------------------------------------------------
 # ΛTAG: openai_facade
 
-def require_api_key(authorization: Optional[str] = Header(None)) -> Dict[str, Any]:
-    """Dev-permissive auth: accepts any Bearer token."""
-    error_payload = {
-        "error": {
-            "type": "invalid_api_key",
-            "message": "Missing or invalid API key",
-            "code": "invalid_api_key",
-        }
-    }
-    if not authorization:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=error_payload)
-    if not authorization.lower().startswith("bearer "):
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=error_payload)
+def require_api_key(
+    authorization: Optional[str] = Header(None),
+    x_lukhas_project: Optional[str] = Header(default=None, alias="X-Lukhas-Project"),
+) -> TokenClaims:
+    """Validate Bearer tokens using PolicyGuard-backed dependency."""
 
-    token = authorization.split(" ", 1)[1].strip()
-    if len(token) < 8:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=error_payload)
-    return {"token": token}
+    return require_bearer(
+        authorization=authorization,
+        required_scopes=("api.read",),
+        project_id=x_lukhas_project,
+    )
 
 
 def _rl_headers() -> Dict[str, str]:

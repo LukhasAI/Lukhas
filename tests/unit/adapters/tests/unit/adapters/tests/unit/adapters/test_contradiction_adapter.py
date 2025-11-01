@@ -1,9 +1,10 @@
 import json
 from pathlib import Path
 
-from tests.util.mk_msg import mk_msg_from_json
+from matriz.adapters.contradiction_adapter import ContradictionAdapter
 
-from MATRIZ.adapters.contradiction_adapter import ContradictionAdapter
+from matriz.adapters.contradiction_adapter import ContradictionAdapter
+from tests.util.mk_msg import mk_msg_from_json
 
 GOLDEN = Path("tests/fixtures/golden/contradiction_adapter")
 

@@ -331,7 +331,7 @@ gh api /repos/LukhasAI/Lukhas/branches/main/protection | jq
 - [x] Branch protection active
 - [x] TEMP-STUB blocker functional
 - [ ] Auth tests triaged (#491)
-- [ ] No-Op guard observation complete (#494)
+- [ ] No-Op guard observation complete (#494) — 46/48h observed; awaiting live batch usage
 
 ### Short-term (Week 1)
 - [ ] PQC runner provisioned (#492)
@@ -376,7 +376,7 @@ The T4 relay has successfully delivered:
 **Next Actions**:
 1. Triage auth test failures (#491) - 2-4 hours
 2. Provision PQC runner (#492) - Week 1, critical path
-3. Monitor No-Op guard (#494) - 48-72 hour observation
+3. Monitor No-Op guard (#494) - Extend observation through next batch integration cycle (currently 46/48h with zero activations)
 4. Execute TEMP-STUB protection policy (#493) - 2-3 hours
 
 **Status**: Ready for MATRIZ-007 PQC migration Week 1 kickoff.
@@ -384,6 +384,6 @@ The T4 relay has successfully delivered:
 ---
 
 **Document Version**: 1.0
-**Last Updated**: 2025-10-24
+**Last Updated**: 2025-10-26
 **Author**: Agent D (T4 Relay Coordinator)
 **Review Status**: Ready for operational use

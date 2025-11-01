@@ -63,9 +63,9 @@ class TestSchemaCore:
     def test_error_handling(self):
         """Test proper error handling patterns."""
         try:
-            from core.exceptions import LUKHASException
-
             from schema import SchemaCore
+
+            from core.exceptions import LUKHASException
 
             component = SchemaCore()
 
@@ -82,8 +82,9 @@ class TestSchemaIntegration:
     def test_consciousness_integration(self):
         """Test integration with consciousness system."""
         try:
-            from consciousness import ConsciousnessCore
             from schema import SchemaCore
+
+            from consciousness import ConsciousnessCore
 
             consciousness = ConsciousnessCore()
             component = SchemaCore()
@@ -175,7 +176,6 @@ class TestSchemaPerformance:
             import os
 
             import psutil
-
             from schema import SchemaCore
 
             component = SchemaCore()

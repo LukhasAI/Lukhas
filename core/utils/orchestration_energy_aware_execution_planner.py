@@ -44,6 +44,8 @@ metabolic conscience of the system, optimizing for both performance and longevit
 AIDEA: Add circadian rhythm patterns for natural energy cycles
 """
 
+from __future__ import annotations
+
 import asyncio
 import json
 import logging

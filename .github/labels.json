@@ -20,5 +20,6 @@
   "type:fix":"#EF4444",
   "type:tech-debt":"#9CA3AF",
   "type:research":"#A78BFA",
-  "triage":"#64748B"
+  "triage":"#64748B",
+  "agent:codex":"#6366F1"
 }

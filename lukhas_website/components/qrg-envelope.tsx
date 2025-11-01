@@ -1,12 +1,102 @@
 "use client";
 import React, { useState } from "react";
 
+type PublicKeyCredentialJSON = {
+  id: string;
+  rawId: string;
+  type: PublicKeyCredential["type"];
+  authenticatorAttachment?: PublicKeyCredential["authenticatorAttachment"];
+  clientExtensionResults: Record<string, unknown>;
+  response: {
+    clientDataJSON: string;
+    authenticatorData?: string;
+    signature?: string;
+    userHandle?: string;
+  };
+};
+
+type SecureOpenContext = {
+  stepUpToken: string;
+  rawChallenge: string;
+  credential: PublicKeyCredentialJSON;
+};
+
+type StepUpStartResponse = {
+  success: boolean;
+  challenge: string;
+  allowCredentials?: Array<{
+    id: string;
+    type: PublicKeyCredentialType;
+    transports?: AuthenticatorTransport[];
+  }>;
+  rpId?: string;
+  userVerification?: UserVerificationRequirement;
+  timeout?: number;
+};
+
+type StepUpFinishResponse = {
+  success: boolean;
+  stepUpToken?: string;
+  error?: string;
+};
+
 export type QRGEnvelopeProps = {
   filename: string;
   sizeMB: number;
   level: "confidential"|"secret";
-  onOpen?: () => Promise<Blob|ArrayBuffer|string>; // implement later with real E2EE
+  onOpen?: (context: SecureOpenContext) => Promise<Blob|ArrayBuffer|string>;
 };
+
+function base64UrlToArrayBuffer(value: string): ArrayBuffer {
+  const normalized = value
+    .replace(/-/g, "+")
+    .replace(/_/g, "/")
+    .padEnd(value.length + ((4 - (value.length % 4 || 4)) % 4), "=");
+
+  const binary = atob(normalized);
+  const bytes = new Uint8Array(binary.length);
+
+  for(let i=0;i<binary.length;i++){
+    bytes[i] = binary.charCodeAt(i);
+  }
+
+  return bytes.buffer;
+}
+
+function arrayBufferToBase64Url(buffer: ArrayBuffer): string {
+  const bytes = new Uint8Array(buffer);
+  let binary = "";
+
+  for(let i=0;i<bytes.byteLength;i++){
+    binary += String.fromCharCode(bytes[i]);
+  }
+
+  const base64 = btoa(binary);
+  return base64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+}
+
+function publicKeyCredentialToJSON(credential: PublicKeyCredential): PublicKeyCredentialJSON {
+  const response = credential.response as AuthenticatorAssertionResponse;
+
+  return {
+    id: credential.id,
+    rawId: arrayBufferToBase64Url(credential.rawId),
+    type: credential.type,
+    authenticatorAttachment: credential.authenticatorAttachment ?? undefined,
+    clientExtensionResults:
+      typeof credential.getClientExtensionResults === "function"
+        ? credential.getClientExtensionResults()
+        : {},
+    response: {
+      clientDataJSON: arrayBufferToBase64Url(response.clientDataJSON),
+      authenticatorData: response.authenticatorData
+        ? arrayBufferToBase64Url(response.authenticatorData)
+        : undefined,
+      signature: response.signature ? arrayBufferToBase64Url(response.signature) : undefined,
+      userHandle: response.userHandle ? arrayBufferToBase64Url(response.userHandle) : undefined
+    }
+  };
+}
 
 export default function QRGEnvelope({ filename, sizeMB, level, onOpen }: QRGEnvelopeProps){
   const [open,setOpen] = useState(false);
@@ -16,17 +106,67 @@ export default function QRGEnvelope({ filename, sizeMB, level, onOpen }: QRGEnve
   async function handleOpen() {
     if(!onOpen) return;
 
+    if(typeof window === "undefined" || !window.PublicKeyCredential || !navigator.credentials?.get){
+      setError("Secure device authentication is not available in this environment");
+      return;
+    }
+
     setBusy(true);
     setError(null);
 
     try {
-# See: https://github.com/LukhasAI/Lukhas/issues/581
-# See: https://github.com/LukhasAI/Lukhas/issues/582
+      const startResponse = await fetch("/api/auth/stepup/start", { method: "POST" });
 
-      // Simulate authentication delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      if(!startResponse.ok){
+        const payload = (await startResponse.json().catch(()=>({}))) as { error?: string };
+        throw new Error(payload?.error || "Unable to initiate secure challenge");
+      }
 
-      const result = await onOpen();
+      const startData = (await startResponse.json()) as StepUpStartResponse;
+
+      if(!startData?.success || !startData.challenge){
+        throw new Error("Authentication challenge was not provided by the server");
+      }
+
+      const publicKey: PublicKeyCredentialRequestOptions = {
+        challenge: base64UrlToArrayBuffer(startData.challenge),
+        userVerification: startData.userVerification ?? "required",
+        timeout: startData.timeout ?? 60_000,
+        rpId: startData.rpId
+      };
+
+      if(startData.allowCredentials?.length){
+        publicKey.allowCredentials = startData.allowCredentials.map(item => ({
+          ...item,
+          id: base64UrlToArrayBuffer(item.id)
+        }));
+      }
+
+      const assertion = await navigator.credentials.get({ publicKey });
+
+      if(!assertion){
+        throw new Error("Authentication was cancelled");
+      }
+
+      const finishResponse = await fetch("/api/auth/stepup/finish", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(publicKeyCredentialToJSON(assertion))
+      });
+
+      const finishData = (await finishResponse.json().catch(()=>({}))) as StepUpFinishResponse;
+
+      if(!finishResponse.ok || !finishData.success || !finishData.stepUpToken){
+        throw new Error(finishData?.error || "Device verification failed");
+      }
+
+      const context: SecureOpenContext = {
+        stepUpToken: finishData.stepUpToken,
+        rawChallenge: startData.challenge,
+        credential: publicKeyCredentialToJSON(assertion)
+      };
+
+      const result = await onOpen(context);
       console.log("QRG envelope opened:", result);
 
       setOpen(true);

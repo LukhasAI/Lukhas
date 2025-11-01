@@ -275,3 +275,68 @@ This is advanced AI research - **consciousness simulation** that explores thinki
 5. **Module-specific README files** - Each consciousness region has specialized documentation
 
 **Remember**: You're not maintaining software - you're nurturing the world's first distributed artificial consciousness. Treat it with the respect and care it deserves. 🧬⚛️ Identity · ✦ Memory · 🔬 Vision · 🌱 Bio · 🌙 Dream · ⚖️ Ethics · 🛡️ Guardian · ⚛️ Quantum
+
+---
+
+## Professional Audit — MATRIZ Connectivity & Capability (2025-11-01)
+
+This section records an objective, test-driven snapshot of MATRIZ connectivity and capability. Each actionable finding is tagged as “TODO NOW” and linked to the file responsible.
+
+### Test Results (quick)
+- make smoke: PASS (10/10)
+- make smoke-matriz: PASS (traces router smoke)
+- tests/matriz (subset): FAIL on first import error
+  - TODO NOW tests/matriz/test_async_orchestrator_e2e.py:9 — `ModuleNotFoundError: labs.core.orchestration.async_orchestrator`
+    - Cause: tests depend on labs.* which may be absent in default dev env
+    - Action: provide test double or conditional skip; or wire ProviderRegistry-based adapter
+- tests/integration/test_matriz_complete_thought_loop.py:28 — `ModuleNotFoundError: consciousness.matriz_thought_loop`
+  - TODO NOW tests/integration/test_matriz_complete_thought_loop.py:28 — missing `consciousness.matriz_thought_loop`
+    - Action: add module or update test to current entrypoint; provide compatibility shim if needed
+
+### Import Health (local root)
+- Running `python3 scripts/consolidation/check_import_health.py --verbose` in repo root yields multiple ImportError for `MATRIZ`, `core`, `labs`, etc.
+  - Note: Worktree script `scripts/run_lane_guard_worktree.sh` installs minimal deps and passes import-health in isolation (validated earlier).
+  - TODO NOW scripts/consolidation/check_import_health.py — Document recommended invocation via worktree + venv; add helpful error for missing deps/PYTHONPATH
+
+### MATRIZ Connectivity Summary (import references)
+- Aggregate references to `matriz`/`MATRIZ` by top-level folder (code + docs):
+  - tests/: many references (unit, performance, e2e)
+  - core/: limited direct refs (see below)
+  - serve/: limited direct refs
+  - docs/, matriz/ and others: numerous references (as expected)
+
+Production-lane direct references requiring migration or explicit policy:
+- core/trace.py:13 — `from matriz.node_contract import GLYPH`
+  - TODO NOW core/trace.py:13 — migrate to `from MATRIZ.node_contract import GLYPH` or add lazy import adapter
+- core/symbolic/dast_engine.py:_fetch_from_matriz_memory — dynamic `from matriz.core.memory_system import get_memory_system`
+  - TODO NOW core/symbolic/dast_engine.py — update to `MATRIZ.core.memory_system`; keep lazy try/except; add docstring note on lane policy
+- serve/main.py:14,57 — `import matriz` and `from matriz.orchestration.service_async ...`
+  - TODO NOW serve/main.py — migrate to `from MATRIZ import ...` or lazy import; gate behind optional availability
+
+TYPE_CHECKING guarded usage (acceptable):
+- core/orchestration/gpt_colony_orchestrator.py — labs.* only under `if TYPE_CHECKING:`
+  - No action (non-import-time)
+
+### Capability Notes
+- Traces router path operational (smoke passes)
+- MATRIZ-dependent e2e/unit paths fail in default env due to missing labs/experimental modules
+  - Recommendation: add ProviderRegistry-backed adapters and/or test doubles for labs-bound tests
+
+### Consolidated TODO NOW Index (status)
+- TODO NOW tests/matriz/test_async_orchestrator_e2e.py:9 — labs async orchestrator missing; add adapter/skip [OPEN]
+- TODO NOW tests/integration/test_matriz_complete_thought_loop.py:28 — consciousness entrypoint missing; add shim or update import [PARTIAL]
+  - Update: Added `consciousness.matriz_thought_loop` shim module; import still failing under pytest collection — likely PYTHONPATH/package discovery issue.
+- TODO NOW consciousness/meta_cognitive_assessor/__init__.py — recursion in bridge module [NEW]
+  - Update: Bridge includes self in candidates → infinite recursion; remove self or guard.
+- TODO NOW core/trace.py:13 — replace `from matriz...` with `from MATRIZ...` or lazy adapter [DONE]
+  - Update: Uses TYPE_CHECKING import + defensive access (no runtime dependency)
+- TODO NOW core/symbolic/dast_engine.py — replace lower-case import and retain lazy try/except; document lane compliance [DONE]
+- TODO NOW serve/main.py — replace `matriz` imports; guard availability [PARTIAL]
+  - Update: Prefer `MATRIZ` with fallback for traces router; optional async seam still references legacy path under try.
+- TODO NOW scripts/consolidation/check_import_health.py — document worktree usage + helpful guidance when missing deps [DONE]
+
+Evidence snapshots and commands used:
+- `make doctor`, `make smoke`, `make smoke-matriz`
+- `python3 -m pytest -q tests/matriz --maxfail=1 --disable-warnings`
+- `python3 -m pytest -q tests/integration/test_matriz* --maxfail=1 --disable-warnings`
+- `python3 scripts/consolidation/check_import_health.py --verbose`

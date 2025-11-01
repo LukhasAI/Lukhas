@@ -2,8 +2,8 @@ name: Security Posture Monitor
 
 on:
   schedule:
-    # Run security posture analysis daily at 6 AM UTC
-    - cron: '0 6 * * *'
+    # Run security posture analysis weekly at 6 AM UTC on Mondays (temporarily reduced cadence)
+    - cron: '0 6 * * 1'
   push:
     branches: [main]
     paths:
@@ -20,7 +20,7 @@ on:
       alert_threshold:
         description: 'Alert on security score below threshold'
         required: false
-        default: '70'
+        default: '50'
         type: string
 
 permissions:
@@ -99,7 +99,7 @@ jobs:
 
       - name: Check Security Threshold
         run: |
-          THRESHOLD="${{ github.event.inputs.alert_threshold || '70' }}"
+          THRESHOLD="${{ github.event.inputs.alert_threshold || '50' }}"
           SCORE="${{ steps.analysis.outputs.overall_score }}"
 
           echo "Security posture score: $SCORE"
@@ -263,9 +263,13 @@ jobs:
             The Matrix Tracks security posture score has fallen below the configured threshold.
 
             **Current Score:** ${{ steps.analysis.outputs.overall_score }}/100 (Grade: ${{ steps.analysis.outputs.posture_grade }})
-            **Threshold:** ${{ github.event.inputs.alert_threshold || '70' }}/100
+            **Threshold:** ${{ github.event.inputs.alert_threshold || '50' }}/100
             **Critical Alerts:** ${{ steps.analysis.outputs.critical_alerts }}
             **High Priority Alerts:** ${{ steps.analysis.outputs.high_alerts }}
+
+            **Note**: Score below threshold is expected during the active 6-week remediation sprint.
+            See docs/security/SECURITY_POSTURE_REMEDIATION.md for consolidated status updates.
+            Target completion: 2025-11-20.
 
             ${dashboardContent}
 

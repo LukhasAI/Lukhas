@@ -26,10 +26,9 @@ import psutil
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 try:
+    from consciousness import ConsciousnessStream, CreativityEngine
     from consciousness.types import ConsciousnessState, CreativeTask
     from governance.guardian_system import GuardianSystem
-
-    from consciousness import ConsciousnessStream, CreativityEngine
 except ImportError:
     print("Warning: LUKHAS modules not available, using simulation mode")
     GuardianSystem = None

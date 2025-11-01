@@ -5,11 +5,13 @@ import importlib
 import pkgutil
 from pathlib import Path
 
+import matriz.adapters
 import pytest
-from tests.util.mk_msg import mk_test_message
+from matriz.node_contract import MatrizNode, MatrizResult
 
-import MATRIZ.adapters
-from MATRIZ.node_contract import MatrizNode, MatrizResult
+import matriz.adapters
+from matriz.node_contract import MatrizNode, MatrizResult
+from tests.util.mk_msg import mk_test_message
 
 
 def discover_adapters():

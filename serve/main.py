@@ -11,10 +11,16 @@ from starlette.middleware.base import BaseHTTPMiddleware
 MATRIZ_AVAILABLE = False
 MEMORY_AVAILABLE = False
 try:
-    import MATRIZ
+    import importlib as _importlib
+    _MATRIZ = _importlib.import_module("MATRIZ")
     MATRIZ_AVAILABLE = True
-except ImportError:
-    pass
+except Exception:
+    try:
+        # Fallback to compatibility shim (deprecated)
+        _MATRIZ = _importlib.import_module("matriz")  # type: ignore
+        MATRIZ_AVAILABLE = True
+    except Exception:
+        pass
 try:
     import lukhas.memory
     MEMORY_AVAILABLE = True
@@ -48,12 +54,15 @@ except Exception:
         return _os.getenv(key, default)
 import os
 
-_ASYNC_ORCH_ENV = (env_get('LUKHAS_ASYNC_ORCH', '0') or '0').strip()
-ASYNC_ORCH_ENABLED = _ASYNC_ORCH_ENV == '1'
+# ΛTAG: async_response_toggle -- optional async orchestrator integration seam
+_ASYNC_ORCH_ENV = (env_get("LUKHAS_ASYNC_ORCH", "0") or "0").strip()
+ASYNC_ORCH_ENABLED = _ASYNC_ORCH_ENV == "1"
 _RUN_ASYNC_ORCH: Optional[Callable[[str], Awaitable[dict[str, Any]]]] = None
 if ASYNC_ORCH_ENABLED:
     try:
-        from MATRIZ.orchestration.service_async import run_async_matriz as _RUN_ASYNC_ORCH
+        from MATRIZ.orchestration.service_async import (
+            run_async_matriz as _RUN_ASYNC_ORCH,  # type: ignore[assignment]
+        )
     except Exception:
         ASYNC_ORCH_ENABLED = False
         logging.getLogger(__name__).warning('LUKHAS_ASYNC_ORCH=1 but async MATRIZ orchestrator unavailable; falling back to stub')
@@ -75,7 +84,10 @@ openai_router = _safe_import_router('.openai_routes', 'router')
 orchestration_router = _safe_import_router('.orchestration_routes', 'router')
 routes_router = _safe_import_router('.routes', 'router')
 traces_router = _safe_import_router('.routes_traces', 'router')
-matriz_traces_router = _safe_import_router('matriz.traces_router', 'router')
+matriz_traces_router = (
+    _safe_import_router('MATRIZ.traces_router', 'router')
+    or _safe_import_router('matriz.traces_router', 'router')
+)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -247,9 +259,11 @@ async def list_models() -> dict[str, Any]:
 @app.post('/v1/embeddings', tags=['OpenAI Compatible'])
 async def create_embeddings(request: dict) -> dict[str, Any]:
     """OpenAI-compatible embeddings endpoint with unique deterministic vectors."""
-    input_text = request.get('input', '')
-    model = request.get('model', 'text-embedding-ada-002')
-    dimensions = request.get('dimensions', 1536)
+    input_text = request.get("input", "")
+    model = request.get("model", "text-embedding-ada-002")
+    dimensions = request.get("dimensions", 1536)
+
+    # Generate unique deterministic embedding based on input
     embedding = _hash_embed(input_text, dimensions)
     return {'object': 'list', 'data': [{'object': 'embedding', 'embedding': embedding, 'index': 0}], 'model': model, 'usage': {'prompt_tokens': len(str(input_text).split()), 'total_tokens': len(str(input_text).split())}}
 
@@ -269,15 +283,23 @@ async def create_response(request: dict) -> dict[str, Any]:
     import hashlib
     import json
     import time
-    model = request.get('model', 'lukhas-mini')
-    content = ''
-    if 'input' in request:
-        content = str(request['input'])
-    elif 'messages' in request and request['messages']:
-        msgs = request['messages']
-        content = next((m.get('content', '') for m in reversed(msgs) if m.get('role') == 'user'), '')
-    rid = 'resp_' + hashlib.sha256(json.dumps(request, sort_keys=True).encode()).hexdigest()[:12]
-    response_text = f'[stub] {content}'.strip() if content else '[stub] empty input'
+
+    model = request.get("model", "lukhas-mini")
+
+    # Extract content from either "input" field or messages array
+    content = ""
+    if "input" in request:
+        content = str(request["input"])
+    elif "messages" in request and request["messages"]:
+        # Get last user message content
+        msgs = request["messages"]
+        content = next((m.get("content", "") for m in reversed(msgs) if m.get("role") == "user"), "")
+
+    # Generate deterministic response ID from request
+    rid = "resp_" + hashlib.sha256(json.dumps(request, sort_keys=True).encode()).hexdigest()[:12]
+
+    # Echo stub response by default; async orchestrator can override when enabled
+    response_text = f"[stub] {content}".strip() if content else "[stub] empty input"
     orchestrator_result: Optional[dict[str, Any]] = None
     if ASYNC_ORCH_ENABLED and _RUN_ASYNC_ORCH is not None:
         orchestrator_result = await _RUN_ASYNC_ORCH(content)

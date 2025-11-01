@@ -9,11 +9,24 @@ MIGRATION NOTE: This module now imports from enhanced_swarm for improved functio
 while maintaining backward compatibility.
 """
 import time
+from contextlib import contextmanager
+from dataclasses import dataclass
 from enum import Enum
+from typing import Any, Dict, Optional
 
-from core.agent_tracer import AIAgentTracer, get_global_tracer
-from core.fault_tolerance import SupervisionStrategy, Supervisor
-from core.minimal_actor import Actor
+try:
+    from core.fault_tolerance import SupervisionStrategy
+except Exception:
+    class SupervisionStrategy(Enum):  # minimal fallback
+        RESTART = "restart"
+        IGNORE = "ignore"
+
+try:
+    from core.minimal_actor import Actor
+except Exception:
+    class Actor:  # minimal fallback
+        def __init__(self, *_: Any, **__: Any) -> None:
+            pass
 
 # Import enhanced implementations for better functionality
 try:
@@ -317,3 +330,90 @@ class SwarmHub:
             "reasoning_result": result,
             "broadcast_results": broadcast_results,
         }
+
+
+# ----------------------
+# Tracing and Supervision
+# ----------------------
+
+
+@dataclass
+class TraceEvent:
+    name: str
+    duration_ms: float
+    attributes: Dict[str, Any]
+
+
+class TraceCollector:
+    """Minimal trace collector that stores or emits trace events.
+
+    This is a lightweight, import-time-safe stand‑in for a full tracing backend.
+    """
+
+    def __init__(self):
+        self.events: list[TraceEvent] = []
+
+    def record(self, name: str, duration_ms: float, **attributes: Any) -> None:
+        self.events.append(TraceEvent(name=name, duration_ms=duration_ms, attributes=attributes))
+
+
+class GlobalTracer:
+    """Global tracer exposing a shared collector instance."""
+
+    def __init__(self):
+        self.collector = TraceCollector()
+
+
+_GLOBAL_TRACER: Optional[GlobalTracer] = None
+
+
+def get_global_tracer() -> GlobalTracer:
+    """Return a process‑local global tracer with a minimal collector."""
+    global _GLOBAL_TRACER
+    if _GLOBAL_TRACER is None:
+        _GLOBAL_TRACER = GlobalTracer()
+    return _GLOBAL_TRACER
+
+
+class AIAgentTracer:
+    """Agent/Colony tracer with simple timed spans sent to the global collector."""
+
+    def __init__(self, scope: str, collector: TraceCollector):
+        self.scope = scope
+        self.collector = collector
+
+    @contextmanager
+    def trace_agent_operation(self, entity_id: str, operation: str):
+        start = time.time()
+        try:
+            yield
+        finally:
+            dur_ms = (time.time() - start) * 1000.0
+            self.collector.record(
+                name=f"{self.scope}.{operation}",
+                duration_ms=dur_ms,
+                entity_id=entity_id,
+            )
+
+
+class Supervisor:
+    """Minimal supervisor implementing a restart/ignore strategy.
+
+    Integrates with core.fault_tolerance.SupervisionStrategy to determine handling.
+    """
+
+    def __init__(self, strategy: SupervisionStrategy = SupervisionStrategy.RESTART):
+        self.strategy = strategy
+        self.children: Dict[str, Actor] = {}
+
+    def add_child(self, child_id: str, actor: Actor) -> None:
+        self.children[child_id] = actor
+
+    def handle_failure(self, child_id: str, exc: Exception) -> None:
+        # For now, log + simple restart placeholder depending on strategy
+        if self.strategy == SupervisionStrategy.RESTART and child_id in self.children:
+            # A real implementation would reconstruct/restart the actor.
+            # We keep a no‑op to maintain import‑time safety.
+            pass
+        elif self.strategy == SupervisionStrategy.IGNORE:
+            pass

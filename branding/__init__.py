@@ -12,8 +12,9 @@ from __future__ import annotations
 from _bridgeutils import bridge_from_candidates
 
 _CANDIDATES = (
+    "labs.branding",
+    "lukhas_website.lukhas.branding_bridge",
     "candidate.branding",
-    "branding.terminology",
 )
 
 __all__, _exports = bridge_from_candidates(*_CANDIDATES)

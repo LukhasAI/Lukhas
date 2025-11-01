@@ -31,7 +31,11 @@ import subprocess
 import sys
 import time
 from collections import defaultdict
+<<<<<<< HEAD
 from dataclasses import dataclass, asdict
+=======
+from dataclasses import asdict, dataclass
+>>>>>>> origin/main
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
@@ -63,7 +67,11 @@ except ImportError:
 @dataclass
 class TestSuiteMetrics:
     """Comprehensive test suite execution metrics"""
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> origin/main
     total_tests: int = 0
     passed_tests: int = 0
     failed_tests: int = 0
@@ -75,20 +83,32 @@ class TestSuiteMetrics:
     quality_gate_status: str = "unknown"
     tier_results: Dict[str, Dict[str, int]] = None
     component_results: Dict[str, Dict[str, int]] = None
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> origin/main
     def __post_init__(self):
         if self.tier_results is None:
             self.tier_results = defaultdict(lambda: {"passed": 0, "failed": 0, "skipped": 0})
         if self.component_results is None:
             self.component_results = defaultdict(lambda: {"passed": 0, "failed": 0, "skipped": 0})
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> origin/main
     @property
     def success_rate(self) -> float:
         """Calculate overall success rate"""
         if self.total_tests == 0:
             return 0.0
         return (self.passed_tests / self.total_tests) * 100
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> origin/main
     @property
     def quality_score(self) -> float:
         """Calculate comprehensive quality score"""
@@ -98,12 +118,20 @@ class TestSuiteMetrics:
             "performance": 0.2,
             "security": 0.1
         }
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> origin/main
         success_score = min(self.success_rate / 100, 1.0)
         coverage_score = min(self.coverage_percentage / 100, 1.0)
         performance_score = max(0, 1.0 - (self.performance_regressions * 0.1))
         security_score = max(0, 1.0 - (self.security_issues * 0.2))
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> origin/main
         return (
             weights["success_rate"] * success_score +
             weights["coverage"] * coverage_score +
@@ -113,7 +141,11 @@ class TestSuiteMetrics:
 
 
 # Legacy compatibility alias
+<<<<<<< HEAD
 @dataclass 
+=======
+@dataclass
+>>>>>>> origin/main
 class TestSuiteResults:
     """Legacy alias for TestSuiteMetrics - maintained for compatibility"""
     total_tests: int = 0
@@ -159,7 +191,11 @@ class ComprehensiveTestSuite:
         self.metrics = TestSuiteMetrics()
         self.test_config = self._load_test_config()
         self.quality_gates = self._load_quality_gates()
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> origin/main
         if COVERAGE_AVAILABLE:
             self.coverage = coverage.Coverage(
                 source=[str(self.project_root)],
@@ -174,7 +210,11 @@ class ComprehensiveTestSuite:
             )
         else:
             self.coverage = None
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> origin/main
     def _load_test_config(self) -> Dict[str, Any]:
         """Load comprehensive test configuration"""
         default_config = {
@@ -220,7 +260,11 @@ class ComprehensiveTestSuite:
                 "performance_regression_threshold": 20.0
             }
         }
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> origin/main
         # Try to load from config file
         config_path = self.project_root / "tests" / "test_suite_config.json"
         if config_path.exists():
@@ -230,9 +274,15 @@ class ComprehensiveTestSuite:
                     default_config.update(custom_config)
             except Exception as e:
                 logger.warning(f"Failed to load test config: {e}")
+<<<<<<< HEAD
                 
         return default_config
     
+=======
+
+        return default_config
+
+>>>>>>> origin/main
     def _load_quality_gates(self) -> Dict[str, float]:
         """Load quality gate thresholds"""
         return {
@@ -242,7 +292,11 @@ class ComprehensiveTestSuite:
             "max_performance_regressions": 2,
             "min_quality_score": 85.0
         }
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> origin/main
     def run_comprehensive_suite(self, tier_filter: Optional[str] = None) -> TestSuiteMetrics:
         """
         Run comprehensive test suite with quality gates
@@ -256,25 +310,39 @@ class ComprehensiveTestSuite:
         logger.info("Starting LUKHAS Comprehensive Test Suite")
         print("🚀 Starting LUKHAS Enhanced Comprehensive Test Suite")
         print("=" * 60)
+<<<<<<< HEAD
         
         start_time = time.perf_counter()
         
         if self.coverage:
             self.coverage.start()
         
+=======
+
+        start_time = time.perf_counter()
+
+        if self.coverage:
+            self.coverage.start()
+
+>>>>>>> origin/main
         try:
             # Determine which tiers to run
             if tier_filter:
                 tiers_to_run = [tier_filter] if tier_filter in self.test_config["test_tiers"] else []
             else:
                 tiers_to_run = list(self.test_config["test_tiers"].keys())
+<<<<<<< HEAD
             
+=======
+
+>>>>>>> origin/main
             # Run each test tier
             for tier in tiers_to_run:
                 logger.info(f"Running {tier} tests...")
                 print(f"\n📋 Phase: {tier.title()} Tests")
                 tier_results = self._run_test_tier(tier)
                 self._update_metrics_from_tier(tier, tier_results)
+<<<<<<< HEAD
             
             # Run component-specific tests
             print(f"\n🔧 Phase: Component-Specific Tests")
@@ -309,6 +377,42 @@ class ComprehensiveTestSuite:
         # Print final summary
         self._print_summary()
         
+=======
+
+            # Run component-specific tests
+            print("\n🔧 Phase: Component-Specific Tests")
+            self._run_component_tests()
+
+            # Run security scans
+            print("\n🔒 Phase: Security Scans")
+            self._run_security_scans()
+
+            # Run performance benchmarks
+            print("\n⚡ Phase: Performance Tests")
+            self._run_performance_tests()
+
+            # Calculate coverage
+            print("\n📊 Phase: Coverage Analysis")
+            self._calculate_coverage()
+
+        finally:
+            if self.coverage:
+                self.coverage.stop()
+
+        # Calculate total execution time
+        self.metrics.execution_time = time.perf_counter() - start_time
+
+        # Evaluate quality gates
+        print("\n🎯 Phase: Quality Gate Evaluation")
+        self._evaluate_quality_gates()
+
+        # Generate comprehensive report
+        self._generate_test_report()
+
+        # Print final summary
+        self._print_summary()
+
+>>>>>>> origin/main
         return self.metrics
 
 
