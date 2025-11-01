@@ -1,4 +1,4 @@
-"""Tests covering WebAuthn enhanced module import behaviour."""
+"""Regression tests for the enhanced WebAuthn module import behaviour."""
 
 from __future__ import annotations
 
@@ -95,7 +95,7 @@ def _reload_enhanced_module(*, package_override: str | None = IDENTITY_PACKAGE) 
     )
 
 
-def test_webauthn_dependencies_available_sets_flag_true():
+def test_webauthn_dependencies_available_sets_flag_true() -> None:
     """The module exposes WebAuthn primitives when dependencies import correctly."""
 
     base_module = _load_module_from_file(BASE_MODULE_PATH, BASE_FILE)
@@ -106,7 +106,7 @@ def test_webauthn_dependencies_available_sets_flag_true():
     assert module.WebAuthnManager is base_module.WebAuthnManager
 
 
-def test_webauthn_dependency_failure_sets_flag_false():
+def test_webauthn_dependency_failure_sets_flag_false() -> None:
     """If the base module lacks required exports the enhanced module should fallback."""
 
     original_module = sys.modules.get(BASE_MODULE_PATH)
@@ -124,7 +124,7 @@ def test_webauthn_dependency_failure_sets_flag_false():
             sys.modules.pop(BASE_MODULE_PATH, None)
 
 
-def test_webauthn_absolute_import_fallback_without_package_context():
+def test_webauthn_absolute_import_fallback_without_package_context() -> None:
     """The module falls back to absolute imports when package context is missing."""
 
     original_base = sys.modules.pop(BASE_MODULE_PATH, None)
