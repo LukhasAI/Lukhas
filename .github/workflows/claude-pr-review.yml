@@ -3,6 +3,8 @@ name: Claude Code PR Review
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+  issue_comment:
+    types: [created]
   pull_request_review_comment:
     types: [created]
 
@@ -26,8 +28,15 @@ jobs:
       - name: Get PR diff
         id: pr-diff
         run: |
-          gh pr diff ${{ github.event.pull_request.number }} > pr-diff.txt
-          gh pr view ${{ github.event.pull_request.number }} --json title,body,files > pr-metadata.json
+          # Get PR number from event
+          if [ "${{ github.event_name }}" = "issue_comment" ]; then
+            PR_NUMBER=${{ github.event.issue.number }}
+          else
+            PR_NUMBER=${{ github.event.pull_request.number }}
+          fi
+
+          gh pr diff $PR_NUMBER > pr-diff.txt
+          gh pr view $PR_NUMBER --json title,body,files > pr-metadata.json
           echo "Diff size: $(wc -l < pr-diff.txt) lines"
         env:
           GH_TOKEN: ${{ github.token }}
@@ -36,9 +45,20 @@ jobs:
         id: check-trigger
         run: |
           TRIGGER=false
+          # Check PR body for @claude mention
           if echo '${{ github.event.pull_request.body }}' | grep -qi '@claude'; then
             TRIGGER=true
           fi
+          # Check issue comment (general PR comment)
+          if [ "${{ github.event_name }}" = "issue_comment" ]; then
+            if echo '${{ github.event.comment.body }}' | grep -qi '@claude'; then
+              # Only trigger on PR comments, not issues
+              if [ "${{ github.event.issue.pull_request }}" != "" ]; then
+                TRIGGER=true
+              fi
+            fi
+          fi
+          # Check review comment (line-specific comment)
           if [ "${{ github.event_name }}" = "pull_request_review_comment" ]; then
             if echo '${{ github.event.comment.body }}' | grep -qi '@claude'; then
               TRIGGER=true
