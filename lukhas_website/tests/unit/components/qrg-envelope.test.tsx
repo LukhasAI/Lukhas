@@ -1,131 +1,126 @@
-require('ts-node/register/transpile-only');
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import QRGEnvelope from "@/components/qrg-envelope";
 
-const React = require('react');
-const { act, render, screen, waitFor } = require('@testing-library/react');
-const userEvent = require('@testing-library/user-event').default;
-const QRGEnvelope = require('../../../components/qrg-envelope').default;
+describe("QRGEnvelope", () => {
+  const originalFetch = global.fetch;
+  const originalCredentials = navigator.credentials;
+  const originalPublicKeyCredential = window.PublicKeyCredential;
 
-const mockAuditLog = jest.fn();
-
-jest.mock('../../../packages/auth/audit-logger', () => ({
-  __esModule: true,
-  default: { log: mockAuditLog },
-  AuditLogger: { log: mockAuditLog },
-}));
-
-jest.mock('../../../lib/auth/QuantumIdentityProvider', () => ({
-  __esModule: true,
-  useQuantumIdentity: () => ({
-    authState: {
-      isAuthenticated: true,
-      identity: {
-        consciousness_id: 'LUKHAS_TEST_ID',
-        quantum_signature: 'QS_TEST',
-        domain_access: ['lukhas.ai'],
-        coherence_score: 0.97,
-        identity_tier: 'T3',
-        created_at: new Date().toISOString(),
-        last_transition: new Date().toISOString(),
-        cross_domain_state: new Map(),
-      },
+  const mockCredential = {
+    id: "cred-123",
+    type: "public-key" as const,
+    rawId: new Uint8Array([1, 2, 3]).buffer,
+    response: {
+      clientDataJSON: new TextEncoder().encode("client").buffer,
+      authenticatorData: new Uint8Array([4, 5, 6]).buffer,
+      signature: new Uint8Array([7, 8]).buffer,
+      userHandle: new Uint8Array([9]).buffer,
     },
-  }),
-}));
+    authenticatorAttachment: "platform" as const,
+    getClientExtensionResults: jest.fn(() => ({ appid: true })),
+  } as unknown as PublicKeyCredential;
 
-describe('QRGEnvelope', () => {
   beforeEach(() => {
-    mockAuditLog.mockReset();
-    jest.useFakeTimers();
+    global.fetch = jest.fn();
+    Object.defineProperty(navigator, "credentials", {
+      configurable: true,
+      value: { get: jest.fn().mockResolvedValue(mockCredential) },
+    });
+    Object.defineProperty(window, "PublicKeyCredential", {
+      configurable: true,
+      value: function PublicKeyCredential() {} as unknown,
+    });
   });
 
   afterEach(() => {
-    jest.runOnlyPendingTimers();
-    jest.useRealTimers();
+    jest.resetAllMocks();
+    if (originalFetch) {
+      global.fetch = originalFetch;
+    }
+    Object.defineProperty(navigator, "credentials", {
+      configurable: true,
+      value: originalCredentials,
+    });
+    Object.defineProperty(window, "PublicKeyCredential", {
+      configurable: true,
+      value: originalPublicKeyCredential,
+    });
   });
 
-  it('records Λ-trace audit metadata on successful open', async () => {
-    mockAuditLog.mockResolvedValue('audit_success');
-    const onOpen = jest.fn().mockResolvedValue({
-      payload: 'secret-message',
-      traceId: 'trace-123',
-      auditContext: {
-        ipAddress: '10.0.0.1',
-        userAgent: 'jest-test-agent',
-        sessionId: 'session-123',
-      },
-      auditMetadata: { channel: 'p2p' },
+  it("performs a WebAuthn challenge before opening", async () => {
+    const mockStart = {
+      success: true,
+      challenge: "ZmFrZS1jaGFsbGVuZ2U", // base64url for "fake-challenge"
+    };
+    const mockFinish = {
+      success: true,
+      stepUpToken: "token-abc",
+    };
+
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: jest.fn().mockResolvedValue(mockStart),
     });
 
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: jest.fn().mockResolvedValue(mockFinish),
+    });
+
+    const onOpen = jest.fn().mockResolvedValue("decrypted");
 
     render(
-      React.createElement(QRGEnvelope, {
-        filename: 'secret.txt',
-        sizeMB: 1.5,
-        level: 'confidential',
-        onOpen,
+      <QRGEnvelope
+        filename="secret.txt"
+        sizeMB={4.2}
+        level="secret"
+        onOpen={onOpen}
+      />
+    );
+
+    fireEvent.click(screen.getByRole("button"));
+
+    await waitFor(() => expect(onOpen).toHaveBeenCalledTimes(1));
+
+    expect(onOpen).toHaveBeenCalledWith(
+      expect.objectContaining({
+        stepUpToken: "token-abc",
+        rawChallenge: "ZmFrZS1jaGFsbGVuZ2U",
       })
     );
 
-    const button = screen.getByRole('button', { name: /Glyph Envelope/i });
+    await screen.findByText("Glyph Opened");
 
-    await user.click(button);
-    await act(async () => {
-      jest.advanceTimersByTime(1500);
-    });
-
-    await waitFor(() => expect(onOpen).toHaveBeenCalledTimes(1));
-    await waitFor(() => expect(mockAuditLog).toHaveBeenCalledTimes(1));
-
-    const callArgs = mockAuditLog.mock.calls[0][0];
-
-    expect(callArgs.outcome).toBe('success');
-    expect(callArgs.context.traceId).toBe('trace-123');
-    expect(callArgs.context.userId).toBe('LUKHAS_TEST_ID');
-    expect(callArgs.metadata).toMatchObject({
-      filename: 'secret.txt',
-      sizeMB: 1.5,
-      level: 'confidential',
-      traceId: 'trace-123',
-      channel: 'p2p',
-    });
-    expect(callArgs.reasons).toBeUndefined();
-  });
-
-  it('records failure Λ-trace entry when open fails', async () => {
-    mockAuditLog.mockResolvedValue('audit_failure');
-    const onOpen = jest.fn().mockRejectedValue(new Error('decryption_failed'));
-
-    const user = userEvent.setup({ advanceTimers: jest.advanceTimersByTime });
-
-    render(
-      React.createElement(QRGEnvelope, {
-        filename: 'secret.txt',
-        sizeMB: 2.3,
-        level: 'secret',
-        onOpen,
+    expect((navigator.credentials as any).get).toHaveBeenCalledWith(
+      expect.objectContaining({
+        publicKey: expect.objectContaining({
+          userVerification: "required",
+          rpId: undefined,
+        }),
       })
     );
+  });
 
-    const button = screen.getByRole('button', { name: /Glyph Envelope/i });
-
-    await user.click(button);
-    await act(async () => {
-      jest.advanceTimersByTime(1500);
+  it("shows an error message when the challenge fails to start", async () => {
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: false,
+      json: jest.fn().mockResolvedValue({ error: "No session" }),
     });
 
-    await waitFor(() => expect(onOpen).toHaveBeenCalledTimes(1));
-    await waitFor(() => expect(mockAuditLog).toHaveBeenCalledTimes(1));
+    const onOpen = jest.fn();
 
-    const callArgs = mockAuditLog.mock.calls[0][0];
+    render(
+      <QRGEnvelope
+        filename="secret.txt"
+        sizeMB={2}
+        level="confidential"
+        onOpen={onOpen}
+      />
+    );
 
-    expect(callArgs.outcome).toBe('failure');
-    expect(callArgs.metadata).toMatchObject({
-      filename: 'secret.txt',
-      level: 'secret',
-    });
-    expect(callArgs.reasons?.[0]).toContain('decryption_failed');
-    expect(callArgs.context.traceId).toMatch(/^qrg_/);
-    expect(await screen.findByText(/Authentication failed or content unavailable/i)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button"));
+
+    await screen.findByText("⚠️ Authentication failed or content unavailable");
+    expect(onOpen).not.toHaveBeenCalled();
   });
 });

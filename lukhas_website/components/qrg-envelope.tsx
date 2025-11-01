@@ -1,159 +1,178 @@
 "use client";
 import React, { useState } from "react";
-import { useQuantumIdentity } from "@/lib/auth/QuantumIdentityProvider";
-import AuditLogger from "@/packages/auth/audit-logger";
 
-type AuditLoggerType = typeof AuditLogger;
-type AuditLogParams = Parameters<AuditLoggerType["log"]>[0];
-type AuditContext = AuditLogParams["context"];
-
-type QRGOpenPayload = Blob | ArrayBuffer | string;
-
-type QRGOpenAuditEnvelope = {
-  payload: QRGOpenPayload;
-  traceId?: string;
-  auditContext?: Partial<AuditContext>;
-  auditMetadata?: Record<string, unknown>;
+type PublicKeyCredentialJSON = {
+  id: string;
+  rawId: string;
+  type: PublicKeyCredential["type"];
+  authenticatorAttachment?: PublicKeyCredential["authenticatorAttachment"];
+  clientExtensionResults: Record<string, unknown>;
+  response: {
+    clientDataJSON: string;
+    authenticatorData?: string;
+    signature?: string;
+    userHandle?: string;
+  };
 };
 
-type QRGOpenResult = QRGOpenPayload | QRGOpenAuditEnvelope;
+type SecureOpenContext = {
+  stepUpToken: string;
+  rawChallenge: string;
+  credential: PublicKeyCredentialJSON;
+};
+
+type StepUpStartResponse = {
+  success: boolean;
+  challenge: string;
+  allowCredentials?: Array<{
+    id: string;
+    type: PublicKeyCredentialType;
+    transports?: AuthenticatorTransport[];
+  }>;
+  rpId?: string;
+  userVerification?: UserVerificationRequirement;
+  timeout?: number;
+};
+
+type StepUpFinishResponse = {
+  success: boolean;
+  stepUpToken?: string;
+  error?: string;
+};
 
 export type QRGEnvelopeProps = {
   filename: string;
   sizeMB: number;
   level: "confidential"|"secret";
-  onOpen?: () => Promise<QRGOpenResult>; // implement later with real E2EE
+  onOpen?: (context: SecureOpenContext) => Promise<Blob|ArrayBuffer|string>;
 };
 
+function base64UrlToArrayBuffer(value: string): ArrayBuffer {
+  const normalized = value
+    .replace(/-/g, "+")
+    .replace(/_/g, "/")
+    .padEnd(value.length + ((4 - (value.length % 4 || 4)) % 4), "=");
+
+  const binary = atob(normalized);
+  const bytes = new Uint8Array(binary.length);
+
+  for(let i=0;i<binary.length;i++){
+    bytes[i] = binary.charCodeAt(i);
+  }
+
+  return bytes.buffer;
+}
+
+function arrayBufferToBase64Url(buffer: ArrayBuffer): string {
+  const bytes = new Uint8Array(buffer);
+  let binary = "";
+
+  for(let i=0;i<bytes.byteLength;i++){
+    binary += String.fromCharCode(bytes[i]);
+  }
+
+  const base64 = btoa(binary);
+  return base64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+}
+
+function publicKeyCredentialToJSON(credential: PublicKeyCredential): PublicKeyCredentialJSON {
+  const response = credential.response as AuthenticatorAssertionResponse;
+
+  return {
+    id: credential.id,
+    rawId: arrayBufferToBase64Url(credential.rawId),
+    type: credential.type,
+    authenticatorAttachment: credential.authenticatorAttachment ?? undefined,
+    clientExtensionResults:
+      typeof credential.getClientExtensionResults === "function"
+        ? credential.getClientExtensionResults()
+        : {},
+    response: {
+      clientDataJSON: arrayBufferToBase64Url(response.clientDataJSON),
+      authenticatorData: response.authenticatorData
+        ? arrayBufferToBase64Url(response.authenticatorData)
+        : undefined,
+      signature: response.signature ? arrayBufferToBase64Url(response.signature) : undefined,
+      userHandle: response.userHandle ? arrayBufferToBase64Url(response.userHandle) : undefined
+    }
+  };
+}
+
 export default function QRGEnvelope({ filename, sizeMB, level, onOpen }: QRGEnvelopeProps){
-  const { authState } = useQuantumIdentity();
   const [open,setOpen] = useState(false);
   const [busy,setBusy] = useState(false);
   const [error,setError] = useState<string|null>(null);
 
-  function normalizeOpenResult(result: QRGOpenResult | undefined): QRGOpenAuditEnvelope {
-    if (result && typeof result === "object" && "payload" in result) {
-      return {
-        payload: result.payload,
-        traceId: result.traceId,
-        auditContext: result.auditContext,
-        auditMetadata: result.auditMetadata
-      };
-    }
-
-    return { payload: result as QRGOpenPayload };
-  }
-
-  function generateTraceId() {
-    if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
-      return `qrg_${crypto.randomUUID()}`;
-    }
-    if (typeof crypto !== "undefined" && typeof crypto.getRandomValues === "function") {
-      const array = new Uint8Array(16);
-      crypto.getRandomValues(array);
-      return `qrg_${Array.from(array).map(b => b.toString(16).padStart(2, "0")).join("")}`;
-    }
-    return `qrg_${Math.random().toString(36).slice(2)}`;
-  }
-
-  function buildAuditContext(
-    traceId: string,
-    override?: Partial<AuditContext>
-  ): AuditContext {
-    const identity = authState.identity;
-    const defaultUserAgent = typeof navigator !== "undefined" ? navigator.userAgent : "unknown";
-
-    return {
-      requestId: override?.requestId,
-      sessionId: override?.sessionId,
-      traceId: override?.traceId ?? traceId,
-      userId: override?.userId ?? identity?.consciousness_id,
-      impersonatorId: override?.impersonatorId,
-      tier: override?.tier ?? identity?.identity_tier,
-      role: override?.role,
-      organizationId: override?.organizationId,
-      ipAddress: override?.ipAddress ?? "client_redacted",
-      userAgent: override?.userAgent ?? defaultUserAgent,
-      country: override?.country,
-      asn: override?.asn,
-      deviceId: override?.deviceId,
-      deviceFingerprint: override?.deviceFingerprint,
-      deviceTrusted: override?.deviceTrusted,
-      authMethods: override?.authMethods ?? ["qrg_envelope"],
-      stepUpAuthenticated: override?.stepUpAuthenticated ?? true,
-      riskScore: override?.riskScore,
-      featureFlags: override?.featureFlags,
-      experimentId: override?.experimentId,
-      businessUnit: override?.businessUnit,
-    };
-  }
-
-  async function recordAuditEvent(
-    outcome: "success" | "failure",
-    traceId: string,
-    auditContext?: Partial<AuditContext>,
-    auditMetadata?: Record<string, unknown>,
-    errorMessage?: string
-  ) {
-    try {
-      await AuditLogger.log({
-        eventType: "resource_read",
-        action: "open_qrg_envelope",
-        resource: "qrg_envelope",
-        resourceId: traceId,
-        outcome,
-        context: buildAuditContext(traceId, auditContext),
-        description: outcome === "success"
-          ? `QRG envelope opened for ${filename}`
-          : `QRG envelope access failed for ${filename}`,
-        reasons: errorMessage ? [errorMessage] : undefined,
-        metadata: {
-          filename,
-          sizeMB,
-          level,
-          traceId,
-          ...auditMetadata,
-        },
-        sensitive: true,
-      });
-    } catch (auditError) {
-      console.error("Failed to record Λ-trace audit event:", auditError);
-    }
-  }
-
   async function handleOpen() {
     if(!onOpen) return;
+
+    if(typeof window === "undefined" || !window.PublicKeyCredential || !navigator.credentials?.get){
+      setError("Secure device authentication is not available in this environment");
+      return;
+    }
 
     setBusy(true);
     setError(null);
 
-    let normalized: QRGOpenAuditEnvelope | undefined;
-    let traceId: string | undefined;
-
     try {
-// See: https://github.com/LukhasAI/Lukhas/issues/581
-// See: https://github.com/LukhasAI/Lukhas/issues/582
+      const startResponse = await fetch("/api/auth/stepup/start", { method: "POST" });
 
-      // Simulate authentication delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      if(!startResponse.ok){
+        const payload = (await startResponse.json().catch(()=>({}))) as { error?: string };
+        throw new Error(payload?.error || "Unable to initiate secure challenge");
+      }
 
-      const result = await onOpen();
-      normalized = normalizeOpenResult(result);
-      traceId = normalized.traceId ?? generateTraceId();
+      const startData = (await startResponse.json()) as StepUpStartResponse;
 
-      console.info("QRG envelope opened", { traceId, level });
+      if(!startData?.success || !startData.challenge){
+        throw new Error("Authentication challenge was not provided by the server");
+      }
+
+      const publicKey: PublicKeyCredentialRequestOptions = {
+        challenge: base64UrlToArrayBuffer(startData.challenge),
+        userVerification: startData.userVerification ?? "required",
+        timeout: startData.timeout ?? 60_000,
+        rpId: startData.rpId
+      };
+
+      if(startData.allowCredentials?.length){
+        publicKey.allowCredentials = startData.allowCredentials.map(item => ({
+          ...item,
+          id: base64UrlToArrayBuffer(item.id)
+        }));
+      }
+
+      const assertion = await navigator.credentials.get({ publicKey });
+
+      if(!assertion){
+        throw new Error("Authentication was cancelled");
+      }
+
+      const finishResponse = await fetch("/api/auth/stepup/finish", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(publicKeyCredentialToJSON(assertion))
+      });
+
+      const finishData = (await finishResponse.json().catch(()=>({}))) as StepUpFinishResponse;
+
+      if(!finishResponse.ok || !finishData.success || !finishData.stepUpToken){
+        throw new Error(finishData?.error || "Device verification failed");
+      }
+
+      const context: SecureOpenContext = {
+        stepUpToken: finishData.stepUpToken,
+        rawChallenge: startData.challenge,
+        credential: publicKeyCredentialToJSON(assertion)
+      };
+
+      const result = await onOpen(context);
+      console.log("QRG envelope opened:", result);
 
       setOpen(true);
-
-      await recordAuditEvent("success", traceId, normalized.auditContext, normalized.auditMetadata);
     } catch (err) {
-      const message = err instanceof Error ? err.message : "unknown_error";
-      const failureTraceId = traceId ?? generateTraceId();
-
       setError("Authentication failed or content unavailable");
-      console.error("QRG envelope error:", { error: err, traceId: failureTraceId });
-
-      await recordAuditEvent("failure", failureTraceId, normalized?.auditContext, normalized?.auditMetadata, message);
+      console.error("QRG envelope error:", err);
     } finally {
       setBusy(false);
     }
