@@ -60,7 +60,7 @@ Without `REGISTRY_BASE_URL`, HTTP-specific checks are skipped or marked as xfail
 
 ## Quickstart (local stub)
 
-This repository includes a minimal FastAPI stub to unblock the registry smoke test locally and in CI. It uses HMAC as a checkpoint signature placeholder; replace with Dilithium2 when PQC is available.
+This repository includes a minimal FastAPI stub to unblock the registry smoke test locally and in CI. The stub now emits Dilithium2 signatures (via liboqs) alongside the legacy HMAC checksum so downstream clients can migrate gradually. If liboqs is not present the signer transparently falls back to HMAC-only mode.
 
 ```bash
 # optional: create venv
@@ -82,5 +82,5 @@ make registry-smoke
 Notes:
 - The `/api/v1/registry/validate` and `/register` endpoints accept the NodeSpec JSON directly (top-level object).
 - The stub enforces `provenance_manifest.glymph_enabled: true` on `/register` and returns HTTP 403 if absent. This powers the negative smoke.
-- A lightweight `services/registry/registry_store.json` checkpoint and `services/registry/checkpoint.sig` are written per change.
+- Checkpoint artifacts (`checkpoint.sig`, `checkpoint.meta.json`, `registry_store.json`) are generated automatically during runtime and are `.gitignore`d. When stale checkpoints are detected on bootstrap the service clears them and starts with an empty store.
 
