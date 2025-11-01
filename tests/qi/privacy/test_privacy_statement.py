@@ -98,3 +98,25 @@ def test_privacy_statement_describe_returns_copy(privacy_module):
     statement.metadata["purpose"] = "updated"
 
     assert description["metadata"] == {"purpose": "audit"}
+
+
+def test_privacy_statement_from_mapping_keeps_source_data_isolated(privacy_module):
+    PrivacyStatement = privacy_module.PrivacyStatement
+
+    payload = {
+        "statement_id": "stmt-003",
+        "requires_non_interactive": True,
+        "circuit_size": 2048,
+        "public_input": ("a", "b"),
+        "metadata": {"source": "legacy"},
+    }
+
+    statement = PrivacyStatement.from_mapping(payload)
+
+    assert statement.statement_id == "stmt-003"
+    assert statement.requires_non_interactive is True
+    assert statement.metadata == {"source": "legacy"}
+
+    payload["metadata"]["source"] = "mutated"
+
+    assert statement.metadata == {"source": "legacy"}

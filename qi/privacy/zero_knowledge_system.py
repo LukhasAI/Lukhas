@@ -2,8 +2,9 @@
 from __future__ import annotations
 
 import logging
+from collections.abc import Mapping, MutableMapping
 from dataclasses import dataclass, field
-from typing import Any, Mapping, MutableMapping
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -38,6 +39,8 @@ __module_name__ = "Quantum Zero Knowledge System"
 __version__ = "1.0.0"
 __tier__ = 2
 
+__all__ = ["PrivacyStatement", "ZeroKnowledgePrivacyEngine"]
+
 
 from bulletproofs import BulletproofSystem
 from zksnark import ZkSnark
@@ -69,6 +72,26 @@ class PrivacyStatement:
             "metadata": dict(self.metadata),
         }
 
+    @classmethod
+    def from_mapping(cls, payload: Mapping[str, Any]) -> "PrivacyStatement":
+        """Create a :class:`PrivacyStatement` from a mapping of attributes."""
+
+        raw_metadata = payload.get("metadata")
+        if raw_metadata is None:
+            metadata = {}
+        elif isinstance(raw_metadata, MutableMapping):
+            metadata = dict(raw_metadata)
+        else:
+            metadata = dict(raw_metadata)
+
+        return cls(
+            statement_id=payload["statement_id"],
+            requires_non_interactive=payload["requires_non_interactive"],
+            circuit_size=payload["circuit_size"],
+            public_input=payload["public_input"],
+            metadata=metadata,
+        )
+
 
 class ZeroKnowledgePrivacyEngine:
     """
@@ -82,14 +105,17 @@ class ZeroKnowledgePrivacyEngine:
 
     async def create_privacy_preserving_proof(
         self,
-# See: https://github.com/LukhasAI/Lukhas/issues/601
-        statement: PrivacyStatement,
+        statement: PrivacyStatement | Mapping[str, Any],
         witness: PrivateWitness,  # noqa: F821  # TODO: PrivateWitness
         proof_type: str = "adaptive",
     ) -> ZeroKnowledgeProof:  # noqa: F821  # TODO: ZeroKnowledgeProof
+        """Generate a zero-knowledge proof for the provided statement.
+
+        See https://github.com/LukhasAI/Lukhas/issues/601 for design context.
         """
-        Generate ZK proof for private computation
-        """
+        if not isinstance(statement, PrivacyStatement):
+            statement = PrivacyStatement.from_mapping(statement)
+
         if proof_type == "adaptive":
             # Choose optimal proof system based on statement
             if statement.is_suitable_for_adaptive_mode():
@@ -97,7 +123,7 @@ class ZeroKnowledgePrivacyEngine:
             else:
                 return await self._create_bulletproof(statement, witness)
 
-# See: https://github.com/LukhasAI/Lukhas/issues/602
+        # See: https://github.com/LukhasAI/Lukhas/issues/602
         """
         Create succinct non-interactive proof
         """
