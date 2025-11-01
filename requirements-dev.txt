@@ -3220,9 +3220,9 @@ uvicorn==0.36.0 \
     --hash=sha256:527dc68d77819919d90a6b267be55f0e76704dca829d34aea9480be831a9b9d9 \
     --hash=sha256:6bb4ba67f16024883af8adf13aba3a9919e415358604ce46780d3f9bdc36d731
     # via -r requirements.in
-virtualenv==20.35.3 \
-    --hash=sha256:4f1a845d131133bdff10590489610c98c168ff99dc75d6c96853801f7f67af44 \
-    --hash=sha256:63d106565078d8c8d0b206d48080f938a8b25361e19432d2c9db40d2899c810a
+virtualenv==20.35.4 \
+    --hash=sha256:643d3914d73d3eeb0c552cbb12d7e82adf0e504dbf86a3182f8771a153a1971c \
+    --hash=sha256:c21c9cede36c9753eeade68ba7d523529f228a403463376cf821eaae2b650f1b
     # via pre-commit
 watchdog==6.0.0 \
     --hash=sha256:07df1fdd701c5d4c8e55ef6cf55b8f0120fe1aef7ef39a1c6fc6bc2e606d517a \
