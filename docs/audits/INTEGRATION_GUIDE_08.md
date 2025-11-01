@@ -198,7 +198,7 @@ Lane-specific subjects:
 **Priority Score**: 58.0 | **Quality Score**: 70.0 | **Complexity**: medium (14h) | **Risk**: medium-high
 
 **Current**: `labs/consciousness/reflection/controller.py`
-**Target**: `matriz/consciousness/reflection//controller.py`
+**Target**: `matriz/consciousness/reflection/controller.py`
 
 **Why**: 8 classes
 
@@ -209,7 +209,7 @@ Lane-specific subjects:
 1. **REVIEW**: Read labs/consciousness/reflection/controller.py and understand architecture (905 LOC, 8 classes, 1 functions)
 2. **CHECK_DEPS**: Identify and resolve external dependencies, add core imports if needed
 3. **CREATE_TESTS**: Write integration tests in tests/integration/test_controller.py
-4. **MOVE**: git mv labs/consciousness/reflection/controller.py matriz/consciousness/reflection//controller.py
+4. **MOVE**: git mv labs/consciousness/reflection/controller.py matriz/consciousness/reflection/controller.py
 5. **UPDATE_IMPORTS**: Fix import paths in moved module and any dependent modules
 6. **INTEGRATE**: Wire into MATRIZ engine or core system (add to registry, update config)
 7. **TEST**: Run pytest tests/integration/ and tests/smoke/ to verify
@@ -273,7 +273,7 @@ Lane-specific subjects:
 **Priority Score**: 56.0 | **Quality Score**: 80.0 | **Complexity**: medium (12h) | **Risk**: medium
 
 **Current**: `labs/memory/folds/memory_fold.py`
-**Target**: `matriz/memory/folds//memory_fold.py`
+**Target**: `matriz/memory/folds/memory_fold.py`
 
 **Why**: 1256 LOC
 
@@ -284,7 +284,7 @@ Lane-specific subjects:
 1. **REVIEW**: Read labs/memory/folds/memory_fold.py and understand architecture (1256 LOC, 5 classes, 8 functions)
 2. **CHECK_DEPS**: Identify and resolve external dependencies, add core imports if needed
 3. **CREATE_TESTS**: Write integration tests in tests/integration/test_memory_fold.py
-4. **MOVE**: git mv labs/memory/folds/memory_fold.py matriz/memory/folds//memory_fold.py
+4. **MOVE**: git mv labs/memory/folds/memory_fold.py matriz/memory/folds/memory_fold.py
 5. **UPDATE_IMPORTS**: Fix import paths in moved module and any dependent modules
 6. **INTEGRATE**: Wire into MATRIZ engine or core system (add to registry, update config)
 7. **TEST**: Run pytest tests/integration/ and tests/smoke/ to verify

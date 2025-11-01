@@ -286,6 +286,7 @@ async def memory_dump() -> MemoryDumpResponse:
 
         from emotion import process_emotion
 
+
         # Initialize memory manager
         fold_manager = FoldManager()
 

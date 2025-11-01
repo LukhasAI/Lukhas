@@ -78,6 +78,7 @@ except ImportError:
 
         from consciousness.awareness import ConsciousnessEngine
 
+
         LUKHAS_AVAILABLE = True
         print("✅ LUKHAS core available via legacy paths")
     except ImportError:

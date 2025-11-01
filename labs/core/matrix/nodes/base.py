@@ -3,7 +3,7 @@ import logging
 import time
 from typing import Any, Dict
 
-from MATRIZ.core.node_interface import CognitiveNode, NodeState, NodeTrigger
+from matriz.core.node_interface import CognitiveNode, NodeState, NodeTrigger
 
 
 class BaseMatrixNode(CognitiveNode):

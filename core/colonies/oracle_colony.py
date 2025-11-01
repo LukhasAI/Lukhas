@@ -38,11 +38,11 @@ OpenAICoreService = None
 OpenAIRequest = None
 
 try:
-    import importlib
-    openai_service = importlib.import_module("labs.consciousness.reflection.openai_core_service")
-    ModelType = openai_service.ModelType
-    OpenAICoreService = openai_service.OpenAICoreService
-    OpenAIRequest = openai_service.OpenAIRequest
+    from labs.consciousness.reflection.openai_core_service import (
+        ModelType,
+        OpenAICoreService,
+        OpenAIRequest,
+    )
 except ImportError:
     pass
 
