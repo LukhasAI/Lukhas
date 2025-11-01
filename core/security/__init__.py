@@ -2,12 +2,18 @@
 LUKHAS Core Security Module.
 
 This module provides core security primitives and utilities for the LUKHAS system.
-It includes type-safe encryption algorithm definitions, security utilities, and
-foundational security infrastructure.
+It includes type-safe encryption algorithm definitions, centralized encryption
+management, security utilities, and foundational security infrastructure.
 
 Constellation Framework: 🛡️ Guardian Excellence - Core Security
 """
 
+from core.security.encryption_manager import (
+    DecryptionError,
+    EncryptionError,
+    EncryptionManager,
+    InvalidKeyError,
+)
 from core.security.encryption_types import (
     ALGORITHM_METADATA,
     AlgorithmMetadata,
@@ -26,6 +32,11 @@ __all__ = [
     "SecurityLevel",
     "AlgorithmMetadata",
     "ALGORITHM_METADATA",
+    # Encryption manager
+    "EncryptionManager",
+    "EncryptionError",
+    "DecryptionError",
+    "InvalidKeyError",
     # Utility functions
     "get_algorithm_metadata",
     "get_recommended_algorithms",
