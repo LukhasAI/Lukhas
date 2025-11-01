@@ -11,10 +11,16 @@ from starlette.middleware.base import BaseHTTPMiddleware
 MATRIZ_AVAILABLE = False
 MEMORY_AVAILABLE = False
 try:
-    import matriz
+    import importlib as _importlib
+    _MATRIZ = _importlib.import_module("MATRIZ")
     MATRIZ_AVAILABLE = True
-except ImportError:
-    pass
+except Exception:
+    try:
+        # Fallback to compatibility shim (deprecated)
+        _MATRIZ = _importlib.import_module("matriz")  # type: ignore
+        MATRIZ_AVAILABLE = True
+    except Exception:
+        pass
 try:
     import lukhas.memory
     MEMORY_AVAILABLE = True
@@ -78,7 +84,10 @@ openai_router = _safe_import_router('.openai_routes', 'router')
 orchestration_router = _safe_import_router('.orchestration_routes', 'router')
 routes_router = _safe_import_router('.routes', 'router')
 traces_router = _safe_import_router('.routes_traces', 'router')
-matriz_traces_router = _safe_import_router('matriz.traces_router', 'router')
+matriz_traces_router = (
+    _safe_import_router('MATRIZ.traces_router', 'router')
+    or _safe_import_router('matriz.traces_router', 'router')
+)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 

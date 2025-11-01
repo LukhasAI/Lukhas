@@ -132,6 +132,12 @@ def main():
         print("❌ Import health check FAILED")
         print("   Some modules could not be imported")
         print("   Review errors above and fix import paths")
+        print()
+        print("Tip: Run isolated validation in a worktree (recommended):")
+        print("  bash scripts/run_lane_guard_worktree.sh")
+        print("This creates a venv, installs minimal deps, and runs import-health.")
+        print("If running locally, ensure PYTHONPATH includes repo root and install import-linter:")
+        print("  python3 -m pip install import-linter")
         return 1
 
     if deprecated > 0 and args.fail_on_deprecation:

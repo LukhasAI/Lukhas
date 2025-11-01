@@ -211,7 +211,7 @@ class GestureCorpusRepository:
     async def _fetch_from_matriz_memory(self, user_context: dict[str, Any]) -> Optional[list[dict[str, Any]]]:
         """Attempt to retrieve gesture data from MATRIZ memory systems."""
         try:
-            from matriz.core.memory_system import get_memory_system
+            from MATRIZ.core.memory_system import get_memory_system
         except Exception:
             logger.debug('MATRIZ memory system unavailable for gesture fetch')
             return None
