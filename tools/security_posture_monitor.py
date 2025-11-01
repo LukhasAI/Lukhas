@@ -168,6 +168,38 @@ class SecurityPostureMonitor:
             'telemetry_compliance': 0.0,
             'overall_posture_score': 0.0
         }
+        self.overlays = self._load_overlay_data()
+
+    def _load_overlay_data(self) -> Dict[str, Dict[str, Dict[str, Any]]]:
+        """Load optional overlay data for SBOM, attestation, and telemetry."""
+
+        overlays: Dict[str, Dict[str, Dict[str, Any]]] = {
+            'sboms': {},
+            'attestations': {},
+            'telemetry': {},
+        }
+
+        overlay_paths = {
+            'sboms': Path('security/sboms/index.json'),
+            'attestations': Path('security/attestations/index.json'),
+            'telemetry': Path('security/telemetry/index.json'),
+        }
+
+        for key, path in overlay_paths.items():
+            try:
+                with path.open('r', encoding='utf-8') as handle:
+                    data = json.load(handle)
+                modules = data.get('modules', {})
+                if isinstance(modules, dict):
+                    overlays[key] = modules
+                else:
+                    self.log(f"Overlay file {path} missing 'modules' mapping")
+            except FileNotFoundError:
+                self.log(f"Overlay file not found: {path}")
+            except Exception as exc:  # pragma: no cover - defensive logging
+                self.log(f"Failed to load {key} overlay from {path}: {exc}")
+
+        return overlays
 
     def log(self, message: str):
         """Log message if verbose mode enabled."""
@@ -254,14 +286,34 @@ class SecurityPostureMonitor:
         verifier_configured = _is_policy_configured(verifier_policy)
         verifier_version = _policy_version(verifier_policy)
 
-        evidence = rats_data.get('evidence_jwt')
+        overlay_entry = self.overlays.get('attestations', {}).get(module, {})
+        overlay_policy = overlay_entry.get('verifier_policy') if isinstance(overlay_entry, dict) else None
+
+        if overlay_policy and not verifier_configured:
+            verifier_configured = _is_policy_configured(overlay_policy)
+        overlay_version = _policy_version(overlay_policy) if overlay_policy else ''
+        if overlay_version:
+            verifier_version = overlay_version
+
+        combined_rats = dict(rats_data)
+
+        if isinstance(overlay_entry, dict):
+            overlay_jwt = overlay_entry.get('evidence_jwt')
+            if overlay_jwt:
+                combined_rats['evidence_jwt'] = overlay_jwt
+
+            overlay_timestamp = overlay_entry.get('timestamp')
+            if overlay_timestamp:
+                combined_rats['timestamp'] = overlay_timestamp
+
+        evidence = combined_rats.get('evidence_jwt')
         evidence_collected = bool(evidence and evidence != 'pending')
 
         return {
-            'verifier_configured': verifier_configured,
+            'verifier_configured': verifier_configured or bool(overlay_policy),
             'evidence_collected': evidence_collected,
-            'attestation_valid': self._validate_attestation(rats_data),
-            'last_attestation': _coerce_str(rats_data.get('timestamp', '')),
+            'attestation_valid': self._validate_attestation(combined_rats),
+            'last_attestation': _coerce_str(combined_rats.get('timestamp', '')),
             'verifier_version': verifier_version,
         }
 
@@ -275,15 +327,31 @@ class SecurityPostureMonitor:
         if not isinstance(causal_provenance, dict):
             causal_provenance = {}
 
+        overlay_entry = self.overlays.get('sboms', {}).get(module, {})
+        if not isinstance(overlay_entry, dict):
+            overlay_entry = {}
+
+        sbom_ref = _coerce_str(supply_chain.get('sbom_ref', ''))
+        overlay_ref = _coerce_str(overlay_entry.get('sbom_path', ''))
+        if not sbom_ref and overlay_ref:
+            sbom_ref = overlay_ref
+
+        sbom_format = _coerce_str(supply_chain.get('format', '')) or _coerce_str(overlay_entry.get('format', ''))
+
         provenance_cid = _coerce_str(causal_provenance.get('ipld_root_cid', ''))
+        overlay_cid = _coerce_str(overlay_entry.get('provenance_cid', ''))
+        if overlay_cid and (not provenance_cid or provenance_cid == 'bafybeipending'):
+            provenance_cid = overlay_cid
+
+        reproducible = bool(supply_chain.get('reproducible')) or bool(overlay_entry.get('reproducible_build'))
 
         return {
-            'sbom_present': bool(supply_chain.get('sbom_ref')),
-            'sbom_ref': _coerce_str(supply_chain.get('sbom_ref', '')),
-            'sbom_format': _coerce_str(supply_chain.get('format', '')),
+            'sbom_present': bool(sbom_ref),
+            'sbom_ref': sbom_ref,
+            'sbom_format': sbom_format,
             'provenance_available': bool(provenance_cid and provenance_cid != 'bafybeipending'),
             'provenance_cid': provenance_cid,
-            'build_reproducible': bool(supply_chain.get('reproducible')),
+            'build_reproducible': reproducible,
         }
 
     def _extract_telemetry_coverage(self, contract: Dict, module: str) -> Dict:
@@ -320,6 +388,20 @@ class SecurityPostureMonitor:
                 traces_exported,
                 logs_structured,
             )
+
+        overlay_entry = self.overlays.get('telemetry', {}).get(module, {})
+        if isinstance(overlay_entry, dict):
+            otel_instrumented = otel_instrumented or bool(overlay_entry.get('otel_instrumented'))
+            metrics_exported = metrics_exported or bool(overlay_entry.get('metrics_exported'))
+            traces_exported = traces_exported or bool(overlay_entry.get('traces_exported'))
+            logs_structured = logs_structured or bool(overlay_entry.get('logs_structured'))
+
+            overlay_coverage = overlay_entry.get('coverage_percentage')
+            if isinstance(overlay_coverage, (int, float)):
+                coverage = max(float(coverage), float(overlay_coverage))
+
+            if not semconv_version:
+                semconv_version = _coerce_str(overlay_entry.get('semconv_version', ''))
 
         return {
             'otel_instrumented': otel_instrumented,

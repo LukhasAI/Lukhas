@@ -1,0 +1,1076 @@
+{
+  "generated_at": "2025-11-01T21:27:07+00:00",
+  "modules": {
+    "accepted": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "accepted.bio": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "adapters": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "agents": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "aka_qualia": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "api": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "audit": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "bio": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "bio.core": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "branding": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "bridge": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "bridge.llm_wrappers": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "cognitive_core": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "colonies": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "colony": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "compliance": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "consciousness": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "constellation": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "constellation.triad": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "core": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "core.bridge": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "core.colonies": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "core.common": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "core.filesystem": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "core.matriz": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "core.policy": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "core.registry": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "core.reliability": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "core.symbolic": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "core.symbolic.constraints": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "core.symbolism": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "deployment": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "dna": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "dream": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "emotion": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "feedback": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "flags": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "governance": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "governance.consent_ledger": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "governance.consent_ledger.providers": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "governance.ethics": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "governance.guardian": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "governance.identity": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "governance.identity.auth_backend": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "governance.security": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "identity": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "identity.auth": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "identity.facades": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "identity.oidc": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "identity.passkey": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "identity.passkey.providers": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "identity.qrg": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "identity.services": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "identity.wallet": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "interfaces": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "ledger": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.accepted": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.accepted.bio": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.agents": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.api": {
+      "coverage_percentage": 38,
+      "logs_structured": true,
+      "metrics_exported": true,
+      "otel_instrumented": true,
+      "semconv_version": "1.27.0",
+      "traces_exported": true
+    },
+    "lukhas.bio": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.bio.core": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.branding": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.bridge": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.bridge.llm_wrappers": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.consciousness": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.constellation": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.constellation.triad": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.core": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.core.bridge": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.core.colonies": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.core.common": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.core.filesystem": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.core.matriz": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.core.policy": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.core.registry": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.core.reliability": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.core.symbolic": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.core.symbolic.constraints": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.core.symbolism": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.deployment": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.emotion": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.governance": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.governance.consent_ledger": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.governance.consent_ledger.providers": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.governance.ethics": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.governance.guardian": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.governance.identity": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.governance.identity.auth_backend": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.governance.security": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.identity": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.identity.auth": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.identity.facades": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.identity.oidc": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.identity.passkey": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.identity.passkey.providers": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.identity.qrg": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.identity.services": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.identity.wallet": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.ledger": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.matriz": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.matriz.runtime": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.memory": {
+      "coverage_percentage": 32,
+      "logs_structured": true,
+      "metrics_exported": true,
+      "otel_instrumented": true,
+      "semconv_version": "1.27.0",
+      "traces_exported": false
+    },
+    "lukhas.memory.backends": {
+      "coverage_percentage": 32,
+      "logs_structured": true,
+      "metrics_exported": true,
+      "otel_instrumented": true,
+      "semconv_version": "1.27.0",
+      "traces_exported": false
+    },
+    "lukhas.memory.emotional": {
+      "coverage_percentage": 32,
+      "logs_structured": true,
+      "metrics_exported": true,
+      "otel_instrumented": true,
+      "semconv_version": "1.27.0",
+      "traces_exported": false
+    },
+    "lukhas.observability": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.orchestration": {
+      "coverage_percentage": 32,
+      "logs_structured": true,
+      "metrics_exported": true,
+      "otel_instrumented": true,
+      "semconv_version": "1.27.0",
+      "traces_exported": false
+    },
+    "lukhas.orchestration.context": {
+      "coverage_percentage": 32,
+      "logs_structured": true,
+      "metrics_exported": true,
+      "otel_instrumented": true,
+      "semconv_version": "1.27.0",
+      "traces_exported": false
+    },
+    "lukhas.orchestration.providers": {
+      "coverage_percentage": 32,
+      "logs_structured": true,
+      "metrics_exported": true,
+      "otel_instrumented": true,
+      "semconv_version": "1.27.0",
+      "traces_exported": false
+    },
+    "lukhas.qi": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.rl": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.rl.coordination": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.rl.engine": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.rl.environments": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.rl.experience": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.root": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.security": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.tools": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.trace": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.trinity": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "lukhas.vivox": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "matrix_tracks.status": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "matriz": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "matriz.runtime": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "memory": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "memory.backends": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "memory.emotional": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "migration": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "modulation": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "nias": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "nodes": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "observability": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "openai": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "orchestration": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "orchestration.context": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "orchestration.providers": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "orchestrator": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "qi": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "quantum_bio_consciousness": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "rl": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "rl.coordination": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "rl.engine": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "rl.experience": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "root": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "security": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "shims": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "tools": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "trace": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "trinity": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "utils": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "vivox": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    },
+    "voice": {
+      "coverage_percentage": 0,
+      "logs_structured": false,
+      "metrics_exported": false,
+      "otel_instrumented": false,
+      "traces_exported": false
+    }
+  }
+}
