@@ -370,3 +370,6 @@ lukhas_website_with_carousel_and_palette/
 
 # Personal workspace settings (keep local to avoid conflicts across devices)
 *.code-workspace
+
+# CI and developer artifacts
+artifacts/reports/
