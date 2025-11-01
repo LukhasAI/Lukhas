@@ -15,6 +15,7 @@ Features:
 """
 
 import base64
+import binascii
 import json
 import secrets
 import time
@@ -22,15 +23,22 @@ from datetime import datetime, timedelta, timezone
 from typing import Any, Optional
 
 try:
-    from webauthn import verify_registration_response
-    from webauthn.helpers import parse_registration_credential_json
+    from webauthn import (
+# See: https://github.com/LukhasAI/Lukhas/issues/575
+# See: https://github.com/LukhasAI/Lukhas/issues/576
+# See: https://github.com/LukhasAI/Lukhas/issues/577
+# See: https://github.com/LukhasAI/Lukhas/issues/578
+        verify_authentication_response as webauthn_verify_authentication_response,
+    )
+    from webauthn.helpers import parse_authentication_credential_json, structs
 
     WEBAUTHN_AVAILABLE = True
 except ImportError:
     # Fallback for systems without webauthn library
     WEBAUTHN_AVAILABLE = False
-    verify_registration_response = None
-    parse_registration_credential_json = None
+    webauthn_verify_authentication_response = None
+    parse_authentication_credential_json = None
+    structs = None
 
 
 class WebAuthnCredential:
@@ -223,72 +231,22 @@ class WebAuthnManager:
                 if client_data.get("origin") != self.origin:
                     return {"success": False, "error": "Origin mismatch"}
 
-                verification_result = None
-
-                if (
-                    WEBAUTHN_AVAILABLE
-                    and verify_registration_response is not None
-                    and parse_registration_credential_json is not None
-                ):
-                    try:
-                        parsed_credential = parse_registration_credential_json(
-                            json.dumps(response)
-                        )
-                        verification_result = verify_registration_response(
-                            credential=parsed_credential,
-                            expected_challenge=pending_reg["challenge"],
-                            expected_origin=self.origin,
-                            expected_rp_id=self.rp_id,
-                        )
-                        if hasattr(verification_result, "verified") and not getattr(
-                            verification_result, "verified"
-                        ):
-                            return {
-                                "success": False,
-                                "error": "WebAuthn library rejected registration",
-                            }
-                    except Exception as verification_error:
-                        return {
-                            "success": False,
-                            "error": f"WebAuthn library verification failed: {verification_error!s}",
-                        }
-
-                credential_payload = {
-                    "credential_id": response.get("id", ""),
-                    "public_key": response.get("response", {}).get("publicKey", ""),
-                    "sign_count": 0,
-                    "user_id": pending_reg["user_id"],
-                    "authenticator_data": {
-                        "attestation_object": attestation_object,
-                        "client_data_json": client_data_json,
-                        "transports": response.get("transports", []),
-                    },
-                    "tier_level": pending_reg["user_tier"],
-                    "device_type": self._determine_device_type(response),
-                }
-
-                if verification_result is not None:
-                    verified_credential_id = getattr(verification_result, "credential_id", None)
-                    verified_public_key = getattr(
-                        verification_result, "credential_public_key", None
-                    )
-                    verified_sign_count = getattr(verification_result, "sign_count", None)
-
-                    if verified_credential_id:
-                        credential_payload["credential_id"] = base64.urlsafe_b64encode(
-                            verified_credential_id
-                        ).decode().rstrip("=")
-
-                    if verified_public_key:
-                        credential_payload["public_key"] = base64.urlsafe_b64encode(
-                            verified_public_key
-                        ).decode().rstrip("=")
-
-                    if isinstance(verified_sign_count, int):
-                        credential_payload["sign_count"] = verified_sign_count
-
                 # Create credential record
-                credential = WebAuthnCredential(credential_payload)
+                credential = WebAuthnCredential(
+                    {
+                        "credential_id": response.get("id", ""),
+                        "public_key": response.get("response", {}).get("publicKey", ""),
+                        "sign_count": 0,
+                        "user_id": pending_reg["user_id"],
+                        "authenticator_data": {
+                            "attestation_object": attestation_object,
+                            "client_data_json": client_data_json,
+                            "transports": response.get("transports", []),
+                        },
+                        "tier_level": pending_reg["user_tier"],
+                        "device_type": self._determine_device_type(response),
+                    }
+                )
 
                 # Store credential
                 user_id = pending_reg["user_id"]
@@ -461,20 +419,88 @@ class WebAuthnManager:
                 if client_data.get("origin") != self.origin:
                     return {"success": False, "error": "Origin mismatch"}
 
+                # Perform library-backed verification when available
+                library_metadata = {"library_verified": False}
+                library_used = False
+
+                if (
+                    WEBAUTHN_AVAILABLE
+                    and webauthn_verify_authentication_response is not None
+                    and parse_authentication_credential_json is not None
+                ):
+                    try:
+                        public_key_b64 = credential.public_key or ""
+                        if public_key_b64:
+                            public_key_bytes = self._decode_base64url(public_key_b64)
+                        else:
+                            public_key_bytes = b""
+
+                        if public_key_bytes:
+                            challenge_bytes = pending_auth.get("challenge")
+                            if isinstance(challenge_bytes, str):
+                                challenge_bytes = self._decode_base64url(challenge_bytes)
+                            if not isinstance(challenge_bytes, (bytes, bytearray)):
+                                raise ValueError("Invalid challenge format")
+
+                            parsed_credential = parse_authentication_credential_json(
+                                json.dumps(response)
+                            )
+
+                            verification = webauthn_verify_authentication_response(
+                                credential=parsed_credential,
+                                expected_challenge=challenge_bytes,
+                                expected_rp_id=self.rp_id,
+                                expected_origin=self.origin,
+                                credential_public_key=public_key_bytes,
+                                credential_current_sign_count=credential.sign_count,
+                            )
+
+                            library_used = True
+                            if not getattr(verification, "verified", False):
+                                return {
+                                    "success": False,
+                                    "error": "Authentication verification failed",
+                                }
+
+                            credential.sign_count = getattr(
+                                verification, "new_sign_count", credential.sign_count + 1
+                            )
+                            library_metadata = {
+                                "library_verified": True,
+                                "backup_state": getattr(verification, "backup_state", False),
+                                "backup_eligible": getattr(
+                                    verification, "backup_eligible", False
+                                ),
+                            }
+                        else:
+                            library_metadata = {
+                                "library_verified": False,
+                                "library_reason": "missing_public_key",
+                            }
+                    except Exception as verification_error:
+                        return {
+                            "success": False,
+                            "error": f"Authentication verification failed: {verification_error!s}",
+                        }
+
+                if not library_used:
+                    credential.sign_count += 1
+
                 # Update credential usage
                 credential.last_used = datetime.now(timezone.utc).isoformat()
-                credential.sign_count += 1
 
                 # Clean up pending authentication
                 del self.pending_authentications[authentication_id]
 
                 # 🧠 Update consciousness patterns
-                self._update_consciousness_patterns(user_id, "webauthn_authentication_successful")
+                self._update_consciousness_patterns(
+                    user_id, "webauthn_authentication_successful"
+                )
 
                 # Performance tracking
                 verification_time = (time.time() - start_time) * 1000
 
-                return {
+                result_payload = {
                     "success": True,
                     "user_id": user_id,
                     "credential_id": credential.credential_id,
@@ -486,6 +512,8 @@ class WebAuthnManager:
                     "constellation_compliant": True,
                     "authentication_method": "webauthn_fido2",
                 }
+                result_payload.update(library_metadata)
+                return result_payload
 
             except (json.JSONDecodeError, ValueError) as e:
                 return {"success": False, "error": f"Invalid response format: {e!s}"}
@@ -572,6 +600,17 @@ class WebAuthnManager:
             }
 
     # Helper methods
+
+    def _decode_base64url(self, data: str) -> bytes:
+        """Decode base64url strings with padding normalization"""
+        if not data:
+            raise ValueError("Empty base64 data")
+
+        padding = "=" * ((4 - len(data) % 4) % 4)
+        try:
+            return base64.urlsafe_b64decode(data + padding)
+        except (binascii.Error, ValueError) as exc:
+            raise ValueError("Invalid base64 encoding") from exc
 
     def _determine_device_type(self, response: dict[str, Any]) -> str:
         """Determine device type from WebAuthn response"""
