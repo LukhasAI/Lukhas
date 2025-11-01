@@ -241,19 +241,19 @@ class TestEncryptionManager(unittest.TestCase):
                 "key_store_path": os.environ["LUKHAS_KEYSTORE"],
                 "auto_rotation": False,
             }
-            self.em = create_encryption_manager(manager_config)
+            self.encryption_manager = create_encryption_manager(manager_config)
         except ImportError as exc:  # pragma: no cover - dependency guard
             self.skipTest(f"Encryption manager dependencies unavailable: {exc}")
 
         global em
-        em = self.em
+        em = self.encryption_manager
 
     def tearDown(self):
         global em
         em = None
 
-        if hasattr(self, "em"):
-            self.em = None
+        if hasattr(self, "encryption_manager"):
+            self.encryption_manager = None
         shutil.rmtree(self.test_dir)
         for var in ["LUKHAS_KEYSTORE", "LUKHAS_MASTER_PASSPHRASE"]:
             if var in os.environ:
@@ -262,38 +262,40 @@ class TestEncryptionManager(unittest.TestCase):
     def test_key_generation(self):
         """Test key generation."""
 # See: https://github.com/LukhasAI/Lukhas/issues/612
+        manager = self.encryption_manager
 
         # Test AES key generation
         with self.benchmark.measure():
-            aes_key_id = em.generate_key(KeyType.AES_256, KeyUsage.DATA_ENCRYPTION)  # noqa: F821  # TODO: KeyType
+            aes_key_id = manager.generate_key(KeyType.AES_256, KeyUsage.DATA_ENCRYPTION)  # noqa: F821  # TODO: KeyType
 
         self.assertTrue(aes_key_id.startswith("aes-256"))
-        self.assertIn(aes_key_id, em.keys)
+        self.assertIn(aes_key_id, manager.keys)
 
         # Test RSA key generation
         with self.benchmark.measure():
-            rsa_key_id = em.generate_key(KeyType.RSA_2048, KeyUsage.ENCRYPTION)  # noqa: F821  # TODO: KeyType
+            rsa_key_id = manager.generate_key(KeyType.RSA_2048, KeyUsage.ENCRYPTION)  # noqa: F821  # TODO: KeyType
 
         self.assertTrue(rsa_key_id.startswith("rsa-2048"))
-        self.assertIn(rsa_key_id, em.keys)
+        self.assertIn(rsa_key_id, manager.keys)
 
     def test_aes_encryption_decryption(self):
         """Test AES encryption and decryption."""
 # See: https://github.com/LukhasAI/Lukhas/issues/613
-        key_id = em.generate_key(KeyType.AES_256, KeyUsage.DATA_ENCRYPTION)  # noqa: F821  # TODO: KeyType
+        manager = self.encryption_manager
+        key_id = manager.generate_key(KeyType.AES_256, KeyUsage.DATA_ENCRYPTION)  # noqa: F821  # TODO: KeyType
 
         test_data = "This is sensitive test data! 🔐"
 
         # Test encryption
         with self.benchmark.measure():
-            encrypted_result = em.encrypt(test_data, key_id)
+            encrypted_result = manager.encrypt(test_data, key_id)
 
         self.assertIsNotNone(encrypted_result.encrypted_data)
 # See: https://github.com/LukhasAI/Lukhas/issues/614
 
         # Test decryption
         with self.benchmark.measure():
-            decrypted_result = em.decrypt(encrypted_result)
+            decrypted_result = manager.decrypt(encrypted_result)
 
         self.assertEqual(decrypted_result.decrypted_data.decode('utf-8'), test_data)
         self.assertTrue(decrypted_result.verified)
@@ -301,19 +303,20 @@ class TestEncryptionManager(unittest.TestCase):
     def test_rsa_encryption_decryption(self):
         """Test RSA encryption and decryption."""
 # See: https://github.com/LukhasAI/Lukhas/issues/615
-        key_id = em.generate_key(KeyType.RSA_2048, KeyUsage.ENCRYPTION)  # noqa: F821  # TODO: KeyType
+        manager = self.encryption_manager
+        key_id = manager.generate_key(KeyType.RSA_2048, KeyUsage.ENCRYPTION)  # noqa: F821  # TODO: KeyType
 
         test_data = "RSA test data"
 
         # Test encryption
         with self.benchmark.measure():
-            encrypted_result = em.encrypt(test_data, key_id)
+            encrypted_result = manager.encrypt(test_data, key_id)
 
         self.assertIsNotNone(encrypted_result.encrypted_data)
 
         # Test decryption
         with self.benchmark.measure():
-            decrypted_result = em.decrypt(encrypted_result)
+            decrypted_result = manager.decrypt(encrypted_result)
 
         self.assertEqual(decrypted_result.decrypted_data.decode('utf-8'), test_data)
 
@@ -322,52 +325,55 @@ class TestEncryptionManager(unittest.TestCase):
 # See: https://github.com/LukhasAI/Lukhas/issues/616
 
         password = "SuperSecurePassword123!"
+        manager = self.encryption_manager
 
         # Test hashing
         with self.benchmark.measure():
-            hashed = em.hash_password(password)
+            hashed = manager.hash_password(password)
 
         self.assertIsNotNone(hashed)
         self.assertNotEqual(hashed, password)
 
         # Test verification
         with self.benchmark.measure():
-            verified = em.verify_password(password, hashed)
+            verified = manager.verify_password(password, hashed)
 
         self.assertTrue(verified)
 
         # Test wrong password
         with self.benchmark.measure():
-            wrong_verified = em.verify_password("WrongPassword", hashed)
+            wrong_verified = manager.verify_password("WrongPassword", hashed)
 
         self.assertFalse(wrong_verified)
 
     def test_key_rotation(self):
         """Test key rotation."""
 # See: https://github.com/LukhasAI/Lukhas/issues/617
-        original_key_id = em.generate_key(KeyType.AES_256, KeyUsage.DATA_ENCRYPTION)  # noqa: F821  # TODO: KeyType
+        manager = self.encryption_manager
+        original_key_id = manager.generate_key(KeyType.AES_256, KeyUsage.DATA_ENCRYPTION)  # noqa: F821  # TODO: KeyType
 
         # Rotate key
         with self.benchmark.measure():
-            new_key_id = em.rotate_key(original_key_id)
+            new_key_id = manager.rotate_key(original_key_id)
 
         self.assertNotEqual(original_key_id, new_key_id)
-        self.assertIn(new_key_id, em.keys)
-        self.assertFalse(em.keys[original_key_id].is_active)
-        self.assertTrue(em.keys[new_key_id].is_active)
+        self.assertIn(new_key_id, manager.keys)
+        self.assertFalse(manager.keys[original_key_id].is_active)
+        self.assertTrue(manager.keys[new_key_id].is_active)
 
     def test_performance_benchmark(self):
         """Test encryption performance."""
 # See: https://github.com/LukhasAI/Lukhas/issues/618
-        key_id = em.generate_key(KeyType.AES_256, KeyUsage.DATA_ENCRYPTION)  # noqa: F821  # TODO: KeyType
+        manager = self.encryption_manager
+        key_id = manager.generate_key(KeyType.AES_256, KeyUsage.DATA_ENCRYPTION)  # noqa: F821  # TODO: KeyType
 
         test_data = "Performance test data" * 100  # Larger data
 
         # Run multiple encryption/decryption cycles
         for _ in range(50):
             with self.benchmark.measure():
-                encrypted = em.encrypt(test_data, key_id)
-                em.decrypt(encrypted)
+                encrypted = manager.encrypt(test_data, key_id)
+                manager.decrypt(encrypted)
 
         stats = self.benchmark.get_stats()
         self.assertTrue(stats["target_met"], f"Performance target not met: {stats['avg_ms']:.2f}ms > {stats['target_ms']}ms")
