@@ -51,6 +51,8 @@ class TestEncryptionManager:
 
         encrypted = self.manager.encrypt(plaintext, key_id)
         assert encrypted.algorithm is EncryptionAlgorithm.RSA_OAEP
+        assert encrypted.metadata["hybrid"] is True
+        assert encrypted.metadata["key_usage"] == KeyUsage.ENCRYPTION.value
 
         decrypted = self.manager.decrypt(encrypted)
         assert decrypted.decrypted_data.decode("utf-8") == plaintext
@@ -84,4 +86,27 @@ def test_default_algorithm_selection(key_type: KeyType, expected_algorithm: Encr
     manager = EncryptionManager()
     key_id = manager.generate_key(key_type, KeyUsage.DATA_ENCRYPTION)
     assert manager.keys[key_id].algorithm is expected_algorithm
+
+
+def test_create_encryption_manager_with_custom_algorithms() -> None:
+    manager = create_encryption_manager(
+        {
+            "default_algorithm": "AES-256-CBC",
+            "allowed_algorithms": ["rsa-oaep"],
+            "password_hashing": {"iterations": 5000, "salt_size": 8},
+        }
+    )
+
+    key_id = manager.generate_key(KeyType.AES_256, KeyUsage.DATA_ENCRYPTION)
+
+    # Configured default should be added to the allowed set and used when not permitted otherwise.
+    assert manager.default_algorithm is EncryptionAlgorithm.AES_256_CBC
+    assert EncryptionAlgorithm.RSA_OAEP in manager.allowed_algorithms
+    assert EncryptionAlgorithm.AES_256_CBC in manager.allowed_algorithms
+
+    metadata = manager.keys[key_id]
+    assert metadata.algorithm is EncryptionAlgorithm.AES_256_CBC
+
+    hashed = manager.hash_password("secret")
+    assert hashed.startswith("pbkdf2:5000:")
 
