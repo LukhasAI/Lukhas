@@ -46,7 +46,12 @@ else:
 logger = logging.getLogger(__name__)
 
 
-def _ensure_runtime_dependencies_loaded() -> None:
+def _ensure_runtime_dependencies_loaded(
+    *,
+    require_openai: bool = False,
+    require_colony: bool = False,
+    require_signals: bool = False,
+) -> None:
     """Load heavy runtime dependencies on demand."""
 
     global OpenAICapability
@@ -58,7 +63,12 @@ def _ensure_runtime_dependencies_loaded() -> None:
     global SignalBus
     global SignalType
 
-    if OpenAIModulatedService is None or OpenAICapability is None:
+    if not any((require_openai, require_colony, require_signals)):
+        require_openai = True
+        require_colony = True
+        require_signals = True
+
+    if require_openai and (OpenAIModulatedService is None or OpenAICapability is None):
         from labs.consciousness.reflection.openai_modulated_service import (
             OpenAICapability as _OpenAICapability,
             OpenAIModulatedService as _OpenAIModulatedService,
@@ -67,12 +77,12 @@ def _ensure_runtime_dependencies_loaded() -> None:
         OpenAICapability = _OpenAICapability
         OpenAIModulatedService = _OpenAIModulatedService
 
-    if ColonyConsensus is None:
+    if require_colony and ColonyConsensus is None:
         from core.colonies.consensus_mechanisms import ColonyConsensus as _ColonyConsensus
 
         ColonyConsensus = _ColonyConsensus
 
-    if ConsensusResult is None or EnhancedReasoningColony is None:
+    if require_colony and (ConsensusResult is None or EnhancedReasoningColony is None):
         from core.colonies.enhanced_colony import (
             ConsensusResult as _ConsensusResult,
             EnhancedReasoningColony as _EnhancedReasoningColony,
@@ -81,7 +91,7 @@ def _ensure_runtime_dependencies_loaded() -> None:
         ConsensusResult = _ConsensusResult
         EnhancedReasoningColony = _EnhancedReasoningColony
 
-    if Signal is None or SignalBus is None or SignalType is None:
+    if require_signals and (Signal is None or SignalBus is None or SignalType is None):
         from orchestration.signals.signal_bus import (
             Signal as _Signal,
             SignalBus as _SignalBus,
@@ -144,10 +154,17 @@ class GPTColonyOrchestrator:
         openai_service: Optional[OpenAIModulatedService] = None,
         signal_bus: Optional[SignalBus] = None,
     ):
-        _ensure_runtime_dependencies_loaded()
+        if openai_service is None:
+            _ensure_runtime_dependencies_loaded(require_openai=True)
+            self.openai_service = OpenAIModulatedService()
+        else:
+            self.openai_service = openai_service
 
-        self.openai_service = openai_service or OpenAIModulatedService()
-        self.signal_bus = signal_bus or SignalBus()
+        if signal_bus is None:
+            _ensure_runtime_dependencies_loaded(require_signals=True)
+            self.signal_bus = SignalBus()
+        else:
+            self.signal_bus = signal_bus
 
         # Colony management
         self.colonies: dict[str, EnhancedReasoningColony] = {}
@@ -170,6 +187,14 @@ class GPTColonyOrchestrator:
 
     def register_colony(self, colony_id: str, colony: EnhancedReasoningColony):
         """Register a colony for orchestration"""
+        if ColonyConsensus is None or EnhancedReasoningColony is None:
+            _ensure_runtime_dependencies_loaded(require_colony=True)
+            if ColonyConsensus is None or EnhancedReasoningColony is None:
+                raise RuntimeError(
+                    "Colony dependencies are unavailable; install colony runtime "
+                    "packages or provide custom implementations."
+                )
+
         self.colonies[colony_id] = colony
         self.colony_consensus[colony_id] = ColonyConsensus(colony_id, self.signal_bus)
 
@@ -211,15 +236,16 @@ class GPTColonyOrchestrator:
         self._update_metrics(result)
 
         # Emit completion signal
-        await self._emit_signal(
-            SignalType.TRUST,
-            result.confidence,
-            {
-                "task_id": task.task_id,
-                "mode": task.mode.value,
-                "success": result.confidence > task.required_confidence,
-            },
-        )
+        if SignalType is not None:
+            await self._emit_signal(
+                SignalType.TRUST,
+                result.confidence,
+                {
+                    "task_id": task.task_id,
+                    "mode": task.mode.value,
+                    "success": result.confidence > task.required_confidence,
+                },
+            )
 
         return result
 
@@ -681,6 +707,12 @@ class GPTColonyOrchestrator:
 
     async def _emit_signal(self, signal_type: SignalType, level: float, metadata: dict):
         """Emit signal through signal bus"""
+        if Signal is None:
+            logger.debug(
+                "Signal runtime dependency unavailable; skipping signal emission."
+            )
+            return
+
         signal = Signal(
             name=signal_type,
             source="gpt_colony_orchestrator",
@@ -713,6 +745,7 @@ async def demo_orchestrator():
     orchestrator = GPTColonyOrchestrator()
 
     # Register a colony
+    _ensure_runtime_dependencies_loaded(require_colony=True)
     colony = EnhancedReasoningColony("demo-colony")
     orchestrator.register_colony("demo-colony", colony)
 
