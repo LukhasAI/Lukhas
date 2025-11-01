@@ -89,12 +89,14 @@ class PrivacyStatement:
         self.public_input = dict(self.public_input)
 
         if not self.statement_id:
-            fingerprint = _stable_hash({
-                "public_input": self.public_input,
-                "requires_non_interactive": self.requires_non_interactive,
-                "circuit_size": self.circuit_size,
-                "description": self.description,
-            })
+            fingerprint = _stable_hash(
+                {
+                    "public_input": self.public_input,
+                    "requires_non_interactive": self.requires_non_interactive,
+                    "circuit_size": self.circuit_size,
+                    "description": self.description,
+                }
+            )
             self.statement_id = f"stmt-{fingerprint[:12]}"
 
         if not isinstance(self.metadata, Mapping):
@@ -196,14 +198,7 @@ class ZeroKnowledgePrivacyEngine:
         witness: PrivateWitness,
         proof_type: str = "adaptive",
     ) -> ZeroKnowledgeProof:
-        """Generate a zero-knowledge proof for a computation.
-
-        Args:
-            statement: Structured description of the computation being proven.
-            witness: Private witness bound to the proof statement.
-            proof_type: Strategy for proof generation (``"adaptive"`` selects the
-                most suitable proof system automatically).
-        """
+        """Generate a zero-knowledge proof for a computation."""
         if proof_type == "adaptive":
             proof_type = (
                 "zksnark"

@@ -16,6 +16,7 @@ BulletProof = _MODULE.BulletProof
 Computation = _MODULE.Computation
 PrivateWitness = _MODULE.PrivateWitness
 PrivacyStatement = _MODULE.PrivacyStatement
+ProofStatement = _MODULE.ProofStatement
 ZeroKnowledgePrivacyEngine = _MODULE.ZeroKnowledgePrivacyEngine
 
 
