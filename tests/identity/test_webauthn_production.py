@@ -12,18 +12,100 @@ import json
 import time
 from datetime import datetime, timedelta, timezone
 
-import pytest
+import importlib.util
+import sys
+import types
+from pathlib import Path
 
-from identity.webauthn_production import (
-    AuthenticatorTier,
-    AuthenticatorType,
-    CredentialStatus,
-    WebAuthnChallenge,
-    WebAuthnCredential,
-    WebAuthnCredentialStore,
-    WebAuthnManager,
-    get_webauthn_manager,
+import pytest
+class _FakeSpan:
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc, tb):
+        return False
+
+    def set_attribute(self, *args, **kwargs):
+        return None
+
+    def record_exception(self, *args, **kwargs):
+        return None
+
+    def set_status(self, *args, **kwargs):
+        return None
+
+
+class _FakeTracer:
+    def start_span(self, _name):
+        return _FakeSpan()
+
+
+def _fake_status(status_code, description=None):
+    return {"status_code": status_code, "description": description}
+
+
+trace_stub = types.SimpleNamespace(
+    get_tracer=lambda _name: _FakeTracer(),
+    Status=_fake_status,
+    StatusCode=types.SimpleNamespace(ERROR="ERROR"),
 )
+opentelemetry_stub = types.SimpleNamespace(trace=trace_stub)
+sys.modules.setdefault("opentelemetry", opentelemetry_stub)
+sys.modules.setdefault("opentelemetry.trace", trace_stub)
+
+
+class _Metric:
+    def __init__(self, *args, **kwargs):
+        return None
+
+    def labels(self, *args, **kwargs):
+        return self
+
+    def inc(self, *args, **kwargs):
+        return None
+
+    def dec(self, *args, **kwargs):
+        return None
+
+    def observe(self, *args, **kwargs):
+        return None
+
+
+prometheus_stub = types.SimpleNamespace(
+    Counter=_Metric,
+    Gauge=_Metric,
+    Histogram=_Metric,
+)
+sys.modules.setdefault("prometheus_client", prometheus_stub)
+
+
+MODULE_PATH = (
+    Path(__file__).resolve().parents[2]
+    / "lukhas_website"
+    / "lukhas"
+    / "identity"
+    / "webauthn_production.py"
+)
+
+spec = importlib.util.spec_from_file_location(
+    "identity.webauthn_production",
+    MODULE_PATH,
+)
+if spec is None or spec.loader is None:
+    raise ImportError(f"Unable to load WebAuthn module from {MODULE_PATH}")
+
+webauthn_module = importlib.util.module_from_spec(spec)
+sys.modules.setdefault("identity.webauthn_production", webauthn_module)
+spec.loader.exec_module(webauthn_module)
+
+AuthenticatorTier = webauthn_module.AuthenticatorTier
+AuthenticatorType = webauthn_module.AuthenticatorType
+CredentialStatus = webauthn_module.CredentialStatus
+WebAuthnChallenge = webauthn_module.WebAuthnChallenge
+WebAuthnCredential = webauthn_module.WebAuthnCredential
+WebAuthnCredentialStore = webauthn_module.WebAuthnCredentialStore
+WebAuthnManager = webauthn_module.WebAuthnManager
+get_webauthn_manager = webauthn_module.get_webauthn_manager
 
 
 class TestWebAuthnCredential:
@@ -532,6 +614,69 @@ class TestWebAuthnManager:
             credential_data=mock_credential_data,
             device_name=device_name
         )
+
+
+class TestWebAuthnManagerHelpers:
+    """Tests for WebAuthnManager helper utilities."""
+
+    def setup_method(self):
+        self.manager = webauthn_module.WebAuthnManager(
+            rp_id="example.com",
+            rp_name="Example RP",
+            origin="https://example.com"
+        )
+
+    def test_credential_to_descriptor_decodes_base64(self, monkeypatch):
+        """Credential IDs stored as base64url are decoded to bytes."""
+
+        raw_id = b"credential-id-raw"
+        encoded_id = base64.urlsafe_b64encode(raw_id).decode().rstrip("=")
+        credential = WebAuthnCredential(
+            credential_id=encoded_id,
+            public_key="pk",
+            user_id="user-id",
+        )
+
+        captured = {}
+
+        class FakeDescriptor:
+            def __init__(self, id: bytes, type: str = "public-key", transports=None):
+                captured["id"] = id
+                captured["type"] = type
+                self.id = id
+                self.type = type
+                self.transports = transports or []
+
+        monkeypatch.setattr(webauthn_module, "PublicKeyCredentialDescriptor", FakeDescriptor)
+
+        descriptor = self.manager._credential_to_descriptor(credential)
+
+        assert isinstance(descriptor, FakeDescriptor)
+        assert captured["id"] == raw_id
+        assert captured["type"] == "public-key"
+
+    def test_credential_to_descriptor_handles_plain_identifiers(self, monkeypatch):
+        """Plain credential identifiers fall back to UTF-8 encoding."""
+
+        credential = WebAuthnCredential(
+            credential_id="plain-identifier",
+            public_key="pk",
+            user_id="user-id",
+        )
+
+        class FakeDescriptor:
+            def __init__(self, id: bytes, type: str = "public-key", transports=None):
+                self.id = id
+                self.type = type
+                self.transports = transports or []
+
+        monkeypatch.setattr(webauthn_module, "PublicKeyCredentialDescriptor", FakeDescriptor)
+
+        descriptor = self.manager._credential_to_descriptor(credential)
+
+        assert isinstance(descriptor, FakeDescriptor)
+        assert descriptor.id == b"plain-identifier"
+        assert descriptor.type == "public-key"
 
 
 class TestWebAuthnPerformanceRequirements:

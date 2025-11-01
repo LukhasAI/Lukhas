@@ -12,6 +12,7 @@ Constellation Framework: Identity ⚛️ pillar with T4-T5 authentication tiers
 from __future__ import annotations
 
 import base64
+import binascii
 import json
 import logging
 import secrets
@@ -77,11 +78,13 @@ try:
 # See: https://github.com/LukhasAI/Lukhas/issues/596
         ResidentKeyRequirement,
         UserVerificationRequirement,
+        PublicKeyCredentialDescriptor,
     )
     WEBAUTHN_AVAILABLE = True
 except ImportError:
     logger.warning("WebAuthn library not available - using mock implementation")
     WEBAUTHN_AVAILABLE = False
+    PublicKeyCredentialDescriptor = None  # type: ignore[assignment]
 
 
 class AuthenticatorType(Enum):
@@ -280,6 +283,30 @@ class WebAuthnManager:
         # Initialize authenticator metadata
         self._load_authenticator_metadata()
 
+    @staticmethod
+    def _decode_credential_id(credential_id: str) -> bytes:
+        """Decode a credential ID from base64url, falling back to UTF-8."""
+        try:
+            padding = '=' * (-len(credential_id) % 4)
+            decoded = base64.urlsafe_b64decode(credential_id + padding)
+            reencoded = base64.urlsafe_b64encode(decoded).decode().rstrip('=')
+            if reencoded == credential_id and len(decoded) >= 16:
+                return decoded
+            raise ValueError("Not a base64url credential ID")
+        except (binascii.Error, ValueError, TypeError):
+            return credential_id.encode()
+
+    def _credential_to_descriptor(self, credential: WebAuthnCredential) -> PublicKeyCredentialDescriptor:
+        """Convert a stored credential to a WebAuthn descriptor."""
+        if PublicKeyCredentialDescriptor is None:
+            raise RuntimeError("PublicKeyCredentialDescriptor is unavailable")
+
+        credential_id_bytes = self._decode_credential_id(credential.credential_id)
+        return PublicKeyCredentialDescriptor(
+            id=credential_id_bytes,
+            type="public-key",
+        )
+
     def _load_authenticator_metadata(self) -> None:
         """Load authenticator metadata for device recognition"""
         # In production, this would load from FIDO Alliance MDS
@@ -326,11 +353,22 @@ class WebAuthnManager:
             try:
                 # Get existing credentials for excludeCredentials
                 existing_credentials = await self.credential_store.get_credentials(user_id)
-                exclude_credentials = [
-                    {"id": cred.credential_id, "type": "public-key"}
+                active_credentials = [
+                    cred
                     for cred in existing_credentials
                     if cred.status == CredentialStatus.ACTIVE
                 ]
+
+                if WEBAUTHN_AVAILABLE:
+                    exclude_credentials = [
+                        self._credential_to_descriptor(cred)
+                        for cred in active_credentials
+                    ]
+                else:
+                    exclude_credentials = [
+                        {"id": cred.credential_id, "type": "public-key"}
+                        for cred in active_credentials
+                    ]
 
                 if not WEBAUTHN_AVAILABLE:
                     # Mock implementation for testing
@@ -576,11 +614,22 @@ class WebAuthnManager:
                 allowed_credentials = []
                 if user_id:
                     credentials = await self.credential_store.get_credentials(user_id)
-                    allowed_credentials = [
-                        {"id": cred.credential_id, "type": "public-key"}
+                    active_credentials = [
+                        cred
                         for cred in credentials
                         if cred.status == CredentialStatus.ACTIVE and cred.tier.value >= tier.value
                     ]
+
+                    if WEBAUTHN_AVAILABLE:
+                        allowed_credentials = [
+                            self._credential_to_descriptor(cred)
+                            for cred in active_credentials
+                        ]
+                    else:
+                        allowed_credentials = [
+                            {"id": cred.credential_id, "type": "public-key"}
+                            for cred in active_credentials
+                        ]
 
                 if not WEBAUTHN_AVAILABLE:
                     # Mock implementation for testing
