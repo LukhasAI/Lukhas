@@ -46,6 +46,53 @@ else:
 logger = logging.getLogger(__name__)
 
 
+def _ensure_runtime_dependencies_loaded() -> None:
+    """Load heavy runtime dependencies on demand."""
+
+    global OpenAICapability
+    global OpenAIModulatedService
+    global ColonyConsensus
+    global ConsensusResult
+    global EnhancedReasoningColony
+    global Signal
+    global SignalBus
+    global SignalType
+
+    if OpenAIModulatedService is None or OpenAICapability is None:
+        from labs.consciousness.reflection.openai_modulated_service import (
+            OpenAICapability as _OpenAICapability,
+            OpenAIModulatedService as _OpenAIModulatedService,
+        )
+
+        OpenAICapability = _OpenAICapability
+        OpenAIModulatedService = _OpenAIModulatedService
+
+    if ColonyConsensus is None:
+        from core.colonies.consensus_mechanisms import ColonyConsensus as _ColonyConsensus
+
+        ColonyConsensus = _ColonyConsensus
+
+    if ConsensusResult is None or EnhancedReasoningColony is None:
+        from core.colonies.enhanced_colony import (
+            ConsensusResult as _ConsensusResult,
+            EnhancedReasoningColony as _EnhancedReasoningColony,
+        )
+
+        ConsensusResult = _ConsensusResult
+        EnhancedReasoningColony = _EnhancedReasoningColony
+
+    if Signal is None or SignalBus is None or SignalType is None:
+        from orchestration.signals.signal_bus import (
+            Signal as _Signal,
+            SignalBus as _SignalBus,
+            SignalType as _SignalType,
+        )
+
+        Signal = _Signal
+        SignalBus = _SignalBus
+        SignalType = _SignalType
+
+
 class OrchestrationMode(Enum):
     """Modes of GPT-Colony orchestration"""
 
@@ -97,6 +144,8 @@ class GPTColonyOrchestrator:
         openai_service: Optional[OpenAIModulatedService] = None,
         signal_bus: Optional[SignalBus] = None,
     ):
+        _ensure_runtime_dependencies_loaded()
+
         self.openai_service = openai_service or OpenAIModulatedService()
         self.signal_bus = signal_bus or SignalBus()
 
