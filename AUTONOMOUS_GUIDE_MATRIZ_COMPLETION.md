@@ -236,6 +236,9 @@ Example:
 ```python
 # See: https://github.com/LukhasAI/Lukhas/issues/553
 ```
+> ✅ **Input validation guardrail:** The TODO inventory generator enforces the allowed
+> scope values above and defaults unknown entries to `UNKNOWN`, preventing stray
+> metadata such as `SCOPE:X` from polluting production analytics.
 This enables scripts to parse, prioritize, and auto-migrate TODOs.
 
 ---

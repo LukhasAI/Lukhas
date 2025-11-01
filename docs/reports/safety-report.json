@@ -916,14 +916,14 @@ We highly encourage switching to the new `scan` command which is easier to use, 
         },
         "googleapis-common-protos": {
             "name": "googleapis-common-protos",
-            "version": "1.70.0",
+            "version": "1.71.0",
             "requirements": [
                 {
-                    "raw": "googleapis-common-protos==1.70.0",
+                    "raw": "googleapis-common-protos==1.71.0",
                     "extras": [],
                     "marker": null,
                     "name": "googleapis-common-protos",
-                    "specifier": "==1.70.0",
+                    "specifier": "==1.71.0",
                     "url": null,
                     "found": "/opt/hostedtoolcache/Python/3.12.11/x64/lib/python3.12/site-packages"
                 }

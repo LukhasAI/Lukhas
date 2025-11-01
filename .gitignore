@@ -367,3 +367,9 @@ lukhas_website_with_carousel_and_palette/
 
 # Experimental website variants (contain framework conflicts)
 # V2 uses Constellation/MATRIZ vs Trinity/MATADA in main
+
+# Personal workspace settings (keep local to avoid conflicts across devices)
+*.code-workspace
+
+# CI and developer artifacts
+artifacts/reports/

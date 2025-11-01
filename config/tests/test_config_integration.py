@@ -53,9 +53,8 @@ class TestConfigEndToEnd:
             component = ConfigCore()
 
             # Test integrated processing
-            with consciousness.awareness_context():
-                with memory.session_context():
-                    result = component.process({"integration": "test"})
+            with consciousness.awareness_context(), memory.session_context():
+                result = component.process({"integration": "test"})
 
             assert result is not None
 
@@ -76,7 +75,7 @@ class TestConfigExternalIntegration:
             with patch("config.database.connect") as mock_db:
                 mock_db.return_value.execute.return_value = {"success": True}
 
-                component.process({"db_operation": "test"})
+                result = component.process({"db_operation": "test"})
 
                 # Verify database interaction
                 mock_db.assert_called()
@@ -210,7 +209,7 @@ class TestConfigMonitoringIntegration:
             with patch("opentelemetry.trace.get_current_span") as mock_span:
                 mock_span.return_value.set_attribute = Mock()
 
-                component.process({"trace_test": True})
+                result = component.process({"trace_test": True})
 
                 # Verify tracing attributes were set
                 mock_span.return_value.set_attribute.assert_called()

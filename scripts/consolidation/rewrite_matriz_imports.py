@@ -43,7 +43,7 @@ class ImportRewriter(ast.NodeTransformer):
         self.changes = []
 
     def visit_Import(self, node):
-        """Rewrite 'import matriz' → 'import MATRIZ'"""
+        """Rewrite 'import matriz' → 'import matriz'"""
         for alias in node.names:
             if alias.name == OLD_MODULE:
                 self.changes.append(
@@ -292,7 +292,7 @@ Examples:
         print("   Backup files created with .bak extension")
         print("\nNext steps:")
         print("  1. Run tests: make smoke && python3 -m pytest")
-        print("  2. Verify imports: python3 -c 'import MATRIZ; print(\"OK\")'")
+        print("  2. Verify imports: python3 -c 'import matriz; print(\"OK\")'")
         print("  3. Review changes: git diff")
         print("  4. Commit: git add -A && git commit -m 'fix(imports): matriz → MATRIZ'")
 

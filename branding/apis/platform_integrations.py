@@ -32,18 +32,21 @@ except ImportError:
 
 try:
     from linkedin_api import (
-        Linkedin,  # LinkedIn API  # noqa: F401  # TODO: linkedin_api.Linkedin; conside...
+        Linkedin,  # LinkedIn API client used when official endpoints are required
     )
 
     LINKEDIN_AVAILABLE = True
 except ImportError:
+    Linkedin = None
     LINKEDIN_AVAILABLE = False
 
 try:
-# See: https://github.com/LukhasAI/Lukhas/issues/555
+    from requests_oauthlib import OAuth2Session  # OAuth client for LinkedIn integrations
+    # See: https://github.com/LukhasAI/Lukhas/issues/555 for security review context
 
     OAUTH_AVAILABLE = True
 except ImportError:
+    OAuth2Session = None
     OAUTH_AVAILABLE = False
 
 

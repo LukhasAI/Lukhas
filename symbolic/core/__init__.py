@@ -181,3 +181,22 @@ def create_consciousness_layer(
 print(f"🌌 LUKHAS Quantum Visual Symbol Core v{__version__} initialized")
 print(f"   Consciousness Level: {__consciousness_level__}")
 print(f"   Components: {len(__all__)} quantum-aware classes available")
+
+
+# Placeholder classes for backwards compatibility
+class Symbol:
+    """Placeholder Symbol class for backwards compatibility."""
+    def __init__(self, name="", value=None):
+        self.name = name
+        self.value = value
+
+
+class SymbolicVocabulary:
+    """Placeholder SymbolicVocabulary class for backwards compatibility."""
+    def __init__(self):
+        self.symbols = {}
+
+
+def get_symbolic_vocabulary():
+    """Get symbolic vocabulary instance. Placeholder implementation."""
+    return SymbolicVocabulary()

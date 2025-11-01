@@ -34,6 +34,7 @@ import sys
 import tempfile
 import time
 import unittest
+from unittest import mock
 from contextlib import contextmanager
 from datetime import datetime, timezone
 from typing import Any, Dict, Optional
@@ -43,51 +44,51 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))
 
 # Import security components
 try:
-    pass  # from security... imports commented out
-    # (Original imports moved to comments)
-    # from security.access_control import (
-    #     AccessControlSystem,
-    #     ActionType,
-    #     Resource,
-    #     ResourceType,
-    #     Subject,
-    #     create_access_control_system,
-    # )
-    # from security.compliance_framework import (
-    #     ComplianceFramework,
-    #     ComplianceStandard,
-    #     ControlStatus,
-    #     create_compliance_framework,
-    # )
-    # from security.encryption_manager import (
-    #     EncryptionAlgorithm,
-    #     EncryptionManager,
-    #     KeyType,
-    #     KeyUsage,
-    #     create_encryption_manager,
-    # )
-    # from security.incident_response import (
-    #     IncidentCategory,
-    #     IncidentResponseSystem,
-    #     IncidentSeverity,
-    #     create_incident_response_system,
-    # )
-    # from security.input_validation import (
-    #     AIInputValidator,
-    #     AttackVector,
-    #     InputValidator,
-    #     ValidationResult,
-    #     create_ai_validator,
-    #     create_api_validator,
-    #     create_web_validator,
-    # )
-    # from security.security_monitor import (
-    #     EventType,
-    #     SecurityEvent,
-    #     SecurityMonitor,
-    #     ThreatLevel,
-    #     create_security_monitor,
-    # )
+    from lukhas_website.lukhas.security.access_control import (
+        AccessControlSystem,
+        ActionType,
+        Resource,
+        ResourceType,
+        Subject,
+        create_access_control_system,
+    )
+    from lukhas_website.lukhas.security.compliance_framework import (
+        ComplianceFramework,
+        ComplianceStandard,
+        ControlStatus,
+        EvidenceType,
+        RiskLevel,
+        create_compliance_framework,
+    )
+    from lukhas_website.lukhas.security.encryption_manager import (
+        EncryptionAlgorithm,
+        EncryptionManager,
+        KeyType,
+        KeyUsage,
+        create_encryption_manager,
+    )
+    from lukhas_website.lukhas.security.incident_response import (
+        IncidentCategory,
+        IncidentResponseSystem,
+        IncidentSeverity,
+        create_incident_response_system,
+    )
+    from lukhas_website.lukhas.security.input_validation import (
+        AIInputValidator,
+        AttackVector,
+        InputValidator,
+        ValidationResult,
+        create_ai_validator,
+        create_api_validator,
+        create_web_validator,
+    )
+    from lukhas_website.lukhas.security.security_monitor import (
+        EventType,
+        SecurityEvent,
+        SecurityMonitor,
+        ThreatLevel,
+        create_security_monitor,
+    )
     SECURITY_MODULES_AVAILABLE = True
 except ImportError as e:
     SECURITY_MODULES_AVAILABLE = False
@@ -269,48 +270,90 @@ class TestEncryptionManager(unittest.TestCase):
         self.test_dir = tempfile.mkdtemp()
         os.environ["LUKHAS_KEYSTORE"] = os.path.join(self.test_dir, "keys")
         os.environ["LUKHAS_MASTER_PASSPHRASE"] = "test-passphrase-12345"
+        self._encryption_patches = []
+
+        def _test_encrypt_master_key(manager_self, key, passphrase):
+            return b"TEST" + key
+
+        def _test_decrypt_master_key(manager_self, encrypted_key, passphrase):
+            if not encrypted_key.startswith(b"TEST"):
+                raise ValueError("Invalid test master key format")
+            return encrypted_key[4:]
+
+        def _test_encrypt_key_material(manager_self, key_material):
+            return key_material
+
+        def _test_decrypt_key_material(manager_self, encrypted_key):
+            return encrypted_key
+
+        self._encryption_patches.append(
+            mock.patch.object(EncryptionManager, "_encrypt_master_key", _test_encrypt_master_key)
+        )
+        self._encryption_patches.append(
+            mock.patch.object(EncryptionManager, "_decrypt_master_key", _test_decrypt_master_key)
+        )
+        self._encryption_patches.append(
+            mock.patch.object(EncryptionManager, "_encrypt_key_material", _test_encrypt_key_material)
+        )
+        self._encryption_patches.append(
+            mock.patch.object(EncryptionManager, "_decrypt_key_material", _test_decrypt_key_material)
+        )
+
+        for patcher in self._encryption_patches:
+            patcher.start()
+
+        self.encryption_manager = create_encryption_manager({
+            "key_store_path": os.environ["LUKHAS_KEYSTORE"],
+            "auto_rotation": False,
+        })
 
     def tearDown(self):
         shutil.rmtree(self.test_dir)
         for var in ["LUKHAS_KEYSTORE", "LUKHAS_MASTER_PASSPHRASE"]:
             if var in os.environ:
                 del os.environ[var]
+        for patcher in getattr(self, "_encryption_patches", []):
+            patcher.stop()
+        self._encryption_patches = []
+        self.encryption_manager = None
 
     def test_key_generation(self):
         """Test key generation."""
 # See: https://github.com/LukhasAI/Lukhas/issues/612
+        manager = self.encryption_manager
 
         # Test AES key generation
         with self.benchmark.measure():
-            aes_key_id = em.generate_key(KeyType.AES_256, KeyUsage.DATA_ENCRYPTION)  # noqa: F821  # TODO: KeyType
+            aes_key_id = manager.generate_key(KeyType.AES_256, KeyUsage.DATA_ENCRYPTION)
 
         self.assertTrue(aes_key_id.startswith("aes-256"))
-        self.assertIn(aes_key_id, em.keys)
+        self.assertIn(aes_key_id, manager.keys)
 
         # Test RSA key generation
         with self.benchmark.measure():
-            rsa_key_id = em.generate_key(KeyType.RSA_2048, KeyUsage.ENCRYPTION)  # noqa: F821  # TODO: KeyType
+            rsa_key_id = manager.generate_key(KeyType.RSA_2048, KeyUsage.ENCRYPTION)
 
         self.assertTrue(rsa_key_id.startswith("rsa-2048"))
-        self.assertIn(rsa_key_id, em.keys)
+        self.assertIn(rsa_key_id, manager.keys)
 
     def test_aes_encryption_decryption(self):
         """Test AES encryption and decryption."""
 # See: https://github.com/LukhasAI/Lukhas/issues/613
-        key_id = em.generate_key(KeyType.AES_256, KeyUsage.DATA_ENCRYPTION)  # noqa: F821  # TODO: KeyType
+        manager = self.encryption_manager
+        key_id = manager.generate_key(KeyType.AES_256, KeyUsage.DATA_ENCRYPTION)
 
         test_data = "This is sensitive test data! 🔐"
 
         # Test encryption
         with self.benchmark.measure():
-            encrypted_result = em.encrypt(test_data, key_id)
+            encrypted_result = manager.encrypt(test_data, key_id)
 
         self.assertIsNotNone(encrypted_result.encrypted_data)
 # See: https://github.com/LukhasAI/Lukhas/issues/614
 
         # Test decryption
         with self.benchmark.measure():
-            decrypted_result = em.decrypt(encrypted_result)
+            decrypted_result = manager.decrypt(encrypted_result)
 
         self.assertEqual(decrypted_result.decrypted_data.decode('utf-8'), test_data)
         self.assertTrue(decrypted_result.verified)
@@ -318,73 +361,77 @@ class TestEncryptionManager(unittest.TestCase):
     def test_rsa_encryption_decryption(self):
         """Test RSA encryption and decryption."""
 # See: https://github.com/LukhasAI/Lukhas/issues/615
-        key_id = em.generate_key(KeyType.RSA_2048, KeyUsage.ENCRYPTION)  # noqa: F821  # TODO: KeyType
+        manager = self.encryption_manager
+        key_id = manager.generate_key(KeyType.RSA_2048, KeyUsage.ENCRYPTION)
 
         test_data = "RSA test data"
 
         # Test encryption
         with self.benchmark.measure():
-            encrypted_result = em.encrypt(test_data, key_id)
+            encrypted_result = manager.encrypt(test_data, key_id)
 
         self.assertIsNotNone(encrypted_result.encrypted_data)
 
         # Test decryption
         with self.benchmark.measure():
-            decrypted_result = em.decrypt(encrypted_result)
+            decrypted_result = manager.decrypt(encrypted_result)
 
         self.assertEqual(decrypted_result.decrypted_data.decode('utf-8'), test_data)
 
     def test_password_hashing(self):
         """Test password hashing and verification."""
 # See: https://github.com/LukhasAI/Lukhas/issues/616
+        manager = self.encryption_manager
 
         password = "SuperSecurePassword123!"
 
         # Test hashing
         with self.benchmark.measure():
-            hashed = em.hash_password(password)
+            hashed = manager.hash_password(password)
 
         self.assertIsNotNone(hashed)
         self.assertNotEqual(hashed, password)
 
         # Test verification
         with self.benchmark.measure():
-            verified = em.verify_password(password, hashed)
+            verified = manager.verify_password(password, hashed)
 
         self.assertTrue(verified)
 
         # Test wrong password
         with self.benchmark.measure():
-            wrong_verified = em.verify_password("WrongPassword", hashed)
+            wrong_verified = manager.verify_password("WrongPassword", hashed)
 
         self.assertFalse(wrong_verified)
 
     def test_key_rotation(self):
         """Test key rotation."""
 # See: https://github.com/LukhasAI/Lukhas/issues/617
-        original_key_id = em.generate_key(KeyType.AES_256, KeyUsage.DATA_ENCRYPTION)  # noqa: F821  # TODO: KeyType
+        manager = self.encryption_manager
+        original_key_id = manager.generate_key(KeyType.AES_256, KeyUsage.DATA_ENCRYPTION)
 
         # Rotate key
         with self.benchmark.measure():
-            new_key_id = em.rotate_key(original_key_id)
+            new_key_id = manager.rotate_key(original_key_id)
 
         self.assertNotEqual(original_key_id, new_key_id)
-        self.assertIn(new_key_id, em.keys)
-        self.assertFalse(em.keys[original_key_id].is_active)
-        self.assertTrue(em.keys[new_key_id].is_active)
+        self.assertIn(new_key_id, manager.keys)
+        self.assertFalse(manager.keys[original_key_id].is_active)
+        self.assertTrue(manager.keys[new_key_id].is_active)
 
     def test_performance_benchmark(self):
         """Test encryption performance."""
 # See: https://github.com/LukhasAI/Lukhas/issues/618
-        key_id = em.generate_key(KeyType.AES_256, KeyUsage.DATA_ENCRYPTION)  # noqa: F821  # TODO: KeyType
+        manager = self.encryption_manager
+        key_id = manager.generate_key(KeyType.AES_256, KeyUsage.DATA_ENCRYPTION)
 
         test_data = "Performance test data" * 100  # Larger data
 
         # Run multiple encryption/decryption cycles
         for _ in range(50):
             with self.benchmark.measure():
-                encrypted = em.encrypt(test_data, key_id)
-                em.decrypt(encrypted)
+                encrypted = manager.encrypt(test_data, key_id)
+                manager.decrypt(encrypted)
 
         stats = self.benchmark.get_stats()
         self.assertTrue(stats["target_met"], f"Performance target not met: {stats['avg_ms']:.2f}ms > {stats['target_ms']}ms")
@@ -657,7 +704,8 @@ class TestComplianceFramework(unittest.TestCase):
     def setUp(self):
         self.benchmark = PerformanceBenchmark("compliance", target_ms=5.0)
         self.test_dir = tempfile.mkdtemp()
-# See: https://github.com/LukhasAI/Lukhas/issues/620
+        self.framework = create_compliance_framework({
+            # See: https://github.com/LukhasAI/Lukhas/issues/620
             "evidence_path": os.path.join(self.test_dir, "evidence")
         })
 
@@ -680,8 +728,6 @@ class TestComplianceFramework(unittest.TestCase):
 
     def test_evidence_collection(self):
         """Test evidence collection."""
-        from security.compliance_framework import EvidenceType
-
         with self.benchmark.measure():
             evidence_id = self.framework.collect_evidence(
                 control_id="CC6.1",
@@ -696,8 +742,6 @@ class TestComplianceFramework(unittest.TestCase):
 
     def test_risk_assessment(self):
         """Test risk assessment."""
-        from security.compliance_framework import RiskLevel
-
         with self.benchmark.measure():
             risk_id = self.framework.run_risk_assessment(
                 title="Test Risk",

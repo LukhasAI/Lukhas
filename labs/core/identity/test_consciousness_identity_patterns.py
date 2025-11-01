@@ -40,15 +40,24 @@ try:
         AuthenticationMethod,
         ConsciousnessWebAuthnManager,
         TieredAuthenticationEngine,
-# See: https://github.com/LukhasAI/Lukhas/issues/569
     )
-    from .constitutional_ai_compliance import (
-# See: https://github.com/LukhasAI/Lukhas/issues/570
-        ConstitutionalAIValidator,
-        ConstitutionalPrinciple,
-        ConstitutionalValidationContext,
-        DecisionType,
-    )
+
+    # See: https://github.com/LukhasAI/Lukhas/issues/569
+    try:
+        from .constitutional_ai_compliance import (
+            # See: https://github.com/LukhasAI/Lukhas/issues/570
+            ConstitutionalAIValidator,
+            ConstitutionalPrinciple,
+            ConstitutionalValidationContext,
+            DecisionType,
+        )
+    except ImportError:
+        from core.identity.constitutional_ai_compliance import (
+            ConstitutionalAIValidator,
+            ConstitutionalPrinciple,
+            ConstitutionalValidationContext,
+            DecisionType,
+        )
     from .matriz_consciousness_identity import (
         ConsciousnessIdentityProfile,  # noqa: F401  # TODO: .matriz_consciousness_identity...
         ConsciousnessNamespace,  # noqa: F401  # TODO: .matriz_consciousness_identity...
@@ -115,6 +124,15 @@ class TestConsciousnessIdentityCore:
         retrieved = await identity_manager.get_identity_by_identifier(profile.identity_id)
         assert retrieved is not None
         assert retrieved.identity_id == profile.identity_id
+
+    def test_constitutional_validator_module_resolution(self):
+        """Ensure constitutional validator is available from either labs or core module."""
+
+        module_path = ConstitutionalAIValidator.__module__
+        assert module_path in (
+            "labs.core.identity.constitutional_ai_compliance",
+            "core.identity.constitutional_ai_compliance",
+        )
 
     @pytest.mark.asyncio
     async def test_consciousness_identity_evolution(self, identity_manager, sample_identity_context):

@@ -46,7 +46,7 @@ fix-logger-issues: ## Fix logger keyword argument issues
 fix-import-issues: ## Fix common import issues
 	@echo "$(CYAN)Fixing import issues...$(RESET)"
 	@find . -name "*.py" -type f -exec sed -i '' 's/from MATRIZ\./from matriz\./g' {} \;
-	@find . -name "*.py" -type f -exec sed -i '' 's/import MATRIZ/import matriz/g' {} \;
+	@find . -name "*.py" -type f -exec sed -i '' 's/import matriz/import matriz/g' {} \;
 	@find . -name "*.py" -type f -exec sed -i '' 's/from candidate\./from /g' {} \;
 	@find . -name "*.py" -type f -exec sed -i '' 's/from labs\./from /g' {} \;
 	@echo "$(GREEN)✓ Import issues fixed$(RESET)"

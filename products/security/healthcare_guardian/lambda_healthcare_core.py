@@ -77,6 +77,7 @@ except ImportError:
         from identity.lid_core import LIDCore
         from memory.fold_manager import FoldManager
 
+
         LUKHAS_AVAILABLE = True
         print("✅ LUKHAS core available via legacy paths")
     except ImportError:

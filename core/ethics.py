@@ -1,8 +1,25 @@
-"""Shim: core.ethics → core.ethics or candidate.core.ethics."""
-try:
-    from core.ethics import *  # noqa: F403
-except ImportError:
+"""Shim: core.ethics → prefer package `core.ethics`, lazy labs fallback.
+
+Removes import-time dependency on `labs.core.ethics` by exposing a lazy
+attribute proxy. Prefer `core/ethics/__init__.py` implementation in-repo.
+"""
+from __future__ import annotations
+import importlib
+from typing import Any
+
+try:  # pragma: no cover
+    from core.ethics import *  # type: ignore  # noqa: F403,F401
+    _HAS_PRIMARY = True
+except Exception:  # pragma: no cover
+    _HAS_PRIMARY = False
+
+
+def __getattr__(name: str) -> Any:  # pragma: no cover
     try:
-        from labs.core.ethics import *  # noqa: F403
-    except ImportError:
-        pass
+        mod = importlib.import_module("labs.core.ethics")
+        return getattr(mod, name)
+    except Exception as e:
+        raise AttributeError(f"module {__name__!r} has no attribute {name!r}: {e}") from e
+
+
+# No __all__ exposure for labs fallback to discourage star imports.
