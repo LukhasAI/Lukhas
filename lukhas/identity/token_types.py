@@ -58,6 +58,18 @@ def mk_exp(seconds_from_now: int) -> int:
     return _now_ts() + seconds_from_now
 
 
+def mk_iat(seconds_ago: int = 0) -> int:
+    """Return an ``iat`` timestamp ``seconds_ago`` in UTC (default: now).
+
+    Helps tests create deterministic issued-at values.
+    """
+    if not isinstance(seconds_ago, int):
+        raise TypeError("seconds_ago must be an int")
+    if seconds_ago < 0:
+        return _now_ts() - seconds_ago
+    return _now_ts() - seconds_ago
+
+
 def validate_token_claims(claims: Dict[str, Any]) -> TokenClaims:
     """Validate a dict and return it typed as :class:`TokenClaims`.
 
@@ -134,4 +146,5 @@ __all__ = [
     "is_token_expired",
     "get_remaining_lifetime",
     "mk_exp",
+    "mk_iat",
 ]
