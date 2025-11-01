@@ -1,0 +1,8 @@
+{
+  "version": 1762023826,
+  "timestamp": 1762023826.5564644,
+  "signer_id": "registry-dev-signer",
+  "mode": "hmac_only",
+  "pqc_public_key": null,
+  "timestamp_tolerance_seconds": 300
+}
