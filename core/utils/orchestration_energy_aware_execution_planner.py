@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 ═══════════════════════════════════════════════════════════════════════════════════
 📡 MODULE: core.orchestration.energy_aware_execution_planner
@@ -45,6 +43,8 @@ metabolic conscience of the system, optimizing for both performance and longevit
 ΛIMPLEMENTED: Distributed energy coordination across multiple nodes
 AIDEA: Add circadian rhythm patterns for natural energy cycles
 """
+
+from __future__ import annotations
 
 import asyncio
 import json

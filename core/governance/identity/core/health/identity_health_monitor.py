@@ -1,11 +1,11 @@
-from __future__ import annotations
-
 """
 Identity Health Monitor with Self-Healing
 
 Monitors the health of all identity system components and orchestrates
 self-healing procedures based on tier-specific strategies.
 """
+
+from __future__ import annotations
 
 import asyncio
 import logging
