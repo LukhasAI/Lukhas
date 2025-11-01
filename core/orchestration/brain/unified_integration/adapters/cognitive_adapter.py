@@ -1,19 +1,16 @@
-"""
-Enhanced Core TypeScript - Integrated from Advanced Systems
+"""Enhanced Core TypeScript - Integrated from Advanced Systems.
+
 Original: cognitive_adapter.py
 Advanced: cognitive_adapter.py
 Integration Date: 2025-05-31T07:55:29.985615
-"""
-from datetime import timezone
 
-"""
-Brain-inspired adapter that manages cognitive state transformations and memory integration
-using quantum-biological metaphors.
+Brain-inspired adapter that manages cognitive state transformations and memory
+integration using quantum-biological metaphors.
 """
 
 import json
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 import numpy as np
