@@ -27,17 +27,6 @@ except ImportError:  # pragma: no cover - fallback when memory lane unavailable
         SYSTEM = 5
 
 
-            try:
-                profile = await backend(user_id)
-                if profile:
-                    return profile
-            except Exception as error:
-                    "identity_backend_failed",
-                    user_id=user_id,
-                    backend=backend.__name__,
-                    error=str(error)
-                )
-                continue
 
 
 logger = structlog.get_logger(__name__)
@@ -264,6 +253,18 @@ class LukhasIdentityVault:
         ]
 
         for backend in backends:
+            try:
+                profile = await backend(user_id)
+                if profile:
+                    return profile
+            except Exception as error:
+                logger.warning(
+                    "identity_backend_failed",
+                    user_id=user_id,
+                    backend=backend.__name__,
+                    error=str(error)
+                )
+                continue
         # Final fallback - should never reach here
         return await self._create_inferred_identity(user_id)
 

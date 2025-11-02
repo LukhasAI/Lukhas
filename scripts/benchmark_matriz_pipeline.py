@@ -312,7 +312,7 @@ class MATRIZBenchmark:
             max_ms=max(latencies),
             min_ms=min(latencies),
             error_rate=failed_queries / concurrent_requests,
-            within_budget_rate=sum(1 for l in latencies if l < 240) / len(latencies),
+            within_budget_rate=sum(1 for latency in latencies if latency < 240) / len(latencies),
             total_duration_s=total_duration
         )
 
