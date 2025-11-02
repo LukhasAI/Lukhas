@@ -192,9 +192,11 @@ exclude_lines = [
 ]
 
 [tool.black]
-line-length = 120
-target-version = ['py39', 'py310', 'py311']
+line-length = 100
+target-version = ['py311']
 include = '\.pyi?$'
+# Keep default quote normalization enabled (do NOT set skip-string-normalization=true)
+# Black is the single source of truth for string quotes
 
 [tool.ruff]
 src = ["lukhas", "core", "MATRIZ"]
@@ -213,39 +215,47 @@ exclude = [
 ]
 
 [tool.ruff.lint]
+# Enable helpful, low-risk fixers
 select = [
-    "E",
-    "F",
-    "W",
-    "I001",
-    "RUF100",
+    "E",      # pycodestyle errors
+    "F",      # pyflakes
+    "W",      # pycodestyle warnings
+    "I",      # isort
+    "UP",     # pyupgrade
+    "B",      # flake8-bugbear
+    "SIM",    # flake8-simplify
+    "C4",     # flake8-comprehensions
+    "RUF",    # ruff-specific rules
 ]
 ignore = [
-    "E501",
-    "PLC0415",
+    "E501",     # line-too-long (Black handles this)
+    "PLC0415",  # import outside top-level
+    # Disable quote linting - let Black own this surface
+    "Q000",     # single quotes found but double quotes preferred
+    "Q001",     # single quote multiline found but double quotes preferred
+    "Q002",     # single quote docstring found but double quotes preferred
+    "Q003",     # avoidable escaped quote
 ]
 fixable = [
     "E",
     "F",
     "W",
-    "I001",
-    "RUF100",
+    "I",
+    "UP",
+    "B",
+    "SIM",
+    "C4",
+    "RUF",
 ]
-
-[tool.ruff.lint.flake8-quotes]
-docstring-quotes = "double"
-inline-quotes = "double"
-
-[tool.ruff.lint.pylint]
-max-args = 8
-max-returns = 3
-
-[tool.ruff.lint.flake8-tidy-imports]
-ban-relative-imports = "all"
+fix = true
 
 [tool.ruff.lint.isort]
-combine-as-imports = true
 known-first-party = ["lukhas", "candidate", "MATRIZ"]
+combine-as-imports = true
+
+[tool.ruff.lint.isort]
+known-first-party = ["lukhas", "candidate", "MATRIZ"]
+combine-as-imports = true
 
 [tool.ruff.lint.per-file-ignores]
 "**/__init__.py" = ["F401", "F403", "I001", "TID252"]
