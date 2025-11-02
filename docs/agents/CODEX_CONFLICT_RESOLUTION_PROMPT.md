@@ -21,18 +21,28 @@ You are a specialized Claude Code agent focused on resolving merge conflicts in 
 
 ### Your Tasks (Priority Order)
 
-#### Task 1: Resolve PR #812 Conflicts
+#### Task 1: Resolve PR #812 Conflicts (⚠️ M1 Branch)
 **PR**: https://github.com/LukhasAI/Lukhas/pull/812
 **Title**: Codex task analysis: TODO replacement complete, artifacts fixed for portability
-**Status**: CONFLICTING (needs rebase on main)
+**Status**: CONFLICTING
+**Base Branch**: `task/claude-lazy-load-identity-M1` (⚠️ M1 work, not main)
 
-**Steps**:
+**Important**: This PR is based on an M1 branch, not main. It needs special handling:
+
+**Option A** (Recommended): Close this PR and recreate against main
+1. Review the artifact portability changes
+2. Extract the useful changes (relative path fixes in `artifacts/todo_to_issue_map.json`)
+3. Create new PR against main with just the portability fixes
+4. Close #812 with comment explaining it was M1-based
+
+**Option B**: Rebase to main (more complex)
 1. Checkout PR #812 branch
-2. Rebase on latest main (which includes PRs #806, #824, #825)
-3. Resolve conflicts carefully preserving TODO replacement work
-4. Test that changes still work after conflict resolution
-5. Push updated branch with `--force-with-lease`
-6. Comment on PR that conflicts are resolved
+2. Rebase onto main (not M1 branch)
+3. Resolve extensive M1 conflicts
+4. Test thoroughly
+5. Push with `--force-with-lease`
+
+**Recommended**: Use Option A (simpler, cleaner)
 
 #### Task 2: Resolve PR #823 Conflicts
 **PR**: https://github.com/LukhasAI/Lukhas/pull/823
