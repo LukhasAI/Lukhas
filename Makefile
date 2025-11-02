@@ -280,7 +280,7 @@ sdk-py-install:
 	cd sdk/python && pip install -e .
 
 sdk-py-test:
-	cd sdk/python && pytest -q
+	cd sdk/python && python3 -m pytest -q
 
 sdk-ts-build:
 	cd sdk/ts && npm i && npm run build
@@ -399,7 +399,7 @@ e2e:
 lint-scoped:
 	ruff check serve tests/contract
 test-contract:
-	pytest -q tests/contract --maxfail=1 --disable-warnings
+	python3 -m pytest -q tests/contract --maxfail=1 --disable-warnings
 type-scoped:
 	mypy --follow-imports=skip --ignore-missing-imports serve/main.py || true
 check-scoped: lint-scoped test-contract type-scoped
@@ -648,13 +648,13 @@ test-clean:
 	@find . -name '__pycache__' -type d -prune -exec rm -rf {} + || true
 
 test-tier1:
-	@TZ=UTC PYTHONHASHSEED=0 pytest -m "tier1 and not quarantine" --cov=lukhas --cov=MATRIZ --cov-branch --cov-report=xml:reports/tests/cov.xml
+	@TZ=UTC PYTHONHASHSEED=0 python3 -m pytest -m "tier1 and not quarantine" --cov=lukhas --cov=MATRIZ --cov-branch --cov-report=xml:reports/tests/cov.xml
 
 test-all:
-	@TZ=UTC PYTHONHASHSEED=0 pytest -m "not quarantine" --cov=lukhas --cov=MATRIZ --cov-branch --cov-report=xml:reports/tests/cov.xml
+	@TZ=UTC PYTHONHASHSEED=0 python3 -m pytest -m "not quarantine" --cov=lukhas --cov=MATRIZ --cov-branch --cov-report=xml:reports/tests/cov.xml
 
 test-fast:
-	@TZ=UTC PYTHONHASHSEED=0 pytest -m "smoke or tier1" -q
+	@TZ=UTC PYTHONHASHSEED=0 python3 -m pytest -m "smoke or tier1" -q
 
 test-report:
 	@python3 -c "import xml.etree.ElementTree as ET; p='reports/tests/cov.xml'; \
@@ -680,7 +680,7 @@ test-goldens:
 test-jules06:
 	@echo "🧪 Jules-06 focused adapters lane"
 	@export TZ=UTC PYTHONHASHSEED=0 PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=.; \
-	pytest -q \
+	python3 -m pytest -q \
 	  -m "not quarantine" \
 	  tests/unit/bridge/adapters/test_gmail_adapter.py \
 	  tests/unit/bridge/adapters/test_dropbox_adapter.py \
@@ -730,9 +730,9 @@ run-prom:
 .PHONY: test.t4
 test.t4:
 	PYTHONHASHSEED=0 LUKHAS_STRICT_EMIT=1 LUKHAS_STRESS_DURATION=1.0 \
-		pytest tests/unit/metrics -v && \
-		pytest tests/capabilities -m capability -v && \
-		pytest tests/e2e/consciousness/test_consciousness_emergence.py -v -k "signal_cascade_prevention or network_coherence_emergence"
+		python3 -m pytest tests/unit/metrics -v && \
+		python3 -m pytest tests/capabilities -m capability -v && \
+		python3 -m pytest tests/e2e/consciousness/test_consciousness_emergence.py -v -k "signal_cascade_prevention or network_coherence_emergence"
 
 # Matrix Contract Operations
 .PHONY: validate-matrix validate-matrix-osv matrix-init telemetry-fixtures telemetry-test telemetry-test-all demo-verification demo-provenance demo-attestation
@@ -859,7 +859,7 @@ conformance-generate:
 
 conformance-test:
 	@echo "🧪 T4 Conformance Tests"
-	@pytest -q tests/conformance
+	@python3 -m pytest -q tests/conformance
 
 manifest-system: manifests-validate manifest-lock manifest-index manifest-diff conformance-generate conformance-test
 	@echo "✅ manifest system pipeline complete"
@@ -1151,10 +1151,10 @@ tests-scaffold-core: ## Apply test scaffold to 5 core modules
 		--apply
 
 tests-smoke: ## Run smoke tests only (fast import checks)
-	pytest -q -k smoke --tb=short
+	python3 -m pytest -q -k smoke --tb=short
 
 tests-fast: ## Run all tests except integration (fast)
-	pytest -q -m "not integration"
+	python3 -m pytest -q -m "not integration"
 
 
 ## Coverage + Benchmark Targets (T4/0.01%)
@@ -1591,7 +1591,7 @@ compat-remove: ## Remove lukhas/compat/ directory (Phase 3 gate: run after hits=
 	@git grep -n "lukhas\\.compat" || echo "✅ No compat imports found"
 	@echo "🧪 Running smoke tests..."
 	@$(MAKE) check-legacy-imports
-	@pytest tests/smoke/ -q --tb=no || echo "⚠️  Some smoke tests failed (review output)"
+	@python3 -m pytest tests/smoke/ -q --tb=no || echo "⚠️  Some smoke tests failed (review output)"
 
 # ============================================================================
 # Phase 3.1: Prometheus Alert Validation
@@ -1816,11 +1816,11 @@ registry-clean: ## Stop registry process and clean artifacts
 
 registry-test: ## Run Hybrid Registry tests
 	@echo "🧪 Running registry tests..."
-	@pytest services/registry/tests -q
+	@python3 -m pytest services/registry/tests -q
 
 gates-all: ## Run project-wide T4 gates (best-effort)
 	@echo "🚪 Running T4 acceptance gates..."
-	@pytest -q || true
+	@python3 -m pytest -q || true
 	@make nodespec-validate || true
 	@make registry-test || true
 	@echo "✅ Gates check complete"
