@@ -48,7 +48,7 @@ class TokenType(Enum):
 @dataclass
 class TokenClaims:
     """JWT token claims with ΛID integration"""
-    
+
     # Standard JWT claims
     sub: str  # Subject (user/system ID)
     iss: str  # Issuer
@@ -57,17 +57,17 @@ class TokenClaims:
     iat: int  # Issued at timestamp
     nbf: Optional[int] = None  # Not before timestamp
     jti: Optional[str] = None  # JWT ID
-    
+
     # ΛID-specific claims
     lambda_id: Optional[str] = None  # ΛID identifier
     identity_tier: Optional[str] = None  # alpha|beta|gamma|delta
     consciousness_level: Optional[str] = None  # Consciousness state
-    
+
     # Custom claims
     token_type: str = "access"
     scopes: List[str] = field(default_factory=list)
     metadata: Dict[str, Any] = field(default_factory=dict)
-    
+
     def to_dict(self) -> Dict[str, Any]:
         """Convert claims to JWT payload dict"""
         payload = {
@@ -78,7 +78,7 @@ class TokenClaims:
             "iat": self.iat,
             "token_type": self.token_type,
         }
-        
+
         if self.nbf is not None:
             payload["nbf"] = self.nbf
         if self.jti:
@@ -93,9 +93,9 @@ class TokenClaims:
             payload["scopes"] = self.scopes
         if self.metadata:
             payload["metadata"] = self.metadata
-            
+
         return payload
-    
+
     @classmethod
     def from_dict(cls, payload: Dict[str, Any]) -> "TokenClaims":
         """Create claims from JWT payload"""
@@ -124,7 +124,7 @@ class TokenValidationResult:
     error: Optional[str] = None
     error_code: Optional[str] = None
     timestamp: datetime = field(default_factory=datetime.utcnow)
-    
+
     # Audit information
     validation_metadata: Dict[str, Any] = field(default_factory=dict)
 
@@ -143,7 +143,7 @@ class JWTAdapter:
     
     TaskID: TODO-HIGH-BRIDGE-ADAPTER-i3j4k5l6
     """
-    
+
     def __init__(
         self,
         secret_key: Optional[str] = None,
@@ -179,7 +179,7 @@ class JWTAdapter:
         self.refresh_token_ttl = refresh_token_ttl
         self.leeway = leeway
         self.lambda_id_integration = lambda_id_integration
-        
+
         # Key management
         if algorithm == JWTAlgorithm.HS256:
             if not secret_key:
@@ -193,15 +193,15 @@ class JWTAdapter:
             self.secret_key = None
             self.public_key = public_key
             self.private_key = private_key
-        
+
         # Revocation tracking (in-memory, use Redis/DB in production)
         self._revoked_tokens: set = set()
-        
+
         logger.info(
             f"JWTAdapter initialized: algorithm={algorithm.value}, "
             f"issuer={issuer}, lambda_id={lambda_id_integration}"
         )
-    
+
     def create_token(
         self,
         subject: str,
@@ -228,7 +228,7 @@ class JWTAdapter:
             Encoded JWT token string
         """
         now = datetime.utcnow()
-        
+
         # Determine TTL
         if custom_ttl:
             ttl = custom_ttl
@@ -236,11 +236,11 @@ class JWTAdapter:
             ttl = self.refresh_token_ttl
         else:
             ttl = self.access_token_ttl
-        
+
         # Generate JTI (JWT ID)
         jti_data = f"{subject}:{token_type.value}:{now.timestamp()}"
         jti = hashlib.sha256(jti_data.encode()).hexdigest()[:16]
-        
+
         # Create claims
         claims = TokenClaims(
             sub=subject,
@@ -256,25 +256,25 @@ class JWTAdapter:
             scopes=scopes or [],
             metadata=metadata or {},
         )
-        
+
         # Encode token
         key = self.secret_key if self.algorithm == JWTAlgorithm.HS256 else self.private_key
         if not key:
             raise ValueError("Cannot create token: no signing key configured")
-        
+
         token = jwt.encode(
             claims.to_dict(),
             key,
             algorithm=self.algorithm.value,
         )
-        
+
         logger.info(
             f"Token created: type={token_type.value}, subject={subject}, "
             f"lambda_id={lambda_id}, expires={claims.exp}"
         )
-        
+
         return token
-    
+
     def verify_token(
         self,
         token: str,
@@ -371,7 +371,7 @@ class JWTAdapter:
                 claims=claims,
                 validation_metadata=validation_metadata,
             )
-            
+
         except jwt.ExpiredSignatureError:
             return TokenValidationResult(
                 valid=False,
@@ -421,7 +421,7 @@ class JWTAdapter:
                     "scopes_checked": required_scopes or [],
                 },
             )
-    
+
     def refresh_token(
         self,
         refresh_token: str,
@@ -442,11 +442,11 @@ class JWTAdapter:
             refresh_token,
             expected_type=TokenType.REFRESH,
         )
-        
+
         if not result.valid or not result.claims:
             logger.warning(f"Token refresh failed: {result.error}")
             return None
-        
+
         # Create new access token
         access_token = self.create_token(
             subject=result.claims.sub,
@@ -456,10 +456,10 @@ class JWTAdapter:
             identity_tier=result.claims.identity_tier,
             metadata=result.claims.metadata,
         )
-        
+
         logger.info(f"Token refreshed: subject={result.claims.sub}")
         return access_token
-    
+
     def revoke_token(self, token: str) -> bool:
         """
         Revoke a token (add to revocation list)
@@ -476,20 +476,20 @@ class JWTAdapter:
                 token,
                 options={"verify_signature": False},
             )
-            
+
             jti = payload.get("jti")
             if not jti:
                 logger.warning("Token missing JTI, cannot revoke")
                 return False
-            
+
             self._revoked_tokens.add(jti)
             logger.info(f"Token revoked: jti={jti}")
             return True
-            
+
         except Exception as e:
             logger.error(f"Token revocation failed: {e}")
             return False
-    
+
     def decode_without_verification(self, token: str) -> Optional[Dict[str, Any]]:
         """
         Decode token without verification (for debugging/logging)
@@ -509,7 +509,7 @@ class JWTAdapter:
         except Exception as e:
             logger.error(f"Token decode failed: {e}")
             return None
-    
+
     def get_token_info(self, token: str) -> Dict[str, Any]:
         """
         Get token information without full verification
@@ -523,10 +523,10 @@ class JWTAdapter:
         payload = self.decode_without_verification(token)
         if not payload:
             return {"error": "Invalid token format"}
-        
+
         exp = payload.get("exp")
         now = datetime.utcnow().timestamp()
-        
+
         return {
             "subject": payload.get("sub"),
             "issuer": payload.get("iss"),
@@ -592,16 +592,16 @@ def verify_identity_token(
         expected_type=TokenType.IDENTITY,
         verify_lambda_id=True,
     )
-    
+
     # Verify tier if specified
     if result.valid and required_tier and result.claims:
         tier_order = ["alpha", "beta", "gamma", "delta"]
         user_tier_idx = tier_order.index(result.claims.identity_tier) if result.claims.identity_tier in tier_order else -1
         required_tier_idx = tier_order.index(required_tier) if required_tier in tier_order else -1
-        
+
         if user_tier_idx < required_tier_idx:
             result.valid = False
             result.error = f"Insufficient identity tier: required {required_tier}, got {result.claims.identity_tier}"
             result.error_code = "INSUFFICIENT_TIER"
-    
+
     return result
