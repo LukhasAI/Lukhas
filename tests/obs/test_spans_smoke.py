@@ -1,7 +1,9 @@
 # tests/obs/test_spans_smoke.py
 import contextlib
+import importlib as _importlib
 
-from labs.core.orchestration.otel import stage_span
+_mod = _importlib.import_module("labs.core.orchestration.otel")
+stage_span = getattr(_mod, "stage_span")
 
 
 def test_span_noop_ok():

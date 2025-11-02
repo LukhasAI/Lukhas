@@ -1,3 +1,4 @@
+import importlib as _importlib
 import logging
 
 logger = logging.getLogger(__name__)
@@ -103,8 +104,11 @@ except ImportError:
 
 # Lukhas Core Integration
 try:
-    from labs.consciousness.dream.core.dream_feedback_controller import DreamFeedbackPropagator
-except ImportError:
+    _mod = _importlib.import_module(
+        "labs.consciousness.dream.core.dream_feedback_controller"
+    )
+    DreamFeedbackPropagator = getattr(_mod, "DreamFeedbackPropagator")
+except Exception:
     DreamFeedbackPropagator = None
 try:
     from ethics.meta_ethics_governor import CulturalContext, EthicalDecision, get_meg

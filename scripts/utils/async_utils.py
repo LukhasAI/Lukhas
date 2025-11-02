@@ -1,14 +1,16 @@
 """Async utilities bridge."""
 from __future__ import annotations
 
+import importlib as _importlib
 import asyncio
 from typing import Awaitable, TypeVar
 
 T = TypeVar("T")
 
 try:
-    from labs.async_utils import await_with_timeout as _candidate_await_with_timeout
-except ImportError:
+    _mod = _importlib.import_module("labs.async_utils")
+    _candidate_await_with_timeout = getattr(_mod, "await_with_timeout")
+except Exception:
 
     async def await_with_timeout(coro: Awaitable[T], timeout: float) -> T:
         """Wait for coroutine with timeout."""
@@ -18,8 +20,9 @@ else:
 
 
 try:
-    from labs.async_utils import run_guardian_task
-except ImportError:
+    _mod = _importlib.import_module("labs.async_utils")
+    run_guardian_task = getattr(_mod, "run_guardian_task")
+except Exception:
 
     async def run_guardian_task(task, *args, **kwargs):
         """Stub guardian task runner."""
@@ -27,8 +30,9 @@ except ImportError:
 
 
 try:
-    from labs.async_utils import run_with_retry
-except ImportError:
+    _mod = _importlib.import_module("labs.async_utils")
+    run_with_retry = getattr(_mod, "run_with_retry")
+except Exception:
 
     async def run_with_retry(coro, max_retries: int = 3, *args, **kwargs):
         """Stub retry wrapper."""
