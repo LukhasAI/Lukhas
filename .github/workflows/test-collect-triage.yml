@@ -1,0 +1,68 @@
+name: Test Collect Triage
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: test-collect-triage-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  collect-only:
+    name: Pytest Collect-Only (triage)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    env:
+      TZ: UTC
+      PYTHONHASHSEED: "0"
+      PYTHONDONTWRITEBYTECODE: "1"
+      PYTHONPATH: .
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install pytest (runner-safe)
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+
+      - name: Run pytest --collect-only
+        run: |
+          mkdir -p artifacts/test-collect
+          set +e
+          python3 -m pytest --collect-only -q > artifacts/test-collect/collection.log 2>&1
+          echo $? > artifacts/test-collect/exit_code.txt
+          set -e
+        continue-on-error: true
+
+      - name: Summarize collection results
+        run: |
+          ERRORS=$(grep -c "ERROR collecting" artifacts/test-collect/collection.log || true)
+          INTERR=$(grep -Eo 'Interrupted: [0-9]+ errors during collection' artifacts/test-collect/collection.log || true)
+          echo "Collect errors: ${ERRORS:-0}"
+          echo "${INTERR}"
+          {
+            echo "# Pytest Collect-Only Summary";
+            echo;
+            echo "- Errors detected: ${ERRORS:-0}";
+            if [ -n "$INTERR" ]; then echo "- ${INTERR}"; fi;
+          } >> $GITHUB_STEP_SUMMARY
+        if: always()
+
+      - name: Upload collection artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-collect-triage
+          path: artifacts/test-collect/
+          if-no-files-found: warn
+

@@ -1,19 +1,16 @@
-"""
-Enhanced Core TypeScript - Integrated from Advanced Systems
+"""Enhanced Core TypeScript - Integrated from Advanced Systems.
+
 Original: oscillator_adapter.py
 Advanced: oscillator_adapter.py
 Integration Date: 2025-05-31T07:55:29.986615
-"""
-from datetime import timezone
 
-"""
 Bio-inspired oscillator adapter that manages rhythm-based processing and
 component synchronization using quantum-biological metaphors.
 """
 
 import asyncio
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 import numpy as np

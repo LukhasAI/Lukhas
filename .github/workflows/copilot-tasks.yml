@@ -1,0 +1,899 @@
+name: Copilot Tasks Automation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'copilot-tasks/**'
+
+jobs:
+  task-2-oauth-adr:
+    runs-on: ubuntu-latest
+    name: "Task 2: OAuth Evaluation ADR"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+          
+      - name: Create OAuth ADR
+        run: |
+          mkdir -p docs/architecture/decisions
+          cat > docs/architecture/decisions/ADR-001-oauth-evaluation.md << 'EOF'
+          # ADR-001: OAuth 2.0 vs OAuth 2.1 Evaluation for LUKHAS Identity
+          
+          ## Status
+          Proposed
+          
+          ## Context
+          LUKHAS Identity system requires robust authentication and authorization mechanisms.
+          We need to evaluate OAuth 2.0 (current standard) vs OAuth 2.1 (emerging standard with security improvements).
+          
+          ## Decision Drivers
+          - Security posture and threat mitigation
+          - Browser compatibility and client support
+          - Token management complexity
+          - PKCE requirement and security benefits
+          - Migration path and breaking changes
+          
+          ## Considered Options
+          
+          ### Option 1: OAuth 2.0 (RFC 6749)
+          **Pros:**
+          - Mature standard with widespread adoption
+          - Extensive library support across all platforms
+          - Well-understood security model
+          - Flexible grant types (authorization code, implicit, password, client credentials)
+          
+          **Cons:**
+          - Implicit flow has known security vulnerabilities
+          - PKCE optional (not enforced)
+          - Bearer token security concerns
+          - No built-in token binding
+          
+          ### Option 2: OAuth 2.1 (Draft)
+          **Pros:**
+          - Mandates PKCE for all clients (stronger security)
+          - Removes implicit flow (eliminates known vulnerabilities)
+          - Removes password grant (reduces attack surface)
+          - Enhanced security posture by default
+          - Better alignment with modern security practices
+          
+          **Cons:**
+          - Still in draft status (not yet finalized RFC)
+          - Limited library support (requires OAuth 2.0 libs with manual PKCE enforcement)
+          - Breaking changes for existing OAuth 2.0 implementations
+          - Some legacy client compatibility issues
+          
+          ## Decision
+          **Adopt OAuth 2.1 patterns with OAuth 2.0 libraries**
+          
+          We will implement OAuth 2.1 security practices while using mature OAuth 2.0 libraries:
+          1. Mandate PKCE for all authorization code flows
+          2. Disable implicit flow entirely
+          3. Disable resource owner password credentials flow
+          4. Use only authorization code + PKCE and client credentials flows
+          5. Implement short-lived access tokens (15 min) with refresh token rotation
+          
+          ## Implementation Notes
+          
+          ### Token Strategy
+          ```python
+          # Token configuration aligned with OAuth 2.1
+          ACCESS_TOKEN_LIFETIME = timedelta(minutes=15)
+          REFRESH_TOKEN_LIFETIME = timedelta(days=30)
+          REFRESH_TOKEN_ROTATION = True  # Rotate on each use
+          PKCE_REQUIRED = True  # Mandatory for all flows
+          ```
+          
+          ### Allowed Flows
+          - ✅ Authorization Code + PKCE (for web and mobile apps)
+          - ✅ Client Credentials (for service-to-service)
+          - ❌ Implicit Flow (security risk)
+          - ❌ Password Grant (security risk)
+          
+          ### Security Enhancements
+          1. **PKCE Enforcement**: All authorization code requests must include valid code_challenge
+          2. **Token Binding**: Implement DPoP (Demonstrating Proof-of-Possession) for token binding
+          3. **Refresh Token Rotation**: One-time use refresh tokens with family tracking
+          4. **Token Introspection**: RFC 7662 compliant introspection endpoint
+          
+          ## Consequences
+          
+          ### Positive
+          - Enhanced security posture aligned with modern best practices
+          - Reduced attack surface (no implicit/password flows)
+          - Future-proof architecture (ready for OAuth 2.1 finalization)
+          - Better protection against authorization code interception
+          
+          ### Negative
+          - Requires client applications to support PKCE (most modern libs do)
+          - Legacy clients without PKCE support cannot authenticate
+          - Additional complexity in token management (rotation, families)
+          
+          ## References
+          - [OAuth 2.1 Draft](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-v2-1-07)
+          - [OAuth 2.0 RFC 6749](https://datatracker.ietf.org/doc/html/rfc6749)
+          - [PKCE RFC 7636](https://datatracker.ietf.org/doc/html/rfc7636)
+          - [Token Introspection RFC 7662](https://datatracker.ietf.org/doc/html/rfc7662)
+          - [OAuth 2.0 Security Best Practices](https://datatracker.ietf.org/doc/html/draft-ietf-oauth-security-topics)
+          
+          ## Decision Date
+          2025-11-01
+          
+          ## Authors
+          - LUKHAS Identity Team
+          - GitHub Copilot (automation)
+          EOF
+          
+      - name: Create Pull Request for OAuth ADR
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "docs(identity): add OAuth 2.1 evaluation ADR"
+          branch: copilot-tasks/oauth-adr
+          title: "docs(identity): OAuth 2.0 vs 2.1 Evaluation ADR"
+          body: |
+            ## Copilot Task 2: OAuth Evaluation ADR
+            
+            This PR adds an Architecture Decision Record evaluating OAuth 2.0 vs OAuth 2.1 for the LUKHAS Identity system.
+            
+            ### Summary
+            - **Decision**: Adopt OAuth 2.1 security patterns with OAuth 2.0 libraries
+            - **Key Changes**: Mandate PKCE, disable implicit/password flows, implement token rotation
+            - **Security**: Enhanced posture with modern best practices
+            
+            ### Files Added
+            - `docs/architecture/decisions/ADR-001-oauth-evaluation.md`
+            
+            **Automated by GitHub Copilot Tasks workflow**
+
+  task-3-governance-example:
+    runs-on: ubuntu-latest
+    name: "Task 3: Governance Integration Example"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+          
+      - name: Create Governance Example
+        run: |
+          mkdir -p examples/governance
+          cat > examples/governance/policy_enforcement_example.py << 'EOF'
+          """
+          LUKHAS Governance Integration Example
+          
+          Demonstrates how to integrate the Guardian governance system with
+          application code for policy enforcement and ethical oversight.
+          """
+          from typing import Dict, Any, List
+          from dataclasses import dataclass
+          from datetime import datetime
+          
+          
+          @dataclass
+          class PolicyDecision:
+              """Result of a governance policy check."""
+              allowed: bool
+              policy_name: str
+              reason: str
+              timestamp: datetime
+              metadata: Dict[str, Any]
+          
+          
+          class GovernanceClient:
+              """
+              Client for interacting with LUKHAS Guardian governance system.
+              
+              This example demonstrates the integration pattern for enforcing
+              policies before executing sensitive operations.
+              """
+              
+              def __init__(self, guardian_url: str = "http://localhost:8000/governance"):
+                  self.guardian_url = guardian_url
+                  self.policies_cache: Dict[str, Any] = {}
+                  
+              async def check_policy(
+                  self,
+                  policy_name: str,
+                  context: Dict[str, Any]
+              ) -> PolicyDecision:
+                  """
+                  Check if an operation is allowed under governance policies.
+                  
+                  Args:
+                      policy_name: Name of the policy to evaluate
+                      context: Context information for policy evaluation
+                      
+                  Returns:
+                      PolicyDecision indicating if operation is allowed
+                  """
+                  # In production, this would make an API call to Guardian
+                  # For this example, we'll simulate policy checks
+                  
+                  if policy_name == "data_access":
+                      return self._check_data_access_policy(context)
+                  elif policy_name == "model_inference":
+                      return self._check_model_inference_policy(context)
+                  elif policy_name == "sensitive_operation":
+                      return self._check_sensitive_operation_policy(context)
+                  else:
+                      return PolicyDecision(
+                          allowed=False,
+                          policy_name=policy_name,
+                          reason=f"Unknown policy: {policy_name}",
+                          timestamp=datetime.utcnow(),
+                          metadata={}
+                      )
+              
+              def _check_data_access_policy(self, context: Dict[str, Any]) -> PolicyDecision:
+                  """Check data access policy."""
+                  user_id = context.get("user_id")
+                  resource_id = context.get("resource_id")
+                  access_level = context.get("access_level", "read")
+                  
+                  # Example policy: users can read their own data, admins can write
+                  if access_level == "read":
+                      allowed = True
+                      reason = "Read access granted under data_access policy"
+                  elif access_level == "write":
+                      allowed = context.get("user_role") == "admin"
+                      reason = "Write access requires admin role" if not allowed else "Admin write access granted"
+                  else:
+                      allowed = False
+                      reason = f"Unknown access level: {access_level}"
+                      
+                  return PolicyDecision(
+                      allowed=allowed,
+                      policy_name="data_access",
+                      reason=reason,
+                      timestamp=datetime.utcnow(),
+                      metadata={"user_id": user_id, "resource_id": resource_id}
+                  )
+              
+              def _check_model_inference_policy(self, context: Dict[str, Any]) -> PolicyDecision:
+                  """Check model inference policy."""
+                  model_type = context.get("model_type")
+                  input_data = context.get("input_data", {})
+                  
+                  # Example policy: check for PII in input, rate limits, etc.
+                  contains_pii = self._detect_pii(input_data)
+                  rate_limit_ok = self._check_rate_limit(context.get("user_id"))
+                  
+                  if contains_pii:
+                      return PolicyDecision(
+                          allowed=False,
+                          policy_name="model_inference",
+                          reason="Input contains PII - requires data sanitization",
+                          timestamp=datetime.utcnow(),
+                          metadata={"pii_detected": True}
+                      )
+                  
+                  if not rate_limit_ok:
+                      return PolicyDecision(
+                          allowed=False,
+                          policy_name="model_inference",
+                          reason="Rate limit exceeded",
+                          timestamp=datetime.utcnow(),
+                          metadata={"rate_limit_exceeded": True}
+                      )
+                  
+                  return PolicyDecision(
+                      allowed=True,
+                      policy_name="model_inference",
+                      reason="Model inference approved",
+                      timestamp=datetime.utcnow(),
+                      metadata={"model_type": model_type}
+                  )
+              
+              def _check_sensitive_operation_policy(self, context: Dict[str, Any]) -> PolicyDecision:
+                  """Check sensitive operation policy."""
+                  operation = context.get("operation")
+                  user_role = context.get("user_role")
+                  requires_mfa = context.get("requires_mfa", True)
+                  mfa_verified = context.get("mfa_verified", False)
+                  
+                  if requires_mfa and not mfa_verified:
+                      return PolicyDecision(
+                          allowed=False,
+                          policy_name="sensitive_operation",
+                          reason="MFA verification required for sensitive operations",
+                          timestamp=datetime.utcnow(),
+                          metadata={"operation": operation, "mfa_required": True}
+                      )
+                  
+                  allowed_roles = ["admin", "operator"]
+                  if user_role not in allowed_roles:
+                      return PolicyDecision(
+                          allowed=False,
+                          policy_name="sensitive_operation",
+                          reason=f"Role {user_role} not authorized for sensitive operations",
+                          timestamp=datetime.utcnow(),
+                          metadata={"operation": operation, "user_role": user_role}
+                      )
+                  
+                  return PolicyDecision(
+                      allowed=True,
+                      policy_name="sensitive_operation",
+                      reason="Sensitive operation approved",
+                      timestamp=datetime.utcnow(),
+                      metadata={"operation": operation}
+                  )
+              
+              def _detect_pii(self, data: Dict[str, Any]) -> bool:
+                  """Simple PII detection (production would use proper PII scanner)."""
+                  pii_keywords = ["ssn", "social_security", "credit_card", "password"]
+                  data_str = str(data).lower()
+                  return any(keyword in data_str for keyword in pii_keywords)
+              
+              def _check_rate_limit(self, user_id: str) -> bool:
+                  """Check rate limit (production would use Redis/proper rate limiter)."""
+                  # Simplified: always return True for example
+                  return True
+          
+          
+          # Example Usage
+          async def example_data_access():
+              """Example: Check governance policy before accessing data."""
+              governance = GovernanceClient()
+              
+              # Scenario 1: User trying to read their own data
+              decision = await governance.check_policy(
+                  "data_access",
+                  {
+                      "user_id": "user_123",
+                      "resource_id": "resource_456",
+                      "access_level": "read",
+                      "user_role": "user"
+                  }
+              )
+              print(f"Read access: {decision.allowed} - {decision.reason}")
+              
+              # Scenario 2: User trying to write data (should fail)
+              decision = await governance.check_policy(
+                  "data_access",
+                  {
+                      "user_id": "user_123",
+                      "resource_id": "resource_456",
+                      "access_level": "write",
+                      "user_role": "user"
+                  }
+              )
+              print(f"Write access: {decision.allowed} - {decision.reason}")
+          
+          
+          async def example_model_inference():
+              """Example: Check governance policy before model inference."""
+              governance = GovernanceClient()
+              
+              # Scenario: Input with PII should be blocked
+              decision = await governance.check_policy(
+                  "model_inference",
+                  {
+                      "model_type": "llm",
+                      "input_data": {"text": "My SSN is 123-45-6789"},
+                      "user_id": "user_123"
+                  }
+              )
+              print(f"Model inference with PII: {decision.allowed} - {decision.reason}")
+          
+          
+          async def example_sensitive_operation():
+              """Example: Check governance policy before sensitive operation."""
+              governance = GovernanceClient()
+              
+              # Scenario: Sensitive operation without MFA should fail
+              decision = await governance.check_policy(
+                  "sensitive_operation",
+                  {
+                      "operation": "delete_user_data",
+                      "user_role": "admin",
+                      "requires_mfa": True,
+                      "mfa_verified": False
+                  }
+              )
+              print(f"Sensitive operation without MFA: {decision.allowed} - {decision.reason}")
+          
+          
+          if __name__ == "__main__":
+              import asyncio
+              
+              print("=== LUKHAS Governance Integration Examples ===\n")
+              
+              print("Example 1: Data Access Policy")
+              asyncio.run(example_data_access())
+              
+              print("\nExample 2: Model Inference Policy")
+              asyncio.run(example_model_inference())
+              
+              print("\nExample 3: Sensitive Operation Policy")
+              asyncio.run(example_sensitive_operation())
+          EOF
+          
+          # Create README for the example
+          cat > examples/governance/README.md << 'EOF'
+          # LUKHAS Governance Integration Examples
+          
+          This directory contains examples demonstrating how to integrate the LUKHAS Guardian governance system into your applications.
+          
+          ## Files
+          
+          - `policy_enforcement_example.py` - Complete example showing policy checks for data access, model inference, and sensitive operations
+          
+          ## Usage
+          
+          ```bash
+          # Run the example
+          python examples/governance/policy_enforcement_example.py
+          ```
+          
+          ## Integration Pattern
+          
+          The governance integration follows this pattern:
+          
+          1. **Initialize Client**: Create a `GovernanceClient` pointing to Guardian API
+          2. **Check Policy**: Before sensitive operations, call `check_policy()` with context
+          3. **Evaluate Decision**: Act on the `PolicyDecision` result (allowed/denied)
+          4. **Log Audit Trail**: Guardian automatically logs all policy checks
+          
+          ## Policy Types
+          
+          - **data_access**: Controls access to data resources (read/write permissions)
+          - **model_inference**: Validates model inputs for PII, rate limits, etc.
+          - **sensitive_operation**: Enforces MFA and role requirements for critical ops
+          
+          ## Production Deployment
+          
+          In production, replace the simulated policy checks with actual API calls to the Guardian service:
+          
+          ```python
+          import httpx
+          
+          async def check_policy(self, policy_name: str, context: Dict[str, Any]) -> PolicyDecision:
+              async with httpx.AsyncClient() as client:
+                  response = await client.post(
+                      f"{self.guardian_url}/policies/{policy_name}/check",
+                      json=context
+                  )
+                  return PolicyDecision(**response.json())
+          ```
+          
+          ## See Also
+          
+          - [Guardian Architecture](../../docs/architecture/guardian.md)
+          - [Policy Configuration](../../config/governance/policies.yaml)
+          - [Audit Logging](../../docs/governance/audit-logging.md)
+          EOF
+          
+      - name: Create Pull Request for Governance Example
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "docs(governance): add policy enforcement integration example"
+          branch: copilot-tasks/governance-example
+          title: "docs(governance): Add Governance Integration Example"
+          body: |
+            ## Copilot Task 3: Governance Integration Example
+            
+            This PR adds a complete example demonstrating Guardian governance system integration.
+            
+            ### Summary
+            - Working Python example with policy checks
+            - Demonstrates data access, model inference, and sensitive operation policies
+            - Includes README with usage instructions and production deployment notes
+            
+            ### Files Added
+            - `examples/governance/policy_enforcement_example.py`
+            - `examples/governance/README.md`
+            
+            ### Example Policies Covered
+            1. **Data Access**: Read/write permissions with role checks
+            2. **Model Inference**: PII detection and rate limiting
+            3. **Sensitive Operations**: MFA and role-based authorization
+            
+            **Automated by GitHub Copilot Tasks workflow**
+
+  task-4-webauthn-docs:
+    runs-on: ubuntu-latest
+    name: "Task 4: WebAuthn Documentation"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+          
+      - name: Create WebAuthn Documentation
+        run: |
+          mkdir -p docs/identity
+          cat > docs/identity/webauthn-integration.md << 'EOF'
+          # WebAuthn Integration Guide for LUKHAS Identity
+          
+          ## Overview
+          
+          This guide explains how to integrate WebAuthn (Web Authentication API) with the LUKHAS Identity system for passwordless authentication using biometrics, security keys, or platform authenticators.
+          
+          ## What is WebAuthn?
+          
+          WebAuthn is a W3C standard that enables strong, public-key cryptography-based authentication. It supports:
+          - **Biometric authentication** (fingerprint, Face ID, Windows Hello)
+          - **Hardware security keys** (YubiKey, Titan, etc.)
+          - **Platform authenticators** (built-in device authenticators)
+          
+          ## Architecture
+          
+          ```
+          ┌─────────────┐         ┌──────────────┐         ┌─────────────────┐
+          │   Browser   │────────▶│    LUKHAS    │────────▶│   Authenticator │
+          │   (Client)  │         │   Identity   │         │   (Device/Key)  │
+          └─────────────┘         └──────────────┘         └─────────────────┘
+                │                        │                          │
+                │  1. Registration       │                          │
+                │     Request            │                          │
+                ├───────────────────────▶│                          │
+                │                        │  2. Challenge            │
+                │                        ├─────────────────────────▶│
+                │                        │                          │
+                │                        │  3. Create Credential    │
+                │                        │◀─────────────────────────┤
+                │  4. Store Public Key   │                          │
+                │◀───────────────────────┤                          │
+          ```
+          
+          ## Registration Flow
+          
+          ### 1. Client Initiates Registration
+          
+          ```javascript
+          // Client-side: Request registration options
+          const response = await fetch('/api/webauthn/register/begin', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: 'user@example.com' })
+          });
+          const options = await response.json();
+          ```
+          
+          ### 2. Server Generates Challenge
+          
+          ```python
+          # Server-side: Generate registration challenge
+          from lukhas.identity.webauthn import WebAuthnAdapter
+          
+          async def begin_registration(username: str) -> dict:
+              adapter = WebAuthnAdapter()
+              challenge = await adapter.generate_registration_challenge(
+                  username=username,
+                  user_id=generate_user_id(),
+                  display_name=username
+              )
+              return challenge
+          ```
+          
+          ### 3. Browser Creates Credential
+          
+          ```javascript
+          // Client-side: Create credential with authenticator
+          const credential = await navigator.credentials.create({
+            publicKey: {
+              challenge: base64ToArrayBuffer(options.challenge),
+              rp: { name: "LUKHAS Identity", id: "lukhas.ai" },
+              user: {
+                id: base64ToArrayBuffer(options.user.id),
+                name: options.user.name,
+                displayName: options.user.displayName
+              },
+              pubKeyCredParams: [
+                { alg: -7, type: "public-key" },  // ES256
+                { alg: -257, type: "public-key" } // RS256
+              ],
+              authenticatorSelection: {
+                authenticatorAttachment: "platform", // or "cross-platform"
+                residentKey: "required",
+                userVerification: "required"
+              },
+              timeout: 60000,
+              attestation: "direct"
+            }
+          });
+          ```
+          
+          ### 4. Server Verifies and Stores Credential
+          
+          ```python
+          # Server-side: Complete registration
+          async def complete_registration(
+              username: str,
+              credential_data: dict
+          ) -> bool:
+              adapter = WebAuthnAdapter()
+              
+              verification = await adapter.verify_registration(
+                  username=username,
+                  credential_data=credential_data
+              )
+              
+              if verification.verified:
+                  # Store credential public key
+                  await adapter.store_credential(
+                      user_id=verification.user_id,
+                      credential_id=verification.credential_id,
+                      public_key=verification.public_key,
+                      sign_count=verification.sign_count
+                  )
+                  return True
+              
+              return False
+          ```
+          
+          ## Authentication Flow
+          
+          ### 1. Client Requests Authentication
+          
+          ```javascript
+          // Client-side: Request authentication options
+          const response = await fetch('/api/webauthn/authenticate/begin', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: 'user@example.com' })
+          });
+          const options = await response.json();
+          ```
+          
+          ### 2. Server Generates Authentication Challenge
+          
+          ```python
+          # Server-side: Generate authentication challenge
+          async def begin_authentication(username: str) -> dict:
+              adapter = WebAuthnAdapter()
+              
+              # Retrieve user's registered credentials
+              credentials = await adapter.get_user_credentials(username)
+              
+              challenge = await adapter.generate_authentication_challenge(
+                  credentials=credentials
+              )
+              return challenge
+          ```
+          
+          ### 3. Browser Gets Assertion
+          
+          ```javascript
+          // Client-side: Get assertion from authenticator
+          const assertion = await navigator.credentials.get({
+            publicKey: {
+              challenge: base64ToArrayBuffer(options.challenge),
+              allowCredentials: options.allowCredentials.map(cred => ({
+                type: "public-key",
+                id: base64ToArrayBuffer(cred.id)
+              })),
+              userVerification: "required",
+              timeout: 60000
+            }
+          });
+          ```
+          
+          ### 4. Server Verifies Assertion
+          
+          ```python
+          # Server-side: Complete authentication
+          async def complete_authentication(
+              username: str,
+              assertion_data: dict
+          ) -> TokenResponse:
+              adapter = WebAuthnAdapter()
+              
+              verification = await adapter.verify_authentication(
+                  username=username,
+                  assertion_data=assertion_data
+              )
+              
+              if verification.verified:
+                  # Issue tokens
+                  tokens = await issue_tokens(
+                      user_id=verification.user_id,
+                      auth_method="webauthn"
+                  )
+                  return tokens
+              
+              raise AuthenticationError("WebAuthn verification failed")
+          ```
+          
+          ## Integration with LUKHAS Identity
+          
+          ### Configuration
+          
+          ```python
+          # config/identity.yaml
+          webauthn:
+            enabled: true
+            rp_name: "LUKHAS Identity"
+            rp_id: "lukhas.ai"
+            origin: "https://lukhas.ai"
+            attestation: "direct"  # or "indirect", "none"
+            authenticator_selection:
+              authenticator_attachment: "platform"  # or "cross-platform"
+              resident_key: "required"  # passkeys
+              user_verification: "required"
+            timeout: 60000  # 60 seconds
+            challenge_size: 32  # bytes
+          ```
+          
+          ### WebAuthn Adapter Usage
+          
+          ```python
+          from lukhas.identity.adapters.webauthn_adapter import WebAuthnAdapter
+          from lukhas.identity.token_types import TokenClaims
+          
+          # Initialize adapter
+          adapter = WebAuthnAdapter(
+              rp_id="lukhas.ai",
+              rp_name="LUKHAS Identity",
+              origin="https://lukhas.ai"
+          )
+          
+          # Registration
+          challenge = await adapter.generate_registration_challenge(
+              username="user@example.com",
+              user_id="user_123",
+              display_name="John Doe"
+          )
+          
+          # ... client creates credential ...
+          
+          verified = await adapter.verify_registration(
+              username="user@example.com",
+              credential_data=credential_from_client
+          )
+          
+          # Authentication
+          auth_challenge = await adapter.generate_authentication_challenge(
+              credentials=user_credentials
+          )
+          
+          # ... client gets assertion ...
+          
+          auth_verified = await adapter.verify_authentication(
+              username="user@example.com",
+              assertion_data=assertion_from_client
+          )
+          ```
+          
+          ## Security Considerations
+          
+          ### Challenge Management
+          - Challenges must be cryptographically random (32+ bytes)
+          - Challenges expire after 60 seconds
+          - Each challenge is single-use only
+          - Store challenges server-side with user session
+          
+          ### Credential Storage
+          - Store only public keys (never private keys)
+          - Associate credentials with user IDs
+          - Track signature counter to detect cloned authenticators
+          - Support multiple credentials per user (backup devices)
+          
+          ### Origin Validation
+          - Strictly validate origin matches expected domain
+          - Use HTTPS in production (required by WebAuthn spec)
+          - Validate RP ID matches domain or subdomain
+          
+          ### Attestation
+          - Use "direct" attestation for enterprise environments
+          - Use "indirect" or "none" for privacy-focused deployments
+          - Validate attestation statements against trusted root certificates
+          
+          ## Testing
+          
+          ### Unit Tests
+          
+          ```python
+          # tests/unit/identity/test_webauthn_adapter.py
+          import pytest
+          from lukhas.identity.adapters.webauthn_adapter import WebAuthnAdapter
+          
+          @pytest.mark.asyncio
+          async def test_registration_challenge_generation():
+              adapter = WebAuthnAdapter(
+                  rp_id="test.lukhas.ai",
+                  rp_name="LUKHAS Test",
+                  origin="https://test.lukhas.ai"
+              )
+              
+              challenge = await adapter.generate_registration_challenge(
+                  username="test@example.com",
+                  user_id="test_123",
+                  display_name="Test User"
+              )
+              
+              assert challenge["challenge"]
+              assert len(challenge["challenge"]) >= 32
+              assert challenge["user"]["name"] == "test@example.com"
+              assert challenge["rp"]["id"] == "test.lukhas.ai"
+          ```
+          
+          ### Integration Tests
+          
+          Use tools like [webauthn-simple-app](https://github.com/github/webauthn-simple-app) for browser-based testing.
+          
+          ## Browser Compatibility
+          
+          | Browser | Platform Authenticator | Security Keys | Notes |
+          |---------|----------------------|---------------|-------|
+          | Chrome 67+ | ✅ | ✅ | Full support |
+          | Firefox 60+ | ✅ | ✅ | Full support |
+          | Safari 14+ | ✅ | ✅ | Platform auth preferred |
+          | Edge 18+ | ✅ | ✅ | Full support |
+          
+          ## Troubleshooting
+          
+          ### Common Issues
+          
+          1. **"NotAllowedError: The operation is not allowed"**
+             - User cancelled the operation
+             - Origin mismatch
+             - User gesture required (must be triggered by user action)
+          
+          2. **"NotSupportedError: The operation is not supported"**
+             - WebAuthn not supported in browser
+             - Insecure context (must use HTTPS)
+          
+          3. **"InvalidStateError: The credential already exists"**
+             - User already registered this authenticator
+             - Clear existing credential or use different authenticator
+          
+          ## References
+          
+          - [WebAuthn Spec (W3C)](https://www.w3.org/TR/webauthn-2/)
+          - [WebAuthn Guide (MDN)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Authentication_API)
+          - [FIDO2 Specifications](https://fidoalliance.org/specifications/)
+          - [py_webauthn Library](https://github.com/duo-labs/py_webauthn)
+          
+          ## Support
+          
+          For issues or questions:
+          - Open an issue on [GitHub](https://github.com/LukhasAI/Lukhas/issues)
+          - Check existing WebAuthn adapter implementation in `lukhas/identity/adapters/webauthn_adapter.py`
+          - Review token types in `lukhas/identity/token_types.py`
+          EOF
+          
+      - name: Create Pull Request for WebAuthn Docs
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "docs(identity): add WebAuthn integration guide"
+          branch: copilot-tasks/webauthn-docs
+          title: "docs(identity): Add WebAuthn Integration Guide"
+          body: |
+            ## Copilot Task 4: WebAuthn Documentation
+            
+            This PR adds comprehensive documentation for WebAuthn integration with LUKHAS Identity.
+            
+            ### Summary
+            - Complete registration and authentication flows
+            - Code examples for client and server sides
+            - Security considerations and best practices
+            - Browser compatibility matrix
+            - Troubleshooting guide
+            
+            ### Files Added
+            - `docs/identity/webauthn-integration.md`
+            
+            ### Documentation Covers
+            1. **Architecture**: Flow diagrams and component overview
+            2. **Registration**: Step-by-step credential creation
+            3. **Authentication**: Assertion verification process
+            4. **Integration**: Configuration and adapter usage
+            5. **Security**: Challenge management, credential storage, validation
+            6. **Testing**: Unit and integration test examples
+            
+            **Automated by GitHub Copilot Tasks workflow**

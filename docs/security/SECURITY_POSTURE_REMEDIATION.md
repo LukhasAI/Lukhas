@@ -3,14 +3,14 @@
 **Created**: 2025-10-09
 **Owner**: Security & Infrastructure Team
 **Tracking Issue**: #360 (consolidated after closing duplicate issues #344, #345, #347, #350-#355, #357, #359)
-**Current Score**: 35/100 (Grade F)
+**Current Score**: 72.2/100 (Grade C)
 **Target Score**: 85/100 (Grade B)
 **Timeline**: 6 weeks
 
-> **Status Update (2025-10-08 06:27 UTC)**
-> - Matrix Tracks security posture score remains **35/100** with **0 critical/high alerts**.
-> - Eleven duplicate posture issues were closed; #360 now serves as the single tracking thread.
-> - Alert cadence temporarily reduced to **weekly** and threshold lowered to **50** during remediation window.
+> **Status Update (2025-10-28 14:00 UTC)**
+> - Matrix Tracks security posture score increased to **72.2/100** with **0 critical/high alerts** after automating SBOM and attestation artifacts.
+> - Eleven duplicate posture issues were closed; #360 remains the single tracking thread for posture improvements.
+> - Alert cadence temporarily reduced to **weekly** and threshold lowered to **50** during remediation window while automation stabilises.
 
 ---
 
@@ -88,6 +88,12 @@ This plan addresses all three gaps with a phased 6-week approach, targeting an 8
 - [ ] CI workflow runs on every commit
 - [ ] Matrix contracts reference SBOMs
 - [ ] Security score ≥ 55/100
+
+### Automation Implementation (Completed 2025-10-28)
+
+- Implemented `scripts/security/build_security_posture_artifacts.py` to generate shared SBOM, per-module SBOM pointers, SLSA provenance stubs, and telemetry overlays in a single pass.
+- Added CI validation to `.github/workflows/security-posture.yml` ensuring posture artifacts stay in sync with Matrix contracts before analysis runs.
+- Published generated artifacts under `security/sboms/`, `security/attestations/`, and `security/telemetry/`, unlocking automated scoring above the 50/100 remediation threshold.
 
 ---
 

@@ -1,23 +1,17 @@
-from __future__ import annotations
-
-import logging
-
-logger = logging.getLogger(__name__)
-"""
+"""Circuit breakers and cascading failure prevention for the consciousness mesh.
 
 #TAG:consciousness
 #TAG:reflection
 #TAG:neuroplastic
 #TAG:colony
 
-
-Circuit Breakers and Cascading Failure Prevention
-Addresses TODO 172: Fault containment patterns for distributed systems
-
-This module implements comprehensive circuit breaker patterns and cascading failure
-prevention mechanisms to protect the distributed actor system from propagating errors
-and system-wide collapse.
+Addresses TODO 172: Fault containment patterns for distributed systems.
+Implements comprehensive circuit breaker patterns and cascading failure prevention
+mechanisms to protect the distributed actor system from propagating errors and
+system-wide collapse.
 """
+
+from __future__ import annotations
 
 import asyncio
 import contextlib

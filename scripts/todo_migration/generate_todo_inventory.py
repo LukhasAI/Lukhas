@@ -5,7 +5,7 @@ Generate TODO inventory from codebase.
 Parses TODO comments in various formats:
 # See: https://github.com/LukhasAI/Lukhas/issues/609
 - # TODO: message
-# See: https://github.com/LukhasAI/Lukhas/issues/610
+- // TODO: message
 - /* TODO: message */
 
 Output CSV: file,line,kind,priority,owner,scope,message

@@ -1,0 +1,51 @@
+{
+  "buildType": "https://slsa.dev/provenance/v1",
+  "builder": {
+    "id": "https://github.com/LukhasAI/Lukhas/.github/workflows/security-posture.yml"
+  },
+  "invocation": {
+    "configSource": {
+      "digest": {
+        "sha1": "8ed3824d529b2d69b84a29da288e52561fc26747"
+      },
+      "uri": "git+https://github.com/LukhasAI/Lukhas"
+    },
+    "environment": {
+      "repository": "LukhasAI/Lukhas",
+      "workflow": "security-posture-artifacts"
+    },
+    "parameters": {
+      "module": "lukhas.governance.guardian"
+    }
+  },
+  "materials": [
+    {
+      "digest": {
+        "sha256": "fcdfc79f30c2d271f5e3e9aa5e2879a0a27d28cfbe88e47a63b49777f644854b"
+      },
+      "uri": "security/sboms/shared/lukhas-platform.cdx.json"
+    }
+  ],
+  "metadata": {
+    "buildFinishedOn": "2025-11-01T21:27:07+00:00",
+    "buildStartedOn": "2025-11-01T21:27:07+00:00",
+    "completeness": {
+      "environment": true,
+      "materials": true,
+      "parameters": true
+    },
+    "reproducible": true
+  },
+  "provenance": {
+    "ipld_root_cid": "bafybeilukhasfcdfc79f30c2d271f5e3e9aa5e2879a0a27d28cfbe88e4"
+  },
+  "subject": [
+    {
+      "digest": {
+        "sha256": "3f0605e136f75d40f87936007e433e6957d9852d84caa66b39397de0562416e3"
+      },
+      "name": "lukhas.governance.guardian",
+      "uri": "security/sboms/modules/lukhas_governance_guardian.cdx.json"
+    }
+  ]
+}

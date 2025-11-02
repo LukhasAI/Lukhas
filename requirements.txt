@@ -3,6 +3,10 @@
 # by the following command:
 #
 #    pip-compile requirements.in
+
+pip>=25.3
+    # via -r requirements.in
+    # reason: CVE-2025-8869 (pip arbitrary file overwrite)
 #
 aiohappyeyeballs==2.6.1
     # via aiohttp
@@ -336,8 +340,10 @@ sortedcontainers==2.4.0
     # via hypothesis
 sqlalchemy==2.0.44
     # via -r requirements.in
-starlette==0.48.0
-    # via fastapi
+starlette==0.49.1
+    # via
+    #   -r requirements.in
+    #   fastapi
 stevedore==5.5.0
     # via bandit
 tiktoken==0.12.0

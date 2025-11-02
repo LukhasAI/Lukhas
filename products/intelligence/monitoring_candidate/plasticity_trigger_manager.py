@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
-"""
-Plasticity Trigger Manager
+"""Plasticity Trigger Manager
 ==========================
 Manages the decision-making process for triggering neuroplastic adaptations
 based on endocrine system state and system performance patterns.

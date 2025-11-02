@@ -376,3 +376,4 @@ lukhas_website_with_carousel_and_palette/
 
 # CI and developer artifacts
 artifacts/reports/
+artifacts/manual-ci/

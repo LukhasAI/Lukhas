@@ -8,9 +8,6 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-# Mark all tests in this file as asyncio
-pytestmark = pytest.mark.asyncio
-
 from labs.tools.performance_monitor import (
     PerformanceAnalyzer,
     PerformanceMonitor,
@@ -18,6 +15,9 @@ from labs.tools.performance_monitor import (
     SystemMetricsCollector,
     ToolExecutionMetricsCollector,
 )
+
+# Mark all tests in this file as asyncio
+pytestmark = pytest.mark.asyncio
 
 # --- Fixtures ---
 

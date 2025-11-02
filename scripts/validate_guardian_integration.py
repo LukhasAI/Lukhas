@@ -29,7 +29,7 @@ from collections import defaultdict
 from contextlib import asynccontextmanager
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Dict
+from typing import TYPE_CHECKING, Any, Dict
 
 # Suppress verbose logging during validation
 logging.getLogger().setLevel(logging.CRITICAL)
@@ -37,7 +37,8 @@ logging.getLogger().setLevel(logging.CRITICAL)
 # Add project root to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from preflight_check import PreflightValidator
+if TYPE_CHECKING:
+    from preflight_check import PreflightValidator as PreflightValidatorType
 
 
 @dataclass
@@ -877,7 +878,10 @@ async def main():
         # Run preflight checks
         print("🔍 Running preflight validation...")
         audit_run_id = f"guardian_val_{int(time.time())}"
-        validator = PreflightValidator(audit_run_id)
+        from preflight_check import PreflightValidator as PreflightValidatorRuntime
+
+        validator: "PreflightValidatorType"
+        validator = PreflightValidatorRuntime(audit_run_id)
         preflight_passed = validator.run_all_validations()
 
         if not preflight_passed:

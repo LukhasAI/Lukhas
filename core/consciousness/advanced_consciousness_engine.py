@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
 """
 Advanced Consciousness Engine for LUKHAS AI
 ==========================================
@@ -62,6 +59,7 @@ consciousness system that addresses the empirically-validated drift issues in cu
 LLMs while providing sophisticated Cognitive AI-level processing capabilities.
 """
 
+import logging
 import asyncio
 import math
 import time

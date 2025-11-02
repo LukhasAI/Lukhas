@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
-"""
-Bio-Symbolic Coherence Monitor
+"""Bio-Symbolic Coherence Monitor
 ==============================
 Monitors and tracks the coherence between biological-inspired systems
 (endocrine, hormone, homeostasis) and symbolic processing systems (GLYPHs,
