@@ -60,7 +60,7 @@ class SecretsManager:
                  auto_rotate_days: int = 90):
         """
         Initialize secrets manager
-        
+
         Args:
             master_key: Master encryption key (optional, will be derived)
             secrets_dir: Directory for storing encrypted secrets
@@ -189,13 +189,13 @@ class SecretsManager:
                     tags: Optional[List[str]] = None) -> bool:
         """
         Store a secret securely
-        
+
         Args:
             name: Secret name/identifier
             value: Secret value to encrypt
             expires_days: Days until expiration (optional)
             tags: Tags for categorization
-            
+
         Returns:
             True if successful
         """
@@ -241,10 +241,10 @@ class SecretsManager:
     def get_secret(self, name: str) -> Optional[str]:
         """
         Retrieve and decrypt a secret
-        
+
         Args:
             name: Secret name/identifier
-            
+
         Returns:
             Decrypted secret value or None
         """
@@ -280,11 +280,11 @@ class SecretsManager:
     def rotate_secret(self, name: str, new_value: str) -> bool:
         """
         Rotate a secret to a new value
-        
+
         Args:
             name: Secret name/identifier  
             new_value: New secret value
-            
+
         Returns:
             True if successful
         """
@@ -319,10 +319,10 @@ class SecretsManager:
     def delete_secret(self, name: str) -> bool:
         """
         Delete a secret
-        
+
         Args:
             name: Secret name/identifier
-            
+
         Returns:
             True if successful
         """
@@ -344,10 +344,10 @@ class SecretsManager:
     def list_secrets(self, tags: Optional[List[str]] = None) -> List[Dict[str, Any]]:
         """
         List all secrets with metadata
-        
+
         Args:
             tags: Filter by tags (optional)
-            
+
         Returns:
             List of secret metadata
         """
@@ -390,11 +390,11 @@ class SecretsManager:
                               format: str = "env") -> str:
         """
         Export secrets for deployment environment
-        
+
         Args:
             environment: Target environment
             format: Export format ('env', 'yaml', 'json')
-            
+
         Returns:
             Formatted secrets for deployment
         """
@@ -434,10 +434,10 @@ class SecretsManager:
     def import_secrets_from_env(self, prefix: str = "LUKHAS_SECRET_") -> int:
         """
         Import secrets from environment variables
-        
+
         Args:
             prefix: Environment variable prefix
-            
+
         Returns:
             Number of secrets imported
         """
@@ -457,7 +457,7 @@ class SecretsManager:
     def validate_secrets(self) -> Dict[str, Any]:
         """
         Validate all secrets and return status
-        
+
         Returns:
             Validation results
         """
@@ -505,12 +505,12 @@ class SecretsManager:
                         expires_days: Optional[int] = None) -> Tuple[str, str]:
         """
         Generate a secure API key
-        
+
         Args:
             name: Name for the API key
             length: Key length in bytes
             expires_days: Days until expiration
-            
+
         Returns:
             Tuple of (api_key, key_id)
         """
@@ -536,11 +536,11 @@ class SecretsManager:
     def verify_api_key(self, api_key: str, name: str) -> bool:
         """
         Verify an API key
-        
+
         Args:
             api_key: API key to verify
             name: Name associated with the key
-            
+
         Returns:
             True if key is valid
         """

@@ -372,7 +372,7 @@ class PredictiveAnalyzer:
                            prediction_window_minutes: float = 30.0) -> Tuple[float, List[str]]:
         """
         Predict failure risk for a specific metric.
-        
+
         Returns:
             Tuple of (risk_score, risk_factors) where risk_score is 0-1
         """
@@ -485,7 +485,7 @@ class AutoHealingAction(ABC):
     async def execute(self, component_health: ComponentHealth) -> bool:
         """
         Execute healing action.
-        
+
         Returns:
             True if action was successful, False otherwise
         """
@@ -495,7 +495,7 @@ class AutoHealingAction(ABC):
     def can_handle(self, component_health: ComponentHealth) -> bool:
         """
         Check if this action can handle the given component health issue.
-        
+
         Returns:
             True if this action can help with the issue
         """
@@ -571,7 +571,7 @@ class HealthMonitoringSystem:
                  enable_auto_healing: bool = True):
         """
         Initialize health monitoring system.
-        
+
         Args:
             check_interval_sec: Interval between health checks
             enable_predictive_analysis: Enable predictive failure detection

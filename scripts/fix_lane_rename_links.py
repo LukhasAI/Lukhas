@@ -17,9 +17,9 @@ from typing import List, Tuple, Optional
 def fix_markdown_links(text: str, old_lane: str, new_lane: str) -> Tuple[str, int]:
     """
     Replace old lane path with new in markdown links.
-    
+
     Handles both regular links [text](path) and image links ![alt](path).
-    
+
     Returns:
         tuple: (updated_text, count_of_changes)
     """
@@ -42,7 +42,7 @@ def fix_markdown_links(text: str, old_lane: str, new_lane: str) -> Tuple[str, in
 def fix_file(file_path: Path, old_lane: str, new_lane: str, dry_run: bool = False) -> int:
     """
     Fix links in a single file.
-    
+
     Returns:
         int: Number of changes made
     """
@@ -67,11 +67,11 @@ def fix_file(file_path: Path, old_lane: str, new_lane: str, dry_run: bool = Fals
 def find_markdown_files(root: Path, exclude_patterns: Optional[List[str]] = None) -> List[Path]:
     """
     Find all markdown files in the repository.
-    
+
     Args:
         root: Root directory to search
         exclude_patterns: List of path patterns to exclude
-    
+
     Returns:
         List of Path objects for markdown files
     """

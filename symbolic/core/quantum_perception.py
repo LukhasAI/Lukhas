@@ -264,7 +264,7 @@ class EntangledSymbolPair:
     def summarize_health(self) -> Dict[str, Any]:
         """
         Deterministic helper for downstream analytics.
-        
+
         Returns:
             Comprehensive health summary for analytics
         """
@@ -652,13 +652,13 @@ class QuantumPerceptionField:
     ) -> float:
         """
         Calculate drift score from observation-induced state changes.
-        
+
         Args:
             pre_entropy: Entropy before observation
             post_entropy: Entropy after observation  
             pre_coherence: Coherence before observation
             post_coherence: Coherence after observation
-            
+
         Returns:
             Drift score (0.0 = stable, 1.0 = maximum drift)
         """
@@ -680,12 +680,12 @@ class QuantumPerceptionField:
     ) -> str:
         """
         Generate deterministic hash for collapse event.
-        
+
         Args:
             symbol: The observed symbol
             observer: The observer effect
             result: The observation result
-            
+
         Returns:
             Hexadecimal hash string for collapse identification
         """
@@ -700,12 +700,12 @@ class QuantumPerceptionField:
     ) -> Dict[str, float]:
         """
         Calculate affective impact of observation.
-        
+
         Args:
             observer: The observer effect
             observation_type: Type of observation performed
             drift_score: Calculated drift score
-            
+
         Returns:
             Dictionary containing affective delta measurements
         """
@@ -740,11 +740,11 @@ class QuantumPerceptionField:
     ) -> List[Dict[str, Any]]:
         """
         Build provenance chain for guardian auditing.
-        
+
         Args:
             symbol: The observed symbol
             observer: The observer effect
-            
+
         Returns:
             List of provenance events leading to this observation
         """
@@ -780,7 +780,7 @@ class QuantumPerceptionField:
     def enable_trace(self, enabled: bool = True) -> None:
         """
         Enable or disable ΛTRACE event routing.
-        
+
         Args:
             enabled: Whether to enable trace routing
         """

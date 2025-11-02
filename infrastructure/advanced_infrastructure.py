@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 class LUKHASInfrastructureManager:
     """
     Main infrastructure manager coordinating security, caching, and storage systems.
-    
+
     This is the primary integration point for all advanced infrastructure components:
     - Enterprise Security Framework with JWT, encryption, threat detection
     - Hierarchical Caching System with Redis support and intelligent warming
@@ -33,7 +33,7 @@ class LUKHASInfrastructureManager:
     async def initialize(self) -> bool:
         """
         Initialize all infrastructure components.
-        
+
         Returns:
             bool: True if all components initialized successfully
         """
@@ -70,7 +70,7 @@ class LUKHASInfrastructureManager:
     async def get_system_status(self) -> Dict[str, Any]:
         """
         Get comprehensive system status for all infrastructure components.
-        
+
         Returns:
             Dict containing status information for all subsystems
         """

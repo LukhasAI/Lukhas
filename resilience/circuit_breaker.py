@@ -195,7 +195,7 @@ class CircuitBreaker:
                  failure_detector: Optional[FailureDetector] = None):
         """
         Initialize circuit breaker.
-        
+
         Args:
             name: Circuit breaker identifier
             config: Configuration parameters
@@ -402,13 +402,13 @@ class CircuitBreaker:
     async def protect(self, operation_name: str = "operation"):
         """
         Context manager for circuit breaker protection.
-        
+
         Args:
             operation_name: Name of the operation being protected
-            
+
         Yields:
             None if call is allowed, raises CircuitBreakerOpenError if rejected
-            
+
         Raises:
             CircuitBreakerOpenError: If circuit is open and call is rejected
         """
@@ -503,7 +503,7 @@ class CircuitBreaker:
     async def health_check(self) -> bool:
         """
         Perform health check for the protected service.
-        
+
         Returns:
             True if service is healthy, False otherwise
         """
@@ -681,7 +681,7 @@ def circuit_breaker(name: str,
                    failure_detector: Optional[FailureDetector] = None):
     """
     Decorator for circuit breaker protection.
-    
+
     Args:
         name: Circuit breaker name
         config: Circuit breaker configuration

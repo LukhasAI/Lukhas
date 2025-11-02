@@ -91,7 +91,7 @@ class FoldPerformanceOptimizer:
                  optimization_interval_sec: float = 30.0):
         """
         Initialize performance optimizer.
-        
+
         Args:
             cache_size: Maximum number of cached fold operations
             batch_threshold: Minimum items for batch processing
