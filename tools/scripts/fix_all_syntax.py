@@ -43,7 +43,7 @@ def fix_multiline_string_error(file_path):
 
     # Write back the fixed content
     with open(file_path, "w", encoding="utf-8") as f:
-        f.writelines([l for l in lines if l])  # Skip empty lines we created
+        f.writelines([line for line in lines if line])  # Skip empty lines we created
 
     # Verify the fix
     try:

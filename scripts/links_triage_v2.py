@@ -353,7 +353,7 @@ def generate_external_report(broken_by_category: Dict[str, List[Dict]]) -> str:
         lines.append("")
 
         # Batch in groups of 25
-        for idx, link in enumerate(sorted(links, key=lambda l: l['source'])[:25]):
+        for idx, link in enumerate(sorted(links, key=lambda link: link['source'])[:25]):
             lines.append(f"### {idx + 1}. {link['source'].replace('docs/', '')}")
             lines.append(f"- Line {link['line']}: `[{link['text']}]({link['url']})`")
             if link.get('error'):
