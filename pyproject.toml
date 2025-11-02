@@ -200,10 +200,10 @@ include = '\.pyi?$'
 
 [tool.ruff]
 src = ["lukhas", "core", "MATRIZ"]
-target-version = "py311"
+target-version = "py39"  # Match minimum Python version (requires-python >= 3.9)
 line-length = 100
 respect-gitignore = true
-fix = true
+fix = false  # Disable auto-fix; run selectively with --fix flag
 exclude = [
     "labs",
     "examples",
@@ -213,6 +213,11 @@ exclude = [
     ".git",
     ".venv",
     ".ruff_cache",
+    "build",
+    "dist",
+    "node_modules",
+    "**/migrations/**",
+    "**/generated/**",
 ]
 
 [tool.ruff.lint]
@@ -282,7 +287,7 @@ match-dir = "(?!(.venv|node_modules|build|dist|manifests|docs|tests|legacy|lukha
 match = "(?!test_).*\\.py"
 
 [tool.mypy]
-python_version = "3.11"
+python_version = "3.9"  # Match minimum Python version (requires-python >= 3.9)
 strict = true
 warn_unused_ignores = true
 warn_redundant_casts = true
