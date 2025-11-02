@@ -150,6 +150,56 @@ class WebAuthnCredentialStore:
                 if cid in self._credentials  # Defensive check
             ]
 
+    def get_credentials_by_user(self, user_id: str) -> List[WebAuthnCredential]:
+        """Get all credentials for a user with O(1) lookup performance.
+
+        This method provides efficient user-to-credentials mapping using
+        the secondary index. Useful for authentication flows where the user
+        needs to select from their registered authenticators.
+
+        Args:
+            user_id: User identifier (ΛID)
+
+        Returns:
+            List of WebAuthnCredential objects (empty list if user has none)
+
+        Performance:
+            O(1) index lookup + O(n) where n = number of user's credentials
+        """
+        # Delegate to list_credentials which already uses the index
+        return self.list_credentials(user_id)
+
+    def get_credential_by_user_and_id(
+        self,
+        user_id: str,
+        credential_id: str
+    ) -> Optional[WebAuthnCredential]:
+        """Get a specific credential for a user with validation.
+
+        This method provides O(1) lookup with user ownership validation,
+        ensuring the credential belongs to the specified user. Prevents
+        credential enumeration attacks by validating user ownership.
+
+        Args:
+            user_id: User identifier (ΛID)
+            credential_id: Unique credential identifier
+
+        Returns:
+            WebAuthnCredential if found and belongs to user, None otherwise
+
+        Performance:
+            O(1) for both credential lookup and user validation
+        """
+        with self._lock:
+            # O(1) lookup by credential_id
+            credential = self._credentials.get(credential_id)
+
+            # Validate credential exists and belongs to user
+            if credential is None or credential["user_id"] != user_id:
+                return None
+
+            return credential
+
     def delete_credential(self, credential_id: str) -> bool:
         """Delete a credential by credential_id.
 

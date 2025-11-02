@@ -791,3 +791,429 @@ def test_list_credentials_after_corrupted_index(
     # Should only return the valid credential
     assert len(credentials) == 1
     assert credentials[0]["credential_id"] == "test_cred_123"
+
+
+# Test: get_credentials_by_user (issue #597)
+
+def test_get_credentials_by_user_single_credential(
+    store: WebAuthnCredentialStore,
+    sample_credential: Dict[str, Any]
+) -> None:
+    """Test get_credentials_by_user with single credential."""
+    store.store_credential("user_123", sample_credential)
+    credentials = store.get_credentials_by_user("user_123")
+
+    assert len(credentials) == 1
+    assert credentials[0]["credential_id"] == "test_cred_123"
+    assert credentials[0]["user_id"] == "user_123"
+
+
+def test_get_credentials_by_user_multiple_credentials(
+    store: WebAuthnCredentialStore
+) -> None:
+    """Test get_credentials_by_user with multiple credentials."""
+    cred1 = {
+        "credential_id": "yubikey_5c",
+        "public_key": "key1",
+        "counter": 0,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "device_name": "YubiKey 5C",
+    }
+    cred2 = {
+        "credential_id": "touchid_macbook",
+        "public_key": "key2",
+        "counter": 0,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "device_name": "MacBook Touch ID",
+    }
+    cred3 = {
+        "credential_id": "windows_hello",
+        "public_key": "key3",
+        "counter": 0,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "device_name": "Windows Hello",
+    }
+
+    store.store_credential("alice@example.com", cred1)
+    store.store_credential("alice@example.com", cred2)
+    store.store_credential("alice@example.com", cred3)
+
+    credentials = store.get_credentials_by_user("alice@example.com")
+    assert len(credentials) == 3
+
+    device_names = {c["device_name"] for c in credentials}
+    assert device_names == {"YubiKey 5C", "MacBook Touch ID", "Windows Hello"}
+
+
+def test_get_credentials_by_user_nonexistent_user(
+    store: WebAuthnCredentialStore
+) -> None:
+    """Test get_credentials_by_user for non-existent user returns empty list."""
+    credentials = store.get_credentials_by_user("nonexistent_user")
+    assert credentials == []
+
+
+def test_get_credentials_by_user_user_isolation(
+    store: WebAuthnCredentialStore
+) -> None:
+    """Test that get_credentials_by_user properly isolates users."""
+    cred_alice = {
+        "credential_id": "alice_key",
+        "public_key": "alice_pubkey",
+        "counter": 0,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    }
+    cred_bob = {
+        "credential_id": "bob_key",
+        "public_key": "bob_pubkey",
+        "counter": 0,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    }
+
+    store.store_credential("alice@example.com", cred_alice)
+    store.store_credential("bob@example.com", cred_bob)
+
+    alice_creds = store.get_credentials_by_user("alice@example.com")
+    bob_creds = store.get_credentials_by_user("bob@example.com")
+
+    assert len(alice_creds) == 1
+    assert len(bob_creds) == 1
+    assert alice_creds[0]["credential_id"] == "alice_key"
+    assert bob_creds[0]["credential_id"] == "bob_key"
+
+
+def test_get_credentials_by_user_performance_o1(
+    store: WebAuthnCredentialStore
+) -> None:
+    """Test that get_credentials_by_user has O(1) index lookup."""
+    # Create 100 users with credentials
+    for i in range(100):
+        cred = {
+            "credential_id": f"cred_user_{i}",
+            "public_key": f"key_{i}",
+            "counter": 0,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+        }
+        store.store_credential(f"user_{i}", cred)
+
+    # Lookup should be O(1) regardless of total credentials
+    import time
+    start = time.perf_counter()
+    credentials = store.get_credentials_by_user("user_50")
+    elapsed = time.perf_counter() - start
+
+    assert len(credentials) == 1
+    # Should be extremely fast (< 1ms even on slow systems)
+    assert elapsed < 0.001
+
+
+# Test: get_credential_by_user_and_id (issue #597)
+
+def test_get_credential_by_user_and_id_success(
+    store: WebAuthnCredentialStore,
+    sample_credential: Dict[str, Any]
+) -> None:
+    """Test get_credential_by_user_and_id happy path."""
+    store.store_credential("user_123", sample_credential)
+
+    credential = store.get_credential_by_user_and_id("user_123", "test_cred_123")
+    assert credential is not None
+    assert credential["user_id"] == "user_123"
+    assert credential["credential_id"] == "test_cred_123"
+    assert credential["public_key"] == "base64_encoded_public_key"
+
+
+def test_get_credential_by_user_and_id_wrong_user(
+    store: WebAuthnCredentialStore,
+    sample_credential: Dict[str, Any]
+) -> None:
+    """Test get_credential_by_user_and_id with wrong user_id returns None."""
+    store.store_credential("alice@example.com", sample_credential)
+
+    # Try to access with different user_id (prevents credential enumeration)
+    credential = store.get_credential_by_user_and_id("bob@example.com", "test_cred_123")
+    assert credential is None
+
+
+def test_get_credential_by_user_and_id_wrong_credential(
+    store: WebAuthnCredentialStore,
+    sample_credential: Dict[str, Any]
+) -> None:
+    """Test get_credential_by_user_and_id with wrong credential_id returns None."""
+    store.store_credential("user_123", sample_credential)
+
+    credential = store.get_credential_by_user_and_id("user_123", "nonexistent_cred")
+    assert credential is None
+
+
+def test_get_credential_by_user_and_id_nonexistent_user(
+    store: WebAuthnCredentialStore
+) -> None:
+    """Test get_credential_by_user_and_id with non-existent user."""
+    credential = store.get_credential_by_user_and_id("nonexistent_user", "some_cred")
+    assert credential is None
+
+
+def test_get_credential_by_user_and_id_user_validation(
+    store: WebAuthnCredentialStore
+) -> None:
+    """Test that get_credential_by_user_and_id validates user ownership."""
+    # Alice's credential
+    cred_alice = {
+        "credential_id": "shared_cred_id",
+        "public_key": "alice_key",
+        "counter": 0,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    }
+    store.store_credential("alice@example.com", cred_alice)
+
+    # Bob tries to access Alice's credential (should fail)
+    credential = store.get_credential_by_user_and_id("bob@example.com", "shared_cred_id")
+    assert credential is None
+
+    # Alice can access her own credential
+    credential = store.get_credential_by_user_and_id("alice@example.com", "shared_cred_id")
+    assert credential is not None
+    assert credential["user_id"] == "alice@example.com"
+
+
+def test_get_credential_by_user_and_id_performance_o1(
+    store: WebAuthnCredentialStore
+) -> None:
+    """Test that get_credential_by_user_and_id has O(1) performance."""
+    # Create 1000 credentials
+    for i in range(1000):
+        cred = {
+            "credential_id": f"cred_{i}",
+            "public_key": f"key_{i}",
+            "counter": 0,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+        }
+        store.store_credential(f"user_{i}", cred)
+
+    # Lookup should be O(1) regardless of total credentials
+    import time
+    start = time.perf_counter()
+    credential = store.get_credential_by_user_and_id("user_500", "cred_500")
+    elapsed = time.perf_counter() - start
+
+    assert credential is not None
+    # Should be extremely fast (< 1ms even on slow systems)
+    assert elapsed < 0.001
+
+
+# Test: Index consistency (issue #597)
+
+def test_index_consistency_after_store(
+    store: WebAuthnCredentialStore
+) -> None:
+    """Test that user index is consistent after store operations."""
+    cred1 = {
+        "credential_id": "cred_1",
+        "public_key": "key1",
+        "counter": 0,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    }
+    cred2 = {
+        "credential_id": "cred_2",
+        "public_key": "key2",
+        "counter": 0,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    }
+
+    store.store_credential("user_123", cred1)
+    store.store_credential("user_123", cred2)
+
+    # Verify index consistency
+    assert "user_123" in store._user_index
+    assert set(store._user_index["user_123"]) == {"cred_1", "cred_2"}
+
+    # Verify via get_credentials_by_user
+    credentials = store.get_credentials_by_user("user_123")
+    assert len(credentials) == 2
+
+
+def test_index_consistency_after_delete(
+    store: WebAuthnCredentialStore
+) -> None:
+    """Test that user index is consistent after delete operations."""
+    cred1 = {
+        "credential_id": "cred_1",
+        "public_key": "key1",
+        "counter": 0,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    }
+    cred2 = {
+        "credential_id": "cred_2",
+        "public_key": "key2",
+        "counter": 0,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    }
+
+    store.store_credential("user_123", cred1)
+    store.store_credential("user_123", cred2)
+
+    # Delete one credential
+    store.delete_credential("cred_1")
+
+    # Verify index updated
+    assert store._user_index["user_123"] == ["cred_2"]
+
+    # Verify via get_credentials_by_user
+    credentials = store.get_credentials_by_user("user_123")
+    assert len(credentials) == 1
+    assert credentials[0]["credential_id"] == "cred_2"
+
+
+def test_index_consistency_delete_last_credential(
+    store: WebAuthnCredentialStore
+) -> None:
+    """Test that user index is cleaned up when last credential is deleted."""
+    cred = {
+        "credential_id": "only_cred",
+        "public_key": "key",
+        "counter": 0,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    }
+
+    store.store_credential("user_123", cred)
+    assert "user_123" in store._user_index
+
+    # Delete last credential
+    store.delete_credential("only_cred")
+
+    # User should be removed from index
+    assert "user_123" not in store._user_index
+
+    # Verify via get_credentials_by_user
+    credentials = store.get_credentials_by_user("user_123")
+    assert credentials == []
+
+
+def test_concurrent_user_lookups(store: WebAuthnCredentialStore) -> None:
+    """Test thread safety with concurrent get_credentials_by_user calls."""
+    # Create credentials for a user
+    for i in range(5):
+        cred = {
+            "credential_id": f"cred_{i}",
+            "public_key": f"key_{i}",
+            "counter": 0,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+        }
+        store.store_credential("user_123", cred)
+
+    results = []
+
+    def lookup_user_credentials() -> None:
+        creds = store.get_credentials_by_user("user_123")
+        results.append(len(creds))
+
+    # Create 20 threads looking up concurrently
+    threads = []
+    for _ in range(20):
+        thread = threading.Thread(target=lookup_user_credentials)
+        threads.append(thread)
+        thread.start()
+
+    for thread in threads:
+        thread.join()
+
+    # All lookups should return 5 credentials
+    assert len(results) == 20
+    assert all(count == 5 for count in results)
+
+
+def test_concurrent_user_and_id_lookups(store: WebAuthnCredentialStore) -> None:
+    """Test thread safety with concurrent get_credential_by_user_and_id calls."""
+    cred = {
+        "credential_id": "test_cred",
+        "public_key": "key",
+        "counter": 0,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    }
+    store.store_credential("user_123", cred)
+
+    results = []
+
+    def lookup_credential() -> None:
+        result = store.get_credential_by_user_and_id("user_123", "test_cred")
+        results.append(result is not None)
+
+    # Create 20 threads looking up concurrently
+    threads = []
+    for _ in range(20):
+        thread = threading.Thread(target=lookup_credential)
+        threads.append(thread)
+        thread.start()
+
+    for thread in threads:
+        thread.join()
+
+    # All lookups should succeed
+    assert len(results) == 20
+    assert all(results)
+
+
+# Integration test: Authentication selection flow
+
+def test_authentication_selection_flow(store: WebAuthnCredentialStore) -> None:
+    """Test realistic authentication flow: list user's devices for selection."""
+    user_id = "alice@example.com"
+
+    # User has registered multiple authenticators
+    devices = [
+        {
+            "credential_id": "yubikey_5c",
+            "public_key": "yubikey_pubkey",
+            "counter": 15,
+            "created_at": "2024-01-15T10:00:00Z",
+            "last_used": "2024-02-01T14:30:00Z",
+            "device_name": "YubiKey 5C",
+            "transports": ["usb", "nfc"],
+        },
+        {
+            "credential_id": "touchid_macbook",
+            "public_key": "touchid_pubkey",
+            "counter": 42,
+            "created_at": "2024-01-20T09:00:00Z",
+            "last_used": "2024-02-01T16:45:00Z",
+            "device_name": "MacBook Pro Touch ID",
+            "transports": ["internal"],
+        },
+        {
+            "credential_id": "iphone_faceid",
+            "public_key": "faceid_pubkey",
+            "counter": 8,
+            "created_at": "2024-01-25T11:00:00Z",
+            "last_used": "2024-02-01T12:00:00Z",
+            "device_name": "iPhone 15 Pro",
+            "transports": ["hybrid", "internal"],
+        },
+    ]
+
+    for device in devices:
+        store.store_credential(user_id, device)
+
+    # Step 1: Get all user's credentials for selection UI
+    available_devices = store.get_credentials_by_user(user_id)
+    assert len(available_devices) == 3
+
+    # Step 2: User selects a device (e.g., YubiKey)
+    selected_credential_id = "yubikey_5c"
+
+    # Step 3: Retrieve and validate the specific credential
+    credential = store.get_credential_by_user_and_id(user_id, selected_credential_id)
+    assert credential is not None
+    assert credential["device_name"] == "YubiKey 5C"
+    assert credential["counter"] == 15
+
+    # Step 4: After successful authentication, update counter and last_used
+    store.update_credential(selected_credential_id, {
+        "counter": 16,
+        "last_used": datetime.now(timezone.utc).isoformat(),
+    })
+
+    # Verify update
+    updated = store.get_credential_by_user_and_id(user_id, selected_credential_id)
+    assert updated is not None
+    assert updated["counter"] == 16
