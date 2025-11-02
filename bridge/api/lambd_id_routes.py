@@ -65,11 +65,22 @@ try:
     controller = LambdaIDController()
     logger.info("ΛTRACE: LambdaIDController instance created.")
 except Exception as e_controller:
+    logger.error(
         f"ΛTRACE: Failed to instantiate LambdaIDController: {e_controller}. Endpoints will likely fail.",
         exc_info=True,
     )
     controller = LambdaIDController()  # Fallback instance
 
+# Create the Blueprint
+lambda_id_bp = Blueprint("lambda_id", __name__, url_prefix="/lambda-id")
+
+
+@lambda_id_bp.route("/generate", methods=["POST"])
+def generate_lambda_id():
+    """Generate a new Lambda ID with entropy calculation."""
+    req_id = f"gen_{int(time.time() * 1000) % 1000000}"
+    logger.info(f"ΛTRACE ({req_id}): Lambda ID generation request received.")
+    
     try:
         if not request.is_json:
             logger.warning(
