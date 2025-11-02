@@ -1,60 +1,69 @@
 # LUKHAS System Health Audit (auto-generated)
 
-**Version:** `audit-2025-10-22T210824Z-2-g5f432276a` | **Commit:** `5f432276`  
-**Timestamp:** `2025-10-22T21:58:05Z`
+**Version:** `audit-2025-10-22T210824Z-500-g33ea41049` | **Commit:** `33ea4104`  
+**Timestamp:** `2025-11-02T01:54:09Z`
 
 ## Summary
 
-- **Ruff Total:** 4809 issues
-- **Smoke Tests:** 0/0 passing (0.0%)
-- **Unit Core Tests:** None
+- **Ruff Total:** 17038 issues
+- **Smoke Tests:** 17/100 passing (17.0%)
+- **Unit Core Tests:** {'summary': 'R tests/unit/bridge/test_audio_engine.py - DeprecationWarning: products.e...\nERROR tests/unit/candidate/consciousness/dream/test_dream_feedback_controller.py\nERROR tests/unit/candidate/core/matrix/test_nodes.py - TypeError: unsupported...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 5 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n========================= 6 skipped, 5 errors in 2.15s ========================='}
 - **OpenAPI:** {'valid': True, 'paths': 12}
 
 ## Ruff Statistics
 
 ```
-  1112  E402
-   775  W293
-   432  I001
-   197  RUF100
-   172  F841
-   153  E712
-   140  E722
-   131  F541
-   111  W292
-    79  E702
-    73  F821
-    54  W291
-    51  E701
-    49  F401
-    42  Q000
-    38  E741
-    17  F811
-    13  F706
-    11  F402
-     9  F405
-     8  E401
-     6  F823
-     5  F403
-     4  E731
-     3  E902
-     2  E721
-     2  F404
-     2  F704
-     1  B009
-     1  SIM117
-     1  F822
+  5383  E402
+  5089  W293
+   451  F821
+   436  E722
+   376  W291
+   243  F401
+   225  E702
+   213  I001
+   190  W292
+   162  E701
+   144  F811
+   126  RUF100
+   117  E741
+   111  Q000
+    77  F841
+    39  F706
+    33  F402
+    27  F405
+    21  UP006
+    18  F823
+    17  F541
+    15  E712
+    15  F403
+    12  E731
+    12  F404
+    11  DTZ003
+     6  E721
+     6  E902
+     6  F704
+     4  UP035
+     3  F822
+     1  ARG002
 ```
 
 ## Test Results
 
 ###  Smoke Tests
 
-- **Status:** {'summary': 'ERROR tests/smoke/test_openai_facade.py\nERROR tests/smoke/test_rate_limit_headers.py\nERROR tests/smoke/test_rate_limiting.py\nERROR tests/smoke/test_responses.py\nERROR tests/smoke/test_responses_stream.py\nERROR tests/smoke/test_security_headers.py\nERROR tests/smoke/test_trace_header.py\nERROR tests/smoke/test_tracing.py\n!!!!!!!!!!!!!!!!!!! Interrupted: 23 errors during collection !!!!!!!!!!!!!!!!!!!'}
+- **Status:** 17/100 passing (17.0%)
+- **Passed:** 17
+- **Failed:** 83
 
 ### Core Unit Tests
 
-- **Status:** {}
+```
+R tests/unit/bridge/test_audio_engine.py - DeprecationWarning: products.e...
+ERROR tests/unit/candidate/consciousness/dream/test_dream_feedback_controller.py
+ERROR tests/unit/candidate/core/matrix/test_nodes.py - TypeError: unsupported...
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 5 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+========================= 6 skipped, 5 errors in 2.15s =========================
+```
 
 ## Compat Hits
 
@@ -66,4 +75,4 @@
 ⚪ **API not running** - Start API to get live Guardian/RL stats
 
 ---
-*Generated: 2025-10-22T21:58:05Z*
+*Generated: 2025-11-02T01:54:09Z*
