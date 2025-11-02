@@ -189,7 +189,8 @@ class SecurityAutopilot:
                 high_issues = data.get("metrics", {}).get("SEVERITY.HIGH", 0)
                 if high_issues > 0:
                     logger.warning(f"⚠️ Bandit found {high_issues} high-severity code issues")
-            except:
+            except Exception as e:
+                logger.debug(f"Expected optional failure: {e}")
                 pass
 
         return []  # Bandit doesn't report package vulnerabilities
@@ -207,7 +208,8 @@ class SecurityAutopilot:
                 results = data.get("results", [])
                 if results:
                     logger.warning(f"⚠️ Semgrep found {len(results)} security patterns")
-            except:
+            except Exception as e:
+                logger.debug(f"Expected optional failure: {e}")
                 pass
 
         return []

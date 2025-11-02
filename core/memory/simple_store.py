@@ -1,8 +1,3 @@
-from __future__ import annotations
-
-import logging
-
-logger = logging.getLogger(__name__)
 """
 CRITICAL FILE - DO NOT MODIFY WITHOUT APPROVAL
 lukhas AI System - Core Memory Component
@@ -19,6 +14,9 @@ DEPENDENCIES:
   - core/identity/identity_manager.py
 """
 
+from __future__ import annotations
+import logging
+
 import asyncio
 import contextlib
 import gzip
@@ -33,6 +31,295 @@ from pathlib import Path
 from typing import Any, Optional
 
 from core.common import get_logger
+
+        try:
+            self._running = True
+
+            # Load existing memories
+            await self._load_existing_memories()
+
+            # Start garbage collection if enabled
+            if self.config.gc_interval_minutes > 0:
+                self._gc_task = asyncio.create_task(self._garbage_collection_loop())
+
+            logger.info("Unified memory manager started")
+            return True
+
+        except Exception as e:
+            return False
+
+        try:
+            self._running = False
+
+            # Stop garbage collection
+            if self._gc_task:
+                self._gc_task.cancel()
+                with contextlib.suppress(asyncio.CancelledError):
+                    await self._gc_task
+
+            # Save critical memories
+            await self._save_critical_memories()
+
+            # Close mmap files
+            for mmap_file in self.mmap_files.values():
+                mmap_file.close()
+            self.mmap_files.clear()
+
+            logger.info("Unified memory manager stopped")
+            return True
+
+        except Exception as e:
+            return False
+
+        try:
+            # Generate memory ID if not provided
+            if memory_id is None:
+                memory_id = f"{user_id}_{int(time.time())}_{uuid.uuid4().hex[:8]}"
+
+            # Create memory entry
+            now = time.time()
+            memory = MemoryEntry(
+                id=memory_id,
+                user_id=user_id,
+                content=content,
+                memory_type=memory_type,
+                priority=priority,
+                timestamp=now,
+                last_accessed=now,
+            )
+
+            # Compress if enabled and content is large enough
+            if self.config.enable_compression and len(json.dumps(content)) > self.config.compression_threshold:
+                memory.content = await self._compress_content(content)
+                memory.compressed = True
+
+            # Add to cache
+            await self._add_to_cache(memory)
+
+            # Update indices
+            await self._update_indices(memory, add=True)
+
+            # Persist to disk for critical memories
+            if priority == MemoryPriority.CRITICAL:
+                await self._persist_memory(memory)
+
+            logger.debug(f"Stored memory {memory_id} for user {user_id}")
+            return memory_id
+
+        except Exception as e:
+            raise
+
+        try:
+            if memory_id:
+                # Retrieve specific memory
+                memory = await self._get_memory_by_id(user_id, memory_id)
+                return [memory] if memory else []
+
+            # Get user memories from cache
+            user_memories = self.lru_cache.get(user_id, OrderedDict())
+
+            # Filter by type if specified
+            if memory_type:
+                type_memory_ids = self.type_index.get(memory_type, {}).get(user_id, [])
+                user_memories = OrderedDict(
+                    (mid, memory) for mid, memory in user_memories.items() if mid in type_memory_ids
+                )
+
+            # Filter by TTL unless including old memories
+            if not include_old:
+                current_time = time.time()
+                valid_memories = OrderedDict()
+                for mid, memory in user_memories.items():
+                    if await self._is_memory_valid(memory, current_time):
+                        valid_memories[mid] = memory
+                user_memories = valid_memories
+
+            # Sort by last_accessed (most recent first) and limit
+            sorted_memories = sorted(user_memories.values(), key=lambda m: m.last_accessed, reverse=True)[:limit]
+
+            # Update access times
+            for memory in sorted_memories:
+                memory.last_accessed = time.time()
+                memory.access_count += 1
+
+            # Decompress if needed
+            for memory in sorted_memories:
+                if memory.compressed and isinstance(memory.content, bytes):
+                    try:
+                        memory.content = await self._decompress_content(memory.content)
+                        memory.compressed = False
+                    except Exception as decompress_error:
+                        # Keep original content if decompression fails
+
+            logger.debug(f"Retrieved {len(sorted_memories)} memories for user {user_id}")
+            return sorted_memories
+
+        try:
+            if memory_ids:
+                # Delete specific memories
+                user_memories = self.lru_cache.get(user_id, OrderedDict())
+                for memory_id in memory_ids:
+                    if memory_id in user_memories:
+                        memory = user_memories.pop(memory_id)
+                        await self._update_indices(memory, add=False)
+                        await self._delete_persisted_memory(memory)
+            else:
+                # Delete all user memories
+                user_memories = self.lru_cache.pop(user_id, OrderedDict())
+                for memory in user_memories.values():
+                    await self._update_indices(memory, add=False)
+                    await self._delete_persisted_memory(memory)
+
+                # Clean up user-specific indices
+                for type_dict in self.type_index.values():
+                    type_dict.pop(user_id, None)
+                for priority_dict in self.priority_index.values():
+                    priority_dict.pop(user_id, None)
+
+            logger.info(f"Deleted memories for user {user_id}")
+            return True
+
+        except Exception as e:
+            return False
+
+        try:
+            if user_id:
+                # User-specific stats
+                user_memories = self.lru_cache.get(user_id, OrderedDict())
+                return {
+                    "user_id": user_id,
+                    "total_memories": len(user_memories),
+                    "memory_types": {
+                        mem_type.value: len([m for m in user_memories.values() if m.memory_type == mem_type])
+                        for mem_type in MemoryType
+                    },
+                    "memory_priorities": {
+                        priority.value: len([m for m in user_memories.values() if m.priority == priority])
+                        for priority in MemoryPriority
+                    },
+                }
+            else:
+                # Global stats
+                total_memories = sum(len(memories) for memories in self.lru_cache.values())
+                return {
+                    "total_users": len(self.lru_cache),
+                    "total_memories": total_memories,
+                    "cache_size": len(self.lru_cache),
+                    "storage_path": str(self.storage_path),
+                    "compression_enabled": self.config.enable_compression,
+                }
+
+        except Exception as e:
+            return {}
+
+        try:
+            json_data = gzip.decompress(compressed_content)
+            return json.loads(json_data.decode("utf-8"))
+        except Exception as e:
+            return {
+                "error": "decompression_failed",
+                "raw_data": str(compressed_content),
+            }
+
+                try:
+                    memory.content = await self._decompress_content(memory.content)
+                    memory.compressed = False
+                except Exception as decompress_error:
+                    # Keep original content if decompression fails
+
+        try:
+            user_dir = self.storage_path / memory.user_id
+            user_dir.mkdir(exist_ok=True)
+
+            memory_file = user_dir / f"{memory.id}.json"
+
+            # Create a serializable copy
+            memory_dict = memory.to_dict()
+
+            # Handle compressed content
+            if memory.compressed and isinstance(memory.content, bytes):
+                # Convert bytes to base64 for JSON serialization
+                import base64
+
+                memory_dict["content"] = base64.b64encode(memory.content).decode("utf-8")
+                memory_dict["content_encoding"] = "base64_gzip"
+
+            with open(memory_file, "w") as f:
+                json.dump(memory_dict, f)
+
+        except Exception as e:
+
+        try:
+            memory_file = self.storage_path / memory.user_id / f"{memory.id}.json"
+            if memory_file.exists():
+                memory_file.unlink()
+        except Exception as e:
+
+        try:
+            for user_dir in self.storage_path.iterdir():
+                if user_dir.is_dir():
+                    for memory_file in user_dir.glob("*.json"):
+                        try:
+                            with open(memory_file) as f:
+                                memory_data = json.load(f)
+
+                            # Handle compressed content
+                            if memory_data.get("content_encoding") == "base64_gzip":
+                                import base64
+
+                                memory_data["content"] = base64.b64decode(memory_data["content"])
+                                memory_data["compressed"] = True
+                                del memory_data["content_encoding"]
+
+                            memory = MemoryEntry.from_dict(memory_data)
+                            await self._add_to_cache(memory)
+                            await self._update_indices(memory, add=True)
+
+                        except Exception as e:
+
+            logger.info(f"Loaded existing memories from {self.storage_path}")
+
+        try:
+            for user_memories in self.lru_cache.values():
+                for memory in user_memories.values():
+                    if memory.priority == MemoryPriority.CRITICAL:
+                        await self._persist_memory(memory)
+        except Exception as e:
+
+        try:
+            while self._running:
+                await asyncio.sleep(self.config.gc_interval_minutes * 60)
+                await self._run_garbage_collection()
+        except asyncio.CancelledError:
+        try:
+            current_time = time.time()
+            removed_count = 0
+
+            for user_id, user_memories in list(self.lru_cache.items()):
+                expired_ids = []
+
+                for memory_id, memory in user_memories.items():
+                    if not await self._is_memory_valid(memory, current_time):
+                        expired_ids.append(memory_id)
+
+                # Remove expired memories
+                for memory_id in expired_ids:
+                    memory = user_memories.pop(memory_id)
+                    await self._update_indices(memory, add=False)
+                    await self._delete_persisted_memory(memory)
+                    removed_count += 1
+
+                # Remove empty user caches
+                if not user_memories:
+                    del self.lru_cache[user_id]
+
+            if removed_count > 0:
+                logger.info(f"Garbage collection removed {removed_count} expired memories")
+
+        except Exception as e:
+
+
+logger = logging.getLogger(__name__)
 
 logger = get_logger(__name__)
 
@@ -169,49 +456,8 @@ class UnifiedMemoryManager:
 
     async def start(self) -> bool:
         """Start the memory manager"""
-        try:
-            self._running = True
-
-            # Load existing memories
-            await self._load_existing_memories()
-
-            # Start garbage collection if enabled
-            if self.config.gc_interval_minutes > 0:
-                self._gc_task = asyncio.create_task(self._garbage_collection_loop())
-
-            logger.info("Unified memory manager started")
-            return True
-
-        except Exception as e:
-            logger.error(f"Failed to start memory manager: {e}")
-            return False
-
     async def stop(self) -> bool:
         """Stop the memory manager"""
-        try:
-            self._running = False
-
-            # Stop garbage collection
-            if self._gc_task:
-                self._gc_task.cancel()
-                with contextlib.suppress(asyncio.CancelledError):
-                    await self._gc_task
-
-            # Save critical memories
-            await self._save_critical_memories()
-
-            # Close mmap files
-            for mmap_file in self.mmap_files.values():
-                mmap_file.close()
-            self.mmap_files.clear()
-
-            logger.info("Unified memory manager stopped")
-            return True
-
-        except Exception as e:
-            logger.error(f"Failed to stop memory manager: {e}")
-            return False
-
     async def store_memory(
         self,
         user_id: str,
@@ -233,45 +479,6 @@ class UnifiedMemoryManager:
         Returns:
             Memory ID
         """
-        try:
-            # Generate memory ID if not provided
-            if memory_id is None:
-                memory_id = f"{user_id}_{int(time.time())}_{uuid.uuid4().hex[:8]}"
-
-            # Create memory entry
-            now = time.time()
-            memory = MemoryEntry(
-                id=memory_id,
-                user_id=user_id,
-                content=content,
-                memory_type=memory_type,
-                priority=priority,
-                timestamp=now,
-                last_accessed=now,
-            )
-
-            # Compress if enabled and content is large enough
-            if self.config.enable_compression and len(json.dumps(content)) > self.config.compression_threshold:
-                memory.content = await self._compress_content(content)
-                memory.compressed = True
-
-            # Add to cache
-            await self._add_to_cache(memory)
-
-            # Update indices
-            await self._update_indices(memory, add=True)
-
-            # Persist to disk for critical memories
-            if priority == MemoryPriority.CRITICAL:
-                await self._persist_memory(memory)
-
-            logger.debug(f"Stored memory {memory_id} for user {user_id}")
-            return memory_id
-
-        except Exception as e:
-            logger.error(f"Failed to store memory: {e}")
-            raise
-
     async def retrieve_memory(
         self,
         user_id: str,
@@ -293,52 +500,6 @@ class UnifiedMemoryManager:
         Returns:
             List of memory entries
         """
-        try:
-            if memory_id:
-                # Retrieve specific memory
-                memory = await self._get_memory_by_id(user_id, memory_id)
-                return [memory] if memory else []
-
-            # Get user memories from cache
-            user_memories = self.lru_cache.get(user_id, OrderedDict())
-
-            # Filter by type if specified
-            if memory_type:
-                type_memory_ids = self.type_index.get(memory_type, {}).get(user_id, [])
-                user_memories = OrderedDict(
-                    (mid, memory) for mid, memory in user_memories.items() if mid in type_memory_ids
-                )
-
-            # Filter by TTL unless including old memories
-            if not include_old:
-                current_time = time.time()
-                valid_memories = OrderedDict()
-                for mid, memory in user_memories.items():
-                    if await self._is_memory_valid(memory, current_time):
-                        valid_memories[mid] = memory
-                user_memories = valid_memories
-
-            # Sort by last_accessed (most recent first) and limit
-            sorted_memories = sorted(user_memories.values(), key=lambda m: m.last_accessed, reverse=True)[:limit]
-
-            # Update access times
-            for memory in sorted_memories:
-                memory.last_accessed = time.time()
-                memory.access_count += 1
-
-            # Decompress if needed
-            for memory in sorted_memories:
-                if memory.compressed and isinstance(memory.content, bytes):
-                    try:
-                        memory.content = await self._decompress_content(memory.content)
-                        memory.compressed = False
-                    except Exception as decompress_error:
-                        logger.error(f"Failed to decompress memory {memory.id}: {decompress_error}")
-                        # Keep original content if decompression fails
-
-            logger.debug(f"Retrieved {len(sorted_memories)} memories for user {user_id}")
-            return sorted_memories
-
         except Exception as e:
             logger.error(f"Failed to retrieve memories: {e}")
             return []
@@ -354,68 +515,8 @@ class UnifiedMemoryManager:
         Returns:
             Success status
         """
-        try:
-            if memory_ids:
-                # Delete specific memories
-                user_memories = self.lru_cache.get(user_id, OrderedDict())
-                for memory_id in memory_ids:
-                    if memory_id in user_memories:
-                        memory = user_memories.pop(memory_id)
-                        await self._update_indices(memory, add=False)
-                        await self._delete_persisted_memory(memory)
-            else:
-                # Delete all user memories
-                user_memories = self.lru_cache.pop(user_id, OrderedDict())
-                for memory in user_memories.values():
-                    await self._update_indices(memory, add=False)
-                    await self._delete_persisted_memory(memory)
-
-                # Clean up user-specific indices
-                for type_dict in self.type_index.values():
-                    type_dict.pop(user_id, None)
-                for priority_dict in self.priority_index.values():
-                    priority_dict.pop(user_id, None)
-
-            logger.info(f"Deleted memories for user {user_id}")
-            return True
-
-        except Exception as e:
-            logger.error(f"Failed to delete user memories: {e}")
-            return False
-
     async def get_memory_stats(self, user_id: Optional[str] = None) -> dict[str, Any]:
         """Get memory usage statistics"""
-        try:
-            if user_id:
-                # User-specific stats
-                user_memories = self.lru_cache.get(user_id, OrderedDict())
-                return {
-                    "user_id": user_id,
-                    "total_memories": len(user_memories),
-                    "memory_types": {
-                        mem_type.value: len([m for m in user_memories.values() if m.memory_type == mem_type])
-                        for mem_type in MemoryType
-                    },
-                    "memory_priorities": {
-                        priority.value: len([m for m in user_memories.values() if m.priority == priority])
-                        for priority in MemoryPriority
-                    },
-                }
-            else:
-                # Global stats
-                total_memories = sum(len(memories) for memories in self.lru_cache.values())
-                return {
-                    "total_users": len(self.lru_cache),
-                    "total_memories": total_memories,
-                    "cache_size": len(self.lru_cache),
-                    "storage_path": str(self.storage_path),
-                    "compression_enabled": self.config.enable_compression,
-                }
-
-        except Exception as e:
-            logger.error(f"Failed to get memory stats: {e}")
-            return {}
-
     # Private methods
 
     async def _add_to_cache(self, memory: MemoryEntry) -> None:
@@ -488,16 +589,6 @@ class UnifiedMemoryManager:
         if not self.enable_compression or not isinstance(compressed_content, bytes):
             return compressed_content
 
-        try:
-            json_data = gzip.decompress(compressed_content)
-            return json.loads(json_data.decode("utf-8"))
-        except Exception as e:
-            logger.error(f"Failed to decompress content: {e}")
-            return {
-                "error": "decompression_failed",
-                "raw_data": str(compressed_content),
-            }
-
     async def _is_memory_valid(self, memory: MemoryEntry, current_time: float) -> bool:
         """Check if memory is within TTL"""
         if memory.priority == MemoryPriority.CRITICAL:
@@ -522,126 +613,23 @@ class UnifiedMemoryManager:
 
             # Decompress if needed
             if memory.compressed and isinstance(memory.content, bytes):
-                try:
-                    memory.content = await self._decompress_content(memory.content)
-                    memory.compressed = False
-                except Exception as decompress_error:
-                    logger.error(f"Failed to decompress memory {memory.id}: {decompress_error}")
-                    # Keep original content if decompression fails
-
         return memory
 
     async def _persist_memory(self, memory: MemoryEntry) -> None:
         """Persist critical memory to disk"""
-        try:
-            user_dir = self.storage_path / memory.user_id
-            user_dir.mkdir(exist_ok=True)
-
-            memory_file = user_dir / f"{memory.id}.json"
-
-            # Create a serializable copy
-            memory_dict = memory.to_dict()
-
-            # Handle compressed content
-            if memory.compressed and isinstance(memory.content, bytes):
-                # Convert bytes to base64 for JSON serialization
-                import base64
-
-                memory_dict["content"] = base64.b64encode(memory.content).decode("utf-8")
-                memory_dict["content_encoding"] = "base64_gzip"
-
-            with open(memory_file, "w") as f:
-                json.dump(memory_dict, f)
-
-        except Exception as e:
-            logger.error(f"Failed to persist memory {memory.id}: {e}")
-
     async def _delete_persisted_memory(self, memory: MemoryEntry) -> None:
         """Delete persisted memory file"""
-        try:
-            memory_file = self.storage_path / memory.user_id / f"{memory.id}.json"
-            if memory_file.exists():
-                memory_file.unlink()
-        except Exception as e:
-            logger.error(f"Failed to delete persisted memory {memory.id}: {e}")
-
     async def _load_existing_memories(self) -> None:
         """Load existing persisted memories"""
-        try:
-            for user_dir in self.storage_path.iterdir():
-                if user_dir.is_dir():
-                    for memory_file in user_dir.glob("*.json"):
-                        try:
-                            with open(memory_file) as f:
-                                memory_data = json.load(f)
-
-                            # Handle compressed content
-                            if memory_data.get("content_encoding") == "base64_gzip":
-                                import base64
-
-                                memory_data["content"] = base64.b64decode(memory_data["content"])
-                                memory_data["compressed"] = True
-                                del memory_data["content_encoding"]
-
-                            memory = MemoryEntry.from_dict(memory_data)
-                            await self._add_to_cache(memory)
-                            await self._update_indices(memory, add=True)
-
-                        except Exception as e:
-                            logger.error(f"Failed to load memory {memory_file}: {e}")
-
-            logger.info(f"Loaded existing memories from {self.storage_path}")
-
         except Exception as e:
             logger.error(f"Failed to load existing memories: {e}")
 
     async def _save_critical_memories(self) -> None:
         """Save critical memories before shutdown"""
-        try:
-            for user_memories in self.lru_cache.values():
-                for memory in user_memories.values():
-                    if memory.priority == MemoryPriority.CRITICAL:
-                        await self._persist_memory(memory)
-        except Exception as e:
-            logger.error(f"Failed to save critical memories: {e}")
-
     async def _garbage_collection_loop(self) -> None:
         """Background garbage collection for expired memories"""
-        try:
-            while self._running:
-                await asyncio.sleep(self.config.gc_interval_minutes * 60)
-                await self._run_garbage_collection()
-        except asyncio.CancelledError:
-            logger.info("Garbage collection stopped")
         except Exception as e:
             logger.error(f"Garbage collection error: {e}")
 
     async def _run_garbage_collection(self) -> None:
         """Run garbage collection to remove expired memories"""
-        try:
-            current_time = time.time()
-            removed_count = 0
-
-            for user_id, user_memories in list(self.lru_cache.items()):
-                expired_ids = []
-
-                for memory_id, memory in user_memories.items():
-                    if not await self._is_memory_valid(memory, current_time):
-                        expired_ids.append(memory_id)
-
-                # Remove expired memories
-                for memory_id in expired_ids:
-                    memory = user_memories.pop(memory_id)
-                    await self._update_indices(memory, add=False)
-                    await self._delete_persisted_memory(memory)
-                    removed_count += 1
-
-                # Remove empty user caches
-                if not user_memories:
-                    del self.lru_cache[user_id]
-
-            if removed_count > 0:
-                logger.info(f"Garbage collection removed {removed_count} expired memories")
-
-        except Exception as e:
-            logger.error(f"Garbage collection failed: {e}")

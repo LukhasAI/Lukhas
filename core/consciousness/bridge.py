@@ -1,8 +1,3 @@
-from __future__ import annotations
-
-import logging
-
-logger = logging.getLogger(__name__)
 """
 ===================================================================================
  MODULE: core.decision.decision_making_bridge
@@ -50,6 +45,9 @@ TODO: Implement quantum decision superposition for parallel evaluation
 AIDEA: Add emotional intelligence integration for empathetic decisions
 """
 
+from __future__ import annotations
+import logging
+
 import json
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
@@ -75,8 +73,205 @@ try:
         EthicalDriftGovernor,  # noqa: F401 # TODO[T4-UNUSED-IMPORT]: kept pending MATRIZ wiring (document or remove)
     )
 except ImportError:
-    pass
 
+
+        try:
+            decision_start = datetime.now(timezone.utc)
+
+            # Validate inputs
+            self._validate_decision_inputs(context, alternatives)
+
+            # Check if decision is already in progress
+            if context.decision_id in self.active_decisions:
+                self.logger.warning("Decision already in progress", decision_id=context.decision_id)
+                return self.active_decisions[context.decision_id]
+
+            # Mark decision as active
+            self.active_decisions[context.decision_id] = None
+
+            self.logger.info(
+                "Starting decision process",
+                decision_id=context.decision_id,
+                decision_type=context.decision_type.value,
+                alternatives_count=len(alternatives),
+            )
+
+            # Select decision strategy
+            strategy = self._select_strategy(context, strategy_name)
+
+            # Enhance alternatives with integrated analysis
+            enhanced_alternatives = await self._enhance_alternatives(context, alternatives)
+
+            # Evaluate alternatives using the selected strategy
+            evaluations = strategy.evaluate_alternatives(context, enhanced_alternatives)
+
+            # Apply ethical filtering if ethical governor is available
+            if self.ethical_governor:
+                evaluations = await self._apply_ethical_filtering(context, evaluations)
+
+            # Apply energy constraints if energy planner is available
+            if self.energy_planner:
+                evaluations = await self._apply_energy_constraints(context, evaluations)
+
+            # Select the best alternative
+            selected_id, confidence_score = strategy.select_best_alternative(evaluations)
+            selected_evaluation = next(e for e in evaluations if e.alternative_id == selected_id)
+
+            # Generate implementation plan
+            implementation_timeline = self._generate_implementation_timeline(
+                context, selected_evaluation, enhanced_alternatives
+            )
+
+            # Create monitoring and rollback plans
+            monitoring_plan = self._create_monitoring_plan(context, selected_evaluation)
+            rollback_plan = self._create_rollback_plan(context, selected_evaluation)
+
+            # Build rationale
+            rationale = self._build_decision_rationale(context, selected_evaluation, evaluations)
+
+            # Create decision outcome
+            outcome = DecisionOutcome(
+                decision_id=context.decision_id,
+                selected_alternative=selected_id,
+                rationale=rationale,
+                confidence=selected_evaluation.confidence,
+                evaluation_summary=self._create_evaluation_summary(evaluations),
+                implementation_timeline=implementation_timeline,
+                monitoring_plan=monitoring_plan,
+                rollback_plan=rollback_plan,
+            )
+
+            # Store decision outcome
+            self.decision_history.append(outcome)
+            self.active_decisions[context.decision_id] = outcome
+
+            # Track for learning
+            if self.config.get("learning_enabled", False):
+                self._track_decision_for_learning(context, outcome, evaluations)
+
+            decision_duration = (datetime.now(timezone.utc) - decision_start).total_seconds()
+
+            self.logger.info(
+                "Decision process completed",
+                decision_id=context.decision_id,
+                selected_alternative=selected_id,
+                confidence=outcome.confidence.name,
+                duration_seconds=decision_duration,
+            )
+
+            return outcome
+
+        except Exception as e:
+            # Clean up active decision
+            if context.decision_id in self.active_decisions:
+                del self.active_decisions[context.decision_id]
+            raise
+        try:
+            # Check active decisions
+            if decision_id in self.active_decisions:
+                if self.active_decisions[decision_id] is None:
+                    return {"status": "in_progress", "decision_id": decision_id}
+                else:
+                    return {
+                        "status": "completed",
+                        "decision_id": decision_id,
+                        "outcome": self.active_decisions[decision_id],
+                    }
+
+            # Check decision history
+            for outcome in self.decision_history:
+                if outcome.decision_id == decision_id:
+                    return {
+                        "status": "completed",
+                        "decision_id": decision_id,
+                        "outcome": outcome,
+                    }
+
+            return {"status": "not_found", "decision_id": decision_id}
+
+        except Exception as e:
+            return {"status": "error", "error": str(e)}
+
+        try:
+            if not self.decision_history:
+                return {"message": "No decision history available"}
+
+            # Analyze decision types
+            type_distribution = {}
+            for _outcome in self.decision_history:
+                # Would need to store decision type in outcome for full analysis
+                type_distribution["unknown"] = type_distribution.get("unknown", 0) + 1
+
+            # Analyze confidence patterns
+            confidences = [outcome.confidence.value for outcome in self.decision_history]
+            avg_confidence = np.mean(confidences)
+            confidence_trend = self._calculate_confidence_trend(confidences)
+
+            # Analyze timing patterns
+            decision_times = [outcome.decided_at for outcome in self.decision_history]
+            time_analysis = self._analyze_decision_timing(decision_times)
+
+            # Generate insights
+            insights = []
+            if avg_confidence < self.config["confidence_threshold"]:
+                insights.append("Average decision confidence is below threshold")
+
+            if confidence_trend < 0:
+                insights.append("Decision confidence is trending downward")
+
+            analysis = {
+                "total_decisions": len(self.decision_history),
+                "type_distribution": type_distribution,
+                "average_confidence": avg_confidence,
+                "confidence_trend": confidence_trend,
+                "timing_analysis": time_analysis,
+                "insights": insights,
+                "analysis_timestamp": datetime.now(timezone.utc).isoformat(),
+            }
+
+            return analysis
+
+        except Exception as e:
+            return {"error": str(e)}
+
+        try:
+            metrics = {
+                "total_decisions": len(self.decision_history),
+                "active_decisions": len(self.active_decisions),
+                "available_strategies": list(self.strategies.keys()),
+                "integration_status": {
+                    "neuro_symbolic": bool(self.neuro_symbolic_layer),
+                    "energy_planner": bool(self.energy_planner),
+                    "ethical_governor": bool(self.ethical_governor),
+                    "symbolic_engine": bool(self.symbolic_engine),
+                },
+                "performance_metrics": self.performance_metrics,
+                "last_updated": datetime.now(timezone.utc).isoformat(),
+            }
+
+            if self.decision_history:
+                recent_decisions = self.decision_history[-10:]  # Last 10 decisions
+                metrics["recent_performance"] = {
+                    "average_confidence": np.mean([d.confidence.value for d in recent_decisions]),
+                    "decision_frequency": len(recent_decisions)
+                    / max(
+                        1,
+                        (datetime.now(timezone.utc) - recent_decisions[0].decided_at).days,
+                    ),
+                }
+
+            return metrics
+
+        except Exception as e:
+            return {"error": str(e)}
+
+        try:
+            with open(config_path) as f:
+                config = json.load(f)
+        except Exception as e:
+
+
+logger = logging.getLogger(__name__)
 
 class DecisionType(Enum):
     """Types of decisions that can be processed by the bridge"""
@@ -431,98 +626,6 @@ class DecisionMakingBridge:
         Returns:
             The decision outcome with full rationale
         """
-        try:
-            decision_start = datetime.now(timezone.utc)
-
-            # Validate inputs
-            self._validate_decision_inputs(context, alternatives)
-
-            # Check if decision is already in progress
-            if context.decision_id in self.active_decisions:
-                self.logger.warning("Decision already in progress", decision_id=context.decision_id)
-                return self.active_decisions[context.decision_id]
-
-            # Mark decision as active
-            self.active_decisions[context.decision_id] = None
-
-            self.logger.info(
-                "Starting decision process",
-                decision_id=context.decision_id,
-                decision_type=context.decision_type.value,
-                alternatives_count=len(alternatives),
-            )
-
-            # Select decision strategy
-            strategy = self._select_strategy(context, strategy_name)
-
-            # Enhance alternatives with integrated analysis
-            enhanced_alternatives = await self._enhance_alternatives(context, alternatives)
-
-            # Evaluate alternatives using the selected strategy
-            evaluations = strategy.evaluate_alternatives(context, enhanced_alternatives)
-
-            # Apply ethical filtering if ethical governor is available
-            if self.ethical_governor:
-                evaluations = await self._apply_ethical_filtering(context, evaluations)
-
-            # Apply energy constraints if energy planner is available
-            if self.energy_planner:
-                evaluations = await self._apply_energy_constraints(context, evaluations)
-
-            # Select the best alternative
-            selected_id, confidence_score = strategy.select_best_alternative(evaluations)
-            selected_evaluation = next(e for e in evaluations if e.alternative_id == selected_id)
-
-            # Generate implementation plan
-            implementation_timeline = self._generate_implementation_timeline(
-                context, selected_evaluation, enhanced_alternatives
-            )
-
-            # Create monitoring and rollback plans
-            monitoring_plan = self._create_monitoring_plan(context, selected_evaluation)
-            rollback_plan = self._create_rollback_plan(context, selected_evaluation)
-
-            # Build rationale
-            rationale = self._build_decision_rationale(context, selected_evaluation, evaluations)
-
-            # Create decision outcome
-            outcome = DecisionOutcome(
-                decision_id=context.decision_id,
-                selected_alternative=selected_id,
-                rationale=rationale,
-                confidence=selected_evaluation.confidence,
-                evaluation_summary=self._create_evaluation_summary(evaluations),
-                implementation_timeline=implementation_timeline,
-                monitoring_plan=monitoring_plan,
-                rollback_plan=rollback_plan,
-            )
-
-            # Store decision outcome
-            self.decision_history.append(outcome)
-            self.active_decisions[context.decision_id] = outcome
-
-            # Track for learning
-            if self.config.get("learning_enabled", False):
-                self._track_decision_for_learning(context, outcome, evaluations)
-
-            decision_duration = (datetime.now(timezone.utc) - decision_start).total_seconds()
-
-            self.logger.info(
-                "Decision process completed",
-                decision_id=context.decision_id,
-                selected_alternative=selected_id,
-                confidence=outcome.confidence.name,
-                duration_seconds=decision_duration,
-            )
-
-            return outcome
-
-        except Exception as e:
-            self.logger.error("Decision process failed", decision_id=context.decision_id, error=str(e))
-            # Clean up active decision
-            if context.decision_id in self.active_decisions:
-                del self.active_decisions[context.decision_id]
-            raise
         finally:
             # Clean up active decision if completed
             # SYNTAX_ERROR_FIXED:             if context.decision_id in
@@ -532,33 +635,6 @@ class DecisionMakingBridge:
 
     def get_decision_status(self, decision_id: str) -> dict[str, Any]:
         """Get the status of a decision proces"""
-        try:
-            # Check active decisions
-            if decision_id in self.active_decisions:
-                if self.active_decisions[decision_id] is None:
-                    return {"status": "in_progress", "decision_id": decision_id}
-                else:
-                    return {
-                        "status": "completed",
-                        "decision_id": decision_id,
-                        "outcome": self.active_decisions[decision_id],
-                    }
-
-            # Check decision history
-            for outcome in self.decision_history:
-                if outcome.decision_id == decision_id:
-                    return {
-                        "status": "completed",
-                        "decision_id": decision_id,
-                        "outcome": outcome,
-                    }
-
-            return {"status": "not_found", "decision_id": decision_id}
-
-        except Exception as e:
-            self.logger.error("Failed to get decision status", decision_id=decision_id, error=str(e))
-            return {"status": "error", "error": str(e)}
-
     def register_decision_strategy(self, name: str, strategy: DecisionStrategy) -> None:
         """Register a new decision-making strategy"""
         self.strategies[name] = strategy
@@ -571,83 +647,8 @@ class DecisionMakingBridge:
         Returns:
             Analysis results with patterns and recommendations
         """
-        try:
-            if not self.decision_history:
-                return {"message": "No decision history available"}
-
-            # Analyze decision types
-            type_distribution = {}
-            for _outcome in self.decision_history:
-                # Would need to store decision type in outcome for full analysis
-                type_distribution["unknown"] = type_distribution.get("unknown", 0) + 1
-
-            # Analyze confidence patterns
-            confidences = [outcome.confidence.value for outcome in self.decision_history]
-            avg_confidence = np.mean(confidences)
-            confidence_trend = self._calculate_confidence_trend(confidences)
-
-            # Analyze timing patterns
-            decision_times = [outcome.decided_at for outcome in self.decision_history]
-            time_analysis = self._analyze_decision_timing(decision_times)
-
-            # Generate insights
-            insights = []
-            if avg_confidence < self.config["confidence_threshold"]:
-                insights.append("Average decision confidence is below threshold")
-
-            if confidence_trend < 0:
-                insights.append("Decision confidence is trending downward")
-
-            analysis = {
-                "total_decisions": len(self.decision_history),
-                "type_distribution": type_distribution,
-                "average_confidence": avg_confidence,
-                "confidence_trend": confidence_trend,
-                "timing_analysis": time_analysis,
-                "insights": insights,
-                "analysis_timestamp": datetime.now(timezone.utc).isoformat(),
-            }
-
-            return analysis
-
-        except Exception as e:
-            self.logger.error("Decision pattern analysis failed", error=str(e))
-            return {"error": str(e)}
-
     def get_decision_metrics(self) -> dict[str, Any]:
         """Get comprehensive decision-making metric"""
-        try:
-            metrics = {
-                "total_decisions": len(self.decision_history),
-                "active_decisions": len(self.active_decisions),
-                "available_strategies": list(self.strategies.keys()),
-                "integration_status": {
-                    "neuro_symbolic": bool(self.neuro_symbolic_layer),
-                    "energy_planner": bool(self.energy_planner),
-                    "ethical_governor": bool(self.ethical_governor),
-                    "symbolic_engine": bool(self.symbolic_engine),
-                },
-                "performance_metrics": self.performance_metrics,
-                "last_updated": datetime.now(timezone.utc).isoformat(),
-            }
-
-            if self.decision_history:
-                recent_decisions = self.decision_history[-10:]  # Last 10 decisions
-                metrics["recent_performance"] = {
-                    "average_confidence": np.mean([d.confidence.value for d in recent_decisions]),
-                    "decision_frequency": len(recent_decisions)
-                    / max(
-                        1,
-                        (datetime.now(timezone.utc) - recent_decisions[0].decided_at).days,
-                    ),
-                }
-
-            return metrics
-
-        except Exception as e:
-            self.logger.error("Failed to generate decision metrics", error=str(e))
-            return {"error": str(e)}
-
     # Internal helper methods
 
     def _validate_decision_inputs(self, context: DecisionContext, alternatives: list[DecisionAlternative]) -> None:
@@ -914,12 +915,6 @@ def create_dmb_instance(config_path: Optional[str] = None) -> DecisionMakingBrid
     """
     config = None
     if config_path:
-        try:
-            with open(config_path) as f:
-                config = json.load(f)
-        except Exception as e:
-            logger.warning(f"Failed to load config from {config_path}: {e}")
-
     return DecisionMakingBridge(config)
 
 

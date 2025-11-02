@@ -1,6 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -26,6 +23,8 @@ logger = logging.getLogger(__name__)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+import logging
+
 import asyncio
 import json
 import logging
@@ -42,7 +41,6 @@ from core.common import get_logger
 try:  # Optional dependency for distributed comms; keep import-safe during tests
     from .p2p_communication import P2PNode  # type: ignore
 except Exception:  # pragma: no cover
-    class P2PNode:  # minimal stub for import-time safety
         pass
 
 # Import mailbox components if available
@@ -51,9 +49,95 @@ try:
 
     ENHANCED_MAILBOX_AVAILABLE = True
 except ImportError:
-    ENHANCED_MAILBOX_AVAILABLE = False
 
 # Set up logging
+        try:
+            # Send message with reply_to
+            await self.tell(message_type, payload, correlation_id, response_id, sender=self.actor_id)
+
+            # Wait for response
+            result = await asyncio.wait_for(response_future, timeout)
+            if isinstance(result, dict) and "error" in result:
+                raise RuntimeError(result["error"])
+            if isinstance(result, Exception):
+                raise result
+            return result
+        except asyncio.TimeoutError:
+            raise
+        try:
+            await self.pre_start()
+            self.state = ActorState.RUNNING
+            self._running = True
+
+            # Start message processing loop
+            asyncio.create_task(self._message_loop())
+
+            logger.info(f"Actor {self.actor_id} started successfully")
+        except Exception as e:
+            logger.error(f"Failed to start actor {self.actor_id}: {e}")
+            raise
+
+        try:
+            # Stop all children first
+            for child_ref in list(self.children.values()):
+                await child_ref.actor_system.stop_actor(child_ref.actor_id)
+
+            await self.pre_stop()
+            self.state = ActorState.STOPPED
+
+            logger.info(f"Actor {self.actor_id} stopped successfully")
+        except Exception as e:
+            self.state = ActorState.FAILED
+
+            try:
+                # Get message from mailbox
+                if ENHANCED_MAILBOX_AVAILABLE and hasattr(self.mailbox, "get"):
+                    # Enhanced mailbox with built-in timeout handling
+                    message = await asyncio.wait_for(self.mailbox.get(), timeout=1.0)
+                else:
+                    # Standard asyncio queue
+                    message = await asyncio.wait_for(self.mailbox.get(), timeout=1.0)
+
+                # Process message sequentially - this is the key guarantee
+                # Only one message is processed at a time, ensuring no race conditions
+                await self._process_message(message)
+                self._stats["messages_processed"] += 1
+                self._stats["last_activity"] = time.time()
+
+            except asyncio.TimeoutError:
+                continue
+        try:
+            # Check if we have a handler for this message type
+            if message.message_type in self.message_handlers:
+                handler = self.message_handlers[message.message_type]
+                response = await handler(message)
+
+                # Send response if requested
+                if message.reply_to and response is not None:
+                    await self._send_response(message.reply_to, response)
+            else:
+                await self.unhandled_message(message)
+
+        except Exception as e:
+            # Send error response if expected
+            if message.reply_to:
+                await self._send_response(message.reply_to, e)
+            raise
+
+        try:
+            # Handle enhanced mailbox
+            if ENHANCED_MAILBOX_AVAILABLE and hasattr(self.mailbox, "put"):
+                return await self.mailbox.put(message)
+            # Handle standard asyncio queue
+            else:
+                await self.mailbox.put(message)
+                return True
+        except asyncio.QueueFull:
+            return False
+
+
+logger = logging.getLogger(__name__)
+
 logging.basicConfig(level=logging.INFO)
 logger = get_logger(__name__)
 
@@ -137,20 +221,6 @@ class ActorRef:
         # Register response handler
         self.actor_system.register_response_handler(response_id, response_future)
 
-        try:
-            # Send message with reply_to
-            await self.tell(message_type, payload, correlation_id, response_id, sender=self.actor_id)
-
-            # Wait for response
-            result = await asyncio.wait_for(response_future, timeout)
-            if isinstance(result, dict) and "error" in result:
-                raise RuntimeError(result["error"])
-            if isinstance(result, Exception):
-                raise result
-            return result
-        except asyncio.TimeoutError:
-            self.actor_system.unregister_response_handler(response_id)
-            raise
         finally:
             self.actor_system.unregister_response_handler(response_id)
 
@@ -205,59 +275,14 @@ class Actor(ABC):
         self.actor_system = actor_system
         self.state = ActorState.STARTING
 
-        try:
-            await self.pre_start()
-            self.state = ActorState.RUNNING
-            self._running = True
-
-            # Start message processing loop
-            asyncio.create_task(self._message_loop())
-
-            logger.info(f"Actor {self.actor_id} started successfully")
-        except Exception as e:
-            self.state = ActorState.FAILED
-            logger.error(f"Failed to start actor {self.actor_id}: {e}")
-            raise
-
     async def stop(self):
         """Stop the actor gracefully"""
         self.state = ActorState.STOPPING
         self._running = False
 
-        try:
-            # Stop all children first
-            for child_ref in list(self.children.values()):
-                await child_ref.actor_system.stop_actor(child_ref.actor_id)
-
-            await self.pre_stop()
-            self.state = ActorState.STOPPED
-
-            logger.info(f"Actor {self.actor_id} stopped successfully")
-        except Exception as e:
-            logger.error(f"Error stopping actor {self.actor_id}: {e}")
-            self.state = ActorState.FAILED
-
     async def _message_loop(self):
         """Main message processing loop - guarantees sequential processing"""
         while self._running:
-            try:
-                # Get message from mailbox
-                if ENHANCED_MAILBOX_AVAILABLE and hasattr(self.mailbox, "get"):
-                    # Enhanced mailbox with built-in timeout handling
-                    message = await asyncio.wait_for(self.mailbox.get(), timeout=1.0)
-                else:
-                    # Standard asyncio queue
-                    message = await asyncio.wait_for(self.mailbox.get(), timeout=1.0)
-
-                # Process message sequentially - this is the key guarantee
-                # Only one message is processed at a time, ensuring no race conditions
-                await self._process_message(message)
-                self._stats["messages_processed"] += 1
-                self._stats["last_activity"] = time.time()
-
-            except asyncio.TimeoutError:
-                # No message received, continue
-                continue
             except Exception as e:
                 self._stats["messages_failed"] += 1
                 logger.error(f"Actor {self.actor_id} message processing error: {e}")
@@ -272,25 +297,6 @@ class Actor(ABC):
 
     async def _process_message(self, message: ActorMessage):
         """Process a single message"""
-        try:
-            # Check if we have a handler for this message type
-            if message.message_type in self.message_handlers:
-                handler = self.message_handlers[message.message_type]
-                response = await handler(message)
-
-                # Send response if requested
-                if message.reply_to and response is not None:
-                    await self._send_response(message.reply_to, response)
-            else:
-                await self.unhandled_message(message)
-
-        except Exception as e:
-            logger.error(f"Handler error in {self.actor_id}: {e}")
-            # Send error response if expected
-            if message.reply_to:
-                await self._send_response(message.reply_to, e)
-            raise
-
     async def _send_response(self, reply_to: str, response: Any):
         """Send a response back to the sender"""
         if self.actor_system:
@@ -310,18 +316,6 @@ class Actor(ABC):
 
     async def send_message(self, message: ActorMessage) -> bool:
         """Add message to mailbox"""
-        try:
-            # Handle enhanced mailbox
-            if ENHANCED_MAILBOX_AVAILABLE and hasattr(self.mailbox, "put"):
-                return await self.mailbox.put(message)
-            # Handle standard asyncio queue
-            else:
-                await self.mailbox.put(message)
-                return True
-        except asyncio.QueueFull:
-            logger.warning(f"Mailbox full for actor {self.actor_id}")
-            return False
-
     async def create_child(self, child_class: type, child_id: str, *args, **kwargs) -> ActorRef:
         """Create a child actor"""
         if not self.actor_system:

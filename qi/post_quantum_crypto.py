@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
-
 """
 ██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
 ██║     ██║   ██║██║ ██╔╝██║  ██║██╔══██╗██╔════╝
@@ -28,20 +24,20 @@ In the grand design of artificial general intelligence, the Post-Quantum Cryptog
 
 """
 
-__module_name__ = "Post-Quantum Cryptography"
-__version__ = "2.0.0"
-__tier__ = 4
-
-
+import logging
 from enum import Enum
 from typing import Any, Optional
-
 from code_crypto import Classic_McEliece
 from hash_crypto import SPHINCS_Plus
 from lattice_crypto import CRYSTALS_Dilithium, CRYSTALS_Kyber
 from qi_timestamp import QIVerifiableTimestamp
 from zkp_crypto import IdentityProof, ZKProof
 
+__module_name__ = "Post-Quantum Cryptography"
+__version__ = "2.0.0"
+__tier__ = 4
+
+logger = logging.getLogger(__name__)
 
 class SecurityLevel(Enum):
     """Explicit security levels mapping to NIST categories"""

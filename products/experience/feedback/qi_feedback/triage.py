@@ -38,7 +38,7 @@ class FeedbackTriage:
 
             try:
                 ts = datetime.fromisoformat(ts_str.replace("Z", ""))
-            except:
+            except Exception as e:
                 ts = datetime.now(timezone.utc)
 
             if key in seen:

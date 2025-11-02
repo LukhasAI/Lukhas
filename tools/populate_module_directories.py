@@ -240,7 +240,8 @@ class ModuleDirectoryPopulator:
             ]
 
             return any(indicator in content for indicator in placeholder_indicators)
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             return False
 
     def _generate_module_config(self, module_name: str, manifest: Dict) -> Dict:

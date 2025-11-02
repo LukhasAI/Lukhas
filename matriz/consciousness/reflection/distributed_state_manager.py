@@ -1,9 +1,3 @@
-from __future__ import annotations
-
-import logging
-from datetime import timezone
-
-#!/usr/bin/env python3
 """
 
 #TAG:consciousness
@@ -52,6 +46,10 @@ from datetime import timezone
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+from __future__ import annotations
+import logging
+from datetime import timezone
+
 import hashlib
 import json
 import threading
@@ -67,6 +65,26 @@ from core.common import get_logger
 from core.event_sourcing import Event, EventStore, get_global_event_store
 
 # Set up logging
+            try:
+                time.sleep(60)  # Run every minute
+                self._cleanup_expired_entries()
+            except Exception as e:
+
+            try:
+                time.sleep(300)  # Check every 5 minutes
+                if (
+                    self.event_counter - self.last_snapshot_version
+                    >= self.snapshot_interval
+                ):
+                    self._create_snapshot()
+            except Exception as e:
+
+            try:
+                time.sleep(600)  # Analyze every 10 minutes
+                self._optimize_state_types()
+            except Exception as e:
+
+
 logging.basicConfig(level=logging.INFO)
 logger = get_logger(__name__)
 
@@ -202,12 +220,6 @@ class DistributedStateManager:
     def _ttl_cleanup_loop(self):
         """Background task to clean up expired entries"""
         while self._running:
-            try:
-                time.sleep(60)  # Run every minute
-                self._cleanup_expired_entries()
-            except Exception as e:
-                logger.error(f"Error in TTL cleanup: {e}")
-
     def _cleanup_expired_entries(self):
         """Remove expired entries from memory"""
         total_evicted = 0
@@ -230,25 +242,9 @@ class DistributedStateManager:
     def _snapshot_loop(self):
         """Background task to create periodic snapshots"""
         while self._running:
-            try:
-                time.sleep(300)  # Check every 5 minutes
-                if (
-                    self.event_counter - self.last_snapshot_version
-                    >= self.snapshot_interval
-                ):
-                    self._create_snapshot()
-            except Exception as e:
-                logger.error(f"Error in snapshot creation: {e}")
-
     def _analyze_access_patterns(self):
         """Analyze access patterns and optimize state types"""
         while self._running:
-            try:
-                time.sleep(600)  # Analyze every 10 minutes
-                self._optimize_state_types()
-            except Exception as e:
-                logger.error(f"Error in access pattern analysis: {e}")
-
     def _optimize_state_types(self):
         """Optimize state types based on access patterns"""
         current_time = time.time()

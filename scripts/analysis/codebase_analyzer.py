@@ -59,7 +59,8 @@ class CodebaseAnalyzer:
         try:
             with open(file_path, encoding="utf-8") as f:
                 return len(f.readlines())
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             return 0
 
     def _analyze_naming_patterns(self):
@@ -226,7 +227,7 @@ class CodebaseAnalyzer:
                                             "reason": f"Likely broken import: {issue}",
                                         }
                                     )
-            except:
+            except Exception as e:
                 continue
 
     def _analyze_duplicates(self):
@@ -281,7 +282,7 @@ class CodebaseAnalyzer:
                                 "reason": "Contains stub indicators",
                             }
                         )
-                except:
+                except Exception as e:
                     continue
 
     def _find_documentation_in_code(self):

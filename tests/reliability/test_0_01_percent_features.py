@@ -83,7 +83,8 @@ class TestAdaptiveCircuitBreaker:
         for _ in range(10):
             try:
                 await circuit_breaker.call(lambda: exec('raise ValueError("failure")'))
-            except:
+            except Exception as e:
+                logger.debug(f"Expected optional failure: {e}")
                 pass
 
         # Circuit should now be open and fail fast

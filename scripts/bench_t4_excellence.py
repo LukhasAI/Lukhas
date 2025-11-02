@@ -357,7 +357,8 @@ class PowerThermalTelemetry:
                         if freqs:
                             reading['cpu_freq_per_core'] = freqs
                             reading['cpu_freq_variance'] = max(freqs) - min(freqs)
-                except:
+                except Exception as e:
+                    logger.debug(f"Expected optional failure: {e}")
                     pass
 
             # CPU temperature (if available)
@@ -375,7 +376,7 @@ class PowerThermalTelemetry:
                         reading['cpu_temp_c'] = sum(cpu_temps) / len(cpu_temps)
                         reading['cpu_temp_max'] = max(cpu_temps)
                         reading['cpu_temp_cores'] = cpu_temps
-            except:
+            except Exception as e:
                 reading['cpu_temp_c'] = None
 
             # Power consumption (Linux only)
@@ -393,7 +394,8 @@ class PowerThermalTelemetry:
                                 power_uw = int(f.read().strip())
                                 reading['battery_power_w'] = power_uw / 1000000  # Convert μW to W
                             break
-                except:
+                except Exception as e:
+                    logger.debug(f"Expected optional failure: {e}")
                     pass
 
             # CPU load averages
@@ -918,7 +920,7 @@ class T4ExcellenceValidator:
                 if '==' in line:
                     name, version = line.split('==')
                     deps[name] = version
-        except:
+        except Exception as e:
             deps = {"error": "Could not capture dependencies"}
 
         return {

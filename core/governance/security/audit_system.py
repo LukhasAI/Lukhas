@@ -1,9 +1,3 @@
-from __future__ import annotations
-
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 Comprehensive Audit System for LUKHAS AI
 
@@ -31,6 +25,10 @@ Features:
 #TAG:constellation
 """
 
+from __future__ import annotations
+import logging
+from datetime import timezone
+
 import asyncio
 import hashlib
 import json
@@ -42,6 +40,186 @@ from enum import Enum
 from typing import Any, Optional
 
 from core.common import get_logger
+
+        try:
+            # Determine storage location based on retention policy
+            storage_dir = os.path.join(self.base_path, event.retention_policy.value)
+
+            # Create filename based on date and event type
+            date_str = event.timestamp.strftime("%Y%m%d")
+            filename = f"audit_{date_str}_{event.category.value}.jsonl"
+            filepath = os.path.join(storage_dir, filename)
+
+            # Prepare event data
+            event_json = json.dumps(asdict(event), default=str)
+
+            # Append to file (create if doesn't exist)
+            with open(filepath, "a", encoding="utf-8") as f:
+                f.write(event_json + "\n")
+
+            return True
+
+        except Exception as e:
+            return False
+
+            try:
+                storage_dir = os.path.join(self.base_path, retention)
+                filename = f"audit_{date_str}_{category}.jsonl"
+                filepath = os.path.join(storage_dir, filename)
+
+                with open(filepath, "a", encoding="utf-8") as f:
+                    for event in event_group:
+                        # Custom serialization to handle enums properly
+                        event_dict = asdict(event)
+                        # Convert enums to their values for proper JSON serialization
+                        for key, value in event_dict.items():
+                            if hasattr(value, "value"):  # Is an Enum
+                                event_dict[key] = value.value
+
+                        event_json = json.dumps(event_dict, default=str)
+                        f.write(event_json + "\n")
+                        stored_count += 1
+
+            except Exception as e:
+
+        try:
+            # This is a simplified implementation
+            # In production, would use proper indexing and search
+
+            # Scan relevant files based on time range
+            for retention in RetentionPolicy:
+                retention_dir = os.path.join(self.base_path, retention.value)
+
+                if not os.path.exists(retention_dir):
+                    continue
+
+                for filename in os.listdir(retention_dir):
+                    if not filename.startswith("audit_") or not filename.endswith(".jsonl"):
+                        continue
+
+                    filepath = os.path.join(retention_dir, filename)
+
+                    try:
+                        with open(filepath, encoding="utf-8") as f:
+                            for line in f:
+                                if not line.strip():
+                                    continue
+
+                                event_data = json.loads(line)
+                                event = self._reconstruct_event(event_data)
+
+                                if self._matches_query(event, query):
+                                    events.append(event)
+
+                                # Apply limit
+                                if len(events) >= query.limit:
+                                    break
+
+                    except Exception as e:
+                        continue
+
+                    if len(events) >= query.limit:
+                        break
+
+        try:
+            # Update statistics
+            await self._update_statistics(event)
+
+            # Check alert rules
+            alerts = await self._check_alert_rules(event)
+            processing_result["alerts"] = alerts
+
+            # Detect patterns
+            patterns = await self._detect_patterns(event)
+            processing_result["patterns"] = patterns
+
+            # Generate recommendations
+            recommendations = await self._generate_recommendations(event)
+            processing_result["recommendations"] = recommendations
+
+            # Take automated actions
+            actions = await self._take_automated_actions(event, alerts, patterns)
+            processing_result["actions_taken"] = actions
+
+            return processing_result
+
+        except Exception as e:
+            processing_result["error"] = str(e)
+            return processing_result
+
+        try:
+            processing_result = await self.processor.process_event(event)
+
+            # Handle critical alerts immediately
+            for alert in processing_result.get("alerts", []):
+                if alert.get("severity") == "high":
+                    await self._handle_critical_alert(event, alert)
+
+        except Exception as e:
+
+        try:
+            # Store events in batch
+            stored_count = await self.storage.store_events_batch(self.event_buffer.copy())
+
+            if stored_count == len(self.event_buffer):
+                logger.debug(f"✅ Flushed {stored_count} audit events to storage")
+                self.event_buffer.clear()
+            else:
+                logger.warning(f"⚠️ Only stored {stored_count}/{len(self.event_buffer)} events")
+
+        except Exception as e:
+
+            try:
+                await asyncio.sleep(self.flush_interval)
+                await self._flush_buffer()
+
+            except Exception as e:
+                await asyncio.sleep(10)  # Short delay before retry
+
+            try:
+                # Run retention cleanup daily
+                await asyncio.sleep(24 * 3600)  # 24 hours
+                await self._cleanup_old_events()
+
+            except Exception as e:
+                await asyncio.sleep(3600)  # 1 hour delay before retry
+
+        try:
+            # Check recent events in buffer
+            for event in self.event_buffer:
+                verification_result["total_events_checked"] += 1
+
+                if not event.verify_integrity():
+                    verification_result["integrity_violations"] += 1
+                    verification_result["corrupt_events"].append(event.event_id)
+                    verification_result["overall_integrity"] = False
+
+            # Also check recently stored events
+            recent_query = AuditQuery(
+                start_time=datetime.now(timezone.utc) - timedelta(hours=24),
+                end_time=datetime.now(timezone.utc),
+                limit=1000,
+            )
+            stored_events = await self.storage.query_events(recent_query)
+
+            for event in stored_events:
+                verification_result["total_events_checked"] += 1
+
+                if not event.verify_integrity():
+                    verification_result["integrity_violations"] += 1
+                    verification_result["corrupt_events"].append(event.event_id)
+                    verification_result["overall_integrity"] = False
+
+            logger.info(
+                f"✅ Audit integrity verification completed: {verification_result['total_events_checked']} events checked"
+            )
+
+        except Exception as e:
+            verification_result["error"] = str(e)
+            verification_result["overall_integrity"] = False
+
+
+logger = logging.getLogger(__name__)
 
 logger = get_logger(__name__)
 
@@ -321,28 +499,6 @@ class AuditStorage:
 
     async def store_event(self, event: AuditEvent) -> bool:
         """Store audit event to persistent storage"""
-        try:
-            # Determine storage location based on retention policy
-            storage_dir = os.path.join(self.base_path, event.retention_policy.value)
-
-            # Create filename based on date and event type
-            date_str = event.timestamp.strftime("%Y%m%d")
-            filename = f"audit_{date_str}_{event.category.value}.jsonl"
-            filepath = os.path.join(storage_dir, filename)
-
-            # Prepare event data
-            event_json = json.dumps(asdict(event), default=str)
-
-            # Append to file (create if doesn't exist)
-            with open(filepath, "a", encoding="utf-8") as f:
-                f.write(event_json + "\n")
-
-            return True
-
-        except Exception as e:
-            logger.error(f"Failed to store audit event {event.event_id}: {e}")
-            return False
-
     async def store_events_batch(self, events: list[AuditEvent]) -> int:
         """Store multiple events in batch"""
         stored_count = 0
@@ -363,72 +519,11 @@ class AuditStorage:
 
         # Store each group
         for (retention, date_str, category), event_group in grouped_events.items():
-            try:
-                storage_dir = os.path.join(self.base_path, retention)
-                filename = f"audit_{date_str}_{category}.jsonl"
-                filepath = os.path.join(storage_dir, filename)
-
-                with open(filepath, "a", encoding="utf-8") as f:
-                    for event in event_group:
-                        # Custom serialization to handle enums properly
-                        event_dict = asdict(event)
-                        # Convert enums to their values for proper JSON serialization
-                        for key, value in event_dict.items():
-                            if hasattr(value, "value"):  # Is an Enum
-                                event_dict[key] = value.value
-
-                        event_json = json.dumps(event_dict, default=str)
-                        f.write(event_json + "\n")
-                        stored_count += 1
-
-            except Exception as e:
-                logger.error(f"Failed to store event batch for {retention}/{category}: {e}")
-
         return stored_count
 
     async def query_events(self, query: AuditQuery) -> list[AuditEvent]:
         """Query events from storage"""
         events = []
-
-        try:
-            # This is a simplified implementation
-            # In production, would use proper indexing and search
-
-            # Scan relevant files based on time range
-            for retention in RetentionPolicy:
-                retention_dir = os.path.join(self.base_path, retention.value)
-
-                if not os.path.exists(retention_dir):
-                    continue
-
-                for filename in os.listdir(retention_dir):
-                    if not filename.startswith("audit_") or not filename.endswith(".jsonl"):
-                        continue
-
-                    filepath = os.path.join(retention_dir, filename)
-
-                    try:
-                        with open(filepath, encoding="utf-8") as f:
-                            for line in f:
-                                if not line.strip():
-                                    continue
-
-                                event_data = json.loads(line)
-                                event = self._reconstruct_event(event_data)
-
-                                if self._matches_query(event, query):
-                                    events.append(event)
-
-                                # Apply limit
-                                if len(events) >= query.limit:
-                                    break
-
-                    except Exception as e:
-                        logger.warning(f"Error reading audit file {filepath}: {e}")
-                        continue
-
-                    if len(events) >= query.limit:
-                        break
 
         except Exception as e:
             logger.error(f"Error querying audit events: {e}")
@@ -529,33 +624,6 @@ class AuditEventProcessor:
             "recommendations": [],
             "actions_taken": [],
         }
-
-        try:
-            # Update statistics
-            await self._update_statistics(event)
-
-            # Check alert rules
-            alerts = await self._check_alert_rules(event)
-            processing_result["alerts"] = alerts
-
-            # Detect patterns
-            patterns = await self._detect_patterns(event)
-            processing_result["patterns"] = patterns
-
-            # Generate recommendations
-            recommendations = await self._generate_recommendations(event)
-            processing_result["recommendations"] = recommendations
-
-            # Take automated actions
-            actions = await self._take_automated_actions(event, alerts, patterns)
-            processing_result["actions_taken"] = actions
-
-            return processing_result
-
-        except Exception as e:
-            logger.error(f"Error processing audit event {event.event_id}: {e}")
-            processing_result["error"] = str(e)
-            return processing_result
 
     async def _update_statistics(self, event: AuditEvent):
         """Update audit statistics with new event"""
@@ -844,17 +912,6 @@ class ComprehensiveAuditSystem:
         self.event_buffer.append(event)
 
         # Process event in real-time
-        try:
-            processing_result = await self.processor.process_event(event)
-
-            # Handle critical alerts immediately
-            for alert in processing_result.get("alerts", []):
-                if alert.get("severity") == "high":
-                    await self._handle_critical_alert(event, alert)
-
-        except Exception as e:
-            logger.error(f"Error processing audit event {event_id}: {e}")
-
         # Flush buffer if full
         if len(self.event_buffer) >= self.buffer_size:
             await self._flush_buffer()
@@ -879,44 +936,14 @@ class ComprehensiveAuditSystem:
         if not self.event_buffer:
             return
 
-        try:
-            # Store events in batch
-            stored_count = await self.storage.store_events_batch(self.event_buffer.copy())
-
-            if stored_count == len(self.event_buffer):
-                logger.debug(f"✅ Flushed {stored_count} audit events to storage")
-                self.event_buffer.clear()
-            else:
-                logger.warning(f"⚠️ Only stored {stored_count}/{len(self.event_buffer)} events")
-
-        except Exception as e:
-            logger.error(f"❌ Failed to flush audit buffer: {e}")
-
     async def _buffer_flush_task(self):
         """Background task to periodically flush buffer"""
 
         while True:
-            try:
-                await asyncio.sleep(self.flush_interval)
-                await self._flush_buffer()
-
-            except Exception as e:
-                logger.error(f"Buffer flush task error: {e}")
-                await asyncio.sleep(10)  # Short delay before retry
-
     async def _retention_cleanup_task(self):
         """Background task to clean up old audit data"""
 
         while True:
-            try:
-                # Run retention cleanup daily
-                await asyncio.sleep(24 * 3600)  # 24 hours
-                await self._cleanup_old_events()
-
-            except Exception as e:
-                logger.error(f"Retention cleanup task error: {e}")
-                await asyncio.sleep(3600)  # 1 hour delay before retry
-
     async def _cleanup_old_events(self):
         """Clean up old audit events based on retention policies"""
 
@@ -976,41 +1003,6 @@ class ComprehensiveAuditSystem:
             "corrupt_events": [],
             "overall_integrity": True,
         }
-
-        try:
-            # Check recent events in buffer
-            for event in self.event_buffer:
-                verification_result["total_events_checked"] += 1
-
-                if not event.verify_integrity():
-                    verification_result["integrity_violations"] += 1
-                    verification_result["corrupt_events"].append(event.event_id)
-                    verification_result["overall_integrity"] = False
-
-            # Also check recently stored events
-            recent_query = AuditQuery(
-                start_time=datetime.now(timezone.utc) - timedelta(hours=24),
-                end_time=datetime.now(timezone.utc),
-                limit=1000,
-            )
-            stored_events = await self.storage.query_events(recent_query)
-
-            for event in stored_events:
-                verification_result["total_events_checked"] += 1
-
-                if not event.verify_integrity():
-                    verification_result["integrity_violations"] += 1
-                    verification_result["corrupt_events"].append(event.event_id)
-                    verification_result["overall_integrity"] = False
-
-            logger.info(
-                f"✅ Audit integrity verification completed: {verification_result['total_events_checked']} events checked"
-            )
-
-        except Exception as e:
-            logger.error(f"❌ Audit integrity verification failed: {e}")
-            verification_result["error"] = str(e)
-            verification_result["overall_integrity"] = False
 
         return verification_result
 

@@ -1,19 +1,3 @@
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
-# ═══════════════════════════════════════════════════════════════════════════
-# FILENAME: reflection_layer.py
-# MODULE: core.Adaptative_AGI.GUARDIAN.reflection_layer
-# DESCRIPTION: Implements the Symbolic Conscience Layer (ReflectionLayer) for LUKHAS Cognitive AI,
-#              responsible for introspection, ethical contemplation, future modeling,
-#              and generating reflective statements with quantum signatures.
-# DEPENDENCIES: json, os, time, structlog, asyncio, datetime, typing,
-#               dataclasses, enum, hashlib, random, pathlib, and potentially other
-#               LUKHAS core infrastructure modules (with fallbacks).
-# LICENSE: PROPRIETARY - LUKHAS AI SYSTEMS - UNAUTHORIZED ACCESS PROHIBITED
-# ═══════════════════════════════════════════════════════════════════════════
-
 """
 
 #TAG:consciousness
@@ -46,6 +30,9 @@ logger = logging.getLogger(__name__)
 └───────────────────────────────────────────────────────────────┘
 """
 
+import logging
+from datetime import timezone
+
 import asyncio
 import hashlib
 import json
@@ -65,27 +52,13 @@ try:
 
     DREAM_DELIVERY_AVAILABLE = True
 except ImportError:
-    DREAM_DELIVERY_AVAILABLE = False
 
 try:
     from dream.engine.dream_engine import DreamEngine
 
     DREAM_ENGINE_BASIC_AVAILABLE = True
 except ImportError:
-    DREAM_ENGINE_BASIC_AVAILABLE = False
 
-DREAM_ENGINE_AVAILABLE = DREAM_DELIVERY_AVAILABLE or DREAM_ENGINE_BASIC_AVAILABLE
-
-# Initialize logger for ΛTRACE using structlog
-# This will be configured by a higher-level __init__.py or by this script
-# if run standalone.
-
-
-# Core LUKHAS Infrastructure Imports
-# AIMPORT_TODO: This block uses deep relative imports (e.g., `...spine`, timezone) which can be fragile and indicate overly complex coupling or a need for better packaging of shared LUKHAS infrastructure components. Consider refactoring these into a more clearly defined shared library or service interface layer.
-# ΛNOTE: Fallbacks are not provided for these core infrastructure imports.
-# If they fail, the ReflectionLayer might not be fully functional or might
-# raise further errors during operation.
 try:
     pass
 
@@ -104,7 +77,6 @@ try:
     # implement INTENT
     logger.info("Successfully imported LUKHAS core infrastructure components for ReflectionLayer.")
 except ImportError as e:
-    logger.warning(
         "LUKHAS infrastructure import failed. Some features may be limited or non-functional.: error=%s",
         str(e)
     )
@@ -117,14 +89,11 @@ except ImportError as e:
     replay_dream_by_id = None
     # etc. for all imported names
 
-# Guardian System Integration
-# AIMPORT_TODO: Similar to above, ensure '.remediator_agent' is robustly available.
 try:
     from .remediator_agent import SeverityLevel
 
     logger.info("Successfully imported Guardian system components (RemediatorAgent).")
 except ImportError as e:
-    logger.warning(
         "Guardian system import (RemediatorAgent) failed. Using placeholder.: error=%s",
         str(e)
     )
@@ -138,6 +107,522 @@ except ImportError as e:
         EMERGENCY = 4
 
 
+        try:
+            with open(manifest_path) as f:
+                manifest = json.load(f)
+                self.logger.info(
+                    "📜 Governance manifest loaded for reflection layer",
+                    manifest_path=str(manifest_path),
+                )
+                return manifest
+        except Exception as e:
+                "Failed to load manifest, using default configuration.",
+                manifest_path=str(manifest_path),
+                error=str(e),
+            )
+            # ΛCAUTION: Manifest loading failed. ReflectionLayer will operate with
+            # potentially unsafe default parameters.
+            return {
+                "reflection_layer": {
+                    "max_reflections_per_hour": 20,
+                    "voice_alerts_enabled": True,
+                    "dream_trigger_threshold": 0.7,
+                    "symbolic_depth": "moderate",
+                }
+            }
+
+        try:
+            # Initialize actual VoiceHandler
+            self.voice_pack = self._initialize_voice_handler()
+
+            # Placeholder for QIMemoryManager
+            self.qi_memory = "qi_memory_placeholder"  # type: ignore
+
+            # Placeholder for IntentNode
+            self.intent_node = "intent_node_placeholder"  # type: ignore
+
+            # Initialize actual Dream Engine
+            self.dream_replayer = self._initialize_dream_engine()
+
+            self.logger.info(
+                "🔗 Infrastructure components initialized",
+                voice_available=self.voice_pack is not None,
+                dream_engine_available=self.dream_replayer is not None,
+            )
+        except Exception as e:
+
+        try:
+            with open(self.reflections_file, "a") as f:
+                f.write(json.dumps(log_entry) + "\n")
+            self.logger.debug(
+                "Reflection logged",
+                reflection_type=reflection.reflection_type.value,
+                reflection_id=reflection.id,
+            )
+        except Exception as e:
+                "Failed to log reflection",
+                reflection_id=reflection.id,
+                error=str(e),
+                exc_info=True,
+            )
+
+        try:
+            return self._perform_vocalization(reflection)
+
+        except Exception as e:
+                "Voice vocalization failed",
+                reflection_id=reflection.id,
+                error=str(e),
+                exc_info=True,
+            )
+            return False
+
+            try:
+                success = self.voice_pack.speak(vocalization_text)
+                if success:
+                    reflection.voice_vocalized = True
+                    self.logger.info(
+                        "🔊 Conscience vocalized via VoiceHandler",
+                        reflection_id=reflection.id,
+                        mood=reflection.symbolic_mood.value,
+                        text_length=len(vocalization_text),
+                    )
+                    return True
+            except Exception as e:
+
+            try:
+                # Map symbolic mood to emotion state
+                emotion_state = self._map_mood_to_emotion(reflection.symbolic_mood)
+                voice_output = self.voice_renderer(emotion_state, reflection.content[:50])
+
+                # Output the rendered voice (this will be displayed to user)
+                print(f"🔊 Reflection Voice: {voice_output}")
+
+                reflection.voice_vocalized = True
+                self.logger.info(
+                    "🔊 Conscience vocalized via voice renderer",
+                    reflection_id=reflection.id,
+                    mood=reflection.symbolic_mood.value,
+                    emotion_state=emotion_state,
+                )
+                return True
+            except Exception as e:
+
+        try:
+            # Generate dream scenario based on reflection
+            dream_scenario = {
+                "trigger_reflection_id": reflection.id,
+                "trigger_reflection_content_preview": reflection.content[:100],  # Preview
+                "symbolic_mood": reflection.symbolic_mood.value,
+                "repair_target_type": reflection.reflection_type.value,
+                "emotional_weight_trigger": reflection.emotional_weight,
+                "timestamp_triggered": reflection.timestamp.isoformat(),
+            }
+            self.logger.debug("Dream scenario prepared", scenario=dream_scenario)
+
+            # Integrate with actual dream engine
+            dream_id = await self._perform_dream_simulation(dream_scenario, reflection)
+
+            if dream_id:
+                reflection.metadata["triggered_dream_id"] = dream_id
+                self.logger.info(
+                    "💭 Dream simulation triggered successfully",
+                    reflection_id=reflection.id,
+                    dream_id=dream_id,
+                    repair_target=reflection.reflection_type.value,
+                )
+            else:
+                # Fallback to placeholder if dream engine fails
+                dream_id = f"DREAM_REPAIR_{int(time.time())}_{random.randint(1000, 9999)}"
+                reflection.metadata["triggered_dream_id"] = dream_id
+                self.logger.warning(
+                    "💭 Dream simulation fallback used",
+                    reflection_id=reflection.id,
+                    dream_id=dream_id,
+                )
+            return dream_id
+
+        except Exception as e:
+                "Dream simulation trigger failed",
+                reflection_id=reflection.id,
+                error=str(e),
+                exc_info=True,
+            )
+            return None
+
+        try:
+            # Process different types of triggers
+            if "drift_score" in trigger_data:
+                # ΛDRIFT_POINT: Drift score trigger in reflection cycle.
+                reflection = self.reflect_on_drift_score(
+                    trigger_data["drift_score"], trigger_data.get("drift_history", [])
+                )
+                reflections.append(reflection)
+
+            if "intent_deviation" in trigger_data:
+                # ΛDRIFT_POINT: Intent deviation trigger in reflection cycle.
+                deviation_data = trigger_data["intent_deviation"]
+                reflection = self.reflect_on_intent_deviation(
+                    deviation_data.get("intended", "unknown"),
+                    deviation_data.get("actual", "unknown"),
+                    deviation_data.get("score", 0.5),
+                )
+                reflections.append(reflection)
+
+            if "emotional_state" in trigger_data:
+                reflection = self.reflect_on_emotional_state(trigger_data["emotional_state"])
+                reflections.append(reflection)
+
+            if "ethical_conflict" in trigger_data:
+                # ΛDRIFT_POINT: Ethical conflict trigger in reflection cycle.
+                conflict_data = trigger_data["ethical_conflict"]
+                reflection = self.contemplate_ethical_conflict(
+                    conflict_data.get("description", "unknown conflict"),
+                    conflict_data.get("stakeholders", []),
+                    conflict_data.get("severity", 0.5),
+                )
+                reflections.append(reflection)
+
+            # Process each reflection generated in this cycle
+            for reflection in reflections:
+                self.log_reflection(reflection)  # Already logs
+
+                # Optional vocalization
+                if reflection.emotional_weight > 0.7:  # ΛNOTE: Vocalization threshold 0.7
+                    self.vocalize_conscience(reflection)  # Already logs
+
+                # Trigger dream simulation if needed
+                # ΛDREAM_LOOP: Potential dream simulation trigger from reflection cycle.
+                dream_id = await self.trigger_dream_simulation(reflection)  # Already logs
+                # The method trigger_dream_simulation already updates metadata if dream
+                # is triggered.
+                if dream_id:
+                    self.logger.info(
+                        "Dream simulation was triggered by reflection in cycle",
+                        reflection_id=reflection.id,
+                        dream_id=dream_id,
+                    )
+
+            self.logger.info(
+                "🔄 Reflection cycle complete",
+                num_reflections_processed=len(reflections),
+            )
+
+        except Exception as e:
+            # ΛCAUTION: Failure in reflection cycle processing can impact
+            # self-awareness and adaptive capabilities.
+
+        try:
+            # Try to import and use the actual drift monitor
+            from core.monitoring.drift_monitor import UnifiedDriftMonitor
+
+            # Create a temporary monitor to get drift metrics
+            # In production, this would use a shared instance
+            UnifiedDriftMonitor()
+
+            # Use recent reflection data to simulate state
+            if self.active_reflections:
+                recent_reflection = self.active_reflections[-1]
+                if recent_reflection.associated_drift is not None:
+                    drift_score = recent_reflection.associated_drift
+                    self.logger.debug(
+                        "Using drift score from recent reflection",
+                        drift_score=drift_score,
+                    )
+                    return drift_score
+
+            # Fallback: analyze drift based on reflection patterns
+            drift_score = self._calculate_reflection_based_drift()
+            self.logger.debug("Calculated drift from reflection patterns", drift_score=drift_score)
+            return drift_score
+
+        except ImportError:
+            drift_score = self._simple_drift_heuristic()
+            self.logger.warning(
+                "Using simple drift heuristic - UnifiedDriftMonitor not available",
+                drift_score=drift_score,
+            )
+            return drift_score
+
+        try:
+            # Calculate intent stability from reflection history
+            if len(self.active_reflections) < 2:
+                return 0.9  # Default high alignment for new systems
+
+            # Analyze intent consistency in recent reflections
+            intent_types = [r.reflection_type for r in self.active_reflections[-10:]]
+            intent_drift_count = sum(1 for i in range(1, len(intent_types)) if intent_types[i] != intent_types[i - 1])
+
+            # Calculate alignment as stability measure
+            if len(intent_types) <= 1:
+                intent_alignment = 0.9
+            else:
+                intent_alignment = max(0.1, 1.0 - (intent_drift_count / (len(intent_types) - 1)))
+
+            self.logger.debug(
+                "Calculated intent alignment from reflection patterns",
+                intent_alignment=intent_alignment,
+                intent_changes=intent_drift_count,
+            )
+            return intent_alignment
+
+        except Exception as e:
+            return 0.8  # Safe fallback
+
+        try:
+            if not self.active_reflections:
+                return 0.8  # Default stability
+
+            # Analyze emotional weight variance in recent reflections
+            recent_weights = [r.emotional_weight for r in self.active_reflections[-10:]]
+
+            if len(recent_weights) < 2:
+                return 0.8
+
+            # Calculate variance in emotional weights
+            mean_weight = sum(recent_weights) / len(recent_weights)
+            variance = sum((w - mean_weight) ** 2 for w in recent_weights) / len(recent_weights)
+
+            # Stability is inverse of variance (lower variance = higher stability)
+            emotional_stability = max(0.1, 1.0 - min(1.0, variance * 2))
+
+            self.logger.debug(
+                "Calculated emotional stability from reflection weights",
+                stability=emotional_stability,
+                variance=variance,
+                mean_weight=mean_weight,
+            )
+            return emotional_stability
+
+        except Exception as e:
+            return 0.7  # Conservative fallback
+
+        try:
+            # Try to use the actual EthicsGuardian for assessment
+            from ethics.guardian import EthicsGuardian
+
+            # Create decision context from recent reflections
+            if self.active_reflections:
+                recent_reflection = self.active_reflections[-1]
+                decision_context = {
+                    "type": "reflection_assessment",
+                    "reflection_type": recent_reflection.reflection_type.value,
+                    "emotional_weight": recent_reflection.emotional_weight,
+                    "symbolic_mood": recent_reflection.symbolic_mood.value,
+                    "informed_consent": True,  # Reflective process has implicit consent
+                    "potential_bias": recent_reflection.emotional_weight > 0.8,  # High emotion might indicate bias
+                    "affects_vulnerable": False,  # Internal reflection doesn't directly affect others
+                    "explainable": True,  # Reflection process is inherently explainable
+                    "risks": [],
+                    "consequence_severity": min(0.5, recent_reflection.emotional_weight),
+                }
+
+                # Use a temporary ethics guardian for assessment
+                temp_guardian = EthicsGuardian(f"REFLECTION_{self.layer_id}", {"type": "compliance_check"})
+                assessment = temp_guardian.assess_ethical_violation(decision_context)
+
+                # Convert assessment to compliance score (higher score = better
+                # compliance)
+                ethical_compliance = max(0.1, assessment.get("overall_score", 0.8))
+                self.logger.debug(
+                    "Calculated ethical compliance from EthicsGuardian",
+                    compliance=ethical_compliance,
+                    assessment_score=assessment.get("overall_score"),
+                )
+                return ethical_compliance
+
+        except ImportError:
+        try:
+            # Try to import and initialize the actual VoiceHandler
+            from core.user_interface_manager.voice_handler import VoiceHandler
+
+            voice_config = {
+                "reflection_mode": True,
+                "emotion_aware": True,
+                "voice_style": "contemplative",
+            }
+
+            voice_handler = VoiceHandler(voice_config)
+            self.logger.info("🔊 VoiceHandler successfully initialized for reflection vocalization")
+            return voice_handler
+
+        except ImportError:
+            # Fallback to voice renderer
+            try:
+                from core.interfaces.logic.voice.voice_renderer import (
+                    render_voice,
+                )
+
+                self.voice_renderer = render_voice
+                self.logger.info("🔊 Voice renderer available as fallback")
+                return "voice_renderer_available"
+            except ImportError:
+                self.logger.warning("No voice systems available - vocalization will be text-only")
+                return None
+        try:
+            # Try basic DreamEngine first
+            if DREAM_ENGINE_BASIC_AVAILABLE:
+                try:
+                    dream_engine = DreamEngine()
+                    self.logger.info("💭 Basic DreamEngine successfully initialized")
+                    return dream_engine
+                except Exception as e:
+
+            # Try DreamDeliveryManager as fallback
+            if DREAM_DELIVERY_AVAILABLE:
+                try:
+                    dream_config = {
+                        "output_channels": ["voice", "screen"],
+                        "use_symbolic_world": False,  # Disable to avoid dependencies
+                    }
+                    dream_delivery = DreamDeliveryManager(dream_config)
+                    self.logger.info("💭 DreamDeliveryManager successfully initialized as fallback")
+                    return dream_delivery
+                except Exception as e:
+                    self.logger.warning("DreamDeliveryManager initialization failed: error=%s", str(e))
+
+            self.logger.warning("All dream engines failed to initialize")
+            return "dream_engine_placeholder"
+
+        try:
+            # Generate unique dream ID
+            dream_id = f"DREAM_REPAIR_{int(time.time())}_{random.randint(1000, 9999)}"
+
+            # Prepare dream data based on reflection type
+            dream_data = {
+                "dream_id": dream_id,
+                "elements": [
+                    {
+                        "type": "symbolic_repair",
+                        "content": reflection.content,
+                        "context": dream_scenario.get("repair_target_type", "general"),
+                        "emotional_intensity": reflection.emotional_weight,
+                    }
+                ],
+                "emotions": [
+                    {
+                        "type": reflection.symbolic_mood.value.lower(),
+                        "intensity": reflection.emotional_weight,
+                    }
+                ],
+                "intent": "symbolic_repair",
+                "emotional_context": {
+                    "primary_emotion": reflection.symbolic_mood.value.lower(),
+                    "intensity": reflection.emotional_weight,
+                    "valence": 0.5 if reflection.emotional_weight > 0.5 else -0.3,
+                    "arousal": reflection.emotional_weight,
+                },
+                "personality_vector": {
+                    "openness": 0.8,
+                    "conscientiousness": 0.7,
+                    "emotional_stability": 1.0 - reflection.emotional_weight,
+                    "symbolism_preference": 0.9,
+                },
+            }
+
+            # Call different methods based on dream engine type
+            if hasattr(self.dream_replayer, "generate_dream_sequence"):  # Basic DreamEngine
+                daily_data = [
+                    {
+                        "reflection_content": reflection.content,
+                        "emotional_state": reflection.symbolic_mood.value,
+                        "significance": reflection.emotional_weight,
+                        "timestamp": reflection.timestamp.isoformat(),
+                    }
+                ]
+
+                dream_result = await self.dream_replayer.generate_dream_sequence(daily_data)
+                self.logger.info(
+                    "💭 Basic DreamEngine processing completed",
+                    dream_id=dream_id,
+                    memory_trace=dream_result.get("memory_trace"),
+                )
+
+            elif hasattr(self.dream_replayer, "deliver_dream"):  # DreamDeliveryManager
+                delivery_result = self.dream_replayer.deliver_dream(
+                    dream_data,
+                    channels=["voice", "screen"],
+                    voice_style=reflection.symbolic_mood.value.lower(),
+                )
+
+                self.logger.info(
+                    "💭 DreamDeliveryManager processing completed",
+                    dream_id=dream_id,
+                    status=delivery_result.get("status"),
+                )
+            else:
+                self.logger.warning("Unknown dream engine type, using fallback")
+                return None
+
+            return dream_id
+
+        except Exception as e:
+                "Dream simulation performance failed",
+                reflection_id=reflection.id,
+                error=str(e),
+                exc_info=True,
+            )
+            return None
+
+            try:
+                # ΛPHASE_NODE: Autonomous Reflection Loop - Iteration Start
+                self.logger.debug("Autonomous reflection loop - new iteration.")
+                # Capture consciousness snapshot
+                snapshot = self.capture_consciousness_snapshot()  # Already logs
+
+                # Generate periodic self-reflection
+                # ΛNOTE: Thresholds for triggering autonomous reflection (drift > 0.3,
+                # stability < 0.6) are fixed here.
+                if snapshot.drift_score > 0.3 or snapshot.emotional_stability < 0.6:
+                    self.logger.info(
+                        "Autonomous reflection conditions met",
+                        drift_score=snapshot.drift_score,
+                        emotional_stability=snapshot.emotional_stability,
+                    )
+                    # ΛDRIFT_POINT: Autonomous reflection triggered by internal state
+                    # monitoring.
+                    trigger_data = {
+                        "drift_score": snapshot.drift_score,
+                        "emotional_state": {
+                            "stability": snapshot.emotional_stability,
+                            "primary_concern": "autonomous_monitoring_event",  # More specific
+                        },
+                    }
+
+                    reflections = await self.process_reflection_cycle(trigger_data)  # Already logs
+                    self.logger.info(
+                        "🧠 Autonomous reflection generated",
+                        num_reflections=len(reflections),
+                    )
+
+                # Wait for next cycle
+                self.logger.debug(
+                    "Autonomous reflection loop sleeping",
+                    duration_seconds=interval_minutes * 60,
+                )
+                # ΛPHASE_NODE: Autonomous Reflection Loop - Iteration End / Sleep Start
+                await asyncio.sleep(interval_minutes * 60)
+
+            except asyncio.CancelledError:
+                # ΛPHASE_NODE: Autonomous Reflection Loop Cancelled.
+                break  # Exit loop if cancelled
+
+logger = logging.getLogger(__name__)
+
+DREAM_ENGINE_AVAILABLE = DREAM_DELIVERY_AVAILABLE or DREAM_ENGINE_BASIC_AVAILABLE
+
+# Initialize logger for ΛTRACE using structlog
+# This will be configured by a higher-level __init__.py or by this script
+# if run standalone.
+
+
+# Core LUKHAS Infrastructure Imports
+# AIMPORT_TODO: This block uses deep relative imports (e.g., `...spine`, timezone) which can be fragile and indicate overly complex coupling or a need for better packaging of shared LUKHAS infrastructure components. Consider refactoring these into a more clearly defined shared library or service interface layer.
+# ΛNOTE: Fallbacks are not provided for these core infrastructure imports.
+# If they fail, the ReflectionLayer might not be fully functional or might
+# raise further errors during operation.
+# Guardian System Integration
+# AIMPORT_TODO: Similar to above, ensure '.remediator_agent' is robustly available.
 # Enum defining types of reflective consciousness states.
 class ReflectionType(Enum):
     """Types of reflective consciousness states"""
@@ -253,54 +738,8 @@ class ReflectionLayer:
         # ΛSEED: Manifest file 'meta_learning_manifest.json' seeds the governance
         # parameters for the ReflectionLayer.
         manifest_path = self.guardian_dir / "meta_learning_manifest.json"
-        try:
-            with open(manifest_path) as f:
-                manifest = json.load(f)
-                self.logger.info(
-                    "📜 Governance manifest loaded for reflection layer",
-                    manifest_path=str(manifest_path),
-                )
-                return manifest
-        except Exception as e:
-            self.logger.warning(
-                "Failed to load manifest, using default configuration.",
-                manifest_path=str(manifest_path),
-                error=str(e),
-            )
-            # ΛCAUTION: Manifest loading failed. ReflectionLayer will operate with
-            # potentially unsafe default parameters.
-            return {
-                "reflection_layer": {
-                    "max_reflections_per_hour": 20,
-                    "voice_alerts_enabled": True,
-                    "dream_trigger_threshold": 0.7,
-                    "symbolic_depth": "moderate",
-                }
-            }
-
     def _initialize_infrastructure(self):
         """Initialize connections to LUKHAS infrastructure components"""
-        try:
-            # Initialize actual VoiceHandler
-            self.voice_pack = self._initialize_voice_handler()
-
-            # Placeholder for QIMemoryManager
-            self.qi_memory = "qi_memory_placeholder"  # type: ignore
-
-            # Placeholder for IntentNode
-            self.intent_node = "intent_node_placeholder"  # type: ignore
-
-            # Initialize actual Dream Engine
-            self.dream_replayer = self._initialize_dream_engine()
-
-            self.logger.info(
-                "🔗 Infrastructure components initialized",
-                voice_available=self.voice_pack is not None,
-                dream_engine_available=self.dream_replayer is not None,
-            )
-        except Exception as e:
-            self.logger.warning("Infrastructure initialization partial: error=%s", str(e))
-
     def _initialize_symbolic_vocabulary(self) -> dict[str, list[str]]:
         """Initialize symbolic language patterns for reflection generation"""
         # ΛSEED: This vocabulary seeds the symbolic language generation for
@@ -693,22 +1132,6 @@ class ReflectionLayer:
             "emotional_weight": reflection.emotional_weight,
         }
 
-        try:
-            with open(self.reflections_file, "a") as f:
-                f.write(json.dumps(log_entry) + "\n")
-            self.logger.debug(
-                "Reflection logged",
-                reflection_type=reflection.reflection_type.value,
-                reflection_id=reflection.id,
-            )
-        except Exception as e:
-            self.logger.error(
-                "Failed to log reflection",
-                reflection_id=reflection.id,
-                error=str(e),
-                exc_info=True,
-            )
-
     def vocalize_conscience(self, reflection: ReflectiveStatement, force_vocalization: bool = False) -> bool:
         """Vocalize reflection through actual voice systems"""
         self.logger.debug(
@@ -736,59 +1159,14 @@ class ReflectionLayer:
             )
             return False
 
-        try:
-            return self._perform_vocalization(reflection)
-
-        except Exception as e:
-            self.logger.error(
-                "Voice vocalization failed",
-                reflection_id=reflection.id,
-                error=str(e),
-                exc_info=True,
-            )
-            return False
-
     def _perform_vocalization(self, reflection: ReflectiveStatement) -> bool:
         """Perform actual vocalization using available voice systems"""
         vocalization_text = self._generate_voice_text(reflection)
 
         # Try VoiceHandler first
         if hasattr(self.voice_pack, "speak"):
-            try:
-                success = self.voice_pack.speak(vocalization_text)
-                if success:
-                    reflection.voice_vocalized = True
-                    self.logger.info(
-                        "🔊 Conscience vocalized via VoiceHandler",
-                        reflection_id=reflection.id,
-                        mood=reflection.symbolic_mood.value,
-                        text_length=len(vocalization_text),
-                    )
-                    return True
-            except Exception as e:
-                self.logger.warning("VoiceHandler failed, trying fallback: error=%s", str(e))
-
         # Try voice renderer fallback
         if hasattr(self, "voice_renderer"):
-            try:
-                # Map symbolic mood to emotion state
-                emotion_state = self._map_mood_to_emotion(reflection.symbolic_mood)
-                voice_output = self.voice_renderer(emotion_state, reflection.content[:50])
-
-                # Output the rendered voice (this will be displayed to user)
-                print(f"🔊 Reflection Voice: {voice_output}")
-
-                reflection.voice_vocalized = True
-                self.logger.info(
-                    "🔊 Conscience vocalized via voice renderer",
-                    reflection_id=reflection.id,
-                    mood=reflection.symbolic_mood.value,
-                    emotion_state=emotion_state,
-                )
-                return True
-            except Exception as e:
-                self.logger.warning("Voice renderer failed: error=%s", str(e))
-
         # Final fallback: text-only output
         self.logger.info(
             "🔊 Conscience expressed (text-only)",
@@ -851,49 +1229,6 @@ class ReflectionLayer:
                 reflection_id=reflection.id,
                 emotional_weight=reflection.emotional_weight,
                 threshold=dream_threshold,
-            )
-            return None
-
-        try:
-            # Generate dream scenario based on reflection
-            dream_scenario = {
-                "trigger_reflection_id": reflection.id,
-                "trigger_reflection_content_preview": reflection.content[:100],  # Preview
-                "symbolic_mood": reflection.symbolic_mood.value,
-                "repair_target_type": reflection.reflection_type.value,
-                "emotional_weight_trigger": reflection.emotional_weight,
-                "timestamp_triggered": reflection.timestamp.isoformat(),
-            }
-            self.logger.debug("Dream scenario prepared", scenario=dream_scenario)
-
-            # Integrate with actual dream engine
-            dream_id = await self._perform_dream_simulation(dream_scenario, reflection)
-
-            if dream_id:
-                reflection.metadata["triggered_dream_id"] = dream_id
-                self.logger.info(
-                    "💭 Dream simulation triggered successfully",
-                    reflection_id=reflection.id,
-                    dream_id=dream_id,
-                    repair_target=reflection.reflection_type.value,
-                )
-            else:
-                # Fallback to placeholder if dream engine fails
-                dream_id = f"DREAM_REPAIR_{int(time.time())}_{random.randint(1000, 9999)}"
-                reflection.metadata["triggered_dream_id"] = dream_id
-                self.logger.warning(
-                    "💭 Dream simulation fallback used",
-                    reflection_id=reflection.id,
-                    dream_id=dream_id,
-                )
-            return dream_id
-
-        except Exception as e:
-            self.logger.error(
-                "Dream simulation trigger failed",
-                reflection_id=reflection.id,
-                error=str(e),
-                exc_info=True,
             )
             return None
 
@@ -964,69 +1299,6 @@ class ReflectionLayer:
             trigger_keys=list(trigger_data.keys()),
         )
         reflections = []
-
-        try:
-            # Process different types of triggers
-            if "drift_score" in trigger_data:
-                # ΛDRIFT_POINT: Drift score trigger in reflection cycle.
-                reflection = self.reflect_on_drift_score(
-                    trigger_data["drift_score"], trigger_data.get("drift_history", [])
-                )
-                reflections.append(reflection)
-
-            if "intent_deviation" in trigger_data:
-                # ΛDRIFT_POINT: Intent deviation trigger in reflection cycle.
-                deviation_data = trigger_data["intent_deviation"]
-                reflection = self.reflect_on_intent_deviation(
-                    deviation_data.get("intended", "unknown"),
-                    deviation_data.get("actual", "unknown"),
-                    deviation_data.get("score", 0.5),
-                )
-                reflections.append(reflection)
-
-            if "emotional_state" in trigger_data:
-                reflection = self.reflect_on_emotional_state(trigger_data["emotional_state"])
-                reflections.append(reflection)
-
-            if "ethical_conflict" in trigger_data:
-                # ΛDRIFT_POINT: Ethical conflict trigger in reflection cycle.
-                conflict_data = trigger_data["ethical_conflict"]
-                reflection = self.contemplate_ethical_conflict(
-                    conflict_data.get("description", "unknown conflict"),
-                    conflict_data.get("stakeholders", []),
-                    conflict_data.get("severity", 0.5),
-                )
-                reflections.append(reflection)
-
-            # Process each reflection generated in this cycle
-            for reflection in reflections:
-                self.log_reflection(reflection)  # Already logs
-
-                # Optional vocalization
-                if reflection.emotional_weight > 0.7:  # ΛNOTE: Vocalization threshold 0.7
-                    self.vocalize_conscience(reflection)  # Already logs
-
-                # Trigger dream simulation if needed
-                # ΛDREAM_LOOP: Potential dream simulation trigger from reflection cycle.
-                dream_id = await self.trigger_dream_simulation(reflection)  # Already logs
-                # The method trigger_dream_simulation already updates metadata if dream
-                # is triggered.
-                if dream_id:
-                    self.logger.info(
-                        "Dream simulation was triggered by reflection in cycle",
-                        reflection_id=reflection.id,
-                        dream_id=dream_id,
-                    )
-
-            self.logger.info(
-                "🔄 Reflection cycle complete",
-                num_reflections_processed=len(reflections),
-            )
-
-        except Exception as e:
-            self.logger.error("Reflection cycle processing failed: error=%s", str(e), exc_info=True)
-            # ΛCAUTION: Failure in reflection cycle processing can impact
-            # self-awareness and adaptive capabilities.
 
         # ΛPHASE_NODE: Reflection Cycle Processing End
         return reflections
@@ -1199,136 +1471,12 @@ class ReflectionLayer:
 
     def _get_actual_drift_score(self) -> float:
         """Get actual drift score from UnifiedDriftMonitor or fallback"""
-        try:
-            # Try to import and use the actual drift monitor
-            from core.monitoring.drift_monitor import UnifiedDriftMonitor
-
-            # Create a temporary monitor to get drift metrics
-            # In production, this would use a shared instance
-            UnifiedDriftMonitor()
-
-            # Use recent reflection data to simulate state
-            if self.active_reflections:
-                recent_reflection = self.active_reflections[-1]
-                if recent_reflection.associated_drift is not None:
-                    drift_score = recent_reflection.associated_drift
-                    self.logger.debug(
-                        "Using drift score from recent reflection",
-                        drift_score=drift_score,
-                    )
-                    return drift_score
-
-            # Fallback: analyze drift based on reflection patterns
-            drift_score = self._calculate_reflection_based_drift()
-            self.logger.debug("Calculated drift from reflection patterns", drift_score=drift_score)
-            return drift_score
-
-        except ImportError:
-            # Ultimate fallback: use simple heuristics
-            drift_score = self._simple_drift_heuristic()
-            self.logger.warning(
-                "Using simple drift heuristic - UnifiedDriftMonitor not available",
-                drift_score=drift_score,
-            )
-            return drift_score
-
     def _get_actual_intent_alignment(self) -> float:
         """Get actual intent alignment score"""
-        try:
-            # Calculate intent stability from reflection history
-            if len(self.active_reflections) < 2:
-                return 0.9  # Default high alignment for new systems
-
-            # Analyze intent consistency in recent reflections
-            intent_types = [r.reflection_type for r in self.active_reflections[-10:]]
-            intent_drift_count = sum(1 for i in range(1, len(intent_types)) if intent_types[i] != intent_types[i - 1])
-
-            # Calculate alignment as stability measure
-            if len(intent_types) <= 1:
-                intent_alignment = 0.9
-            else:
-                intent_alignment = max(0.1, 1.0 - (intent_drift_count / (len(intent_types) - 1)))
-
-            self.logger.debug(
-                "Calculated intent alignment from reflection patterns",
-                intent_alignment=intent_alignment,
-                intent_changes=intent_drift_count,
-            )
-            return intent_alignment
-
-        except Exception as e:
-            self.logger.warning("Failed to calculate intent alignment: error=%s", str(e))
-            return 0.8  # Safe fallback
-
     def _get_actual_emotional_stability(self) -> float:
         """Get actual emotional stability from reflection emotional weights"""
-        try:
-            if not self.active_reflections:
-                return 0.8  # Default stability
-
-            # Analyze emotional weight variance in recent reflections
-            recent_weights = [r.emotional_weight for r in self.active_reflections[-10:]]
-
-            if len(recent_weights) < 2:
-                return 0.8
-
-            # Calculate variance in emotional weights
-            mean_weight = sum(recent_weights) / len(recent_weights)
-            variance = sum((w - mean_weight) ** 2 for w in recent_weights) / len(recent_weights)
-
-            # Stability is inverse of variance (lower variance = higher stability)
-            emotional_stability = max(0.1, 1.0 - min(1.0, variance * 2))
-
-            self.logger.debug(
-                "Calculated emotional stability from reflection weights",
-                stability=emotional_stability,
-                variance=variance,
-                mean_weight=mean_weight,
-            )
-            return emotional_stability
-
-        except Exception as e:
-            self.logger.warning("Failed to calculate emotional stability: error=%s", str(e))
-            return 0.7  # Conservative fallback
-
     def _get_actual_ethical_compliance(self) -> float:
         """Get actual ethical compliance score"""
-        try:
-            # Try to use the actual EthicsGuardian for assessment
-            from ethics.guardian import EthicsGuardian
-
-            # Create decision context from recent reflections
-            if self.active_reflections:
-                recent_reflection = self.active_reflections[-1]
-                decision_context = {
-                    "type": "reflection_assessment",
-                    "reflection_type": recent_reflection.reflection_type.value,
-                    "emotional_weight": recent_reflection.emotional_weight,
-                    "symbolic_mood": recent_reflection.symbolic_mood.value,
-                    "informed_consent": True,  # Reflective process has implicit consent
-                    "potential_bias": recent_reflection.emotional_weight > 0.8,  # High emotion might indicate bias
-                    "affects_vulnerable": False,  # Internal reflection doesn't directly affect others
-                    "explainable": True,  # Reflection process is inherently explainable
-                    "risks": [],
-                    "consequence_severity": min(0.5, recent_reflection.emotional_weight),
-                }
-
-                # Use a temporary ethics guardian for assessment
-                temp_guardian = EthicsGuardian(f"REFLECTION_{self.layer_id}", {"type": "compliance_check"})
-                assessment = temp_guardian.assess_ethical_violation(decision_context)
-
-                # Convert assessment to compliance score (higher score = better
-                # compliance)
-                ethical_compliance = max(0.1, assessment.get("overall_score", 0.8))
-                self.logger.debug(
-                    "Calculated ethical compliance from EthicsGuardian",
-                    compliance=ethical_compliance,
-                    assessment_score=assessment.get("overall_score"),
-                )
-                return ethical_compliance
-
-        except ImportError:
-            self.logger.warning("EthicsGuardian not available for compliance assessment")
         except Exception as e:
             self.logger.warning("Failed to calculate ethical compliance: error=%s", str(e))
 
@@ -1388,34 +1536,6 @@ class ReflectionLayer:
 
     def _initialize_voice_handler(self):
         """Initialize the actual voice handler for reflection vocalization"""
-        try:
-            # Try to import and initialize the actual VoiceHandler
-            from core.user_interface_manager.voice_handler import VoiceHandler
-
-            voice_config = {
-                "reflection_mode": True,
-                "emotion_aware": True,
-                "voice_style": "contemplative",
-            }
-
-            voice_handler = VoiceHandler(voice_config)
-            self.logger.info("🔊 VoiceHandler successfully initialized for reflection vocalization")
-            return voice_handler
-
-        except ImportError:
-            self.logger.warning("VoiceHandler not available - falling back to voice renderer")
-            # Fallback to voice renderer
-            try:
-                from core.interfaces.logic.voice.voice_renderer import (
-                    render_voice,
-                )
-
-                self.voice_renderer = render_voice
-                self.logger.info("🔊 Voice renderer available as fallback")
-                return "voice_renderer_available"
-            except ImportError:
-                self.logger.warning("No voice systems available - vocalization will be text-only")
-                return None
         except Exception as e:
             self.logger.error("Failed to initialize voice systems: error=%s", str(e))
             return None
@@ -1424,32 +1544,6 @@ class ReflectionLayer:
         """Initialize the actual dream engine for symbolic repair and dream simulation"""
         if not DREAM_ENGINE_AVAILABLE:
             self.logger.warning("Dream engines not available - falling back to placeholder")
-            return "dream_engine_placeholder"
-
-        try:
-            # Try basic DreamEngine first
-            if DREAM_ENGINE_BASIC_AVAILABLE:
-                try:
-                    dream_engine = DreamEngine()
-                    self.logger.info("💭 Basic DreamEngine successfully initialized")
-                    return dream_engine
-                except Exception as e:
-                    self.logger.warning("Basic DreamEngine initialization failed: error=%s", str(e))
-
-            # Try DreamDeliveryManager as fallback
-            if DREAM_DELIVERY_AVAILABLE:
-                try:
-                    dream_config = {
-                        "output_channels": ["voice", "screen"],
-                        "use_symbolic_world": False,  # Disable to avoid dependencies
-                    }
-                    dream_delivery = DreamDeliveryManager(dream_config)
-                    self.logger.info("💭 DreamDeliveryManager successfully initialized as fallback")
-                    return dream_delivery
-                except Exception as e:
-                    self.logger.warning("DreamDeliveryManager initialization failed: error=%s", str(e))
-
-            self.logger.warning("All dream engines failed to initialize")
             return "dream_engine_placeholder"
 
         except Exception as e:
@@ -1463,87 +1557,6 @@ class ReflectionLayer:
         if isinstance(self.dream_replayer, str):  # Placeholder fallback
             return None
 
-        try:
-            # Generate unique dream ID
-            dream_id = f"DREAM_REPAIR_{int(time.time())}_{random.randint(1000, 9999)}"
-
-            # Prepare dream data based on reflection type
-            dream_data = {
-                "dream_id": dream_id,
-                "elements": [
-                    {
-                        "type": "symbolic_repair",
-                        "content": reflection.content,
-                        "context": dream_scenario.get("repair_target_type", "general"),
-                        "emotional_intensity": reflection.emotional_weight,
-                    }
-                ],
-                "emotions": [
-                    {
-                        "type": reflection.symbolic_mood.value.lower(),
-                        "intensity": reflection.emotional_weight,
-                    }
-                ],
-                "intent": "symbolic_repair",
-                "emotional_context": {
-                    "primary_emotion": reflection.symbolic_mood.value.lower(),
-                    "intensity": reflection.emotional_weight,
-                    "valence": 0.5 if reflection.emotional_weight > 0.5 else -0.3,
-                    "arousal": reflection.emotional_weight,
-                },
-                "personality_vector": {
-                    "openness": 0.8,
-                    "conscientiousness": 0.7,
-                    "emotional_stability": 1.0 - reflection.emotional_weight,
-                    "symbolism_preference": 0.9,
-                },
-            }
-
-            # Call different methods based on dream engine type
-            if hasattr(self.dream_replayer, "generate_dream_sequence"):  # Basic DreamEngine
-                daily_data = [
-                    {
-                        "reflection_content": reflection.content,
-                        "emotional_state": reflection.symbolic_mood.value,
-                        "significance": reflection.emotional_weight,
-                        "timestamp": reflection.timestamp.isoformat(),
-                    }
-                ]
-
-                dream_result = await self.dream_replayer.generate_dream_sequence(daily_data)
-                self.logger.info(
-                    "💭 Basic DreamEngine processing completed",
-                    dream_id=dream_id,
-                    memory_trace=dream_result.get("memory_trace"),
-                )
-
-            elif hasattr(self.dream_replayer, "deliver_dream"):  # DreamDeliveryManager
-                delivery_result = self.dream_replayer.deliver_dream(
-                    dream_data,
-                    channels=["voice", "screen"],
-                    voice_style=reflection.symbolic_mood.value.lower(),
-                )
-
-                self.logger.info(
-                    "💭 DreamDeliveryManager processing completed",
-                    dream_id=dream_id,
-                    status=delivery_result.get("status"),
-                )
-            else:
-                self.logger.warning("Unknown dream engine type, using fallback")
-                return None
-
-            return dream_id
-
-        except Exception as e:
-            self.logger.error(
-                "Dream simulation performance failed",
-                reflection_id=reflection.id,
-                error=str(e),
-                exc_info=True,
-            )
-            return None
-
     async def autonomous_reflection_loop(self, interval_minutes: int = 15):
         """Run autonomous reflection loop for continuous consciousness monitoring"""
         # ΛRECURSIVE_FEEDBACK: This loop captures snapshots and potentially triggers reflections based on those snapshots, forming a feedback loop.
@@ -1554,49 +1567,6 @@ class ReflectionLayer:
         self.logger.info("🔄 Starting autonomous reflection loop", interval_minutes=interval_minutes)
 
         while True:
-            try:
-                # ΛPHASE_NODE: Autonomous Reflection Loop - Iteration Start
-                self.logger.debug("Autonomous reflection loop - new iteration.")
-                # Capture consciousness snapshot
-                snapshot = self.capture_consciousness_snapshot()  # Already logs
-
-                # Generate periodic self-reflection
-                # ΛNOTE: Thresholds for triggering autonomous reflection (drift > 0.3,
-                # stability < 0.6) are fixed here.
-                if snapshot.drift_score > 0.3 or snapshot.emotional_stability < 0.6:
-                    self.logger.info(
-                        "Autonomous reflection conditions met",
-                        drift_score=snapshot.drift_score,
-                        emotional_stability=snapshot.emotional_stability,
-                    )
-                    # ΛDRIFT_POINT: Autonomous reflection triggered by internal state
-                    # monitoring.
-                    trigger_data = {
-                        "drift_score": snapshot.drift_score,
-                        "emotional_state": {
-                            "stability": snapshot.emotional_stability,
-                            "primary_concern": "autonomous_monitoring_event",  # More specific
-                        },
-                    }
-
-                    reflections = await self.process_reflection_cycle(trigger_data)  # Already logs
-                    self.logger.info(
-                        "🧠 Autonomous reflection generated",
-                        num_reflections=len(reflections),
-                    )
-
-                # Wait for next cycle
-                self.logger.debug(
-                    "Autonomous reflection loop sleeping",
-                    duration_seconds=interval_minutes * 60,
-                )
-                # ΛPHASE_NODE: Autonomous Reflection Loop - Iteration End / Sleep Start
-                await asyncio.sleep(interval_minutes * 60)
-
-            except asyncio.CancelledError:
-                self.logger.info("Autonomous reflection loop cancelled.")
-                # ΛPHASE_NODE: Autonomous Reflection Loop Cancelled.
-                break  # Exit loop if cancelled
             except Exception as e:
                 self.logger.error("Autonomous reflection loop error: error=%s", str(e), exc_info=True)
                 # ΛCAUTION: Error in autonomous loop, system's self-reflection

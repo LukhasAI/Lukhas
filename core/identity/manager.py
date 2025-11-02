@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 LUKHAS Advanced Identity Manager
 ==============================
@@ -25,6 +23,8 @@ Date: May 30, 2025
 Version: v2.0.0-golden
 Status: GOLDEN FEATURE - FLAGSHIP CANDIDATE
 """
+
+from __future__ import annotations
 import asyncio
 import hashlib
 import json
@@ -39,8 +39,120 @@ try:
     from governance.guardian_system import GuardianSystem
     GUARDIAN_AVAILABLE = True
 except ImportError:
-    GUARDIAN_AVAILABLE = False
     print("⚠️  Guardian system not available - identity operations without ethical validation")
+
+            try:
+                self._guardian_instance = GuardianSystem()
+                self._guardian_integration_enabled = True
+                logger.info("🛡️  Guardian-Identity integration enabled for ethical identity management")
+            except Exception as e:
+                self._guardian_integration_enabled = False
+
+            try:
+                if hasattr(self._guardian_instance, 'validate_action_async'):
+                    guardian_result = await self._guardian_instance.validate_action_async(guardian_context)
+                else:
+                    guardian_result = self._guardian_instance.validate_safety(guardian_context)
+
+                if not guardian_result.get("safe", False):
+                    self._blocked_operations += 1
+                    self._identity_violations += 1
+                    reason = guardian_result.get("reason", "Authentication blocked by Guardian")
+
+                    self._log_identity_event(
+                        "authentication_blocked",
+                        claimed_user_id,
+                        {"reason": reason, "correlation_id": correlation_id},
+                    )
+
+                    return {
+                        "verified": False,
+                        "reason": "Authentication blocked for security reasons",
+                        "guardian_reason": reason,
+                        "correlation_id": correlation_id
+                    }
+
+                self._validated_operations += 1
+
+            except Exception as e:
+
+            try:
+                if hasattr(self._guardian_instance, 'validate_action_async'):
+                    guardian_result = await self._guardian_instance.validate_action_async(guardian_context)
+                else:
+                    guardian_result = self._guardian_instance.validate_safety(guardian_context)
+
+                if not guardian_result.get("safe", False):
+                    self._blocked_operations += 1
+                    self._identity_violations += 1
+                    reason = guardian_result.get("reason", "Registration blocked by Guardian")
+
+                    self._log_identity_event(
+                        "registration_blocked",
+                        user_id,
+                        {"reason": reason, "correlation_id": correlation_id},
+                    )
+
+                    return {
+                        "user_id": user_id,
+                        "registered": False,
+                        "blocked": True,
+                        "reason": "Registration blocked for security reasons",
+                        "guardian_reason": reason,
+                        "correlation_id": correlation_id
+                    }
+
+                self._validated_operations += 1
+
+            except Exception as e:
+
+            try:
+                if hasattr(self._guardian_instance, 'validate_action_async'):
+                    guardian_result = await self._guardian_instance.validate_action_async(guardian_context)
+                else:
+                    guardian_result = self._guardian_instance.validate_safety(guardian_context)
+
+                if not guardian_result.get("safe", False):
+                    self._blocked_operations += 1
+                    self._identity_violations += 1
+                    reason = guardian_result.get("reason", "Trauma lock operation blocked by Guardian")
+
+                    self._log_identity_event(
+                        "trauma_lock_blocked",
+                        user_id,
+                        {"reason": reason, "correlation_id": correlation_id},
+                    )
+
+                    return memory_vector, False  # Return original vector, not locked
+
+                self._validated_operations += 1
+
+            except Exception as e:
+
+        try:
+            if hasattr(self._guardian_instance, 'validate_action_async'):
+                result = await self._guardian_instance.validate_action_async(guardian_context)
+            else:
+                result = self._guardian_instance.validate_safety(guardian_context)
+
+            return {
+                "validated": True,
+                "safe": result.get("safe", False),
+                "reason": result.get("reason", "Guardian validation completed"),
+                "drift_score": result.get("drift_score", 0),
+                "guardian_status": result.get("guardian_status", "unknown"),
+                "correlation_id": correlation_id,
+                "guardian_result": result
+            }
+
+        except Exception as e:
+                "validated": False,
+                "safe": False,
+                "reason": f"Guardian validation failed: {str(e)}",
+                "error": True,
+                "correlation_id": correlation_id
+            }
+
 
 logger = logging.getLogger(__name__)
 
@@ -433,14 +545,6 @@ class AdvancedIdentityManager:
 
         # Initialize Guardian if available
         if GUARDIAN_AVAILABLE:
-            try:
-                self._guardian_instance = GuardianSystem()
-                self._guardian_integration_enabled = True
-                logger.info("🛡️  Guardian-Identity integration enabled for ethical identity management")
-            except Exception as e:
-                logger.error(f"⚠️  Failed to initialize Guardian integration: {e}")
-                self._guardian_integration_enabled = False
-
     async def get_user_identity(self, user_id):
         """Get user identity information"""
         if user_id in self.users:
@@ -483,35 +587,6 @@ class AdvancedIdentityManager:
                 "operation": "authenticate"
             }
 
-            try:
-                if hasattr(self._guardian_instance, 'validate_action_async'):
-                    guardian_result = await self._guardian_instance.validate_action_async(guardian_context)
-                else:
-                    guardian_result = self._guardian_instance.validate_safety(guardian_context)
-
-                if not guardian_result.get("safe", False):
-                    self._blocked_operations += 1
-                    self._identity_violations += 1
-                    reason = guardian_result.get("reason", "Authentication blocked by Guardian")
-
-                    self._log_identity_event(
-                        "authentication_blocked",
-                        claimed_user_id,
-                        {"reason": reason, "correlation_id": correlation_id},
-                    )
-
-                    return {
-                        "verified": False,
-                        "reason": "Authentication blocked for security reasons",
-                        "guardian_reason": reason,
-                        "correlation_id": correlation_id
-                    }
-
-                self._validated_operations += 1
-
-            except Exception as e:
-                logger.warning(f"Guardian validation failed for authentication {correlation_id}: {e}")
-
         # Extract emotional vector
         emotional_vector = self.emotional_memory.extract_vector(user_input)
 
@@ -549,37 +624,6 @@ class AdvancedIdentityManager:
                 "correlation_id": correlation_id,
                 "operation": "register_user"
             }
-
-            try:
-                if hasattr(self._guardian_instance, 'validate_action_async'):
-                    guardian_result = await self._guardian_instance.validate_action_async(guardian_context)
-                else:
-                    guardian_result = self._guardian_instance.validate_safety(guardian_context)
-
-                if not guardian_result.get("safe", False):
-                    self._blocked_operations += 1
-                    self._identity_violations += 1
-                    reason = guardian_result.get("reason", "Registration blocked by Guardian")
-
-                    self._log_identity_event(
-                        "registration_blocked",
-                        user_id,
-                        {"reason": reason, "correlation_id": correlation_id},
-                    )
-
-                    return {
-                        "user_id": user_id,
-                        "registered": False,
-                        "blocked": True,
-                        "reason": "Registration blocked for security reasons",
-                        "guardian_reason": reason,
-                        "correlation_id": correlation_id
-                    }
-
-                self._validated_operations += 1
-
-            except Exception as e:
-                logger.warning(f"Guardian validation failed for registration {correlation_id}: {e}")
 
         # Extract emotional vector
         emotional_vector = self.emotional_memory.extract_vector(user_input)
@@ -674,30 +718,6 @@ class AdvancedIdentityManager:
                 "operation": "apply_trauma_lock"
             }
 
-            try:
-                if hasattr(self._guardian_instance, 'validate_action_async'):
-                    guardian_result = await self._guardian_instance.validate_action_async(guardian_context)
-                else:
-                    guardian_result = self._guardian_instance.validate_safety(guardian_context)
-
-                if not guardian_result.get("safe", False):
-                    self._blocked_operations += 1
-                    self._identity_violations += 1
-                    reason = guardian_result.get("reason", "Trauma lock operation blocked by Guardian")
-
-                    self._log_identity_event(
-                        "trauma_lock_blocked",
-                        user_id,
-                        {"reason": reason, "correlation_id": correlation_id},
-                    )
-
-                    return memory_vector, False  # Return original vector, not locked
-
-                self._validated_operations += 1
-
-            except Exception as e:
-                logger.warning(f"Guardian validation failed for trauma lock {correlation_id}: {e}")
-
         # ΛTAG: trauma_lock
         secured_vector, was_locked = self.trauma_lock.secure(memory_vector)
 
@@ -751,31 +771,6 @@ class AdvancedIdentityManager:
             "correlation_id": correlation_id,
             "operation": f"validate_{operation_type}"
         }
-
-        try:
-            if hasattr(self._guardian_instance, 'validate_action_async'):
-                result = await self._guardian_instance.validate_action_async(guardian_context)
-            else:
-                result = self._guardian_instance.validate_safety(guardian_context)
-
-            return {
-                "validated": True,
-                "safe": result.get("safe", False),
-                "reason": result.get("reason", "Guardian validation completed"),
-                "drift_score": result.get("drift_score", 0),
-                "guardian_status": result.get("guardian_status", "unknown"),
-                "correlation_id": correlation_id,
-                "guardian_result": result
-            }
-
-        except Exception as e:
-            return {
-                "validated": False,
-                "safe": False,
-                "reason": f"Guardian validation failed: {str(e)}",
-                "error": True,
-                "correlation_id": correlation_id
-            }
 
     def get_guardian_identity_status(self) -> Dict[str, Any]:
         """Get comprehensive Guardian-Identity integration status for monitoring"""

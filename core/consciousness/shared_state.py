@@ -1,9 +1,3 @@
-from __future__ import annotations
-
-import logging
-import sys
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -59,6 +53,10 @@ logger = logging.getLogger(__name__)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+from __future__ import annotations
+import logging
+import sys
+
 # Module imports
 import asyncio
 import json
@@ -73,24 +71,12 @@ from typing import Any, Callable, Optional
 # Configure module logger
 
 # Module constants
-MODULE_VERSION = "2.0.0"
-MODULE_NAME = "shared_state"
-
-
-# Identity integration
-# AIMPORT_TODO: Review robustness of importing IdentityClient from core.lukhas_id.
-# Consider if it should be part of a shared, installable library or if current path assumptions are stable.
-# ΛNOTE: The system attempts to use IdentityClient. If unavailable, it
-# falls back, limiting identity-based features.
-identity_available = False
-IdentityClient = None  # Placeholder
 try:
     from core.identity.vault.lukhas_id import IdentityClient  # type: ignore
 
     identity_available = True
     logger.info("IdentityClient imported successfully from core.lukhas_id.")
 except ImportError as e:
-    logger.warning(
         "Failed to import IdentityClient from core.lukhas_id. Identity features will be limited.",
         error=str(e),
     )
@@ -103,6 +89,391 @@ except ImportError as e:
     IdentityClient = _DummyIdentityClient  # type: ignore
 
 
+                try:
+                    if asyncio.iscoroutinefunction(callback):
+                        asyncio.create_task(callback(key, new_value, operation_type_str))
+                    else:
+                        callback(key, new_value, operation_type_str)
+                    self.logger.debug(
+                        "Subscriber notified",
+                        key=key,
+                        handler=getattr(callback, "__name__", str(callback)),
+                    )
+                except Exception as e_notify:
+                        "❌ Subscriber notification failed",
+                        key=key,
+                        handler=getattr(callback, "__name__", str(callback)),
+                        error=str(e_notify),
+                        exc_info=True,
+                    )
+
+        try:
+            self._cleanup_expired()
+
+            with self._get_lock(key):
+                if not self._check_access(key, StateOperation.WRITE, module, user_id):
+                    self.logger.warning(
+                        "Set state access denied",
+                        key=key,
+                        module_name=module,
+                        user_id=user_id,
+                    )
+                    return False
+
+                old_value_for_history: Any = None
+                current_version = 0
+
+                tier: Optional[str] = None
+                if self.identity_client and user_id:
+                    user_info = self.identity_client.get_user_info(user_id)
+                    if user_info:
+                        tier = user_info.get("tier")
+
+                value_to_set = value
+                if key in self.state:
+                    existing_sv = self.state[key]
+                    old_value_for_history = existing_sv.value
+                    current_version = existing_sv.version
+
+                    if not self._resolve_conflict(key, existing_sv, value, module):
+                        self.logger.info(
+                            "Set state rejected or handled by conflict strategy (no overwrite)",
+                            key=key,
+                            strategy=self.conflict_strategy.value,
+                        )
+                        if (
+                            self.conflict_strategy == ConflictResolutionStrategy.MERGE
+                            and existing_sv.value != old_value_for_history
+                        ):
+                            self.logger.info(
+                                "State value was merged in-place by conflict strategy",
+                                key=key,
+                            )
+                            value_to_set = existing_sv.value
+                        else:
+                            return False
+
+                    existing_sv.value = value_to_set
+                    existing_sv.owner_module = module
+                    existing_sv.access_level = access_level
+                    existing_sv.version = current_version + 1
+                    existing_sv.timestamp = time.time()
+                    existing_sv.user_id = user_id
+                    existing_sv.tier = tier
+                    existing_sv.ttl = ttl
+                    existing_sv.metadata = metadata or existing_sv.metadata
+                    current_version = existing_sv.version
+                else:
+                    old_value_for_history = None
+                    current_version = 1
+                    new_sv = StateValue(
+                        value=value_to_set,
+                        owner_module=module,
+                        access_level=access_level,
+                        version=current_version,
+                        timestamp=time.time(),
+                        user_id=user_id,
+                        tier=tier,
+                        ttl=ttl,
+                        metadata=metadata or {},
+                    )
+                    self.state[key] = new_sv
+
+                self._add_change_to_history(
+                    key,
+                    old_value_for_history,
+                    value_to_set,
+                    StateOperation.WRITE,
+                    module,
+                    user_id,
+                    current_version,
+                )
+                self.stats["writes"] += 1
+                self._notify_subscribers(key, value_to_set, "set")
+
+                self.logger.info(
+                    "State set successfully",
+                    event="state.set",
+                    key=key,
+                    module_name=module,
+                    user_id=user_id,
+                    version=current_version,
+                    access_level=access_level.value,
+                    has_ttl=bool(ttl),
+                )
+                return True
+
+        except Exception as e_set:
+                "❌ Failed to set state",
+                key=key,
+                module_name=module,
+                error=str(e_set),
+                exc_info=True,
+            )
+            return False
+
+        try:
+            self._cleanup_expired()
+
+            with self._get_lock(key):
+                if key not in self.state:
+                    self.logger.debug("Key not found in state, returning default", key=key)
+                    return default
+
+                if not self._check_access(key, StateOperation.READ, module, user_id):
+                    self.logger.warning(
+                        "Get state access denied",
+                        key=key,
+                        module_name=module,
+                        user_id=user_id,
+                    )
+                    return default
+
+                state_value_obj = self.state[key]
+
+                if self._is_expired(state_value_obj):
+                    self.logger.info("State value expired, removing and returning default", key=key)
+                    deleted_val_for_hist = state_value_obj.value
+                    del self.state[key]
+                    self._notify_subscribers(key, None, "expired")
+                    self._add_change_to_history(
+                        key,
+                        deleted_val_for_hist,
+                        None,
+                        StateOperation.DELETE,
+                        "system_ttl_cleanup",
+                        None,
+                        state_value_obj.version + 1,
+                    )
+                    return default
+
+                self.stats["reads"] += 1
+                self.logger.info(
+                    "State retrieved successfully",
+                    event="state.get",
+                    key=key,
+                    module_name=module,
+                    user_id=user_id,
+                    version=state_value_obj.version,
+                    owner=state_value_obj.owner_module,
+                )
+                return deepcopy(state_value_obj.value)
+
+        except Exception as e_get:
+                "❌ Failed to get state",
+                key=key,
+                module_name=module,
+                error=str(e_get),
+                exc_info=True,
+            )
+            return default
+
+        try:
+            with self._get_lock(key):
+                if key not in self.state:
+                    self.logger.info("Key not found for deletion, considered successful", key=key)
+                    return True
+
+                if not self._check_access(key, StateOperation.DELETE, module, user_id):
+                    self.logger.warning(
+                        "Delete state access denied",
+                        key=key,
+                        module_name=module,
+                        user_id=user_id,
+                    )
+                    return False
+
+                deleted_value_for_history = self.state[key].value
+                deleted_version = self.state[key].version
+                del self.state[key]
+
+                self._add_change_to_history(
+                    key,
+                    deleted_value_for_history,
+                    None,
+                    StateOperation.DELETE,
+                    module,
+                    user_id,
+                    deleted_version + 1,
+                )
+                self.stats["deletes"] += 1
+                self._notify_subscribers(key, None, "delete")
+
+                self.logger.info(
+                    "State deleted successfully",
+                    event="state.delete",
+                    key=key,
+                    module_name=module,
+                    user_id=user_id,
+                )
+                return True
+
+        except Exception as e_del:
+                "❌ Failed to delete state",
+                key=key,
+                module_name=module,
+                error=str(e_del),
+                exc_info=True,
+            )
+            return False
+
+        try:
+            if not self._check_access(key, StateOperation.SUBSCRIBE, module, user_id):
+                self.logger.warning(
+                    "Subscribe to state access denied",
+                    key=key,
+                    module_name=module,
+                    user_id=user_id,
+                )
+                return False
+
+            if key not in self.subscribers:
+                self.subscribers[key] = set()
+
+            self.subscribers[key].add(callback)
+            self.stats["subscriptions"] = sum(len(s) for s in self.subscribers.values())
+
+            self.logger.info(
+                "Subscribed to state successfully",
+                event="state.subscribe",
+                key=key,
+                module_name=module,
+                user_id=user_id,
+                handler_name=getattr(callback, "__name__", str(callback)),
+            )
+            return True
+
+        except Exception as e_sub:
+                "❌ Failed to subscribe to state",
+                key=key,
+                module_name=module,
+                error=str(e_sub),
+                exc_info=True,
+            )
+            return False
+
+        try:
+            if key in self.subscribers:
+                self.subscribers[key].discard(callback)
+                if not self.subscribers[key]:
+                    del self.subscribers[key]
+                self.stats["subscriptions"] = sum(len(s) for s in self.subscribers.values())
+
+            self.logger.info(
+                "Unsubscribed from state successfully",
+                event="state.unsubscribe",
+                key=key,
+                module_name=module,
+                handler_name=getattr(callback, "__name__", str(callback)),
+            )
+            return True
+
+        except Exception as e_unsub:
+                "❌ Failed to unsubscribe from state",
+                key=key,
+                module_name=module,
+                error=str(e_unsub),
+                exc_info=True,
+            )
+            return False
+
+            try:
+                mem_usage += sys.getsizeof(sv_item.value)
+                if sv_item.metadata:
+                    mem_usage += sys.getsizeof(sv_item.metadata)
+            except TypeError:
+                    mem_usage += len(json.dumps(asdict(sv_item)))
+                except TypeError:
+                    mem_usage += 1000
+
+        try:
+            target_change_obj: Optional[StateChange] = None
+            for change_rec in reversed(self.change_history):
+                if change_rec.key == key and change_rec.version == version:
+                    target_change_obj = change_rec
+                    break
+
+            if not target_change_obj:
+                self.logger.warning(
+                    "Rollback failed: Target version not found in history",
+                    key=key,
+                    target_version=version,
+                )
+                return False
+
+            is_owner = key in self.state and self.state[key].owner_module == module
+            is_admin = False
+            if self.identity_client and user_id:
+                user_info = self.identity_client.get_user_info(user_id)
+                if user_info and user_info.get("tier") == "ADMIN":
+                    is_admin = True
+
+            if not (is_owner or is_admin):
+                self.logger.warning(
+                    "Rollback denied: Insufficient permissions.",
+                    key=key,
+                    module_name=module,
+                    user_id=user_id,
+                )
+                return False
+
+            value_to_restore = target_change_obj.new_value
+
+            if target_change_obj.operation == StateOperation.DELETE:
+                self.logger.info(
+                    "Rollback target version was a DELETE operation. Deleting current state if it exists.",
+                    key=key,
+                    target_version=version,
+                )
+                if key in self.state:
+                    return self.delete_state(key, module, user_id)
+                return True
+            else:
+                current_sv = self.state.get(key)
+                access_level_for_restore = current_sv.access_level if current_sv else StateAccessLevel.PROTECTED
+                ttl_for_restore = current_sv.ttl if current_sv else None
+                metadata_for_restore = current_sv.metadata if current_sv else None
+
+                self.logger.info(
+                    "Performing rollback by setting state",
+                    key=key,
+                    target_version=version,
+                    value_to_restore_type=type(value_to_restore).__name__,
+                )
+                return self.set_state(
+                    key,
+                    value_to_restore,
+                    module,
+                    user_id,
+                    access_level=access_level_for_restore,
+                    ttl=ttl_for_restore,
+                    metadata=metadata_for_restore,
+                )
+
+        except Exception as e_rb:
+                "❌ Failed to rollback state",
+                key=key,
+                target_version=version,
+                error=str(e_rb),
+                exc_info=True,
+            )
+            return False
+
+
+
+logger = logging.getLogger(__name__)
+
+MODULE_VERSION = "2.0.0"
+MODULE_NAME = "shared_state"
+
+
+# Identity integration
+# AIMPORT_TODO: Review robustness of importing IdentityClient from core.lukhas_id.
+# Consider if it should be part of a shared, installable library or if current path assumptions are stable.
+# ΛNOTE: The system attempts to use IdentityClient. If unavailable, it
+# falls back, limiting identity-based features.
+identity_available = False
+IdentityClient = None  # Placeholder
 # Enum defining access levels for state data.
 class StateAccessLevel(Enum):
     """Access levels for state data"""
@@ -420,25 +791,6 @@ class SharedStateManager:
                 num_subscribers=len(self.subscribers[key]),
             )
             for callback in list(self.subscribers[key]):
-                try:
-                    if asyncio.iscoroutinefunction(callback):
-                        asyncio.create_task(callback(key, new_value, operation_type_str))
-                    else:
-                        callback(key, new_value, operation_type_str)
-                    self.logger.debug(
-                        "Subscriber notified",
-                        key=key,
-                        handler=getattr(callback, "__name__", str(callback)),
-                    )
-                except Exception as e_notify:
-                    self.logger.error(
-                        "❌ Subscriber notification failed",
-                        key=key,
-                        handler=getattr(callback, "__name__", str(callback)),
-                        error=str(e_notify),
-                        exc_info=True,
-                    )
-
     def _add_change_to_history(
         self,
         key: str,
@@ -490,225 +842,12 @@ class SharedStateManager:
             access_level=access_level.value,
             ttl=ttl,
         )
-        try:
-            self._cleanup_expired()
-
-            with self._get_lock(key):
-                if not self._check_access(key, StateOperation.WRITE, module, user_id):
-                    self.logger.warning(
-                        "Set state access denied",
-                        key=key,
-                        module_name=module,
-                        user_id=user_id,
-                    )
-                    return False
-
-                old_value_for_history: Any = None
-                current_version = 0
-
-                tier: Optional[str] = None
-                if self.identity_client and user_id:
-                    user_info = self.identity_client.get_user_info(user_id)
-                    if user_info:
-                        tier = user_info.get("tier")
-
-                value_to_set = value
-                if key in self.state:
-                    existing_sv = self.state[key]
-                    old_value_for_history = existing_sv.value
-                    current_version = existing_sv.version
-
-                    if not self._resolve_conflict(key, existing_sv, value, module):
-                        self.logger.info(
-                            "Set state rejected or handled by conflict strategy (no overwrite)",
-                            key=key,
-                            strategy=self.conflict_strategy.value,
-                        )
-                        if (
-                            self.conflict_strategy == ConflictResolutionStrategy.MERGE
-                            and existing_sv.value != old_value_for_history
-                        ):
-                            self.logger.info(
-                                "State value was merged in-place by conflict strategy",
-                                key=key,
-                            )
-                            value_to_set = existing_sv.value
-                        else:
-                            return False
-
-                    existing_sv.value = value_to_set
-                    existing_sv.owner_module = module
-                    existing_sv.access_level = access_level
-                    existing_sv.version = current_version + 1
-                    existing_sv.timestamp = time.time()
-                    existing_sv.user_id = user_id
-                    existing_sv.tier = tier
-                    existing_sv.ttl = ttl
-                    existing_sv.metadata = metadata or existing_sv.metadata
-                    current_version = existing_sv.version
-                else:
-                    old_value_for_history = None
-                    current_version = 1
-                    new_sv = StateValue(
-                        value=value_to_set,
-                        owner_module=module,
-                        access_level=access_level,
-                        version=current_version,
-                        timestamp=time.time(),
-                        user_id=user_id,
-                        tier=tier,
-                        ttl=ttl,
-                        metadata=metadata or {},
-                    )
-                    self.state[key] = new_sv
-
-                self._add_change_to_history(
-                    key,
-                    old_value_for_history,
-                    value_to_set,
-                    StateOperation.WRITE,
-                    module,
-                    user_id,
-                    current_version,
-                )
-                self.stats["writes"] += 1
-                self._notify_subscribers(key, value_to_set, "set")
-
-                self.logger.info(
-                    "State set successfully",
-                    event="state.set",
-                    key=key,
-                    module_name=module,
-                    user_id=user_id,
-                    version=current_version,
-                    access_level=access_level.value,
-                    has_ttl=bool(ttl),
-                )
-                return True
-
-        except Exception as e_set:
-            self.logger.error(
-                "❌ Failed to set state",
-                key=key,
-                module_name=module,
-                error=str(e_set),
-                exc_info=True,
-            )
-            return False
-
     def get_state(self, key: str, module: str, user_id: Optional[str] = None, default: Any = None) -> Any:
         """Get a state value"""
         self.logger.debug("Attempting to get state", key=key, module_name=module, user_id=user_id)
-        try:
-            self._cleanup_expired()
-
-            with self._get_lock(key):
-                if key not in self.state:
-                    self.logger.debug("Key not found in state, returning default", key=key)
-                    return default
-
-                if not self._check_access(key, StateOperation.READ, module, user_id):
-                    self.logger.warning(
-                        "Get state access denied",
-                        key=key,
-                        module_name=module,
-                        user_id=user_id,
-                    )
-                    return default
-
-                state_value_obj = self.state[key]
-
-                if self._is_expired(state_value_obj):
-                    self.logger.info("State value expired, removing and returning default", key=key)
-                    deleted_val_for_hist = state_value_obj.value
-                    del self.state[key]
-                    self._notify_subscribers(key, None, "expired")
-                    self._add_change_to_history(
-                        key,
-                        deleted_val_for_hist,
-                        None,
-                        StateOperation.DELETE,
-                        "system_ttl_cleanup",
-                        None,
-                        state_value_obj.version + 1,
-                    )
-                    return default
-
-                self.stats["reads"] += 1
-                self.logger.info(
-                    "State retrieved successfully",
-                    event="state.get",
-                    key=key,
-                    module_name=module,
-                    user_id=user_id,
-                    version=state_value_obj.version,
-                    owner=state_value_obj.owner_module,
-                )
-                return deepcopy(state_value_obj.value)
-
-        except Exception as e_get:
-            self.logger.error(
-                "❌ Failed to get state",
-                key=key,
-                module_name=module,
-                error=str(e_get),
-                exc_info=True,
-            )
-            return default
-
     def delete_state(self, key: str, module: str, user_id: Optional[str] = None) -> bool:
         """Delete a state value"""
         self.logger.debug("Attempting to delete state", key=key, module_name=module, user_id=user_id)
-        try:
-            with self._get_lock(key):
-                if key not in self.state:
-                    self.logger.info("Key not found for deletion, considered successful", key=key)
-                    return True
-
-                if not self._check_access(key, StateOperation.DELETE, module, user_id):
-                    self.logger.warning(
-                        "Delete state access denied",
-                        key=key,
-                        module_name=module,
-                        user_id=user_id,
-                    )
-                    return False
-
-                deleted_value_for_history = self.state[key].value
-                deleted_version = self.state[key].version
-                del self.state[key]
-
-                self._add_change_to_history(
-                    key,
-                    deleted_value_for_history,
-                    None,
-                    StateOperation.DELETE,
-                    module,
-                    user_id,
-                    deleted_version + 1,
-                )
-                self.stats["deletes"] += 1
-                self._notify_subscribers(key, None, "delete")
-
-                self.logger.info(
-                    "State deleted successfully",
-                    event="state.delete",
-                    key=key,
-                    module_name=module,
-                    user_id=user_id,
-                )
-                return True
-
-        except Exception as e_del:
-            self.logger.error(
-                "❌ Failed to delete state",
-                key=key,
-                module_name=module,
-                error=str(e_del),
-                exc_info=True,
-            )
-            return False
-
     def subscribe(
         self,
         key: str,
@@ -724,42 +863,6 @@ class SharedStateManager:
             user_id=user_id,
             handler_name=getattr(callback, "__name__", str(callback)),
         )
-        try:
-            if not self._check_access(key, StateOperation.SUBSCRIBE, module, user_id):
-                self.logger.warning(
-                    "Subscribe to state access denied",
-                    key=key,
-                    module_name=module,
-                    user_id=user_id,
-                )
-                return False
-
-            if key not in self.subscribers:
-                self.subscribers[key] = set()
-
-            self.subscribers[key].add(callback)
-            self.stats["subscriptions"] = sum(len(s) for s in self.subscribers.values())
-
-            self.logger.info(
-                "Subscribed to state successfully",
-                event="state.subscribe",
-                key=key,
-                module_name=module,
-                user_id=user_id,
-                handler_name=getattr(callback, "__name__", str(callback)),
-            )
-            return True
-
-        except Exception as e_sub:
-            self.logger.error(
-                "❌ Failed to subscribe to state",
-                key=key,
-                module_name=module,
-                error=str(e_sub),
-                exc_info=True,
-            )
-            return False
-
     def unsubscribe(self, key: str, callback: Callable[[str, Any, str], Any], module: str) -> bool:
         """Unsubscribe from state changes"""
         self.logger.debug(
@@ -768,32 +871,6 @@ class SharedStateManager:
             module_name=module,
             handler_name=getattr(callback, "__name__", str(callback)),
         )
-        try:
-            if key in self.subscribers:
-                self.subscribers[key].discard(callback)
-                if not self.subscribers[key]:
-                    del self.subscribers[key]
-                self.stats["subscriptions"] = sum(len(s) for s in self.subscribers.values())
-
-            self.logger.info(
-                "Unsubscribed from state successfully",
-                event="state.unsubscribe",
-                key=key,
-                module_name=module,
-                handler_name=getattr(callback, "__name__", str(callback)),
-            )
-            return True
-
-        except Exception as e_unsub:
-            self.logger.error(
-                "❌ Failed to unsubscribe from state",
-                key=key,
-                module_name=module,
-                error=str(e_unsub),
-                exc_info=True,
-            )
-            return False
-
     def get_keys_by_prefix(self, prefix: str, module: str, user_id: Optional[str] = None) -> list[str]:
         """Get all keys matching a prefix, respecting access controls."""
         self.logger.debug("Getting keys by prefix", prefix=prefix, module_name=module, user_id=user_id)
@@ -859,16 +936,6 @@ class SharedStateManager:
         self.logger.debug("Fetching current state manager statistics")
         mem_usage = 0
         for sv_item in self.state.values():
-            try:
-                mem_usage += sys.getsizeof(sv_item.value)
-                if sv_item.metadata:
-                    mem_usage += sys.getsizeof(sv_item.metadata)
-            except TypeError:
-                try:
-                    mem_usage += len(json.dumps(asdict(sv_item)))
-                except TypeError:
-                    mem_usage += 1000
-
         current_stats = {
             **self.stats,
             "total_keys_active": len(self.state),
@@ -892,81 +959,6 @@ class SharedStateManager:
             module_name=module,
             user_id=user_id,
         )
-        try:
-            target_change_obj: Optional[StateChange] = None
-            for change_rec in reversed(self.change_history):
-                if change_rec.key == key and change_rec.version == version:
-                    target_change_obj = change_rec
-                    break
-
-            if not target_change_obj:
-                self.logger.warning(
-                    "Rollback failed: Target version not found in history",
-                    key=key,
-                    target_version=version,
-                )
-                return False
-
-            is_owner = key in self.state and self.state[key].owner_module == module
-            is_admin = False
-            if self.identity_client and user_id:
-                user_info = self.identity_client.get_user_info(user_id)
-                if user_info and user_info.get("tier") == "ADMIN":
-                    is_admin = True
-
-            if not (is_owner or is_admin):
-                self.logger.warning(
-                    "Rollback denied: Insufficient permissions.",
-                    key=key,
-                    module_name=module,
-                    user_id=user_id,
-                )
-                return False
-
-            value_to_restore = target_change_obj.new_value
-
-            if target_change_obj.operation == StateOperation.DELETE:
-                self.logger.info(
-                    "Rollback target version was a DELETE operation. Deleting current state if it exists.",
-                    key=key,
-                    target_version=version,
-                )
-                if key in self.state:
-                    return self.delete_state(key, module, user_id)
-                return True
-            else:
-                current_sv = self.state.get(key)
-                access_level_for_restore = current_sv.access_level if current_sv else StateAccessLevel.PROTECTED
-                ttl_for_restore = current_sv.ttl if current_sv else None
-                metadata_for_restore = current_sv.metadata if current_sv else None
-
-                self.logger.info(
-                    "Performing rollback by setting state",
-                    key=key,
-                    target_version=version,
-                    value_to_restore_type=type(value_to_restore).__name__,
-                )
-                return self.set_state(
-                    key,
-                    value_to_restore,
-                    module,
-                    user_id,
-                    access_level=access_level_for_restore,
-                    ttl=ttl_for_restore,
-                    metadata=metadata_for_restore,
-                )
-
-        except Exception as e_rb:
-            self.logger.error(
-                "❌ Failed to rollback state",
-                key=key,
-                target_version=version,
-                error=str(e_rb),
-                exc_info=True,
-            )
-            return False
-
-
 # Global shared state manager
 # ΛEXPOSE (Implicitly, as module-level functions use it)
 # ΛNOTE: A global singleton instance `shared_state` is created. Consider

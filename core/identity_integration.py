@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
 """
 ════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - IDENTITY INTEGRATION MODULE
@@ -21,6 +18,8 @@ logger = logging.getLogger(__name__)
 ╚═══════════════════════════════════════════════════════════════════════════════
 """
 
+import logging
+
 import functools
 from datetime import datetime, timezone
 from enum import Enum
@@ -28,17 +27,34 @@ from typing import Any, Callable, Optional, Union
 
 import structlog
 
-logger = structlog.get_logger(__name__)
-
-# Try to import identity client
 try:
     from governance.identity.interface import IdentityClient
 
     IDENTITY_AVAILABLE = True
 except ImportError:
-    IDENTITY_AVAILABLE = False
     logger.warning("Identity system not available - running without identity validation")
 
+                try:
+                    num = int(tier.split("_")[1])
+                    return f"LAMBDA_TIER_{num}"
+                except BaseException:
+        try:
+            return LAMBDA_TIERS.index(normalized)
+        except ValueError:
+
+
+        try:
+            _identity_client = IdentityClient()
+            logger.info("Identity client initialized successfully")
+        except Exception as e:
+            return None
+
+
+logger = logging.getLogger(__name__)
+
+logger = structlog.get_logger(__name__)
+
+# Try to import identity client
 # Global identity client instance
 _identity_client: Optional["IdentityClient"] = None
 
@@ -102,11 +118,6 @@ class TierMappingConfig:
                 return cls.EMOTIONAL_TO_LAMBDA[tier]
             # Try to extract tier number
             if tier.startswith("TIER_"):
-                try:
-                    num = int(tier.split("_")[1])
-                    return f"LAMBDA_TIER_{num}"
-                except BaseException:
-                    pass
         elif isinstance(tier, int):
             # Oneiric database tier
             if tier in cls.ONEIRIC_TO_LAMBDA:
@@ -123,12 +134,6 @@ class TierMappingConfig:
     def get_tier_index(cls, tier: Union[str, int]) -> int:
         """Get numeric index for tier comparison."""
         normalized = cls.normalize_tier(tier)
-        try:
-            return LAMBDA_TIERS.index(normalized)
-        except ValueError:
-            return 0  # Default to base tier
-
-
 def get_identity_client() -> Optional["IdentityClient"]:
     """Get or create the global identity client instance."""
     global _identity_client
@@ -137,13 +142,6 @@ def get_identity_client() -> Optional["IdentityClient"]:
         return None
 
     if _identity_client is None:
-        try:
-            _identity_client = IdentityClient()
-            logger.info("Identity client initialized successfully")
-        except Exception as e:
-            logger.error(f"Failed to initialize identity client: {e}")
-            return None
-
     return _identity_client
 
 

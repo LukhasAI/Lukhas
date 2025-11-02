@@ -195,7 +195,7 @@ class IdentityGuard:
                     cwd=".",
                 )
                 changed_files = result.stdout.strip().split("\n") if result.stdout.strip() else []
-            except:
+            except Exception as e:
                 print("⚠️ Could not get git changes, validating all API files")
                 changed_files = []
 

@@ -68,7 +68,8 @@ class ModuleMigrator:
                             if pattern.search(line):
                                 imports.append(f"{py_file.relative_to(module_path)}")
                                 break
-                except:
+                except Exception as e:
+                    logger.debug(f"Expected optional failure: {e}")
                     pass
 
             if imports:
@@ -91,7 +92,8 @@ class ModuleMigrator:
                 for pattern in matriz_patterns:
                     if re.search(pattern, content, re.IGNORECASE):
                         return True
-            except:
+            except Exception as e:
+                logger.debug(f"Expected optional failure: {e}")
                 pass
 
         return False

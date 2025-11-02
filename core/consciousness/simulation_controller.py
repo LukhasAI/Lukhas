@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 
 #TAG:consciousness
@@ -58,6 +56,8 @@ from __future__ import annotations
 ║ - Stress Response Systems (Sapolsky, 2004)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
+from __future__ import annotations
 import asyncio
 import contextlib
 import logging
@@ -67,6 +67,11 @@ from enum import Enum
 from typing import Any, Callable
 
 from core.bio_systems.bio_oscillator import OscillationType
+
+            try:
+                callback(self.get_hormone_state())
+            except Exception as e:
+
 
 logger = logging.getLogger("bio_simulation_controller")
 
@@ -446,11 +451,6 @@ class BioSimulationController:
     def _trigger_callbacks(self, state: str):
         """Trigger registered callbacks for a system state."""
         for callback in self.state_callbacks.get(state, []):
-            try:
-                callback(self.get_hormone_state())
-            except Exception as e:
-                logger.error(f"Error in state callback for {state}: {e}")
-
     # Public API methods for Cognitive AI integration
 
     def get_hormone_state(self) -> dict[str, float]:

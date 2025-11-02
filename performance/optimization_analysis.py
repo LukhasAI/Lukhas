@@ -238,7 +238,8 @@ class PerformanceAnalyzer:
             for _ in range(100):
                 get_flags()
                 is_enabled("adaptive_ai")
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             pass
 
         # Simulate data processing

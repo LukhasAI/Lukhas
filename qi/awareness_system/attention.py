@@ -5,6 +5,11 @@ Advanced: mito_quantum_attention.py
 Integration Date: 2025-05-31T07:55:28.187065
 """
 
+import hashlib
+import random
+import time
+import torch
+import torch.nn as nn
 
 """
 📦 MODULE      : qi_attention.py
@@ -14,12 +19,7 @@ Integration Date: 2025-05-31T07:55:28.187065
 📅 UPDATED     : 2025-05-07
 """
 
-import hashlib
-import random
-import time
 
-import torch
-import torch.nn as nn
 
 # ──────────────────────────────────────────────────────────────────────────────
 # 1. CristaGate Module – Ethical Containment Mechanism

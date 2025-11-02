@@ -315,7 +315,7 @@ def validate_module(module_path: str) -> Dict[str, Any]:
         with open(module_path) as f:
             compile(f.read(), module_path, 'exec')
         results["checks"]["imports"] = True
-    except:
+    except Exception as e:
         results["checks"]["imports"] = False
 
     # Check 2: Schema exists
@@ -331,7 +331,7 @@ def validate_module(module_path: str) -> Dict[str, Any]:
         with open(module_path) as f:
             ast.parse(f.read())
         results["checks"]["syntax"] = True
-    except:
+    except Exception as e:
         results["checks"]["syntax"] = False
 
     # Calculate readiness

@@ -10,7 +10,7 @@ to avoid circular dependencies.
 """
 
 from typing import Any, Optional
-
+import abc
 
 def ensure_both_id_keys(obj: dict[str, Any], lid: Optional[str]) -> None:
     """Ensure the mapping `obj` contains both `lid` and `lambda_id` keys.
@@ -28,7 +28,6 @@ def ensure_both_id_keys(obj: dict[str, Any], lid: Optional[str]) -> None:
     obj.setdefault("lambda_id", lid)
 
 
-import abc
 
 
 class AuthenticationIntegration(abc.ABC):

@@ -214,7 +214,8 @@ class ChaosEngineer:
                 for temp_file in temp_files:
                     try:
                         os.remove(temp_file)
-                    except:
+                    except Exception as e:
+                        logger.debug(f"Expected optional failure: {e}")
                         pass
 
         # Start I/O stress worker
@@ -406,7 +407,8 @@ class ChaosEngineer:
         finally:
             try:
                 await self.consciousness_stream.stop()
-            except:
+            except Exception as e:
+                logger.debug(f"Expected optional failure: {e}")
                 pass
 
         return results

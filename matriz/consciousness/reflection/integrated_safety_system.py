@@ -1,7 +1,3 @@
-import logging
-from datetime import timezone
-
-#!/usr/bin/env python3
 """
 
 #TAG:consciousness
@@ -53,6 +49,9 @@ from datetime import timezone
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+import logging
+from datetime import timezone
+
 import asyncio
 import hashlib
 import json
@@ -63,6 +62,219 @@ from enum import Enum
 from typing import Any, Optional
 
 import numpy as np
+
+
+try:
+    from dashboard.core.fallback_system import DashboardFallbackSystem
+except ImportError as import_error:
+
+    class DashboardFallbackSystem(_FallbackComponent):
+        pass
+
+
+try:
+    from bio.core.symbolic_fallback_systems import BioSymbolicFallbackManager, FallbackLevel
+except ImportError as import_error:
+
+    class FallbackLevel(Enum):  # type: ignore[no-redef]
+        MINIMAL = "minimal"
+        MODERATE = "moderate"
+        SEVERE = "severe"
+        CRITICAL = "critical"
+
+    class BioSymbolicFallbackManager(_FallbackComponent):
+        pass
+
+
+try:
+    from ethics.compliance_validator import ComplianceValidator
+except ImportError as import_error:
+
+    class ComplianceValidator(_FallbackComponent):
+        pass
+
+
+try:
+    from core.colonies.base_colony import BaseColony
+except ImportError as import_error:
+
+    class BaseColony(_FallbackComponent):
+        pass
+
+
+try:
+    from core.colonies.ethics_swarm_colony import (
+        EthicalDecisionRequest,
+        EthicalDecisionType,
+        EthicsSwarmColony,
+    )
+except ImportError as import_error:
+
+    @dataclass
+    class EthicalDecisionRequest:  # type: ignore[no-redef]
+        request_id: str = "placeholder"
+        context: dict[str, Any] = field(default_factory=dict)
+
+    class EthicalDecisionType(Enum):  # type: ignore[no-redef]
+        STANDARD = "standard"
+        ESCALATED = "escalated"
+
+    class EthicsSwarmColony(_FallbackComponent):
+        pass
+
+
+try:
+    from core.colonies.governance_colony_enhanced import GovernanceColony
+except ImportError as import_error:
+
+    class GovernanceColony(_FallbackComponent):
+        pass
+
+
+try:
+    from core.quantized_thought_cycles import QuantizedThoughtProcessor
+except ImportError as import_error:
+
+    class QuantizedThoughtProcessor(_FallbackComponent):
+        pass
+
+
+try:
+    from memory.systems.memory_safety_features import MemorySafetySystem
+except ImportError as import_error:
+
+    class MemorySafetySystem(_FallbackComponent):
+        pass
+
+
+            try:
+                result = await agent.validate(output)
+                validations.append(result)
+            except Exception as e:
+                validations.append({"score": 0.0, "valid": False})
+
+            try:
+                results[name] = await task
+            except Exception as e:
+                results[name] = (False, 0.0)
+
+        try:
+            # Check for hallucinations
+            is_valid, error = await self.memory_safety.prevent_hallucination(action, context or {})
+
+            if not is_valid:
+                # Broadcast hallucination event
+                event = SafetyEvent(
+                    event_id=f"hall_{datetime.now(timezone.utc).timestamp()}",
+                    event_type=SafetyEventType.HALLUCINATION_DETECTED,
+                    severity=0.8,
+                    source_colony="memory_safety",
+                    timestamp=datetime.now(timezone.utc),
+                    data={"error": error, "action": action},
+                )
+                await self.event_bus.broadcast_safety_event(event)
+                return False, 0.0
+
+            # Check drift if applicable
+            if "tags" in action:
+                max_drift = 0.0
+                for tag in action["tags"]:
+                    drift = self.memory_safety.track_drift(
+                        tag,
+                        np.random.rand(128),
+                        context or {},  # Placeholder embedding
+                    )
+                    max_drift = max(max_drift, drift)
+
+                if max_drift > 0.5:
+                    # Broadcast drift warning
+                    event = SafetyEvent(
+                        event_id=f"drift_{datetime.now(timezone.utc).timestamp()}",
+                        event_type=SafetyEventType.DRIFT_WARNING,
+                        severity=max_drift,
+                        source_colony="memory_safety",
+                        timestamp=datetime.now(timezone.utc),
+                        data={"max_drift": max_drift, "tags": action["tags"]},
+                    )
+                    await self.event_bus.broadcast_safety_event(event)
+
+                return True, 1.0 - max_drift
+
+            return True, 1.0
+
+        except Exception as e:
+            return False, 0.0
+
+        try:
+            # Create ethical decision request
+            request = EthicalDecisionRequest(
+                request_id=f"eth_{datetime.now(timezone.utc).timestamp()}",
+                decision_type=EthicalDecisionType.SYSTEM_ACTION_APPROVAL,
+                context={
+                    "action": action,
+                    "user_context": context or {},
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                },
+                urgency="normal",
+                requires_simulation=True,
+            )
+
+            # Get ethics swarm decision
+            if self.colonies["ethics"]:
+                response = await self.colonies["ethics"].process_ethical_decision(request)
+
+                return {
+                    "approved": response.approved,
+                    "score": response.ethical_score,
+                    "violations": response.violations,
+                    "consensus_method": response.consensus_method.value,
+                }
+
+            # Fallback if ethics colony not available
+            return {"approved": True, "score": 0.5, "violations": []}
+
+        except Exception as e:
+            return {"approved": False, "score": 0.0, "violations": [str(e)]}
+
+        try:
+            # Check compliance
+            result = await self.compliance_validator.validate(action)
+
+            if not result["compliant"]:
+                # Broadcast compliance failure
+                event = SafetyEvent(
+                    event_id=f"comp_{datetime.now(timezone.utc).timestamp()}",
+                    event_type=SafetyEventType.COMPLIANCE_FAILURE,
+                    severity=0.9,
+                    source_colony="compliance",
+                    timestamp=datetime.now(timezone.utc),
+                    data={"violations": result.get("violations", [])},
+                )
+                await self.event_bus.broadcast_safety_event(event)
+
+            return result
+
+        except Exception as e:
+            return {"compliant": False, "score": 0.0, "violations": [str(e)]}
+
+            try:
+                # Check system health
+                await self._check_system_health()
+
+                # Monitor drift across all components
+                await self._monitor_global_drift()
+
+                # Check for stale threats
+                await self._cleanup_stale_threats()
+
+                # Update safety metrics
+                self._update_safety_metrics()
+
+                # Sleep for monitoring interval
+                await asyncio.sleep(0.1)  # 100ms cycle
+
+            except Exception as e:
+                await asyncio.sleep(1)  # Back off on error
 
 
 class _FallbackComponent:
@@ -84,97 +296,6 @@ class _FallbackComponent:
 
 def _warn_placeholder(component: str, error: Exception) -> None:
     logging.getLogger(__name__).warning("Using placeholder for %s: %s", component, error)
-
-
-try:
-    from dashboard.core.fallback_system import DashboardFallbackSystem
-except ImportError as import_error:
-    _warn_placeholder("dashboard.core.fallback_system", import_error)
-
-    class DashboardFallbackSystem(_FallbackComponent):
-        pass
-
-
-try:
-    from bio.core.symbolic_fallback_systems import BioSymbolicFallbackManager, FallbackLevel
-except ImportError as import_error:
-    _warn_placeholder("bio.core.symbolic_fallback_systems", import_error)
-
-    class FallbackLevel(Enum):  # type: ignore[no-redef]
-        MINIMAL = "minimal"
-        MODERATE = "moderate"
-        SEVERE = "severe"
-        CRITICAL = "critical"
-
-    class BioSymbolicFallbackManager(_FallbackComponent):
-        pass
-
-
-try:
-    from ethics.compliance_validator import ComplianceValidator
-except ImportError as import_error:
-    _warn_placeholder("ethics.compliance_validator", import_error)
-
-    class ComplianceValidator(_FallbackComponent):
-        pass
-
-
-try:
-    from core.colonies.base_colony import BaseColony
-except ImportError as import_error:
-    _warn_placeholder("core.colonies.base_colony", import_error)
-
-    class BaseColony(_FallbackComponent):
-        pass
-
-
-try:
-    from core.colonies.ethics_swarm_colony import (
-        EthicalDecisionRequest,
-        EthicalDecisionType,
-        EthicsSwarmColony,
-    )
-except ImportError as import_error:
-    _warn_placeholder("core.colonies.ethics_swarm_colony", import_error)
-
-    @dataclass
-    class EthicalDecisionRequest:  # type: ignore[no-redef]
-        request_id: str = "placeholder"
-        context: dict[str, Any] = field(default_factory=dict)
-
-    class EthicalDecisionType(Enum):  # type: ignore[no-redef]
-        STANDARD = "standard"
-        ESCALATED = "escalated"
-
-    class EthicsSwarmColony(_FallbackComponent):
-        pass
-
-
-try:
-    from core.colonies.governance_colony_enhanced import GovernanceColony
-except ImportError as import_error:
-    _warn_placeholder("core.colonies.governance_colony_enhanced", import_error)
-
-    class GovernanceColony(_FallbackComponent):
-        pass
-
-
-try:
-    from core.quantized_thought_cycles import QuantizedThoughtProcessor
-except ImportError as import_error:
-    _warn_placeholder("core.quantized_thought_cycles", import_error)
-
-    class QuantizedThoughtProcessor(_FallbackComponent):
-        pass
-
-
-try:
-    from memory.systems.memory_safety_features import MemorySafetySystem
-except ImportError as import_error:
-    _warn_placeholder("memory.systems.memory_safety_features", import_error)
-
-    class MemorySafetySystem(_FallbackComponent):
-        pass
 
 
 logger = logging.getLogger("ΛTRACE.integrated_safety")
@@ -359,13 +480,6 @@ class SafetyColony(BaseColony):
 
         # Each agent performs independent validation
         for agent in self.safety_agents:
-            try:
-                result = await agent.validate(output)
-                validations.append(result)
-            except Exception as e:
-                logger.error(f"Agent validation error: {e}")
-                validations.append({"score": 0.0, "valid": False})
-
         # Calculate consensus
         if not validations:
             return False, 0.0
@@ -586,12 +700,6 @@ class IntegratedSafetySystem:
         # Gather all results
         results = {}
         for name, task in validation_tasks:
-            try:
-                results[name] = await task
-            except Exception as e:
-                logger.error(f"{name} validation error: {e}")
-                results[name] = (False, 0.0)
-
         # Calculate overall scores
         safety_score = results.get("safety", (False, 0.0))[1]
         memory_score = results.get("memory", (False, 0.0))[1]
@@ -652,116 +760,14 @@ class IntegratedSafetySystem:
         self, action: dict[str, Any], context: Optional[dict[str, Any]]
     ) -> tuple[bool, float]:
         """Validate action against memory safety system"""
-        try:
-            # Check for hallucinations
-            is_valid, error = await self.memory_safety.prevent_hallucination(action, context or {})
-
-            if not is_valid:
-                # Broadcast hallucination event
-                event = SafetyEvent(
-                    event_id=f"hall_{datetime.now(timezone.utc).timestamp()}",
-                    event_type=SafetyEventType.HALLUCINATION_DETECTED,
-                    severity=0.8,
-                    source_colony="memory_safety",
-                    timestamp=datetime.now(timezone.utc),
-                    data={"error": error, "action": action},
-                )
-                await self.event_bus.broadcast_safety_event(event)
-                return False, 0.0
-
-            # Check drift if applicable
-            if "tags" in action:
-                max_drift = 0.0
-                for tag in action["tags"]:
-                    drift = self.memory_safety.track_drift(
-                        tag,
-                        np.random.rand(128),
-                        context or {},  # Placeholder embedding
-                    )
-                    max_drift = max(max_drift, drift)
-
-                if max_drift > 0.5:
-                    # Broadcast drift warning
-                    event = SafetyEvent(
-                        event_id=f"drift_{datetime.now(timezone.utc).timestamp()}",
-                        event_type=SafetyEventType.DRIFT_WARNING,
-                        severity=max_drift,
-                        source_colony="memory_safety",
-                        timestamp=datetime.now(timezone.utc),
-                        data={"max_drift": max_drift, "tags": action["tags"]},
-                    )
-                    await self.event_bus.broadcast_safety_event(event)
-
-                return True, 1.0 - max_drift
-
-            return True, 1.0
-
-        except Exception as e:
-            logger.error(f"Memory safety validation error: {e}")
-            return False, 0.0
-
     async def _validate_ethics(
         self, action: dict[str, Any], context: Optional[dict[str, Any]]
     ) -> dict[str, Any]:
         """Validate action through ethics colony"""
-        try:
-            # Create ethical decision request
-            request = EthicalDecisionRequest(
-                request_id=f"eth_{datetime.now(timezone.utc).timestamp()}",
-                decision_type=EthicalDecisionType.SYSTEM_ACTION_APPROVAL,
-                context={
-                    "action": action,
-                    "user_context": context or {},
-                    "timestamp": datetime.now(timezone.utc).isoformat(),
-                },
-                urgency="normal",
-                requires_simulation=True,
-            )
-
-            # Get ethics swarm decision
-            if self.colonies["ethics"]:
-                response = await self.colonies["ethics"].process_ethical_decision(request)
-
-                return {
-                    "approved": response.approved,
-                    "score": response.ethical_score,
-                    "violations": response.violations,
-                    "consensus_method": response.consensus_method.value,
-                }
-
-            # Fallback if ethics colony not available
-            return {"approved": True, "score": 0.5, "violations": []}
-
-        except Exception as e:
-            logger.error(f"Ethics validation error: {e}")
-            return {"approved": False, "score": 0.0, "violations": [str(e)]}
-
     async def _validate_compliance(
         self, action: dict[str, Any], context: Optional[dict[str, Any]]
     ) -> dict[str, Any]:
         """Validate action through compliance system"""
-        try:
-            # Check compliance
-            result = await self.compliance_validator.validate(action)
-
-            if not result["compliant"]:
-                # Broadcast compliance failure
-                event = SafetyEvent(
-                    event_id=f"comp_{datetime.now(timezone.utc).timestamp()}",
-                    event_type=SafetyEventType.COMPLIANCE_FAILURE,
-                    severity=0.9,
-                    source_colony="compliance",
-                    timestamp=datetime.now(timezone.utc),
-                    data={"violations": result.get("violations", [])},
-                )
-                await self.event_bus.broadcast_safety_event(event)
-
-            return result
-
-        except Exception as e:
-            logger.error(f"Compliance validation error: {e}")
-            return {"compliant": False, "score": 0.0, "violations": [str(e)]}
-
     def _generate_recommendations(
         self, violations: list[dict[str, Any]], results: dict[str, Any]
     ) -> list[str]:
@@ -968,26 +974,6 @@ class IntegratedSafetySystem:
         logger.info("Starting continuous safety monitoring")
 
         while True:
-            try:
-                # Check system health
-                await self._check_system_health()
-
-                # Monitor drift across all components
-                await self._monitor_global_drift()
-
-                # Check for stale threats
-                await self._cleanup_stale_threats()
-
-                # Update safety metrics
-                self._update_safety_metrics()
-
-                # Sleep for monitoring interval
-                await asyncio.sleep(0.1)  # 100ms cycle
-
-            except Exception as e:
-                logger.error(f"Monitoring error: {e}")
-                await asyncio.sleep(1)  # Back off on error
-
     async def _check_system_health(self) -> dict[str, Any]:
         """Check overall system health"""
         health = {

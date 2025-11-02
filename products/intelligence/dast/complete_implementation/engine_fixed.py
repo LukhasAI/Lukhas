@@ -352,7 +352,8 @@ class LucasDASTEngine:
                 return await self.task_intelligence.analyze_task(
                     {"title": request, "description": request, "context": context}
                 )
-            except:
+            except Exception as e:
+                logger.debug(f"Expected optional failure: {e}")
                 pass  # Fallback to simple analysis
 
         # Fallback: Simulate AI analysis
@@ -596,7 +597,7 @@ class LucasDASTEngine:
         """Asynchronous workflow optimization"""
         try:
             asyncio.create_task(self._background_workflow_analysis(task_id))
-        except:
+        except Exception as e:
             # If async isn't available, update metrics synchronously
             self._update_workflow_metrics_sync(task_id)
 

@@ -1,9 +1,4 @@
 #!/usr/bin/env python3
-import asyncio
-import logging
-
-logger = logging.getLogger(__name__)
-
 """
 ██╗     ██╗   ██╗██╗  ██╗██╗  ██╗ █████╗ ███████╗
 ██║     ██║   ██║██║ ██╔╝██║  ██║██╔══██╗██╔════╝
@@ -23,13 +18,15 @@ emerges from entanglement-like correlation, creating resilient consciousness tha
 even as individual qubits decohere into classical states.
 """
 
+import asyncio
+import logging
+import ray
+
 __module_name__ = "Quantum Distributed Quantum Architecture"
 __version__ = "2.0.0"
 __tier__ = 2
 
-
-import ray
-
+logger = logging.getLogger(__name__)
 
 class DistributedQuantumSafeOrchestrator:
     """

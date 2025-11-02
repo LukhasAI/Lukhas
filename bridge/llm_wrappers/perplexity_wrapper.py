@@ -38,18 +38,43 @@
 ║ Symbolic Tags: {ΛPERPLEXITY}, {ΛWEB}, {ΛREALTIME}, {ΛWRAPPER}
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
 import logging
 import warnings
 
 # Suppress SSL warnings during import
+    import requests
+from branding.terminology import normalize_output
+from .env_loader import get_api_key
+        try:
+            headers = {
+                "Authorization": f"Bearer {self.api_key}",
+                "Content-Type": "application/json",
+            }
+
+            data = {
+                "model": model,
+                "messages": [
+                    {"role": "system", "content": guidance},
+                    {"role": "user", "content": prompt},
+                ],
+                "max_tokens": kwargs.get("max_tokens", 2000),
+                "temperature": kwargs.get("temperature", 0.7),
+            }
+
+            response = requests.post(self.base_url, headers=headers, json=data, timeout=30)
+            response.raise_for_status()
+
+            content = response.json()["choices"][0]["message"].get("content")
+            return normalize_output(content) or content or ""
+        except requests.exceptions.Timeout:
+            return normalize_output(err) or err
+
 warnings.filterwarnings("ignore", category=Warning, module="urllib3")
 with warnings.catch_warnings():
     warnings.simplefilter("ignore")
-    import requests
 
-from branding.terminology import normalize_output
 
-from .env_loader import get_api_key
 
 # Configure module logger
 logger = logging.getLogger("ΛTRACE.bridge.llm_wrappers.perplexity")
@@ -84,30 +109,6 @@ class PerplexityWrapper:
             fb = "Perplexity API key not found. Please set PERPLEXITY_API_KEY environment variable."
             return normalize_output(fb) or fb
 
-        try:
-            headers = {
-                "Authorization": f"Bearer {self.api_key}",
-                "Content-Type": "application/json",
-            }
-
-            data = {
-                "model": model,
-                "messages": [
-                    {"role": "system", "content": guidance},
-                    {"role": "user", "content": prompt},
-                ],
-                "max_tokens": kwargs.get("max_tokens", 2000),
-                "temperature": kwargs.get("temperature", 0.7),
-            }
-
-            response = requests.post(self.base_url, headers=headers, json=data, timeout=30)
-            response.raise_for_status()
-
-            content = response.json()["choices"][0]["message"].get("content")
-            return normalize_output(content) or content or ""
-        except requests.exceptions.Timeout:
-            err = "Perplexity API Error: Request timeout"
-            return normalize_output(err) or err
         except requests.exceptions.RequestException as e:
             err = f"Perplexity API Error: Request failed - {e!s}"
             return normalize_output(err) or err

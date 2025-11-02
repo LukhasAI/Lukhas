@@ -99,7 +99,7 @@ class DocumentationGenerator:
                     content = f.read()
                     if "Example:" in content or ">>> " in content:
                         return True
-            except:
+            except Exception as e:
                 continue
         return False
 
@@ -116,7 +116,7 @@ class DocumentationGenerator:
         try:
             with open(manifest_path, 'r') as f:
                 manifest = json.load(f)
-        except:
+        except Exception as e:
             manifest = {}
 
         readme_content = self._generate_readme_content(module, manifest)

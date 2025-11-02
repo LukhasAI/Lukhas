@@ -246,7 +246,8 @@ class TestEventBusProperties:
             if hasattr(event_bus, 'db_path'):
                 try:
                     os.unlink(event_bus.db_path)
-                except:
+                except Exception as e:
+                    logger.debug(f"Expected optional failure: {e}")
                     pass
 
     @pytest.mark.asyncio
@@ -279,7 +280,8 @@ class TestEventBusProperties:
             if hasattr(event_bus, 'db_path'):
                 try:
                     os.unlink(event_bus.db_path)
-                except:
+                except Exception as e:
+                    logger.debug(f"Expected optional failure: {e}")
                     pass
 
     @pytest.mark.asyncio
@@ -315,7 +317,8 @@ class TestEventBusProperties:
             if hasattr(event_bus, 'db_path'):
                 try:
                     os.unlink(event_bus.db_path)
-                except:
+                except Exception as e:
+                    logger.debug(f"Expected optional failure: {e}")
                     pass
 
 
@@ -412,7 +415,8 @@ class EventHandlerStateMachine(RuleBasedStateMachine):
         import shutil
         try:
             shutil.rmtree(self.temp_dir)
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             pass
 
 
@@ -472,7 +476,8 @@ class TestIntegrationProperties:
             import shutil
             try:
                 shutil.rmtree(temp_dir)
-            except:
+            except Exception as e:
+                logger.debug(f"Expected optional failure: {e}")
                 pass
 
     @pytest.mark.asyncio
@@ -511,7 +516,8 @@ class TestIntegrationProperties:
             import shutil
             try:
                 shutil.rmtree(temp_dir)
-            except:
+            except Exception as e:
+                logger.debug(f"Expected optional failure: {e}")
                 pass
 
 
@@ -560,7 +566,8 @@ class TestPerformanceProperties:
             import shutil
             try:
                 shutil.rmtree(temp_dir)
-            except:
+            except Exception as e:
+                logger.debug(f"Expected optional failure: {e}")
                 pass
 
 

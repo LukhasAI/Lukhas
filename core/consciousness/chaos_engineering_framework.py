@@ -1,6 +1,3 @@
-from __future__ import annotations
-
-#!/usr/bin/env python3
 """
 ╔══════════════════════════════════════════════════════════════════════════════════
 ║ 🌪️ LUKHAS AI - CONSCIOUSNESS CHAOS ENGINEERING FRAMEWORK
@@ -33,6 +30,8 @@ from __future__ import annotations
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+from __future__ import annotations
+
 import asyncio
 import logging
 import random
@@ -47,6 +46,74 @@ from typing import Any, Optional
 import numpy as np
 
 # Configure chaos engineering logging
+        try:
+            # Create chaos scenario
+            scenario_class = self.scenarios[scenario_type]
+            if scenario_type == ChaosScenarioType.TRINITY_COMPONENT_ISOLATION:
+                scenario = scenario_class(intensity, isolated_component="random")
+            else:
+                scenario = scenario_class(intensity)
+
+            # Record scenario in active experiments
+            self.active_experiments[experiment_id] = scenario
+
+            # Phase 1: Baseline measurement
+            logger.info("ΛTRACE: Phase 1 - Baseline measurement")
+            baseline_state = initial_system_state
+
+            # Phase 2: Chaos injection
+            logger.info("ΛTRACE: Phase 2 - Chaos injection")
+            chaos_start = time.time()
+
+            chaotic_state = await scenario.inject_chaos(baseline_state)
+            result.post_chaos_metrics = self._extract_system_metrics(chaotic_state)
+
+            # Monitor system during chaos
+            await self._monitor_chaos_period(chaotic_state, duration_seconds, result)
+
+            chaos_duration = time.time() - chaos_start
+            result.duration_seconds = chaos_duration
+
+            # Phase 3: Recovery
+            logger.info("ΛTRACE: Phase 3 - System recovery")
+            recovery_start = time.time()
+
+            recovered_state = await self._execute_recovery(scenario, chaotic_state, recovery_strategy)
+            result.recovery_metrics = self._extract_system_metrics(recovered_state)
+
+            recovery_duration = time.time() - recovery_start
+            result.recovery_time_seconds = recovery_duration
+
+            # Phase 4: Analysis
+            logger.info("ΛTRACE: Phase 4 - Result analysis")
+            self._analyze_experiment_results(result, baseline_state, chaotic_state, recovered_state)
+
+            # Update framework metrics
+            self.total_experiments += 1
+            if result.system_survived:
+                self.system_survivals += 1
+            if result.recovery_successful:
+                self.successful_recoveries += 1
+
+            # Clean up
+            if experiment_id in self.active_experiments:
+                del self.active_experiments[experiment_id]
+
+            # Store in history
+            self.experiment_history.append(result)
+
+            total_duration = time.time() - experiment_start
+            logger.info(f"ΛTRACE: Chaos experiment {experiment_id} completed in {total_duration:.1f}s")
+            logger.info(f"ΛTRACE: System survived: {result.system_survived}, Recovery: {result.recovery_successful}")
+
+            return result
+
+        except Exception as e:
+            result.system_survived = False
+            result.failure_points.append(f"Experiment execution error: {e}")
+            return result
+
+
 logger = logging.getLogger("ΛTRACE.consciousness.testing.chaos")
 logger.info("ΛTRACE: Initializing Consciousness Chaos Engineering Framework v1.0.0")
 
@@ -554,74 +621,6 @@ class ConsciousnessChaosEngineeringFramework:
             injection_timestamp=datetime.now(timezone.utc),
             pre_chaos_metrics=self._extract_system_metrics(initial_system_state),
         )
-
-        try:
-            # Create chaos scenario
-            scenario_class = self.scenarios[scenario_type]
-            if scenario_type == ChaosScenarioType.TRINITY_COMPONENT_ISOLATION:
-                scenario = scenario_class(intensity, isolated_component="random")
-            else:
-                scenario = scenario_class(intensity)
-
-            # Record scenario in active experiments
-            self.active_experiments[experiment_id] = scenario
-
-            # Phase 1: Baseline measurement
-            logger.info("ΛTRACE: Phase 1 - Baseline measurement")
-            baseline_state = initial_system_state
-
-            # Phase 2: Chaos injection
-            logger.info("ΛTRACE: Phase 2 - Chaos injection")
-            chaos_start = time.time()
-
-            chaotic_state = await scenario.inject_chaos(baseline_state)
-            result.post_chaos_metrics = self._extract_system_metrics(chaotic_state)
-
-            # Monitor system during chaos
-            await self._monitor_chaos_period(chaotic_state, duration_seconds, result)
-
-            chaos_duration = time.time() - chaos_start
-            result.duration_seconds = chaos_duration
-
-            # Phase 3: Recovery
-            logger.info("ΛTRACE: Phase 3 - System recovery")
-            recovery_start = time.time()
-
-            recovered_state = await self._execute_recovery(scenario, chaotic_state, recovery_strategy)
-            result.recovery_metrics = self._extract_system_metrics(recovered_state)
-
-            recovery_duration = time.time() - recovery_start
-            result.recovery_time_seconds = recovery_duration
-
-            # Phase 4: Analysis
-            logger.info("ΛTRACE: Phase 4 - Result analysis")
-            self._analyze_experiment_results(result, baseline_state, chaotic_state, recovered_state)
-
-            # Update framework metrics
-            self.total_experiments += 1
-            if result.system_survived:
-                self.system_survivals += 1
-            if result.recovery_successful:
-                self.successful_recoveries += 1
-
-            # Clean up
-            if experiment_id in self.active_experiments:
-                del self.active_experiments[experiment_id]
-
-            # Store in history
-            self.experiment_history.append(result)
-
-            total_duration = time.time() - experiment_start
-            logger.info(f"ΛTRACE: Chaos experiment {experiment_id} completed in {total_duration:.1f}s")
-            logger.info(f"ΛTRACE: System survived: {result.system_survived}, Recovery: {result.recovery_successful}")
-
-            return result
-
-        except Exception as e:
-            logger.error(f"ΛTRACE: Chaos experiment {experiment_id} failed: {e}")
-            result.system_survived = False
-            result.failure_points.append(f"Experiment execution error: {e}")
-            return result
 
     async def _monitor_chaos_period(
         self, chaotic_state: ConsciousnessSystemState, duration_seconds: float, result: ChaosInjectionResult

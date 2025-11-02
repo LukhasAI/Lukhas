@@ -1,8 +1,3 @@
-from __future__ import annotations
-
-import logging
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -23,6 +18,9 @@ This module implements a decentralized coordination system where agents can:
 The system is inherently flexible, scalable, and resilient.
 """
 
+from __future__ import annotations
+import logging
+
 import asyncio
 import time
 import uuid
@@ -38,6 +36,123 @@ from .mailbox import MailboxActor, MailboxType, MessagePriority
 
 
 # Extension methods for ActorRef serialization
+            try:
+                await asyncio.sleep(30)  # Every 30 seconds
+
+                # Clean up expired announcements
+                expired = []
+                for task_id, announcement in self.active_announcements.items():
+                    if announcement.is_expired():
+                        expired.append(task_id)
+
+                for task_id in expired:
+                    await self._cleanup_announcement(task_id)
+
+                # Log stats
+                logger.info(
+                    f"Coordination Hub Stats: "
+                    f"Active announcements: {len(self.active_announcements)}, "
+                    f"Working groups: {len(self.working_groups)}"
+                )
+
+            except asyncio.CancelledError:
+        try:
+            # Handle ActorRef deserialization
+            payload = msg.payload.copy()
+            if "initiator" in payload and isinstance(payload["initiator"], dict):
+                payload["initiator"] = ActorRef.from_dict(payload["initiator"], self.actor_system)
+
+            announcement = TaskAnnouncement(**payload)
+
+            # Store announcement
+            self.active_announcements[announcement.task_id] = announcement
+
+            # Find suitable agents
+            candidates = []
+            for skill_name, min_level in announcement.required_skills:
+                agents = await self.skill_registry.find_agents_with_skill(skill_name, min_level)
+                candidates.extend(agents)
+
+            # Send skill queries to candidates
+            contacted = set()
+            for agent_id, _skill in candidates:
+                if agent_id not in contacted:
+                    contacted.add(agent_id)
+                    agent_ref = self.actor_system.get_actor_ref(agent_id)
+                    if agent_ref:
+                        await agent_ref.tell(CoordinationProtocol.SKILL_QUERY, announcement.__dict__)
+
+            # Start group formation timer
+            asyncio.create_task(self._form_group_timeout(announcement.task_id))
+
+            return {"status": "announced", "candidates": len(contacted)}
+
+        except Exception as e:
+            return {"status": "error", "error": str(e)}
+
+        try:
+            # Handle ActorRef deserialization
+            payload = msg.payload.copy()
+            if "agent_ref" in payload and isinstance(payload["agent_ref"], dict):
+                payload["agent_ref"] = ActorRef.from_dict(payload["agent_ref"], self.actor_system)
+
+            offer = SkillOffer(**payload)
+            task_id = msg.correlation_id
+
+            if task_id not in self.active_announcements:
+                return {"status": "expired"}
+
+            announcement = self.active_announcements[task_id]
+
+            # Check if we have a group for this task
+            group = self.working_groups.get(task_id)
+            if not group:
+                # Create new group
+                group = WorkingGroup(
+                    group_id=str(uuid.uuid4()),
+                    task=announcement,
+                    leader=announcement.initiator,
+                    members={},
+                    skills_covered={},
+                )
+                self.working_groups[task_id] = group
+
+            # Add to group if suitable
+            if len(group.members) < announcement.max_group_size:
+                group.add_member(offer.agent_id, offer.agent_ref, offer.offered_skills)
+
+                # Send group invite
+                await offer.agent_ref.tell(
+                    CoordinationProtocol.GROUP_INVITE,
+                    {
+                        "group_id": group.group_id,
+                        "task": announcement.__dict__,
+                        "role": "member",
+                    },
+                )
+
+                # Check if all skills covered
+                if group.all_skills_covered():
+                    await self._finalize_group(task_id)
+
+            return {"status": "processed"}
+
+        except Exception as e:
+            return {"status": "error", "error": str(e)}
+
+        try:
+            agent_ref = ActorRef.from_dict(msg.payload["agent_ref"], self.actor_system)
+            if agent_ref:
+                response = await agent_ref.ask(CoordinationProtocol.GROUP_INVITE, msg.payload)
+                return response
+            return {"status": "error", "reason": "agent_not_found"}
+        except Exception as e:
+            return {"status": "error", "error": str(e)}
+
+    from .actor_system import ActorSystem
+
+logger = logging.getLogger(__name__)
+
 def actorref_to_dict(self):
     """Convert ActorRef to dictionary for serialization"""
     return {"actor_id": self.actor_id, "_type": "ActorRef"}
@@ -292,120 +407,13 @@ class CoordinationHub(MailboxActor):
     async def _maintenance_loop(self):
         """Periodic maintenance tasks"""
         while self._running:
-            try:
-                await asyncio.sleep(30)  # Every 30 seconds
-
-                # Clean up expired announcements
-                expired = []
-                for task_id, announcement in self.active_announcements.items():
-                    if announcement.is_expired():
-                        expired.append(task_id)
-
-                for task_id in expired:
-                    await self._cleanup_announcement(task_id)
-
-                # Log stats
-                logger.info(
-                    f"Coordination Hub Stats: "
-                    f"Active announcements: {len(self.active_announcements)}, "
-                    f"Working groups: {len(self.working_groups)}"
-                )
-
-            except asyncio.CancelledError:
-                break
             except Exception as e:
                 logger.error(f"Maintenance loop error: {e}")
 
     async def _handle_task_announce(self, msg: ActorMessage):
         """Handle task announcement"""
-        try:
-            # Handle ActorRef deserialization
-            payload = msg.payload.copy()
-            if "initiator" in payload and isinstance(payload["initiator"], dict):
-                payload["initiator"] = ActorRef.from_dict(payload["initiator"], self.actor_system)
-
-            announcement = TaskAnnouncement(**payload)
-
-            # Store announcement
-            self.active_announcements[announcement.task_id] = announcement
-
-            # Find suitable agents
-            candidates = []
-            for skill_name, min_level in announcement.required_skills:
-                agents = await self.skill_registry.find_agents_with_skill(skill_name, min_level)
-                candidates.extend(agents)
-
-            # Send skill queries to candidates
-            contacted = set()
-            for agent_id, _skill in candidates:
-                if agent_id not in contacted:
-                    contacted.add(agent_id)
-                    agent_ref = self.actor_system.get_actor_ref(agent_id)
-                    if agent_ref:
-                        await agent_ref.tell(CoordinationProtocol.SKILL_QUERY, announcement.__dict__)
-
-            # Start group formation timer
-            asyncio.create_task(self._form_group_timeout(announcement.task_id))
-
-            return {"status": "announced", "candidates": len(contacted)}
-
-        except Exception as e:
-            logger.error(f"Error handling task announcement: {e}")
-            return {"status": "error", "error": str(e)}
-
     async def _handle_skill_offer(self, msg: ActorMessage):
         """Handle skill offer from agent"""
-        try:
-            # Handle ActorRef deserialization
-            payload = msg.payload.copy()
-            if "agent_ref" in payload and isinstance(payload["agent_ref"], dict):
-                payload["agent_ref"] = ActorRef.from_dict(payload["agent_ref"], self.actor_system)
-
-            offer = SkillOffer(**payload)
-            task_id = msg.correlation_id
-
-            if task_id not in self.active_announcements:
-                return {"status": "expired"}
-
-            announcement = self.active_announcements[task_id]
-
-            # Check if we have a group for this task
-            group = self.working_groups.get(task_id)
-            if not group:
-                # Create new group
-                group = WorkingGroup(
-                    group_id=str(uuid.uuid4()),
-                    task=announcement,
-                    leader=announcement.initiator,
-                    members={},
-                    skills_covered={},
-                )
-                self.working_groups[task_id] = group
-
-            # Add to group if suitable
-            if len(group.members) < announcement.max_group_size:
-                group.add_member(offer.agent_id, offer.agent_ref, offer.offered_skills)
-
-                # Send group invite
-                await offer.agent_ref.tell(
-                    CoordinationProtocol.GROUP_INVITE,
-                    {
-                        "group_id": group.group_id,
-                        "task": announcement.__dict__,
-                        "role": "member",
-                    },
-                )
-
-                # Check if all skills covered
-                if group.all_skills_covered():
-                    await self._finalize_group(task_id)
-
-            return {"status": "processed"}
-
-        except Exception as e:
-            logger.error(f"Error handling skill offer: {e}")
-            return {"status": "error", "error": str(e)}
-
     async def _form_group_timeout(self, task_id: str, timeout: float = 30.0):
         """Timeout for group formation"""
         await asyncio.sleep(timeout)
@@ -519,16 +527,6 @@ class CoordinationHub(MailboxActor):
 
     async def _handle_group_invite(self, msg: ActorMessage):
         """Handle group invitation"""
-        try:
-            agent_ref = ActorRef.from_dict(msg.payload["agent_ref"], self.actor_system)
-            if agent_ref:
-                response = await agent_ref.ask(CoordinationProtocol.GROUP_INVITE, msg.payload)
-                return response
-            return {"status": "error", "reason": "agent_not_found"}
-        except Exception as e:
-            logger.error(f"Error handling group invite: {e}")
-            return {"status": "error", "error": str(e)}
-
     async def _handle_group_accept(self, msg: ActorMessage):
         """Handle group acceptance from agent"""
         # Implementation depends on specific coordination needs
@@ -826,7 +824,6 @@ class MLModelAgent(AutonomousAgent):
 # Demo function
 async def demo_decentralized_coordination():
     """Demonstrate decentralized agent coordination"""
-    from .actor_system import ActorSystem
 
     # Create actor system
     system = ActorSystem()

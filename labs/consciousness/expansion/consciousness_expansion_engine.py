@@ -85,14 +85,14 @@ class ConsciousnessExpansionEngine(CoreInterface):
         # Initialize LUKHAS integration
         try:
             self.kernel_bus = container.get_service("symbolic_kernel_bus")
-        except:
+        except Exception as e:
             from orchestration.symbolic_kernel_bus import SymbolicKernelBus
 
             self.kernel_bus = SymbolicKernelBus()
 
         try:
             self.guardian = container.get_service("guardian_system")
-        except:
+        except Exception as e:
             from governance.guardian_system import GuardianSystem
 
             self.guardian = GuardianSystem()

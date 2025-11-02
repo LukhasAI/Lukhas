@@ -1,9 +1,3 @@
-from __future__ import annotations
-
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 Ethical Decision Maker for LUKHAS AI System
 
@@ -28,6 +22,10 @@ Features:
 #TAG:guardian
 """
 
+from __future__ import annotations
+import logging
+from datetime import timezone
+
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -36,6 +34,129 @@ from typing import Any, Optional
 
 from core.common import get_logger
 from governance.ethics.constitutional_ai import ConstitutionalFramework
+
+        try:
+            logger.info(f"⚖️ Making ethical decision: {decision_id}")
+
+            # Initialize decision object
+            decision = ComprehensiveEthicalDecision(
+                decision_id=decision_id,
+                context=context,
+                available_options=available_options,
+                chosen_option="",
+                status=DecisionStatus.PENDING,
+            )
+
+            # Perform multi-framework ethical analysis
+            framework_analyses = await self._perform_multi_framework_analysis(context, available_options)
+            decision.framework_analyses = framework_analyses
+
+            # Analyze stakeholder impacts
+            if stakeholder_types:
+                stakeholder_impacts = await self._analyze_stakeholder_impacts(
+                    context, available_options, stakeholder_types
+                )
+                decision.stakeholder_impacts = stakeholder_impacts
+
+            # Check constitutional compliance
+            constitutional_check = await self._check_constitutional_compliance(context, available_options)
+            decision.constitutional_compliance = constitutional_check["compliant"]
+            decision.constitutional_violations = constitutional_check["violations"]
+
+            # Calculate overall scores and select option
+            option_scores = await self._calculate_option_scores(
+                available_options, framework_analyses, stakeholder_impacts
+            )
+
+            # Select best option
+            best_option, best_score = self._select_best_option(option_scores, require_consensus)
+
+            decision.chosen_option = best_option
+            decision.ethical_score = best_score
+            decision.overall_confidence = self._calculate_overall_confidence(framework_analyses)
+
+            # Determine decision status
+            decision.status = await self._determine_decision_status(decision, min_confidence)
+
+            # Risk assessment
+            decision.risk_level = await self._assess_risk_level(decision, context)
+
+            # Generate reasoning and justification
+            decision.primary_reasoning = await self._generate_primary_reasoning(
+                decision, framework_analyses, option_scores
+            )
+
+            # Constellation Framework integration
+            await self._integrate_constellation_framework(decision, context)
+
+            # Drift detection
+            decision.drift_score = await self._calculate_drift_score(decision)
+
+            if decision.drift_score > self.drift_threshold:
+                self.metrics["drift_detections"] += 1
+                decision.requires_human_review = True
+                decision.escalation_reason = f"Drift threshold exceeded: {decision.drift_score:.3f}"
+
+            # Finalize decision
+            decision.updated_at = datetime.now(timezone.utc)
+
+            # Update metrics
+            await self._update_metrics(decision, start_time)
+
+            # Store in history
+            self.decision_history.append(decision)
+            self._maintain_history_size()
+
+            logger.info(
+                f"✅ Ethical decision completed: {decision.chosen_option} "
+                f"(confidence: {decision.overall_confidence:.2f}, "
+                f"status: {decision.status.value})"
+            )
+
+            return decision
+
+        except Exception as e:
+
+            # Return conservative fallback decision
+            fallback_decision = ComprehensiveEthicalDecision(
+                decision_id=f"fallback_{uuid.uuid4().hex[:8]}",
+                context=context,
+                available_options=available_options,
+                chosen_option="refuse_action",
+                status=DecisionStatus.ESCALATED,
+                risk_level=RiskLevel.HIGH,
+                primary_reasoning=f"Decision making failed: {e!s}",
+                requires_human_review=True,
+                escalation_reason="System error in decision process",
+            )
+
+            self.decision_history.append(fallback_decision)
+            return fallback_decision
+
+            try:
+                analysis = await self._analyze_with_framework(framework, context, options)
+                analyses.append(analysis)
+
+            except Exception as e:
+                # Create minimal analysis for failed framework
+                analyses.append(
+                    EthicalAnalysis(
+                        analysis_id=f"failed_{framework.value}_{uuid.uuid4().hex[:8]}",
+                        framework=framework,
+                        score=0.5,  # Neutral score
+                        reasoning=f"Analysis failed: {e!s}",
+                        confidence=0.3,
+                    )
+                )
+
+                try:
+                    impact = await self._assess_stakeholder_impact(stakeholder, option, context)
+                    impacts.append(impact)
+
+                except Exception as e:
+
+
+logger = logging.getLogger(__name__)
 
 logger = get_logger(__name__)
 
@@ -240,105 +361,6 @@ class AdvancedEthicalDecisionMaker:
         start_time = datetime.now(timezone.utc)
         decision_id = f"eth_dec_{uuid.uuid4().hex[:8]}"
 
-        try:
-            logger.info(f"⚖️ Making ethical decision: {decision_id}")
-
-            # Initialize decision object
-            decision = ComprehensiveEthicalDecision(
-                decision_id=decision_id,
-                context=context,
-                available_options=available_options,
-                chosen_option="",
-                status=DecisionStatus.PENDING,
-            )
-
-            # Perform multi-framework ethical analysis
-            framework_analyses = await self._perform_multi_framework_analysis(context, available_options)
-            decision.framework_analyses = framework_analyses
-
-            # Analyze stakeholder impacts
-            if stakeholder_types:
-                stakeholder_impacts = await self._analyze_stakeholder_impacts(
-                    context, available_options, stakeholder_types
-                )
-                decision.stakeholder_impacts = stakeholder_impacts
-
-            # Check constitutional compliance
-            constitutional_check = await self._check_constitutional_compliance(context, available_options)
-            decision.constitutional_compliance = constitutional_check["compliant"]
-            decision.constitutional_violations = constitutional_check["violations"]
-
-            # Calculate overall scores and select option
-            option_scores = await self._calculate_option_scores(
-                available_options, framework_analyses, stakeholder_impacts
-            )
-
-            # Select best option
-            best_option, best_score = self._select_best_option(option_scores, require_consensus)
-
-            decision.chosen_option = best_option
-            decision.ethical_score = best_score
-            decision.overall_confidence = self._calculate_overall_confidence(framework_analyses)
-
-            # Determine decision status
-            decision.status = await self._determine_decision_status(decision, min_confidence)
-
-            # Risk assessment
-            decision.risk_level = await self._assess_risk_level(decision, context)
-
-            # Generate reasoning and justification
-            decision.primary_reasoning = await self._generate_primary_reasoning(
-                decision, framework_analyses, option_scores
-            )
-
-            # Constellation Framework integration
-            await self._integrate_constellation_framework(decision, context)
-
-            # Drift detection
-            decision.drift_score = await self._calculate_drift_score(decision)
-
-            if decision.drift_score > self.drift_threshold:
-                self.metrics["drift_detections"] += 1
-                decision.requires_human_review = True
-                decision.escalation_reason = f"Drift threshold exceeded: {decision.drift_score:.3f}"
-
-            # Finalize decision
-            decision.updated_at = datetime.now(timezone.utc)
-
-            # Update metrics
-            await self._update_metrics(decision, start_time)
-
-            # Store in history
-            self.decision_history.append(decision)
-            self._maintain_history_size()
-
-            logger.info(
-                f"✅ Ethical decision completed: {decision.chosen_option} "
-                f"(confidence: {decision.overall_confidence:.2f}, "
-                f"status: {decision.status.value})"
-            )
-
-            return decision
-
-        except Exception as e:
-            logger.error(f"❌ Ethical decision making failed: {e}")
-
-            # Return conservative fallback decision
-            fallback_decision = ComprehensiveEthicalDecision(
-                decision_id=f"fallback_{uuid.uuid4().hex[:8]}",
-                context=context,
-                available_options=available_options,
-                chosen_option="refuse_action",
-                status=DecisionStatus.ESCALATED,
-                risk_level=RiskLevel.HIGH,
-                primary_reasoning=f"Decision making failed: {e!s}",
-                requires_human_review=True,
-                escalation_reason="System error in decision process",
-            )
-
-            self.decision_history.append(fallback_decision)
-            return fallback_decision
-
     async def _perform_multi_framework_analysis(
         self, context: dict[str, Any], options: list[str]
     ) -> list[EthicalAnalysis]:
@@ -347,23 +369,6 @@ class AdvancedEthicalDecisionMaker:
         analyses = []
 
         for framework in EthicalFramework:
-            try:
-                analysis = await self._analyze_with_framework(framework, context, options)
-                analyses.append(analysis)
-
-            except Exception as e:
-                logger.warning(f"Framework analysis failed for {framework.value}: {e}")
-                # Create minimal analysis for failed framework
-                analyses.append(
-                    EthicalAnalysis(
-                        analysis_id=f"failed_{framework.value}_{uuid.uuid4().hex[:8]}",
-                        framework=framework,
-                        score=0.5,  # Neutral score
-                        reasoning=f"Analysis failed: {e!s}",
-                        confidence=0.3,
-                    )
-                )
-
         return analyses
 
     async def _analyze_with_framework(
@@ -737,13 +742,6 @@ class AdvancedEthicalDecisionMaker:
 
         for stakeholder in stakeholder_types:
             for option in options:
-                try:
-                    impact = await self._assess_stakeholder_impact(stakeholder, option, context)
-                    impacts.append(impact)
-
-                except Exception as e:
-                    logger.warning(f"Stakeholder impact analysis failed for {stakeholder.value}: {e}")
-
         return impacts
 
     async def _assess_stakeholder_impact(

@@ -1,9 +1,3 @@
-from __future__ import annotations
-
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -25,6 +19,10 @@ This module implements advanced learning mechanisms including:
 Based on requirements from elite AI expert evaluation.
 """
 
+from __future__ import annotations
+import logging
+from datetime import timezone
+
 import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
@@ -35,6 +33,469 @@ from typing import Any, Optional
 import numpy as np
 
 from core.common import get_logger
+
+        try:
+            logger.info(f"🎯 Adapting to new task: {task_context.get('task_id', 'unknown')}")
+
+            # Initialize with meta-learned parameters
+            adapted_params = self.meta_parameters.copy()
+
+            # Perform gradient-based adaptation
+            for step in range(self.num_adaptation_steps):
+                # Compute gradients on support set
+                gradients = await self._compute_gradients(support_examples, adapted_params)
+
+                # Update parameters
+                for param_name, gradient in gradients.items():
+                    if param_name in adapted_params:
+                        adapted_params[param_name] -= self.learning_rate * gradient
+
+                # Log adaptation progress
+                if step % 2 == 0:
+                    loss = await self._compute_loss(support_examples, adapted_params)
+                    logger.debug(f"Adaptation step {step}, loss: {loss:.4f}")
+
+            # Evaluate adaptation quality
+            adaptation_quality = await self._evaluate_adaptation(support_examples, adapted_params)
+
+            result = {
+                "adapted_parameters": adapted_params,
+                "adaptation_steps": self.num_adaptation_steps,
+                "adaptation_quality": adaptation_quality,
+                "task_context": task_context,
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            }
+
+            # Store adaptation history
+            self.adaptation_history.append(result)
+
+            logger.info(f"✅ Task adaptation completed (quality: {adaptation_quality:.3f})")
+            return result
+
+        except Exception as e:
+            return {"status": "failed", "error": str(e)}
+
+        try:
+            logger.info(f"🧠 Starting meta-training on {len(episodes)} episodes")
+
+            if not episodes:
+                raise ValueError("No episodes provided for meta-training")
+
+            # Initialize meta-parameters if not exists
+            if not self.meta_parameters:
+                self.meta_parameters = await self._initialize_meta_parameters(episodes[0])
+
+            total_meta_loss = 0.0
+            successful_adaptations = 0
+
+            # Meta-training loop
+            for episode in episodes:
+                try:
+                    # Split episode into support and query sets
+                    support_set = episode.support_set
+                    query_set = episode.query_set
+
+                    # Adapt to task using support set
+                    adaptation_result = await self.adapt(
+                        support_set,
+                        {
+                            "task_type": episode.task_type,
+                            "episode_id": episode.episode_id,
+                        },
+                    )
+
+                    if adaptation_result.get("status") != "failed":
+                        # Evaluate on query set
+                        query_loss = await self._compute_loss(query_set, adaptation_result["adapted_parameters"])
+
+                        # Compute meta-gradients
+                        meta_gradients = await self._compute_meta_gradients(
+                            support_set, query_set, self.meta_parameters
+                        )
+
+                        # Update meta-parameters
+                        for param_name, meta_gradient in meta_gradients.items():
+                            if param_name in self.meta_parameters:
+                                self.meta_parameters[param_name] -= self.meta_learning_rate * meta_gradient
+
+                        total_meta_loss += query_loss
+                        successful_adaptations += 1
+
+                except Exception as e:
+                    continue
+
+            # Calculate meta-learning metrics
+            if successful_adaptations > 0:
+                avg_meta_loss = total_meta_loss / successful_adaptations
+                adaptation_speed = successful_adaptations / len(episodes)
+                generalization_score = self._calculate_generalization_score(episodes)
+                memory_efficiency = self._calculate_memory_efficiency()
+                confidence = min(0.95, adaptation_speed * generalization_score)
+            else:
+                avg_meta_loss = float("inf")
+                adaptation_speed = 0.0
+                generalization_score = 0.0
+                memory_efficiency = 0.0
+                confidence = 0.0
+
+            result = MetaLearningResult(
+                learned_strategy={
+                    "meta_parameters": self.meta_parameters,
+                    "learning_rate": self.learning_rate,
+                    "adaptation_steps": self.num_adaptation_steps,
+                    "avg_meta_loss": avg_meta_loss,
+                },
+                adaptation_speed=adaptation_speed,
+                generalization_score=generalization_score,
+                memory_efficiency=memory_efficiency,
+                confidence=confidence,
+                applicable_domains=self._extract_applicable_domains(episodes),
+            )
+
+            logger.info(f"✅ Meta-training completed (confidence: {confidence:.3f})")
+            return result
+
+        try:
+            logger.info(f"📚 Starting {k_shot}-shot learning for task: {task_id}")
+
+            if len(examples) < k_shot:
+                logger.warning(f"Only {len(examples)} examples available for {k_shot}-shot learning")
+
+            # Store support examples
+            self.support_examples[task_id] = {
+                "examples": examples[:k_shot],
+                "labels": labels[:k_shot],
+                "timestamp": datetime.now(timezone.utc),
+            }
+
+            # Learn based on strategy
+            if self.strategy == LearningStrategy.MEMORY_AUGMENTED:
+                result = await self._memory_augmented_learning(task_id, examples, labels, k_shot)
+            elif self.strategy == LearningStrategy.NEURAL_PLASTICITY:
+                result = await self._neural_plasticity_learning(task_id, examples, labels, k_shot)
+            else:
+                result = await self._prototypical_learning(task_id, examples, labels, k_shot)
+
+            # Evaluate learning quality
+            learning_quality = await self._evaluate_few_shot_learning(task_id, examples, labels)
+            result["learning_quality"] = learning_quality
+
+            logger.info(f"✅ Few-shot learning completed (quality: {learning_quality:.3f})")
+            return result
+
+        except Exception as e:
+            return {"status": "failed", "error": str(e)}
+
+        try:
+            logger.info(f"🔄 Starting continual learning for task: {task_id}")
+
+            # Store current task
+            self.learned_tasks[task_id] = {
+                "task_data": task_data,
+                "learned_at": datetime.now(timezone.utc),
+                "importance": 1.0,
+            }
+
+            self.task_sequence.append(task_id)
+
+            if prevent_forgetting and len(self.learned_tasks) > 1:
+                # Apply elastic weight consolidation
+                consolidation_result = await self._apply_elastic_weight_consolidation(task_id)
+
+                # Perform memory consolidation
+                memory_result = await self._consolidate_memories(task_id)
+
+                result = {
+                    "task_id": task_id,
+                    "continual_learning": True,
+                    "consolidation": consolidation_result,
+                    "memory_consolidation": memory_result,
+                    "total_tasks": len(self.learned_tasks),
+                }
+            else:
+                result = {
+                    "task_id": task_id,
+                    "continual_learning": False,
+                    "total_tasks": len(self.learned_tasks),
+                }
+
+            # Evaluate continual learning performance
+            performance = await self._evaluate_continual_performance()
+            result["performance_metrics"] = performance
+
+            logger.info(f"✅ Continual learning completed for {task_id}")
+            return result
+
+        except Exception as e:
+            return {"status": "failed", "error": str(e)}
+
+        try:
+            # Calculate importance weights for previous tasks
+            previous_tasks = [tid for tid in self.task_sequence if tid != new_task_id]
+
+            consolidation_strength = 0.0
+            protected_parameters = 0
+
+            for prev_task_id in previous_tasks:
+                if prev_task_id in self.learned_tasks:
+                    task_importance = self.learned_tasks[prev_task_id]["importance"]
+
+                    # Calculate parameter importance (Fisher information approximation)
+                    importance_weights = await self._calculate_parameter_importance(prev_task_id)
+                    self.importance_weights[prev_task_id] = importance_weights
+
+                    consolidation_strength += task_importance
+                    protected_parameters += len(importance_weights)
+
+            return {
+                "consolidation_applied": True,
+                "consolidation_strength": consolidation_strength,
+                "protected_parameters": protected_parameters,
+                "previous_tasks": len(previous_tasks),
+            }
+
+        except Exception as e:
+            return {"consolidation_applied": False, "error": str(e)}
+
+        try:
+            # Identify high-importance memories
+            high_importance_tasks = []
+            for task_id, task_info in self.learned_tasks.items():
+                if task_info["importance"] > self.consolidation_threshold:
+                    high_importance_tasks.append(task_id)
+
+            # Simulate memory consolidation process
+            consolidation_cycles = 3
+            consolidated_memories = 0
+
+            for _cycle in range(consolidation_cycles):
+                for task_id in high_importance_tasks:
+                    # Strengthen memory traces
+                    if task_id in self.learned_tasks:
+                        current_importance = self.learned_tasks[task_id]["importance"]
+                        # Gradual strengthening
+                        new_importance = min(1.0, current_importance * 1.05)
+                        self.learned_tasks[task_id]["importance"] = new_importance
+                        consolidated_memories += 1
+
+            return {
+                "consolidation_cycles": consolidation_cycles,
+                "consolidated_memories": consolidated_memories,
+                "high_importance_tasks": len(high_importance_tasks),
+            }
+
+        except Exception as e:
+            return {"consolidation_failed": True, "error": str(e)}
+
+        try:
+            logger.info("🧠 Initializing Advanced Learning System...")
+
+            # Initialize components
+            await self._initialize_components()
+
+            # Setup performance tracking
+            self.performance_metrics = {
+                "meta_learning_episodes": 0,
+                "few_shot_tasks": 0,
+                "continual_learning_tasks": 0,
+                "overall_performance": 0.0,
+                "last_update": datetime.now(timezone.utc).isoformat(),
+            }
+
+            logger.info("✅ Advanced Learning System initialized successfully")
+            return True
+
+        except Exception as e:
+            return False
+
+        try:
+            logger.info(f"📚 Starting learning from {len(episodes)} episodes (type: {learning_type.value})")
+
+            if learning_type == LearningType.META_LEARNING:
+                result = await self.meta_learner.meta_train(episodes)
+                self.performance_metrics["meta_learning_episodes"] += len(episodes)
+
+            elif learning_type == LearningType.FEW_SHOT:
+                # Process as few-shot learning tasks
+                results = []
+                for episode in episodes:
+                    if episode.support_set and len(episode.support_set) <= 10:
+                        examples = episode.support_set
+                        labels = [ex.get("label", "unknown") for ex in examples]
+
+                        few_shot_result = await self.few_shot_learner.learn_from_examples(
+                            episode.episode_id,
+                            examples,
+                            labels,
+                            k_shot=min(5, len(examples)),
+                        )
+                        results.append(few_shot_result)
+
+                result = {
+                    "learning_type": "few_shot",
+                    "processed_episodes": len(results),
+                    "successful_learning": sum(1 for r in results if r.get("status") != "failed"),
+                    "results": results,
+                }
+                self.performance_metrics["few_shot_tasks"] += len(results)
+
+            elif learning_type == LearningType.CONTINUAL:
+                # Process as continual learning
+                results = []
+                for episode in episodes:
+                    continual_result = await self.continual_learner.learn_task_continually(
+                        episode.episode_id,
+                        {
+                            "support_set": episode.support_set,
+                            "query_set": episode.query_set,
+                            "task_type": episode.task_type,
+                            "metadata": episode.metadata,
+                        },
+                    )
+                    results.append(continual_result)
+
+                result = {
+                    "learning_type": "continual",
+                    "processed_episodes": len(results),
+                    "successful_learning": sum(1 for r in results if r.get("status") != "failed"),
+                    "results": results,
+                }
+                self.performance_metrics["continual_learning_tasks"] += len(results)
+
+            else:
+                raise ValueError(f"Unsupported learning type: {learning_type}")
+
+            # Update learning history
+            learning_entry = {
+                "timestamp": datetime.now(timezone.utc),
+                "learning_type": learning_type.value,
+                "episodes_count": len(episodes),
+                "result": result,
+            }
+            self.learning_history.append(learning_entry)
+
+            # Update overall performance
+            await self._update_overall_performance()
+
+            logger.info(f"✅ Learning completed for {len(episodes)} episodes")
+            return result
+
+        except Exception as e:
+            return {"status": "failed", "error": str(e)}
+
+        try:
+            task_id = task_definition.get("task_id", f"task_{datetime.now(timezone.utc).timestamp()}")
+            logger.info(f"🎯 Adapting to new task: {task_id}")
+
+            adaptation_results = {}
+
+            # Try meta-learning adaptation
+            if len(support_examples) >= 3:
+                meta_result = await self.meta_learner.adapt(support_examples, task_definition)
+                adaptation_results["meta_learning"] = meta_result
+
+            # Try few-shot learning
+            if len(support_examples) <= 10:
+                labels = [ex.get("label", "default") for ex in support_examples]
+                few_shot_result = await self.few_shot_learner.learn_from_examples(
+                    task_id,
+                    support_examples,
+                    labels,
+                    k_shot=min(5, len(support_examples)),
+                )
+                adaptation_results["few_shot"] = few_shot_result
+
+            # Apply continual learning
+            continual_result = await self.continual_learner.learn_task_continually(
+                task_id,
+                {
+                    "task_definition": task_definition,
+                    "support_examples": support_examples,
+                },
+            )
+            adaptation_results["continual"] = continual_result
+
+            # Combine adaptation results
+            combined_result = {
+                "task_id": task_id,
+                "adaptation_methods": list(adaptation_results.keys()),
+                "adaptation_results": adaptation_results,
+                "overall_success": all(result.get("status") != "failed" for result in adaptation_results.values()),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            }
+
+            # Store as active learning task
+            self.active_learning_tasks[task_id] = combined_result
+
+            logger.info(f"✅ Task adaptation completed: {task_id}")
+            return combined_result
+
+        except Exception as e:
+            return {"status": "failed", "error": str(e)}
+
+        try:
+            # Performance metrics
+            current_metrics = self.performance_metrics.copy()
+
+            # Learning history analysis
+            history_stats = self._analyze_learning_history()
+
+            # Component-specific analytics
+            meta_learning_analytics = await self._get_meta_learning_analytics()
+            few_shot_analytics = await self._get_few_shot_analytics()
+            continual_analytics = await self._get_continual_analytics()
+
+            return {
+                "overall_metrics": current_metrics,
+                "history_analysis": history_stats,
+                "meta_learning": meta_learning_analytics,
+                "few_shot_learning": few_shot_analytics,
+                "continual_learning": continual_analytics,
+                "active_tasks": len(self.active_learning_tasks),
+                "analysis_timestamp": datetime.now(timezone.utc).isoformat(),
+            }
+
+        except Exception as e:
+            return {"status": "error", "error": str(e)}
+
+        try:
+            # Calculate overall performance based on component performances
+            meta_performance = 0.8  # Mock performance
+            few_shot_performance = 0.7  # Mock performance
+            continual_performance = 0.75  # Mock performance
+
+            overall = (meta_performance + few_shot_performance + continual_performance) / 3.0
+
+            self.performance_metrics["overall_performance"] = overall
+            self.performance_metrics["last_update"] = datetime.now(timezone.utc).isoformat()
+
+        except Exception as e:
+
+        try:
+            logger.info("🧹 Cleaning up Advanced Learning System...")
+
+            # Clear caches and temporary data
+            if len(self.learning_history) > 100:
+                self.learning_history = self.learning_history[-100:]
+
+            # Clear old active tasks
+            current_time = datetime.now(timezone.utc)
+            old_tasks = [
+                task_id
+                for task_id, task_data in self.active_learning_tasks.items()
+                if (current_time - datetime.fromisoformat(task_data["timestamp"])).total_seconds() > 3600
+            ]
+
+            for task_id in old_tasks:
+                del self.active_learning_tasks[task_id]
+
+            logger.info("✅ Advanced Learning System cleanup completed")
+
+        except Exception as e:
+
+
+
+logger = logging.getLogger(__name__)
 
 logger = get_logger(__name__)
 
@@ -120,131 +581,8 @@ class ModelAgnosticMetaLearner(BaseMetaLearner):
 
     async def adapt(self, support_examples: list[dict[str, Any]], task_context: dict[str, Any]) -> dict[str, Any]:
         """Adapt model to new task using support examples"""
-        try:
-            logger.info(f"🎯 Adapting to new task: {task_context.get('task_id', 'unknown')}")
-
-            # Initialize with meta-learned parameters
-            adapted_params = self.meta_parameters.copy()
-
-            # Perform gradient-based adaptation
-            for step in range(self.num_adaptation_steps):
-                # Compute gradients on support set
-                gradients = await self._compute_gradients(support_examples, adapted_params)
-
-                # Update parameters
-                for param_name, gradient in gradients.items():
-                    if param_name in adapted_params:
-                        adapted_params[param_name] -= self.learning_rate * gradient
-
-                # Log adaptation progress
-                if step % 2 == 0:
-                    loss = await self._compute_loss(support_examples, adapted_params)
-                    logger.debug(f"Adaptation step {step}, loss: {loss:.4f}")
-
-            # Evaluate adaptation quality
-            adaptation_quality = await self._evaluate_adaptation(support_examples, adapted_params)
-
-            result = {
-                "adapted_parameters": adapted_params,
-                "adaptation_steps": self.num_adaptation_steps,
-                "adaptation_quality": adaptation_quality,
-                "task_context": task_context,
-                "timestamp": datetime.now(timezone.utc).isoformat(),
-            }
-
-            # Store adaptation history
-            self.adaptation_history.append(result)
-
-            logger.info(f"✅ Task adaptation completed (quality: {adaptation_quality:.3f})")
-            return result
-
-        except Exception as e:
-            logger.error(f"Task adaptation failed: {e}")
-            return {"status": "failed", "error": str(e)}
-
     async def meta_train(self, episodes: list[LearningEpisode]) -> MetaLearningResult:
         """Meta-train on collection of learning episodes"""
-        try:
-            logger.info(f"🧠 Starting meta-training on {len(episodes)} episodes")
-
-            if not episodes:
-                raise ValueError("No episodes provided for meta-training")
-
-            # Initialize meta-parameters if not exists
-            if not self.meta_parameters:
-                self.meta_parameters = await self._initialize_meta_parameters(episodes[0])
-
-            total_meta_loss = 0.0
-            successful_adaptations = 0
-
-            # Meta-training loop
-            for episode in episodes:
-                try:
-                    # Split episode into support and query sets
-                    support_set = episode.support_set
-                    query_set = episode.query_set
-
-                    # Adapt to task using support set
-                    adaptation_result = await self.adapt(
-                        support_set,
-                        {
-                            "task_type": episode.task_type,
-                            "episode_id": episode.episode_id,
-                        },
-                    )
-
-                    if adaptation_result.get("status") != "failed":
-                        # Evaluate on query set
-                        query_loss = await self._compute_loss(query_set, adaptation_result["adapted_parameters"])
-
-                        # Compute meta-gradients
-                        meta_gradients = await self._compute_meta_gradients(
-                            support_set, query_set, self.meta_parameters
-                        )
-
-                        # Update meta-parameters
-                        for param_name, meta_gradient in meta_gradients.items():
-                            if param_name in self.meta_parameters:
-                                self.meta_parameters[param_name] -= self.meta_learning_rate * meta_gradient
-
-                        total_meta_loss += query_loss
-                        successful_adaptations += 1
-
-                except Exception as e:
-                    logger.warning(f"Failed to process episode {episode.episode_id}: {e}")
-                    continue
-
-            # Calculate meta-learning metrics
-            if successful_adaptations > 0:
-                avg_meta_loss = total_meta_loss / successful_adaptations
-                adaptation_speed = successful_adaptations / len(episodes)
-                generalization_score = self._calculate_generalization_score(episodes)
-                memory_efficiency = self._calculate_memory_efficiency()
-                confidence = min(0.95, adaptation_speed * generalization_score)
-            else:
-                avg_meta_loss = float("inf")
-                adaptation_speed = 0.0
-                generalization_score = 0.0
-                memory_efficiency = 0.0
-                confidence = 0.0
-
-            result = MetaLearningResult(
-                learned_strategy={
-                    "meta_parameters": self.meta_parameters,
-                    "learning_rate": self.learning_rate,
-                    "adaptation_steps": self.num_adaptation_steps,
-                    "avg_meta_loss": avg_meta_loss,
-                },
-                adaptation_speed=adaptation_speed,
-                generalization_score=generalization_score,
-                memory_efficiency=memory_efficiency,
-                confidence=confidence,
-                applicable_domains=self._extract_applicable_domains(episodes),
-            )
-
-            logger.info(f"✅ Meta-training completed (confidence: {confidence:.3f})")
-            return result
-
         except Exception as e:
             logger.error(f"Meta-training failed: {e}")
             raise
@@ -368,38 +706,6 @@ class FewShotLearner:
         k_shot: int = 5,
     ) -> dict[str, Any]:
         """Learn from few examples (k-shot learning)"""
-        try:
-            logger.info(f"📚 Starting {k_shot}-shot learning for task: {task_id}")
-
-            if len(examples) < k_shot:
-                logger.warning(f"Only {len(examples)} examples available for {k_shot}-shot learning")
-
-            # Store support examples
-            self.support_examples[task_id] = {
-                "examples": examples[:k_shot],
-                "labels": labels[:k_shot],
-                "timestamp": datetime.now(timezone.utc),
-            }
-
-            # Learn based on strategy
-            if self.strategy == LearningStrategy.MEMORY_AUGMENTED:
-                result = await self._memory_augmented_learning(task_id, examples, labels, k_shot)
-            elif self.strategy == LearningStrategy.NEURAL_PLASTICITY:
-                result = await self._neural_plasticity_learning(task_id, examples, labels, k_shot)
-            else:
-                result = await self._prototypical_learning(task_id, examples, labels, k_shot)
-
-            # Evaluate learning quality
-            learning_quality = await self._evaluate_few_shot_learning(task_id, examples, labels)
-            result["learning_quality"] = learning_quality
-
-            logger.info(f"✅ Few-shot learning completed (quality: {learning_quality:.3f})")
-            return result
-
-        except Exception as e:
-            logger.error(f"Few-shot learning failed: {e}")
-            return {"status": "failed", "error": str(e)}
-
     async def _memory_augmented_learning(
         self,
         task_id: str,
@@ -568,81 +874,8 @@ class ContinualLearner:
         self, task_id: str, task_data: dict[str, Any], prevent_forgetting: bool = True
     ) -> dict[str, Any]:
         """Learn new task while preserving previous knowledge"""
-        try:
-            logger.info(f"🔄 Starting continual learning for task: {task_id}")
-
-            # Store current task
-            self.learned_tasks[task_id] = {
-                "task_data": task_data,
-                "learned_at": datetime.now(timezone.utc),
-                "importance": 1.0,
-            }
-
-            self.task_sequence.append(task_id)
-
-            if prevent_forgetting and len(self.learned_tasks) > 1:
-                # Apply elastic weight consolidation
-                consolidation_result = await self._apply_elastic_weight_consolidation(task_id)
-
-                # Perform memory consolidation
-                memory_result = await self._consolidate_memories(task_id)
-
-                result = {
-                    "task_id": task_id,
-                    "continual_learning": True,
-                    "consolidation": consolidation_result,
-                    "memory_consolidation": memory_result,
-                    "total_tasks": len(self.learned_tasks),
-                }
-            else:
-                result = {
-                    "task_id": task_id,
-                    "continual_learning": False,
-                    "total_tasks": len(self.learned_tasks),
-                }
-
-            # Evaluate continual learning performance
-            performance = await self._evaluate_continual_performance()
-            result["performance_metrics"] = performance
-
-            logger.info(f"✅ Continual learning completed for {task_id}")
-            return result
-
-        except Exception as e:
-            logger.error(f"Continual learning failed: {e}")
-            return {"status": "failed", "error": str(e)}
-
     async def _apply_elastic_weight_consolidation(self, new_task_id: str) -> dict[str, Any]:
         """Apply elastic weight consolidation to prevent forgetting"""
-        try:
-            # Calculate importance weights for previous tasks
-            previous_tasks = [tid for tid in self.task_sequence if tid != new_task_id]
-
-            consolidation_strength = 0.0
-            protected_parameters = 0
-
-            for prev_task_id in previous_tasks:
-                if prev_task_id in self.learned_tasks:
-                    task_importance = self.learned_tasks[prev_task_id]["importance"]
-
-                    # Calculate parameter importance (Fisher information approximation)
-                    importance_weights = await self._calculate_parameter_importance(prev_task_id)
-                    self.importance_weights[prev_task_id] = importance_weights
-
-                    consolidation_strength += task_importance
-                    protected_parameters += len(importance_weights)
-
-            return {
-                "consolidation_applied": True,
-                "consolidation_strength": consolidation_strength,
-                "protected_parameters": protected_parameters,
-                "previous_tasks": len(previous_tasks),
-            }
-
-        except Exception as e:
-            logger.error(f"Elastic weight consolidation failed: {e}")
-            return {"consolidation_applied": False, "error": str(e)}
-
     async def _calculate_parameter_importance(self, task_id: str) -> dict[str, float]:
         """Calculate parameter importance for task (Fisher information)"""
         # Mock Fisher information calculation
@@ -663,37 +896,6 @@ class ContinualLearner:
 
     async def _consolidate_memories(self, new_task_id: str) -> dict[str, Any]:
         """Consolidate memories to strengthen important knowledge"""
-        try:
-            # Identify high-importance memories
-            high_importance_tasks = []
-            for task_id, task_info in self.learned_tasks.items():
-                if task_info["importance"] > self.consolidation_threshold:
-                    high_importance_tasks.append(task_id)
-
-            # Simulate memory consolidation process
-            consolidation_cycles = 3
-            consolidated_memories = 0
-
-            for _cycle in range(consolidation_cycles):
-                for task_id in high_importance_tasks:
-                    # Strengthen memory traces
-                    if task_id in self.learned_tasks:
-                        current_importance = self.learned_tasks[task_id]["importance"]
-                        # Gradual strengthening
-                        new_importance = min(1.0, current_importance * 1.05)
-                        self.learned_tasks[task_id]["importance"] = new_importance
-                        consolidated_memories += 1
-
-            return {
-                "consolidation_cycles": consolidation_cycles,
-                "consolidated_memories": consolidated_memories,
-                "high_importance_tasks": len(high_importance_tasks),
-            }
-
-        except Exception as e:
-            logger.error(f"Memory consolidation failed: {e}")
-            return {"consolidation_failed": True, "error": str(e)}
-
     async def _evaluate_continual_performance(self) -> dict[str, float]:
         """Evaluate continual learning performance"""
         if not self.learned_tasks:
@@ -747,28 +949,6 @@ class AdvancedLearningSystem:
 
     async def initialize(self) -> bool:
         """Initialize the advanced learning system"""
-        try:
-            logger.info("🧠 Initializing Advanced Learning System...")
-
-            # Initialize components
-            await self._initialize_components()
-
-            # Setup performance tracking
-            self.performance_metrics = {
-                "meta_learning_episodes": 0,
-                "few_shot_tasks": 0,
-                "continual_learning_tasks": 0,
-                "overall_performance": 0.0,
-                "last_update": datetime.now(timezone.utc).isoformat(),
-            }
-
-            logger.info("✅ Advanced Learning System initialized successfully")
-            return True
-
-        except Exception as e:
-            logger.error(f"❌ Failed to initialize Advanced Learning System: {e}")
-            return False
-
     async def _initialize_components(self):
         """Initialize learning components"""
         # Components are already initialized in __init__
@@ -780,82 +960,6 @@ class AdvancedLearningSystem:
         learning_type: LearningType = LearningType.META_LEARNING,
     ) -> dict[str, Any]:
         """Learn from a collection of learning episodes"""
-        try:
-            logger.info(f"📚 Starting learning from {len(episodes)} episodes (type: {learning_type.value})")
-
-            if learning_type == LearningType.META_LEARNING:
-                result = await self.meta_learner.meta_train(episodes)
-                self.performance_metrics["meta_learning_episodes"] += len(episodes)
-
-            elif learning_type == LearningType.FEW_SHOT:
-                # Process as few-shot learning tasks
-                results = []
-                for episode in episodes:
-                    if episode.support_set and len(episode.support_set) <= 10:
-                        examples = episode.support_set
-                        labels = [ex.get("label", "unknown") for ex in examples]
-
-                        few_shot_result = await self.few_shot_learner.learn_from_examples(
-                            episode.episode_id,
-                            examples,
-                            labels,
-                            k_shot=min(5, len(examples)),
-                        )
-                        results.append(few_shot_result)
-
-                result = {
-                    "learning_type": "few_shot",
-                    "processed_episodes": len(results),
-                    "successful_learning": sum(1 for r in results if r.get("status") != "failed"),
-                    "results": results,
-                }
-                self.performance_metrics["few_shot_tasks"] += len(results)
-
-            elif learning_type == LearningType.CONTINUAL:
-                # Process as continual learning
-                results = []
-                for episode in episodes:
-                    continual_result = await self.continual_learner.learn_task_continually(
-                        episode.episode_id,
-                        {
-                            "support_set": episode.support_set,
-                            "query_set": episode.query_set,
-                            "task_type": episode.task_type,
-                            "metadata": episode.metadata,
-                        },
-                    )
-                    results.append(continual_result)
-
-                result = {
-                    "learning_type": "continual",
-                    "processed_episodes": len(results),
-                    "successful_learning": sum(1 for r in results if r.get("status") != "failed"),
-                    "results": results,
-                }
-                self.performance_metrics["continual_learning_tasks"] += len(results)
-
-            else:
-                raise ValueError(f"Unsupported learning type: {learning_type}")
-
-            # Update learning history
-            learning_entry = {
-                "timestamp": datetime.now(timezone.utc),
-                "learning_type": learning_type.value,
-                "episodes_count": len(episodes),
-                "result": result,
-            }
-            self.learning_history.append(learning_entry)
-
-            # Update overall performance
-            await self._update_overall_performance()
-
-            logger.info(f"✅ Learning completed for {len(episodes)} episodes")
-            return result
-
-        except Exception as e:
-            logger.error(f"Learning from episodes failed: {e}")
-            return {"status": "failed", "error": str(e)}
-
     async def adapt_to_new_task(
         self,
         task_definition: dict[str, Any],
@@ -863,85 +967,8 @@ class AdvancedLearningSystem:
         adaptation_strategy: Optional[LearningStrategy] = None,
     ) -> dict[str, Any]:
         """Adapt to a new task using available learning mechanisms"""
-        try:
-            task_id = task_definition.get("task_id", f"task_{datetime.now(timezone.utc).timestamp()}")
-            logger.info(f"🎯 Adapting to new task: {task_id}")
-
-            adaptation_results = {}
-
-            # Try meta-learning adaptation
-            if len(support_examples) >= 3:
-                meta_result = await self.meta_learner.adapt(support_examples, task_definition)
-                adaptation_results["meta_learning"] = meta_result
-
-            # Try few-shot learning
-            if len(support_examples) <= 10:
-                labels = [ex.get("label", "default") for ex in support_examples]
-                few_shot_result = await self.few_shot_learner.learn_from_examples(
-                    task_id,
-                    support_examples,
-                    labels,
-                    k_shot=min(5, len(support_examples)),
-                )
-                adaptation_results["few_shot"] = few_shot_result
-
-            # Apply continual learning
-            continual_result = await self.continual_learner.learn_task_continually(
-                task_id,
-                {
-                    "task_definition": task_definition,
-                    "support_examples": support_examples,
-                },
-            )
-            adaptation_results["continual"] = continual_result
-
-            # Combine adaptation results
-            combined_result = {
-                "task_id": task_id,
-                "adaptation_methods": list(adaptation_results.keys()),
-                "adaptation_results": adaptation_results,
-                "overall_success": all(result.get("status") != "failed" for result in adaptation_results.values()),
-                "timestamp": datetime.now(timezone.utc).isoformat(),
-            }
-
-            # Store as active learning task
-            self.active_learning_tasks[task_id] = combined_result
-
-            logger.info(f"✅ Task adaptation completed: {task_id}")
-            return combined_result
-
-        except Exception as e:
-            logger.error(f"Task adaptation failed: {e}")
-            return {"status": "failed", "error": str(e)}
-
     async def get_learning_analytics(self) -> dict[str, Any]:
         """Get comprehensive learning analytics"""
-        try:
-            # Performance metrics
-            current_metrics = self.performance_metrics.copy()
-
-            # Learning history analysis
-            history_stats = self._analyze_learning_history()
-
-            # Component-specific analytics
-            meta_learning_analytics = await self._get_meta_learning_analytics()
-            few_shot_analytics = await self._get_few_shot_analytics()
-            continual_analytics = await self._get_continual_analytics()
-
-            return {
-                "overall_metrics": current_metrics,
-                "history_analysis": history_stats,
-                "meta_learning": meta_learning_analytics,
-                "few_shot_learning": few_shot_analytics,
-                "continual_learning": continual_analytics,
-                "active_tasks": len(self.active_learning_tasks),
-                "analysis_timestamp": datetime.now(timezone.utc).isoformat(),
-            }
-
-        except Exception as e:
-            logger.error(f"Learning analytics failed: {e}")
-            return {"status": "error", "error": str(e)}
-
     def _analyze_learning_history(self) -> dict[str, Any]:
         """Analyze learning history for insights"""
         if not self.learning_history:
@@ -997,46 +1024,8 @@ class AdvancedLearningSystem:
 
     async def _update_overall_performance(self):
         """Update overall performance metrics"""
-        try:
-            # Calculate overall performance based on component performances
-            meta_performance = 0.8  # Mock performance
-            few_shot_performance = 0.7  # Mock performance
-            continual_performance = 0.75  # Mock performance
-
-            overall = (meta_performance + few_shot_performance + continual_performance) / 3.0
-
-            self.performance_metrics["overall_performance"] = overall
-            self.performance_metrics["last_update"] = datetime.now(timezone.utc).isoformat()
-
-        except Exception as e:
-            logger.error(f"Performance update failed: {e}")
-
     async def cleanup(self):
         """Cleanup learning system resources"""
-        try:
-            logger.info("🧹 Cleaning up Advanced Learning System...")
-
-            # Clear caches and temporary data
-            if len(self.learning_history) > 100:
-                self.learning_history = self.learning_history[-100:]
-
-            # Clear old active tasks
-            current_time = datetime.now(timezone.utc)
-            old_tasks = [
-                task_id
-                for task_id, task_data in self.active_learning_tasks.items()
-                if (current_time - datetime.fromisoformat(task_data["timestamp"])).total_seconds() > 3600
-            ]
-
-            for task_id in old_tasks:
-                del self.active_learning_tasks[task_id]
-
-            logger.info("✅ Advanced Learning System cleanup completed")
-
-        except Exception as e:
-            logger.error(f"Cleanup failed: {e}")
-
-
 # Export main classes
 __all__ = [
     "AdvancedLearningSystem",

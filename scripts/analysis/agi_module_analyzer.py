@@ -194,7 +194,8 @@ class AGIModuleAnalyzer:
             tree = ast.parse(content)
             if isinstance(tree.body[0], ast.Expr) and isinstance(tree.body[0].value, ast.Str):
                 tree.body[0].value.s
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             pass
 
         # Analyze filename and content
@@ -666,11 +667,12 @@ class AGIModuleAnalyzer:
                 try:
                     depths = nx.single_source_shortest_path_length(self.dependency_graph, source)
                     max_depth = max(max_depth, max(depths.values()) if depths else 0)
-                except:
+                except Exception as e:
                     continue
 
             return max_depth
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             return 0
 
     def _generate_modular_recommendations(self) -> list[dict]:

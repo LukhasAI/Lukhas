@@ -1,6 +1,3 @@
-from __future__ import annotations
-
-#!/usr/bin/env python3
 """
 LUKHAS Unified Authentication Manager
 ====================================
@@ -23,6 +20,8 @@ Created: 2025-08-03
 Status: BLEEDING EDGE RESEARCH
 """
 
+from __future__ import annotations
+
 import asyncio
 import hashlib
 import json
@@ -37,6 +36,124 @@ from typing import Any, Optional, Union
 
 from core.governance.identity.lambda_id_auth import AuthCredentials, AuthTier, LambdaIDSystem
 from core.governance.security.secret_manager import get_secret_manager
+
+        try:
+            # Phase 1: Consciousness State Validation
+            consciousness_result = (
+                await self.consciousness_validator.validate_consciousness_state(context)
+            )
+            if not consciousness_result["valid"]:
+                return {
+                    "success": False,
+                    "phase": "consciousness_validation",
+                    "reason": consciousness_result["reason"],
+                    "suggested_state": consciousness_result.get("suggested_state"),
+                    "adaptive_recommendations": consciousness_result.get(
+                        "optimal_auth_methods", []
+                    ),
+                }
+
+            # Phase 2: Cultural Intelligence Adaptation
+            cultural_adaptation = await self.cultural_engine.adapt_authentication(
+                context
+            )
+
+            # Phase 3: Dream State Authentication (if applicable)
+            dream_result = None
+            if (
+                context.auth_method == AuthMethod.BIOMETRIC_DREAM
+                and context.dream_state_indicators
+            ):
+                dream_result = await self.dream_authenticator.authenticate_dream_state(
+                    context
+                )
+                if not dream_result["success"]:
+                    return {
+                        "success": False,
+                        "phase": "dream_authentication",
+                        "reason": dream_result["reason"],
+                        "suggested_actions": dream_result.get("suggested_actions", []),
+                    }
+
+            # Phase 4: Determine Optimal Authentication Tier
+            optimal_tier = await self._determine_optimal_tier(
+                context, consciousness_result, dream_result
+            )
+
+            # Phase 5: Quantum-Safe ΛiD Authentication
+            lambda_credentials = await self._prepare_revolutionary_credentials(
+                context, optimal_tier
+            )
+            lambda_result = self.lambda_id_system.authenticate(
+                optimal_tier, lambda_credentials
+            )
+
+            if not lambda_result.get("success"):
+                return {
+                    "success": False,
+                    "phase": "qi_authentication",
+                    "reason": lambda_result.get("error"),
+                    "tier_attempted": optimal_tier.value,
+                    "fallback_options": await self._get_fallback_options(context),
+                }
+
+            # Phase 6: Generate Revolutionary Session
+            session_data = await self._create_revolutionary_session(
+                context,
+                consciousness_result,
+                cultural_adaptation,
+                dream_result,
+                lambda_result,
+                optimal_tier,
+            )
+
+            # Phase 7: Consciousness Profile Generation
+            consciousness_profile = await self._generate_consciousness_profile(
+                context, consciousness_result
+            )
+
+            logger.info(
+                f"✅ Revolutionary authentication successful - Tier: {optimal_tier.value}"
+            )
+
+            return {
+                "success": True,
+                "authentication_type": "revolutionary_consciousness_aware",
+                # Core authentication data
+                "session_token": session_data["session_token"],
+                "tier": optimal_tier.value,
+                "expires_at": session_data["expires_at"],
+                # Revolutionary features
+                "consciousness_profile": consciousness_profile,
+                "cultural_adaptations": cultural_adaptation["adaptations"],
+                "dream_state_data": dream_result,
+                "qi_signature": lambda_result.get("crypto_version"),
+                # Adaptive recommendations
+                "optimal_auth_methods": consciousness_result.get(
+                    "optimal_auth_methods", []
+                ),
+                "recommended_methods": cultural_adaptation.get(
+                    "recommended_methods", []
+                ),
+                "consciousness_score": consciousness_result.get(
+                    "consciousness_score", 0.0
+                ),
+                "cultural_compatibility": cultural_adaptation.get(
+                    "cultural_compatibility_score", 0.0
+                ),
+                # Session metadata
+                "session_metadata": session_data["metadata"],
+                "next_steps": session_data.get("next_steps", []),
+            }
+
+        except Exception as e:
+            return {
+                "success": False,
+                "phase": "system_error",
+                "reason": str(e),
+                "fallback_to_classical": True,
+            }
+
 
 logger = logging.getLogger(__name__)
 
@@ -458,124 +575,6 @@ class RevolutionaryAuthManager:
         Revolutionary authentication that adapts to consciousness, culture, and dreams
         """
         logger.info(f"🚀 Starting revolutionary authentication for {context.user_id}")
-
-        try:
-            # Phase 1: Consciousness State Validation
-            consciousness_result = (
-                await self.consciousness_validator.validate_consciousness_state(context)
-            )
-            if not consciousness_result["valid"]:
-                return {
-                    "success": False,
-                    "phase": "consciousness_validation",
-                    "reason": consciousness_result["reason"],
-                    "suggested_state": consciousness_result.get("suggested_state"),
-                    "adaptive_recommendations": consciousness_result.get(
-                        "optimal_auth_methods", []
-                    ),
-                }
-
-            # Phase 2: Cultural Intelligence Adaptation
-            cultural_adaptation = await self.cultural_engine.adapt_authentication(
-                context
-            )
-
-            # Phase 3: Dream State Authentication (if applicable)
-            dream_result = None
-            if (
-                context.auth_method == AuthMethod.BIOMETRIC_DREAM
-                and context.dream_state_indicators
-            ):
-                dream_result = await self.dream_authenticator.authenticate_dream_state(
-                    context
-                )
-                if not dream_result["success"]:
-                    return {
-                        "success": False,
-                        "phase": "dream_authentication",
-                        "reason": dream_result["reason"],
-                        "suggested_actions": dream_result.get("suggested_actions", []),
-                    }
-
-            # Phase 4: Determine Optimal Authentication Tier
-            optimal_tier = await self._determine_optimal_tier(
-                context, consciousness_result, dream_result
-            )
-
-            # Phase 5: Quantum-Safe ΛiD Authentication
-            lambda_credentials = await self._prepare_revolutionary_credentials(
-                context, optimal_tier
-            )
-            lambda_result = self.lambda_id_system.authenticate(
-                optimal_tier, lambda_credentials
-            )
-
-            if not lambda_result.get("success"):
-                return {
-                    "success": False,
-                    "phase": "qi_authentication",
-                    "reason": lambda_result.get("error"),
-                    "tier_attempted": optimal_tier.value,
-                    "fallback_options": await self._get_fallback_options(context),
-                }
-
-            # Phase 6: Generate Revolutionary Session
-            session_data = await self._create_revolutionary_session(
-                context,
-                consciousness_result,
-                cultural_adaptation,
-                dream_result,
-                lambda_result,
-                optimal_tier,
-            )
-
-            # Phase 7: Consciousness Profile Generation
-            consciousness_profile = await self._generate_consciousness_profile(
-                context, consciousness_result
-            )
-
-            logger.info(
-                f"✅ Revolutionary authentication successful - Tier: {optimal_tier.value}"
-            )
-
-            return {
-                "success": True,
-                "authentication_type": "revolutionary_consciousness_aware",
-                # Core authentication data
-                "session_token": session_data["session_token"],
-                "tier": optimal_tier.value,
-                "expires_at": session_data["expires_at"],
-                # Revolutionary features
-                "consciousness_profile": consciousness_profile,
-                "cultural_adaptations": cultural_adaptation["adaptations"],
-                "dream_state_data": dream_result,
-                "qi_signature": lambda_result.get("crypto_version"),
-                # Adaptive recommendations
-                "optimal_auth_methods": consciousness_result.get(
-                    "optimal_auth_methods", []
-                ),
-                "recommended_methods": cultural_adaptation.get(
-                    "recommended_methods", []
-                ),
-                "consciousness_score": consciousness_result.get(
-                    "consciousness_score", 0.0
-                ),
-                "cultural_compatibility": cultural_adaptation.get(
-                    "cultural_compatibility_score", 0.0
-                ),
-                # Session metadata
-                "session_metadata": session_data["metadata"],
-                "next_steps": session_data.get("next_steps", []),
-            }
-
-        except Exception as e:
-            logger.error(f"❌ Revolutionary authentication failed: {e}")
-            return {
-                "success": False,
-                "phase": "system_error",
-                "reason": str(e),
-                "fallback_to_classical": True,
-            }
 
     async def _determine_optimal_tier(
         self,

@@ -111,7 +111,8 @@ def get_git_last_modified(file_path: Path) -> Optional[int]:
     try:
         modified_date = datetime.fromtimestamp(file_path.stat().st_mtime)
         return (datetime.now() - modified_date).days
-    except:
+    except Exception as e:
+        logger.debug(f"Expected optional failure: {e}")
         return 999  # Very old
 
 

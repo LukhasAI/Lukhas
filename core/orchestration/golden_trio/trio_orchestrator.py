@@ -1,11 +1,11 @@
-from __future__ import annotations
-
 """
 Golden Trio Orchestrator
 
 Unified orchestration system for DAST, ABAS, and NIAS coordination.
 Manages communication, prevents circular dependencies, and optimizes execution flow.
 """
+
+from __future__ import annotations
 import asyncio
 import logging
 from collections import deque
@@ -18,6 +18,72 @@ from core.audit.audit_decision_embedding_engine import DecisionAuditEngine
 from ethics.core import DecisionType, get_shared_ethics_engine
 from ethics.seedra import get_seedra
 from symbolic.core import get_symbolic_translator, get_symbolic_vocabulary
+
+            try:
+                value = self.context
+                for key in path.split("."):
+                    value = value[key]
+                return value
+            except (KeyError, TypeError):
+
+            try:
+                # Get message from queue with timeout
+                message = await asyncio.wait_for(queue.get(), timeout=1.0)
+
+                # Process message
+                handler = self.system_handlers.get(system)
+                if handler:
+                    start_time = datetime.now(timezone.utc)
+
+                    # Update system state
+                    await self.context_manager.update_system_state(
+                        system,
+                        {
+                            "status": "processing",
+                            "current_message": message.id,
+                        },
+                    )
+
+                    # Process through handler
+                    result = await handler.process(message)
+
+                    # Calculate processing time
+                    processing_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
+
+                    # Create response
+                    response = TrioResponse(
+                        message_id=message.id,
+                        system=system,
+                        status="success",
+                        result=result,
+                        processing_time_ms=processing_time,
+                    )
+
+                    # Update context
+                    await self.context_manager.update_system_state(
+                        system,
+                        {"status": "idle", "last_processed": message.id},
+                    )
+
+                    # Store response if needed
+                    if message.id in self.active_messages:
+                        self.active_messages[message.id].metadata["response"] = response
+
+            except asyncio.TimeoutError:
+            try:
+                # Check for deadlocks
+                deadlocks = self._detect_deadlocks()
+                if deadlocks:
+                    await self._resolve_deadlocks(deadlocks)
+
+                # Optimize message flow
+                await self._optimize_message_flow()
+
+                await asyncio.sleep(0.1)
+
+            except Exception as e:
+
+        import uuid
 
 logger = logging.getLogger(__name__)
 
@@ -122,14 +188,6 @@ class SharedContextManager:
     async def get(self, path: str, default: Any = None) -> Any:
         """Get value from context using dot notation path"""
         async with self._lock:
-            try:
-                value = self.context
-                for key in path.split("."):
-                    value = value[key]
-                return value
-            except (KeyError, TypeError):
-                return default
-
     async def set(self, path: str, value: Any) -> None:
         """Set value in context using dot notation path"""
         async with self._lock:
@@ -320,51 +378,6 @@ class TrioOrchestrator:
         queue = self.message_queue[system]
 
         while self.is_running:
-            try:
-                # Get message from queue with timeout
-                message = await asyncio.wait_for(queue.get(), timeout=1.0)
-
-                # Process message
-                handler = self.system_handlers.get(system)
-                if handler:
-                    start_time = datetime.now(timezone.utc)
-
-                    # Update system state
-                    await self.context_manager.update_system_state(
-                        system,
-                        {
-                            "status": "processing",
-                            "current_message": message.id,
-                        },
-                    )
-
-                    # Process through handler
-                    result = await handler.process(message)
-
-                    # Calculate processing time
-                    processing_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
-
-                    # Create response
-                    response = TrioResponse(
-                        message_id=message.id,
-                        system=system,
-                        status="success",
-                        result=result,
-                        processing_time_ms=processing_time,
-                    )
-
-                    # Update context
-                    await self.context_manager.update_system_state(
-                        system,
-                        {"status": "idle", "last_processed": message.id},
-                    )
-
-                    # Store response if needed
-                    if message.id in self.active_messages:
-                        self.active_messages[message.id].metadata["response"] = response
-
-            except asyncio.TimeoutError:
-                continue
             except Exception as e:
                 logger.error(f"Error processing message for {system.value}: {e}")
 
@@ -457,20 +470,6 @@ class TrioOrchestrator:
     async def _dependency_resolver(self) -> None:
         """Resolve dependencies between messages"""
         while self.is_running:
-            try:
-                # Check for deadlocks
-                deadlocks = self._detect_deadlocks()
-                if deadlocks:
-                    await self._resolve_deadlocks(deadlocks)
-
-                # Optimize message flow
-                await self._optimize_message_flow()
-
-                await asyncio.sleep(0.1)
-
-            except Exception as e:
-                logger.error(f"Error in dependency resolver: {e}")
-
     def _detect_deadlocks(self) -> list[tuple[str, str]]:
         """Detect potential deadlocks"""
         deadlocks = []
@@ -513,7 +512,6 @@ class TrioOrchestrator:
 
     def _generate_message_id(self) -> str:
         """Generate unique message ID"""
-        import uuid
 
         return str(uuid.uuid4())
 

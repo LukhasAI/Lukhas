@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 RESCUED FROM ARCHIVE - LUKHAS CONSCIOUSNESS ARCHAEOLOGY PROJECT
 ═══════════════════════════════════════════════════════════════════════════════════
@@ -24,6 +22,8 @@ License:
   OpenAI-aligned Cognitive AI Symbolic Framework (internal use)
 """
 
+from __future__ import annotations
+
 import hashlib
 import json
 import logging
@@ -33,6 +33,59 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from functools import wraps
 from typing import Any, Callable, Optional
+
+        try:
+            from identity.core.user_tier_mapping import get_user_tier
+
+            tier_name = get_user_tier(user_id) if user_id else "LAMBDA_TIER_0"
+
+            # Convert from LAMBDA_TIER_X to TierLevel enum
+            tier_map = {
+                "LAMBDA_TIER_0": TierLevel.PUBLIC,
+                "LAMBDA_TIER_1": TierLevel.AUTHENTICATED,
+                "LAMBDA_TIER_2": TierLevel.ELEVATED,
+                "LAMBDA_TIER_3": TierLevel.PRIVILEGED,
+                "LAMBDA_TIER_4": TierLevel.ADMIN,
+                "LAMBDA_TIER_5": TierLevel.SYSTEM,
+            }
+            return tier_map.get(tier_name, TierLevel.PUBLIC)
+
+        except ImportError:
+            logger.warning("User tier mapping service not available, using prefix-based fallback")
+            if user_id:
+                if user_id.startswith("system_"):
+                    return TierLevel.SYSTEM
+                elif user_id.startswith("admin_"):
+                    return TierLevel.ADMIN
+                else:
+                    return TierLevel.AUTHENTICATED
+            else:
+                return TierLevel.PUBLIC
+
+        try:
+            os.makedirs(os.path.dirname(self.access_log_path), exist_ok=True)
+            log_entry = {
+                "decision_id": decision.decision_id,
+                "granted": decision.granted,
+                "tier_level": decision.tier_level.name,
+                "reasoning": decision.reasoning,
+                "restrictions": decision.restrictions,
+                "requires_elevation": decision.requires_elevation,
+                "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+            }
+
+            with open(self.access_log_path, "a", encoding="utf-8") as f:
+                f.write(json.dumps(log_entry) + "\n")
+
+        except Exception as e:
+
+        try:
+            os.makedirs(os.path.dirname(self.elevation_log_path), exist_ok=True)
+            with open(self.elevation_log_path, "a", encoding="utf-8") as f:
+                f.write(json.dumps(elevation_data) + "\n")
+        except Exception as e:
+
+
 
 logger = logging.getLogger(__name__)
 
@@ -391,35 +444,6 @@ class DynamicTierSystem:
                 return TierLevel(session_data["tier_level"])
 
         # Use the proper tier mapping service
-        try:
-            from identity.core.user_tier_mapping import get_user_tier
-
-            tier_name = get_user_tier(user_id) if user_id else "LAMBDA_TIER_0"
-
-            # Convert from LAMBDA_TIER_X to TierLevel enum
-            tier_map = {
-                "LAMBDA_TIER_0": TierLevel.PUBLIC,
-                "LAMBDA_TIER_1": TierLevel.AUTHENTICATED,
-                "LAMBDA_TIER_2": TierLevel.ELEVATED,
-                "LAMBDA_TIER_3": TierLevel.PRIVILEGED,
-                "LAMBDA_TIER_4": TierLevel.ADMIN,
-                "LAMBDA_TIER_5": TierLevel.SYSTEM,
-            }
-            return tier_map.get(tier_name, TierLevel.PUBLIC)
-
-        except ImportError:
-            # Fallback to old logic if mapping service not available
-            logger.warning("User tier mapping service not available, using prefix-based fallback")
-            if user_id:
-                if user_id.startswith("system_"):
-                    return TierLevel.SYSTEM
-                elif user_id.startswith("admin_"):
-                    return TierLevel.ADMIN
-                else:
-                    return TierLevel.AUTHENTICATED
-            else:
-                return TierLevel.PUBLIC
-
     def _get_applicable_permissions(self, tier_level: TierLevel, scope: PermissionScope) -> list[TierPermission]:
         """Get permissions applicable to the tier level and scope."""
         if tier_level not in self.tier_permissions:
@@ -551,34 +575,8 @@ class DynamicTierSystem:
 
     def _log_access_decision(self, decision: AccessDecision):
         """Log access decision to persistent storage."""
-        try:
-            os.makedirs(os.path.dirname(self.access_log_path), exist_ok=True)
-            log_entry = {
-                "decision_id": decision.decision_id,
-                "granted": decision.granted,
-                "tier_level": decision.tier_level.name,
-                "reasoning": decision.reasoning,
-                "restrictions": decision.restrictions,
-                "requires_elevation": decision.requires_elevation,
-                "timestamp_utc": datetime.now(timezone.utc).isoformat(),
-            }
-
-            with open(self.access_log_path, "a", encoding="utf-8") as f:
-                f.write(json.dumps(log_entry) + "\n")
-
-        except Exception as e:
-            logger.error("AccessDecisionLog_failed", error=str(e))
-
     def _log_elevation(self, elevation_data: dict[str, Any]):
         """Log tier elevation to persistent storage."""
-        try:
-            os.makedirs(os.path.dirname(self.elevation_log_path), exist_ok=True)
-            with open(self.elevation_log_path, "a", encoding="utf-8") as f:
-                f.write(json.dumps(elevation_data) + "\n")
-        except Exception as e:
-            logger.error("ElevationLog_failed", error=str(e))
-
-
 # LUKHAS_TAG: decorator_system
 def lukhas_tier_required(required_tier: TierLevel, scope: PermissionScope = PermissionScope.MEMORY_FOLD):
     """

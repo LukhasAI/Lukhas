@@ -879,7 +879,7 @@ if __name__ == "__main__":
                 try:
                     result = future.result(timeout=0.1)
                     results.append(result)
-                except:
+                except Exception as e:
                     results.append(None)
 
         if chaos_controller.system_state == SystemState.FAIL_CLOSED:

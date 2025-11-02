@@ -170,7 +170,7 @@ class MemoryBenchmarks:
         try:
             consolidation_result = self.memory.consolidate_if_needed()
             consolidation_triggered = consolidation_result is not None
-        except:
+        except Exception as e:
             consolidation_triggered = False
 
         end_time = time.perf_counter()

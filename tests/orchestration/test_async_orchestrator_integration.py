@@ -102,7 +102,8 @@ class TestAsyncOrchestratorIntegration:
                         result = int(parts[0].strip()) + int(parts[1].strip())
                         return {"result": str(result)}
                 return {"result": "Cannot evaluate"}
-            except:
+            except Exception as e:
+                logger.debug(f"Expected optional failure: {e}")
                 return {"result": "Error in evaluation"}
 
         async def facts_processor(data):

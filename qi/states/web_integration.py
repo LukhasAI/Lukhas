@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
-
 """
 
 #TAG:qim
@@ -46,11 +42,7 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://ai/docs
 """
 
-__module_name__ = "Quantum Web Integration"
-__version__ = "2.0.0"
-__tier__ = 2
-
-
+import logging
 import asyncio
 import base64
 import hashlib
@@ -62,6 +54,11 @@ from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
 
+__module_name__ = "Quantum Web Integration"
+__version__ = "2.0.0"
+__tier__ = 2
+
+logger = logging.getLogger(__name__)
 
 class QISecurityLevel(Enum):
     """Quantum security levels for web interfaces"""

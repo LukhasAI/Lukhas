@@ -148,7 +148,8 @@ class DirectoryIndexGenerator:
                     with open(file_path, 'r', encoding='utf-8') as f:
                         content = f.read(500)  # Read first 500 chars
                         has_sync_header = "Context Sync Header" in content and "Schema v2.0.0" in content
-                except:
+                except Exception as e:
+                    logger.debug(f"Expected optional failure: {e}")
                     pass
 
                 docs.append({

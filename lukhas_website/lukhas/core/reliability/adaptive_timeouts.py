@@ -115,7 +115,7 @@ class AdaptiveTimeoutManager:
                 p95_latency = statistics.quantiles(successful_latencies, n=20)[18]
             else:
                 p95_latency = max(successful_latencies)
-        except:
+        except Exception as e:
             p95_latency = statistics.mean(successful_latencies)
 
         # Apply safety multiplier

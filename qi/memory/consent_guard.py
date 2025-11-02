@@ -57,7 +57,7 @@ class ConsentGuard:
                     if consent.is_valid():
                         key = self._consent_key(consent.user_id, consent.purpose)
                         self.cache[key] = consent
-                except:
+                except Exception as e:
                     continue
 
     def grant(
@@ -137,7 +137,7 @@ class ConsentGuard:
                             elif not consent.granted:
                                 # Explicitly revoked
                                 return False, consent
-                    except:
+                    except Exception as e:
                         continue
 
         return False, None
@@ -165,7 +165,7 @@ class ConsentGuard:
                         consent = Consent(**data)
                         if consent.is_valid():
                             active.append(consent)
-                    except:
+                    except Exception as e:
                         continue
 
         return active
@@ -182,7 +182,7 @@ class ConsentGuard:
                         data = json.loads(line.strip())
                         if data["user_id"] == user_id and data["timestamp"] >= cutoff:
                             trail.append(data)
-                    except:
+                    except Exception as e:
                         continue
 
         return sorted(trail, key=lambda x: x["timestamp"])

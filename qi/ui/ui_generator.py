@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
-
 """
 
 #TAG:qim
@@ -37,14 +33,15 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://ai/docs
 """
 
+import logging
+from qiskit.algorithms import VQE
+from qiskit.circuit.library import TwoLocal
+
 __module_name__ = "Quantum Ui Generator"
 __version__ = "2.0.0"
 __tier__ = 2
 
-
-from qiskit.algorithms import VQE
-from qiskit.circuit.library import TwoLocal
-
+logger = logging.getLogger(__name__)
 
 class QIUIOptimizer:
     """

@@ -102,7 +102,7 @@ class ContextPriorityAnalyzer:
         try:
             with open(file_path, 'r', encoding='utf-8') as f:
                 content = f.read()
-        except:
+        except Exception as e:
             content = ""
 
         impact = {

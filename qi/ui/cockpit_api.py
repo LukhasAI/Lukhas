@@ -1,54 +1,45 @@
-# path: qi/ui/cockpit_api.py
-from __future__ import annotations
+    """Health check endpoint for monitoring."""
 
+from __future__ import annotations
 import json
 import os
 import time
-
 from fastapi import FastAPI, Header, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from qi.autonomy.self_healer import apply, approve, list_proposals
-
-# Component imports
 from qi.docs.model_safety_card import generate_card, to_markdown
 from qi.learning.adaptive_engine import AdaptiveLearningEngine
 from qi.learning.human_adapt_engine import HumanAdaptEngine
 from qi.metrics.calibration import fit_and_save, reliability_svg
 from qi.ops.auto_safety_report import (
+from qi.provenance.receipts_api import receipt_neighbors, receipt_sample
+import builtins
+        from qi.feedback.store import get_store
+        from qi.feedback.store import get_store
+        from qi.feedback.triage import get_triage
+        from qi.feedback.proposals import ProposalMapper
+    try:
+        try:
+        try:
+    import uvicorn
+
     _latest_eval,
     _mk_markdown,
     _recent_receipts,
     generate_report,
 )
-from qi.provenance.receipts_api import receipt_neighbors, receipt_sample
-
-# ---- UI serving (single-file cockpit + friends) ----
 COCKPIT_UI_PATH = os.environ.get("COCKPIT_UI_PATH")  # /abs/path/to/web/cockpit.html
 RECEIPTS_UI_PATH = os.environ.get("RECEIPTS_UI_PATH")  # /abs/path/to/web/trace_drilldown.html
 APPROVER_UI_PATH = os.environ.get("APPROVER_UI_PATH")  # /abs/path/to/web/approver_ui.html
-
-# Safe I/O for UI files
-import builtins
-
 _ORIG_OPEN = builtins.open
-
-
-# Auth
 def _check_auth(token: str | None = Header(None, alias="X-Auth-Token")):
     expected = os.environ.get("COCKPIT_API_TOKEN")
     if expected and token != expected:
         raise HTTPException(status_code=401, detail="Invalid or missing auth token")
-
-
-# FastAPI app
 app = FastAPI(title="LUKHAS Unified Ops Cockpit", version="1.0.0")
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
-
-# ------------- Panel 1: Safety Card & Reports -------------
-
-
 @app.get("/cockpit/safety-card")
 def get_safety_card(
     model: str = Query("LUKHAS-QI"),
@@ -72,8 +63,6 @@ def get_safety_card(
         return {"card": card, "markdown": md, "generated_at": time.time()}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Safety card generation failed: {e!s}")
-
-
 @app.get("/cockpit/safety_card.json")
 def get_safety_card_json(
     model: str = Query("LUKHAS-QI"),
@@ -94,20 +83,15 @@ def get_safety_card_json(
             overlays=overlays,
             jurisdictions=jurs,
         )
-
         if include_appendix:
-            # Add nightly report as appendix
             try:
                 report_md = _mk_markdown(policy_root, overlays, 500)
                 card["_appendix_nightly_report_md"] = report_md
-            except:
+            except Exception as e:
                 card["_appendix_nightly_report_md"] = "(appendix generation failed)"
-
         return card
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Safety card JSON generation failed: {e!s}")
-
-
 @app.get("/cockpit/safety_card.md")
 def get_safety_card_markdown(
     model: str = Query("LUKHAS-QI"),
@@ -131,8 +115,6 @@ def get_safety_card_markdown(
         return HTMLResponse(content=md, media_type="text/plain")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Safety card markdown generation failed: {e!s}")
-
-
 @app.get("/cockpit/safety_card.pdf")
 def get_safety_card_pdf(
     policy_root: str = Query("qi/safety/policy_packs"),
@@ -141,12 +123,9 @@ def get_safety_card_pdf(
 ):
     _check_auth(token)
     try:
-        # Mock PDF response - requires weasyprint
         raise HTTPException(status_code=404, detail="PDF generation requires weasyprint installation")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"PDF generation failed: {e!s}")
-
-
 @app.get("/cockpit/calibration.svg", response_class=HTMLResponse)
 def calibration_svg(
     task: str | None = Query(None),
@@ -159,8 +138,6 @@ def calibration_svg(
         reliability_svg(task=task, width=width, height=height),
         media_type="image/svg+xml",
     )
-
-
 @app.post("/cockpit/calibration/refit")
 def calibration_refit(source: str = Query("eval"), token: str | None = Header(None, alias="X-Auth-Token")):
     _check_auth(token)
@@ -178,8 +155,6 @@ def calibration_refit(source: str = Query("eval"), token: str | None = Header(No
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Calibration refit failed: {e!s}")
-
-
 @app.get("/cockpit/nightly-report")
 def get_nightly_report(
     policy_root: str = Query("qi/safety/policy_packs"),
@@ -199,8 +174,6 @@ def get_nightly_report(
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Report generation failed: {e!s}")
-
-
 @app.post("/cockpit/generate-report")
 def generate_full_report(
     policy_root: str = Query("qi/safety/policy_packs"),
@@ -214,11 +187,6 @@ def generate_full_report(
         return {"report_path": path, "generated_at": time.time()}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Full report generation failed: {e!s}")
-
-
-# ------------- Panel 2: Adaptive Learning Proposals -------------
-
-
 @app.get("/cockpit/adaptive/analyze")
 def analyze_adaptive_performance(window: int = Query(2000), token: str | None = Header(None, alias="X-Auth-Token")):
     _check_auth(token)
@@ -228,8 +196,6 @@ def analyze_adaptive_performance(window: int = Query(2000), token: str | None = 
         return {"analysis": patterns, "window": window}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Adaptive analysis failed: {e!s}")
-
-
 @app.get("/cockpit/adaptive/candidates")
 def get_adaptive_candidates(token: str | None = Header(None, alias="X-Auth-Token")):
     _check_auth(token)
@@ -250,8 +216,6 @@ def get_adaptive_candidates(token: str | None = Header(None, alias="X-Auth-Token
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Candidate retrieval failed: {e!s}")
-
-
 @app.post("/cockpit/adaptive/promote")
 def promote_adaptive_candidates(
     targets: list[str] = Query(...),
@@ -264,8 +228,6 @@ def promote_adaptive_candidates(
         return {"queued_proposals": proposal_ids, "count": len(proposal_ids)}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Adaptive promotion failed: {e!s}")
-
-
 @app.post("/cockpit/adaptive/evolve-params")
 def evolve_adaptive_parameters(
     target_file: str = Query("qi/safety/policy_packs/global/mappings.yaml"),
@@ -284,8 +246,6 @@ def evolve_adaptive_parameters(
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Parameter evolution failed: {e!s}")
-
-
 @app.post("/cockpit/adaptive/discover-tools")
 def discover_tool_combinations(
     target_file: str = Query("qi/safety/policy_packs/global/mappings.yaml"),
@@ -304,8 +264,6 @@ def discover_tool_combinations(
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Tool discovery failed: {e!s}")
-
-
 @app.post("/cockpit/adaptive/propose-best")
 def propose_best_adaptive(
     config_targets: str = Query("qi/safety/policy_packs/global/mappings.yaml"),
@@ -323,11 +281,6 @@ def propose_best_adaptive(
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Adaptive proposal failed: {e!s}")
-
-
-# ------------- Panel 3: Human Adaptation Proposals -------------
-
-
 @app.get("/cockpit/human-adapt/analyze")
 def analyze_human_satisfaction(window: int = Query(1000), token: str | None = Header(None, alias="X-Auth-Token")):
     _check_auth(token)
@@ -337,8 +290,6 @@ def analyze_human_satisfaction(window: int = Query(1000), token: str | None = He
         return {"analysis": patterns, "window": window}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Human satisfaction analysis failed: {e!s}")
-
-
 @app.get("/cockpit/human/proposals")
 def get_human_proposals(
     user: str | None = Query(None),
@@ -353,8 +304,6 @@ def get_human_proposals(
         return {"proposals": proposals, "count": len(proposals), "user_focus": user}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Human proposal retrieval failed: {e!s}")
-
-
 @app.post("/cockpit/human/promote")
 def promote_human_adaptations(
     user: str | None = Query(None),
@@ -372,8 +321,6 @@ def promote_human_adaptations(
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Human promotion failed: {e!s}")
-
-
 @app.post("/cockpit/human-adapt/propose-tone")
 def propose_tone_adaptations(
     target_file: str = Query("qi/safety/policy_packs/global/mappings.yaml"),
@@ -392,8 +339,6 @@ def propose_tone_adaptations(
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Tone adaptation proposal failed: {e!s}")
-
-
 @app.post("/cockpit/human-adapt/submit")
 def submit_human_adaptations(
     config_targets: str = Query("qi/safety/policy_packs/global/mappings.yaml"),
@@ -411,11 +356,6 @@ def submit_human_adaptations(
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Human adaptation submission failed: {e!s}")
-
-
-# ------------- Panel 4: Centralized Approvals -------------
-
-
 @app.get("/cockpit/approvals/list")
 def list_all_proposals(
     status_filter: str | None = Query(None),
@@ -426,18 +366,12 @@ def list_all_proposals(
     _check_auth(token)
     try:
         proposals = list_proposals()
-
-        # Apply filters
         if status_filter:
             proposals = [p for p in proposals if p.get("status") == status_filter]
         if author_filter:
             proposals = [p for p in proposals if p.get("author", "").startswith(author_filter)]
-
-        # Sort by timestamp (newest first) and limit
         proposals.sort(key=lambda x: x.get("ts", 0), reverse=True)
         proposals = proposals[:limit]
-
-        # Add proposal source classification
         for p in proposals:
             author = p.get("author", "")
             if "adaptive" in author:
@@ -448,7 +382,6 @@ def list_all_proposals(
                 p["source"] = "self_healing"
             else:
                 p["source"] = "manual"
-
         return {
             "proposals": proposals,
             "count": len(proposals),
@@ -457,8 +390,6 @@ def list_all_proposals(
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Proposal listing failed: {e!s}")
-
-
 @app.get("/cockpit/proposals")
 def get_proposals_simplified(token: str | None = Header(None, alias="X-Auth-Token")):
     _check_auth(token)
@@ -467,8 +398,6 @@ def get_proposals_simplified(token: str | None = Header(None, alias="X-Auth-Toke
         return {"items": proposals, "count": len(proposals)}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Proposal retrieval failed: {e!s}")
-
-
 @app.post("/cockpit/proposals/{proposal_id}/approve")
 def approve_proposal_by_id(
     proposal_id: str,
@@ -487,8 +416,6 @@ def approve_proposal_by_id(
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Approval failed: {e!s}")
-
-
 @app.post("/cockpit/proposals/{proposal_id}/reject")
 def reject_proposal_by_id(
     proposal_id: str,
@@ -498,7 +425,6 @@ def reject_proposal_by_id(
 ):
     _check_auth(token)
     try:
-        # Use approve with rejection reason for now
         result = approve(proposal_id, by, f"REJECTED: {reason}")
         return {
             "proposal_id": proposal_id,
@@ -508,8 +434,6 @@ def reject_proposal_by_id(
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Rejection failed: {e!s}")
-
-
 @app.post("/cockpit/proposals/{proposal_id}/apply")
 def apply_proposal_by_id(
     proposal_id: str,
@@ -527,8 +451,6 @@ def apply_proposal_by_id(
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Application failed: {e!s}")
-
-
 @app.post("/cockpit/approvals/{proposal_id}/approve")
 def approve_proposal_unified(
     proposal_id: str,
@@ -547,8 +469,6 @@ def approve_proposal_unified(
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Approval failed: {e!s}")
-
-
 @app.post("/cockpit/approvals/{proposal_id}/apply")
 def apply_proposal_unified(
     proposal_id: str,
@@ -561,8 +481,6 @@ def apply_proposal_unified(
         return {"proposal_id": proposal_id, "result": result, "as_user": as_user}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Application failed: {e!s}")
-
-
 @app.get("/cockpit/approvals/stats")
 def get_approval_stats(days_back: int = Query(7), token: str | None = Header(None, alias="X-Auth-Token")):
     _check_auth(token)
@@ -570,9 +488,7 @@ def get_approval_stats(days_back: int = Query(7), token: str | None = Header(Non
         proposals = list_proposals()
         now = time.time()
         cutoff = now - (days_back * 24 * 3600)
-
         recent = [p for p in proposals if p.get("ts", 0) >= cutoff]
-
         stats = {
             "total_recent": len(recent),
             "by_status": {},
@@ -581,12 +497,10 @@ def get_approval_stats(days_back: int = Query(7), token: str | None = Header(Non
             "avg_approval_time": None,
             "pending_count": 0,
         }
-
         approval_times = []
         for p in recent:
             status = p.get("status", "unknown")
             stats["by_status"][status] = stats["by_status"].get(status, 0) + 1
-
             author = p.get("author", "")
             if "adaptive" in author:
                 source = "adaptive"
@@ -597,26 +511,17 @@ def get_approval_stats(days_back: int = Query(7), token: str | None = Header(Non
             else:
                 source = "manual"
             stats["by_source"][source] = stats["by_source"].get(source, 0) + 1
-
             risk = p.get("risk", "unknown")
             stats["by_risk"][risk] = stats["by_risk"].get(risk, 0) + 1
-
             if status == "pending":
                 stats["pending_count"] += 1
             elif status == "approved" and p.get("approved_ts") and p.get("ts"):
                 approval_times.append(p["approved_ts"] - p["ts"])
-
         if approval_times:
             stats["avg_approval_time"] = sum(approval_times) / len(approval_times)
-
         return {"stats": stats, "days_back": days_back, "generated_at": time.time()}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Stats generation failed: {e!s}")
-
-
-# ------------- Panel 5: Receipts & Provenance -------------
-
-
 @app.get("/cockpit/receipts/recent")
 def get_recent_receipts(
     limit: int = Query(100),
@@ -626,27 +531,19 @@ def get_recent_receipts(
     _check_auth(token)
     try:
         receipts = _recent_receipts(limit * 2)  # Get more to allow filtering
-
         if task_filter:
             receipts = [r for r in receipts if (r.get("activity") or {}).get("type", "").find(task_filter) >= 0]
-
         receipts = receipts[:limit]
-
-        # Add summary stats
         task_counts = {}
         risk_counts = {}
         latencies = []
-
         for r in receipts:
             task = (r.get("activity") or {}).get("type") or "unknown"
             task_counts[task] = task_counts.get(task, 0) + 1
-
             for rf in r.get("risk_flags", []) or []:
                 risk_counts[rf] = risk_counts.get(rf, 0) + 1
-
             if r.get("latency_ms") is not None:
                 latencies.append(r["latency_ms"])
-
         summary = {
             "total": len(receipts),
             "task_distribution": task_counts,
@@ -654,7 +551,6 @@ def get_recent_receipts(
             "latency_p50": (sorted(latencies)[len(latencies) // 2] if latencies else None),
             "latency_p95": (sorted(latencies)[int(0.95 * len(latencies)) - 1] if latencies else None),
         }
-
         return {
             "receipts": receipts,
             "summary": summary,
@@ -663,15 +559,11 @@ def get_recent_receipts(
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Receipt retrieval failed: {e!s}")
-
-
 @app.get("/cockpit/receipts")
 def get_receipts_simplified(limit: int = Query(20), token: str | None = Header(None, alias="X-Auth-Token")):
     _check_auth(token)
     try:
         receipts = _recent_receipts(limit)
-
-        # Transform to match UI expectations
         items = []
         for r in receipts:
             items.append(
@@ -682,12 +574,9 @@ def get_receipts_simplified(limit: int = Query(20), token: str | None = Header(N
                     "risk_flags": r.get("risk_flags", []),
                 }
             )
-
         return {"items": items, "count": len(items)}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Receipt retrieval failed: {e!s}")
-
-
 @app.get("/cockpit/receipts/{receipt_id}/replay.json")
 def replay_receipt_json(
     receipt_id: str,
@@ -697,7 +586,6 @@ def replay_receipt_json(
 ):
     _check_auth(token)
     try:
-        # Mock replay data for now
         return {
             "receipt_id": receipt_id,
             "replay": {
@@ -710,8 +598,6 @@ def replay_receipt_json(
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Receipt replay failed: {e!s}")
-
-
 @app.get("/cockpit/receipts/{receipt_id}/trace.svg")
 def get_receipt_trace_svg(
     receipt_id: str,
@@ -722,7 +608,6 @@ def get_receipt_trace_svg(
 ):
     _check_auth(token)
     try:
-        # Mock SVG trace for now
         svg = f"""<svg width="400" height="200" xmlns="http://www.w3.org/2000/svg">
           <rect width="100%" height="100%" fill="#0f1115"/>
           <text x="200" y="50" text-anchor="middle" fill="#e7eaf0" font-family="monospace">Receipt: {receipt_id[:12]}...</text>
@@ -730,12 +615,9 @@ def get_receipt_trace_svg(
           <text x="200" y="110" text-anchor="middle" fill="#3ddc97" font-family="monospace">✓ ALLOWED</text>
           <text x="200" y="140" text-anchor="middle" fill="#8ab4f8" font-family="monospace">Trace visualization requires receipts_api</text>
         </svg>"""
-
         return HTMLResponse(content=svg, media_type="image/svg+xml")
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Trace generation failed: {e!s}")
-
-
 @app.get("/cockpit/receipts/{receipt_id}/neighbors")
 def get_receipt_neighbors_unified(
     receipt_id: str,
@@ -754,8 +636,6 @@ def get_receipt_neighbors_unified(
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Neighbor retrieval failed: {e!s}")
-
-
 @app.get("/cockpit/receipts/sample")
 def get_receipt_sample_unified(
     task_filter: str | None = Query(None),
@@ -768,11 +648,6 @@ def get_receipt_sample_unified(
         return {"sample": sample, "task_filter": task_filter, "limit": limit}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Sample retrieval failed: {e!s}")
-
-
-# ------------- Panel 6: Feedback System -------------
-
-
 @app.get("/cockpit/feedback")
 def get_feedback_list(
     task: str | None = Query(None),
@@ -782,16 +657,11 @@ def get_feedback_list(
 ):
     _check_auth(token)
     try:
-        from qi.feedback.store import get_store
-
         store = get_store()
         feedback = store.read_feedback(limit=limit, task_filter=task, jurisdiction_filter=jurisdiction)
-
-        # Compute summary
         if feedback:
             satisfactions = [fc.get("feedback", {}).get("satisfaction", 0.5) for fc in feedback]
             avg_sat = sum(satisfactions) / len(satisfactions)
-
             issue_counts = {}
             for fc in feedback:
                 for issue in fc.get("feedback", {}).get("issues", []):
@@ -799,7 +669,6 @@ def get_feedback_list(
         else:
             avg_sat = None
             issue_counts = {}
-
         return {
             "feedback": feedback,
             "count": len(feedback),
@@ -811,8 +680,6 @@ def get_feedback_list(
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Feedback retrieval failed: {e!s}")
-
-
 @app.get("/cockpit/feedback/clusters")
 def get_feedback_clusters(
     task: str | None = Query(None),
@@ -820,33 +687,22 @@ def get_feedback_clusters(
 ):
     _check_auth(token)
     try:
-        from qi.feedback.store import get_store
-
         store = get_store()
         clusters = store.read_clusters()
-
         if task:
             clusters = [c for c in clusters if c.get("task") == task]
-
         return {"clusters": clusters, "count": len(clusters), "filter": {"task": task}}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Cluster retrieval failed: {e!s}")
-
-
 @app.post("/cockpit/feedback/cluster")
 def run_feedback_clustering(limit: int = Query(1000), token: str | None = Header(None, alias="X-Auth-Token")):
     _check_auth(token)
     try:
-        from qi.feedback.triage import get_triage
-
         triage = get_triage()
         stats = triage.run_triage(limit=limit)
-
         return {"status": "completed", "stats": stats, "timestamp": time.time()}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Clustering failed: {e!s}")
-
-
 @app.post("/cockpit/feedback/promote")
 def promote_feedback_to_proposal(
     fc_id: str | None = Query(None),
@@ -858,19 +714,13 @@ def promote_feedback_to_proposal(
     try:
         if not fc_id and not cluster_id:
             raise HTTPException(status_code=400, detail="Either fc_id or cluster_id required")
-
-        from qi.feedback.proposals import ProposalMapper
-
         mapper = ProposalMapper()
-
         if cluster_id:
             proposal_id = mapper.promote_cluster(cluster_id, target_file)
         else:
             proposal_id = mapper.promote_feedback_card(fc_id, target_file)
-
         if not proposal_id:
             raise HTTPException(status_code=400, detail="Could not create proposal from feedback")
-
         return {
             "proposal_id": proposal_id,
             "status": "queued",
@@ -879,57 +729,12 @@ def promote_feedback_to_proposal(
         }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Promotion failed: {e!s}")
-
-
-# ------------- Dashboard & Health -------------
-
-
 @app.get("/cockpit/health")
 def health_check():
-    """Health check endpoint for monitoring."""
-    return {
-        "status": "healthy",
-        "version": "1.0.0",
-        "timestamp": time.time(),
-        "components": {
-            "safety_card": "available",
-            "nightly_report": "available",
-            "adaptive_learning": "available",
-            "human_adaptation": "available",
-            "approvals": "available",
-            "receipts": "available",
-            "feedback": "available",
-        },
-    }
 
-
-@app.get("/cockpit/dashboard")
-def get_dashboard_summary(token: str | None = Header(None, alias="X-Auth-Token")):
-    """Unified dashboard summary for ops overview."""
-    _check_auth(token)
-    try:
-        # Latest eval
-        latest_eval = _latest_eval()
-
-        # Recent receipts summary
-        recent_receipts = _recent_receipts(100)
-
-        # Proposals summary
-        proposals = list_proposals()
-        pending_proposals = [p for p in proposals if p.get("status") == "pending"]
-
-        # Adaptive learning summary
-        try:
-            adaptive_engine = AdaptiveLearningEngine()
-            adaptive_patterns = adaptive_engine.analyze_performance_patterns(window=500)
-        except:
-            adaptive_patterns = None
-
-        # Human adaptation summary
-        try:
             human_engine = HumanAdaptEngine()
             human_patterns = human_engine.analyze_satisfaction_patterns(window=500)
-        except:
+        except Exception as e:
             human_patterns = None
 
         dashboard = {
@@ -1128,7 +933,6 @@ def root():
 
 
 if __name__ == "__main__":
-    import uvicorn
 
     port = int(os.environ.get("COCKPIT_PORT", "8098"))
     uvicorn.run(app, host="127.0.0.1", port=port)

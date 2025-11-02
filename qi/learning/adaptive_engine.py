@@ -1,7 +1,13 @@
-# path: qi/learning/adaptive_engine.py
-from __future__ import annotations
+    """
+    Continuously improves cognitive components based on experience.
+    - Records episodes (task outcomes)
+    - Analyzes patterns
+    - Proposes candidate patches to config/routers
+    - Offline-evaluates candidates on a holdout set
+    - Surfaces proposals to HITL approver for apply
+    """
 
-# Safe I/O
+from __future__ import annotations
 import builtins
 import hashlib
 import json
@@ -9,30 +15,21 @@ import os
 import time
 from dataclasses import asdict, dataclass
 from typing import Any
+import contextlib
+from qi.autonomy.self_healer import observe_signals
+            from qi.autonomy.self_healer import (  # type: ignore
 
 _ORIG_OPEN = builtins.open
 _ORIG_MAKEDIRS = os.makedirs
-
 STATE = os.path.expanduser(os.environ.get("LUKHAS_STATE", "~/.lukhas/state"))
 LEARN_DIR = os.path.join(STATE, "learning")
 _ORIG_MAKEDIRS(LEARN_DIR, exist_ok=True)
 EPISODES = os.path.join(LEARN_DIR, "episodes.jsonl")  # ring buffer of task runs
 CANDIDATES = os.path.join(LEARN_DIR, "candidates.jsonl")  # proposed configs + scores
-
-# Approvals & sandbox reuse
-import contextlib
-
-from qi.autonomy.self_healer import observe_signals
-
-
 def _now() -> float:
     return time.time()
-
-
 def _sha(obj: Any) -> str:
     return hashlib.sha256(json.dumps(obj, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
-
-
 @dataclass
 class Episode:
     run_id: str
@@ -45,8 +42,6 @@ class Episode:
     reward: float  # normalized [0,1]
     ctx: dict[str, Any]
     ts: float
-
-
 @dataclass
 class CandidateConfig:
     id: str
@@ -55,17 +50,7 @@ class CandidateConfig:
     score_offline: float | None = None
     trials: int = 0
     meta: dict[str, Any] = None
-
-
 class AdaptiveLearningEngine:
-    """
-    Continuously improves cognitive components based on experience.
-    - Records episodes (task outcomes)
-    - Analyzes patterns
-    - Proposes candidate patches to config/routers
-    - Offline-evaluates candidates on a holdout set
-    - Surfaces proposals to HITL approver for apply
-    """
 
     def record_episode(
         self,
@@ -213,7 +198,6 @@ class AdaptiveLearningEngine:
             # self_healer.plan_proposals already computes a safe patch; we replace its patch with ours per target
             observe_signals()
             # We inject our specific candidate patch by temporarily writing a one-off plan around target
-            from qi.autonomy.self_healer import (  # type: ignore
                 ChangeProposal,
                 _attest,
                 _queue_proposal,

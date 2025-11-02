@@ -1,14 +1,21 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 Neuroplastic Connector for BRIDGE Module
 Auto-generated connector that integrates isolated components
 """
 
+import logging
+
 from typing import Any
 
 from core.common import get_logger
+
+try:
+    # Components will be added here during consolidation
+    pass
+except ImportError as e:
+
+
+logger = logging.getLogger(__name__)
 
 logger = get_logger(__name__)
 
@@ -42,8 +49,3 @@ class BridgeConnector:
 connector = BridgeConnector()
 
 # Auto-import isolated components
-try:
-    # Components will be added here during consolidation
-    pass
-except ImportError as e:
-    logger.warning(f"Failed to import some BRIDGE components: {e}")

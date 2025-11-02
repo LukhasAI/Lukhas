@@ -139,7 +139,7 @@ class AuditFramework:
         # Initialize Guardian System
         try:
             self.guardian = GuardianSystem()
-        except:
+        except Exception as e:
             print("Guardian system not available, using mock")
 
         # Initialize Consciousness Stream
@@ -188,7 +188,7 @@ class AuditFramework:
                 "threads": psutil.cpu_count(logical=True),
                 "freq_mhz": psutil.cpu_freq().max if psutil.cpu_freq() else 0
             }
-        except:
+        except Exception as e:
             cpu_info = {"error": "Could not retrieve CPU info"}
 
         # Get memory information
@@ -199,7 +199,7 @@ class AuditFramework:
                 "available_gb": memory.available / (1024**3),
                 "percent_used": memory.percent
             }
-        except:
+        except Exception as e:
             memory_info = {"error": "Could not retrieve memory info"}
 
         return AuditEnvironment(
@@ -244,7 +244,8 @@ class AuditFramework:
             dirty = len(status) > 0
 
             return commit, branch, dirty
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             return None, None, False
 
     async def benchmark_guardian_e2e(self) -> BenchmarkResult:

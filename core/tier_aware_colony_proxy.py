@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - TIER-AWARE COLONY PROXY
@@ -29,6 +27,8 @@ from __future__ import annotations
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+from __future__ import annotations
+
 import asyncio
 import inspect
 import logging
@@ -54,7 +54,6 @@ try:
 
     QUANTUM_IDENTITY_AVAILABLE = True
 except ImportError:
-    QUANTUM_IDENTITY_AVAILABLE = False
 
 # Import base colony infrastructure
 try:
@@ -62,8 +61,40 @@ try:
 
     BASE_COLONY_AVAILABLE = True
 except ImportError:
-    BASE_COLONY_AVAILABLE = False
     BaseColony = object
+
+        try:
+            if inspect.iscoroutinefunction(original_method):
+                result = await original_method(*args, **kwargs)
+            else:
+                result = original_method(*args, **kwargs)
+
+            # Log successful execution
+            await self._log_method_execution(
+                user_context,
+                method_name,
+                "success",
+                result,
+                time.time() - start_time,
+            )
+
+            return result
+
+        except Exception as e:
+            await self._log_method_execution(
+                user_context,
+                method_name,
+                "error",
+                {"error": str(e)},
+                time.time() - start_time,
+            )
+            raise
+
+            try:
+                # This would use the quantum identity manager's audit system
+                log_entry["qi_audit_hash"] = "placeholder_quantum_hash"
+            except Exception as e:
+
 
 logger = logging.getLogger("ΛTRACE.tier_aware_proxy")
 
@@ -281,34 +312,6 @@ class TierAwareColonyProxy:
         await self._check_rate_limits(user_context, method_name)
 
         # Execute the original method
-        try:
-            if inspect.iscoroutinefunction(original_method):
-                result = await original_method(*args, **kwargs)
-            else:
-                result = original_method(*args, **kwargs)
-
-            # Log successful execution
-            await self._log_method_execution(
-                user_context,
-                method_name,
-                "success",
-                result,
-                time.time() - start_time,
-            )
-
-            return result
-
-        except Exception as e:
-            # Log failed execution
-            await self._log_method_execution(
-                user_context,
-                method_name,
-                "error",
-                {"error": str(e)},
-                time.time() - start_time,
-            )
-            raise
-
         finally:
             # Update performance metrics
             execution_time = time.time() - start_time
@@ -415,12 +418,6 @@ class TierAwareColonyProxy:
 
         # Generate quantum audit signature if available
         if QUANTUM_IDENTITY_AVAILABLE and self.identity_manager:
-            try:
-                # This would use the quantum identity manager's audit system
-                log_entry["qi_audit_hash"] = "placeholder_quantum_hash"
-            except Exception as e:
-                self.logger.error(f"Failed to generate quantum audit hash: {e}")
-
         self.proxy_audit_log.append(log_entry)
 
         # Keep only last 10000 audit entries

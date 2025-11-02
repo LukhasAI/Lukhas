@@ -166,7 +166,8 @@ def test_operational_systems():
                     obj = getattr(module, attr)
                     if callable(obj) or callable(obj):
                         functional_attrs.append(attr)
-                except:
+                except Exception as e:
+                    logger.debug(f"Expected optional failure: {e}")
                     pass
 
             print(f"✅ {system}: {len(attrs)} total, {len(functional_attrs)} functional")

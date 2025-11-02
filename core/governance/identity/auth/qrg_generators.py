@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 LUKHAS QR Code Generators (QRGs)
 
@@ -20,6 +18,8 @@ Author: LUKHAS QRG Development Team
 License: Proprietary - See LUKHAS_LICENSE.md
 Version: 2.0.0
 """
+
+from __future__ import annotations
 import base64
 import hashlib
 import json
@@ -44,7 +44,72 @@ try:
     from governance.identity.auth.entropy_synchronizer import EntropySynchronizer
     from utils.cultural_safety_checker import CulturalSafetyChecker
 except ImportError:
-    print("Warning: LUKHAS core components not found. Running in standalone mode.")
+
+
+        try:
+            self.cultural_checker = CulturalSafetyChecker()
+        except BaseException:
+
+        try:
+            self.entropy_sync = EntropySynchronizer()
+        except BaseException:
+
+        try:
+            self.entropy_sync = EntropySynchronizer()
+            self.constitutional_gatekeeper = ConstitutionalGatekeeper()
+        except BaseException:
+            self.constitutional_gatekeeper = None
+
+        try:
+            if qr_type == QRGType.CONSCIOUSNESS_ADAPTIVE:
+                consciousness_pattern = self._extract_consciousness_pattern(user_profile)
+                result = self.consciousness_qrg.generate_consciousness_qr(data, consciousness_pattern)
+
+            elif qr_type == QRGType.CULTURAL_SYMBOLIC:
+                cultural_theme = self._extract_cultural_theme(user_profile)
+                result = self.cultural_qrg.generate_cultural_qr(data, cultural_theme)
+
+            elif qr_type == QRGType.STEGANOGRAPHIC:
+                hidden_data = user_profile.get("hidden_data", "")
+                stego_key = user_profile.get("steganography_key")
+                result = self.steganographic_qrg.generate_steganographic_qr(data, hidden_data, stego_key)
+
+            elif qr_type == QRGType.QUANTUM_ENCRYPTED:
+                security_level = user_profile.get("qi_security_level", "standard")
+                result = self.qi_qrg.generate_quantum_qr(data, security_level)
+
+            else:
+                # Default to consciousness adaptive
+                consciousness_pattern = self._extract_consciousness_pattern(user_profile)
+                result = self.consciousness_qrg.generate_consciousness_qr(data, consciousness_pattern)
+
+            # Add generation metadata
+            result["generation_metadata"] = {
+                "qr_type": qr_type.value,
+                "generation_time": time.time() - start_time,
+                "user_id": user_profile.get("user_id", "anonymous"),
+                "generator_version": "LUKHAS_QRG_2.0",
+                "constitutional_compliant": True,
+            }
+
+            # Store in history
+            self.generation_history.append(
+                {
+                    "timestamp": time.time(),
+                    "qr_type": qr_type.value,
+                    "user_id": user_profile.get("user_id", "anonymous"),
+                    "data_length": len(data),
+                }
+            )
+
+            return result
+
+        except Exception as e:
+                "error": str(e),
+                "qr_type": qr_type.value,
+                "generation_failed": True,
+                "fallback_available": True,
+            }
 
 
 class QRGType(Enum):
@@ -264,11 +329,6 @@ class CulturalQRGenerator:
             },
         }
 
-        try:
-            self.cultural_checker = CulturalSafetyChecker()
-        except BaseException:
-            self.cultural_checker = None
-
     def generate_cultural_qr(self, data: str, cultural_theme: CulturalQRTheme) -> dict[str, Any]:
         """
         Generate culturally-adaptive QR code respecting cultural values.
@@ -391,11 +451,6 @@ class SteganographicQRGenerator:
     """
 
     def __init__(self):
-        try:
-            self.entropy_sync = EntropySynchronizer()
-        except BaseException:
-            self.entropy_sync = None
-
     def generate_steganographic_qr(
         self,
         visible_data: str,
@@ -555,13 +610,6 @@ class QIQRGenerator:
     """
 
     def __init__(self):
-        try:
-            self.entropy_sync = EntropySynchronizer()
-            self.constitutional_gatekeeper = ConstitutionalGatekeeper()
-        except BaseException:
-            self.entropy_sync = None
-            self.constitutional_gatekeeper = None
-
     def generate_quantum_qr(self, data: str, qi_security_level: str = "standard") -> dict[str, Any]:
         """
         Generate QR code with quantum-enhanced security.
@@ -755,58 +803,6 @@ class LUKHASQRGManager:
             Generated QR code with full metadata
         """
         start_time = time.time()
-
-        try:
-            if qr_type == QRGType.CONSCIOUSNESS_ADAPTIVE:
-                consciousness_pattern = self._extract_consciousness_pattern(user_profile)
-                result = self.consciousness_qrg.generate_consciousness_qr(data, consciousness_pattern)
-
-            elif qr_type == QRGType.CULTURAL_SYMBOLIC:
-                cultural_theme = self._extract_cultural_theme(user_profile)
-                result = self.cultural_qrg.generate_cultural_qr(data, cultural_theme)
-
-            elif qr_type == QRGType.STEGANOGRAPHIC:
-                hidden_data = user_profile.get("hidden_data", "")
-                stego_key = user_profile.get("steganography_key")
-                result = self.steganographic_qrg.generate_steganographic_qr(data, hidden_data, stego_key)
-
-            elif qr_type == QRGType.QUANTUM_ENCRYPTED:
-                security_level = user_profile.get("qi_security_level", "standard")
-                result = self.qi_qrg.generate_quantum_qr(data, security_level)
-
-            else:
-                # Default to consciousness adaptive
-                consciousness_pattern = self._extract_consciousness_pattern(user_profile)
-                result = self.consciousness_qrg.generate_consciousness_qr(data, consciousness_pattern)
-
-            # Add generation metadata
-            result["generation_metadata"] = {
-                "qr_type": qr_type.value,
-                "generation_time": time.time() - start_time,
-                "user_id": user_profile.get("user_id", "anonymous"),
-                "generator_version": "LUKHAS_QRG_2.0",
-                "constitutional_compliant": True,
-            }
-
-            # Store in history
-            self.generation_history.append(
-                {
-                    "timestamp": time.time(),
-                    "qr_type": qr_type.value,
-                    "user_id": user_profile.get("user_id", "anonymous"),
-                    "data_length": len(data),
-                }
-            )
-
-            return result
-
-        except Exception as e:
-            return {
-                "error": str(e),
-                "qr_type": qr_type.value,
-                "generation_failed": True,
-                "fallback_available": True,
-            }
 
     def _extract_consciousness_pattern(self, profile: dict[str, Any]) -> ConsciousnessQRPattern:
         """Extract consciousness pattern from user profile."""

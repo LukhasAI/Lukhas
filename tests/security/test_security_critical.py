@@ -252,7 +252,8 @@ def test_security_jwt_algorithm_confusion():
         jwt.decode(token, options={"verify_signature": False})
         # Should not allow 'none' algorithm in production
         assert False, "Algorithm confusion attack possible"
-    except:
+    except Exception as e:
+        logger.debug(f"Expected optional failure: {e}")
         pass  # Expected to fail
 
 

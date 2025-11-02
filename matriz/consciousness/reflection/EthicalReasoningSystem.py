@@ -1,7 +1,3 @@
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -34,6 +30,9 @@ ETHICAL ARCHITECTURE:
 - Real-time moral monitoring and ethical drift detection
 """
 
+import logging
+from datetime import timezone
+
 import asyncio
 import json
 import time
@@ -48,6 +47,9 @@ import numpy as np
 
 # Ethical reasoning libraries
 
+
+
+logger = logging.getLogger(__name__)
 
 class EthicalFramework(Enum):
     """Major ethical frameworks for moral reasoning."""

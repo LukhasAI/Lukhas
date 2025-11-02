@@ -10,7 +10,8 @@ def fix_multiline_string_error(file_path):
     try:
         with open(file_path, encoding="utf-8", errors="ignore") as f:
             lines = f.readlines()
-    except:
+    except Exception as e:
+        logger.debug(f"Expected optional failure: {e}")
         return False
 
     # Try to find and fix the error
@@ -49,7 +50,8 @@ def fix_multiline_string_error(file_path):
         with open(file_path, encoding="utf-8") as f:
             ast.parse(f.read())
         return True
-    except:
+    except Exception as e:
+        logger.debug(f"Expected optional failure: {e}")
         return False
 
 

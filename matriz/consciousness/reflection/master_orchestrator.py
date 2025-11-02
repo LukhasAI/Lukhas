@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 
 #TAG:consciousness
@@ -49,6 +47,8 @@ Dream → Memory → Reflection → Directive → Action → Drift → Evolution
 ΛCOMPLETE: Brain/memory orchestration integration implemented with safety protocols
 AIDEA: Implement LUKHAS cycle optimization with memory integration
 """
+
+from __future__ import annotations
 import asyncio
 import logging
 import time
@@ -78,7 +78,6 @@ try:
 
     ORCHESTRATION_COMPONENTS_AVAILABLE = True
 except ImportError as e:
-    logging.warning(f"Orchestration components not available: {e}")
     ORCHESTRATION_COMPONENTS_AVAILABLE = False
 
 # Import brain and memory orchestration components with safety protocols
@@ -92,7 +91,6 @@ try:
 
     MEMORY_ORCHESTRATION_AVAILABLE = True
 except ImportError as e:
-    logging.warning(f"Memory orchestration components not available: {e}")
     MEMORY_ORCHESTRATION_AVAILABLE = False
     unified_memory_core_instance = None
     memory_visualization_instance = None
@@ -108,8 +106,227 @@ try:
 
     WORKFLOW_COMPONENTS_AVAILABLE = True
 except ImportError as e:
-    logging.warning(f"Workflow components not available: {e}")
     WORKFLOW_COMPONENTS_AVAILABLE = False
+
+        try:
+            self.logger.info("Initializing master orchestrator...")
+
+            # Initialize core orchestration components
+            if ORCHESTRATION_COMPONENTS_AVAILABLE:
+                await self._initialize_core_orchestrators()
+                self.logger.info("Core orchestrators initialized")
+            else:
+                self.logger.warning("Orchestration components not available - running in fallback mode")
+
+            # Initialize workflow and energy components
+            if WORKFLOW_COMPONENTS_AVAILABLE:
+                await self._initialize_workflow_components()
+                self.logger.info("Workflow components initialized")
+
+            # Initialize memory and brain orchestration components
+            if MEMORY_ORCHESTRATION_AVAILABLE and self.config.get("memory_orchestration_enabled", False):
+                await self._initialize_memory_orchestration()
+                self.logger.info("Memory orchestration components initialized")
+
+            # Start background monitoring tasks
+            await self._start_monitoring_tasks()
+
+            # Register orchestrator capabilities
+            await self._register_orchestrator_capabilities()
+
+            self.is_running = True
+            self.logger.info("Master orchestrator fully operational")
+            return True
+
+        except Exception as e:
+            return False
+
+        try:
+            request_id = request.request_id
+            self.logger.info(f"Orchestrating request: {request_id}")
+
+            start_time = time.time()
+
+            # Update LUKHAS cycle tracking if specified
+            if request.lukhas_cycle_phase and self.config.get("lukhas_cycle_tracking", True):
+                await self._update_lukhas_cycle_state(request_id, request.lukhas_cycle_phase)
+
+            # Route request to appropriate orchestrator(s)
+            orchestration_results = await self._route_and_execute_request(request)
+
+            # Cross-orchestrator coordination if needed
+            if (
+                len(request.target_orchestrators) > 1
+                or request.orchestration_type == OrchestrationType.CROSS_ORCHESTRATOR_TASK
+            ):
+                coordination_results = await self._coordinate_cross_orchestrator_task(request, orchestration_results)
+                orchestration_results.update(coordination_results)
+
+            # Energy optimization if enabled
+            if self.energy_planner and self.config.get("energy_optimization", True):
+                energy_results = await self._optimize_energy_allocation(request, orchestration_results)
+                orchestration_results["energy_optimization"] = energy_results
+
+            # Update metrics
+            processing_time = time.time() - start_time
+            await self._update_orchestration_metrics(request, orchestration_results, processing_time)
+
+            result = {
+                "success": True,
+                "request_id": request_id,
+                "orchestration_type": request.orchestration_type.value,
+                "processing_time": processing_time,
+                "orchestration_results": orchestration_results,
+                "lukhas_cycle_phase": (request.lukhas_cycle_phase.value if request.lukhas_cycle_phase else None),
+                "performance_metrics": {
+                    "bio_symbolic_coherence": self.metrics.bio_symbolic_coherence,
+                    "system_health_score": self.metrics.system_health_score,
+                    "request_success_rate": self.metrics.request_success_rate,
+                },
+            }
+
+            self.completed_requests.append(result)
+            self.logger.info(f"Request orchestrated successfully: {request_id}")
+
+            return result
+
+        except Exception as e:
+
+            failure_result = {
+                "success": False,
+                "error": str(e),
+                "request_id": request.request_id,
+                "orchestration_type": request.orchestration_type.value,
+            }
+
+            self.failed_requests.append(failure_result)
+            return failure_result
+
+            try:
+                orchestrator_info = self.orchestrator_registry[orchestrator_name]
+                orchestrator = orchestrator_info["orchestrator"]
+
+                # Execute based on orchestration type
+                if request.orchestration_type == OrchestrationType.SWARM_OPERATION and orchestrator_name == "swarm":
+                    result = await self._execute_swarm_operation(orchestrator, request)
+                elif request.orchestration_type == OrchestrationType.COLONY_TASK and orchestrator_name == "colony":
+                    result = await self._execute_colony_task(orchestrator, request)
+                elif (
+                    request.orchestration_type == OrchestrationType.BIO_SYMBOLIC_PROCESSING
+                    and orchestrator_name == "bio_symbolic"
+                ):
+                    result = await self._execute_bio_symbolic_processing(orchestrator, request)
+                elif (
+                    request.orchestration_type == OrchestrationType.WORKFLOW_EXECUTION
+                    and orchestrator_name == "workflow"
+                ):
+                    result = await self._execute_workflow(orchestrator, request)
+                elif request.orchestration_type == OrchestrationType.MEMORY_OPERATION:
+                    result = await self._execute_memory_operation(orchestrator, request)
+                elif (
+                    request.orchestration_type == OrchestrationType.BRAIN_COORDINATION
+                    and orchestrator_name == "brain_hub"
+                ):
+                    result = await self._execute_brain_coordination(orchestrator, request)
+                else:
+                    result = await self._execute_generic_operation(orchestrator, request)
+
+                results[orchestrator_name] = result
+
+            except Exception as e:
+                self.logger.error(f"Orchestrator {orchestrator_name} execution failed: {e}")
+
+        try:
+            if operation_type == "process":
+                result = await memory_orchestrator.process_memory(memory_data)
+            elif operation_type == "create":
+                result = await memory_orchestrator.create_memory(memory_data)
+            elif operation_type == "retrieve":
+                memory_id = request.payload.get("memory_id")
+                result = await memory_orchestrator.retrieve_memory(memory_id)
+            elif operation_type == "consolidate":
+                memory_ids = request.payload.get("memory_ids", [])
+                result = await memory_orchestrator.consolidate_memories(memory_ids)
+            else:
+                result = {
+                    "success": False,
+                    "error": f"Unknown memory operation: {operation_type}",
+                }
+
+            # Add safety protocol confirmation
+            if result and result.get("status") == "success":
+                result["safety_protocols_applied"] = True
+                result["cascade_prevention_active"] = True
+
+            return result
+
+        except Exception as e:
+            return {"success": False, "error": str(e), "safety_protocols_applied": True}
+
+        try:
+            if coordination_type == "cognitive_cycle":
+                cycle_phase = request.payload.get("phase", "reflection")
+                result = await brain_hub.coordinate_cognitive_cycle(
+                    phase=cycle_phase, context=request.payload.get("context", {})
+                )
+            elif coordination_type == "consciousness_integration":
+                integration_data = request.payload.get("integration_data", {})
+                result = await brain_hub.integrate_consciousness_state(integration_data)
+            elif coordination_type == "neural_coordination":
+                neural_data = request.payload.get("neural_data", {})
+                result = await brain_hub.coordinate_neural_processes(neural_data)
+            else:
+                result = {
+                    "success": True,
+                    "coordination_type": coordination_type,
+                    "executed": True,
+                }
+
+            return result
+
+        except Exception as e:
+            return {"success": False, "error": str(e)}
+
+            try:
+                health_score = await self._calculate_system_health()
+                self.metrics.system_health_score = health_score
+
+                if health_score < 0.7:
+                    self.logger.warning(f"System health degraded: {health_score:.2f}")
+
+                await asyncio.sleep(self.config["health_check_interval"])
+            except Exception as e:
+                await asyncio.sleep(self.config["health_check_interval"])
+
+            try:
+                await self._update_orchestrator_utilization()
+                await asyncio.sleep(self.config["performance_monitoring_interval"])
+            except Exception as e:
+                await asyncio.sleep(self.config["performance_monitoring_interval"])
+
+            try:
+                if self.request_queue:
+                    request = self.request_queue.popleft()
+                    asyncio.create_task(self.orchestrate_request(request))
+                else:
+                    await asyncio.sleep(1.0)
+            except Exception as e:
+                await asyncio.sleep(1.0)
+
+            try:
+                await self._monitor_lukhas_cycles()
+                await asyncio.sleep(60)  # Check every minute
+            except Exception as e:
+                await asyncio.sleep(60)
+
+                    try:
+                        health = await orchestrator.get_health_status()
+                        health_scores.append(health.get("score", 0.5))
+                    except BaseException:
+                    try:
+                        utilization = await orchestrator.get_utilization()
+                        self.metrics.orchestrator_utilization[name] = utilization
+                    except BaseException:
 
 logger = logging.getLogger("master_orchestrator")
 
@@ -262,40 +479,6 @@ class MasterOrchestrator:
 
     async def initialize(self) -> bool:
         """Initialize the master orchestrator and all sub-orchestrators"""
-        try:
-            self.logger.info("Initializing master orchestrator...")
-
-            # Initialize core orchestration components
-            if ORCHESTRATION_COMPONENTS_AVAILABLE:
-                await self._initialize_core_orchestrators()
-                self.logger.info("Core orchestrators initialized")
-            else:
-                self.logger.warning("Orchestration components not available - running in fallback mode")
-
-            # Initialize workflow and energy components
-            if WORKFLOW_COMPONENTS_AVAILABLE:
-                await self._initialize_workflow_components()
-                self.logger.info("Workflow components initialized")
-
-            # Initialize memory and brain orchestration components
-            if MEMORY_ORCHESTRATION_AVAILABLE and self.config.get("memory_orchestration_enabled", False):
-                await self._initialize_memory_orchestration()
-                self.logger.info("Memory orchestration components initialized")
-
-            # Start background monitoring tasks
-            await self._start_monitoring_tasks()
-
-            # Register orchestrator capabilities
-            await self._register_orchestrator_capabilities()
-
-            self.is_running = True
-            self.logger.info("Master orchestrator fully operational")
-            return True
-
-        except Exception as e:
-            self.logger.error(f"Failed to initialize master orchestrator: {e}")
-            return False
-
     async def _initialize_core_orchestrators(self):
         """Initialize core orchestration components"""
 
@@ -481,68 +664,6 @@ class MasterOrchestrator:
         Returns:
             Orchestration result with performance metrics
         """
-        try:
-            request_id = request.request_id
-            self.logger.info(f"Orchestrating request: {request_id}")
-
-            start_time = time.time()
-
-            # Update LUKHAS cycle tracking if specified
-            if request.lukhas_cycle_phase and self.config.get("lukhas_cycle_tracking", True):
-                await self._update_lukhas_cycle_state(request_id, request.lukhas_cycle_phase)
-
-            # Route request to appropriate orchestrator(s)
-            orchestration_results = await self._route_and_execute_request(request)
-
-            # Cross-orchestrator coordination if needed
-            if (
-                len(request.target_orchestrators) > 1
-                or request.orchestration_type == OrchestrationType.CROSS_ORCHESTRATOR_TASK
-            ):
-                coordination_results = await self._coordinate_cross_orchestrator_task(request, orchestration_results)
-                orchestration_results.update(coordination_results)
-
-            # Energy optimization if enabled
-            if self.energy_planner and self.config.get("energy_optimization", True):
-                energy_results = await self._optimize_energy_allocation(request, orchestration_results)
-                orchestration_results["energy_optimization"] = energy_results
-
-            # Update metrics
-            processing_time = time.time() - start_time
-            await self._update_orchestration_metrics(request, orchestration_results, processing_time)
-
-            result = {
-                "success": True,
-                "request_id": request_id,
-                "orchestration_type": request.orchestration_type.value,
-                "processing_time": processing_time,
-                "orchestration_results": orchestration_results,
-                "lukhas_cycle_phase": (request.lukhas_cycle_phase.value if request.lukhas_cycle_phase else None),
-                "performance_metrics": {
-                    "bio_symbolic_coherence": self.metrics.bio_symbolic_coherence,
-                    "system_health_score": self.metrics.system_health_score,
-                    "request_success_rate": self.metrics.request_success_rate,
-                },
-            }
-
-            self.completed_requests.append(result)
-            self.logger.info(f"Request orchestrated successfully: {request_id}")
-
-            return result
-
-        except Exception as e:
-            self.logger.error(f"Request orchestration failed {request.request_id}: {e}")
-
-            failure_result = {
-                "success": False,
-                "error": str(e),
-                "request_id": request.request_id,
-                "orchestration_type": request.orchestration_type.value,
-            }
-
-            self.failed_requests.append(failure_result)
-            return failure_result
-
     async def _route_and_execute_request(self, request: OrchestrationRequest) -> dict[str, Any]:
         """Route request to appropriate orchestrators and execute"""
 
@@ -561,41 +682,6 @@ class MasterOrchestrator:
                     "error": f"Orchestrator {orchestrator_name} not available",
                 }
                 continue
-
-            try:
-                orchestrator_info = self.orchestrator_registry[orchestrator_name]
-                orchestrator = orchestrator_info["orchestrator"]
-
-                # Execute based on orchestration type
-                if request.orchestration_type == OrchestrationType.SWARM_OPERATION and orchestrator_name == "swarm":
-                    result = await self._execute_swarm_operation(orchestrator, request)
-                elif request.orchestration_type == OrchestrationType.COLONY_TASK and orchestrator_name == "colony":
-                    result = await self._execute_colony_task(orchestrator, request)
-                elif (
-                    request.orchestration_type == OrchestrationType.BIO_SYMBOLIC_PROCESSING
-                    and orchestrator_name == "bio_symbolic"
-                ):
-                    result = await self._execute_bio_symbolic_processing(orchestrator, request)
-                elif (
-                    request.orchestration_type == OrchestrationType.WORKFLOW_EXECUTION
-                    and orchestrator_name == "workflow"
-                ):
-                    result = await self._execute_workflow(orchestrator, request)
-                elif request.orchestration_type == OrchestrationType.MEMORY_OPERATION:
-                    result = await self._execute_memory_operation(orchestrator, request)
-                elif (
-                    request.orchestration_type == OrchestrationType.BRAIN_COORDINATION
-                    and orchestrator_name == "brain_hub"
-                ):
-                    result = await self._execute_brain_coordination(orchestrator, request)
-                else:
-                    result = await self._execute_generic_operation(orchestrator, request)
-
-                results[orchestrator_name] = result
-
-            except Exception as e:
-                results[orchestrator_name] = {"success": False, "error": str(e)}
-                self.logger.error(f"Orchestrator {orchestrator_name} execution failed: {e}")
 
         return results
 
@@ -795,63 +881,10 @@ class MasterOrchestrator:
         operation_type = request.payload.get("operation", "process")
         memory_data = request.payload.get("memory_data", {})
 
-        try:
-            if operation_type == "process":
-                result = await memory_orchestrator.process_memory(memory_data)
-            elif operation_type == "create":
-                result = await memory_orchestrator.create_memory(memory_data)
-            elif operation_type == "retrieve":
-                memory_id = request.payload.get("memory_id")
-                result = await memory_orchestrator.retrieve_memory(memory_id)
-            elif operation_type == "consolidate":
-                memory_ids = request.payload.get("memory_ids", [])
-                result = await memory_orchestrator.consolidate_memories(memory_ids)
-            else:
-                result = {
-                    "success": False,
-                    "error": f"Unknown memory operation: {operation_type}",
-                }
-
-            # Add safety protocol confirmation
-            if result and result.get("status") == "success":
-                result["safety_protocols_applied"] = True
-                result["cascade_prevention_active"] = True
-
-            return result
-
-        except Exception as e:
-            self.logger.error(f"Memory operation failed: {e!s}")
-            return {"success": False, "error": str(e), "safety_protocols_applied": True}
-
     async def _execute_brain_coordination(self, brain_hub: Any, request: OrchestrationRequest) -> dict[str, Any]:
         """Execute brain coordination operation"""
 
         coordination_type = request.payload.get("coordination_type", "cognitive_cycle")
-
-        try:
-            if coordination_type == "cognitive_cycle":
-                cycle_phase = request.payload.get("phase", "reflection")
-                result = await brain_hub.coordinate_cognitive_cycle(
-                    phase=cycle_phase, context=request.payload.get("context", {})
-                )
-            elif coordination_type == "consciousness_integration":
-                integration_data = request.payload.get("integration_data", {})
-                result = await brain_hub.integrate_consciousness_state(integration_data)
-            elif coordination_type == "neural_coordination":
-                neural_data = request.payload.get("neural_data", {})
-                result = await brain_hub.coordinate_neural_processes(neural_data)
-            else:
-                result = {
-                    "success": True,
-                    "coordination_type": coordination_type,
-                    "executed": True,
-                }
-
-            return result
-
-        except Exception as e:
-            self.logger.error(f"Brain coordination failed: {e!s}")
-            return {"success": False, "error": str(e)}
 
     async def _execute_generic_operation(self, orchestrator: Any, request: OrchestrationRequest) -> dict[str, Any]:
         """Execute generic operation on any orchestrator"""
@@ -1003,51 +1036,15 @@ class MasterOrchestrator:
     async def _health_monitoring_loop(self):
         """Background task for monitoring system health"""
         while self.is_running:
-            try:
-                health_score = await self._calculate_system_health()
-                self.metrics.system_health_score = health_score
-
-                if health_score < 0.7:
-                    self.logger.warning(f"System health degraded: {health_score:.2f}")
-
-                await asyncio.sleep(self.config["health_check_interval"])
-            except Exception as e:
-                self.logger.error(f"Health monitoring error: {e}")
-                await asyncio.sleep(self.config["health_check_interval"])
-
     async def _performance_monitoring_loop(self):
         """Background task for monitoring performance metrics"""
         while self.is_running:
-            try:
-                await self._update_orchestrator_utilization()
-                await asyncio.sleep(self.config["performance_monitoring_interval"])
-            except Exception as e:
-                self.logger.error(f"Performance monitoring error: {e}")
-                await asyncio.sleep(self.config["performance_monitoring_interval"])
-
     async def _request_processing_loop(self):
         """Background task for processing queued requests"""
         while self.is_running:
-            try:
-                if self.request_queue:
-                    request = self.request_queue.popleft()
-                    asyncio.create_task(self.orchestrate_request(request))
-                else:
-                    await asyncio.sleep(1.0)
-            except Exception as e:
-                self.logger.error(f"Request processing error: {e}")
-                await asyncio.sleep(1.0)
-
     async def _lukhas_cycle_monitoring_loop(self):
         """Background task for monitoring LUKHAS cycle health"""
         while self.is_running:
-            try:
-                await self._monitor_lukhas_cycles()
-                await asyncio.sleep(60)  # Check every minute
-            except Exception as e:
-                self.logger.error(f"LUKHAS cycle monitoring error: {e}")
-                await asyncio.sleep(60)
-
     def get_master_status(self) -> dict[str, Any]:
         """Get comprehensive status of master orchestration"""
         return {
@@ -1102,11 +1099,6 @@ class MasterOrchestrator:
 
                 # Try to get health status from orchestrator
                 if hasattr(orchestrator, "get_health_status"):
-                    try:
-                        health = await orchestrator.get_health_status()
-                        health_scores.append(health.get("score", 0.5))
-                    except BaseException:
-                        health_scores.append(0.5)  # Neutral score if unavailable
                 else:
                     health_scores.append(0.8)  # Assume healthy if no status method
             else:
@@ -1122,11 +1114,6 @@ class MasterOrchestrator:
 
                 # Try to get utilization from orchestrator
                 if hasattr(orchestrator, "get_utilization"):
-                    try:
-                        utilization = await orchestrator.get_utilization()
-                        self.metrics.orchestrator_utilization[name] = utilization
-                    except BaseException:
-                        self.metrics.orchestrator_utilization[name] = 0.0
                 else:
                     # Estimate utilization based on active tasks
                     active_tasks = len(getattr(orchestrator, "running_tasks", {}))

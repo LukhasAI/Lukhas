@@ -642,7 +642,8 @@ class ComprehensiveCoverageFramework:
                 for _ in range(6):  # Exceed threshold
                     try:
                         await inference_engine.infer("Failing query", max_depth=1)
-                    except:
+                    except Exception as e:
+                        logger.debug(f"Expected optional failure: {e}")
                         pass
 
                 result = await inference_engine.infer("Test after circuit breaker")
@@ -954,7 +955,8 @@ class ComprehensiveCoverageFramework:
                 # First cause a failure
                 try:
                     await self.cognitive_components['inference_engine'].infer("", max_depth=-1)
-                except:
+                except Exception as e:
+                    logger.debug(f"Expected optional failure: {e}")
                     pass
 
                 # Then test recovery

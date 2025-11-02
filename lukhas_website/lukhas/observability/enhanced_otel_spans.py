@@ -293,7 +293,8 @@ class EnhancedTracer:
                     if hasattr(result, '__len__'):
                         try:
                             span.set_attribute("function.result_length", len(result))
-                        except:
+                        except Exception as e:
+                            logger.debug(f"Expected optional failure: {e}")
                             pass
 
             except Exception as e:

@@ -1,13 +1,4 @@
 #!/usr/bin/env python3
-from __future__ import annotations
-
-import logging
-from dataclasses import dataclass, field
-from datetime import datetime, timezone
-from typing import Any, Mapping
-
-logger = logging.getLogger(__name__)
-
 """
 
 #TAG:qim
@@ -42,15 +33,21 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://ai/docs
 """
 
+from __future__ import annotations
+import logging
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from typing import Any, Mapping
+from hashlib import sha3_256
+try:
+    import rlp
+
 __module_name__ = "Quantum Safe Blockchain"
 __version__ = "2.0.0"
 __tier__ = 2
 
+logger = logging.getLogger(__name__)
 
-from hashlib import sha3_256
-
-try:
-    import rlp
 except ModuleNotFoundError:  # pragma: no cover - fallback for test environments without rlp
     class _RLPStub:
         @staticmethod

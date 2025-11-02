@@ -150,7 +150,7 @@ class ConstellationMapper:
                 # PageRank (overall importance)
                 try:
                     pagerank = nx.pagerank(self.graph)
-                except:
+                except Exception as e:
                     pagerank = {}
 
                 # Combine metrics

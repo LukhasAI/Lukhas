@@ -35,7 +35,8 @@ def detect_module_entrypoints(module_dir: Path) -> List[str]:
             # Look for __all__ exports
             if "__all__" in content:
                 entrypoints.append(f"{module_dir.name}")
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             pass
 
     # Check legacy data for exports

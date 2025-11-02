@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-import logging
-from datetime import datetime, timezone
-
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - BRIDGE TRACE LOGGER
@@ -39,12 +36,39 @@ from datetime import datetime, timezone
 ║ Trace: #ΛTRACE: ENABLED
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
+
+import logging
+from datetime import datetime, timezone
 import json
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional
 
 # ΛTRACE injection point
+        import json
+        import logging.handlers
+        from pathlib import Path
+            try:
+                import gzip
+                import shutil
+                with open(source, 'rb') as f_in:
+                    with gzip.open(f"{dest}.gz", 'wb') as f_out:
+                        shutil.copyfileobj(f_in, f_out)
+                Path(source).unlink()  # Remove uncompressed file
+            except Exception as e:
+
+            try:
+                from datetime import datetime
+                timestamp = event.get("timestamp", "")
+                if timestamp:
+                    dt = datetime.fromisoformat(timestamp.replace('Z', '+00:00'))
+                    hour = dt.hour
+                    hourly_distribution[hour] = hourly_distribution.get(hour, 0) + 1
+            except Exception:
+
+            import csv
+            import io
+
 logger = logging.getLogger("bridge.trace_logger")
 
 
@@ -104,9 +128,6 @@ class BridgeTraceLogger:
 
     def _setup_file_logging(self):
         """Setup file-based trace logging"""
-        import json
-        import logging.handlers
-        from pathlib import Path
 
         # Create logs directory
         log_dir = Path("logs/traces")
@@ -151,16 +172,6 @@ class BridgeTraceLogger:
         # Configure compression for rotated files
         def compress_rotated_file(source, dest):
             """Compress rotated log files to save space"""
-            try:
-                import gzip
-                import shutil
-                with open(source, 'rb') as f_in:
-                    with gzip.open(f"{dest}.gz", 'wb') as f_out:
-                        shutil.copyfileobj(f_in, f_out)
-                Path(source).unlink()  # Remove uncompressed file
-            except Exception as e:
-                logger.warning(f"Failed to compress log file {source}: {e}")
-
         # Override the doRollover method to include compression
         original_doRollover = file_handler.doRollover
         def compressed_rollover():
@@ -339,16 +350,6 @@ class BridgeTraceLogger:
             component_counts[component] = component_counts.get(component, 0) + 1
 
             # Time distribution (by hour)
-            try:
-                from datetime import datetime
-                timestamp = event.get("timestamp", "")
-                if timestamp:
-                    dt = datetime.fromisoformat(timestamp.replace('Z', '+00:00'))
-                    hour = dt.hour
-                    hourly_distribution[hour] = hourly_distribution.get(hour, 0) + 1
-            except Exception:
-                pass
-
         # Identify trace patterns
         patterns = {
             "most_active_category": max(category_counts.items(), key=lambda x: x[1]) if category_counts else None,
@@ -404,8 +405,6 @@ class BridgeTraceLogger:
 
         elif format_type == "csv":
             # Implement CSV export
-            import csv
-            import io
 
             output = io.StringIO()
             if not self._event_history:

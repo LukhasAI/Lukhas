@@ -82,7 +82,8 @@ class LUKHASMaintenancePipeline:
             try:
                 json_part = output.split("JSON Results:")[1].split("\n==================================================\n")[0]
                 validation_details = json.loads(json_part.strip())
-            except:
+            except Exception as e:
+                logger.debug(f"Expected optional failure: {e}")
                 pass
 
         return {
@@ -106,7 +107,8 @@ class LUKHASMaintenancePipeline:
                 rate_line = [line for line in output.split('\n') if 'Validation rate:' in line][0]
                 rate_str = rate_line.split(':')[1].strip().replace('%', '')
                 validation_rate = float(rate_str) / 100
-            except:
+            except Exception as e:
+                logger.debug(f"Expected optional failure: {e}")
                 pass
 
         return {
@@ -130,7 +132,8 @@ class LUKHASMaintenancePipeline:
                 rate_line = [line for line in output.split('\n') if 'Validation rate:' in line][0]
                 rate_str = rate_line.split(':')[1].strip().replace('%', '')
                 validation_rate = float(rate_str) / 100
-            except:
+            except Exception as e:
+                logger.debug(f"Expected optional failure: {e}")
                 pass
 
         return {

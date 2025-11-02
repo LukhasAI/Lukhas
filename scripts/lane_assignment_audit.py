@@ -156,7 +156,7 @@ class LaneAssignmentAuditor:
         try:
             tree = ast.parse(content)
             complexity_score = self._calculate_complexity(tree)
-        except:
+        except Exception as e:
             complexity_score = 0
 
         # Analyze various aspects

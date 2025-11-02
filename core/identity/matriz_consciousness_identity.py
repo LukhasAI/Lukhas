@@ -1,6 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 ╔══════════════════════════════════════════════════════════════
 ║ 🧬 MΛTRIZ Identity Module: Consciousness Identity Persistence
@@ -16,6 +13,8 @@ logger = logging.getLogger(__name__)
 ║ 🛡️ GUARDIAN: Identity security and consciousness ethics validation
 ╚══════════════════════════════════════════════════════════════
 """
+
+import logging
 
 import asyncio
 
@@ -38,7 +37,6 @@ try:
     )
     from ..matriz_adapter import CoreMatrizAdapter
 except ImportError as e:
-    std_logging.error(f"Failed to import MΛTRIZ consciousness components: {e}")
     ConsciousnessState = None
     ConsciousnessType = None
     EvolutionaryStage = None
@@ -56,7 +54,6 @@ try:
         consciousness_identity_signal_emitter,
     )
 except ImportError as e:
-    std_logging.error(f"Failed to import consciousness identity signals: {e}")
     consciousness_identity_signal_emitter = None
     AuthenticationTier = None
     IdentityBiometricData = None
@@ -65,11 +62,452 @@ except ImportError as e:
 try:
     from .lambda_id_core import LukhasIdentityService, LukhasIDGenerator, ΛIDError, ΛIDNamespace
 except ImportError as e:
-    std_logging.warning(f"Lambda ID Core not available: {e}")
     LukhasIdentityService = None
     LukhasIDGenerator = None
     ΛIDNamespace = None
     ΛIDError = Exception
+
+            try:
+                self.legacy_identity_service = LukhasIdentityService()
+                logger.info("✅ Integrated with legacy LUKHAS Identity Service")
+            except Exception as e:
+
+        try:
+            logger.info("🧬 Initializing MΛTRIZ consciousness identity system...")
+
+            if not ConsciousnessType:
+                logger.warning("⚠️ MΛTRIZ consciousness components not available - using fallback mode")
+                return False
+
+            # Start background maintenance
+            self._maintenance_active = True
+            asyncio.create_task(self._identity_maintenance_loop())
+
+            logger.info("✅ Consciousness identity system initialized")
+            return True
+
+        except Exception as e:
+            return False
+
+            try:
+                initial_context = initial_context or {}
+
+                # Create consciousness state for identity
+                identity_consciousness = None
+                if ConsciousnessType and consciousness_state_manager:
+                    identity_consciousness = await create_consciousness_state(
+                        consciousness_type=ConsciousnessType.CONTEXT,
+                        initial_state={
+                            "activity_level": 0.3,
+                            "consciousness_intensity": 0.2,
+                            "memory_salience": 0.5,
+                            "temporal_coherence": 0.4,
+                            "ethical_alignment": 1.0,
+                        },
+                        triggers=[
+                            "identity_interaction",
+                            "authentication_event",
+                            "consciousness_evolution",
+                            "memory_formation",
+                        ],
+                    )
+
+                # Create consciousness identity profile
+                profile = ConsciousnessIdentityProfile(
+                    user_identifier=user_identifier,
+                    lid=link_legacy_id,
+                    consciousness_id=identity_consciousness.consciousness_id if identity_consciousness else None,
+                    consciousness_type=ConsciousnessType.CONTEXT.value if ConsciousnessType else "CONTEXT",
+                    identity_consciousness_type=self._determine_initial_consciousness_type(initial_context),
+                    capabilities=self._extract_initial_capabilities(initial_context),
+                    session_data=initial_context.copy(),
+                    consent_scopes=initial_context.get("consent_scopes", ["basic_identity"]),
+                )
+
+                # Store profile and create indexes
+                self.identity_profiles[profile.identity_id] = profile
+                self.identity_index[user_identifier] = profile.identity_id
+
+                if profile.lid:
+                    self.identity_index[profile.lid] = profile.identity_id
+
+                if profile.consciousness_id:
+                    self.consciousness_identity_links[profile.consciousness_id] = profile.identity_id
+
+                # Log identity creation
+                self._log_identity_evolution(
+                    profile,
+                    "identity_created",
+                    {
+                        "user_identifier": user_identifier,
+                        "consciousness_linked": bool(profile.consciousness_id),
+                        "legacy_linked": bool(profile.lid),
+                    },
+                )
+
+                logger.info(f"🆔 Created consciousness identity: {profile.identity_id} for {user_identifier}")
+                return profile
+
+            except Exception as e:
+                raise
+
+            try:
+                # Determine authentication tier
+                auth_tier = self._determine_authentication_tier(authentication_context)
+
+                # Extract biometric data if available
+                biometric_data = self._extract_biometric_data(authentication_context)
+
+                # Create namespace isolation data
+                namespace_data = (
+                    NamespaceIsolationData(
+                        namespace_id=profile.consciousness_namespace,
+                        domain_type=profile.consciousness_namespace.split("_")[0],
+                        isolation_level=profile.namespace_isolation_level,
+                        consciousness_domain=profile.consciousness_namespace,
+                        domain_coherence=profile.identity_coherence,
+                    )
+                    if NamespaceIsolationData
+                    else None
+                )
+
+                # Emit authentication request signal
+                if self.signal_emitter and auth_tier:
+                    await self.signal_emitter.emit_authentication_request_signal(
+                        identity_id, auth_tier, biometric_data, namespace_data
+                    )
+
+                # Update interaction timestamp
+                profile.last_interaction = datetime.now(timezone.utc)
+                profile.update_consciousness_age()
+
+                # Process tiered authentication
+                auth_success, auth_confidence = await self._process_tiered_authentication(
+                    profile, auth_tier, authentication_context, biometric_data
+                )
+
+                if not auth_success:
+                    logger.warning(f"❌ Tiered authentication failed for {identity_id}")
+                    return {"success": False, "error": "Authentication validation failed"}
+
+                # Process authentication through consciousness if available
+                consciousness_result = {}
+                if profile.consciousness_id and consciousness_state_manager:
+                    # Evolve identity consciousness based on authentication
+                    evolved_consciousness = await consciousness_state_manager.evolve_consciousness(
+                        profile.consciousness_id,
+                        trigger="authentication_event",
+                        context={
+                            "authentication_type": authentication_context.get("method", "unknown"),
+                            "authentication_tier": auth_tier.value if auth_tier else "unknown",
+                            "success": True,
+                            "confidence": auth_confidence,
+                            "user_identifier": profile.user_identifier,
+                        },
+                    )
+
+                    consciousness_result = {
+                        "consciousness_evolution": True,
+                        "evolutionary_stage": evolved_consciousness.evolutionary_stage.value,
+                        "consciousness_intensity": evolved_consciousness.STATE.get("consciousness_intensity", 0),
+                    }
+
+                    # Update profile with consciousness data
+                    profile.consciousness_depth = evolved_consciousness.STATE.get("consciousness_intensity", 0)
+                    profile.memory_continuity = min(1.0, profile.memory_continuity + 0.1)
+
+                # Store authentication tier and biometric data
+                if auth_tier:
+                    profile.authentication_tier = auth_tier.value
+
+                if biometric_data:
+                    profile.add_consciousness_signature(
+                        "authentication",
+                        {
+                            "confidence": biometric_data.confidence_score,
+                            "behavioral_coherence": biometric_data.behavioral_coherence,
+                            "consciousness_frequency": biometric_data.consciousness_frequency,
+                            "brainwave_pattern": biometric_data.brainwave_pattern,
+                        },
+                    )
+
+                # Evolve identity consciousness type
+                old_type = profile.identity_consciousness_type
+                new_type = self._evolve_identity_consciousness_type(profile, authentication_context)
+                if new_type != old_type:
+                    profile.identity_consciousness_type = new_type
+                    profile.last_evolution = datetime.now(timezone.utc)
+
+                    # Emit identity evolution signal
+                    if self.signal_emitter:
+                        await self.signal_emitter.emit_identity_evolution_signal(
+                            identity_id,
+                            old_type.value,
+                            new_type.value,
+                            "authentication_advancement",
+                            profile.consciousness_depth,
+                            profile.memory_continuity,
+                        )
+
+                    self._log_identity_evolution(
+                        profile,
+                        "consciousness_type_evolution",
+                        {
+                            "old_type": old_type.value,
+                            "new_type": new_type.value,
+                            "trigger": "authentication",
+                            "authentication_tier": auth_tier.value if auth_tier else "unknown",
+                        },
+                    )
+
+                # Update capabilities based on authentication
+                self._update_capabilities(profile, authentication_context)
+
+                # Constitutional AI compliance validation
+                compliance_result = await self._validate_constitutional_compliance(profile, authentication_context)
+
+                # Legacy identity service integration
+                legacy_result = {}
+                if self.legacy_identity_service and profile.lid:
+                    try:
+                        legacy_result = self.legacy_identity_service.authenticate(
+                            profile.lid,
+                            authentication_context.get("method", "passkey"),
+                            authentication_context.get("credential"),
+                        )
+                    except Exception as e:
+
+                # Calculate final identity strength
+                identity_strength = profile.calculate_identity_strength()
+                consciousness_coherence = profile.consciousness_depth
+
+                # Emit authentication success signal
+                if self.signal_emitter and auth_tier:
+                    await self.signal_emitter.emit_authentication_success_signal(
+                        identity_id,
+                        auth_tier,
+                        identity_strength,
+                        consciousness_coherence,
+                        biometric_data.confidence_score if biometric_data else 0.0,
+                    )
+
+                result = {
+                    "success": True,
+                    "identity_id": profile.identity_id,
+                    "consciousness_identity_type": profile.identity_consciousness_type.value,
+                    "identity_strength": identity_strength,
+                    "authentication_tier": auth_tier.value if auth_tier else None,
+                    "authentication_confidence": auth_confidence,
+                    "consciousness_data": consciousness_result,
+                    "constitutional_compliance": compliance_result,
+                    "legacy_integration": legacy_result,
+                    "capabilities": profile.capabilities,
+                    "namespace_data": {
+                        "consciousness_namespace": profile.consciousness_namespace,
+                        "isolation_level": profile.namespace_isolation_level,
+                        "cross_namespace_permissions": profile.cross_namespace_permissions,
+                    },
+                    "session_data": {
+                        "consciousness_age_hours": profile.consciousness_age_hours,
+                        "memory_continuity": profile.memory_continuity,
+                        "identity_coherence": profile.identity_coherence,
+                        "consciousness_signatures_count": len(profile.consciousness_signatures),
+                        "transparency_level": profile.transparency_level,
+                    },
+                }
+
+                logger.info(
+                    f"🔐 Advanced consciousness authentication completed: {identity_id} (Tier: {auth_tier.value if auth_tier else 'unknown'})"
+                )
+                return result
+
+        try:
+            # Create compliance data
+            compliance_data = (
+                ConstitutionalComplianceData(
+                    democratic_validation=context.get("democratic_validation", True),
+                    human_oversight_required=context.get("human_oversight_required", False),
+                    transparency_score=profile.transparency_level,
+                    bias_mitigation_active=True,
+                    fairness_score=context.get("fairness_score", 0.9),
+                    explainability_level=context.get("explainability", 0.8),
+                    privacy_preserving=context.get("privacy_preserving", True),
+                    consent_validated=context.get("consent_validated", True),
+                    data_minimization=context.get("data_minimization", True),
+                    gdpr_compliant=True,
+                    constitutional_aligned=True,
+                    ethical_override_flags=[],
+                )
+                if ConstitutionalComplianceData
+                else None
+            )
+
+            # Update profile compliance score
+            if compliance_data:
+                compliance_factors = [
+                    1.0 if compliance_data.democratic_validation else 0.0,
+                    compliance_data.transparency_score,
+                    compliance_data.fairness_score,
+                    compliance_data.explainability_level,
+                    1.0 if compliance_data.constitutional_aligned else 0.0,
+                ]
+                profile.constitutional_compliance_score = sum(compliance_factors) / len(compliance_factors)
+
+            # Emit constitutional compliance signal
+            if self.signal_emitter and compliance_data:
+                await self.signal_emitter.emit_constitutional_compliance_signal(
+                    profile.identity_id, compliance_data, context
+                )
+
+            return {
+                "constitutional_compliant": True,
+                "compliance_score": profile.constitutional_compliance_score,
+                "democratic_validation": compliance_data.democratic_validation if compliance_data else True,
+                "transparency_score": profile.transparency_level,
+                "human_oversight_required": compliance_data.human_oversight_required if compliance_data else False,
+            }
+
+        except Exception as e:
+            return {"constitutional_compliant": False, "error": str(e), "compliance_score": 0.0}
+
+        try:
+            # Determine memory strength based on content and context
+            memory_strength = self._calculate_memory_strength(memory_key, memory_data)
+
+            profile.consciousness_memories[memory_key] = {
+                "data": memory_data,
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "memory_strength": memory_strength,
+                "consciousness_coherence": profile.consciousness_depth,
+                "identity_strength": profile.calculate_identity_strength(),
+            }
+
+            # Increase memory continuity based on memory strength
+            continuity_boost = memory_strength * 0.05
+            profile.memory_continuity = min(1.0, profile.memory_continuity + continuity_boost)
+            profile.last_interaction = datetime.now(timezone.utc)
+
+            # Add consciousness signature for memory formation
+            profile.add_consciousness_signature(
+                "memory_formation",
+                {
+                    "memory_key": memory_key,
+                    "memory_strength": memory_strength,
+                    "confidence": memory_strength,
+                    "consciousness_coherence": profile.consciousness_depth,
+                },
+            )
+
+            # Evolve consciousness if linked
+            if profile.consciousness_id and consciousness_state_manager:
+                await consciousness_state_manager.evolve_consciousness(
+                    profile.consciousness_id,
+                    trigger="memory_formation",
+                    context={
+                        "memory_key": memory_key,
+                        "memory_strength": memory_strength,
+                        "identity_id": identity_id,
+                        "memory_type": "consciousness_memory",
+                        "consciousness_coherence": profile.consciousness_depth,
+                    },
+                )
+
+            logger.debug(
+                f"💭 Enhanced consciousness memory update for {identity_id}: {memory_key} (strength: {memory_strength:.2f})"
+            )
+            return True
+
+        except Exception as e:
+            return False
+
+        try:
+            # Serialize profile data
+            profile_data = asdict(profile)
+
+            # Convert datetime objects to ISO strings
+            for key, value in profile_data.items():
+                if isinstance(value, datetime):
+                    profile_data[key] = value.isoformat()
+
+            # Store in persistence storage
+            self.persistence_storage[identity_id] = {
+                "profile_data": profile_data,
+                "persisted_at": datetime.now(timezone.utc).isoformat(),
+                "version": "1.0",
+            }
+
+            logger.debug(f"💾 Persisted identity state: {identity_id}")
+            return True
+
+        except Exception as e:
+            return False
+
+        try:
+            profile_data = stored_data["profile_data"]
+
+            # Convert ISO strings back to datetime objects
+            datetime_fields = ["created_at", "last_interaction", "last_evolution"]
+            for field in datetime_fields:
+                if field in profile_data and isinstance(profile_data[field], str):
+                    profile_data[field] = datetime.fromisoformat(profile_data[field])
+
+            # Convert enum back to proper type
+            if "identity_consciousness_type" in profile_data:
+                profile_data["identity_consciousness_type"] = IdentityConsciousnessType(
+                    profile_data["identity_consciousness_type"]
+                )
+
+            # Recreate profile
+            profile = ConsciousnessIdentityProfile(**profile_data)
+
+            # Update in memory storage
+            self.identity_profiles[identity_id] = profile
+            self.identity_index[profile.user_identifier] = identity_id
+
+            if profile.lid:
+                self.identity_index[profile.lid] = identity_id
+
+            if profile.consciousness_id:
+                self.consciousness_identity_links[profile.consciousness_id] = identity_id
+
+            logger.info(f"🔄 Restored identity state: {identity_id}")
+            return profile
+
+        except Exception as e:
+            return None
+
+            try:
+                current_time = datetime.now(timezone.utc)
+
+                # Update consciousness ages and decay inactive memories
+                for profile in self.identity_profiles.values():
+                    profile.update_consciousness_age()
+
+                    # Decay memory continuity for inactive profiles
+                    time_since_interaction = (current_time - profile.last_interaction).total_seconds()
+                    if time_since_interaction > 3600:  # 1 hour
+                        decay_factor = min(0.1, time_since_interaction / 86400)  # Max 10% decay per day
+                        profile.memory_continuity = max(0.0, profile.memory_continuity - decay_factor)
+
+                    # Persist active profiles periodically
+                    if time_since_interaction < 1800:  # Last 30 minutes
+                        await self.persist_identity_state(profile.identity_id)
+
+                # Clean up old evolution log entries
+                cutoff_time = current_time - timedelta(days=7)
+                self.identity_evolution_log = [
+                    event
+                    for event in self.identity_evolution_log
+                    if datetime.fromisoformat(event["timestamp"]) > cutoff_time
+                ]
+
+                await asyncio.sleep(300)  # Run every 5 minutes
+
+            except Exception as e:
+                await asyncio.sleep(600)  # Longer sleep on error
+
+
+logger = logging.getLogger(__name__)
 
 logger = std_logging.getLogger(__name__)
 
@@ -223,12 +661,6 @@ class MatrizConsciousnessIdentityManager:
         # Integration with legacy identity service
         self.legacy_identity_service = None
         if LukhasIdentityService:
-            try:
-                self.legacy_identity_service = LukhasIdentityService()
-                logger.info("✅ Integrated with legacy LUKHAS Identity Service")
-            except Exception as e:
-                logger.warning(f"Failed to initialize legacy identity service: {e}")
-
         # Identity persistence storage
         self.persistence_storage: dict[str, Any] = {}
         self.identity_evolution_log: list[dict[str, Any]] = []
@@ -252,24 +684,6 @@ class MatrizConsciousnessIdentityManager:
 
     async def initialize_consciousness_identity_system(self) -> bool:
         """Initialize the consciousness identity system"""
-        try:
-            logger.info("🧬 Initializing MΛTRIZ consciousness identity system...")
-
-            if not ConsciousnessType:
-                logger.warning("⚠️ MΛTRIZ consciousness components not available - using fallback mode")
-                return False
-
-            # Start background maintenance
-            self._maintenance_active = True
-            asyncio.create_task(self._identity_maintenance_loop())
-
-            logger.info("✅ Consciousness identity system initialized")
-            return True
-
-        except Exception as e:
-            logger.error(f"❌ Failed to initialize consciousness identity system: {e}")
-            return False
-
     async def create_consciousness_identity(
         self,
         user_identifier: str,
@@ -279,69 +693,6 @@ class MatrizConsciousnessIdentityManager:
         """Create a new consciousness-aware identity profile"""
 
         async with self._lock:
-            try:
-                initial_context = initial_context or {}
-
-                # Create consciousness state for identity
-                identity_consciousness = None
-                if ConsciousnessType and consciousness_state_manager:
-                    identity_consciousness = await create_consciousness_state(
-                        consciousness_type=ConsciousnessType.CONTEXT,
-                        initial_state={
-                            "activity_level": 0.3,
-                            "consciousness_intensity": 0.2,
-                            "memory_salience": 0.5,
-                            "temporal_coherence": 0.4,
-                            "ethical_alignment": 1.0,
-                        },
-                        triggers=[
-                            "identity_interaction",
-                            "authentication_event",
-                            "consciousness_evolution",
-                            "memory_formation",
-                        ],
-                    )
-
-                # Create consciousness identity profile
-                profile = ConsciousnessIdentityProfile(
-                    user_identifier=user_identifier,
-                    lid=link_legacy_id,
-                    consciousness_id=identity_consciousness.consciousness_id if identity_consciousness else None,
-                    consciousness_type=ConsciousnessType.CONTEXT.value if ConsciousnessType else "CONTEXT",
-                    identity_consciousness_type=self._determine_initial_consciousness_type(initial_context),
-                    capabilities=self._extract_initial_capabilities(initial_context),
-                    session_data=initial_context.copy(),
-                    consent_scopes=initial_context.get("consent_scopes", ["basic_identity"]),
-                )
-
-                # Store profile and create indexes
-                self.identity_profiles[profile.identity_id] = profile
-                self.identity_index[user_identifier] = profile.identity_id
-
-                if profile.lid:
-                    self.identity_index[profile.lid] = profile.identity_id
-
-                if profile.consciousness_id:
-                    self.consciousness_identity_links[profile.consciousness_id] = profile.identity_id
-
-                # Log identity creation
-                self._log_identity_evolution(
-                    profile,
-                    "identity_created",
-                    {
-                        "user_identifier": user_identifier,
-                        "consciousness_linked": bool(profile.consciousness_id),
-                        "legacy_linked": bool(profile.lid),
-                    },
-                )
-
-                logger.info(f"🆔 Created consciousness identity: {profile.identity_id} for {user_identifier}")
-                return profile
-
-            except Exception as e:
-                logger.error(f"Failed to create consciousness identity: {e}")
-                raise
-
     def _determine_initial_consciousness_type(self, context: dict[str, Any]) -> IdentityConsciousnessType:
         """Determine initial consciousness type based on context"""
 
@@ -382,177 +733,6 @@ class MatrizConsciousnessIdentityManager:
                         identity_id, AuthenticationTier.T1_BASIC if AuthenticationTier else None, None, None
                     )
                 return {"success": False, "error": "Identity not found"}
-
-            try:
-                # Determine authentication tier
-                auth_tier = self._determine_authentication_tier(authentication_context)
-
-                # Extract biometric data if available
-                biometric_data = self._extract_biometric_data(authentication_context)
-
-                # Create namespace isolation data
-                namespace_data = (
-                    NamespaceIsolationData(
-                        namespace_id=profile.consciousness_namespace,
-                        domain_type=profile.consciousness_namespace.split("_")[0],
-                        isolation_level=profile.namespace_isolation_level,
-                        consciousness_domain=profile.consciousness_namespace,
-                        domain_coherence=profile.identity_coherence,
-                    )
-                    if NamespaceIsolationData
-                    else None
-                )
-
-                # Emit authentication request signal
-                if self.signal_emitter and auth_tier:
-                    await self.signal_emitter.emit_authentication_request_signal(
-                        identity_id, auth_tier, biometric_data, namespace_data
-                    )
-
-                # Update interaction timestamp
-                profile.last_interaction = datetime.now(timezone.utc)
-                profile.update_consciousness_age()
-
-                # Process tiered authentication
-                auth_success, auth_confidence = await self._process_tiered_authentication(
-                    profile, auth_tier, authentication_context, biometric_data
-                )
-
-                if not auth_success:
-                    logger.warning(f"❌ Tiered authentication failed for {identity_id}")
-                    return {"success": False, "error": "Authentication validation failed"}
-
-                # Process authentication through consciousness if available
-                consciousness_result = {}
-                if profile.consciousness_id and consciousness_state_manager:
-                    # Evolve identity consciousness based on authentication
-                    evolved_consciousness = await consciousness_state_manager.evolve_consciousness(
-                        profile.consciousness_id,
-                        trigger="authentication_event",
-                        context={
-                            "authentication_type": authentication_context.get("method", "unknown"),
-                            "authentication_tier": auth_tier.value if auth_tier else "unknown",
-                            "success": True,
-                            "confidence": auth_confidence,
-                            "user_identifier": profile.user_identifier,
-                        },
-                    )
-
-                    consciousness_result = {
-                        "consciousness_evolution": True,
-                        "evolutionary_stage": evolved_consciousness.evolutionary_stage.value,
-                        "consciousness_intensity": evolved_consciousness.STATE.get("consciousness_intensity", 0),
-                    }
-
-                    # Update profile with consciousness data
-                    profile.consciousness_depth = evolved_consciousness.STATE.get("consciousness_intensity", 0)
-                    profile.memory_continuity = min(1.0, profile.memory_continuity + 0.1)
-
-                # Store authentication tier and biometric data
-                if auth_tier:
-                    profile.authentication_tier = auth_tier.value
-
-                if biometric_data:
-                    profile.add_consciousness_signature(
-                        "authentication",
-                        {
-                            "confidence": biometric_data.confidence_score,
-                            "behavioral_coherence": biometric_data.behavioral_coherence,
-                            "consciousness_frequency": biometric_data.consciousness_frequency,
-                            "brainwave_pattern": biometric_data.brainwave_pattern,
-                        },
-                    )
-
-                # Evolve identity consciousness type
-                old_type = profile.identity_consciousness_type
-                new_type = self._evolve_identity_consciousness_type(profile, authentication_context)
-                if new_type != old_type:
-                    profile.identity_consciousness_type = new_type
-                    profile.last_evolution = datetime.now(timezone.utc)
-
-                    # Emit identity evolution signal
-                    if self.signal_emitter:
-                        await self.signal_emitter.emit_identity_evolution_signal(
-                            identity_id,
-                            old_type.value,
-                            new_type.value,
-                            "authentication_advancement",
-                            profile.consciousness_depth,
-                            profile.memory_continuity,
-                        )
-
-                    self._log_identity_evolution(
-                        profile,
-                        "consciousness_type_evolution",
-                        {
-                            "old_type": old_type.value,
-                            "new_type": new_type.value,
-                            "trigger": "authentication",
-                            "authentication_tier": auth_tier.value if auth_tier else "unknown",
-                        },
-                    )
-
-                # Update capabilities based on authentication
-                self._update_capabilities(profile, authentication_context)
-
-                # Constitutional AI compliance validation
-                compliance_result = await self._validate_constitutional_compliance(profile, authentication_context)
-
-                # Legacy identity service integration
-                legacy_result = {}
-                if self.legacy_identity_service and profile.lid:
-                    try:
-                        legacy_result = self.legacy_identity_service.authenticate(
-                            profile.lid,
-                            authentication_context.get("method", "passkey"),
-                            authentication_context.get("credential"),
-                        )
-                    except Exception as e:
-                        logger.warning(f"Legacy authentication failed: {e}")
-
-                # Calculate final identity strength
-                identity_strength = profile.calculate_identity_strength()
-                consciousness_coherence = profile.consciousness_depth
-
-                # Emit authentication success signal
-                if self.signal_emitter and auth_tier:
-                    await self.signal_emitter.emit_authentication_success_signal(
-                        identity_id,
-                        auth_tier,
-                        identity_strength,
-                        consciousness_coherence,
-                        biometric_data.confidence_score if biometric_data else 0.0,
-                    )
-
-                result = {
-                    "success": True,
-                    "identity_id": profile.identity_id,
-                    "consciousness_identity_type": profile.identity_consciousness_type.value,
-                    "identity_strength": identity_strength,
-                    "authentication_tier": auth_tier.value if auth_tier else None,
-                    "authentication_confidence": auth_confidence,
-                    "consciousness_data": consciousness_result,
-                    "constitutional_compliance": compliance_result,
-                    "legacy_integration": legacy_result,
-                    "capabilities": profile.capabilities,
-                    "namespace_data": {
-                        "consciousness_namespace": profile.consciousness_namespace,
-                        "isolation_level": profile.namespace_isolation_level,
-                        "cross_namespace_permissions": profile.cross_namespace_permissions,
-                    },
-                    "session_data": {
-                        "consciousness_age_hours": profile.consciousness_age_hours,
-                        "memory_continuity": profile.memory_continuity,
-                        "identity_coherence": profile.identity_coherence,
-                        "consciousness_signatures_count": len(profile.consciousness_signatures),
-                        "transparency_level": profile.transparency_level,
-                    },
-                }
-
-                logger.info(
-                    f"🔐 Advanced consciousness authentication completed: {identity_id} (Tier: {auth_tier.value if auth_tier else 'unknown'})"
-                )
-                return result
 
             except Exception as e:
                 logger.error(f"Advanced authentication failed for identity {identity_id}: {e}")
@@ -733,56 +913,6 @@ class MatrizConsciousnessIdentityManager:
     ) -> dict[str, Any]:
         """Validate Constitutional AI compliance for authentication decision"""
 
-        try:
-            # Create compliance data
-            compliance_data = (
-                ConstitutionalComplianceData(
-                    democratic_validation=context.get("democratic_validation", True),
-                    human_oversight_required=context.get("human_oversight_required", False),
-                    transparency_score=profile.transparency_level,
-                    bias_mitigation_active=True,
-                    fairness_score=context.get("fairness_score", 0.9),
-                    explainability_level=context.get("explainability", 0.8),
-                    privacy_preserving=context.get("privacy_preserving", True),
-                    consent_validated=context.get("consent_validated", True),
-                    data_minimization=context.get("data_minimization", True),
-                    gdpr_compliant=True,
-                    constitutional_aligned=True,
-                    ethical_override_flags=[],
-                )
-                if ConstitutionalComplianceData
-                else None
-            )
-
-            # Update profile compliance score
-            if compliance_data:
-                compliance_factors = [
-                    1.0 if compliance_data.democratic_validation else 0.0,
-                    compliance_data.transparency_score,
-                    compliance_data.fairness_score,
-                    compliance_data.explainability_level,
-                    1.0 if compliance_data.constitutional_aligned else 0.0,
-                ]
-                profile.constitutional_compliance_score = sum(compliance_factors) / len(compliance_factors)
-
-            # Emit constitutional compliance signal
-            if self.signal_emitter and compliance_data:
-                await self.signal_emitter.emit_constitutional_compliance_signal(
-                    profile.identity_id, compliance_data, context
-                )
-
-            return {
-                "constitutional_compliant": True,
-                "compliance_score": profile.constitutional_compliance_score,
-                "democratic_validation": compliance_data.democratic_validation if compliance_data else True,
-                "transparency_score": profile.transparency_level,
-                "human_oversight_required": compliance_data.human_oversight_required if compliance_data else False,
-            }
-
-        except Exception as e:
-            logger.error(f"Constitutional compliance validation failed: {e}")
-            return {"constitutional_compliant": False, "error": str(e), "compliance_score": 0.0}
-
     def _update_capabilities(self, profile: ConsciousnessIdentityProfile, context: dict[str, Any]) -> None:
         """Update identity capabilities based on context"""
 
@@ -838,57 +968,6 @@ class MatrizConsciousnessIdentityManager:
         if not profile:
             return False
 
-        try:
-            # Determine memory strength based on content and context
-            memory_strength = self._calculate_memory_strength(memory_key, memory_data)
-
-            profile.consciousness_memories[memory_key] = {
-                "data": memory_data,
-                "timestamp": datetime.now(timezone.utc).isoformat(),
-                "memory_strength": memory_strength,
-                "consciousness_coherence": profile.consciousness_depth,
-                "identity_strength": profile.calculate_identity_strength(),
-            }
-
-            # Increase memory continuity based on memory strength
-            continuity_boost = memory_strength * 0.05
-            profile.memory_continuity = min(1.0, profile.memory_continuity + continuity_boost)
-            profile.last_interaction = datetime.now(timezone.utc)
-
-            # Add consciousness signature for memory formation
-            profile.add_consciousness_signature(
-                "memory_formation",
-                {
-                    "memory_key": memory_key,
-                    "memory_strength": memory_strength,
-                    "confidence": memory_strength,
-                    "consciousness_coherence": profile.consciousness_depth,
-                },
-            )
-
-            # Evolve consciousness if linked
-            if profile.consciousness_id and consciousness_state_manager:
-                await consciousness_state_manager.evolve_consciousness(
-                    profile.consciousness_id,
-                    trigger="memory_formation",
-                    context={
-                        "memory_key": memory_key,
-                        "memory_strength": memory_strength,
-                        "identity_id": identity_id,
-                        "memory_type": "consciousness_memory",
-                        "consciousness_coherence": profile.consciousness_depth,
-                    },
-                )
-
-            logger.debug(
-                f"💭 Enhanced consciousness memory update for {identity_id}: {memory_key} (strength: {memory_strength:.2f})"
-            )
-            return True
-
-        except Exception as e:
-            logger.error(f"Failed to update consciousness memory: {e}")
-            return False
-
     def _calculate_memory_strength(self, memory_key: str, memory_data: Any) -> float:
         """Calculate memory strength based on content and context"""
 
@@ -918,69 +997,11 @@ class MatrizConsciousnessIdentityManager:
         if not profile:
             return False
 
-        try:
-            # Serialize profile data
-            profile_data = asdict(profile)
-
-            # Convert datetime objects to ISO strings
-            for key, value in profile_data.items():
-                if isinstance(value, datetime):
-                    profile_data[key] = value.isoformat()
-
-            # Store in persistence storage
-            self.persistence_storage[identity_id] = {
-                "profile_data": profile_data,
-                "persisted_at": datetime.now(timezone.utc).isoformat(),
-                "version": "1.0",
-            }
-
-            logger.debug(f"💾 Persisted identity state: {identity_id}")
-            return True
-
-        except Exception as e:
-            logger.error(f"Failed to persist identity state: {e}")
-            return False
-
     async def restore_identity_state(self, identity_id: str) -> Optional[ConsciousnessIdentityProfile]:
         """Restore identity state from storage"""
 
         stored_data = self.persistence_storage.get(identity_id)
         if not stored_data:
-            return None
-
-        try:
-            profile_data = stored_data["profile_data"]
-
-            # Convert ISO strings back to datetime objects
-            datetime_fields = ["created_at", "last_interaction", "last_evolution"]
-            for field in datetime_fields:
-                if field in profile_data and isinstance(profile_data[field], str):
-                    profile_data[field] = datetime.fromisoformat(profile_data[field])
-
-            # Convert enum back to proper type
-            if "identity_consciousness_type" in profile_data:
-                profile_data["identity_consciousness_type"] = IdentityConsciousnessType(
-                    profile_data["identity_consciousness_type"]
-                )
-
-            # Recreate profile
-            profile = ConsciousnessIdentityProfile(**profile_data)
-
-            # Update in memory storage
-            self.identity_profiles[identity_id] = profile
-            self.identity_index[profile.user_identifier] = identity_id
-
-            if profile.lid:
-                self.identity_index[profile.lid] = identity_id
-
-            if profile.consciousness_id:
-                self.consciousness_identity_links[profile.consciousness_id] = identity_id
-
-            logger.info(f"🔄 Restored identity state: {identity_id}")
-            return profile
-
-        except Exception as e:
-            logger.error(f"Failed to restore identity state: {e}")
             return None
 
     def _log_identity_evolution(
@@ -1010,37 +1031,6 @@ class MatrizConsciousnessIdentityManager:
         """Background maintenance for identity profiles"""
 
         while self._maintenance_active:
-            try:
-                current_time = datetime.now(timezone.utc)
-
-                # Update consciousness ages and decay inactive memories
-                for profile in self.identity_profiles.values():
-                    profile.update_consciousness_age()
-
-                    # Decay memory continuity for inactive profiles
-                    time_since_interaction = (current_time - profile.last_interaction).total_seconds()
-                    if time_since_interaction > 3600:  # 1 hour
-                        decay_factor = min(0.1, time_since_interaction / 86400)  # Max 10% decay per day
-                        profile.memory_continuity = max(0.0, profile.memory_continuity - decay_factor)
-
-                    # Persist active profiles periodically
-                    if time_since_interaction < 1800:  # Last 30 minutes
-                        await self.persist_identity_state(profile.identity_id)
-
-                # Clean up old evolution log entries
-                cutoff_time = current_time - timedelta(days=7)
-                self.identity_evolution_log = [
-                    event
-                    for event in self.identity_evolution_log
-                    if datetime.fromisoformat(event["timestamp"]) > cutoff_time
-                ]
-
-                await asyncio.sleep(300)  # Run every 5 minutes
-
-            except Exception as e:
-                logger.error(f"Identity maintenance error: {e}")
-                await asyncio.sleep(600)  # Longer sleep on error
-
     async def get_identity_network_status(self) -> dict[str, Any]:
         """Get comprehensive identity network status with advanced consciousness metrics"""
 

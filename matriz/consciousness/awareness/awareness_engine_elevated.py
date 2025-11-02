@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 """
 
 #TAG:consciousness
@@ -24,6 +22,8 @@ Author: Lukhas AI Research Team
 Version: 2.0.0 - Elevated Edition
 Date: June 2025
 """
+
+from __future__ import annotations
 import asyncio
 import json
 import logging
@@ -38,6 +38,73 @@ from pydantic import BaseModel, Field
 
 # ——— Configuration & Utilities —————————————————————————————— #
 
+
+        try:
+            # Core processing through reasoner
+            result = self.reasoner.process(inputs)
+
+            # Compute institutional alignment score
+            align_score = self.evaluate_alignment(result, inputs)
+
+            # Generate actionable recommendations
+            recommendations = self.generate_recommendations(result, inputs)
+
+            # Calculate sustainability impact if enabled
+            sustainability_score = None
+            if self.config.sustainability_weight > 0:
+                sustainability_score = self.calculate_sustainability_impact(result)
+
+            # Create compliance-ready output
+            processing_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
+
+            output = AwarenessOutput(
+                alignment=AlignmentMetric(
+                    score=align_score,
+                    status=self._compliance_status(align_score),
+                    confidence=self.reasoner.get_confidence(),
+                    risk_factors=self._identify_risk_factors(result),
+                ),
+                data=result,
+                recommendations=recommendations,
+                sustainability_score=sustainability_score,
+                processing_time_ms=processing_time,
+                qi_signature=(
+                    self._generate_quantum_signature(result) if self.config.enable_quantum_processing else None
+                ),
+            )
+
+            # Structured logging for audit trails
+            structured_log(
+                f"{self.__class__.__name__}_process",
+                {
+                    "module_type": self.module_type.value,
+                    "alignment_score": align_score,
+                    "compliance_status": output.alignment.status.value,
+                    "processing_time_ms": processing_time,
+                    "user_id": inputs.user_id,
+                    "session_id": inputs.session_id,
+                },
+            )
+
+            # Persist to time-series store (integrate with your DB)
+            self._persist_to_store(inputs, output)
+
+            return output
+
+        except Exception as e:
+            structured_log(
+                f"{self.__class__.__name__}_error",
+                {
+                    "error": str(e),
+                    "error_type": type(e).__name__,
+                    "user_id": inputs.user_id,
+                    "session_id": inputs.session_id,
+                },
+                "ERROR",
+            )
+            raise
+
+        import hashlib
 
 class ComplianceStatus(Enum):
     """Compliance status for institutional alignment."""
@@ -152,72 +219,6 @@ class AwarenessModule(ABC):
         """Main processing pipeline: input → reasoner → alignment → logging."""
         start_time = datetime.now(timezone.utc)
 
-        try:
-            # Core processing through reasoner
-            result = self.reasoner.process(inputs)
-
-            # Compute institutional alignment score
-            align_score = self.evaluate_alignment(result, inputs)
-
-            # Generate actionable recommendations
-            recommendations = self.generate_recommendations(result, inputs)
-
-            # Calculate sustainability impact if enabled
-            sustainability_score = None
-            if self.config.sustainability_weight > 0:
-                sustainability_score = self.calculate_sustainability_impact(result)
-
-            # Create compliance-ready output
-            processing_time = (datetime.now(timezone.utc) - start_time).total_seconds() * 1000
-
-            output = AwarenessOutput(
-                alignment=AlignmentMetric(
-                    score=align_score,
-                    status=self._compliance_status(align_score),
-                    confidence=self.reasoner.get_confidence(),
-                    risk_factors=self._identify_risk_factors(result),
-                ),
-                data=result,
-                recommendations=recommendations,
-                sustainability_score=sustainability_score,
-                processing_time_ms=processing_time,
-                qi_signature=(
-                    self._generate_quantum_signature(result) if self.config.enable_quantum_processing else None
-                ),
-            )
-
-            # Structured logging for audit trails
-            structured_log(
-                f"{self.__class__.__name__}_process",
-                {
-                    "module_type": self.module_type.value,
-                    "alignment_score": align_score,
-                    "compliance_status": output.alignment.status.value,
-                    "processing_time_ms": processing_time,
-                    "user_id": inputs.user_id,
-                    "session_id": inputs.session_id,
-                },
-            )
-
-            # Persist to time-series store (integrate with your DB)
-            self._persist_to_store(inputs, output)
-
-            return output
-
-        except Exception as e:
-            # Error handling and logging
-            structured_log(
-                f"{self.__class__.__name__}_error",
-                {
-                    "error": str(e),
-                    "error_type": type(e).__name__,
-                    "user_id": inputs.user_id,
-                    "session_id": inputs.session_id,
-                },
-                "ERROR",
-            )
-            raise
-
     @abstractmethod
     def evaluate_alignment(self, result: dict[str, Any], inputs: AwarenessInput) -> float:
         """Must return [0–100] alignment/compliance score for institutional use."""
@@ -270,7 +271,6 @@ class AwarenessModule(ABC):
     def _generate_quantum_signature(self, result: dict[str, Any]) -> str:
         """Generate quantum signature for advanced verification (placeholder)."""
         # Placeholder for quantum signature generation
-        import hashlib
 
         data_str = json.dumps(result, sort_keys=True)
         return hashlib.sha256(data_str.encode()).hexdigest()[:16]

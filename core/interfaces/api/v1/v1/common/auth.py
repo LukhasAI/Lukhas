@@ -1,34 +1,81 @@
+    """Custom exception for security validation failures."""
+
 import logging
-
-logger = logging.getLogger(__name__)
-# ΛTAG: api_auth
-
 import hashlib
 import hmac
 import os
 import secrets
 import time
 from typing import Optional
-
 import structlog
 from fastapi import Header, HTTPException, Request
 
-# Initialize ΛTRACE logger for security events
-logger = structlog.get_logger("ΛTRACE.api_auth")
+    try:
+        int(key_part, 16)  # Validate hex format
+    except ValueError:
 
-# Security configuration
-API_KEY_MIN_LENGTH = 32
-API_KEY_MAX_LENGTH = 128
-RATE_LIMIT_REQUESTS = 100
-RATE_LIMIT_WINDOW = 3600  # 1 hour in seconds
-HMAC_SECRET = os.getenv("LUKHAS_ID_SECRET", "default-unsafe-secret-change-in-production")
+    try:
+        # Extract components
+        parts = api_key.split("_")
+        if len(parts) != 3:
+            return False
 
-# Rate limiting storage (in production, use Redis)
-_rate_limit_store: dict[str, list] = {}
+        prefix, env, key_part = parts
+
+        # For generated keys, the signature is embedded in the key_part
+        # Key format: base_key (32 chars) + signature (16 chars) = 48 chars total
+        if len(key_part) < 48:
+            return False
+
+        base_key = key_part[:32]  # First 32 chars
+        provided_sig = key_part[32:48]  # Next 16 chars as signature
+
+        # Create expected signature from base components
+        message = f"{prefix}_{env}_{base_key}"
+        expected_sig = hmac.new(HMAC_SECRET.encode(), message.encode(), hashlib.sha256).hexdigest()[:16]
+
+        return hmac.compare_digest(expected_sig, provided_sig)
+    except Exception as e:
+        return False
 
 
-class SecurityValidationError(Exception):
-    """Custom exception for security validation failures."""
+    try:
+        # Input validation
+        if not x_api_key:
+            _audit_auth_attempt("", False, request)
+            raise HTTPException(status_code=401, detail="Missing API Key")
+
+        # Sanitize input
+        api_key = x_api_key.strip()
+
+        # Format validation
+        if not _validate_key_format(api_key):
+            _audit_auth_attempt(api_key, False, request)
+            raise HTTPException(status_code=401, detail="Invalid API Key Format")
+
+        # Rate limiting check
+        if not _check_rate_limit(api_key):
+            _audit_auth_attempt(api_key, False, request)
+            raise HTTPException(status_code=429, detail="Rate limit exceeded")
+
+        # Cryptographic verification
+        if not _verify_key_signature(api_key):
+            _audit_auth_attempt(api_key, False, request)
+            raise HTTPException(status_code=401, detail="Invalid API Key")
+
+        # Log successful authentication
+        _audit_auth_attempt(api_key, True, request)
+
+        logger.info(
+            "API key validation successful",
+            key_prefix=api_key[:12],
+            client_ip=(getattr(request, "client", {}).get("host") if request else "unknown"),
+        )
+
+    except HTTPException:
+        raise
+
+logger = logging.getLogger(__name__)
 
     pass
 
@@ -65,11 +112,6 @@ def _validate_key_format(api_key: str) -> bool:
     if len(key_part) < 32:
         return False
 
-    try:
-        int(key_part, 16)  # Validate hex format
-    except ValueError:
-        return False
-
     return True
 
 
@@ -78,32 +120,6 @@ def _verify_key_signature(api_key: str) -> bool:
     Verify API key cryptographic signature using HMAC.
     This prevents key forgery and ensures authenticity.
     """
-    try:
-        # Extract components
-        parts = api_key.split("_")
-        if len(parts) != 3:
-            return False
-
-        prefix, env, key_part = parts
-
-        # For generated keys, the signature is embedded in the key_part
-        # Key format: base_key (32 chars) + signature (16 chars) = 48 chars total
-        if len(key_part) < 48:
-            return False
-
-        base_key = key_part[:32]  # First 32 chars
-        provided_sig = key_part[32:48]  # Next 16 chars as signature
-
-        # Create expected signature from base components
-        message = f"{prefix}_{env}_{base_key}"
-        expected_sig = hmac.new(HMAC_SECRET.encode(), message.encode(), hashlib.sha256).hexdigest()[:16]
-
-        return hmac.compare_digest(expected_sig, provided_sig)
-    except Exception as e:
-        logger.warning("Key signature verification failed", error=str(e))
-        return False
-
-
 def _check_rate_limit(api_key: str) -> bool:
     """
     Implement rate limiting to prevent API abuse.
@@ -158,42 +174,6 @@ async def verify_api_key(x_api_key: str = Header(...), request: Request = None) 
     - Audit logging
     - Input sanitization
     """
-    try:
-        # Input validation
-        if not x_api_key:
-            _audit_auth_attempt("", False, request)
-            raise HTTPException(status_code=401, detail="Missing API Key")
-
-        # Sanitize input
-        api_key = x_api_key.strip()
-
-        # Format validation
-        if not _validate_key_format(api_key):
-            _audit_auth_attempt(api_key, False, request)
-            raise HTTPException(status_code=401, detail="Invalid API Key Format")
-
-        # Rate limiting check
-        if not _check_rate_limit(api_key):
-            _audit_auth_attempt(api_key, False, request)
-            raise HTTPException(status_code=429, detail="Rate limit exceeded")
-
-        # Cryptographic verification
-        if not _verify_key_signature(api_key):
-            _audit_auth_attempt(api_key, False, request)
-            raise HTTPException(status_code=401, detail="Invalid API Key")
-
-        # Log successful authentication
-        _audit_auth_attempt(api_key, True, request)
-
-        logger.info(
-            "API key validation successful",
-            key_prefix=api_key[:12],
-            client_ip=(getattr(request, "client", {}).get("host") if request else "unknown"),
-        )
-
-    except HTTPException:
-        # Re-raise HTTP exceptions
-        raise
     except Exception as e:
         # Log unexpected errors
         logger.error("Unexpected error in API key validation", error=str(e))

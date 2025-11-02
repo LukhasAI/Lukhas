@@ -14,25 +14,8 @@ DEPENDENCIES:
   - core/identity/identity_manager.py
   - core/emotion/emotion_engine.py
 """
+
 from datetime import timezone
-
-"""
-Consciousness Integrator for LUKHAS Cognitive AI System
-==============================================
-
-This module serves as the central nervous system of the LUKHAS Cognitive AI,
-coordinating and integrating all major cognitive components including:
-- Memory systems (episodic, semantic, emotional)
-- Voice processing and synthesis
-- Personality and persona management
-- Emotional processing
-- Identity management
-- Dream and creative systems
-- Learning and adaptation
-
-The integrator maintains consciousness continuity and ensures
-seamless communication between all cognitive modules.
-"""
 
 import asyncio
 import json
@@ -45,16 +28,12 @@ from datetime import datetime
 from enum import Enum
 from pathlib import Path
 from typing import Any, Optional
-
-# Try to import from core.common if available
 try:
     from core.common import get_logger
 
     logger = get_logger("consciousness", timezone)
 except ImportError:
-    logger = logging.getLogger("consciousness")
 
-# Import core components
 try:
     from ...core.identity.identity_manager import IdentityManager
     from ...identity.interface import IdentityClient as PersonaManager
@@ -64,7 +43,6 @@ try:
     from ...memory.enhanced_memory_manager import EnhancedMemoryManager
     from ...voice.voice_processor import VoiceProcessor
 except ImportError as e:
-    logger.warning(f"Some core components not available: {e}")
 
     # Create mock classes for missing components
     class EnhancedMemoryManager:
@@ -111,6 +89,232 @@ except ImportError as e:
             pass
 
 
+            try:
+                with open(config_path) as f:
+                    user_config = json.load(f)
+                default_config.update(user_config)
+            except Exception as e:
+
+        try:
+            # Initialize memory manager
+            self.memory_manager = EnhancedMemoryManager()
+            self.active_integrations["memory"] = True
+            logger.info("Memory manager initialized")
+
+            # Initialize voice processor
+            self.voice_processor = VoiceProcessor()
+            self.active_integrations["voice"] = True
+            logger.info("Voice processor initialized")
+
+            # Initialize persona manager
+            self.persona_manager = PersonaManager()
+            self.active_integrations["personality"] = True
+            logger.info("Persona manager initialized")
+
+            # Initialize identity manager
+            self.identity_manager = IdentityManager()
+            self.active_integrations["identity"] = True
+            logger.info("Identity manager initialized")
+
+            # Initialize emotion engine
+            self.emotion_engine = EmotionEngine()
+            self.active_integrations["emotion"] = True
+            logger.info("Emotion engine initialized")
+
+            logger.info("All core components initialized successfully")
+            return True
+
+        except Exception as e:
+            return False
+
+            try:
+                cycle_start = time.time()
+                cycle_count += 1
+
+                # Process current consciousness state
+                await self._process_consciousness_state()
+
+                # Integrate memory and learning
+                await self._integrate_memory_systems()
+
+                # Update emotional state
+                await self._update_emotional_state()
+
+                # Synchronize voice and personality
+                await self._synchronize_voice_personality()
+
+                # Process pending events
+                await self._process_event_batch()
+
+                # Update integration context
+                await self._update_integration_context()
+
+                # Sleep for integration interval
+                cycle_duration = time.time() - cycle_start
+                sleep_time = max(
+                    0,
+                    self.config["consciousness_cycles"]["integration_interval"] - cycle_duration,
+                )
+                await asyncio.sleep(sleep_time)
+
+                if cycle_count % 100 == 0:
+                    logger.debug(f"Consciousness cycle {cycle_count} completed")
+
+            except Exception as e:
+                await asyncio.sleep(1.0)
+
+        try:
+            # Consolidate recent memories
+            await self.memory_manager.consolidate_memories()
+
+            # Process memory patterns
+            patterns = await self.memory_manager.extract_patterns()
+
+            # Update consciousness context with memory insights
+            if patterns and self.current_context:
+                self.current_context.memory_context.update(
+                    {
+                        "recent_patterns": patterns,
+                        "last_consolidation": datetime.now(timezone.utc).isoformat(),
+                    }
+                )
+
+        except Exception as e:
+
+        try:
+            # Get emotional context from recent events
+            recent_events = self.integration_history[-10:] if self.integration_history else []
+
+            # Update emotional state
+            new_emotional_state = await self.emotion_engine.process_emotional_context(
+                current_state=self.current_context.emotional_state,
+                recent_events=recent_events,
+                memory_context=self.current_context.memory_context,
+            )
+
+            if new_emotional_state:
+                self.current_context.emotional_state = new_emotional_state
+
+        except Exception as e:
+
+        try:
+            # Get current personality state
+            current_persona = await self.persona_manager.get_current_persona()
+
+            # Update voice characteristics based on personality
+            if current_persona and self.current_context:
+                voice_characteristics = await self.persona_manager.get_voice_characteristics(current_persona)
+
+                # Apply voice characteristics
+                await self.voice_processor.update_voice_characteristics(voice_characteristics)
+
+                # Update context
+                self.current_context.voice_preferences.update(voice_characteristics)
+
+        except Exception as e:
+
+        try:
+            loop.run_until_complete(self._process_events_async())
+        except Exception as e:
+            try:
+                # Process events in batches
+                events = []
+                for _ in range(self.config["event_processing"]["batch_size"]):
+                    try:
+                        event = await asyncio.wait_for(self.event_queue.get(), timeout=1.0)
+                        events.append(event)
+                    except asyncio.TimeoutError:
+
+                if events:
+                    await self._process_event_batch(events)
+
+            try:
+                # Route event to appropriate handlers
+                await self._route_event(event)
+
+                # Store event in history
+                self.integration_history.append(event)
+
+                # Limit history size
+                if len(self.integration_history) > 1000:
+                    self.integration_history = self.integration_history[-500:]
+
+            except Exception as e:
+
+        try:
+            await self.event_queue.put(event)
+            return True
+        except Exception as e:
+            return False
+
+        try:
+            # Validate event data
+            if not isinstance(event_data, dict):
+                raise ValueError("Event data must be a dictionary")
+
+            event_type = event_data.get("type", "general")
+            event_content = event_data.get("content", {})
+            timestamp = datetime.now(timezone.utc).isoformat()
+
+            # Create a simple consciousness event record
+            processed_event = {
+                "event_id": str(uuid.uuid4()),
+                "type": event_type,
+                "content": event_content,
+                "timestamp": timestamp,
+                "integrator_id": self.integrator_id,
+                "current_state": (
+                    self.current_state.value if hasattr(self.current_state, "value") else str(self.current_state)
+                ),
+                "processing_status": "processed",
+            }
+
+            # Log the event processing
+            logger.info(f"Processed consciousness event: {event_type}")
+
+            # Add to integration history if available
+            if hasattr(self, "integration_history"):
+                # Note: This is simplified - actual implementation would create
+                # ConsciousnessEvent object
+                pass
+
+            return {
+                "success": True,
+                "processed_event": processed_event,
+                "message": f"Successfully processed {event_type} event",
+                "timestamp": timestamp,
+            }
+
+        except Exception as e:
+            return {
+                "success": False,
+                "error": str(e),
+                "message": "Event processing failed",
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            }
+
+
+"""
+Consciousness Integrator for LUKHAS Cognitive AI System
+==============================================
+
+This module serves as the central nervous system of the LUKHAS Cognitive AI,
+coordinating and integrating all major cognitive components including:
+- Memory systems (episodic, semantic, emotional)
+- Voice processing and synthesis
+- Personality and persona management
+- Emotional processing
+- Identity management
+- Dream and creative systems
+- Learning and adaptation
+
+The integrator maintains consciousness continuity and ensures
+seamless communication between all cognitive modules.
+"""
+
+
+# Try to import from core.common if available
+# Import core components
 class ConsciousnessState(Enum):
     """Consciousness states for the Cognitive system"""
 
@@ -220,51 +424,11 @@ class ConsciousnessIntegrator:
         }
 
         if config_path and Path(config_path).exists():
-            try:
-                with open(config_path) as f:
-                    user_config = json.load(f)
-                default_config.update(user_config)
-            except Exception as e:
-                logger.warning(f"Failed to load config from {config_path}: {e}")
-
         return default_config
 
     async def initialize_components(self) -> bool:
         """Initialize all core components"""
         logger.info("Initializing consciousness components...")
-
-        try:
-            # Initialize memory manager
-            self.memory_manager = EnhancedMemoryManager()
-            self.active_integrations["memory"] = True
-            logger.info("Memory manager initialized")
-
-            # Initialize voice processor
-            self.voice_processor = VoiceProcessor()
-            self.active_integrations["voice"] = True
-            logger.info("Voice processor initialized")
-
-            # Initialize persona manager
-            self.persona_manager = PersonaManager()
-            self.active_integrations["personality"] = True
-            logger.info("Persona manager initialized")
-
-            # Initialize identity manager
-            self.identity_manager = IdentityManager()
-            self.active_integrations["identity"] = True
-            logger.info("Identity manager initialized")
-
-            # Initialize emotion engine
-            self.emotion_engine = EmotionEngine()
-            self.active_integrations["emotion"] = True
-            logger.info("Emotion engine initialized")
-
-            logger.info("All core components initialized successfully")
-            return True
-
-        except Exception as e:
-            logger.error(f"Failed to initialize components: {e}")
-            return False
 
     async def start_consciousness_loop(self):
         """Start the main consciousness integration loop"""
@@ -287,43 +451,6 @@ class ConsciousnessIntegrator:
         cycle_count = 0
 
         while self.is_running:
-            try:
-                cycle_start = time.time()
-                cycle_count += 1
-
-                # Process current consciousness state
-                await self._process_consciousness_state()
-
-                # Integrate memory and learning
-                await self._integrate_memory_systems()
-
-                # Update emotional state
-                await self._update_emotional_state()
-
-                # Synchronize voice and personality
-                await self._synchronize_voice_personality()
-
-                # Process pending events
-                await self._process_event_batch()
-
-                # Update integration context
-                await self._update_integration_context()
-
-                # Sleep for integration interval
-                cycle_duration = time.time() - cycle_start
-                sleep_time = max(
-                    0,
-                    self.config["consciousness_cycles"]["integration_interval"] - cycle_duration,
-                )
-                await asyncio.sleep(sleep_time)
-
-                if cycle_count % 100 == 0:
-                    logger.debug(f"Consciousness cycle {cycle_count} completed")
-
-            except Exception as e:
-                logger.error(f"Error in consciousness cycle: {e}")
-                await asyncio.sleep(1.0)
-
     async def _process_consciousness_state(self):
         """Process current consciousness state and transitions"""
         # Determine state transitions based on current context
@@ -357,97 +484,27 @@ class ConsciousnessIntegrator:
         if not self.memory_manager:
             return
 
-        try:
-            # Consolidate recent memories
-            await self.memory_manager.consolidate_memories()
-
-            # Process memory patterns
-            patterns = await self.memory_manager.extract_patterns()
-
-            # Update consciousness context with memory insights
-            if patterns and self.current_context:
-                self.current_context.memory_context.update(
-                    {
-                        "recent_patterns": patterns,
-                        "last_consolidation": datetime.now(timezone.utc).isoformat(),
-                    }
-                )
-
-        except Exception as e:
-            logger.error(f"Error integrating memory systems: {e}")
-
     async def _update_emotional_state(self):
         """Update emotional state based on current context and memories"""
         if not self.emotion_engine or not self.current_context:
             return
-
-        try:
-            # Get emotional context from recent events
-            recent_events = self.integration_history[-10:] if self.integration_history else []
-
-            # Update emotional state
-            new_emotional_state = await self.emotion_engine.process_emotional_context(
-                current_state=self.current_context.emotional_state,
-                recent_events=recent_events,
-                memory_context=self.current_context.memory_context,
-            )
-
-            if new_emotional_state:
-                self.current_context.emotional_state = new_emotional_state
-
-        except Exception as e:
-            logger.error(f"Error updating emotional state: {e}")
 
     async def _synchronize_voice_personality(self):
         """Synchronize voice and personality systems"""
         if not self.voice_processor or not self.persona_manager:
             return
 
-        try:
-            # Get current personality state
-            current_persona = await self.persona_manager.get_current_persona()
-
-            # Update voice characteristics based on personality
-            if current_persona and self.current_context:
-                voice_characteristics = await self.persona_manager.get_voice_characteristics(current_persona)
-
-                # Apply voice characteristics
-                await self.voice_processor.update_voice_characteristics(voice_characteristics)
-
-                # Update context
-                self.current_context.voice_preferences.update(voice_characteristics)
-
-        except Exception as e:
-            logger.error(f"Error synchronizing voice and personality: {e}")
-
     def _event_processing_loop(self):
         """Background thread for processing consciousness events"""
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
 
-        try:
-            loop.run_until_complete(self._process_events_async())
-        except Exception as e:
-            logger.error(f"Error in event processing loop: {e}")
         finally:
             loop.close()
 
     async def _process_events_async(self):
         """Async event processing loop"""
         while self.is_running:
-            try:
-                # Process events in batches
-                events = []
-                for _ in range(self.config["event_processing"]["batch_size"]):
-                    try:
-                        event = await asyncio.wait_for(self.event_queue.get(), timeout=1.0)
-                        events.append(event)
-                    except asyncio.TimeoutError:
-                        break
-
-                if events:
-                    await self._process_event_batch(events)
-
             except Exception as e:
                 logger.error(f"Error processing events: {e}")
                 await asyncio.sleep(0.1)
@@ -458,20 +515,6 @@ class ConsciousnessIntegrator:
             return
 
         for event in events:
-            try:
-                # Route event to appropriate handlers
-                await self._route_event(event)
-
-                # Store event in history
-                self.integration_history.append(event)
-
-                # Limit history size
-                if len(self.integration_history) > 1000:
-                    self.integration_history = self.integration_history[-500:]
-
-            except Exception as e:
-                logger.error(f"Error processing event {event.id}: {e}")
-
     async def _route_event(self, event: ConsciousnessEvent):
         """Route consciousness event to appropriate handlers"""
         handlers = {
@@ -573,13 +616,6 @@ class ConsciousnessIntegrator:
 
     async def submit_event(self, event: ConsciousnessEvent) -> bool:
         """Submit a consciousness event for processing"""
-        try:
-            await self.event_queue.put(event)
-            return True
-        except Exception as e:
-            logger.error(f"Failed to submit event: {e}")
-            return False
-
     def process_consciousness_event(self, event_data: dict[str, Any]) -> dict[str, Any]:
         """
         Process a consciousness event synchronously for compatibility.
@@ -590,53 +626,6 @@ class ConsciousnessIntegrator:
         Returns:
             Dict with processing results and status
         """
-        try:
-            # Validate event data
-            if not isinstance(event_data, dict):
-                raise ValueError("Event data must be a dictionary")
-
-            event_type = event_data.get("type", "general")
-            event_content = event_data.get("content", {})
-            timestamp = datetime.now(timezone.utc).isoformat()
-
-            # Create a simple consciousness event record
-            processed_event = {
-                "event_id": str(uuid.uuid4()),
-                "type": event_type,
-                "content": event_content,
-                "timestamp": timestamp,
-                "integrator_id": self.integrator_id,
-                "current_state": (
-                    self.current_state.value if hasattr(self.current_state, "value") else str(self.current_state)
-                ),
-                "processing_status": "processed",
-            }
-
-            # Log the event processing
-            logger.info(f"Processed consciousness event: {event_type}")
-
-            # Add to integration history if available
-            if hasattr(self, "integration_history"):
-                # Note: This is simplified - actual implementation would create
-                # ConsciousnessEvent object
-                pass
-
-            return {
-                "success": True,
-                "processed_event": processed_event,
-                "message": f"Successfully processed {event_type} event",
-                "timestamp": timestamp,
-            }
-
-        except Exception as e:
-            logger.error(f"Failed to process consciousness event: {e}")
-            return {
-                "success": False,
-                "error": str(e),
-                "message": "Event processing failed",
-                "timestamp": datetime.now(timezone.utc).isoformat(),
-            }
-
     async def get_consciousness_status(self) -> dict[str, Any]:
         """Get current consciousness status and statistics"""
         return {

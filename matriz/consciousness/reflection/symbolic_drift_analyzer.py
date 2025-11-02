@@ -1,7 +1,3 @@
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -37,6 +33,9 @@ logger = logging.getLogger(__name__)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+import logging
+from datetime import timezone
+
 import asyncio
 import contextlib
 import hashlib
@@ -63,7 +62,6 @@ try:
 
     HAS_RICH = True
 except ImportError:
-    HAS_RICH = False
 
 # Import LUKHAS modules
 try:
@@ -73,12 +71,66 @@ try:
     from ethics.ethical_drift_detector import EthicalDriftDetector
     from symbolic.drift.symbolic_drift_tracker import DriftPhase, DriftScore
 except ImportError:
-    # Mock imports for standalone testing
     DreamMemoryManager = None
     DriftPhase = Enum("DriftPhase", "EARLY MIDDLE LATE CASCADE")
     DriftScore = None
     EthicalDriftDetector = None
     Glyph = None
+
+            try:
+                callback(alert)
+            except Exception as e:
+
+            try:
+                # Perform analysis
+                results = await self.analyze_dreams()
+
+                # Log summary
+                logger.info(
+                    "Drift analysis: phase=%s, trend=%s, entropy=%.3f, ethical=%.3f",
+                    results.get("current_drift_phase"),
+                    results.get("pattern_trend"),
+                    results.get("entropy_metrics", {}).get("total_entropy", 0),
+                    results.get("ethical_drift", {}).get("score", 0),
+                )
+
+                # Wait for next interval
+                await asyncio.sleep(self.config["analysis_interval"])
+
+            except Exception as e:
+                await asyncio.sleep(self.config["analysis_interval"])
+
+        import random
+    try:
+        # Run interactive monitoring
+        if HAS_RICH:
+            console = Console()
+
+            with Live(console=console, refresh_per_second=1):
+                while True:
+                    # Generate and display summary
+                    analyzer.generate_cli_summary()
+
+                    # Check for user input (non-blocking)
+                    await asyncio.sleep(1)
+        else:
+            # Simple text interface
+            while True:
+                print("\033[2J\033[H")  # Clear screen
+                print(analyzer.generate_cli_summary())
+                await asyncio.sleep(5)
+
+    except KeyboardInterrupt:
+        await analyzer.stop_monitoring()
+
+
+    try:
+        # Keep running
+        await asyncio.sleep(30)  # Run for 30 seconds
+    except KeyboardInterrupt:
+
+
+logger = logging.getLogger(__name__)
 
 logger = get_logger(__name__)
 
@@ -843,11 +895,6 @@ class SymbolicDriftAnalyzer:
     def _trigger_alert_callback(self, alert: DriftAlert):
         """Trigger registered alert callbacks"""
         for callback in self.alert_callbacks:
-            try:
-                callback(alert)
-            except Exception as e:
-                logger.error(f"Alert callback error: {e}")
-
     def register_alert_callback(self, callback: Callable[[DriftAlert], None]):
         """Register a callback for drift alerts"""
         self.alert_callbacks.append(callback)
@@ -873,29 +920,8 @@ class SymbolicDriftAnalyzer:
     async def _monitoring_loop(self):
         """Main monitoring loop"""
         while self.monitoring_active:
-            try:
-                # Perform analysis
-                results = await self.analyze_dreams()
-
-                # Log summary
-                logger.info(
-                    "Drift analysis: phase=%s, trend=%s, entropy=%.3f, ethical=%.3f",
-                    results.get("current_drift_phase"),
-                    results.get("pattern_trend"),
-                    results.get("entropy_metrics", {}).get("total_entropy", 0),
-                    results.get("ethical_drift", {}).get("score", 0),
-                )
-
-                # Wait for next interval
-                await asyncio.sleep(self.config["analysis_interval"])
-
-            except Exception as e:
-                logger.error(f"Monitoring error: {e}")
-                await asyncio.sleep(self.config["analysis_interval"])
-
     def _generate_synthetic_dreams(self, count: int = 100) -> list[dict[str, Any]]:
         """Generate synthetic dream data for testing"""
-        import random
 
         base_tags = [
             "exploration",
@@ -1147,30 +1173,6 @@ async def run_cli_monitor():
     # Start monitoring
     await analyzer.start_monitoring()
 
-    try:
-        # Run interactive monitoring
-        if HAS_RICH:
-            console = Console()
-
-            with Live(console=console, refresh_per_second=1):
-                while True:
-                    # Generate and display summary
-                    analyzer.generate_cli_summary()
-
-                    # Check for user input (non-blocking)
-                    await asyncio.sleep(1)
-        else:
-            # Simple text interface
-            while True:
-                print("\033[2J\033[H")  # Clear screen
-                print(analyzer.generate_cli_summary())
-                await asyncio.sleep(5)
-
-    except KeyboardInterrupt:
-        print("\nShutting down monitoring...")
-        await analyzer.stop_monitoring()
-
-
 # Example usage and testing
 async def demonstrate_analyzer():
     """Demonstrate the symbolic drift analyzer"""
@@ -1219,12 +1221,6 @@ async def demonstrate_analyzer():
     # Start monitoring
     print("\nStarting continuous monitoring (press Ctrl+C to stop)...")
     await analyzer.start_monitoring()
-
-    try:
-        # Keep running
-        await asyncio.sleep(30)  # Run for 30 seconds
-    except KeyboardInterrupt:
-        pass
 
     await analyzer.stop_monitoring()
 

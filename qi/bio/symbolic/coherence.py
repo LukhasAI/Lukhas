@@ -1,7 +1,3 @@
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 ══════════════════════════════════════════════════════════════════════════════════
 ║ 🔬 LUKHAS AI - QUANTUM COHERENCE ENHANCER
@@ -27,12 +23,15 @@ logger = logging.getLogger(__name__)
 ╚══════════════════════════════════════════════════════════════════════════════════
 """
 
+import logging
+from datetime import timezone
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Any, Optional
-
 import numpy as np
 import structlog
+
+logger = logging.getLogger(__name__)
 
 logger = structlog.get_logger("ΛTRACE.bio.qi_coherence", timezone)
 

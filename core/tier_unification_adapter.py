@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
 """
 ════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - TIER UNIFICATION ADAPTER
@@ -22,6 +19,8 @@ logger = logging.getLogger(__name__)
 ╚════════════════════════════════════════════════════════════════════════════════
 """
 
+import logging
+
 from abc import ABC, abstractmethod
 from functools import wraps
 from typing import Any, Callable, Optional, Union
@@ -29,6 +28,29 @@ from typing import Any, Callable, Optional, Union
 import structlog
 
 from core.identity_integration import TierMappingConfig, get_identity_client
+
+                    from fastapi import HTTPException, status
+        try:
+            from emotion.dreamseed_upgrade import EmotionalTier
+
+            self.EmotionalTier = EmotionalTier
+        except ImportError:
+            logger.warning("EmotionalTier not available")
+
+        try:
+            from governance.identity.core.user_tier_mapping import get_user_tier
+
+            user_tier = get_user_tier(user_id)
+        except BaseException:
+
+        try:
+            normalized_tier = self.normalize_tier(required_tier, system)
+            return self.unified_adapter.client.verify_user_access(user_id, normalized_tier)
+        except Exception as e:
+            return False
+
+
+logger = logging.getLogger(__name__)
 
 logger = structlog.get_logger(__name__)
 
@@ -95,7 +117,6 @@ class OneiricTierAdapter(TierSystemAdapter):
 
                 # Validate tier access
                 if not self.validate_access(user_id, required_tier):
-                    from fastapi import HTTPException, status
 
                     raise HTTPException(
                         status_code=status.HTTP_403_FORBIDDEN,
@@ -115,14 +136,6 @@ class EmotionalTierAdapter(TierSystemAdapter):
     def __init__(self):
         self.client = get_identity_client()
         # Import EmotionalTier enum if available
-        try:
-            from emotion.dreamseed_upgrade import EmotionalTier
-
-            self.EmotionalTier = EmotionalTier
-        except ImportError:
-            self.EmotionalTier = None
-            logger.warning("EmotionalTier not available")
-
     def to_lambda_tier(self, tier: Union[str, "EmotionalTier"]) -> str:
         """Convert EmotionalTier (T0-T5) to LAMBDA_TIER."""
         if self.EmotionalTier and hasattr(tier, "name"):
@@ -159,13 +172,6 @@ class EmotionalTierAdapter(TierSystemAdapter):
 
         # Get user's lambda tier
         user_tier = "LAMBDA_TIER_1"  # Default
-        try:
-            from governance.identity.core.user_tier_mapping import get_user_tier
-
-            user_tier = get_user_tier(user_id)
-        except BaseException:
-            pass
-
         # Map to emotional tier
         emotional_tier = self.from_lambda_tier(user_tier)
 
@@ -352,13 +358,6 @@ class TierUnificationAdapter:
 
     def validate_access(self, user_id: str, required_tier: Any, system: str = "lambda") -> bool:
         """Validate user access for a given tier requirement"""
-        try:
-            normalized_tier = self.normalize_tier(required_tier, system)
-            return self.unified_adapter.client.verify_user_access(user_id, normalized_tier)
-        except Exception as e:
-            logger.error(f"Access validation failed: {e}")
-            return False
-
     def create_decorator(self, tier: Any, system: str = "lambda"):
         """Create a tier requirement decorator"""
         return self.unified_adapter.create_unified_decorator(tier, system)

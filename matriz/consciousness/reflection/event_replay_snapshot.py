@@ -1,8 +1,3 @@
-from __future__ import annotations
-
-import logging
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -17,6 +12,9 @@ Addresses TODO 169: Deterministic debugging through event replay
 This module implements event sourcing with replay capabilities and state
 snapshotting for efficient recovery and debugging of the actor system.
 """
+
+from __future__ import annotations
+import logging
 
 import asyncio
 import contextlib
@@ -37,6 +35,79 @@ import aiofiles
 from core.common import get_logger
 
 from .actor_system import Actor, ActorMessage, ActorSystem
+
+            try:
+                # Test if serializable
+                pickle.dumps(value)
+                state_dict[key] = value
+            except Exception:
+                logger.debug(f"Skipping non-serializable attribute: {key}")
+
+            try:
+                await asyncio.sleep(10.0)  # Persist every 10 seconds
+                await self._flush_to_disk()
+            except asyncio.CancelledError:
+                    try:
+                        Path(filename).unlink()
+                    except Exception as e:
+
+        try:
+            # Record message received
+            if self.event_store and not self.replay_mode:
+                event = Event(
+                    event_id=f"{message.message_id}_received",
+                    event_type=EventType.MESSAGE_PROCESSED,
+                    actor_id=self.actor_id,
+                    timestamp=time.time(),
+                    data={
+                        "sender": message.sender,
+                        "message_type": message.message_type,
+                        "message_id": message.message_id,
+                    },
+                    correlation_id=message.correlation_id,
+                )
+                await self.event_store.append_event(event)
+
+            # Process normally
+            await super()._process_message(message)
+
+        try:
+            # Get events
+            events = await self.event_store.get_events_for_actor(self.actor_id, start_time, end_time)
+
+            # Find latest snapshot before start time
+            if self.snapshot_store and start_time:
+                await self.restore_from_snapshot(start_time)
+
+            # Replay events
+            async def replay_callback(event: Event):
+                if event.event_type == EventType.MESSAGE_PROCESSED:
+                    # Recreate and process the message
+                    message = ActorMessage(
+                        message_id=event.data["message_id"],
+                        sender=event.data["sender"],
+                        recipient=self.actor_id,
+                        message_type=event.data["message_type"],
+                        payload={},  # Payload not stored in this event
+                        timestamp=event.timestamp,
+                        correlation_id=event.correlation_id,
+                    )
+                    await self._process_message(message)
+
+                elif event.event_type == EventType.STATE_CHANGED:
+                    # Apply state change
+                    # This is simplified - real implementation would be more
+                    # sophisticated
+                    logger.info(f"Replaying state change: {event.data}")
+
+            count = await self.event_store.replay_events(events, speed, replay_callback)
+
+            logger.info(f"Replayed {count} events for actor {self.actor_id}")
+
+    import uuid
+    from .actor_system import get_global_actor_system
+
+logger = logging.getLogger(__name__)
 
 logger = get_logger(__name__)
 
@@ -114,14 +185,6 @@ class ActorStateSnapshot:
         for key, value in actor.__dict__.items():
             if key.startswith("_") or key in ["actor_system", "mailbox", "supervisor"]:
                 continue
-            try:
-                # Test if serializable
-                pickle.dumps(value)
-                state_dict[key] = value
-            except Exception:
-                # Skip non-serializable attributes
-                logger.debug(f"Skipping non-serializable attribute: {key}")
-
         # Serialize state
         state_data = pickle.dumps(state_dict)
         state_hash = hashlib.sha256(state_data).hexdigest()
@@ -281,11 +344,6 @@ class EventStore:
     async def _persistence_loop(self):
         """Background task to persist events to disk"""
         while True:
-            try:
-                await asyncio.sleep(10.0)  # Persist every 10 seconds
-                await self._flush_to_disk()
-            except asyncio.CancelledError:
-                break
             except Exception as e:
                 logger.error(f"Persistence error: {e}")
 
@@ -469,11 +527,6 @@ class SnapshotStore:
                 old_snapshots = [(t, f) for t, f in self.snapshot_index[actor_id] if t <= cutoff_time]
 
                 for _, filename in old_snapshots:
-                    try:
-                        Path(filename).unlink()
-                    except Exception as e:
-                        logger.error(f"Failed to delete snapshot {filename}: {e}")
-
                 self.snapshot_index[actor_id] = new_snapshots
 
     def _load_index(self):
@@ -529,26 +582,6 @@ class EventSourcedActor(Actor):
     async def _process_message(self, message: ActorMessage):
         """Override to record processing events"""
         self._current_causation_id = message.message_id
-
-        try:
-            # Record message received
-            if self.event_store and not self.replay_mode:
-                event = Event(
-                    event_id=f"{message.message_id}_received",
-                    event_type=EventType.MESSAGE_PROCESSED,
-                    actor_id=self.actor_id,
-                    timestamp=time.time(),
-                    data={
-                        "sender": message.sender,
-                        "message_type": message.message_type,
-                        "message_id": message.message_id,
-                    },
-                    correlation_id=message.correlation_id,
-                )
-                await self.event_store.append_event(event)
-
-            # Process normally
-            await super()._process_message(message)
 
         finally:
             self._current_causation_id = None
@@ -620,39 +653,6 @@ class EventSourcedActor(Actor):
             raise RuntimeError("No event store configured")
 
         self.replay_mode = True
-
-        try:
-            # Get events
-            events = await self.event_store.get_events_for_actor(self.actor_id, start_time, end_time)
-
-            # Find latest snapshot before start time
-            if self.snapshot_store and start_time:
-                await self.restore_from_snapshot(start_time)
-
-            # Replay events
-            async def replay_callback(event: Event):
-                if event.event_type == EventType.MESSAGE_PROCESSED:
-                    # Recreate and process the message
-                    message = ActorMessage(
-                        message_id=event.data["message_id"],
-                        sender=event.data["sender"],
-                        recipient=self.actor_id,
-                        message_type=event.data["message_type"],
-                        payload={},  # Payload not stored in this event
-                        timestamp=event.timestamp,
-                        correlation_id=event.correlation_id,
-                    )
-                    await self._process_message(message)
-
-                elif event.event_type == EventType.STATE_CHANGED:
-                    # Apply state change
-                    # This is simplified - real implementation would be more
-                    # sophisticated
-                    logger.info(f"Replaying state change: {event.data}")
-
-            count = await self.event_store.replay_events(events, speed, replay_callback)
-
-            logger.info(f"Replayed {count} events for actor {self.actor_id}")
 
         finally:
             self.replay_mode = False
@@ -758,9 +758,7 @@ class ReplayController:
 # Example usage
 async def demo_event_replay():
     """Demonstrate event replay and snapshotting"""
-    import uuid
 
-    from .actor_system import get_global_actor_system
 
     # Setup
     system = await get_global_actor_system()

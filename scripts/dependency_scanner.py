@@ -35,7 +35,8 @@ class DependencyScanner:
                         imports.add(node.module.split('.')[0])
 
             return imports
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             return set()
 
     def scan_module(self, module_path: Path, module_name: str):

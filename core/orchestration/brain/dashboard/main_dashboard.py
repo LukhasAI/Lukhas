@@ -1,6 +1,6 @@
-from __future__ import annotations
-
 """Symbolic dashboard integration for the orchestration brain."""
+
+from __future__ import annotations
 
 import asyncio
 import time
@@ -10,6 +10,40 @@ from typing import Any, Dict, List, Optional
 import structlog
 
 from core.identity.vault.lukhas_id import (
+            try:
+                widget = self._widgets[widget_id]
+
+                # Call data source function
+                new_data = await data_source_fn() if asyncio.iscoroutinefunction(data_source_fn) else data_source_fn()
+
+                # Update widget data
+                widget.data = new_data
+                widget.last_updated = time.time() * 1000
+
+                # Wait for next refresh
+                await asyncio.sleep(widget.refresh_interval_ms / 1000.0)
+
+            except Exception as error:
+                    "dashboard_widget_refresh_error",
+                    widget_id=widget_id,
+                    error=str(error)
+                )
+                await asyncio.sleep(5.0)  # Error backoff
+
+        try:
+            permissions = await self.identity_manager.describe_permissions(user_id)
+        except IdentityVerificationError as error:
+                "dashboard_identity_unavailable",
+                user_id=user_id,
+                error=str(error),
+            )
+            return {
+                "status": "error",
+                "user_id": user_id,
+                "message": "Identity unavailable",
+            }
+
+
     IdentityManager,
     IdentityVerificationError,
 )
@@ -95,27 +129,6 @@ class BrainDashboard:
         """Auto-refresh widget data at specified interval."""
 
         while widget_id in self._widgets:
-            try:
-                widget = self._widgets[widget_id]
-
-                # Call data source function
-                new_data = await data_source_fn() if asyncio.iscoroutinefunction(data_source_fn) else data_source_fn()
-
-                # Update widget data
-                widget.data = new_data
-                widget.last_updated = time.time() * 1000
-
-                # Wait for next refresh
-                await asyncio.sleep(widget.refresh_interval_ms / 1000.0)
-
-            except Exception as error:
-                logger.error(
-                    "dashboard_widget_refresh_error",
-                    widget_id=widget_id,
-                    error=str(error)
-                )
-                await asyncio.sleep(5.0)  # Error backoff
-
     async def get_widget_data(self, widget_id: str) -> Optional[Dict[str, Any]]:
         """Get current widget data with staleness check."""
 
@@ -146,20 +159,6 @@ class BrainDashboard:
 
     async def build_identity_panel(self, user_id: str) -> dict[str, Any]:
         """Return a serialisable representation of the identity panel."""
-
-        try:
-            permissions = await self.identity_manager.describe_permissions(user_id)
-        except IdentityVerificationError as error:
-            logger.warning(
-                "dashboard_identity_unavailable",
-                user_id=user_id,
-                error=str(error),
-            )
-            return {
-                "status": "error",
-                "user_id": user_id,
-                "message": "Identity unavailable",
-            }
 
         identity_view = DashboardIdentityView(
             user_id=permissions["user_id"],

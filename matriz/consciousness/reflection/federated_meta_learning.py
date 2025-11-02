@@ -1,33 +1,40 @@
-from __future__ import annotations
+    """
+    Represents a model that can be trained in a federated manner,
+    preserving privacy by keeping user data local.
+    """
 
+from __future__ import annotations
 import logging
 from datetime import datetime, timezone
-
-logger = logging.getLogger(__name__)
 import datetime
 import json
 import os
 from collections import defaultdict
 from typing import Optional
-
 import numpy as np
-
 from core.common import get_logger
 
-# TAG:consciousness
-# TAG:reflection
-# TAG:neuroplastic
-# TAG:colony
+        try:
+            model_path = os.path.join(self.storage_dir, f"{model.model_id}.json")
+            with open(model_path, "w") as f:
+                json.dump(model.serialize(), f, indent=2)
+            return True
+        except Exception as e:
+            return False
+
+        try:
+            for filename in os.listdir(self.storage_dir):
+                if filename.endswith(".json"):
+                    model_path = os.path.join(self.storage_dir, filename)
+                    with open(model_path) as f:
+                        model_data = json.load(f)
+                        model = FederatedModel.deserialize(model_data)
+                        self.models[model.model_id] = model
+                        logger.info(f"Loaded federated model: {model.model_id} (version {model.version})")
+        except Exception as e:
 
 
-logger = get_logger(__name__)
-
-
-class FederatedModel:
-    """
-    Represents a model that can be trained in a federated manner,
-    preserving privacy by keeping user data local.
-    """
+logger = logging.getLogger(__name__)
 
     def __init__(self, model_id: str, model_type: str, initial_parameters: Optional[dict] = None):
         self.model_id = model_id
@@ -259,29 +266,8 @@ class FederatedLearningManager:
 
     def save_model(self, model: FederatedModel) -> bool:
         """Save model to persistent storage"""
-        try:
-            model_path = os.path.join(self.storage_dir, f"{model.model_id}.json")
-            with open(model_path, "w") as f:
-                json.dump(model.serialize(), f, indent=2)
-            return True
-        except Exception as e:
-            logger.error(f"Error saving model {model.model_id}: {e!s}")
-            return False
-
     def load_models(self) -> None:
         """Load all models from storage"""
-        try:
-            for filename in os.listdir(self.storage_dir):
-                if filename.endswith(".json"):
-                    model_path = os.path.join(self.storage_dir, filename)
-                    with open(model_path) as f:
-                        model_data = json.load(f)
-                        model = FederatedModel.deserialize(model_data)
-                        self.models[model.model_id] = model
-                        logger.info(f"Loaded federated model: {model.model_id} (version {model.version})")
-        except Exception as e:
-            logger.error(f"Error loading federated models: {e!s}")
-
     def get_client_status(self, client_id: str) -> dict:
         """Get status of a client's model contributions"""
         if client_id not in self.client_models:

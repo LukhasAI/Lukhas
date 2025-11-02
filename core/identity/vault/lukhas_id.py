@@ -1,6 +1,6 @@
-from __future__ import annotations
-
 """Core identity vault integration utilities."""
+
+from __future__ import annotations
 
 import asyncio
 import hashlib
@@ -12,12 +12,9 @@ from typing import Any, Dict, Optional
 
 import structlog
 
-logger = structlog.get_logger(__name__)
-
 try:
     from identity.tier_system import TierLevel  # type: ignore
 except ImportError:  # pragma: no cover - fallback when memory lane unavailable
-    from enum import IntEnum
 
     class TierLevel(IntEnum):
         """Fallback tier levels when the canonical tier system is unavailable."""
@@ -29,6 +26,21 @@ except ImportError:  # pragma: no cover - fallback when memory lane unavailable
         ADMIN = 4
         SYSTEM = 5
 
+
+            try:
+                profile = await backend(user_id)
+                if profile:
+                    return profile
+            except Exception as error:
+                    "identity_backend_failed",
+                    user_id=user_id,
+                    backend=backend.__name__,
+                    error=str(error)
+                )
+                continue
+
+
+logger = structlog.get_logger(__name__)
 
 # ΛTAG: identity_profile_model
 @dataclass(slots=True)
@@ -252,19 +264,6 @@ class LukhasIdentityVault:
         ]
 
         for backend in backends:
-            try:
-                profile = await backend(user_id)
-                if profile:
-                    return profile
-            except Exception as error:
-                logger.warning(
-                    "identity_backend_failed",
-                    user_id=user_id,
-                    backend=backend.__name__,
-                    error=str(error)
-                )
-                continue
-
         # Final fallback - should never reach here
         return await self._create_inferred_identity(user_id)
 

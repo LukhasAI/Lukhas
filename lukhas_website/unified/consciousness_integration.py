@@ -108,13 +108,13 @@ class ConsciousnessVisualizationBridge:
         try:
             self.consciousness = AutoConsciousness()
             print("✓ Connected to AutoConsciousness")
-        except:
+        except Exception as e:
             print("✗ AutoConsciousness not available")
 
         try:
             self.emotion = EmotionService()
             print("✓ Connected to EmotionService")
-        except:
+        except Exception as e:
             print("✗ EmotionService not available")
 
         try:
@@ -132,7 +132,7 @@ class ConsciousnessVisualizationBridge:
         try:
             self.glyph_engine = GlyphEngine()
             print("✓ Connected to GlyphEngine")
-        except:
+        except Exception as e:
             print("✗ GlyphEngine not available")
 
     def _init_particle_behaviors(self) -> dict:
@@ -401,7 +401,8 @@ class ConsciousnessVisualizationBridge:
                 glyphs = self.glyph_engine.text_to_glyphs(text)
                 visualization_params["glyphs"] = glyphs
                 self.state.active_glyphs = glyphs
-            except:
+            except Exception as e:
+                logger.debug(f"Expected optional failure: {e}")
                 pass
 
         # Determine if text contains consciousness keywords

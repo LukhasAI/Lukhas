@@ -46,7 +46,8 @@ except ImportError:
 
 
 def get_lukhas_core():
-    return lukhas_core
+    # TODO: F821 - Import lukhas_core module
+    return None  # Placeholder until lukhas_core is available
 
 
 async def record_metrics(request_id: str, duration: float, status: str = "success") -> None:

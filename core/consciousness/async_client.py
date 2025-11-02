@@ -1,8 +1,3 @@
-from __future__ import annotations
-
-import logging
-
-logger = logging.getLogger(__name__)
 """
 
 #TAG:consciousness
@@ -16,6 +11,9 @@ Original: async_client.py
 Advanced: async_client.py
 Integration Date: 2025-05-31T07:55:28.056913
 """
+
+from __future__ import annotations
+import logging
 
 # coding=utf-8
 # Copyright 2023-present, the HuggingFace Inc. team.
@@ -47,6 +45,71 @@ from typing import TYPE_CHECKING, Any, Literal, Optional, Union, overload
 from huggingface_hub import constants
 from huggingface_hub.errors import InferenceTimeoutError
 from huggingface_hub.inference._common import (
+from huggingface_hub.inference._generated.types import (
+from huggingface_hub.inference._providers import (
+from huggingface_hub.utils import build_hf_headers, get_session, hf_raise_for_status
+from huggingface_hub.utils._auth import get_token
+from huggingface_hub.utils._deprecation import _deprecate_method
+from core.common import get_logger
+from .._common import _async_yield_from, _import_aiohttp
+    import numpy as np
+    from aiohttp import ClientResponse, ClientSession
+    from PIL.Image import Image
+            try:
+                response = await session.post(
+                    request_parameters.url,
+                    json=request_parameters.json,
+                    data=data_as_binary,
+                    proxy=self.proxies,
+                )
+                response_error_payload = None
+                if response.status != 200:
+                    try:
+                        response_error_payload = await response.json()  # get payload before connection closed
+                    except Exception:
+                response.raise_for_status()
+                if stream:
+                    return _async_yield_from(session, response)
+                else:
+                    content = await response.read()
+                    await session.close()
+                    return content
+        from huggingface_hub import AsyncInferenceClient
+        try:
+            bytes_output = await self._inner_post(request_parameters, stream=stream)
+        except _import_aiohttp().ClientResponseError as e:
+            if e.status == 400 and match:
+                unused_params = [kwarg.strip("' ") for kwarg in match.group(1).split(",")]
+                _set_unsupported_text_generation_kwargs(model, unused_params)
+                return await self.text_generation(  # type: ignore
+                    prompt=prompt,
+                    details=details,
+                    stream=stream,
+                    model=model or self.model,
+                    adapter_id=adapter_id,
+                    best_of=best_of,
+                    decoder_input_details=decoder_input_details,
+                    do_sample=do_sample,
+                    frequency_penalty=frequency_penalty,
+                    grammar=grammar,
+                    max_new_tokens=max_new_tokens,
+                    repetition_penalty=repetition_penalty,
+                    return_full_text=return_full_text,
+                    seed=seed,
+                    stop=stop,
+                    temperature=temperature,
+                    top_k=top_k,
+                    top_n_tokens=top_n_tokens,
+                    top_p=top_p,
+                    truncate=truncate,
+                    typical_p=typical_p,
+                    watermark=watermark,
+                )
+            raise_text_generation_error(e)
+
+
+logger = logging.getLogger(__name__)
+
     TASKS_EXPECTING_IMAGES,
     ContentT,
     ModelStatus,
@@ -64,7 +127,6 @@ from huggingface_hub.inference._common import (
     _set_unsupported_text_generation_kwargs,
     raise_text_generation_error,
 )
-from huggingface_hub.inference._generated.types import (
     AudioClassificationOutputElement,
     AudioClassificationOutputTransform,
     AudioToAudioOutputElement,
@@ -104,23 +166,14 @@ from huggingface_hub.inference._generated.types import (
     ZeroShotClassificationOutputElement,
     ZeroShotImageClassificationOutputElement,
 )
-from huggingface_hub.inference._providers import (
     PROVIDER_T,
     HFInferenceTask,
     get_provider_helper,
 )
-from huggingface_hub.utils import build_hf_headers, get_session, hf_raise_for_status
-from huggingface_hub.utils._auth import get_token
-from huggingface_hub.utils._deprecation import _deprecate_method
 
-from core.common import get_logger
 
-from .._common import _async_yield_from, _import_aiohttp
 
 if TYPE_CHECKING:
-    import numpy as np
-    from aiohttp import ClientResponse, ClientSession
-    from PIL.Image import Image
 
 logger = get_logger(__name__)
 
@@ -367,26 +420,6 @@ class AsyncInferenceClient:
             # a stream
             session = self._get_client_session(headers=request_parameters.headers)
 
-            try:
-                response = await session.post(
-                    request_parameters.url,
-                    json=request_parameters.json,
-                    data=data_as_binary,
-                    proxy=self.proxies,
-                )
-                response_error_payload = None
-                if response.status != 200:
-                    try:
-                        response_error_payload = await response.json()  # get payload before connection closed
-                    except Exception:
-                        pass
-                response.raise_for_status()
-                if stream:
-                    return _async_yield_from(session, response)
-                else:
-                    content = await response.read()
-                    await session.close()
-                    return content
             except asyncio.TimeoutError as error:
                 await session.close()
                 # Convert any `TimeoutError` to a `InferenceTimeoutError`
@@ -822,7 +855,6 @@ class AsyncInferenceClient:
         ```py
         # Must be run in an async context
         # instead of `from openai import OpenAI`
-        from huggingface_hub import AsyncInferenceClient
 
         # instead of `client = OpenAI(...)`
         client = AsyncInferenceClient(
@@ -2465,39 +2497,6 @@ class AsyncInferenceClient:
         )
 
         # Handle errors separately for more precise error messages
-        try:
-            bytes_output = await self._inner_post(request_parameters, stream=stream)
-        except _import_aiohttp().ClientResponseError as e:
-            match = MODEL_KWARGS_NOT_USED_REGEX.search(e.response_error_payload["error"])
-            if e.status == 400 and match:
-                unused_params = [kwarg.strip("' ") for kwarg in match.group(1).split(",")]
-                _set_unsupported_text_generation_kwargs(model, unused_params)
-                return await self.text_generation(  # type: ignore
-                    prompt=prompt,
-                    details=details,
-                    stream=stream,
-                    model=model or self.model,
-                    adapter_id=adapter_id,
-                    best_of=best_of,
-                    decoder_input_details=decoder_input_details,
-                    do_sample=do_sample,
-                    frequency_penalty=frequency_penalty,
-                    grammar=grammar,
-                    max_new_tokens=max_new_tokens,
-                    repetition_penalty=repetition_penalty,
-                    return_full_text=return_full_text,
-                    seed=seed,
-                    stop=stop,
-                    temperature=temperature,
-                    top_k=top_k,
-                    top_n_tokens=top_n_tokens,
-                    top_p=top_p,
-                    truncate=truncate,
-                    typical_p=typical_p,
-                    watermark=watermark,
-                )
-            raise_text_generation_error(e)
-
         # Parse output
         if stream:
             return _async_stream_text_generation_response(bytes_output, details)  # type: ignore

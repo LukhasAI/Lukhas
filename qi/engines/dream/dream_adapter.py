@@ -1,5 +1,3 @@
-from datetime import timezone
-
 """
 
 #TAG:qim
@@ -11,11 +9,13 @@ from datetime import timezone
 Quantum Dream Adapter for Dream Systems
 Provides quantum-based dream processing and adaptation capabilities.
 """
+
+from datetime import timezone
 import math
 import random
 from dataclasses import dataclass
 from typing import Any, Optional
-
+        import datetime
 
 @dataclass
 class DreamQuantumConfig:
@@ -414,7 +414,6 @@ class QIDreamAdapter:
 
     def _get_timestamp(self) -> str:
         """Get current timestamp."""
-        import datetime
 
         return datetime.datetime.now(timezone.utc).isoformat()
 

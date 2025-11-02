@@ -285,7 +285,8 @@ class ConsentLedgerV2:
                 )
                 try:
                     self._run_async(self.event_bus.append_event(error_trace))
-                except:
+                except Exception as e:
+                    logger.debug(f"Expected optional failure: {e}")
                     pass  # Don't fail on error trace failure
 
                 raise

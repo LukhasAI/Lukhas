@@ -1,21 +1,19 @@
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 VIVOX.QREADY Core - Quantum Substrate
 Foundation for quantum computing compatibility
 """
 
+import logging
+from datetime import timezone
 import hashlib
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
-
 import numpy as np
-
 from core.common import get_logger
+
+logger = logging.getLogger(__name__)
 
 logger = get_logger(__name__)
 

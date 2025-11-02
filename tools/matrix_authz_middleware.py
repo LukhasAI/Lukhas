@@ -248,7 +248,8 @@ class MatrixAuthzMiddleware:
                 # Clean up temp file
                 try:
                     Path(input_file).unlink()
-                except:
+                except Exception as e:
+                    logger.debug(f"Expected optional failure: {e}")
                     pass
 
             # Fallback simulation when OPA not available

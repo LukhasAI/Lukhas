@@ -1,11 +1,11 @@
-from __future__ import annotations
-
 """
 Biometric Verification Colony
 
 Distributed colony of specialized agents for parallel biometric analysis,
 consensus-based verification, and self-healing sensor failure recovery.
 """
+
+from __future__ import annotations
 import asyncio
 import hashlib
 import logging
@@ -29,9 +29,138 @@ try:
         VerificationResult,
     )
 except ImportError:
-    IdentityEventPublisher = None
     IdentityEventType = None
     VerificationResult = None
+
+        try:
+            # Simulate biometric processing based on type
+            if sample.biometric_type != self.specialization:
+                return {
+                    "success": False,
+                    "error": f"Agent specializes in {self.specialization.value}, not {sample.biometric_type.value}",
+                }
+
+            # Quality check
+            if sample.quality_score < BiometricQuality.POOR.value:
+                return {
+                    "success": False,
+                    "error": "Sample quality too low",
+                    "quality_score": sample.quality_score,
+                }
+
+            # Simulate feature extraction and matching
+            extracted_features = await self._extract_features(sample)
+            match_score = await self._match_features(extracted_features, reference_template)
+
+            # Apply quality-adjusted scoring
+            adjusted_score = match_score * (0.7 + 0.3 * sample.quality_score)
+
+            # Calculate confidence based on multiple factors
+            confidence = self._calculate_confidence(adjusted_score, sample.quality_score)
+
+            processing_time = time.time() - start_time
+
+            result = {
+                "success": True,
+                "match_score": adjusted_score,
+                "confidence": confidence,
+                "processing_time": processing_time,
+                "quality_factors": {
+                    "sample_quality": sample.quality_score,
+                    "environmental_impact": self._assess_environmental_impact(sample.environmental_factors),
+                },
+                "agent_id": self.agent_id,
+                "specialization": self.specialization.value,
+            }
+
+            # Update agent performance
+            self.verifications_performed += 1
+            self.capabilities[self.specialization.value].experience += 1
+
+            return result
+
+        except Exception as e:
+            return {"success": False, "error": str(e), "agent_id": self.agent_id}
+
+        from governance.identity.core.events import get_identity_event_publisher
+        try:
+            # Group samples by biometric type
+            samples_by_type = self._group_samples_by_type(biometric_samples)
+
+            # Process each biometric type in parallel
+            verification_tasks = []
+            for biometric_type, samples in samples_by_type.items():
+                task_coro = self._verify_biometric_type(task, biometric_type, samples, reference_template)
+                verification_tasks.append(task_coro)
+
+            # Wait for all verifications with timeout
+            results = await asyncio.wait_for(
+                asyncio.gather(*verification_tasks, return_exceptions=True),
+                timeout=self.verification_timeout,
+            )
+
+            # Aggregate results and build consensus
+            consensus_result = await self._build_verification_consensus(results, task, tier_level)
+
+            # Create verification result
+            verification_result = VerificationResult(
+                verified=consensus_result.consensus_reached and consensus_result.decision,
+                confidence_score=consensus_result.confidence,
+                verification_method="distributed_biometric_consensus",
+                colony_consensus={
+                    "votes": consensus_result.votes,
+                    "participation_rate": consensus_result.participation_rate,
+                    "consensus_strength": consensus_result.confidence,
+                },
+                failure_reasons=(consensus_result.dissent_reasons if not consensus_result.decision else []),
+                verification_duration_ms=(time.time() - verification_start) * 1000,
+                agents_involved=len([r for r in results if isinstance(r, dict)]),
+            )
+
+            # Update metrics
+            self.total_verifications += 1
+            if verification_result.verified:
+                self.successful_verifications += 1
+
+            # Publish completion event
+            await self.event_publisher.publish_verification_event(
+                IdentityEventType.VERIFICATION_COMPLETE,
+                lambda_id=lambda_id,
+                tier_level=tier_level,
+                verification_result=verification_result,
+                colony_id=self.colony_id,
+                correlation_id=correlation_id,
+            )
+
+            return verification_result
+
+        except asyncio.TimeoutError:
+
+            # Create timeout result
+            verification_result = VerificationResult(
+                verified=False,
+                confidence_score=0.0,
+                verification_method="distributed_biometric_consensus",
+                failure_reasons=["Verification timeout"],
+                verification_duration_ms=(time.time() - verification_start) * 1000,
+                agents_involved=0,
+            )
+
+            # Publish failure event
+            await self.event_publisher.publish_verification_event(
+                IdentityEventType.VERIFICATION_FAILED,
+                lambda_id=lambda_id,
+                tier_level=tier_level,
+                verification_result=verification_result,
+                colony_id=self.colony_id,
+                correlation_id=correlation_id,
+            )
+
+            # Trigger healing for timeout
+            await self._trigger_timeout_healing(task_id)
+
+            return verification_result
+
 
 logger = logging.getLogger("LUKHAS_BIOMETRIC_COLONY")
 
@@ -121,57 +250,6 @@ class BiometricVerificationAgent(SwarmAgent):
     async def process_biometric_sample(self, sample: BiometricSample, reference_template: bytes) -> dict[str, Any]:
         """Process a single biometric sample."""
         start_time = time.time()
-
-        try:
-            # Simulate biometric processing based on type
-            if sample.biometric_type != self.specialization:
-                return {
-                    "success": False,
-                    "error": f"Agent specializes in {self.specialization.value}, not {sample.biometric_type.value}",
-                }
-
-            # Quality check
-            if sample.quality_score < BiometricQuality.POOR.value:
-                return {
-                    "success": False,
-                    "error": "Sample quality too low",
-                    "quality_score": sample.quality_score,
-                }
-
-            # Simulate feature extraction and matching
-            extracted_features = await self._extract_features(sample)
-            match_score = await self._match_features(extracted_features, reference_template)
-
-            # Apply quality-adjusted scoring
-            adjusted_score = match_score * (0.7 + 0.3 * sample.quality_score)
-
-            # Calculate confidence based on multiple factors
-            confidence = self._calculate_confidence(adjusted_score, sample.quality_score)
-
-            processing_time = time.time() - start_time
-
-            result = {
-                "success": True,
-                "match_score": adjusted_score,
-                "confidence": confidence,
-                "processing_time": processing_time,
-                "quality_factors": {
-                    "sample_quality": sample.quality_score,
-                    "environmental_impact": self._assess_environmental_impact(sample.environmental_factors),
-                },
-                "agent_id": self.agent_id,
-                "specialization": self.specialization.value,
-            }
-
-            # Update agent performance
-            self.verifications_performed += 1
-            self.capabilities[self.specialization.value].experience += 1
-
-            return result
-
-        except Exception as e:
-            logger.error(f"Biometric processing error in agent {self.agent_id}: {e}")
-            return {"success": False, "error": str(e), "agent_id": self.agent_id}
 
     async def _extract_features(self, sample: BiometricSample) -> np.ndarray:
         """Extract features from biometric sample."""
@@ -279,7 +357,6 @@ class BiometricVerificationColony(BaseColony):
         await super().initialize()
 
         # Get event publisher
-        from governance.identity.core.events import get_identity_event_publisher
 
         self.event_publisher = await get_identity_event_publisher()
 
@@ -339,85 +416,6 @@ class BiometricVerificationColony(BaseColony):
             colony_id=self.colony_id,
             correlation_id=task_id,
         )
-
-        try:
-            # Group samples by biometric type
-            samples_by_type = self._group_samples_by_type(biometric_samples)
-
-            # Process each biometric type in parallel
-            verification_tasks = []
-            for biometric_type, samples in samples_by_type.items():
-                task_coro = self._verify_biometric_type(task, biometric_type, samples, reference_template)
-                verification_tasks.append(task_coro)
-
-            # Wait for all verifications with timeout
-            results = await asyncio.wait_for(
-                asyncio.gather(*verification_tasks, return_exceptions=True),
-                timeout=self.verification_timeout,
-            )
-
-            # Aggregate results and build consensus
-            consensus_result = await self._build_verification_consensus(results, task, tier_level)
-
-            # Create verification result
-            verification_result = VerificationResult(
-                verified=consensus_result.consensus_reached and consensus_result.decision,
-                confidence_score=consensus_result.confidence,
-                verification_method="distributed_biometric_consensus",
-                colony_consensus={
-                    "votes": consensus_result.votes,
-                    "participation_rate": consensus_result.participation_rate,
-                    "consensus_strength": consensus_result.confidence,
-                },
-                failure_reasons=(consensus_result.dissent_reasons if not consensus_result.decision else []),
-                verification_duration_ms=(time.time() - verification_start) * 1000,
-                agents_involved=len([r for r in results if isinstance(r, dict)]),
-            )
-
-            # Update metrics
-            self.total_verifications += 1
-            if verification_result.verified:
-                self.successful_verifications += 1
-
-            # Publish completion event
-            await self.event_publisher.publish_verification_event(
-                IdentityEventType.VERIFICATION_COMPLETE,
-                lambda_id=lambda_id,
-                tier_level=tier_level,
-                verification_result=verification_result,
-                colony_id=self.colony_id,
-                correlation_id=correlation_id,
-            )
-
-            return verification_result
-
-        except asyncio.TimeoutError:
-            logger.error(f"Biometric verification timeout for {lambda_id}")
-
-            # Create timeout result
-            verification_result = VerificationResult(
-                verified=False,
-                confidence_score=0.0,
-                verification_method="distributed_biometric_consensus",
-                failure_reasons=["Verification timeout"],
-                verification_duration_ms=(time.time() - verification_start) * 1000,
-                agents_involved=0,
-            )
-
-            # Publish failure event
-            await self.event_publisher.publish_verification_event(
-                IdentityEventType.VERIFICATION_FAILED,
-                lambda_id=lambda_id,
-                tier_level=tier_level,
-                verification_result=verification_result,
-                colony_id=self.colony_id,
-                correlation_id=correlation_id,
-            )
-
-            # Trigger healing for timeout
-            await self._trigger_timeout_healing(task_id)
-
-            return verification_result
 
         except Exception as e:
             logger.error(f"Biometric verification error: {e}")

@@ -55,7 +55,8 @@ def fix_eol_in_file(file_path):
                 with open(file_path, encoding="utf-8") as f:
                     ast.parse(f.read())
                 return True  # Fixed!
-            except:
+            except Exception as e:
+                logger.debug(f"Expected optional failure: {e}")
                 return False  # Still broken
 
     except Exception as e:

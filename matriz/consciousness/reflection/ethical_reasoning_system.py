@@ -1,28 +1,3 @@
-import logging
-
-logger = logging.getLogger(__name__)
-# ██╗      ██████╗  ██████╗ ██╗  ██╗ █████╗ ███████╗
-# ██║     ██╔═══██╗██╔════╝ ██║  ██║██╔══██╗██╔════╝
-# ██║     ██║   ██║██║  ███╗███████║███████║███████╗
-# ██║     ██║   ██║██║   ██║██╔══██║██╔══██║╚════██║
-# ███████╗╚██████╔╝╚██████╔╝██║  ██║██║  ██║███████║
-# ╚══════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝
-# LUKHAS™ (2024) - LUKHAS High-Performance AI System
-#
-# Desc: Advanced Ethical Reasoning and Value Alignment System for LUKHAS AI.
-# Docs: https://github.com/LUKHAS-AI/lukhas-docs/blob/main/reasoning_ethical_system.md
-# Λssociated: Various AI core modules, governance framework.
-#
-# THIS FILE IS ΛUTOGENERATED AND MANAGED BY LUKHAS AI.
-# MANUAL MODIFICATIONS MAY BE OVERWRITTEN.
-#
-# Copyright (C) 2024 LUKHAS AI. All rights reserved.
-# Use of this source code is governed by a LUKHAS AI license
-# that can be found in the LICENSE file.
-#
-# Contact: contact@ai
-# Website: https://ai
-#
 """
 # ΛNOTE: This module implements a sophisticated Ethical Reasoning and Value Alignment System,
 # a critical component for ensuring LUKHAS Cognitive AI operates in accordance with specified moral
@@ -42,6 +17,8 @@ This system integrates multiple moral frameworks (Deontological, Consequentialis
 value learning from feedback, ethical constraint checking, stakeholder impact analysis,
 cultural sensitivity assessment, and ethical drift monitoring to guide AI decision-making.
 """
+
+import logging
 
 import asyncio
 
@@ -76,6 +53,9 @@ import numpy as np
 # import pandas as pd
 # import matplotlib.pyplot as plt
 # Initialize ΛTRACE logger for this module using structlog
+
+
+logger = logging.getLogger(__name__)
 
 logger.info("ΛTRACE: Initializing ethical_reasoning_system.py module.", module_path=__file__)
 

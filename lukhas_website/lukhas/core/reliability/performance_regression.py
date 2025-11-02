@@ -207,7 +207,7 @@ class PerformanceRegressionDetector:
             p50_latency = statistics.median(sorted_latencies)
             p95_latency = statistics.quantiles(sorted_latencies, n=20)[18] if len(sorted_latencies) > 20 else sorted_latencies[-1]
             p99_latency = statistics.quantiles(sorted_latencies, n=100)[98] if len(sorted_latencies) > 100 else sorted_latencies[-1]
-        except:
+        except Exception as e:
             # Fallback for small datasets
             p50_latency = statistics.median(latencies)
             p95_latency = max(latencies)

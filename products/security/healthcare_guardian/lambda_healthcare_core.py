@@ -62,7 +62,7 @@ try:
     # Identity system
     try:
         from acceptance.accepted.identity import IdentityManager as LIDCore
-    except:
+    except Exception as e:
         # Create a mock if not available
         class LIDCore:
             def initialize(self):
@@ -101,7 +101,8 @@ if LUKHAS_AVAILABLE:
             def detect_drift(self, *args, **kwargs):
                 return 0.0
 
-    except:
+    except Exception as e:
+        logger.debug(f"Expected optional failure: {e}")
         pass
 
 # Local Healthcare Imports
@@ -139,7 +140,7 @@ except ImportError:
     # Fallback imports
     try:
         from providers.provider_registry import BaseHealthcareProvider, ProviderRegistry
-    except:
+    except Exception as e:
         ProviderRegistry = None
         BaseHealthcareProvider = None
 
@@ -890,7 +891,8 @@ class LambdaHealthcareGuardian:
                     data=medical_record, context={"patient_id": patient_id}, timestamp=datetime.now(timezone.utc)
                 )
                 return True
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             pass
         return False
 

@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
-
 """
 
 #TAG:qim
@@ -37,18 +33,17 @@ Licensed under the LUKHAS Enterprise License.
 For documentation and support: https://ai/docs
 """
 
+import logging
+import unittest
+import numpy as np
+from bio.symbolic import BioSymbolicOrchestrator as BioOrchestrator
+from core.bio_systems.qi_layer import QIBioOscillator
+
 __module_name__ = "Quantum Integration"
 __version__ = "2.0.0"
 __tier__ = 2
 
-
-import unittest
-
-import numpy as np
-from bio.symbolic import BioSymbolicOrchestrator as BioOrchestrator
-
-from core.bio_systems.qi_layer import QIBioOscillator
-
+logger = logging.getLogger(__name__)
 
 class TestQuantumIntegration(unittest.TestCase):
     def setUp(self):

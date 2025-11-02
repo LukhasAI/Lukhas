@@ -1,19 +1,19 @@
-import logging
-
-logger = logging.getLogger(__name__)
 """
 VIVOX.EVRN Ethical Perception
 Ensures perception respects privacy and ethical boundaries
 """
 
+import logging
 import hashlib
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Optional, Union
-
 import numpy as np
-
 from core.common import get_logger
+        from scipy.ndimage import gaussian_filter
+        from scipy import ndimage
+
+logger = logging.getLogger(__name__)
 
 logger = get_logger(__name__)
 
@@ -287,7 +287,6 @@ class EthicalPerceptionFilter:
 
     def _gaussian_blur_transform(self, data: np.ndarray, sigma: float = 2.0) -> np.ndarray:
         """Apply Gaussian blur"""
-        from scipy.ndimage import gaussian_filter
 
         if data.ndim == 2:
             return gaussian_filter(data, sigma=sigma)
@@ -332,7 +331,6 @@ class EthicalPerceptionFilter:
         if data.ndim < 2:
             return data
 
-        from scipy import ndimage
 
         # Sobel edge detection
         if data.ndim == 2:

@@ -1,22 +1,21 @@
-import logging
-from datetime import timezone
-
-logger = logging.getLogger(__name__)
 """
 VIVOX.QREADY - Quantum Synchronization Events
 Multi-agent quantum coherence and synchronization
 """
 
+import logging
+from datetime import timezone
 import hashlib
 from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
 from typing import Any, Optional
-
 import numpy as np
-
 from core.common import get_logger
+        from itertools import combinations
+
+logger = logging.getLogger(__name__)
 
 logger = get_logger(__name__)
 
@@ -400,7 +399,6 @@ class QISynchronizer:
             return detected_events
 
         # Check all combinations of agents
-        from itertools import combinations
 
         for r in range(min_agents, min(len(agent_ids) + 1, 6)):  # Limit to 5 agents
             for agent_combo in combinations(agent_ids, r):

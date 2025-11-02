@@ -1,9 +1,9 @@
-from __future__ import annotations
-
 """
 🧠 Abstract Reasoning Brain Interface
 Interface for the Bio-Quantum Symbolic Reasoning system with Radar Analytics Integration
 """
+
+from __future__ import annotations
 import asyncio
 import logging
 from datetime import datetime, timezone
@@ -17,8 +17,223 @@ try:
 
     RADAR_INTEGRATION_AVAILABLE = True
 except ImportError:
-    RADAR_INTEGRATION_AVAILABLE = False
     logging.warning("Radar integration not available", timezone)
+
+        try:
+            await self.core.activate_brain()
+            self.interface_active = True
+
+            if self.radar_integration:
+                logger.info("🚀 Abstract Reasoning Interface initialized with Radar Analytics")
+            else:
+                logger.info("🚀 Abstract Reasoning Interface initialized")
+            return True
+        except Exception as e:
+            return False
+
+        try:
+            result = await self.core.process_independently(input_data)
+
+            # Extract key components for easier access
+            simplified_result = {
+                "solution": result.get("reasoning_result", {}).get("solution", {}),
+                "confidence": result.get("confidence_metrics", {}).get("meta_confidence", 0.0),
+                "reasoning_path": result.get("reasoning_result", {}).get("reasoning_path", {}),
+                "coherence": result.get("processing_metadata", {}).get("brain_symphony_coherence", 0.0),
+                "uncertainty": result.get("confidence_metrics", {}).get("uncertainty_decomposition", {}),
+                "full_result": result,
+            }
+
+            logger.info(f"✅ Abstract reasoning completed - Confidence: {simplified_result['confidence']:.3f}")
+
+            return simplified_result
+
+        except Exception as e:
+            return {
+                "error": str(e),
+                "solution": None,
+                "confidence": 0.0,
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            }
+
+        try:
+            result = await self.core.orchestrate_cross_brain_reasoning(request, target_brains)
+            return result
+
+        except Exception as e:
+            return {
+                "error": str(e),
+                "orchestration_failed": True,
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            }
+
+        try:
+            confidence_metrics = reasoning_result.get("confidence_metrics", {})
+
+            analysis = {
+                "overall_confidence": confidence_metrics.get("meta_confidence", 0.0),
+                "confidence_breakdown": {
+                    "bayesian": confidence_metrics.get("bayesian_confidence", 0.0),
+                    "quantum": confidence_metrics.get("qi_confidence", 0.0),
+                    "symbolic": confidence_metrics.get("symbolic_confidence", 0.0),
+                    "emotional": confidence_metrics.get("emotional_confidence", 0.0),
+                },
+                "uncertainty_analysis": confidence_metrics.get("uncertainty_decomposition", {}),
+                "coherence_score": confidence_metrics.get("cross_brain_coherence", 0.0),
+                "calibration_quality": confidence_metrics.get("calibration_score", 0.0),
+                "confidence_interpretation": self._interpret_confidence(confidence_metrics),
+            }
+
+            return analysis
+
+        except Exception as e:
+            return {"error": str(e)}
+
+        try:
+            await self.core.update_from_feedback(
+                reasoning_result.get("full_result", reasoning_result),
+                actual_outcome,
+                feedback_context,
+            )
+
+            logger.info(f"📊 Feedback processed: outcome={actual_outcome}")
+
+            return {
+                "feedback_processed": True,
+                "outcome": actual_outcome,
+                "notes": feedback_notes,
+                "timestamp": feedback_context["feedback_timestamp"],
+            }
+
+        except Exception as e:
+            return {"feedback_processed": False, "error": str(e)}
+
+        try:
+            full_history = await self.core.get_reasoning_history(limit)
+
+            if include_full_results:
+                return full_history
+
+            # Return simplified summaries
+            summaries = []
+            for session in full_history:
+                summary = {
+                    "timestamp": session.get("processing_metadata", {}).get("processing_timestamp"),
+                    "reasoning_type": session.get("processing_metadata", {}).get("reasoning_type"),
+                    "confidence": session.get("confidence_metrics", {}).get("meta_confidence", 0.0),
+                    "coherence": session.get("processing_metadata", {}).get("brain_symphony_coherence", 0.0),
+                    "success": session.get("confidence_metrics", {}).get("meta_confidence", 0.0) > 0.7,
+                }
+                summaries.append(summary)
+
+            return summaries
+
+        except Exception as e:
+            return []
+
+        try:
+            status = self.core.get_brain_status()
+
+            performance_summary = {
+                "brain_status": {
+                    "active": status["active"],
+                    "specialization": status["specialization"],
+                    "components_initialized": all(
+                        [
+                            status["brain_symphony_initialized"],
+                            status["bio_quantum_reasoner_initialized"],
+                            status["confidence_calibrator_initialized"],
+                        ]
+                    ),
+                },
+                "performance_metrics": status["performance_metrics"],
+                "session_statistics": {
+                    "total_sessions": status["reasoning_sessions_count"],
+                    "calibration_quality": status.get("calibration_summary", {}).get("calibration_score", 0.0),
+                },
+                "capabilities": {
+                    "bio_quantum_reasoning": True,
+                    "multi_brain_orchestration": True,
+                    "advanced_confidence_calibration": True,
+                    "meta_learning": True,
+                    "cross_brain_coherence": True,
+                },
+            }
+
+            return performance_summary
+
+        except Exception as e:
+            return {"error": str(e)}
+
+        try:
+            await self.core.shutdown_brain()
+            self.interface_active = False
+            logger.info("🛑 Abstract Reasoning Interface shutdown complete")
+
+        except Exception as e:
+
+        try:
+            await self.radar_integration.start_real_time_monitoring(update_interval, max_duration)
+            return True
+        except Exception as e:
+            return False
+
+        try:
+            export_path = self.radar_integration.export_session_analytics(filepath)
+            logger.info(f"📁 Radar analytics exported to: {export_path}")
+            return export_path
+        except Exception as e:
+            return None
+
+        try:
+            self.radar_integration.visualizer.config.update(config)
+            logger.info("📊 Radar analytics configuration updated")
+            return True
+        except Exception as e:
+            return False
+
+
+    try:
+        result = await interface.reason_abstractly(problem, context)
+        return result
+    try:
+        analysis = await interface.analyze_confidence(reasoning_result)
+        return analysis
+    try:
+        result = await interface.reason_with_radar_visualization(problem_description, context, reasoning_type)
+        return result
+    try:
+        # Start monitoring
+        await interface.start_radar_monitoring(update_interval, duration)
+
+        # Export analytics
+        export_path = interface.export_radar_analytics()
+        return export_path or "Export failed"
+    try:
+        result = await interface.reason_abstractly(problem_description, context, reasoning_type)
+        # Return just the reasoning result for backward compatibility
+        if isinstance(result, dict) and "reasoning_result" in result:
+            return result["reasoning_result"]
+        return result
+    try:
+        problems = [
+            "Optimize entanglement-like correlation for bio-neural interfaces",
+            "Design self-improving AI safety protocols",
+            "Create consciousness-aware computing architectures",
+        ]
+
+        for i, problem in enumerate(problems, 1):
+            result = await interface.reason_with_radar_visualization(problem)
+            print(
+                f"   {i}. Confidence: {result['reasoning_result']['confidence']:.3f}, "
+                f"Coherence: {result['reasoning_result']['coherence']:.3f}"
+            )
+
+        # Export comprehensive session
+        final_export = interface.export_radar_analytics()
+        print(f"   📊 Final session analytics: {final_export}")
+
+    import asyncio
 
 logger = logging.getLogger("AbstractReasoningInterface")
 
@@ -48,19 +263,6 @@ class AbstractReasoningBrainInterface:
 
     async def initialize(self) -> bool:
         """Initialize the abstract reasoning interface"""
-        try:
-            await self.core.activate_brain()
-            self.interface_active = True
-
-            if self.radar_integration:
-                logger.info("🚀 Abstract Reasoning Interface initialized with Radar Analytics")
-            else:
-                logger.info("🚀 Abstract Reasoning Interface initialized")
-            return True
-        except Exception as e:
-            logger.error(f"❌ Failed to initialize interface: {e}")
-            return False
-
     async def reason_abstractly(
         self,
         problem: Union[str, dict[str, Any]],
@@ -123,32 +325,6 @@ class AbstractReasoningBrainInterface:
             "interface_timestamp": datetime.now(timezone.utc).isoformat(),
         }
 
-        try:
-            result = await self.core.process_independently(input_data)
-
-            # Extract key components for easier access
-            simplified_result = {
-                "solution": result.get("reasoning_result", {}).get("solution", {}),
-                "confidence": result.get("confidence_metrics", {}).get("meta_confidence", 0.0),
-                "reasoning_path": result.get("reasoning_result", {}).get("reasoning_path", {}),
-                "coherence": result.get("processing_metadata", {}).get("brain_symphony_coherence", 0.0),
-                "uncertainty": result.get("confidence_metrics", {}).get("uncertainty_decomposition", {}),
-                "full_result": result,
-            }
-
-            logger.info(f"✅ Abstract reasoning completed - Confidence: {simplified_result['confidence']:.3f}")
-
-            return simplified_result
-
-        except Exception as e:
-            logger.error(f"❌ Abstract reasoning failed: {e}")
-            return {
-                "error": str(e),
-                "solution": None,
-                "confidence": 0.0,
-                "timestamp": datetime.now(timezone.utc).isoformat(),
-            }
-
     async def orchestrate_brains(
         self,
         request: dict[str, Any],
@@ -170,18 +346,6 @@ class AbstractReasoningBrainInterface:
 
         logger.info(f"🎼 Orchestrating brains: {target_brains or 'all'}")
 
-        try:
-            result = await self.core.orchestrate_cross_brain_reasoning(request, target_brains)
-            return result
-
-        except Exception as e:
-            logger.error(f"❌ Brain orchestration failed: {e}")
-            return {
-                "error": str(e),
-                "orchestration_failed": True,
-                "timestamp": datetime.now(timezone.utc).isoformat(),
-            }
-
     async def analyze_confidence(self, reasoning_result: dict[str, Any]) -> dict[str, Any]:
         """
         Perform detailed confidence analysis on a reasoning result
@@ -192,29 +356,6 @@ class AbstractReasoningBrainInterface:
         Returns:
             Detailed confidence analysis
         """
-        try:
-            confidence_metrics = reasoning_result.get("confidence_metrics", {})
-
-            analysis = {
-                "overall_confidence": confidence_metrics.get("meta_confidence", 0.0),
-                "confidence_breakdown": {
-                    "bayesian": confidence_metrics.get("bayesian_confidence", 0.0),
-                    "quantum": confidence_metrics.get("qi_confidence", 0.0),
-                    "symbolic": confidence_metrics.get("symbolic_confidence", 0.0),
-                    "emotional": confidence_metrics.get("emotional_confidence", 0.0),
-                },
-                "uncertainty_analysis": confidence_metrics.get("uncertainty_decomposition", {}),
-                "coherence_score": confidence_metrics.get("cross_brain_coherence", 0.0),
-                "calibration_quality": confidence_metrics.get("calibration_score", 0.0),
-                "confidence_interpretation": self._interpret_confidence(confidence_metrics),
-            }
-
-            return analysis
-
-        except Exception as e:
-            logger.error(f"❌ Confidence analysis failed: {e}")
-            return {"error": str(e)}
-
     def _interpret_confidence(self, confidence_metrics: dict[str, Any]) -> dict[str, str]:
         """Interpret confidence metrics for human understanding"""
         meta_confidence = confidence_metrics.get("meta_confidence", 0.0)
@@ -281,26 +422,6 @@ class AbstractReasoningBrainInterface:
             "outcome_type": "binary_correctness",
         }
 
-        try:
-            await self.core.update_from_feedback(
-                reasoning_result.get("full_result", reasoning_result),
-                actual_outcome,
-                feedback_context,
-            )
-
-            logger.info(f"📊 Feedback processed: outcome={actual_outcome}")
-
-            return {
-                "feedback_processed": True,
-                "outcome": actual_outcome,
-                "notes": feedback_notes,
-                "timestamp": feedback_context["feedback_timestamp"],
-            }
-
-        except Exception as e:
-            logger.error(f"❌ Feedback processing failed: {e}")
-            return {"feedback_processed": False, "error": str(e)}
-
     async def get_reasoning_history(
         self, limit: Optional[int] = 10, include_full_results: bool = False
     ) -> list[dict[str, Any]]:
@@ -317,80 +438,13 @@ class AbstractReasoningBrainInterface:
         if not self.interface_active:
             await self.initialize()
 
-        try:
-            full_history = await self.core.get_reasoning_history(limit)
-
-            if include_full_results:
-                return full_history
-
-            # Return simplified summaries
-            summaries = []
-            for session in full_history:
-                summary = {
-                    "timestamp": session.get("processing_metadata", {}).get("processing_timestamp"),
-                    "reasoning_type": session.get("processing_metadata", {}).get("reasoning_type"),
-                    "confidence": session.get("confidence_metrics", {}).get("meta_confidence", 0.0),
-                    "coherence": session.get("processing_metadata", {}).get("brain_symphony_coherence", 0.0),
-                    "success": session.get("confidence_metrics", {}).get("meta_confidence", 0.0) > 0.7,
-                }
-                summaries.append(summary)
-
-            return summaries
-
-        except Exception as e:
-            logger.error(f"❌ Failed to get reasoning history: {e}")
-            return []
-
     async def get_performance_summary(self) -> dict[str, Any]:
         """Get performance summary of the abstract reasoning brain"""
         if not self.interface_active:
             await self.initialize()
 
-        try:
-            status = self.core.get_brain_status()
-
-            performance_summary = {
-                "brain_status": {
-                    "active": status["active"],
-                    "specialization": status["specialization"],
-                    "components_initialized": all(
-                        [
-                            status["brain_symphony_initialized"],
-                            status["bio_quantum_reasoner_initialized"],
-                            status["confidence_calibrator_initialized"],
-                        ]
-                    ),
-                },
-                "performance_metrics": status["performance_metrics"],
-                "session_statistics": {
-                    "total_sessions": status["reasoning_sessions_count"],
-                    "calibration_quality": status.get("calibration_summary", {}).get("calibration_score", 0.0),
-                },
-                "capabilities": {
-                    "bio_quantum_reasoning": True,
-                    "multi_brain_orchestration": True,
-                    "advanced_confidence_calibration": True,
-                    "meta_learning": True,
-                    "cross_brain_coherence": True,
-                },
-            }
-
-            return performance_summary
-
-        except Exception as e:
-            logger.error(f"❌ Failed to get performance summary: {e}")
-            return {"error": str(e)}
-
     async def shutdown(self):
         """Shutdown the abstract reasoning interface"""
-        try:
-            await self.core.shutdown_brain()
-            self.interface_active = False
-            logger.info("🛑 Abstract Reasoning Interface shutdown complete")
-
-        except Exception as e:
-            logger.error(f"❌ Shutdown failed: {e}")
-
     # =============================================================================
     # 📊 RADAR ANALYTICS INTEGRATION METHODS
     # =============================================================================
@@ -415,13 +469,6 @@ class AbstractReasoningBrainInterface:
             return False
 
         logger.info(f"🔄 Starting radar monitoring (interval: {update_interval}s)")
-        try:
-            await self.radar_integration.start_real_time_monitoring(update_interval, max_duration)
-            return True
-        except Exception as e:
-            logger.error(f"Failed to start radar monitoring: {e}")
-            return False
-
     def stop_radar_monitoring(self) -> bool:
         """Stop real-time radar monitoring."""
         if not self.radar_integration:
@@ -443,14 +490,6 @@ class AbstractReasoningBrainInterface:
         """
         if not self.radar_integration:
             logger.warning("Radar analytics not available for export")
-            return None
-
-        try:
-            export_path = self.radar_integration.export_session_analytics(filepath)
-            logger.info(f"📁 Radar analytics exported to: {export_path}")
-            return export_path
-        except Exception as e:
-            logger.error(f"Failed to export radar analytics: {e}")
             return None
 
     def get_radar_performance_summary(self) -> dict[str, Any]:
@@ -498,15 +537,6 @@ class AbstractReasoningBrainInterface:
             logger.warning("Radar analytics not available for configuration")
             return False
 
-        try:
-            self.radar_integration.visualizer.config.update(config)
-            logger.info("📊 Radar analytics configuration updated")
-            return True
-        except Exception as e:
-            logger.error(f"Failed to update radar config: {e}")
-            return False
-
-
 # Convenience functions for quick access
 
 
@@ -527,9 +557,6 @@ async def reason_about(
     interface = AbstractReasoningBrainInterface()
     await interface.initialize()
 
-    try:
-        result = await interface.reason_abstractly(problem, context)
-        return result
     finally:
         await interface.shutdown()
 
@@ -549,9 +576,6 @@ async def analyze_reasoning_confidence(
     interface = AbstractReasoningBrainInterface()
     await interface.initialize()
 
-    try:
-        analysis = await interface.analyze_confidence(reasoning_result)
-        return analysis
     finally:
         await interface.shutdown()
 
@@ -580,9 +604,6 @@ async def reason_about_with_radar(
     interface = AbstractReasoningBrainInterface(enable_radar_analytics=True)
     await interface.initialize()
 
-    try:
-        result = await interface.reason_with_radar_visualization(problem_description, context, reasoning_type)
-        return result
     finally:
         await interface.shutdown()
 
@@ -601,13 +622,6 @@ async def start_radar_monitoring_session(update_interval: float = 2.0, duration:
     interface = AbstractReasoningBrainInterface(enable_radar_analytics=True)
     await interface.initialize()
 
-    try:
-        # Start monitoring
-        await interface.start_radar_monitoring(update_interval, duration)
-
-        # Export analytics
-        export_path = interface.export_radar_analytics()
-        return export_path or "Export failed"
     finally:
         interface.stop_radar_monitoring()
         await interface.shutdown()
@@ -635,12 +649,6 @@ async def reason_about(
     interface = AbstractReasoningBrainInterface()
     await interface.initialize()
 
-    try:
-        result = await interface.reason_abstractly(problem_description, context, reasoning_type)
-        # Return just the reasoning result for backward compatibility
-        if isinstance(result, dict) and "reasoning_result" in result:
-            return result["reasoning_result"]
-        return result
     finally:
         await interface.shutdown()
 
@@ -677,24 +685,6 @@ async def demo_radar_integration():
     interface = AbstractReasoningBrainInterface(enable_radar_analytics=True)
     await interface.initialize()
 
-    try:
-        problems = [
-            "Optimize entanglement-like correlation for bio-neural interfaces",
-            "Design self-improving AI safety protocols",
-            "Create consciousness-aware computing architectures",
-        ]
-
-        for i, problem in enumerate(problems, 1):
-            result = await interface.reason_with_radar_visualization(problem)
-            print(
-                f"   {i}. Confidence: {result['reasoning_result']['confidence']:.3f}, "
-                f"Coherence: {result['reasoning_result']['coherence']:.3f}"
-            )
-
-        # Export comprehensive session
-        final_export = interface.export_radar_analytics()
-        print(f"   📊 Final session analytics: {final_export}")
-
     finally:
         await interface.shutdown()
 
@@ -703,6 +693,5 @@ async def demo_radar_integration():
 
 if __name__ == "__main__":
     # Run the radar integration demo
-    import asyncio
 
     asyncio.run(demo_radar_integration())

@@ -1,6 +1,3 @@
-from __future__ import annotations
-
-#!/usr/bin/env python3
 """
 LUKHΛS T4 Dynamic QRGLYPH Engine
 ================================
@@ -19,6 +16,8 @@ Author: LUKHΛS AI Systems
 Version: 3.1.0 - Quantum GLYPH Revolution
 Created: 2025-08-03
 """
+
+from __future__ import annotations
 import asyncio
 import base64
 import hashlib
@@ -33,6 +32,68 @@ from typing import Any, Optional
 
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import ed448
+
+        try:
+            # Deserialize QRGLYPH
+            qrglyph = DynamicQRGLYPH.from_base64(qrglyph_base64)
+
+            # Check expiration
+            if datetime.now(tz=timezone.utc) > qrglyph.metadata.expiration_time:
+                return False, {"error": "QRGLYPH expired"}
+
+            # Verify signature
+            if not self._verify_signature(qrglyph.payload, qrglyph.signature, qrglyph.ed448_public_key):
+                return False, {"error": "Invalid signature"}
+
+            # Verify user binding
+            if qrglyph.payload["user_id"] != user_id:
+                return False, {"error": "User mismatch"}
+
+            # Verify consciousness binding
+            if not self._verify_consciousness_binding(qrglyph.metadata.consciousness_binding, consciousness_state):
+                return False, {"error": "Consciousness state mismatch"}
+
+            # Verify biometric binding
+            if qrglyph.metadata.biometric_hash != biometric_hash:
+                return False, {"error": "Biometric mismatch"}
+
+            # Verify ZK commitment if present
+            if qrglyph.zk_commitment:
+                zk_valid = await self._verify_zk_commitment(
+                    qrglyph.zk_commitment,
+                    qrglyph.payload,
+                    qrglyph.metadata.consciousness_binding,
+                )
+                if not zk_valid:
+                    return False, {"error": "ZK proof validation failed"}
+
+            # Check if GLYPH is still active (not rotated out)
+            if qrglyph.glyph_id in self.active_glyphs:
+                active_glyph = self.active_glyphs[qrglyph.glyph_id]
+                if active_glyph.metadata.rotation_count > qrglyph.metadata.rotation_count:
+                    return False, {"error": "QRGLYPH has been rotated"}
+
+            return True, {
+                "glyph_id": qrglyph.glyph_id,
+                "glyph_type": qrglyph.metadata.glyph_type.value,
+                "consciousness_coherence": qrglyph.metadata.consciousness_binding.get("coherence_level", 0),
+                "cultural_symbols": qrglyph.metadata.cultural_symbols,
+                "rotation_count": qrglyph.metadata.rotation_count,
+                "remaining_lifetime": (
+                    qrglyph.metadata.expiration_time - datetime.now(tz=timezone.utc)
+                ).total_seconds(),
+            }
+
+        except Exception as e:
+            return False, {"error": str(e)}
+
+        try:
+            public_key = ed448.Ed448PublicKey.from_public_bytes(public_key_bytes)
+            payload_bytes = json.dumps(payload, sort_keys=True).encode()
+            public_key.verify(signature, payload_bytes)
+            return True
+        except Exception:
+
 
 logger = logging.getLogger(__name__)
 
@@ -275,61 +336,6 @@ class DynamicQRGLYPHEngine:
         """
         Validate a QRGLYPH with full verification
         """
-        try:
-            # Deserialize QRGLYPH
-            qrglyph = DynamicQRGLYPH.from_base64(qrglyph_base64)
-
-            # Check expiration
-            if datetime.now(tz=timezone.utc) > qrglyph.metadata.expiration_time:
-                return False, {"error": "QRGLYPH expired"}
-
-            # Verify signature
-            if not self._verify_signature(qrglyph.payload, qrglyph.signature, qrglyph.ed448_public_key):
-                return False, {"error": "Invalid signature"}
-
-            # Verify user binding
-            if qrglyph.payload["user_id"] != user_id:
-                return False, {"error": "User mismatch"}
-
-            # Verify consciousness binding
-            if not self._verify_consciousness_binding(qrglyph.metadata.consciousness_binding, consciousness_state):
-                return False, {"error": "Consciousness state mismatch"}
-
-            # Verify biometric binding
-            if qrglyph.metadata.biometric_hash != biometric_hash:
-                return False, {"error": "Biometric mismatch"}
-
-            # Verify ZK commitment if present
-            if qrglyph.zk_commitment:
-                zk_valid = await self._verify_zk_commitment(
-                    qrglyph.zk_commitment,
-                    qrglyph.payload,
-                    qrglyph.metadata.consciousness_binding,
-                )
-                if not zk_valid:
-                    return False, {"error": "ZK proof validation failed"}
-
-            # Check if GLYPH is still active (not rotated out)
-            if qrglyph.glyph_id in self.active_glyphs:
-                active_glyph = self.active_glyphs[qrglyph.glyph_id]
-                if active_glyph.metadata.rotation_count > qrglyph.metadata.rotation_count:
-                    return False, {"error": "QRGLYPH has been rotated"}
-
-            return True, {
-                "glyph_id": qrglyph.glyph_id,
-                "glyph_type": qrglyph.metadata.glyph_type.value,
-                "consciousness_coherence": qrglyph.metadata.consciousness_binding.get("coherence_level", 0),
-                "cultural_symbols": qrglyph.metadata.cultural_symbols,
-                "rotation_count": qrglyph.metadata.rotation_count,
-                "remaining_lifetime": (
-                    qrglyph.metadata.expiration_time - datetime.now(tz=timezone.utc)
-                ).total_seconds(),
-            }
-
-        except Exception as e:
-            logger.error(f"❌ QRGLYPH validation error: {e}")
-            return False, {"error": str(e)}
-
     async def generate_zk_proof(self, qrglyph: DynamicQRGLYPH, private_witness: dict[str, Any]) -> ZKProof:
         """
         Generate zero-knowledge proof for QRGLYPH authentication
@@ -521,14 +527,6 @@ class DynamicQRGLYPHEngine:
 
     def _verify_signature(self, payload: dict[str, Any], signature: bytes, public_key_bytes: bytes) -> bool:
         """Verify Ed448 signature"""
-        try:
-            public_key = ed448.Ed448PublicKey.from_public_bytes(public_key_bytes)
-            payload_bytes = json.dumps(payload, sort_keys=True).encode()
-            public_key.verify(signature, payload_bytes)
-            return True
-        except Exception:
-            return False
-
     def _verify_consciousness_binding(self, binding: dict[str, Any], current_state: str) -> bool:
         """Verify consciousness binding is still valid"""
         if not binding:

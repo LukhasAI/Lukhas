@@ -137,7 +137,8 @@ class DuplicateCodeAnalyzer:
             # Simple hash based on AST dump
             dump = ast.dump(node)
             return hashlib.md5(dump.encode()).hexdigest()[:8]
-        except:
+        except Exception as e:
+            logger.debug(f"Expected optional failure: {e}")
             return "unknown"
 
     def _get_name(self, node) -> str:

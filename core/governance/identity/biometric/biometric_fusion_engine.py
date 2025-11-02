@@ -1,6 +1,3 @@
-from __future__ import annotations
-
-#!/usr/bin/env python3
 """
 LUKHΛS T3 Biometric Fusion Engine
 =================================
@@ -18,6 +15,8 @@ Author: LUKHΛS AI Systems
 Version: 3.1.0 - Biometric Fusion Revolution
 Created: 2025-08-03
 """
+
+from __future__ import annotations
 import asyncio
 import hashlib
 import json
@@ -26,6 +25,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
+
 
 logger = logging.getLogger(__name__)
 

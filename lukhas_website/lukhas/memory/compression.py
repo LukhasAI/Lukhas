@@ -578,7 +578,7 @@ class AdaptiveCompressionManager:
                     algorithm = self.content_hints['text']
                 else:
                     algorithm = self.content_hints['binary']
-            except:
+            except Exception as e:
                 algorithm = self.content_hints['default']
 
         # Ensure algorithm is available

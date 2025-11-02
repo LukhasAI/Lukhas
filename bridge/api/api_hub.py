@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-import logging
-
-logger = logging.getLogger(__name__)
-
 """
 
 #TAG:bridge
@@ -27,6 +23,7 @@ Agent 10 Advanced Systems Implementation
 """
 
 import asyncio
+import logging
 from typing import Any, Optional
 
 # Import LUKHAS AI branding system for API response compliance
@@ -44,6 +41,8 @@ except ImportError:
 
 # Import priority API components
 from .services import ConsciousnessAPIService, EmotionAPIService, MemoryAPIService
+
+logger = logging.getLogger(__name__)
 
 
 class APIHub:
