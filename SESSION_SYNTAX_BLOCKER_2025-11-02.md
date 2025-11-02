@@ -97,6 +97,14 @@ python3 -m ruff check --select W293 --fix .
 
 ---
 
+## Follow-up Verification (Codex Session)
+
+- ✅ Confirmed the blocker persists: `python -m compileall bridge/api/lambd_id_routes.py` still raises an `IndentationError` on
+  line 32, preventing ruff from running on even a single-file target.
+- 🚫 No further lint tasks attempted until PR #829 merges and resolves indentation across the affected files.
+
+---
+
 ## Session Impact
 
 ### What We Accomplished
