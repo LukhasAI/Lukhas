@@ -112,7 +112,7 @@ def check_workflows() -> Dict[str, List]:
         print("\n🔍 Unpinned Actions Found:")
         for filepath, issues in all_issues.items():
             print(f"\n{filepath}:")
-            for action_ref, line, line_num in issues:
+            for action_ref, _line, line_num in issues:
                 status = "🔄 CAN PIN" if action_ref in ACTION_SHA_MAP else "⚠️ UNKNOWN"
                 print(f"   Line {line_num}: {action_ref} {status}")
 

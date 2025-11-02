@@ -44,9 +44,7 @@ def _is_policy_configured(policy: Any) -> bool:
             return False
         version = _coerce_str(policy.get('version'))
         identifier = _coerce_str(policy.get('id'))
-        if version.lower() in {'', 'pending', 'tbd'} and identifier.lower() in {'', 'pending', 'tbd'}:
-            return False
-        return True
+        return not (version.lower() in {'', 'pending', 'tbd'} and identifier.lower() in {'', 'pending', 'tbd'})
 
     if isinstance(policy, str):
         normalized = policy.strip().lower()
@@ -94,9 +92,7 @@ def _is_telemetry_feature_enabled(config: Any) -> bool:
 
     if isinstance(config, str):
         normalized = config.strip().lower()
-        if normalized in {'', 'disabled', 'none', 'off'}:
-            return False
-        return True
+        return normalized not in {'', 'disabled', 'none', 'off'}
 
     return bool(config)
 
@@ -116,9 +112,7 @@ def _logs_are_structured(logs_config: Any) -> bool:
 
     if isinstance(logs_config, str):
         normalized = logs_config.strip().lower()
-        if normalized in {'', 'disabled', 'none', 'off'}:
-            return False
-        return True
+        return normalized not in {'', 'disabled', 'none', 'off'}
 
     return bool(logs_config)
 

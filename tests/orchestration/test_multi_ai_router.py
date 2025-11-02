@@ -333,7 +333,7 @@ class TestMultiAIRouter:
         # Check for expected providers
         models = self.router.model_selector.models
         provider_models = {}
-        for key, model in models.items():
+        for _key, model in models.items():
             provider = model.provider.value
             if provider not in provider_models:
                 provider_models[provider] = []

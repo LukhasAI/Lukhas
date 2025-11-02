@@ -131,8 +131,8 @@ class AuthzTestRunner:
             "action": test_input["action"],
             "contract": contract,
             "token": {
-                "exp": test_input.get("token", {}).get("exp", int(1758894061)),  # Future expiry by default
-                "iat": test_input.get("token", {}).get("iat", int(1758892261)),  # Recent issue by default
+                "exp": test_input.get("token", {}).get("exp", 1758894061),  # Future expiry by default
+                "iat": test_input.get("token", {}).get("iat", 1758892261),  # Recent issue by default
                 "aud": test_input.get("token", {}).get("aud", "lukhas-matrix")   # Default audience
             },
             "env": {
@@ -141,7 +141,7 @@ class AuthzTestRunner:
                 "device_id": None,
                 "region": "us-west-2",
                 "ip": "192.168.1.100",
-                "time": int(1758892261)
+                "time": 1758892261
             }
         }
 

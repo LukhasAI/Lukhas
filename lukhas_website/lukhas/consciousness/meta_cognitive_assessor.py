@@ -618,10 +618,7 @@ class MetaCognitiveAssessor:
         confidence_bonus = min(0.1, len(high_confidence_insights) * 0.02)
 
         # Penalty for excessive insights (might indicate poor filtering)
-        if len(insights) > 10:
-            insight_penalty = 0.1
-        else:
-            insight_penalty = 0.0
+        insight_penalty = 0.1 if len(insights) > 10 else 0.0
 
         self_awareness_score = min(1.0, max(0.0,
             base_awareness + insight_bonus + confidence_bonus - insight_penalty
@@ -650,7 +647,7 @@ class MetaCognitiveAssessor:
             quality_factors.append(avg_insight_confidence)
 
             # Diversity of insights (covering different aspects)
-            unique_aspects = len(set(i.aspect for i in insights))
+            unique_aspects = len({i.aspect for i in insights})
             aspect_diversity = min(1.0, unique_aspects / len(MetaCognitiveAspect))
             quality_factors.append(aspect_diversity)
 
@@ -660,10 +657,7 @@ class MetaCognitiveAssessor:
             consistency_score = 1.0 - abs(performance_metrics.overall_performance - recent_trend)
             quality_factors.append(max(0.0, consistency_score))
 
-        if quality_factors:
-            meta_reasoning_quality = statistics.mean(quality_factors)
-        else:
-            meta_reasoning_quality = 0.5
+        meta_reasoning_quality = statistics.mean(quality_factors) if quality_factors else 0.5
 
         return meta_reasoning_quality
 

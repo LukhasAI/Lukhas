@@ -263,7 +263,7 @@ async def list_available_models(
             router_instance = get_multi_ai_router()
 
             models_info = []
-            for key, model in router_instance.model_selector.models.items():
+            for _key, model in router_instance.model_selector.models.items():
                 models_info.append({
                     "id": f"{model.provider.value}:{model.model_id}",
                     "provider": model.provider.value,

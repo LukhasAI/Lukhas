@@ -1003,10 +1003,7 @@ class TieredAuthenticator:
         attempt_data = self._failed_attempts[username]
         lock_until = attempt_data.get("locked_until")
 
-        if lock_until and datetime.now(timezone.utc) < lock_until:
-            return True
-
-        return False
+        return bool(lock_until and datetime.now(timezone.utc) < lock_until)
 
     async def _record_failed_attempt(self, username: str, ip_address: str) -> None:
         """Record failed authentication attempt."""

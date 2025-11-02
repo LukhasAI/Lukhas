@@ -174,7 +174,7 @@ class TestSecurityFramework:
         client_id = "test_client_123"
 
         # Should allow requests within limit
-        for i in range(10):
+        for _i in range(10):
             allowed = await rate_limiter.is_allowed(client_id)
             assert allowed
 
@@ -186,7 +186,7 @@ class TestSecurityFramework:
         rate_limiter.client_requests.clear()
 
         # Should allow up to limit
-        for i in range(5):
+        for _i in range(5):
             allowed = await rate_limiter.is_allowed(client_id)
             assert allowed
 
@@ -789,7 +789,7 @@ class TestIntegration:
         start_time = time.time()
         stored_encrypted_data = await storage.get(f"user/{user.user_id}/sensitive_doc.txt")
         decrypted_data = await security.encryption_service.decrypt(stored_encrypted_data.decode())
-        storage_time = time.time() - start_time
+        time.time() - start_time
 
         assert decrypted_data == sensitive_data
         # Storage + decryption should be slower than cache

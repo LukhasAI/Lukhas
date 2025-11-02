@@ -74,9 +74,7 @@ class ABTestConfig:
         if not self.enabled:
             return False
         now = datetime.now(timezone.utc)
-        if self.end_time and now > self.end_time:
-            return False
-        return True
+        return not (self.end_time and now > self.end_time)
 
 
 class TrafficRouter:

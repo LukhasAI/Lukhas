@@ -110,9 +110,8 @@ class TestWithResilienceDecorator:
 
     async def test_decorator_opens_circuit_and_blocks_requests(self, adapter):
         """Tests that the decorator opens the circuit and blocks subsequent requests."""
-        with patch('asyncio.sleep', new_callable=AsyncMock):
-            with pytest.raises(ValueError):
-                await adapter.failing_operation() # This will open the circuit
+        with patch('asyncio.sleep', new_callable=AsyncMock), pytest.raises(ValueError):
+            await adapter.failing_operation() # This will open the circuit
 
         # Now, the circuit should be open
         assert adapter.resilience.get_state() == AdapterState.OPEN.value

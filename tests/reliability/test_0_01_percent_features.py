@@ -67,7 +67,7 @@ class TestAdaptiveCircuitBreaker:
             raise ValueError("Test failure")
 
         # Generate failures to trigger circuit opening
-        for i in range(10):
+        for _i in range(10):
             try:
                 await circuit_breaker.call(failing_func)
             except (ValueError, CircuitBreakerOpenError):
@@ -144,14 +144,14 @@ class TestPerformanceRegressionDetector:
     def test_regression_detection(self, detector):
         """Test that performance regressions are detected."""
         # Establish baseline
-        for i in range(50):
+        for _i in range(50):
             detector.record_operation("test_op", 100.0, success=True)
 
         # Force baseline calculation
         detector._get_or_calculate_baseline("test_op")
 
         # Simulate performance regression
-        for i in range(20):
+        for _i in range(20):
             detector.record_operation("test_op", 300.0, success=True)  # 3x slower
 
         alerts = detector.get_active_alerts()

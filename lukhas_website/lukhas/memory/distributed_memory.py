@@ -4,6 +4,7 @@ Advanced distributed memory system with consensus protocols and federated archit
 """
 
 import asyncio
+import contextlib
 import hashlib
 import json
 import logging
@@ -221,10 +222,8 @@ class DistributedMemoryOrchestrator:
         for task in [self.heartbeat_task, self.sync_task, self.consensus_task, self.cleanup_task]:
             if task and not task.done():
                 task.cancel()
-                try:
+                with contextlib.suppress(asyncio.CancelledError):
                     await task
-                except asyncio.CancelledError:
-                    pass
 
         # Notify other nodes of shutdown
         await self._broadcast_node_shutdown()
@@ -879,7 +878,7 @@ class DistributedMemoryOrchestrator:
                 cutoff_time = datetime.utcnow() - timedelta(seconds=60)
                 expired_operations = []
 
-                for operation_id, result in self.consensus_operations.items():
+                for operation_id, _result in self.consensus_operations.items():
                     if operation_id in self.pending_operations:
                         op = self.pending_operations[operation_id]
                         if op.timestamp < cutoff_time:

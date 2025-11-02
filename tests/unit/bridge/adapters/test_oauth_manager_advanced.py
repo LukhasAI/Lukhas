@@ -573,7 +573,7 @@ class TestOAuthManagerAdvancedSuiteSummary:
         print("\n🧬 LUKHAS AI OAuth Manager - Advanced Testing Suite Results:")
         print("=" * 80)
 
-        for methodology, status in methodologies_covered.items():
+        for _methodology, status in methodologies_covered.items():
             print(f"  {status}")
 
         print("=" * 80)

@@ -189,8 +189,8 @@ class ReproducibilityAnalyzer:
             "iqr_outliers": iqr_outliers,
             "zscore_outliers": zscore_outliers,
             "all_outliers": all_outliers,
-            "outlier_count": len(set(o["index"] for o in all_outliers)),
-            "outlier_percentage": len(set(o["index"] for o in all_outliers)) / len(values) * 100
+            "outlier_count": len({o["index"] for o in all_outliers}),
+            "outlier_percentage": len({o["index"] for o in all_outliers}) / len(values) * 100
         }
 
     def environment_consistency_analysis(self, audit_results: List[Dict[str, Any]]) -> Dict[str, Any]:
@@ -334,7 +334,7 @@ class ReproducibilityAnalyzer:
                 mean_val = np.mean(matrices[metric])
                 cv = np.std(matrices[metric]) / mean_val * 100
                 ax.text(0.02, 0.98, f'CV: {cv:.1f}%', transform=ax.transAxes,
-                       verticalalignment='top', bbox=dict(boxstyle='round', facecolor='wheat'))
+                       verticalalignment='top', bbox={'boxstyle': 'round', 'facecolor': 'wheat'})
             else:
                 ax.text(0.5, 0.5, 'No Data', ha='center', va='center', transform=ax.transAxes)
                 ax.set_title(title + " (No Data)")
@@ -539,10 +539,10 @@ def main():
         "environment_consistency": env_consistency,
         "audit_summary": {
             "total_audits": len(audit_results),
-            "environments": list(set(
+            "environments": list({
                 audit.get("environment", {}).get("environment_type", "unknown")
                 for audit in audit_results
-            )),
+            }),
             "analysis_timestamp": Path().absolute().name  # Use current dir as timestamp
         }
     }

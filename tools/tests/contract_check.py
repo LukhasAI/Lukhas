@@ -97,7 +97,7 @@ def has_matching_spec(test_path: Path) -> bool:
                 filename = filename[:-3]  # Remove '.py'
 
             # Join with underscores
-            spec_parts = list(remaining_parts[:-1]) + [filename]
+            spec_parts = [*list(remaining_parts[:-1]), filename]
             spec_name = "_".join(spec_parts) + "_spec.yaml"
 
             spec_path = Path("tests/specs") / spec_name

@@ -71,7 +71,7 @@ class ModuleContentMiner:
             except Exception as e:
                 print(f"Warning: Could not parse {py_file}: {e}")
 
-        return sorted(list(set(entrypoints)))
+        return sorted(set(entrypoints))
 
     def mine_description_from_docstring(self, module_path: Path) -> Optional[str]:
         """Extract rich description from module docstrings."""
@@ -190,7 +190,7 @@ class ModuleContentMiner:
         if 'orchestr' in entrypoint_text:
             tags.append('orchestration')
 
-        return sorted(list(set(tags)))
+        return sorted(set(tags))
 
     def generate_rich_description(self, module_name: str, docstring: Optional[str],
                                 context_data: Dict[str, str], entrypoints: List[str]) -> str:
@@ -242,9 +242,8 @@ class ModuleContentMiner:
         if 'core' in entrypoint_text or 'orchestr' in entrypoint_text:
             if module_path.name not in ['core', 'orchestration']:
                 dependencies.append('core')
-        if 'memory' in entrypoint_text:
-            if module_path.name != 'memory':
-                dependencies.append('memory')
+        if 'memory' in entrypoint_text and module_path.name != 'memory':
+            dependencies.append('memory')
 
         # Module-specific dependencies
         module_deps = {
@@ -259,7 +258,7 @@ class ModuleContentMiner:
         if module_path.name in module_deps:
             dependencies.extend(module_deps[module_path.name])
 
-        return sorted(list(set(dependencies)))
+        return sorted(set(dependencies))
 
     def generate_observability_spans(self, module_name: str, entrypoints: List[str]) -> List[str]:
         """Generate observability spans for the module."""
@@ -278,7 +277,7 @@ class ModuleContentMiner:
         if 'consciousness' in entrypoint_text or 'aware' in entrypoint_text:
             base_spans.append(f"lukhas.{module_name}.consciousness")
 
-        return sorted(list(set(base_spans)))
+        return sorted(set(base_spans))
 
 
 def enrich_single_module(module_path: Path, miner: ModuleContentMiner) -> Dict[str, Any]:

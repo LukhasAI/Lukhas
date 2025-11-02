@@ -9,6 +9,7 @@ automated recovery, and comprehensive system diagnostics.
 """
 
 import asyncio
+import contextlib
 import json
 import logging
 import statistics
@@ -262,9 +263,9 @@ class ServiceHealthChecker(HealthChecker):
         try:
             # Call health check function
             if asyncio.iscoroutinefunction(self.health_check_func):
-                result = await self.health_check_func()
+                await self.health_check_func()
             else:
-                result = self.health_check_func()
+                self.health_check_func()
 
             # Calculate response time
             response_time = (time.time() - start_time) * 1000  # ms
@@ -830,18 +831,14 @@ class HealthMonitoringSystem:
 
         if self.monitoring_task:
             self.monitoring_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self.monitoring_task
-            except asyncio.CancelledError:
-                pass
             self.monitoring_task = None
 
         if self.predictive_task:
             self.predictive_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self.predictive_task
-            except asyncio.CancelledError:
-                pass
             self.predictive_task = None
 
     async def _monitoring_loop(self) -> None:

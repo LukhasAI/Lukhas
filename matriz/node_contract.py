@@ -229,9 +229,7 @@ def validate_glyph(glyph: GLYPH) -> bool:
         return False
     if not glyph.kind or not isinstance(glyph.kind, str):
         return False
-    if glyph.version != CONTRACT_VERSION:
-        return False
-    return True
+    return glyph.version == CONTRACT_VERSION
 
 
 def validate_message(msg: MatrizMessage) -> bool:
@@ -267,9 +265,7 @@ def validate_result(result: MatrizResult) -> bool:
         return False
     if not (isinstance(result.guardian_log, list) and len(result.guardian_log) >= 1):
         return False
-    if not is_jsonable(result.payload):
-        return False
-    return True
+    return is_jsonable(result.payload)
 
 
 def validate_message_ex(msg: MatrizMessage) -> Tuple[bool, List[str]]:

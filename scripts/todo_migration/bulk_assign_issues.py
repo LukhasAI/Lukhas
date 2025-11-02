@@ -14,6 +14,7 @@ Notes:
 """
 
 import argparse
+import contextlib
 import json
 import os
 import subprocess
@@ -51,7 +52,7 @@ def ensure_artifacts_dir() -> Path:
 
 
 def run_cmd(cmd: List[str]) -> subprocess.CompletedProcess:
-    return subprocess.run(cmd, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    return subprocess.run(cmd, check=True, capture_output=True, text=True)
 
 
 def main() -> int:
@@ -142,10 +143,8 @@ def main() -> int:
                 except subprocess.CalledProcessError as e:
                     err = (err + "; " if err else "") + f"comment_failed: {e.stderr.strip()}"
                 finally:
-                    try:
+                    with contextlib.suppress(Exception):
                         os.unlink(tmp_path)
-                    except Exception:
-                        pass
 
                 time.sleep(max(0.0, args.sleep))
         except Exception as e:

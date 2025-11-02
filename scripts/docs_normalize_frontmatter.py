@@ -23,6 +23,7 @@ Notes
 
 from __future__ import annotations
 
+import contextlib
 import hashlib
 import json
 import re
@@ -214,10 +215,8 @@ def normalize_file(doc: Dict, dry_run: bool, only_missing: bool, backups: bool) 
 
     if updated and not dry_run:
         if backups:
-            try:
+            with contextlib.suppress(Exception):
                 file_path.with_suffix(file_path.suffix + ".bak").write_text(content, encoding="utf-8")
-            except Exception:
-                pass
         # Python 3.9 compatible: write_text doesn't support newline parameter
         with open(file_path, 'w', encoding='utf-8', newline='\n') as f:
             f.write(new_content)

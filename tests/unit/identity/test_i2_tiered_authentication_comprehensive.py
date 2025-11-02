@@ -710,12 +710,12 @@ class TestSecurityHardening:
         identifier = "127.0.0.1"
 
         # Act - Send requests within limit
-        for i in range(5):
+        for _i in range(5):
             action, reason = await security_manager.check_rate_limit(identifier, "authentication")
             assert action.value in ["allow", "throttle"]
 
         # Act - Exceed rate limit
-        for i in range(10):
+        for _i in range(10):
             action, reason = await security_manager.check_rate_limit(identifier, "authentication")
 
         # Assert - Should be blocked or throttled

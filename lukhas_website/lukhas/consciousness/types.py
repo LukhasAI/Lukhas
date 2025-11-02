@@ -349,7 +349,7 @@ class CreativitySnapshot:
         self.coherence_score = sum(coherences) / len(coherences)
 
         # Calculate flexibility (diversity of idea types)
-        idea_types = set(idea.get("type", "unknown") for idea in self.ideas)
+        idea_types = {idea.get("type", "unknown") for idea in self.ideas}
         self.flexibility_score = min(len(idea_types) / 10.0, 1.0)  # Normalize to [0,1]
 
         # Guardian approval rate

@@ -704,7 +704,7 @@ class CodeAtlasBuilder:
                     "rule_code": rule_code,
                     "total_violations": len(violations),
                     "violations": violations,
-                    "affected_files": list(set(v.get("filename", "") for v in violations)),
+                    "affected_files": list({v.get("filename", "") for v in violations}),
                     "description": self.get_rule_description(rule_code),
                 }
 

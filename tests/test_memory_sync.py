@@ -369,7 +369,7 @@ class TestMemorySynchronizer:
 
         # Perform same operation multiple times
         results = []
-        for i in range(3):
+        for _i in range(3):
             result = syncer.sync_fold(
                 source_lane="experimental",
                 target_lane="experimental",

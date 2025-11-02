@@ -655,7 +655,7 @@ class QuantumPerceptionField:
 
         Args:
             pre_entropy: Entropy before observation
-            post_entropy: Entropy after observation  
+            post_entropy: Entropy after observation
             pre_coherence: Coherence before observation
             post_coherence: Coherence after observation
 

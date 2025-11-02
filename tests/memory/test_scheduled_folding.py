@@ -14,6 +14,8 @@ import pytest
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
+from typing import Optional
+
 from memory.adaptive_memory import MemoryFold, MemoryItem, MemoryType
 from memory.scheduled_folding import (
     CompressionLevel,
@@ -22,7 +24,6 @@ from memory.scheduled_folding import (
     ScheduledFoldingManager,
     get_folding_manager,
 )
-from typing import Optional
 
 
 def create_test_fold(item_count: int = 10, content_size: int = 100, unique_suffix: Optional[str] = None) -> MemoryFold:
@@ -141,7 +142,7 @@ class TestScheduledFoldingManager:
 
         # Register multiple folds
         fold_ids = []
-        for i in range(3):
+        for _i in range(3):
             fold = create_test_fold(3)
             fold_id = manager.register_fold(fold)
             fold_ids.append(fold_id)
@@ -197,7 +198,7 @@ class TestScheduledFoldingManager:
                 assert retrieved_fold.id == fold_id
                 break
         else:
-            assert False, "Should be able to access at least one fold"
+            raise AssertionError("Should be able to access at least one fold")
 
     def test_eviction_when_compressed_limit_exceeded(self):
         """Test fold eviction when compressed limit is exceeded"""
@@ -303,7 +304,7 @@ class TestBackgroundScheduling:
 
         # Create folds and artificially age them
         fold_ids = []
-        for i in range(3):
+        for _i in range(3):
             fold = create_test_fold(5)
             fold_id = manager.register_fold(fold)
             fold_ids.append(fold_id)

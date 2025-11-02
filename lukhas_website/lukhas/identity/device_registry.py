@@ -4,6 +4,7 @@ Enhanced device registry with ML-based fingerprinting and behavioral analysis.
 """
 
 import asyncio
+import contextlib
 import hashlib
 import json
 import logging
@@ -112,10 +113,8 @@ class DeviceRegistry:
         for task in [self._decay_task, self._risk_task]:
             if task:
                 task.cancel()
-                try:
+                with contextlib.suppress(asyncio.CancelledError):
                     await task
-                except asyncio.CancelledError:
-                    pass
 
     async def register_device(self,
                             lambda_id: str,

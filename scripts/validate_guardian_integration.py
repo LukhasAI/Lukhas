@@ -26,7 +26,7 @@ import time
 import traceback
 import uuid
 from collections import defaultdict
-from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager, suppress
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Dict
@@ -125,10 +125,8 @@ class GuardianChaosEngine:
             # Cancel all chaos tasks
             for task in chaos_tasks:
                 task.cancel()
-                try:
+                with suppress(asyncio.CancelledError):
                     await task
-                except asyncio.CancelledError:
-                    pass
             print("    Guardian overload chaos stopped")
 
     @staticmethod

@@ -114,7 +114,7 @@ def find_optimal_thresholds(report_path: str, metric: str = "accuracy") -> Dict[
     best_config = None
     best_score = -1.0
 
-    for config_key, config_data in sweep_results.items():
+    for _config_key, config_data in sweep_results.items():
         if "error" in config_data:
             continue
 

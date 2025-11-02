@@ -278,7 +278,7 @@ class TestComplianceReportGenerator:
         assert len(retention) > 0
 
         # Check retention policy structure
-        for category, policy in retention.items():
+        for _category, policy in retention.items():
             assert "data_category" in policy
             assert "retention_period_days" in policy
             assert "next_deletion_date" in policy

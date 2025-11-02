@@ -373,7 +373,7 @@ class TestTelemetryCollector:
         collector.emit_event("component2", "error", "Component 2 error", SeverityLevel.ERROR)
         collector.emit_metric("component1", "metric1", 100.0)
 
-        span = collector.start_span("test_op", "component1")
+        collector.start_span("test_op", "component1")
 
         overview = collector.get_system_overview()
 

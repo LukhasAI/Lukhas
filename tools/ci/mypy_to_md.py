@@ -27,7 +27,7 @@ def is_core(p: str) -> bool:
 
 
 # Parse each line like: lukhas/api.py:25:10: error: Name 'foo' is not defined  [name-defined]
-for line_num, line in enumerate(content.splitlines(), 1):
+for _line_num, line in enumerate(content.splitlines(), 1):
     line = line.strip()
     if not line or line.startswith("Found ") or line.startswith("Success"):
         continue

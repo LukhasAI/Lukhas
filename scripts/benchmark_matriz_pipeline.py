@@ -138,7 +138,7 @@ class MATRIZBenchmark:
 
         start_time = time.perf_counter()
 
-        for iteration in range(iterations):
+        for _iteration in range(iterations):
             for query in queries:
                 query_start = time.perf_counter()
 

@@ -109,7 +109,7 @@ class TestAdvancedConsentManager:
             user_id=user_id, purpose_ids=[purpose_id], method=ConsentMethod.WEB_FORM, context=valid_context
         )
 
-        consent_id = list(manager.consent_records.keys())[0]
+        consent_id = next(iter(manager.consent_records.keys()))
         record = manager.consent_records[consent_id]
 
         record.expires_at = datetime.now(timezone.utc) - timedelta(days=1)

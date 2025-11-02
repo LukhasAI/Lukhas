@@ -14,7 +14,7 @@ import logging
 import time
 import uuid
 from collections import defaultdict, deque
-from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager, suppress
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Callable, Dict, List, Optional
@@ -432,7 +432,7 @@ class TelemetryCollector:
         warning_count = sum(1 for e in recent_events if e.severity == SeverityLevel.WARNING)
 
         # Calculate health score (0-1)
-        total_significant_events = error_count + warning_count
+        error_count + warning_count
         if len(recent_events) == 0:
             health_score = 1.0  # No recent events, assume healthy
         else:
@@ -461,7 +461,7 @@ class TelemetryCollector:
         """Get comprehensive system overview."""
 
         # Component health
-        components = set(e.component for e in self.events)
+        components = {e.component for e in self.events}
         component_health = {
             comp: self.get_component_health(comp)
             for comp in components
@@ -509,10 +509,8 @@ class TelemetryCollector:
 
         if self.flush_task:
             self.flush_task.cancel()
-            try:
+            with suppress(asyncio.CancelledError):
                 await self.flush_task
-            except asyncio.CancelledError:
-                pass
             self.flush_task = None
 
     async def _background_flush_loop(self) -> None:

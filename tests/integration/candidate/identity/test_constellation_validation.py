@@ -21,7 +21,8 @@ try:
     )
 except ImportError as import_error:
     LukhasIdentityService = WebAuthnPasskeyManager = validate_constellation_framework = None  # type: ignore[assignment]
-    get_identity_core_bridge = lambda: None  # type: ignore[assignment]
+    def get_identity_core_bridge():
+        return None  # type: ignore[assignment]
     pytestmark = pytest.mark.skip(
         reason=f"Identity integration dependencies unavailable: {import_error}"
     )

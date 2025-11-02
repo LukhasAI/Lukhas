@@ -194,9 +194,8 @@ def test_config_production_ready():
             issues.append(f"read_ms should be >= {SLO_E2E_MS * 2}ms for SLO compliance")
 
     # Validate backoff configuration
-    if "backoff" in config:
-        if config["backoff"].get("jitter", 0) == 0:
-            issues.append("jitter=0 can cause thundering herd problems")
+    if "backoff" in config and config["backoff"].get("jitter", 0) == 0:
+        issues.append("jitter=0 can cause thundering herd problems")
 
     if issues:
         pytest.fail("Production readiness issues:\n" + "\n".join(f"  - {i}" for i in issues))

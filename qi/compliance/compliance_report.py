@@ -575,7 +575,7 @@ class ComplianceReportGenerator:
         report["metadata"]["ccpa_compliance"] = True
         report["metadata"]["data_sale_status"] = "We do not sell your personal information"
         report["metadata"]["categories_collected"] = list(
-            set(cat for record in report["data_access_log"] for cat in record["data_categories"])
+            {cat for record in report["data_access_log"] for cat in record["data_categories"]}
         )
         report["metadata"]["business_purposes"] = [
             "Providing services as requested",

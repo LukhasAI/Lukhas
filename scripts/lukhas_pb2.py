@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 LUKHAS Protocol Buffer Definitions
 Generated protobuf-style module for LUKHAS AI system communication

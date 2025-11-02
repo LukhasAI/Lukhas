@@ -179,7 +179,7 @@ async def test_compliance_monitor_gdpr(compliance_monitor):
     # Verify GDPR assessment
     assert ComplianceFramework.GDPR in assessment.framework_statuses
     gdpr_status = assessment.framework_statuses[ComplianceFramework.GDPR]
-    assert gdpr_status in [status for status in ComplianceStatus]
+    assert gdpr_status in list(ComplianceStatus)
 
 
 @pytest.mark.asyncio
@@ -398,5 +398,5 @@ async def test_compliance_monitor_empty_frameworks(compliance_monitor):
 def test_access_control_invalid_tier():
     """Test handling of invalid access tier."""
     # Valid tiers only
-    valid_tiers = [tier for tier in AccessTier]
+    valid_tiers = list(AccessTier)
     assert len(valid_tiers) == 5

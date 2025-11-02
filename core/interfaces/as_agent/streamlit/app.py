@@ -19,9 +19,10 @@ from __future__ import annotations
 
 import logging
 import re
+from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable, Optional
+from typing import Optional
 
 import streamlit as st
 
@@ -78,7 +79,7 @@ class ModuleDiscoveryResult:
 def _find_repo_root(start: Path) -> Path:
     """Locate the repository root by searching for a .git directory."""
 
-    for candidate in (start,) + tuple(start.parents):
+    for candidate in (start, *tuple(start.parents)):
         if (candidate / ".git").exists():
             return candidate
     return start

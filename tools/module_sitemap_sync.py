@@ -246,11 +246,10 @@ def _normalize_module(mod_dir: Path, root: Path, write: bool) -> Tuple[bool, Dic
             _dump_json(manifest_path, merged)
     else:
         # Write merged manifest if we're allowed AND something changed or it doesn't exist
-        if write:
-            if not manifest_path.exists() or merged != existing:
-                action = "create" if not manifest_path.exists() else "update"
-                diffs.append(f"  - {action} manifest: {manifest_path.as_posix()}")
-                _dump_json(manifest_path, merged)
+        if write and (not manifest_path.exists() or merged != existing):
+            action = "create" if not manifest_path.exists() else "update"
+            diffs.append(f"  - {action} manifest: {manifest_path.as_posix()}")
+            _dump_json(manifest_path, merged)
 
     # MODULE SCHEMA (per-module descriptor)
     schema_path = mod_dir / "schema" / MODULE_SCHEMA_FILENAME
@@ -261,11 +260,10 @@ def _normalize_module(mod_dir: Path, root: Path, write: bool) -> Tuple[bool, Dic
     status["module_schema_after"] = schema_merged
     status["module_schema_path"] = schema_path.as_posix()
 
-    if write:
-        if not schema_path.exists() or schema_merged != schema_existing:
-            action = "create" if not schema_path.exists() else "update"
-            diffs.append(f"  - {action} schema: {schema_path.as_posix()}")
-            _dump_json(schema_path, schema_merged)
+    if write and (not schema_path.exists() or schema_merged != schema_existing):
+        action = "create" if not schema_path.exists() else "update"
+        diffs.append(f"  - {action} schema: {schema_path.as_posix()}")
+        _dump_json(schema_path, schema_merged)
 
     # Stubs if newly created dirs
     for d in ("docs", "tests", "config"):

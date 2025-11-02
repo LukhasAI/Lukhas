@@ -7,7 +7,7 @@ Enterprise-grade comprehensive test suite for LUKHAS AI platform.
 Provides structured testing across all system components with quality gates.
 
 P1 Task: TP001 - Create comprehensive test suite
-Priority: High (P1) 
+Priority: High (P1)
 Agent: Claude Code (Testing/Documentation)
 
 Constellation Framework: 🛡️ Guardian · ⚛️ Identity · 🧠 Consciousness

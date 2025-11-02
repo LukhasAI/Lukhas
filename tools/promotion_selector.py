@@ -383,7 +383,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     ap.add_argument("--out-csv", type=str, default="artifacts/promotion_selector.csv", help="Output CSV path")
     args = ap.parse_args(argv)
 
-    modules_filter = set([m.strip() for m in args.modules.split(",") if m.strip()]) or None
+    modules_filter = {m.strip() for m in args.modules.split(",") if m.strip()} or None
 
     rows = select_candidates(
         top=max(1, args.top),

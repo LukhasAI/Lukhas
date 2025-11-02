@@ -461,7 +461,7 @@ class LiDTokenSystemTest:
             logger.info("Testing rate limiting...")
             rate_limit_violations = 0
 
-            for i in range(25):  # Test burst capacity
+            for _i in range(25):  # Test burst capacity
                 start_time = time.time()
                 response = self.introspection_service.introspect_token(introspection_request)
 

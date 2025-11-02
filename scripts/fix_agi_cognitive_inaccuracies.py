@@ -50,9 +50,7 @@ class AGICognitiveAccuracyFixer:
         if file_path.suffix in ['.md', '.py', '.json']:
             # Skip certain directories
             skip_dirs = {'.git', '__pycache__', '.pytest_cache', 'node_modules'}
-            if any(part in skip_dirs for part in file_path.parts):
-                return False
-            return True
+            return not any(part in skip_dirs for part in file_path.parts)
 
         return False
 
@@ -99,7 +97,7 @@ class AGICognitiveAccuracyFixer:
 
         # Find all files to process
         files_to_process = []
-        for root, dirs, files in os.walk(self.root_path):
+        for root, _dirs, files in os.walk(self.root_path):
             for file in files:
                 file_path = Path(root) / file
                 if self.should_process_file(file_path):

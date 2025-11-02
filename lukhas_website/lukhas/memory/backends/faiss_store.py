@@ -499,7 +499,7 @@ class FAISSStore(AbstractVectorStore):
             rank = 0
 
             with self._lock:
-                for doc_id, document in self.documents.items():
+                for _doc_id, document in self.documents.items():
                     # Skip expired documents
                     if document.is_expired:
                         continue

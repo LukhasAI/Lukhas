@@ -326,7 +326,7 @@ class TestGlyphSpecialist:
         original_layer_id = original_signals[0].layer_id
         original_drift = original_signals[0].driftScore
 
-        result = specialist.evaluate(original_signals)
+        specialist.evaluate(original_signals)
 
         # Original signals should be unchanged
         assert original_signals[0].layer_id == original_layer_id

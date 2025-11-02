@@ -434,7 +434,7 @@ class TestOrchestrationWebAuthnIntegration:
                 challenge_id="invalid_challenge",
                 credential_data={"id": "fake"}
             )
-            assert False, "Should have raised exception for invalid challenge"
+            raise AssertionError("Should have raised exception for invalid challenge")
         except Exception as e:
             print(f"Expected challenge error: {e}")
 
@@ -447,7 +447,7 @@ class TestOrchestrationWebAuthnIntegration:
             )
 
             await self.multi_ai_router.route_request(impossible_request)
-            assert False, "Should have raised exception for insufficient models"
+            raise AssertionError("Should have raised exception for insufficient models")
         except Exception as e:
             print(f"Expected orchestration error: {e}")
 

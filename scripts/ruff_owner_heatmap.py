@@ -19,7 +19,7 @@ def load_json(p: Path):
     return json.loads(p.read_text(encoding="utf-8"))
 
 def nearest_manifest(pyfile: Path) -> dict:
-    for parent in [pyfile] + list(pyfile.parents):
+    for parent in [pyfile, *list(pyfile.parents)]:
         m = parent / "module.manifest.json"
         if m.exists():
             try:

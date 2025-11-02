@@ -34,7 +34,7 @@ def walk_files(dirs):
 
 def detect_duplicates(files):
     hash_map = {}
-    for name,paths in files.items():
+    for _name,paths in files.items():
         for p in paths:
             try:
                 s=sha256(p)
@@ -46,7 +46,7 @@ def detect_duplicates(files):
 
 def propose_moves(files):
     moves = []
-    for name,paths in files.items():
+    for _name,paths in files.items():
         for p in paths:
             # decide destination
             # heuristics: if path contains 'helpers' -> DEST_HELPERS
@@ -60,7 +60,7 @@ def propose_moves(files):
             # ensure destination exists
             dest_subdir = os.path.join(dest_dir)
             # create a relative dest path that preserves subdir structure (under dest)
-            rel = os.path.relpath(p)
+            os.path.relpath(p)
             # create a safe name: if a file with same name exists in dest_subdir, append suffix
             base_name = os.path.basename(p)
             dest_path = os.path.join(dest_subdir, base_name)
@@ -89,9 +89,9 @@ def write_proposed(moves, out='proposed_moves.sh'):
     lines = ["#!/bin/bash", "set -euo pipefail", "echo '=== PROPOSED MOVES — REVIEW BEFORE EXECUTION ==='"]
     for src,dst in moves:
         if dst is None:
-            lines.append("# DUPLICATE (identical sha) - REMOVE: {}".format(src))
+            lines.append(f"# DUPLICATE (identical sha) - REMOVE: {src}")
         else:
-            lines.append("echo 'PROPOSE: git mv -v \"{}\" \"{}\"'".format(src,dst))
+            lines.append(f"echo 'PROPOSE: git mv -v \"{src}\" \"{dst}\"'")
     lines.append("echo '--- End of proposed moves. Edit as needed. To execute, remove the echo and run this script.'")
     with open(out,'w') as f:
         f.write("\n".join(lines))

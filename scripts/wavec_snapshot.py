@@ -19,9 +19,10 @@ import platform
 import subprocess
 import sys
 import time
+from collections.abc import Sequence
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Sequence
+from typing import Any
 
 
 def now_iso() -> str:
@@ -33,8 +34,7 @@ def _run(cmd: Sequence[str], cwd: str | None = None, timeout: int = 30) -> tuple
         proc = subprocess.run(
             cmd,
             cwd=cwd,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            capture_output=True,
             timeout=timeout,
             text=True,
             check=False,

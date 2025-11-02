@@ -56,7 +56,7 @@ def get_plugins_status() -> Dict[str, Any]:
     plugin_kinds = {}
     plugin_details = []
 
-    for name, plugin_info in registered_plugins.items():
+    for _name, plugin_info in registered_plugins.items():
         kind = plugin_info.category
         plugin_kinds[kind] = plugin_kinds.get(kind, 0) + 1
 

@@ -470,7 +470,7 @@ class TestPerformanceBenchmarks:
 
             # Measure 1000 requests to get reliable p95
             times = []
-            for i in range(1000):
+            for _i in range(1000):
                 start = time.perf_counter()
 
                 # Simulate complete request processing

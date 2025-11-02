@@ -75,7 +75,7 @@ class FlakeSentinel:
 
     def update_baselines(self):
         """Update baseline timings from recent stable runs."""
-        for test_name, test_data in self.timings_data["tests"].items():
+        for _test_name, test_data in self.timings_data["tests"].items():
             if len(test_data["durations"]) >= 3:
                 # Use median of recent stable runs (passed tests only)
                 stable_durations = [d for d, s in zip(test_data["durations"], test_data["statuses"]) if s == "passed"][

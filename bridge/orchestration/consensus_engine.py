@@ -493,7 +493,7 @@ class ConsensusEngine:
             return {}
 
         # Response diversity
-        unique_responses = len(set(r.content for r in responses))
+        unique_responses = len({r.content for r in responses})
         diversity = unique_responses / len(responses)
 
         # Average confidence

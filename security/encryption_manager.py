@@ -18,10 +18,11 @@ import hashlib
 import os
 import secrets
 import time
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Any, Dict, Iterable, Optional, Tuple
+from typing import Any, Dict, Optional, Tuple
 
 
 class EncryptionAlgorithm(str, Enum):
@@ -134,7 +135,7 @@ class EncryptionManager:
         else:
             coerced_default = self._coerce_algorithm(default_algorithm)
             if coerced_default not in self.allowed_algorithms:
-                self.allowed_algorithms = self.allowed_algorithms + (coerced_default,)
+                self.allowed_algorithms = (*self.allowed_algorithms, coerced_default)
             self.default_algorithm = coerced_default
 
         self.keys: Dict[str, KeyMetadata] = {}

@@ -19,10 +19,11 @@ import json
 import logging
 import time
 import uuid
+from collections.abc import Awaitable
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Awaitable, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional
 
 from opentelemetry import trace
 from prometheus_client import Counter, Histogram
@@ -65,7 +66,8 @@ try:
     OBSERVABILITY_AVAILABLE = True
 except ImportError:
     OBSERVABILITY_AVAILABLE = False
-    get_lukhas_metrics = lambda: None
+    def get_lukhas_metrics():
+        return None
 
 tracer = trace.get_tracer(__name__)
 logger = logging.getLogger(__name__)
@@ -669,10 +671,9 @@ class ConsciousnessGuardianIntegration:
                 gdpr_result["lawful_basis"] = "consent"
 
             # Check for sensitive operation
-            if context.sensitive_operation:
-                if not gdpr_result["consent_verified"]:
-                    gdpr_result["compliant"] = False
-                    gdpr_result["issues"].append("Explicit consent required for sensitive operations")
+            if context.sensitive_operation and not gdpr_result["consent_verified"]:
+                gdpr_result["compliant"] = False
+                gdpr_result["issues"].append("Explicit consent required for sensitive operations")
 
             # Check retention compliance
             if self._audit_events:

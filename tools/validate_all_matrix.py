@@ -108,7 +108,7 @@ class MatrixValidator:
                     if len(identity_info["tiers"]) != len(identity_info["tiers_numeric"]):
                         errors.append("Identity: Tier arrays length mismatch")
                     else:
-                        for i, (tier, num) in enumerate(zip(identity_info["tiers"], identity_info["tiers_numeric"])):
+                        for _i, (tier, num) in enumerate(zip(identity_info["tiers"], identity_info["tiers_numeric"])):
                             expected = TIER_LEVELS.get(tier)
                             if expected is not None and expected != num:
                                 errors.append(f"Identity: Tier '{tier}' has wrong numeric value {num}, expected {expected}")

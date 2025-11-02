@@ -342,13 +342,13 @@ class TestAPISystem:
         ]
 
         # Note: Not all headers may be implemented, so we check if any are present
-        security_headers_present = any(header in headers for header in expected_headers)
+        any(header in headers for header in expected_headers)
 
     def test_rate_limiting(self, test_client):
         """Test rate limiting functionality."""
         # Make multiple rapid requests
         responses = []
-        for i in range(10):
+        for _i in range(10):
             response = test_client.get("/api/v1/health")
             responses.append(response.status_code)
 

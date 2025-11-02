@@ -35,7 +35,7 @@ class SecretMetadata:
     rotated_at: Optional[str] = None
     access_count: int = 0
     last_accessed: Optional[str] = None
-    tags: List[str] = None
+    tags: list[str] = None
 
     def __post_init__(self):
         if self.tags is None:
@@ -133,7 +133,7 @@ class SecretsManager:
             key_bytes = base64.urlsafe_b64encode(kdf.derive(password))
             return Fernet(key_bytes)
 
-    def _load_secrets_db(self) -> Dict[str, SecretEntry]:
+    def _load_secrets_db(self) -> dict[str, SecretEntry]:
         """Load secrets database from file"""
         db_file = self.secrets_dir / "secrets.db"
         if not db_file.exists():
@@ -186,7 +186,7 @@ class SecretsManager:
                     name: str,
                     value: str,
                     expires_days: Optional[int] = None,
-                    tags: Optional[List[str]] = None) -> bool:
+                    tags: Optional[list[str]] = None) -> bool:
         """
         Store a secret securely
 
@@ -282,7 +282,7 @@ class SecretsManager:
         Rotate a secret to a new value
 
         Args:
-            name: Secret name/identifier  
+            name: Secret name/identifier
             new_value: New secret value
 
         Returns:
@@ -341,7 +341,7 @@ class SecretsManager:
             logger.error(f"Failed to delete secret '{name}': {e}")
             return False
 
-    def list_secrets(self, tags: Optional[List[str]] = None) -> List[Dict[str, Any]]:
+    def list_secrets(self, tags: Optional[list[str]] = None) -> list[dict[str, Any]]:
         """
         List all secrets with metadata
 
@@ -454,7 +454,7 @@ class SecretsManager:
 
         return imported_count
 
-    def validate_secrets(self) -> Dict[str, Any]:
+    def validate_secrets(self) -> dict[str, Any]:
         """
         Validate all secrets and return status
 
@@ -502,7 +502,7 @@ class SecretsManager:
     def generate_api_key(self,
                         name: str,
                         length: int = 32,
-                        expires_days: Optional[int] = None) -> Tuple[str, str]:
+                        expires_days: Optional[int] = None) -> tuple[str, str]:
         """
         Generate a secure API key
 
@@ -576,7 +576,7 @@ def get_secret(name: str) -> Optional[str]:
     return get_secrets_manager().get_secret(name)
 
 
-def generate_api_key(name: str, **kwargs) -> Tuple[str, str]:
+def generate_api_key(name: str, **kwargs) -> tuple[str, str]:
     """Generate API key using global manager"""
     return get_secrets_manager().generate_api_key(name, **kwargs)
 

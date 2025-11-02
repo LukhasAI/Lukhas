@@ -188,10 +188,7 @@ class AuthzMatrixGenerator:
             return True
 
         # Check numeric tier requirements
-        if required_tiers_numeric and tier_num in required_tiers_numeric:
-            return True
-
-        return False
+        return bool(required_tiers_numeric and tier_num in required_tiers_numeric)
 
     def _generate_edge_cases(self, contract: Dict[str, Any], module_name: str) -> List[AuthzTestCase]:
         """Generate edge case test scenarios."""
@@ -281,7 +278,7 @@ class AuthzMatrixGenerator:
             tier_num=5,
             scopes=required_scopes.copy(),
             action="process",
-            expected=False if accepted_subjects else True,
+            expected=not accepted_subjects,
             reason="Unknown service account"
         ))
 

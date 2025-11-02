@@ -174,10 +174,7 @@ def test_config_type_validation():
         if not isinstance(config.get("port"), int):
             return False
 
-        if not isinstance(config.get("enabled"), bool):
-            return False
-
-        return True
+        return isinstance(config.get("enabled"), bool)
 
     # Valid types
     valid_config = {
@@ -208,10 +205,7 @@ def test_config_value_constraints():
 
         # Name must not be empty
         name = config.get("name", "")
-        if len(name) == 0:
-            return False
-
-        return True
+        return len(name) != 0
 
     # Valid constraints
     valid_config = {
@@ -539,7 +533,7 @@ def test_matriz_yaml_structure():
     assert len(matriz_structure["lanes"]) == 4
 
     # Validate lane configurations
-    for lane_name, lane_config in matriz_structure["lanes"].items():
+    for _lane_name, lane_config in matriz_structure["lanes"].items():
         assert "path" in lane_config
         assert "allowed_imports" in lane_config
         assert isinstance(lane_config["allowed_imports"], list)

@@ -22,11 +22,12 @@ import logging
 import sqlite3
 import threading
 import time
+from collections.abc import AsyncIterator
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, AsyncIterator, Callable, Dict, List, Optional, Protocol
+from typing import Any, Callable, Dict, List, Optional, Protocol
 
 from .events import ConsentEvent, create_event_from_dict, validate_event_schema
 

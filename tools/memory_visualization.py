@@ -291,7 +291,7 @@ class MemoryVisualizer:
                 x=node_x,
                 y=node_y,
                 mode="markers+text",
-                marker=dict(size=node_sizes, color=node_colors, opacity=0.7),
+                marker={"size": node_sizes, "color": node_colors, "opacity": 0.7},
                 text=node_labels,
                 textposition="top center",
                 name="Memory Nodes",
@@ -308,7 +308,7 @@ class MemoryVisualizer:
                             x=[node.x, conn_node.x],
                             y=[node.y, conn_node.y],
                             mode="lines",
-                            line=dict(color="blue", width=1, dash="dash"),
+                            line={"color": "blue", "width": 1, "dash": "dash"},
                             opacity=0.3,
                             showlegend=False,
                         )
@@ -347,7 +347,7 @@ class MemoryVisualizer:
                 y=node_y,
                 z=node_z,
                 mode="markers+text",
-                marker=dict(size=node_sizes, color=node_colors, opacity=0.8),
+                marker={"size": node_sizes, "color": node_colors, "opacity": 0.8},
                 text=node_labels,
                 name="Memory Nodes",
             )
@@ -364,7 +364,7 @@ class MemoryVisualizer:
                             y=[node.y, conn_node.y],
                             z=[node.z, conn_node.z],
                             mode="lines",
-                            line=dict(color="blue", width=2),
+                            line={"color": "blue", "width": 2},
                             opacity=0.4,
                             showlegend=False,
                         )
@@ -372,11 +372,11 @@ class MemoryVisualizer:
 
         fig.update_layout(
             title=f"3D Memory Fold: {fold.fold_id}",
-            scene=dict(
-                xaxis_title="X Position",
-                yaxis_title="Y Position",
-                zaxis_title="Z Position",
-            ),
+            scene={
+                "xaxis_title": "X Position",
+                "yaxis_title": "Y Position",
+                "zaxis_title": "Z Position",
+            },
         )
 
         # Save

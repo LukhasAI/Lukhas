@@ -122,7 +122,7 @@ def test_windowed_raw_drift():
     monitor = DriftMonitor(lane="experimental")
 
     # Fill up window
-    for i in range(monitor.cfg.window + 10):
+    for _i in range(monitor.cfg.window + 10):
         monitor.update([1.0], [0.0])  # Always orthogonal
 
     # Window should be capped

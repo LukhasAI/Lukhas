@@ -21,7 +21,7 @@ try:
             # accept (name, level) but only pass name
             return _orig(*args[:1]) if args else _orig()
         globals()["getLogger"] = _compat_getLogger
-        __all__ = list(__all__) + ["getLogger"]
+        __all__ = [*list(__all__), "getLogger"]
 except Exception:
     pass
 

@@ -205,7 +205,7 @@ def generate_github_issue(batch_num: int, docs_batch: List[Dict], owners_map: Di
         "",
         "```bash",
         "# Example: Assign all to @username",
-        "python3 scripts/bulk_assign_owner.py --batch {} --owner @username".format(batch_num),
+        f"python3 scripts/bulk_assign_owner.py --batch {batch_num} --owner @username",
         "```",
         "",
         "---",

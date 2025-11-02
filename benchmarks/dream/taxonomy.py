@@ -291,10 +291,7 @@ def load_and_analyze(results_path: str) -> Dict[str, Any]:
         # JSON format
         with open(results_path) as f:
             data = json.load(f)
-            if isinstance(data, list):
-                results = data
-            else:
-                results = [data]
+            results = data if isinstance(data, list) else [data]
 
     return analyze_error_distribution(results)
 

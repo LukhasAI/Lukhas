@@ -179,10 +179,7 @@ def main():
             print(json.dumps(result, indent=2))
 
         elif args.command == "create-session":
-            if args.prompt:
-                prompt = args.prompt
-            else:
-                prompt = load_task_prompt(args.task_file)
+            prompt = args.prompt if args.prompt else load_task_prompt(args.task_file)
 
             result = client.create_session(
                 prompt=prompt,

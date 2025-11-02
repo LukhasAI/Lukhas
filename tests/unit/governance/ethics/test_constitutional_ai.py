@@ -65,7 +65,7 @@ class TestConstitutionalFramework:
         with pytest.raises(PermissionError) as excinfo:
             async with monitor.monitor_operation("test-agent", dangerous_operation):
                 # This code should not be reached
-                assert False, "This line should not be executed."
+                raise AssertionError("This line should not be executed.")
 
         assert "blocked due to safety assessment" in str(excinfo.value).lower()
 

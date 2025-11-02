@@ -268,10 +268,7 @@ def run_validated_benchmarks():
         unit_results = [r for r in bench.results if prefix in r.name and r.type == 'unit']
         e2e_results = [r for r in bench.results if prefix in r.name and r.type == 'e2e']
 
-        if unit_results:
-            unit_str = f"{unit_results[0].p95_us:.2f}"
-        else:
-            unit_str = "N/A"
+        unit_str = f'{unit_results[0].p95_us:.2f}' if unit_results else 'N/A'
 
         if e2e_results:
             r = e2e_results[0]

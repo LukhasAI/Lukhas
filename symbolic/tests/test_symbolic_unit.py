@@ -260,7 +260,7 @@ class TestEntangledSymbolPairHealth(unittest.TestCase):
 
         # Health should be influenced by correlation stability
         correlation_variance = np.var(correlations)
-        expected_stability = 1.0 - min(correlation_variance * 2.0, 0.8)
+        1.0 - min(correlation_variance * 2.0, 0.8)
 
         # Health should reflect both stability and strength
         self.assertLess(self.pair.entanglement_health, 1.0)  # Should decrease from initial
@@ -269,7 +269,7 @@ class TestEntangledSymbolPairHealth(unittest.TestCase):
     def test_drift_warning_emission(self):
         """Test ΛTAG drift warnings are emitted when health degrades."""
         # Force health below threshold by creating unstable correlations
-        for i in range(10):
+        for _i in range(10):
             # Create highly variable phase differences
             self.symbol_a.state.quantum_field.phase = np.pi * np.random.random()
             self.symbol_b.state.quantum_field.phase = np.pi * np.random.random()
@@ -318,7 +318,7 @@ class TestEntangledSymbolPairHealth(unittest.TestCase):
         """Test health calculations respect window size limits."""
         # Generate more correlations than window size
         window_size = self.pair.health_window_size
-        for i in range(window_size + 5):
+        for _i in range(window_size + 5):
             self.pair.measure_correlation()
 
         # Verify correlation history is managed

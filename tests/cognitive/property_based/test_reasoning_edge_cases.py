@@ -313,7 +313,7 @@ def contradiction_scenario_strategy(draw):
     num_premises = draw(st.integers(min_value=2, max_value=10))
 
     premises = []
-    for i in range(num_premises):
+    for _i in range(num_premises):
         premise = draw(st.text(min_size=5, max_size=100))
         premises.append(premise)
 

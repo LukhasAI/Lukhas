@@ -16,7 +16,7 @@ import asyncio
 import json
 import logging
 import time
-from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager, suppress
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
@@ -880,10 +880,8 @@ class LUKHASAPIOptimizationHub:
         # Cancel health check task
         if self.health_check_task:
             self.health_check_task.cancel()
-            try:
+            with suppress(asyncio.CancelledError):
                 await self.health_check_task
-            except asyncio.CancelledError:
-                pass
 
         # Shutdown components
         if self.optimizer and hasattr(self.optimizer, 'cleanup'):
@@ -922,7 +920,7 @@ async def optimized_api_processing(hub: LUKHASAPIOptimizationHub,
         yield False, info
         return
 
-    request_id = info.get("request_id")
+    info.get("request_id")
 
     try:
         yield True, info

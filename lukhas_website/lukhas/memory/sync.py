@@ -406,10 +406,7 @@ class MemorySynchronizer:
             return False
 
         # Check for required fields (simplified validation)
-        if "fold_id" not in data and "content" not in data:
-            return False
-
-        return True
+        return not ("fold_id" not in data and "content" not in data)
 
     def _reserve_resources(self, op_id: UUID, source_lane: str, target_lane: str,
                           fanout_cost: int, fanin_cost: int, depth_level: int):

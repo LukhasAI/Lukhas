@@ -264,10 +264,7 @@ class RateLimiter:
         tokens = max(0.0, min(float(b["capacity"]), float(b["tokens"])))
         rate = float(b["refill_rate"])
 
-        if tokens >= cap or rate <= 0.0:
-            reset = 0.0
-        else:
-            reset = (cap - tokens) / rate
+        reset = 0.0 if tokens >= cap or rate <= 0.0 else (cap - tokens) / rate
 
         return {
             "limit": float(cap),

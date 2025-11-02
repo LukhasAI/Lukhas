@@ -300,9 +300,8 @@ class PgVectorStore(AbstractVectorStore):
                 self._validate_dimension(doc.embedding, self.dimension)
                 doc.embedding = self._normalize_vector(doc.embedding)
 
-            async with self.pool.acquire() as conn:
-                async with conn.transaction():
-                    insert_sql = f"""
+            async with self.pool.acquire() as conn, conn.transaction():
+                insert_sql = f"""
                     INSERT INTO {self.table_name} (
                         id, content, embedding, metadata, identity_id, lane, fold_id, tags,
                         created_at, updated_at, expires_at, access_count, last_accessed
@@ -315,33 +314,33 @@ class PgVectorStore(AbstractVectorStore):
                         updated_at = NOW();
                     """
 
-                    results = []
-                    for doc in documents:
-                        try:
-                            await conn.execute(
-                                insert_sql,
-                                doc.id,
-                                doc.content,
-                                doc.embedding.tolist(),
-                                json.dumps(doc.metadata),
-                                doc.identity_id,
-                                doc.lane,
-                                doc.fold_id,
-                                doc.tags,
-                                doc.created_at,
-                                doc.updated_at,
-                                doc.expires_at,
-                                doc.access_count,
-                                doc.last_accessed
-                            )
-                            results.append(True)
-                        except Exception as e:
-                            logger.error(
-                                "Failed to insert document in batch",
-                                document_id=doc.id,
-                                error=str(e)
-                            )
-                            results.append(False)
+                results = []
+                for doc in documents:
+                    try:
+                        await conn.execute(
+                            insert_sql,
+                            doc.id,
+                            doc.content,
+                            doc.embedding.tolist(),
+                            json.dumps(doc.metadata),
+                            doc.identity_id,
+                            doc.lane,
+                            doc.fold_id,
+                            doc.tags,
+                            doc.created_at,
+                            doc.updated_at,
+                            doc.expires_at,
+                            doc.access_count,
+                            doc.last_accessed
+                        )
+                        results.append(True)
+                    except Exception as e:
+                        logger.error(
+                            "Failed to insert document in batch",
+                            document_id=doc.id,
+                            error=str(e)
+                        )
+                        results.append(False)
 
             duration_ms = (time.perf_counter() - start_time) * 1000
             success_count = sum(results)

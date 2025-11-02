@@ -517,7 +517,7 @@ class TestLaneIsolationEnforcement:
         assert len(worker_errors) == 0, f"Unexpected errors: {worker_errors}"
 
         # Verify lane isolation in results
-        lanes_used = set(result['lane'] for result in worker_results)
+        lanes_used = {result['lane'] for result in worker_results}
         assert lanes_used == set(lanes), f"Not all lanes used: {lanes_used}"
 
         # Each worker should have registered plugins successfully

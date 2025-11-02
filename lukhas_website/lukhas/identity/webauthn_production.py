@@ -246,7 +246,7 @@ class WebAuthnCredentialStore:
 
     async def delete_credential(self, credential_id: str) -> bool:
         """Delete a credential"""
-        for user_id, credentials in self._credentials.items():
+        for _user_id, credentials in self._credentials.items():
             for i, credential in enumerate(credentials):
                 if credential.credential_id == credential_id:
                     removed = credentials.pop(i)

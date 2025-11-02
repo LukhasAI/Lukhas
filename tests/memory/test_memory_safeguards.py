@@ -13,7 +13,7 @@ import random
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
-from typing import Any, Dict, List, Set, Optional
+from typing import Any, Dict, List, Optional, Set
 
 import pytest
 
@@ -311,19 +311,19 @@ class MemorySafeguardTestFramework:
         # Establish baseline performance
         baseline_result = self.verify_topk_recall_integrity(test_item, k=10)
         consistency_results["baseline_duration"] = baseline_result.get("recall_duration_ms", 0)
-        baseline_results = set(
+        baseline_results = {
             r.get("id") for r in baseline_result.get("results", [])
             if r.get("id")
-        )
+        }
 
         # Perform repeated operations
         for i in range(iterations):
             try:
                 result = self.verify_topk_recall_integrity(test_item, k=10)
-                current_results = set(
+                current_results = {
                     r.get("id") for r in result.get("results", [])
                     if r.get("id")
-                )
+                }
 
                 # Check consistency with baseline
                 if current_results != baseline_results:

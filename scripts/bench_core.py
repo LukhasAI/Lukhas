@@ -15,7 +15,7 @@ import statistics
 import sys
 import time
 from dataclasses import asdict, dataclass
-from typing import Any, Dict, List, Tuple, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 import psutil

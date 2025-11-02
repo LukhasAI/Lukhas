@@ -28,6 +28,7 @@ Constellation Framework: Flow Star (🌊) coordination hub
 from __future__ import annotations
 
 import asyncio
+import contextlib
 import hashlib
 import json
 import logging
@@ -254,9 +255,8 @@ class ContextCache:
             expiry_time = time.time() + context.metadata.ttl_seconds
 
             # Remove if already exists
-            if context_id in self._cache:
-                if context_id in self._access_order:
-                    self._access_order.remove(context_id)
+            if context_id in self._cache and context_id in self._access_order:
+                self._access_order.remove(context_id)
 
             # Add to cache
             self._cache[context_id] = (context, expiry_time)
@@ -336,10 +336,8 @@ class ContextPreservationEngine:
 
         if self.cleanup_task:
             self.cleanup_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self.cleanup_task
-            except asyncio.CancelledError:
-                pass
 
         logger.info("✅ Context preservation engine stopped")
 

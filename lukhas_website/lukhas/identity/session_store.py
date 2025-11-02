@@ -12,6 +12,7 @@ Performance targets:
 """
 
 import asyncio
+import contextlib
 import json
 import sqlite3
 import time
@@ -804,10 +805,8 @@ class SessionManager:
         """Shutdown session manager"""
         if self._sweep_task:
             self._sweep_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._sweep_task
-            except asyncio.CancelledError:
-                pass
 
         if hasattr(self.store, 'disconnect'):
             await self.store.disconnect()

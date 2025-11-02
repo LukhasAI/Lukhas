@@ -4,8 +4,9 @@ import argparse
 import json
 import random
 import time
+from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Any, Dict, Iterable, List
+from typing import Any, Dict, List
 
 from memory.adaptive_memory import AdaptiveMemorySystem, MemoryType
 from memory.fold_system import FoldManager

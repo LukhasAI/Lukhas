@@ -529,9 +529,8 @@ print(f"Result: {{result}}")"""
         count = 0
 
         for module in self.modules:
-            if not module.has_readme:
-                if self.generate_readme(module):
-                    count += 1
+            if not module.has_readme and self.generate_readme(module):
+                count += 1
 
         return count
 

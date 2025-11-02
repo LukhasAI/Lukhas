@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import argparse
 import ast
+import contextlib
 import csv
 import json
 import re
@@ -74,7 +75,7 @@ def read_json(path: Path):
     return json.loads(path.read_text(encoding="utf-8"))
 
 def nearest_manifest(pyfile: Path) -> dict:
-    for parent in [pyfile] + list(pyfile.parents):
+    for parent in [pyfile, *list(pyfile.parents)]:
         m = parent / "module.manifest.json"
         if m.exists():
             try:
@@ -181,10 +182,8 @@ def candidates_for_symbol(symbol: str,
                 mf = mod_file.with_suffix(".py").parent / "module.manifest.json"
             star = ""
             if mf.exists():
-                try:
+                with contextlib.suppress(Exception):
                     star = (read_json(mf).get("constellation_alignment") or {}).get("primary_star") or ""
-                except Exception:
-                    pass
             if me_star and star == me_star:
                 same_star.append(mod)
         pick = (same_star[0] if same_star else hits[0])

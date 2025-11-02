@@ -12,6 +12,7 @@ Generates detailed E2E performance artifacts with statistical analysis and regre
 """
 
 import asyncio
+import contextlib
 import json
 import logging
 import statistics
@@ -94,10 +95,8 @@ class PerformanceE2ETester:
 
         # Warmup
         for _ in range(self.warmup_iterations):
-            try:
+            with contextlib.suppress(Exception):
                 operation_func()
-            except Exception:
-                pass
 
         # Actual measurements
         for i in range(iterations):

@@ -7,6 +7,7 @@ and rollback triggers integrated with the Constellation Framework.
 """
 
 import asyncio
+import contextlib
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -205,10 +206,8 @@ class CanaryController:
 
         if self._controller_task:
             self._controller_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._controller_task
-            except asyncio.CancelledError:
-                pass
 
         self.logger.info("Canary Controller stopped")
 

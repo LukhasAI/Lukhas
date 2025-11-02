@@ -672,7 +672,7 @@ class TestOIDCMetricsIntegration(OIDCConformanceTestSuite):
         jwks_latencies = []
 
         # Simulate multiple JWKS requests
-        for i in range(5):
+        for _i in range(5):
             start_time = time.perf_counter()
 
             # In real implementation, this would be HTTP request to /.well-known/jwks.json

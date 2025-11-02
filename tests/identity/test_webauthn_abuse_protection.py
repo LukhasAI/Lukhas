@@ -70,7 +70,7 @@ class TestWebAuthnAbuseProtection:
                     'curl/7.68.0',
                     'PostmanRuntime/7.29.2'
                 ],
-                'ip_ranges': ['192.168.1.{}'.format(i) for i in range(1, 255)],
+                'ip_ranges': [f'192.168.1.{i}' for i in range(1, 255)],
                 'request_patterns': 'rapid_sequential'
             },
             'device_spoofing': {
@@ -106,7 +106,7 @@ class TestWebAuthnAbuseProtection:
             mock_redis.get.side_effect = [str(count) for count in attempt_counts]
 
             results = []
-            for i in range(len(attempt_counts)):
+            for _i in range(len(attempt_counts)):
                 is_allowed, reason, events = await security_hardening.validate_request_security(
                     operation="authenticate",
                     user_id=user_id,
@@ -541,7 +541,7 @@ class TestWebAuthnAbuseProtection:
         total_legitimate_requests = 0
 
         for scenario in legitimate_scenarios:
-            for i, ip in enumerate(scenario['ip_changes']):
+            for _i, ip in enumerate(scenario['ip_changes']):
                 is_allowed, reason, events = await security_hardening.validate_request_security(
                     operation="authenticate",
                     user_id=scenario['user_id'],

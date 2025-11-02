@@ -18,7 +18,7 @@ import time
 import zlib
 from abc import ABC, abstractmethod
 from collections import OrderedDict, defaultdict
-from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager, suppress
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Callable, Dict, List, Optional, Set, Tuple
@@ -434,7 +434,7 @@ class MemoryCacheBackend(CacheBackend):
 
         elif self.strategy == CacheStrategy.TTL:
             # Evict entries closest to expiration
-            current_time = time.time()
+            time.time()
             sorted_entries = sorted(
                 self.entries.items(),
                 key=lambda x: (x[1].created_at + (x[1].ttl_seconds or 0)) if x[1].ttl_seconds else float('inf')
@@ -960,10 +960,8 @@ class HierarchicalCacheManager:
 
         if self.warming_task:
             self.warming_task.cancel()
-            try:
+            with suppress(asyncio.CancelledError):
                 await self.warming_task
-            except asyncio.CancelledError:
-                pass
 
         if self.l2_cache and self.l2_cache.redis_client:
             await self.l2_cache.redis_client.close()

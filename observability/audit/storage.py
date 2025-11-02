@@ -4,6 +4,7 @@ Default: Append-only JSONL files with optional Postgres backend.
 """
 from __future__ import annotations
 
+import contextlib
 import json
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -97,10 +98,8 @@ class JSONLStorage:
 
         # Sort if requested
         if order_by and results:
-            try:
+            with contextlib.suppress(TypeError, KeyError):
                 results.sort(key=lambda x: x.get(order_by, 0))
-            except (TypeError, KeyError):
-                pass
 
         return results
 

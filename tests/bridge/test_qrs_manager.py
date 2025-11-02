@@ -431,7 +431,7 @@ def test_qrs_invalid_algorithm(qrs_manager, sample_request_data):
             request_data=sample_request_data,
             algorithm="INVALID_ALGO"
         )
-        assert False, "Should raise error for invalid algorithm"
+        raise AssertionError("Should raise error for invalid algorithm")
     except (ValueError, AttributeError):
         pass  # Expected
 

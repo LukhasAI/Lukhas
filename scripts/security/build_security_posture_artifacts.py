@@ -33,9 +33,10 @@ import hashlib
 import json
 import subprocess
 import sys
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
-from typing import List, Mapping, Sequence, Tuple
+from typing import List, Tuple
 
 # Ensure ``scripts/`` is importable so we can reuse the SBOM generator.
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -45,7 +46,7 @@ if str(SCRIPT_DIR.parent) not in sys.path:
 
 from security_sbom_generator import (  # noqa: E402 - requires sys.path injection before import
     LUKHASSecuritySBOMGenerator,
-)  # type: ignore
+)
 
 MODULE_PATTERN = "**/matrix_*.json"
 SHARED_SBOM_PATH = Path("security/sboms/shared/lukhas-platform.cdx.json")

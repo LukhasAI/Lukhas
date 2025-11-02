@@ -246,7 +246,7 @@ class LUKHASSecuritySBOMGenerator:
     def analyze_installed_packages(self) -> None:
         """Analyze currently installed packages"""
         try:
-            installed_packages = [d for d in pkg_resources.working_set]
+            installed_packages = list(pkg_resources.working_set)
             for dist in installed_packages:
                 # Only include packages likely to be project dependencies
                 if any(dist.project_name.startswith(prefix) for prefix in

@@ -101,7 +101,7 @@ class TestCreativityEngine:
         assert snapshot.divergence_breadth > 0.0
 
         # Check for variety in idea types
-        idea_types = set(idea.get("type", "") for idea in snapshot.ideas)
+        idea_types = {idea.get("type", "") for idea in snapshot.ideas}
         assert len(idea_types) > 1  # Should have multiple idea types
 
     @pytest.mark.asyncio
@@ -253,7 +253,7 @@ class TestCreativityEngine:
         assert len(snapshot.validation_checks) > 0
 
         # Check validation types
-        validation_types = set(check["type"] for check in snapshot.validation_checks)
+        validation_types = {check["type"] for check in snapshot.validation_checks}
         expected_types = {"novelty_threshold", "coherence_threshold", "fluency_minimum"}
         assert validation_types.intersection(expected_types)
 

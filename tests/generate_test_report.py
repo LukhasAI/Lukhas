@@ -79,9 +79,8 @@ class TestReportGenerator:
 
     def _extract_error(self, test: Dict) -> str:
         """Extract error message from test result"""
-        if "call" in test:
-            if "longrepr" in test["call"]:
-                return str(test["call"]["longrepr"])[:200]
+        if "call" in test and "longrepr" in test["call"]:
+            return str(test["call"]["longrepr"])[:200]
         return "Error details not available"
 
     def categorize_issue(self, failure: Dict) -> Tuple[str, str]:

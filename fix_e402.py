@@ -16,7 +16,6 @@ def extract_file_parts(content: str) -> Tuple[str, str, str, str]:
 
     shebang = ""
     docstring = ""
-    imports = []
     rest = []
 
     i = 0
@@ -27,7 +26,6 @@ def extract_file_parts(content: str) -> Tuple[str, str, str, str]:
         i = 1
 
     # Extract module-level docstring
-    in_docstring = False
     docstring_delimiter = None
     docstring_lines = []
 
@@ -40,7 +38,6 @@ def extract_file_parts(content: str) -> Tuple[str, str, str, str]:
     if i < len(lines):
         line = lines[i].strip()
         if line.startswith('"""') or line.startswith("'''"):
-            in_docstring = True
             docstring_delimiter = '"""' if line.startswith('"""') else "'''"
             docstring_lines.append(lines[i])
             i += 1
@@ -71,7 +68,7 @@ def extract_file_parts(content: str) -> Tuple[str, str, str, str]:
         stripped = line.strip()
         if (stripped.startswith('import ') or
             stripped.startswith('from ') or
-            (stripped and import_lines and not stripped and not non_import_lines)):  # blank line after import
+            (False)):  # blank line after import
             import_lines.append(line)
         else:
             non_import_lines.append(line)
@@ -217,10 +214,9 @@ def main():
     fixed = 0
     for filepath in sorted(files_to_fix):
         path = Path(filepath)
-        if path.exists():
-            if fix_e402_in_file(path):
-                fixed += 1
-                print(f"Fixed: {filepath}")
+        if path.exists() and fix_e402_in_file(path):
+            fixed += 1
+            print(f"Fixed: {filepath}")
 
     print(f"\nFixed {fixed} files")
 

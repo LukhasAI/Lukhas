@@ -10,6 +10,7 @@ Implements intelligent caching, validation, and automatic key rotation.
 from __future__ import annotations
 
 import asyncio
+import contextlib
 import hashlib
 import json
 import logging
@@ -134,10 +135,8 @@ class JWKSCache:
         self._running = False
         if self._prefetch_worker:
             self._prefetch_worker.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._prefetch_worker
-            except asyncio.CancelledError:
-                pass
         logger.info("🛑 JWKS Cache stopped")
 
     def get(self, cache_key: str) -> Tuple[Optional[Dict[str, Any]], bool]:

@@ -382,10 +382,7 @@ async def execute_with_backoff(
     **kwargs
 ) -> Any:
     """Execute function with intelligent backoff."""
-    if config:
-        backoff = IntelligentBackoff(config)
-    else:
-        backoff = get_default_backoff()
+    backoff = IntelligentBackoff(config) if config else get_default_backoff()
 
     return await backoff.execute_with_backoff(operation, func, *args, **kwargs)
 

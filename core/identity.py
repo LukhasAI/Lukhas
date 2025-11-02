@@ -11,7 +11,7 @@ from typing import Any
 
 # Prefer the top-level identity package if available (no labs edge)
 try:  # pragma: no cover - import-time availability
-    from identity import *  # type: ignore  # noqa: F403,F401
+    from identity import *  # type: ignore  # noqa: F403
     _HAS_PRIMARY = True
 except Exception:  # pragma: no cover
     _HAS_PRIMARY = False

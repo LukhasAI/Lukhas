@@ -452,10 +452,7 @@ class ConsensusEngine:
 
         # Adjust for response length (moderate length preferred)
         length = len(response.response)
-        if 100 <= length <= 1000:
-            length_factor = 1.0
-        else:
-            length_factor = 0.8
+        length_factor = 1.0 if 100 <= length <= 1000 else 0.8
         score *= length_factor
 
         return score

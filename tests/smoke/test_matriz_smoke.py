@@ -41,7 +41,7 @@ def test_smoke_star_critical():
     """Test import times for star-critical modules (T1/T2) against manifest targets."""
     slow = []
     checked = 0
-    for mf, m in list(iter_star_critical())[:60]:  # cap to keep <120s
+    for _mf, m in list(iter_star_critical())[:60]:  # cap to keep <120s
         modname = import_path_from_manifest(m)
         if not modname:
             continue
@@ -57,4 +57,4 @@ def test_smoke_star_critical():
     # Only fail if we have actual violations
     if slow:
         violations = "\n".join([f"  {mod}: {elapsed:.1f}ms > 2x{target}ms" for mod, elapsed, target in slow[:5]])
-        assert False, f"Exceeded latency targets:\n{violations}\n(checked {checked} modules)"
+        raise AssertionError(f"Exceeded latency targets:\n{violations}\n(checked {checked} modules)")

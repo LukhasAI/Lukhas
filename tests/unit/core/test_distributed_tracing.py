@@ -315,7 +315,7 @@ class TestDistributedTracer:
 
         # Check that the span was created and added to the collector
         assert len(tracer.collector.spans) == 1
-        span = list(tracer.collector.spans.values())[0]
+        span = next(iter(tracer.collector.spans.values()))
         assert span.operation_name == "root_op"
         assert span.trace_id == context.trace_id
         assert span.service_name == "test_service"

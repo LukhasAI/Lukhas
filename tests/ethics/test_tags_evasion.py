@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Adversarial & evasion tests for Safety Tags (Task 13)
 Opt-in via env: LUKHAS_EVASION_TESTS=1

@@ -86,7 +86,7 @@ def test_memory_recall_budget_enforcement():
     def simple_topk_recall(query, k=10):
         """Simple Top-K recall simulation."""
         # Simulate basic sorting/selection
-        scored_items = [(i, item) for i, item in enumerate(items)]
+        scored_items = list(enumerate(items))
         scored_items.sort(key=lambda x: x[0] % 100)  # Simple scoring
         return [item for _, item in scored_items[:k]]
 

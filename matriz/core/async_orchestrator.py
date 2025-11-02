@@ -907,7 +907,7 @@ class AsyncCognitiveOrchestrator:
         Register an async processing function as a cognitive node.
 
         Args:
-            name: Node identifier  
+            name: Node identifier
             async_processor: Async function that takes data and returns result
         """
 

@@ -639,7 +639,7 @@ async def get_routing_metrics(admin_user: dict = Depends(get_admin_user)):
         metrics = {
             "active_requests": status["active_requests"],
             "provider_health": {
-                provider: data["health_score"] if "health_score" in data else 0
+                provider: data.get("health_score", 0)
                 for provider, data in status["health_summary"]["providers"].items()
             },
             "circuit_breaker_status": status["circuit_breaker_status"],

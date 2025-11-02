@@ -292,7 +292,7 @@ def main():
     print("\n🔍 Next steps:")
     print("1. Verify evidence: python tools/verify_attestation.py --jwt evidence.jwt")
     print("2. Add to gate: tools/matrix_gate.py --attestation evidence.jwt")
-    print("3. Generate CAR: tools/generate_car.py --module {} --attestation evidence.jwt".format(args.module))
+    print(f"3. Generate CAR: tools/generate_car.py --module {args.module} --attestation evidence.jwt")
 
     return 0
 

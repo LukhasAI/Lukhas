@@ -246,9 +246,8 @@ def run_comprehensive_security_scan():
         elif check_name == "vulnerabilities":
             vuln_count = check_result.get('vulnerabilities', check_result.get('issues_found', 0))
             print(f"   Issues Found: {vuln_count}")
-        elif check_name == "sbom":
-            if check_result['status'] == 'generated':
-                print(f"   Components: {check_result['components_count']}")
+        elif check_name == "sbom" and check_result['status'] == 'generated':
+            print(f"   Components: {check_result['components_count']}")
 
     compliance_rate = (passed_checks / total_checks) * 100
 

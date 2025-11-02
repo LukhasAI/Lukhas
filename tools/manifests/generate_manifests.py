@@ -32,7 +32,7 @@ def discover_packages(lanes):
             print(f"WARNING: lane '{lane}' root directory '{root}' not found; skipping", file=sys.stderr)
             continue
         found = 0
-        for dirpath, dirnames, filenames in os.walk(root):
+        for dirpath, _dirnames, filenames in os.walk(root):
             if '__init__.py' in filenames:
                 pkgs.add(dirpath)
                 found += 1
@@ -46,7 +46,7 @@ def discover_manifests(lanes):
         base = os.path.join('manifests', lane)
         if not os.path.isdir(base):
             continue
-        for dirpath, dirnames, filenames in os.walk(base):
+        for dirpath, _dirnames, filenames in os.walk(base):
             if 'module.manifest.json' in filenames:
                 rel = os.path.relpath(dirpath, 'manifests')
                 paths.add(rel)

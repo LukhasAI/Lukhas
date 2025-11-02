@@ -149,10 +149,7 @@ def is_allowed_location(file_path: Path) -> bool:
         return True
 
     # Allow performance optimization files temporarily
-    if "performance/" in path_str:
-        return True
-
-    return False
+    return "performance/" in path_str
 
 
 class TestNoImportlibOutsideAllowed:

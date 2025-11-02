@@ -155,7 +155,7 @@ class ConfigurationFactory:
         # Setup logging
         logging.basicConfig(level=logging.INFO)
 
-    def _load_base_config(self) -> Dict[str, Any]:
+    def _load_base_config(self) -> dict[str, Any]:
         """Load base configuration shared across environments"""
         base_file = self.config_dir / "base.yaml"
         if base_file.exists():
@@ -168,7 +168,7 @@ class ConfigurationFactory:
 
     def create_config(self,
                      environment: Union[str, DeploymentEnvironment],
-                     overrides: Optional[Dict[str, Any]] = None) -> LUKHASAPIOptimizationConfig:
+                     overrides: Optional[dict[str, Any]] = None) -> LUKHASAPIOptimizationConfig:
         """Create configuration for specific environment"""
 
         if isinstance(environment, str):
@@ -198,7 +198,7 @@ class ConfigurationFactory:
         # Create structured configuration
         return self._create_structured_config(config_dict, environment.value)
 
-    def _get_environment_config(self, environment: DeploymentEnvironment) -> Dict[str, Any]:
+    def _get_environment_config(self, environment: DeploymentEnvironment) -> dict[str, Any]:
         """Get configuration for specific environment"""
 
         configs = {
@@ -392,7 +392,7 @@ class ConfigurationFactory:
 
         return configs.get(environment, configs[DeploymentEnvironment.DEVELOPMENT])
 
-    def _get_env_overrides(self) -> Dict[str, Any]:
+    def _get_env_overrides(self) -> dict[str, Any]:
         """Get configuration overrides from environment variables"""
         overrides = {}
 
@@ -430,11 +430,11 @@ class ConfigurationFactory:
 
         return overrides
 
-    def _create_structured_config(self, config_dict: Dict[str, Any], environment: str) -> LUKHASAPIOptimizationConfig:
+    def _create_structured_config(self, config_dict: dict[str, Any], environment: str) -> LUKHASAPIOptimizationConfig:
         """Create structured configuration from dictionary"""
 
         # Helper function to create dataclass from dict
-        def create_dataclass(cls, data: Dict[str, Any]):
+        def create_dataclass(cls, data: dict[str, Any]):
             # Filter data to only include fields that exist in the dataclass
             field_names = {f.name for f in cls.__dataclass_fields__.values()}
             filtered_data = {k: v for k, v in data.items() if k in field_names}
@@ -463,7 +463,7 @@ class ConfigurationFactory:
             environment=environment
         )
 
-    def _deep_merge(self, base: Dict[str, Any], override: Dict[str, Any]) -> Dict[str, Any]:
+    def _deep_merge(self, base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
         """Deep merge two dictionaries"""
         result = base.copy()
         for key, value in override.items():
@@ -497,7 +497,7 @@ class ConfigurationFactory:
         environment = config_dict.get("environment", "development")
         return self._create_structured_config(config_dict, environment)
 
-    def validate_config(self, config: LUKHASAPIOptimizationConfig) -> Dict[str, Any]:
+    def validate_config(self, config: LUKHASAPIOptimizationConfig) -> dict[str, Any]:
         """Validate configuration and return validation results"""
         issues = []
         warnings = []
@@ -540,7 +540,7 @@ class ConfigurationFactory:
 
 # Convenience functions
 def create_config(environment: str,
-                 overrides: Optional[Dict[str, Any]] = None,
+                 overrides: Optional[dict[str, Any]] = None,
                  config_dir: Optional[Path] = None) -> LUKHASAPIOptimizationConfig:
     """Create configuration for environment"""
     factory = ConfigurationFactory(config_dir or Path("config"))
@@ -553,7 +553,7 @@ def load_config_from_file(filename: str, config_dir: Optional[Path] = None) -> L
     return factory.load_config(filename)
 
 
-def validate_config(config: LUKHASAPIOptimizationConfig) -> Dict[str, Any]:
+def validate_config(config: LUKHASAPIOptimizationConfig) -> dict[str, Any]:
     """Validate configuration"""
     factory = ConfigurationFactory()
     return factory.validate_config(config)

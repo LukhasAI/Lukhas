@@ -455,10 +455,10 @@ class UnifiedConsciousnessEngine:
             self.metrics.state_duration = (datetime.now() - self.metrics.last_transition).total_seconds()
 
         # Update active modules
-        self.metrics.active_modules = set(
+        self.metrics.active_modules = {
             module for module, config in self.registered_modules.items()
             if self.metrics.module_health.get(module, 0.0) > config.get("health_threshold", 0.5)
-        )
+        }
 
         return self.metrics
 

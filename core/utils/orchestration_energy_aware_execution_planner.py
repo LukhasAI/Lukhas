@@ -231,9 +231,7 @@ class DistributedEnergyTask:
         """Check if task can execute on given number of nodes"""
         if node_count < self.minimum_nodes:
             return False
-        if self.maximum_nodes and node_count > self.maximum_nodes:
-            return False
-        return True
+        return not (self.maximum_nodes and node_count > self.maximum_nodes)
 
 
 @dataclass

@@ -4,9 +4,10 @@ from __future__ import annotations
 import hashlib
 import json
 import logging
+from collections.abc import Mapping
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Any, List, Mapping
+from typing import Any, List
 
 logger = logging.getLogger("blockchain_wrapper")
 

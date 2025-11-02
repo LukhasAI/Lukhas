@@ -258,7 +258,7 @@ class TestCircuitBreaker:
 
         # Make calls that exceed failure threshold
         failed_calls = 0
-        for i in range(5):
+        for _i in range(5):
             try:
                 async with circuit_breaker.protect("test_op"):
                     await failing_operation()
@@ -522,8 +522,8 @@ class TestCircuitBreakerRegistry:
         """Test getting all circuit breaker stats."""
 
         # Register multiple circuit breakers
-        cb1 = registry.register("circuit1")
-        cb2 = registry.register("circuit2")
+        registry.register("circuit1")
+        registry.register("circuit2")
 
         # Get all stats
         all_stats = registry.get_all_stats()
@@ -538,7 +538,7 @@ class TestCircuitBreakerRegistry:
         """Test background health monitoring."""
 
         # Register a circuit breaker
-        cb = registry.register("test_circuit")
+        registry.register("test_circuit")
 
         # Start health monitoring
         await registry.start_health_monitoring()
@@ -587,7 +587,7 @@ class TestCircuitBreakerDecorator:
             return "recovered"
 
         # First few calls should fail
-        for i in range(3):
+        for _i in range(3):
             with pytest.raises(Exception):
                 await failing_function()
 

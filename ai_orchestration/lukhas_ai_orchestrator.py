@@ -744,7 +744,7 @@ The original AI response has been flagged for potential ethical concerns and has
 
         # Check provider ethical performance
         poor_performers = 0
-        for provider, scores in self._provider_ethical_scores.items():
+        for provider, _scores in self._provider_ethical_scores.items():
             ethical_score = self._get_provider_ethical_score(provider)
             if ethical_score < 0.6:  # Poor ethical performance
                 poor_performers += 1

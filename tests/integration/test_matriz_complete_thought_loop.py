@@ -266,7 +266,7 @@ class TestMATRIZCompleteThoughtLoop:
 
         # Execute multiple rapid requests to trigger circuit breaker
         results = []
-        for i in range(15):  # Exceed circuit breaker threshold
+        for _i in range(15):  # Exceed circuit breaker threshold
             try:
                 result = await thought_loop.process_complete_thought_loop(
                     context=overload_context,
@@ -416,7 +416,7 @@ class TestMATRIZCompleteThoughtLoop:
         results = []
 
         # Execute multiple thought loops with same context
-        for i in range(5):
+        for _i in range(5):
             result = await thought_loop.process_complete_thought_loop(
                 context=sample_context,
                 consciousness_state=consciousness_state

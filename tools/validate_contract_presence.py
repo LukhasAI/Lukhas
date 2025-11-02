@@ -82,10 +82,7 @@ class ContractPresenceValidator:
             # Convert path to module name
             relative_path = module_dir.relative_to(LUKHAS_DIR)
 
-            if relative_path.parts:
-                module_name = ".".join(relative_path.parts)
-            else:
-                module_name = "root"
+            module_name = ".".join(relative_path.parts) if relative_path.parts else "root"
 
             modules.append((module_dir, module_name))
 

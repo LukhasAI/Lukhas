@@ -233,7 +233,7 @@ class TestNeuroSymbolicFusionIntegration:
 
     def test_fusion_layer_with_multiple_patterns(self):
         """Test fusion layer behavior with multiple fusion patterns."""
-        fusion_layer = NeuroSymbolicFusionLayer()
+        NeuroSymbolicFusionLayer()
 
         # Create multiple patterns
         patterns = []

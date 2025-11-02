@@ -233,7 +233,7 @@ def test_security_jwt_tampering_detection():
     # Verification should fail
     try:
         jwt.decode(tampered_token, secret, algorithms=["HS256"])
-        assert False, "Tampered token was not detected"
+        raise AssertionError("Tampered token was not detected")
     except jwt.InvalidSignatureError:
         pass  # Expected
 
@@ -251,7 +251,7 @@ def test_security_jwt_algorithm_confusion():
     try:
         jwt.decode(token, options={"verify_signature": False})
         # Should not allow 'none' algorithm in production
-        assert False, "Algorithm confusion attack possible"
+        raise AssertionError("Algorithm confusion attack possible")
     except Exception as e:
         logger.debug(f"Expected optional failure: {e}")
         pass  # Expected to fail
@@ -275,7 +275,7 @@ def test_security_jwt_expired_token_rejection():
     # Should reject expired token
     try:
         jwt.decode(expired_token, secret, algorithms=["HS256"])
-        assert False, "Expired token was not rejected"
+        raise AssertionError("Expired token was not rejected")
     except jwt.ExpiredSignatureError:
         pass  # Expected
 
@@ -315,7 +315,7 @@ async def test_security_rate_limiting_enforcement(security_system):
     security_system.rate_limiter.check.return_value = True
 
     # First 10 requests should succeed
-    for i in range(10):
+    for _i in range(10):
         can_proceed = await security_system.rate_limiter.check(lambda_id)
         assert can_proceed is True
 

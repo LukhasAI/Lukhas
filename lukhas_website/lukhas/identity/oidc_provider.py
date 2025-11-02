@@ -5,6 +5,7 @@ Production-ready OIDC Provider with JWT token management and OAuth2 flows.
 
 import asyncio
 import base64
+import contextlib
 import hashlib
 import logging
 import secrets
@@ -178,10 +179,8 @@ class OIDCProvider:
 
         if self._cleanup_task:
             self._cleanup_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._cleanup_task
-            except asyncio.CancelledError:
-                pass
 
         logger.info("✅ OIDC Provider stopped")
 

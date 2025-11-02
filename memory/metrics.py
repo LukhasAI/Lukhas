@@ -78,10 +78,7 @@ def compute_affect_delta(payload: Mapping[str, Any]) -> float:
 
 def compute_drift(previous: Optional[float], current: float) -> float:
     """Compute driftScore from a previous affect delta reading and the current value."""
-    if previous is None:
-        drift = _clamp(abs(current))
-    else:
-        drift = _clamp(abs(current - previous))
+    drift = _clamp(abs(current)) if previous is None else _clamp(abs(current - previous))
     logger.debug(
         "Computed driftScore",
         extra={"driftScore": drift, "previous_affect_delta": previous, "current_affect_delta": current},

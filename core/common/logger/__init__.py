@@ -19,7 +19,7 @@ if "getLogger" not in globals():
     def getLogger(name: Optional[str] = None) -> logging.Logger:
         """Get logger with optional name (strict but forgiving)."""
         return logging.getLogger(name or "")
-    __all__ = list(__all__) + ["getLogger"] if __all__ else ["getLogger"]
+    __all__ = [*list(__all__), "getLogger"] if __all__ else ["getLogger"]
 else:
     # Wrap existing getLogger for compat
     _orig = globals()["getLogger"]

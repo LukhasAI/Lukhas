@@ -38,9 +38,8 @@ class DirectoryIndexGenerator:
                 elif isinstance(node, ast.Import):
                     for alias in node.names:
                         imports.append(alias.name)
-                elif isinstance(node, ast.ImportFrom):
-                    if node.module:
-                        imports.append(node.module)
+                elif isinstance(node, ast.ImportFrom) and node.module:
+                    imports.append(node.module)
 
             # Determine component type
             component_type = self.classify_component_type(file_path, content, classes, functions)

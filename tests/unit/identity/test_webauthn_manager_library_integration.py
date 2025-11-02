@@ -39,10 +39,7 @@ def fake_webauthn(monkeypatch):
     def generate_registration_options(**kwargs):
         call_log["registration"] = kwargs
         user_id = kwargs.get("user_id", b"")
-        if isinstance(user_id, str):
-            user_id_bytes = user_id.encode()
-        else:
-            user_id_bytes = user_id
+        user_id_bytes = user_id.encode() if isinstance(user_id, str) else user_id
         user_struct = {
             "id": base64.urlsafe_b64encode(user_id_bytes).decode().rstrip("="),
             "name": kwargs.get("user_name", ""),

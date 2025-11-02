@@ -1,5 +1,7 @@
 """Guardian kill-switch integration tests."""
 
+import contextlib
+
 import pytest
 
 from governance.ethics.ethics_engine import (
@@ -13,15 +15,11 @@ from governance.ethics.ethics_engine import (
 @pytest.fixture(autouse=True)
 def _cleanup_kill_switch():
     """Ensure the kill-switch file is cleaned up before and after tests."""
-    try:
+    with contextlib.suppress(FileNotFoundError):
         GUARDIAN_EMERGENCY_DISABLE_FILE.unlink()
-    except FileNotFoundError:
-        pass
     yield
-    try:
+    with contextlib.suppress(FileNotFoundError):
         GUARDIAN_EMERGENCY_DISABLE_FILE.unlink()
-    except FileNotFoundError:
-        pass
 
 
 def test_validate_action_respects_kill_switch():

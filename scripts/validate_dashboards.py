@@ -170,7 +170,7 @@ class DashboardValidator:
 
         # Check if any threshold matches our SLA requirements
         sla_matched = False
-        for sla_name, sla_value in self.SLA_THRESHOLDS.items():
+        for _sla_name, sla_value in self.SLA_THRESHOLDS.items():
             if any(abs(threshold - sla_value) < 0.001 for threshold in threshold_values):
                 sla_matched = True
                 break

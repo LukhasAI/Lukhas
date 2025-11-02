@@ -18,7 +18,6 @@ Last Updated: 2025-10-19
 import argparse
 import pathlib
 
-
 HEADER_PY = '''"""
 {spdx}
 Author: {author}
@@ -56,10 +55,7 @@ def add_header(path: pathlib.Path, header_py: str, header_yaml: str) -> bool:
         return False
 
     # Add appropriate header
-    if path.suffix in (".yml", ".yaml"):
-        txt = header_yaml + txt
-    else:
-        txt = header_py + "\n" + txt
+    txt = header_yaml + txt if path.suffix in (".yml", ".yaml") else header_py + "\n" + txt
 
     path.write_text(txt, encoding="utf-8")
     return True

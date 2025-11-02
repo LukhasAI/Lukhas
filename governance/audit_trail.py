@@ -4,6 +4,7 @@ Production-grade audit trail system with immutable logging, compliance validatio
 """
 
 import asyncio
+import contextlib
 import gzip
 import hashlib
 import json
@@ -188,10 +189,8 @@ class AuditTrail:
         for task in [self.flush_task, self.compression_task, self.integrity_task]:
             if task and not task.done():
                 task.cancel()
-                try:
+                with contextlib.suppress(asyncio.CancelledError):
                     await task
-                except asyncio.CancelledError:
-                    pass
 
         logger.info("✅ Audit Trail System stopped")
 
@@ -524,7 +523,7 @@ class AuditTrail:
             # Verify chain continuity
             expected_hash = "0" * 64  # Genesis hash
 
-            for i, block in enumerate(self.audit_chain):
+            for _i, block in enumerate(self.audit_chain):
                 integrity_results["blocks_verified"] += 1
 
                 # Verify previous hash
@@ -641,10 +640,7 @@ class AuditTrail:
             return False
         if levels and event.level not in levels:
             return False
-        if correlation_id and event.correlation_id != correlation_id:
-            return False
-
-        return True
+        return not (correlation_id and event.correlation_id != correlation_id)
 
     async def _search_stored_events(self,
                                   start_date: Optional[datetime],

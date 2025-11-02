@@ -311,7 +311,7 @@ async def main():
         "Performance Benchmarks"
     ]
 
-    for i, (component, result) in enumerate(zip(components, results)):
+    for _i, (component, result) in enumerate(zip(components, results)):
         status = "✅ PASS" if result else "❌ FAIL"
         print(f"  {component}: {status}")
 

@@ -7,7 +7,7 @@ PRIORITY: HIGH (critical identity and authentication system with emotional memor
 
 Test Categories:
 1. EmotionalMemoryVector tests
-2. SymbolicIdentityHash tests  
+2. SymbolicIdentityHash tests
 3. TraumaLock tests
 4. AdvancedIdentityManager tests
 5. Authentication and registration tests
@@ -249,7 +249,7 @@ class TestAdvancedIdentityManager:
         user_id = "test_user"
         user_input = {"text": "Hello, I'm happy to be here"}
 
-        result = await aim.register_user(user_id, user_input)
+        await aim.register_user(user_id, user_input)
 
         # Should complete without error
         assert user_id in aim.users

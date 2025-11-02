@@ -90,7 +90,7 @@ class TestMATRIZPerformance:
         # Mock orchestrator with realistic processing
         orchestrator_latencies = []
 
-        for i in range(20):
+        for _i in range(20):
             start_time = time.perf_counter()
 
             # Simulate orchestrator workflow
@@ -179,7 +179,7 @@ class TestMATRIZPerformance:
 
         # Simulate memory-intensive MATRIZ operations
         data_cache = []
-        for i in range(100):
+        for _i in range(100):
             # Simulate data processing and caching
             result = self._mock_memory_intensive_matriz_operation(data_size_kb=50)
             data_cache.append(result)

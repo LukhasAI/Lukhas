@@ -38,11 +38,10 @@ def validate_obj(obj):
                 f"field {k} wrong type: expected {t}, got {type(obj[k])}"
             )
     # Quick value checks
-    if 'name' in obj and 'path' in obj:
-        if obj['name'].replace('.', '/') != obj['path']:
-            errors.append(
-                'name/path mismatch: name with dots should match path with slashes'
-            )
+    if 'name' in obj and 'path' in obj and obj['name'].replace('.', '/') != obj['path']:
+        errors.append(
+            'name/path mismatch: name with dots should match path with slashes'
+        )
     if 'lane' in obj and obj['lane'] not in {'core', 'lukhas', 'matriz', 'labs'}:
         errors.append('lane must be one of core|lukhas|matriz|labs')
     if 'constellation_stars' in obj:

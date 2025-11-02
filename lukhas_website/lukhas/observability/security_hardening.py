@@ -554,10 +554,7 @@ class ObservabilitySecurityHardening:
 
         # Check for sensitive evidence types
         evidence_type = evidence_data.get("evidence_type", "")
-        if evidence_type in sensitive_evidence_types:
-            return True
-
-        return False
+        return evidence_type in sensitive_evidence_types
 
     async def _verify_access_authorization(
         self,

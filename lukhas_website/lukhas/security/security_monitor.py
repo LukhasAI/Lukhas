@@ -797,7 +797,7 @@ if __name__ == "__main__":
         metrics = monitor.get_metrics()
 
         print(f"\nActive Threats: {len(active_threats)}")
-        for threat_id, threat in active_threats.items():
+        for _threat_id, threat in active_threats.items():
             print(f"  - {threat.name}: {threat.threat_level.value} "
                   f"(confidence: {threat.confidence_score:.2f})")
 

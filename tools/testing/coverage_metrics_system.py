@@ -256,15 +256,7 @@ class CoverageMetricsSystem:
             test_paths = [f"tests/{test_suite}/"]
 
         # Build coverage command
-        cmd = [
-            sys.executable, "-m", "coverage", "run",
-            "--source=.",
-            "--omit=" + ",".join(self.config['exclude_patterns']),
-            "-m", "pytest",
-            "-v",
-            "--tb=short",
-            "--junitxml=reports/testing/junit.xml"
-        ] + test_paths
+        cmd = [sys.executable, '-m', 'coverage', 'run', '--source=.', '--omit=' + ','.join(self.config['exclude_patterns']), '-m', 'pytest', '-v', '--tb=short', '--junitxml=reports/testing/junit.xml', *test_paths]
 
         try:
             # Run tests with coverage

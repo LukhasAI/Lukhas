@@ -211,7 +211,7 @@ def main():
 
     # Plan Features updates
     if args.features:
-        desired = sorted(list(vocab_features.keys()))
+        desired = sorted(vocab_features.keys())
         existing_opts = get_multi_select_options(db, "Features")
         existing = extract_option_names(existing_opts)
         to_add = build_missing_options(existing, desired)
@@ -220,7 +220,7 @@ def main():
 
     # Plan Tags updates
     if args.tags:
-        desired = sorted(list(vocab_tags))
+        desired = sorted(vocab_tags)
         existing_opts = get_multi_select_options(db, "Tags")
         if existing_opts or existing_opts == []:  # Property exists
             existing = extract_option_names(existing_opts)

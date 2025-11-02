@@ -600,7 +600,7 @@ class FoldLineageTracker:
             lambda: {"folds": set(), "strengths": [], "events": set()}
         )
 
-        for source_key, links in self.lineage_graph.items():
+        for _source_key, links in self.lineage_graph.items():
             for link in links:
                 if link.causation_type != CausationType.QUANTUM_ENTANGLEMENT:
                     continue
@@ -676,10 +676,7 @@ class FoldLineageTracker:
         """Extract normalized entanglement strength from a causal link."""
 
         strength = link.metadata.get("entanglement_level")
-        if isinstance(strength, (int, float)):
-            value = float(strength)
-        else:
-            value = float(link.strength)
+        value = float(strength) if isinstance(strength, (int, float)) else float(link.strength)
         return max(0.0, min(1.0, value))
 
     @staticmethod

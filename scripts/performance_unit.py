@@ -11,6 +11,7 @@ This script performs isolated component benchmarking for unit-level performance 
 Generates detailed performance artifacts with statistical analysis and regression detection.
 """
 
+import contextlib
 import json
 import logging
 import statistics
@@ -92,10 +93,8 @@ class PerformanceUnitTester:
 
         # Warmup
         for _ in range(self.warmup_iterations):
-            try:
+            with contextlib.suppress(Exception):
                 operation_func()
-            except Exception:
-                pass
 
         # Actual measurements
         for _ in range(iterations):

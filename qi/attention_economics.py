@@ -179,10 +179,7 @@ class ConsciousnessHubMessenger:
             if inspect.isawaitable(result):
                 result = await result
 
-            if result is False:
-                return False
-
-            return True
+            return result is not False
 
         return False
 

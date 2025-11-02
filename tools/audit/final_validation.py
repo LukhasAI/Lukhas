@@ -220,7 +220,7 @@ def validate_lane_violation_reporting() -> Dict:
 
 def validate_schema_versioning() -> Dict:
     """Validate schema v2.0.0 markers in context files"""
-    context_files = list(Path(".").glob("**/context_*.md")) + [Path("docs/CONTEXT_FILES.md")]
+    context_files = [*list(Path(".").glob("**/context_*.md")), Path("docs/CONTEXT_FILES.md")]
     versioned_files = 0
 
     for file_path in context_files:

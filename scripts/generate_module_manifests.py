@@ -12,6 +12,7 @@ Usage:
     --write-context
 """
 import argparse
+import contextlib
 import datetime
 import json
 import pathlib
@@ -87,10 +88,8 @@ def infer_star_from_rules(
 
     # apply exclusions
     for ex in rules_cfg.get("exclusions", []) or []:
-        try:
+        with contextlib.suppress(re.error):
             text = re.sub(ex.get("pattern", ""), " ", text, flags=re.IGNORECASE)
-        except re.error:
-            pass
 
     # rules: path keywords
     for r in rules_cfg.get("rules", []) or []:
@@ -427,9 +426,8 @@ def decide_quality_tier(priority: Optional[str], has_tests: bool, owner: Optiona
     base = map_priority_to_quality_tier(priority or "")
 
     # Gate: T1 requires both tests and owner
-    if base == "T1_critical":
-        if not has_tests or not owner or owner == "unassigned":
-            return "T2_important" if owner and owner != "unassigned" else "T3_standard"
+    if base == "T1_critical" and (not has_tests or not owner or owner == "unassigned"):
+        return "T2_important" if owner and owner != "unassigned" else "T3_standard"
 
     return base
 

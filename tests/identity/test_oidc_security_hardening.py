@@ -523,7 +523,7 @@ class TestWebAuthnOIDCIntegration:
         # Test token generation performance
         performance_results = []
 
-        for i in range(5):
+        for _i in range(5):
             start_time = time.perf_counter()
 
             # Full integration flow

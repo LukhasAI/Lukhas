@@ -324,7 +324,7 @@ class CreativityEngine:
                     ).inc()
 
             # Update divergence metrics
-            unique_types = set(idea.get("type", "") for idea in snapshot.ideas)
+            unique_types = {idea.get("type", "") for idea in snapshot.ideas}
             snapshot.divergence_breadth = min(len(unique_types) / 10.0, 1.0)
 
             span.set_attribute("ideas_generated", idea_count)

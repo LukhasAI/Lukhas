@@ -110,6 +110,7 @@ from .security_hardening import (
     initialize_security_hardening,
     secure_evidence_operation,
 )
+import contextlib
 
 __all__ = [
     # Core observability (Phase 0-4)
@@ -263,10 +264,8 @@ async def initialize_phase5_observability(
         # Cleanup any partially initialized components
         for component in components.values():
             if hasattr(component, 'shutdown'):
-                try:
+                with contextlib.suppress(Exception):
                     await component.shutdown()
-                except Exception:
-                    pass
         raise
 
 

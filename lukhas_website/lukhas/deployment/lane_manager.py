@@ -9,7 +9,7 @@ automatic lane switching and Constellation Framework coordination.
 import asyncio
 import logging
 import time
-from contextlib import asynccontextmanager
+from contextlib import asynccontextmanager, suppress
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from enum import Enum
@@ -219,10 +219,8 @@ class LaneManager:
 
         if self._monitoring_task:
             self._monitoring_task.cancel()
-            try:
+            with suppress(asyncio.CancelledError):
                 await self._monitoring_task
-            except asyncio.CancelledError:
-                pass
 
         self.logger.info("Lane Manager stopped")
 

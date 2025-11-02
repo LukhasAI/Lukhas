@@ -527,7 +527,7 @@ class TestReflectionEnginePerformance:
                 )
 
                 latencies = []
-                for i in range(iterations):
+                for _i in range(iterations):
                     start = time.perf_counter()
                     await reflection_engine.reflect(state)
                     latency = (time.perf_counter() - start) * 1000

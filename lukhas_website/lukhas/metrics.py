@@ -8,7 +8,7 @@ Env:
 from __future__ import annotations
 
 import os
-from contextlib import contextmanager
+from contextlib import contextmanager, suppress
 
 try:
     from prometheus_client import Counter, Gauge, Histogram, start_http_server  # type: ignore
@@ -19,10 +19,8 @@ except Exception:  # pragma: no cover
 
 ENABLED = os.getenv("ENABLE_PROM", "0") == "1"
 if ENABLED and start_http_server is not None:
-    try:
+    with suppress(Exception):
         start_http_server(int(os.getenv("PROM_PORT", "9108")))
-    except Exception:
-        pass
 
 
 def _noop_histogram(*_labels):

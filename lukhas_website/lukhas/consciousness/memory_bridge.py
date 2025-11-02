@@ -4,6 +4,7 @@ Advanced bidirectional bridge between consciousness and memory systems with real
 """
 
 import asyncio
+import contextlib
 import logging
 import time
 import uuid
@@ -149,10 +150,8 @@ class MemoryConsciousnessBridge:
         for task in [self.sync_task, self.monitor_task]:
             if task and not task.done():
                 task.cancel()
-                try:
+                with contextlib.suppress(asyncio.CancelledError):
                     await task
-                except asyncio.CancelledError:
-                    pass
 
         logger.info("✅ Memory-Consciousness Bridge stopped")
 
@@ -575,7 +574,7 @@ class MemoryConsciousnessBridge:
 
         # Integrate relevant memories
         integration_count = 0
-        for fold_id, memory_fold, relevance in memories:
+        for _fold_id, memory_fold, relevance in memories:
             if relevance > 0.7:  # High relevance threshold
                 await self.integrate_memory_into_consciousness(session_id, memory_fold)
                 integration_count += 1
@@ -725,7 +724,7 @@ class MemoryConsciousnessBridge:
             elif action == "session_updated":
                 # Handle session update
                 memory_events = payload.get("memory_events", [])
-                for event_type, fold_id in memory_events:
+                for _event_type, _fold_id in memory_events:
                     # Process memory events
                     pass
 

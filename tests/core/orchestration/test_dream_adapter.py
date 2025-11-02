@@ -1,6 +1,6 @@
 """
 ═══════════════════════════════════════════════════════════════════════════════════
-🌌 LUKHAS AI - Dream Engine Adapter Tests  
+🌌 LUKHAS AI - Dream Engine Adapter Tests
 ═══════════════════════════════════════════════════════════════════════════════════
 
 Test Module: test_dream_adapter
@@ -141,7 +141,7 @@ class TestDreamEngineAdapterStateManagement(unittest.TestCase):
 
     def test_state_persistence(self):
         """Test state persistence across operations"""
-        original_time = time.time()
+        time.time()
 
         # Update state
         self.adapter._update_state("dreaming", 30)
@@ -442,7 +442,7 @@ class TestDreamEngineAdapterPerformance(unittest.TestCase):
         initial_objects = len(gc.get_objects())
 
         # Perform operations
-        for i in range(100):
+        for _i in range(100):
             message = {"content": {"action": "get_dream_state"}}
             with patch.object(self.adapter, '_handle_get_state'):
                 self.adapter.handle_message(message)
