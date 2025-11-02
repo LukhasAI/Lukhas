@@ -25,7 +25,8 @@ tools = catalog["tools"]
 names = [t["name"] for t in tools]
 if len(names) != len(set(names)):
     dupes = {n for n in names if names.count(n) > 1}
-    print(f"❌ duplicate tool names: {sorted(dupes)}"); sys.exit(1)
+    print(f"❌ duplicate tool names: {sorted(dupes)}")
+    sys.exit(1)
 
 EXPECTED = {
   "manifests.validate","manifests.lock","registry.build","registry.diff",
@@ -36,8 +37,10 @@ EXPECTED = {
 missing = EXPECTED - set(names)
 extra   = set(names) - EXPECTED
 if missing:
-    print(f"❌ missing tools: {sorted(missing)}"); sys.exit(1)
+    print(f"❌ missing tools: {sorted(missing)}")
+    sys.exit(1)
 if extra:
-    print(f"❌ unexpected tools: {sorted(extra)}"); sys.exit(1)
+    print(f"❌ unexpected tools: {sorted(extra)}")
+    sys.exit(1)
 
 print(f"✅ catalog.json valid ({ns}) with {len(names)} tools")
