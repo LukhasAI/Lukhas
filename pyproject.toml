@@ -203,6 +203,7 @@ src = ["lukhas", "core", "MATRIZ"]
 target-version = "py39"
 line-length = 100
 respect-gitignore = true
+fix = true
 exclude = [
     "labs",
     "examples",
@@ -247,11 +248,6 @@ fixable = [
     "C4",
     "RUF",
 ]
-fix = true
-
-[tool.ruff.lint.isort]
-known-first-party = ["lukhas", "candidate", "MATRIZ"]
-combine-as-imports = true
 
 [tool.ruff.lint.isort]
 known-first-party = ["lukhas", "candidate", "MATRIZ"]
