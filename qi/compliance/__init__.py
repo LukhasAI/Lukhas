@@ -1,6 +1,15 @@
 """Compliance orchestration utilities for Lukhas QI stack."""
 
-from .multi_jurisdiction_engine import MultiJurisdictionComplianceEngine, JurisdictionDecision
+from .compliance_report import (
+    AccessorType,
+    AccessPurpose,
+    ComplianceReport,
+    ComplianceReportGenerator,
+    DataCategory,
+    DeletionStatus,
+    LegalBasis,
+)
+from .multi_jurisdiction_engine import JurisdictionDecision, MultiJurisdictionComplianceEngine
 from .privacy_statement import (
     Jurisdiction,
     OrganizationInfo,
@@ -17,4 +26,11 @@ __all__ = [
     "OrganizationInfo",
     "Jurisdiction",
     "OutputFormat",
+    "ComplianceReportGenerator",
+    "ComplianceReport",
+    "LegalBasis",
+    "DataCategory",
+    "AccessPurpose",
+    "AccessorType",
+    "DeletionStatus",
 ]
