@@ -279,6 +279,83 @@ Research & Development → Integration & Testing → Production Deployment
 2. **Intelligence**: `products/intelligence/claude.me` - Analytics, monitoring
 3. **Experience**: `products/experience/claude.me` - User interfaces, feedback
 
+## 🤖 Multi-Agent Delegation & Task Packs
+
+### **Agent Orchestration for Large-Scale Refactoring**
+
+LUKHAS uses **multi-agent delegation** for complex refactoring initiatives that span hundreds of files. Each agent specializes in a specific role:
+
+#### **Available Agent Task Packs**
+
+1. **Claude Code** ([`docs/agents/tasks/CLAUDE_CODE_PACK.md`](./docs/agents/tasks/CLAUDE_CODE_PACK.md))
+   - **Role**: Surgical single-file refactors
+   - **Scope**: 10 high-priority files requiring manual precision
+   - **Pattern**: ProviderRegistry injection, lazy-loading, import-safety tests
+   - **Example Tasks**: `core/colony/gpt_colony_orchestrator.py`, `core/identity.py`, `serve/api/openai_proxy.py`
+
+2. **GitHub Copilot** ([`docs/agents/tasks/GITHUB_COPILOT_PACK.md`](./docs/agents/tasks/GITHUB_COPILOT_PACK.md))
+   - **Role**: Real-time code suggestions (no auto-commit)
+   - **Scope**: Generate provider accessors, lazy loaders, stub providers, tests
+   - **Pattern**: Copilot suggests → Claude Code reviews → Human approves
+   - **6 Prompt Templates**: Provider Accessor, Lazy Loader, Import-Safety Test, Stub Provider, Lazy Proxy, Docstring
+
+3. **Gemini** ([`docs/agents/tasks/GEMINI_PACK.md`](./docs/agents/tasks/GEMINI_PACK.md))
+   - **Role**: Infrastructure & CI Designer
+   - **Scope**: SLSA attestation, coverage pipelines, performance baselines, monitoring dashboards
+   - **Pattern**: Cosign/in-toto signatures, Codecov gates, pytest-benchmark, Datadog dashboards
+   - **5 Major Tasks**: SLSA PoC (10 modules), Coverage enforcement (75%+), Nightly benchmarks, Monitoring, Key rotation
+
+4. **Codex** ([`docs/agents/tasks/CODEX_PACK.md`](./docs/agents/tasks/CODEX_PACK.md))
+   - **Role**: Batch automation specialist
+   - **Scope**: ~137 files via AST codemods (libcst)
+   - **Pattern**: Dry-run → Conservative filter → 20-file batches → Ephemeral worktree validation → PR with artifacts
+   - **Safety Gates**: Lane-guard validation, no logic changes, human review required, no auto-merge
+
+### **Multi-Agent Workflow Example: labs Import Removal**
+
+**Problem**: 147 files have top-level `from labs.* import ...` creating lane boundary violations
+
+**Solution**: Coordinated multi-agent workflow
+```
+┌─────────────┐     ┌──────────────┐     ┌─────────────┐     ┌──────────┐
+│Claude Code  │     │GitHub Copilot│     │   Gemini    │     │  Codex   │
+│(10 files)   │  →  │(suggestions) │  →  │(monitoring) │  →  │(137 files)│
+│Manual       │     │Real-time     │     │Coverage/    │     │Batch     │
+│Precision    │     │Assistance    │     │SLSA         │     │Automation│
+└─────────────┘     └──────────────┘     └─────────────┘     └──────────┘
+```
+
+**Task Distribution**:
+- **Claude Code**: 10 high-priority files (manual surgical refactors) → One PR per file
+- **Copilot**: Suggests code patterns → Claude Code reviews and improves
+- **Gemini**: Monitors coverage (75%+), SLSA attestation (80%+), lane-guard metrics
+- **Codex**: 8 batches × 20 files each → Conservative filter → Ephemeral worktree validation → Human review
+
+**Success Metrics**:
+- ✅ Lane-guard violations reduced from 147 → 0
+- ✅ Coverage maintained >75% for production lanes (lukhas/, core/)
+- ✅ SLSA attestations for 80%+ critical modules
+- ✅ 0 production incidents from automated changes
+- ✅ Human-in-loop review for all PRs (no auto-merge)
+
+### **When to Use Multi-Agent Delegation**
+
+**Use multi-agent workflow when**:
+- ✅ Changes span >20 files (too large for manual review)
+- ✅ Refactoring is mechanical/repetitive (AST transformations)
+- ✅ Safety validation required (lane-guard, coverage gates)
+- ✅ Multiple skill sets needed (code + infra + monitoring)
+
+**Don't use multi-agent workflow when**:
+- ❌ Single file or small change (<5 files)
+- ❌ Logic changes required (not just import reshaping)
+- ❌ Unclear requirements (need human design first)
+
+**Agent Task Pack References**:
+- All agent task packs: [`docs/agents/tasks/`](./docs/agents/tasks/)
+- Agent coordination guide: [`docs/gonzo/AGENT_TASKS_TO_CREATE.md`](./docs/gonzo/AGENT_TASKS_TO_CREATE.md)
+- Context for all agents: This file (claude.me) or [`lukhas_context.md`](./lukhas_context.md) for other AI tools
+
 ## 🔗 Integration Patterns
 
 ### **Constellation Framework Coordination**
