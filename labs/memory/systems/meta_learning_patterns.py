@@ -1175,8 +1175,10 @@ class MetaLearningPatternSystem:
         self.patterns: dict[str, MetaLearningPattern] = {}
         self.pattern_index: dict[PatternType, list[str]] = defaultdict(list)
 
+        self._load_patterns_task: Optional[asyncio.Task[None]] = None
+
         # Load existing patterns
-        asyncio.create_task(self._load_patterns())
+        self._load_patterns_task = asyncio.create_task(self._load_patterns())
 
         logger.info(
             "Meta-learning pattern system initialized",

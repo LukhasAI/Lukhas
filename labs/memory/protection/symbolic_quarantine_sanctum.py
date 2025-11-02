@@ -265,6 +265,8 @@ class SymbolicQuarantineSanctum:
             "permanent_locks": 0,
         }
 
+        self._scheduled_repairs: set[asyncio.Task[bool]] = set()
+
         # Optionally load configuration overrides
         if config_path:
             self._load_config(Path(config_path))
@@ -398,7 +400,9 @@ class SymbolicQuarantineSanctum:
 
             # Trigger automatic repair if enabled
             if self.auto_repair_enabled and threat_level != ThreatLevel.CATASTROPHIC:
-                asyncio.create_task(self._schedule_auto_repair(entry_id))
+                repair_task = asyncio.create_task(self._schedule_auto_repair(entry_id))
+                self._scheduled_repairs.add(repair_task)
+                repair_task.add_done_callback(self._scheduled_repairs.discard)
 
             logger.warning(
                 "Entry quarantined successfully | entry_id=%s threat_level=%s source_system=%s tag=%s",

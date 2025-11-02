@@ -115,6 +115,7 @@ class DreamMemoryIntegrator:
         # State management
         self.integration_active = False
         self.dream_session_active = False
+        self._integration_monitoring_task: Optional[asyncio.Task[None]] = None
 
     async def initialize(self) -> bool:
         """Initialize the dream-memory integration system"""
@@ -122,7 +123,9 @@ class DreamMemoryIntegrator:
             self.logger.info("Initializing Dream-Memory Integration System")
 
             # Start background integration monitoring
-            asyncio.create_task(self._integration_monitoring_loop())
+            self._integration_monitoring_task = asyncio.create_task(
+                self._integration_monitoring_loop()
+            )
 
             # Initialize dream memory selection
             await self._initialize_dream_memory_selection()

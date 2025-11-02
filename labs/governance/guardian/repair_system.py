@@ -189,8 +189,15 @@ class AutomatedRepairSystem:
             "last_updated": datetime.now(timezone.utc).isoformat(),
         }
 
+        self._background_tasks: set[asyncio.Task[Any]] = set()
+        self._initialization_task: Optional[asyncio.Task[None]] = None
+        self._health_monitoring_task: Optional[asyncio.Task[None]] = None
+        self._repair_execution_task: Optional[asyncio.Task[None]] = None
+        self._maintenance_task: Optional[asyncio.Task[None]] = None
+
         # Initialize system
-        asyncio.create_task(self._initialize_repair_system())
+        self._initialization_task = asyncio.create_task(self._initialize_repair_system())
+        self._track_task(self._initialization_task)
 
         logger.info("🔧 Automated Repair System initialized")
 
@@ -204,9 +211,19 @@ class AutomatedRepairSystem:
         await self._load_repair_strategies()
 
         # Start monitoring loops
-        asyncio.create_task(self._health_monitoring_loop())
-        asyncio.create_task(self._repair_execution_loop())
-        asyncio.create_task(self._proactive_maintenance_loop())
+        self._health_monitoring_task = asyncio.create_task(self._health_monitoring_loop())
+        self._track_task(self._health_monitoring_task)
+
+        self._repair_execution_task = asyncio.create_task(self._repair_execution_loop())
+        self._track_task(self._repair_execution_task)
+
+        self._maintenance_task = asyncio.create_task(self._proactive_maintenance_loop())
+        self._track_task(self._maintenance_task)
+
+    def _track_task(self, task: asyncio.Task[Any]) -> None:
+        """Track background asyncio tasks for lifecycle management."""
+        self._background_tasks.add(task)
+        task.add_done_callback(self._background_tasks.discard)
 
     async def _register_repair_handlers(self):
         """Register handlers for different repair types"""
@@ -537,7 +554,8 @@ class AutomatedRepairSystem:
 
                     if next_repair:
                         # Execute repair in background
-                        asyncio.create_task(self.execute_repair(next_repair.operation_id))
+                        task = asyncio.create_task(self.execute_repair(next_repair.operation_id))
+                        self._track_task(task)
 
                 await asyncio.sleep(5)  # Check every 5 seconds
 

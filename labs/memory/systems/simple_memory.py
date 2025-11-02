@@ -14,6 +14,9 @@ from pathlib import Path
 from typing import Any, Optional
 
 
+PENDING_BACKGROUND_TASKS: set[asyncio.Task[Any]] = set()
+
+
 class AgentMemory:
     """Simple shared memory for agents"""
 
@@ -66,7 +69,9 @@ def append_to_shared_memory(agent_id: str, event_type: str, data: dict[str, Any]
     """Legacy function for backward compatibility"""
     try:
         memory = AgentMemory(agent_id)
-        asyncio.create_task(memory.append_memory(event_type, data))
+        task = asyncio.create_task(memory.append_memory(event_type, data))
+        PENDING_BACKGROUND_TASKS.add(task)
+        task.add_done_callback(PENDING_BACKGROUND_TASKS.discard)
         return True
     except Exception:
         return False
