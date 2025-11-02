@@ -5,7 +5,7 @@ owner: T4
 lane: labs
 star:
 stability: experimental
-last_reviewed: 2025-10-18
+last_reviewed: 2025-11-02
 constellation_stars:
 related_modules:
 manifests:
@@ -92,11 +92,21 @@ LUKHAS is a comprehensive Cognitive AI architecture spanning **43,500+ Python fi
 - **Namespace Management**: Context-aware identity resolution and isolation
 - **Authentication Framework**: OAuth2/OIDC with passkey support and cross-device sync
 - **Identity Coherence**: <50ms identity synchronization with consciousness coupling
+- **WebAuthn Production System**: W3C Level 2 compliant FIDO2 authentication
+  - Thread-safe credential storage with dual-index O(1) lookup
+  - ES256/RS256 cryptographic signature verification
+  - Replay attack prevention with sign counter validation
+  - Constant-time comparison for timing attack prevention
+  - Complete registration and authentication flows
+  - 130+ tests with 100% pass rate
+- **OAuth 2.1 Migration**: Architectural decision to migrate from requests-oauthlib to authlib for modern OAuth 2.1 support with PKCE enforcement
 
 **Primary Contexts:**
 - `identity/claude.me` - Lambda ID foundation systems
 - `candidate/identity/claude.me` - Identity development workspace
-- `lukhas/identity/claude.me` - Identity integration layer
+- `lukhas/identity/claude.me` - Identity integration layer (WebAuthn system)
+- `docs/identity/WEBAUTHN_GUIDE.md` - Complete WebAuthn developer guide with Python/TypeScript examples
+- `docs/decisions/ADR-001-oauth-library-selection.md` - OAuth library migration decision
 
 ### **✦ Trail Star (Memory Systems)**
 - **Fold-Based Memory**: Hierarchical memory with statistical validation (0/100 cascades observed, 95% CI ≥ 96.3% Wilson lower bound)
@@ -120,11 +130,38 @@ LUKHAS is a comprehensive Cognitive AI architecture spanning **43,500+ Python fi
 - **Ethics Enforcement**: Real-time decision constraint checking and audit systems
 - **Drift Detection**: Behavioral monitoring with 0.15 threshold and 99.7% success rate
 - **Compliance Management**: GDPR/CCPA regulatory compliance and complete accountability
+- **Multi-Jurisdiction Compliance**: GDPR (EU), CCPA (California), PIPEDA (Canada), LGPD (Brazil)
+  - Privacy statement generation with HTML/text output
+  - Compliance report generation for data subject requests (Article 15, CCPA §1798.100)
+  - 6-section audit reports: consent history, access logs, retention, deletions, third-party disclosures, security events
+  - 107+ tests with jurisdiction-specific validation
+  - Integration with Guardian audit trail for consent tracking
+- **Consent Management Example**: Healthcare use case demonstrating policy definition, consent collection, verification, and audit trail
 
 **Primary Contexts:**
 - `ethics/claude.me` - Ethics framework overview (33+ components)
 - `ethics/guardian/claude.me` - Guardian systems and constitutional AI
 - `candidate/governance/claude.me` - Governance development workspace
+- `qi/compliance/` - Privacy statement and compliance report systems
+- `docs/governance/GUARDIAN_EXAMPLE.md` - Healthcare consent management example
+- `examples/governance/` - Working Guardian system examples
+
+### **🔒 Security (Encryption & Cryptography)**
+- **Centralized Encryption Manager**: Unified AEAD (Authenticated Encryption with Associated Data) interface for all LUKHAS components
+  - AES-256-GCM (primary algorithm, NIST-approved)
+  - ChaCha20-Poly1305 (alternative algorithm, RFC 8439)
+  - Post-quantum algorithms (Kyber768, Kyber1024) - framework ready, future implementation
+  - Key rotation and management with unique key IDs
+  - Associated data support for context binding
+  - No keys logged or hardcoded (environment-based management)
+  - 33+ tests with encryption round-trip, key rotation, AEAD tag verification
+- **Cryptographic Standards**: All encryption uses authenticated encryption to prevent tampering
+- **Security Best Practices**: Constant-time comparisons, secure random generation, no sensitive data in logs
+
+**Primary Contexts:**
+- `core/security/encryption_manager.py` - Centralized encryption system
+- `core/security/encryption_types.py` - Encryption algorithm enums and type definitions
+- `tests/unit/security/` - Comprehensive encryption testing
 
 ## 🔄 Development Pipeline
 
@@ -220,6 +257,10 @@ Research & Development → Integration & Testing → Production Deployment
 
 #### **Documentation & Support**
 - [`docs/claude.me`](./docs/claude.me) - Documentation systems & architectural guides
+- [`docs/SESSION_2025-11-01_NEW_SYSTEMS.md`](./docs/SESSION_2025-11-01_NEW_SYSTEMS.md) - Latest system deliverables: WebAuthn, Encryption, Compliance, OAuth migration (15,000 lines, 273+ tests)
+- [`docs/identity/WEBAUTHN_GUIDE.md`](./docs/identity/WEBAUTHN_GUIDE.md) - Complete WebAuthn developer guide with Python/TypeScript examples
+- [`docs/governance/GUARDIAN_EXAMPLE.md`](./docs/governance/GUARDIAN_EXAMPLE.md) - Guardian consent management example (healthcare use case)
+- [`docs/decisions/`](./docs/decisions/) - Architectural Decision Records (ADRs) including OAuth library selection
 
 ## 🚀 Quick Start Guide
 
@@ -561,4 +602,5 @@ async function processMATRIZWithContext(input: MatrizMessage) {
 ---
 
 **Architecture Status**: Constellation Framework Active | Constitutional AI Integrated | T4/0.01% Agent System Active | **T4 Context System**: Production-Ready
-**Last Updated**: 2025-10-24 | **Total Python Files**: 43,503 | **Total Markdown**: 15,418 | **Modules**: 149 | **Context Files**: 2,250+ | **Docs Dirs**: 229 | **Tests Dirs**: 522 | **T4 Context**: 18 components, 12,638 lines, 60+ tests
+**Last Updated**: 2025-11-02 | **Total Python Files**: 43,503 | **Total Markdown**: 15,418 | **Modules**: 149 | **Context Files**: 2,250+ | **Docs Dirs**: 229 | **Tests Dirs**: 522 | **T4 Context**: 18 components, 12,638 lines, 60+ tests
+**Latest Systems**: WebAuthn FIDO2 · Encryption Manager · Multi-Jurisdiction Compliance · OAuth 2.1 Migration
