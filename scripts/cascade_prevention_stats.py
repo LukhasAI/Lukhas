@@ -3,6 +3,9 @@ import asyncio
 import logging
 import statistics
 
+from memory.consolidation import ConsolidationMode, ConsolidationOrchestrator, InMemoryStore
+from memory.structural_conscience import StructuralConscience
+
 # Silence noisy optional imports for clean demo
 for noisy in [
     "candidate.core.colonies",
@@ -10,9 +13,6 @@ for noisy in [
     "candidate.memory.systems",
 ]:
     logging.getLogger(noisy).setLevel(logging.ERROR)
-
-from memory.consolidation import ConsolidationMode, ConsolidationOrchestrator, InMemoryStore
-from memory.structural_conscience import StructuralConscience
 
 
 async def run_single_test(seed: int) -> dict:

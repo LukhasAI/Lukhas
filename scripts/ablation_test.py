@@ -6,6 +6,9 @@ Demonstrates the cost vs benefit of structural validation.
 import asyncio
 import logging
 
+from memory.consolidation import ConsolidationMode, ConsolidationOrchestrator, InMemoryStore
+from memory.structural_conscience import StructuralConscience
+
 # Silence noisy optional imports for clean demo
 for noisy in [
     "candidate.core.colonies",
@@ -13,9 +16,6 @@ for noisy in [
     "candidate.memory.systems",
 ]:
     logging.getLogger(noisy).setLevel(logging.ERROR)
-
-from memory.consolidation import ConsolidationMode, ConsolidationOrchestrator, InMemoryStore
-from memory.structural_conscience import StructuralConscience
 
 
 class QuarantineDisabledOrchestrator(ConsolidationOrchestrator):
