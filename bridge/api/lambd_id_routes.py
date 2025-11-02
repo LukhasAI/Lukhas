@@ -123,6 +123,7 @@ def generate_lambda_id():
         return jsonify(result), status_code
 
     except Exception as e:
+        logger.error(
             f"ΛTRACE ({req_id}): Unhandled error in /generate endpoint: {e}",
             exc_info=True,
         )
@@ -138,6 +139,12 @@ def generate_lambda_id():
         )
 
 
+@lambda_id_bp.route("/validate", methods=["POST"])
+def validate_lambda_id():
+    """Validate a Lambda ID and return its properties."""
+    req_id = f"val_{int(time.time() * 1000) % 1000000}"
+    logger.info(f"ΛTRACE ({req_id}): Lambda ID validation request received.")
+    
     try:
         if not request.is_json:
             logger.warning(f"ΛTRACE ({req_id}): Invalid Content-Type for /validate.")
