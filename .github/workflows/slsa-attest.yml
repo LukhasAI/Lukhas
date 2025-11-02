@@ -1,0 +1,40 @@
+name: SLSA Attestations
+
+on:
+  push:
+    branches: [ main, "feat/*", "task/*" ]
+
+jobs:
+  attest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: Install build deps
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          pip install in-toto cosign
+      - name: Build artifact (example: wheel)
+        run: python -m pip wheel . -w dist
+      - name: Create in-toto step
+        env:
+          IN_TOTO_KEY: ${{ secrets.IN_TOTO_KEY }}
+        run: |
+          in-toto-run -n build -- python -m pip wheel . -w dist
+      - name: Sign artifacts
+        env:
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+        run: |
+          for file in dist/*.whl; do
+            cosign sign --key ${{ secrets.COSIGN_KEY }} "$file"
+          done
+      - name: Upload attestations
+        uses: actions/upload-artifact@v4
+        with:
+          name: slsa-attest
+          path: dist/*

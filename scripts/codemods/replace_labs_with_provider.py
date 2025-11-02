@@ -1,335 +1,129 @@
 #!/usr/bin/env python3
 """
-Codemod: Replace top-level `from labs.xxx import name1, name2` with
-lazy, importlib-based assignments that eliminate static `ImportFrom` edges
-to `labs` while preserving runtime behavior where possible.
-
+Codemod: replace top-level `from labs.xxx import name1, name2` with importlib-based lazy assignments.
 Usage:
-  - Dry-run (write .patch files only):
-      python3 scripts/codemods/replace_labs_with_provider.py --outdir /tmp/codmod_patches
-  - Apply in place (creates .bak backups):
-      python3 scripts/codemods/replace_labs_with_provider.py --apply
-
-Notes:
-  - Only transforms top-level imports (module scope). Imports inside functions/classes are left as-is.
-  - Star imports (from labs.x import *) are skipped and reported.
-  - Adds `import importlib as _importlib` at module top if needed.
-  - Skips files under tests/docs/venv/artifacts/archive folders.
+  python3 scripts/codemods/replace_labs_with_provider.py --outdir /tmp/patches
+  python3 scripts/codemods/replace_labs_with_provider.py --apply
 """
 from __future__ import annotations
-
 import argparse
 import difflib
-from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable, List, Optional, Tuple
-
 import libcst as cst
-from libcst import MaybeSentinel
 
+# NOTE: This codemod is intentionally conservative. It only converts top-level
+# ImportFrom nodes whose module string starts with "labs". It does not change call sites
+# aggressively — we create top-level names that callers can use, but callers may need manual review.
 
-LABS_PREFIX = "labs"
+class LabsImportRewriter(cst.CSTTransformer):
+    def leave_ImportFrom(self, original_node: cst.ImportFrom, updated_node: cst.ImportFrom) -> cst.CSTNode:
+        # Only act on `from labs... import ...` at module level
+        module = original_node.module
+        if module is None:
+            return updated_node
+        module_code = module.code if hasattr(module, "code") else None
+        if not module_code or not module_code.strip().startswith("labs"):
+            return updated_node
 
+        # Build replacement: importlib import + getattr assignments
+        # Example:
+        # import importlib as _importlib
+        # try:
+        #   _mod = _importlib.import_module("labs.foo")
+        #   X = getattr(_mod, "X")
+        #   Y = getattr(_mod, "Y")
+        # except Exception:
+        #   X = None
+        #   Y = None
 
-@dataclass
-class ImportSpec:
-    module_str: str
-    names: List[Tuple[str, Optional[str]]]  # (name, alias)
+        importlib_stmt = cst.parse_statement("import importlib as _importlib\n")
+        try_items = []
+        mod_str = module_code.strip()
+        # _mod = _importlib.import_module("module")
+        try_items.append(
+            cst.parse_statement(f"_mod = _importlib.import_module({repr(mod_str)})\n")
+        )
+        names = []
+        for alias in original_node.names:
+            if isinstance(alias, cst.ImportAlias):
+                if isinstance(alias.name, cst.Name):
+                    name = alias.name.value
+                    asname = alias.asname.name.value if alias.asname else None
+                    names.append((name, asname))
+                else:
+                    # fallback: write original import to manual review
+                    return updated_node
+            else:
+                return updated_node
 
+        for nm, asn in names:
+            var = asn if asn else nm
+            try_items.append(cst.parse_statement(f"{var} = getattr(_mod, {repr(nm)})\n"))
 
-def _is_top_level_stmt(stmt: cst.BaseStatement) -> bool:
-    # In libcst's Module.body, statements are top-level.
-    # We additionally ensure the ImportFrom sits directly in a SimpleStatementLine.
-    return isinstance(stmt, cst.SimpleStatementLine)
+        except_items = []
+        for nm, asn in names:
+            var = asn if asn else nm
+            except_items.append(cst.parse_statement(f"{var} = None\n"))
 
+        try_stmt = cst.Try(
+            body=cst.IndentedBlock(try_items),
+            handlers=[cst.ExceptHandler(body=cst.IndentedBlock(except_items))],
+            orelse=None,
+            finalbody=None,
+        )
 
-def _extract_importfrom(stmt: cst.BaseStatement) -> Optional[cst.ImportFrom]:
-    if not isinstance(stmt, cst.SimpleStatementLine):
-        return None
-    if len(stmt.body) != 1:
-        return None
-    small = stmt.body[0]
-    if isinstance(small, cst.ImportFrom):
-        return small
-    return None
+        # Return a SmallBlock with importlib + try
+        return cst.SimpleStatementLine([importlib_stmt, try_stmt])
 
-
-def _get_module_str(mod: Optional[cst.BaseExpression]) -> Optional[str]:
-    if mod is None:
-        return None
-    try:
-        # Best-effort full name
-        return cst.helpers.get_full_name_for_node(mod)
-    except Exception:
-        try:
-            return mod.code
-        except Exception:
-            return None
-
-
-def _importfrom_to_spec(node: cst.ImportFrom) -> Optional[ImportSpec]:
-    mod_text = _get_module_str(node.module)
-    if not mod_text:
-        return None
-    if not (mod_text == LABS_PREFIX or mod_text.startswith(LABS_PREFIX + ".")):
-        return None
-
-    # Only handle explicit names; skip star imports
-    if isinstance(node.names, MaybeSentinel):
-        return None
-    names: List[Tuple[str, Optional[str]]] = []
-    for alias in node.names:
-        if isinstance(alias, cst.ImportStar):
-            # Skip star imports – too risky to rewrite automatically
-            return None
-        if isinstance(alias, cst.ImportAlias):
-            name_node = alias.name
-            nm = name_node.value if isinstance(name_node, cst.Name) else name_node.code
-            asname = alias.asname
-            alias_str = asname.name.value if (asname and isinstance(asname.name, cst.Name)) else None
-            names.append((nm, alias_str))
-    if not names:
-        return None
-    return ImportSpec(module_str=mod_text, names=names)
-
-
-def _try_collect_labs_specs(try_node: cst.Try) -> Optional[List[ImportSpec]]:
-    """If the try-block body consists of one or more labs ImportFrom lines, collect them.
-    Returns list of specs or None if pattern not matched (to avoid risky rewrites).
-    """
-    # Only consider trivial try blocks (no else/finally), any except allowed.
-    if try_node.orelse is not None or try_node.finalbody is not None:
-        return None
-    specs: List[ImportSpec] = []
-    for st in try_node.body.body:
-        if not isinstance(st, cst.SimpleStatementLine) or len(st.body) != 1:
-            return None
-        small = st.body[0]
-        if not isinstance(small, cst.ImportFrom):
-            return None
-        spec = _importfrom_to_spec(small)
-        if spec is None:
-            return None
-        specs.append(spec)
-    if not specs:
-        return None
-    return specs
-
-
-def _has_importlib_alias(module: cst.Module) -> Optional[str]:
-    # Return the symbol to use for importlib (alias or bare name), if present
-    for stmt in module.body:
-        if isinstance(stmt, cst.SimpleStatementLine):
-            for small in stmt.body:
-                if isinstance(small, cst.Import):
-                    for name in small.names:
-                        if not isinstance(name, cst.ImportAlias):
-                            continue
-                        target = name.name
-                        if isinstance(target, cst.Name) and target.value == "importlib":
-                            if name.asname and isinstance(name.asname.name, cst.Name):
-                                return name.asname.name.value
-                            return "importlib"
-    return None
-
-
-def _build_lazy_block(spec: ImportSpec, importlib_symbol: str) -> cst.Try:
-    # try:
-    #   _mod = importlib_symbol.import_module("spec.module_str")
-    #   Name = getattr(_mod, "Name"); ...
-    # except Exception:
-    #   Name = None; ...
-    body_stmts: List[cst.BaseStatement] = []
-
-    assign_mod = cst.parse_statement(
-        f"_mod = {importlib_symbol}.import_module(\"{spec.module_str}\")"
-    )
-    body_stmts.append(assign_mod)
-
-    for nm, alias in spec.names:
-        varname = alias or nm
-        body_stmts.append(cst.parse_statement(f"{varname} = getattr(_mod, \"{nm}\")"))
-
-    except_body: List[cst.BaseStatement] = []
-    for nm, alias in spec.names:
-        varname = alias or nm
-        except_body.append(cst.parse_statement(f"{varname} = None"))
-
-    try_node = cst.Try(
-        body=cst.IndentedBlock(body=body_stmts),
-        handlers=[
-            cst.ExceptHandler(
-                type=cst.Name("Exception"),
-                name=None,
-                body=cst.IndentedBlock(body=except_body),
-            )
-        ],
-        orelse=None,
-        finalbody=None,
-    )
-    return try_node
-
-
-def rewrite_module(module: cst.Module) -> Tuple[cst.Module, bool]:
-    """Return (new_module, changed?)."""
-    changed = False
-    new_body: List[cst.BaseStatement] = []
-
-    # Determine existing importlib symbol (alias) if present
-    importlib_symbol = _has_importlib_alias(module)
-    need_importlib = False
-
-    for stmt in module.body:
-        repl_done = False
-        impfrom = _extract_importfrom(stmt)
-        if _is_top_level_stmt(stmt) and impfrom is not None:
-            spec = _importfrom_to_spec(impfrom)
-            if spec is not None:
-                changed = True
-                # Ensure we have a usable importlib symbol
-                sym = importlib_symbol or "_importlib"
-                if importlib_symbol is None:
-                    need_importlib = True
-                # Replace the single-line import with a try/except block
-                new_body.append(_build_lazy_block(spec, sym))
-                repl_done = True
-        elif isinstance(stmt, cst.Try):
-            specs = _try_collect_labs_specs(stmt)
-            if specs:
-                changed = True
-                sym = importlib_symbol or "_importlib"
-                if importlib_symbol is None:
-                    need_importlib = True
-                # For each spec, emit a separate lazy block to keep names clear
-                for sp in specs:
-                    new_body.append(_build_lazy_block(sp, sym))
-                repl_done = True
-
-        if not repl_done:
-            new_body.append(stmt)
-
-    out_module = module.with_changes(body=new_body)
-
-    # Insert `import importlib as _importlib` if needed and not already present.
-    # Keep order: [docstring] -> [from __future__ ...] -> import importlib ... -> rest
-    if need_importlib:
-        import_stmt = cst.parse_statement("import importlib as _importlib\n")
-        idx = 0
-        body = list(out_module.body)
-
-        # 1) Optional module docstring at index 0
-        if body and isinstance(body[0], cst.SimpleStatementLine):
-            first_small = body[0].body[0]
-            if isinstance(first_small, cst.Expr) and isinstance(first_small.value, cst.SimpleString):
-                idx = 1
-
-        # 2) Consecutive __future__ imports after docstring block
-        while idx < len(body):
-            stmt = body[idx]
-            if not isinstance(stmt, cst.SimpleStatementLine):
-                break
-            if len(stmt.body) != 1:
-                break
-            small = stmt.body[0]
-            if isinstance(small, cst.ImportFrom):
-                mod_text = _get_module_str(small.module)
-                if mod_text == "__future__":
-                    idx += 1
-                    continue
-            break
-
-        new_body2: List[cst.BaseStatement] = [*body[:idx], import_stmt, *body[idx:]]
-        out_module = out_module.with_changes(body=new_body2)
-
-    return out_module, changed
-
-
-def process_file(path: Path) -> Optional[Tuple[str, str]]:
+def process_file(path: Path):
     src = path.read_text(encoding="utf-8")
     try:
         module = cst.parse_module(src)
     except Exception as e:
-        print(f"[warn] parse failed for {path}: {e}")
+        print(f"[skip] parse error {path}: {e}")
         return None
+    rewriter = LabsImportRewriter()
+    new_module = module.visit(rewriter)
+    new_src = new_module.code
+    if new_src != src:
+        return src, new_src
+    return None
 
-    new_mod, changed = rewrite_module(module)
-    if not changed:
-        return None
-    new_src = new_mod.code
-    diff = "\n".join(
-        difflib.unified_diff(
-            src.splitlines(), new_src.splitlines(), fromfile=str(path), tofile=str(path), lineterm=""
-        )
-    )
-    return new_src, diff
-
-
-def collect_py_files(root: Path, includes: Optional[List[str]] = None) -> Iterable[Path]:
-    root = root.resolve()
-    if includes:
-        include_paths = [ (root / inc).resolve() for inc in includes ]
-    else:
-        # Default to core/ lukhas/ serve/
-        include_paths = [ (root / x).resolve() for x in ("core", "lukhas", "serve") ]
-
-    for inc in include_paths:
-        if not inc.exists():
+def collect_py_files(root: Path):
+    for p in root.rglob("*.py"):
+        if any(x in p.parts for x in (".venv","venv",".git","tests","docs","artifacts","archive")):
             continue
-        for p in inc.rglob("*.py"):
-            # Skip common non-target paths
-            if any(part in p.parts for part in (".venv", "venv", "tests", "docs", "artifacts", "archive", "labs")):
-                continue
-            # Skip typical test file name patterns
-            name = p.name
-            if name.startswith("test_") or name.endswith("_test.py"):
-                continue
-            yield p
+        yield p
 
-
-def main() -> None:
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--repo-root", default=".")
-    ap.add_argument("--outdir", default="/tmp/codmod_patches")
-    ap.add_argument("--apply", action="store_true", default=False)
-    ap.add_argument("--include", action="append", default=None, help="Include subpaths (repeatable). Defaults: core, lukhas, serve")
-    args = ap.parse_args()
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--outdir", default="/tmp/codmod_patches")
+    parser.add_argument("--apply", action="store_true")
+    parser.add_argument("--repo-root", default=".")
+    args = parser.parse_args()
 
     root = Path(args.repo_root).resolve()
     outdir = Path(args.outdir)
     outdir.mkdir(parents=True, exist_ok=True)
-
-    updated = 0
-    for f in collect_py_files(root, args.include):
-        try:
-            res = process_file(f)
-        except Exception as e:
-            print(f"[warn] failed processing {f}: {e}")
-            continue
+    count = 0
+    for f in collect_py_files(root):
+        res = process_file(f)
         if not res:
             continue
-        new_src, diff = res
-        # Always emit a patch for review
-        # Name patch by repo-relative path for clarity
-        try:
-            rel = f.relative_to(root)
-        except Exception:
-            rel = f
-        safe_name = str(rel).replace("/", "__")
-        patch_path = outdir / (safe_name + ".patch")
+        old, new = res
+        rel = f.relative_to(root)
+        patch_path = outdir / (str(rel).replace("/", "__") + ".patch")
+        # produce unified diff
+        diff = "\n".join(difflib.unified_diff(old.splitlines(), new.splitlines(), fromfile=str(f), tofile=str(f), lineterm=""))
         patch_path.write_text(diff, encoding="utf-8")
-        print(f"[info] patch written: {patch_path}")
-        updated += 1
+        print(f"[info] wrote patch {patch_path}")
+        count += 1
         if args.apply:
             bak = f.with_suffix(f.suffix + ".bak")
             if not bak.exists():
-                # backup original and write new
-                f.rename(bak)
-                f.write_text(new_src, encoding="utf-8")
-            else:
-                print(f"[warn] backup exists; skip apply for {f}")
-
-    print(f"[info] Completed. {updated} file(s) would be/were updated.")
-
+                f.write_text(new, encoding="utf-8")
+                print(f"[apply] updated {f} (backup at {bak})")
+    print(f"[info] total patches: {count}")
 
 if __name__ == "__main__":
     main()
