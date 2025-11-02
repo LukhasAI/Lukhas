@@ -14,9 +14,9 @@ from __future__ import annotations
 
 import argparse
 import importlib.util
-import inspect
 import sys
 from pathlib import Path
+import inspect
 from types import ModuleType
 from typing import Callable, Optional
 
@@ -81,4 +81,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

@@ -8,9 +8,9 @@ Focuses on the most critical issues first with safe, automated fixes.
 """
 
 import json
-import os
 import subprocess
 from pathlib import Path
+import os
 
 import requests
 

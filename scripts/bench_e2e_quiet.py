@@ -7,9 +7,9 @@ Runs E2E performance tests with minimal logging for accurate results.
 """
 
 import logging
-import os
 import sys
 
+import os
 # Suppress verbose logging
 logging.getLogger().setLevel(logging.CRITICAL)
 logging.getLogger('lukhas').setLevel(logging.CRITICAL)

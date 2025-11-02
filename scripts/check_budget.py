@@ -7,8 +7,8 @@ Add detailed documentation and examples as needed.
 """
 
 import os
-import sys
 
+import sys
 elapsed = float(os.environ.get("ELAPSED", "0") or 0)
 budget = float(os.environ.get("BUDGET_SEC", "0") or 0)
 suite = os.environ.get("SUITE", "suite")

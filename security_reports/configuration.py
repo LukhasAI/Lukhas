@@ -5,7 +5,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Mapping, MutableMapping
-
 import yaml
 
 _PACKAGE_ROOT = Path(__file__).resolve().parent

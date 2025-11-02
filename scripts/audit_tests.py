@@ -11,8 +11,8 @@ Returns:
     Non-zero: Collection errors found
 """
 import subprocess
-import sys
 
+import sys
 
 def main():
     """Audit test collection - exit code based validation only"""

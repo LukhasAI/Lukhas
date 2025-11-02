@@ -16,9 +16,9 @@ Exit codes:
   2: Error reading file
 """
 import argparse
-import json
 import sys
 from pathlib import Path
+import json
 
 
 def load_alias_hits(path: Path):

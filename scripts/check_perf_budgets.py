@@ -4,8 +4,8 @@ Performance budget checker for T4 hardening
 Validates test durations against historical p95 baselines
 """
 import json
-import sys
 from pathlib import Path
+import sys
 
 
 def load_budgets():

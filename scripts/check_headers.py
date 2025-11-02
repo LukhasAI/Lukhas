@@ -8,9 +8,9 @@ Verifies that all Python files in production code have proper Apache-2.0 headers
 from __future__ import annotations
 
 import argparse
-import sys
 from pathlib import Path
 from typing import List
+import sys
 
 # Required header format (can be customized)
 REQUIRED_HEADER = """# Copyright (c) 2025 LUKHAS AI

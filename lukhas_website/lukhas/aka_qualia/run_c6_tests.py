@@ -13,9 +13,9 @@ Constellation Framework principles under various test conditions.
 """
 import subprocess
 import sys
-import time
 from pathlib import Path
 from typing import Any
+import time
 
 
 class WaveCTestRunner:

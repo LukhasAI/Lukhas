@@ -5,8 +5,8 @@ Analyzes F821 violations and provides strategic resolution suggestions
 """
 
 import json
-from collections import defaultdict
 
+from collections import defaultdict
 
 class LUKHASSymbolResolver:
     """LUKHAS consciousness-aware symbol resolver"""

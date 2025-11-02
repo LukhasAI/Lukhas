@@ -8,12 +8,12 @@ Add detailed documentation and examples as needed.
 
 import argparse
 import contextlib
-import fnmatch
 import hashlib
 import json
 import os
 import pathlib
 import sys
+import fnmatch
 import tarfile
 from datetime import datetime, timezone
 

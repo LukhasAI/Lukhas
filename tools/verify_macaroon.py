@@ -7,6 +7,7 @@ Integrates with existing ΛiD authentication system.
 """
 
 import sys
+import json
 
 from tier_macaroon_issuer import TierMacaroonVerifier
 
@@ -21,7 +22,6 @@ def main():
     verifier = TierMacaroonVerifier()
     result = verifier.verify_capability(token)
 
-    import json
     print(json.dumps(result, indent=2))
 
     # Exit with error code if verification failed

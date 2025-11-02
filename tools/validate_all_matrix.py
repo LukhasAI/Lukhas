@@ -8,10 +8,10 @@ Produces comprehensive validation results for CI/CD pipeline.
 
 import argparse
 import json
-import sys
 from datetime import datetime
 from glob import glob
 from pathlib import Path
+import sys
 from typing import Any, Dict, List, Tuple
 
 from jsonschema import Draft202012Validator

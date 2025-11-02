@@ -5,9 +5,9 @@ Promotion Executor - Reads promotion plan and executes git mv operations
 
 import json
 import pathlib
-import subprocess
 import sys
 from typing import Dict, List
+import subprocess
 
 
 def run_git_mv(source: str, target: str) -> bool:

@@ -7,9 +7,9 @@ Add detailed documentation and examples as needed.
 """
 
 import ast
-import sys
 from collections import defaultdict
 from pathlib import Path
+import sys
 
 ROOT="lukhas"
 edges = defaultdict(set)

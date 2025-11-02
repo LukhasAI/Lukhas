@@ -2,7 +2,6 @@
 """Fix E402 errors in qi/, vivox/, products/, and other remaining directories."""
 
 import subprocess
-from pathlib import Path
 
 
 def fix_file(filepath):

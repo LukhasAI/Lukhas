@@ -6,9 +6,9 @@ Integrates with Makefile targets and existing Ollama helper
 
 import hashlib
 import json
-import subprocess
 import sys
 from datetime import datetime, timezone
+import subprocess
 from pathlib import Path
 
 

@@ -6,10 +6,10 @@ Shows human-friendly diffs between current files and templates.
 
 import argparse
 import difflib
-import json
 import pathlib
 import sys
 from typing import Any, Dict, List
+import json
 
 try:
     from jinja2 import Environment, FileSystemLoader

@@ -7,10 +7,10 @@ Constellation Framework: ⚛️ (Identity), 🧠 (Consciousness), 🛡️ (Guard
 
 import argparse
 import asyncio
-import json
 import logging
 import subprocess
 import sys
+import json
 from pathlib import Path
 from typing import Optional
 

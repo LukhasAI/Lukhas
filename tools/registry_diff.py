@@ -12,9 +12,9 @@ Can bypass with --allow-removals flag or LUKHAS_ALLOW_MODULE_REMOVALS env var.
 from __future__ import annotations
 
 import argparse
-import json
 import os
 import sys
+import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]

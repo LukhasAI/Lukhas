@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import asyncio
 import logging
-import statistics
 
 # Silence noisy optional imports for clean demo
 for noisy in [

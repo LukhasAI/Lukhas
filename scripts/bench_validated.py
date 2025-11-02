@@ -8,11 +8,11 @@ and statistically sound measurements.
 """
 
 import json
-import logging
 import os
 import sys
 import tempfile
 import time
+import logging
 from pathlib import Path
 
 # Suppress verbose logging

@@ -3,9 +3,9 @@
 from __future__ import annotations
 
 import json
-import sys
 from pathlib import Path
 from typing import Dict, List
+import sys
 
 from star_canon_utils import extract_canon_labels, iter_star_definitions
 

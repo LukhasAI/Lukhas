@@ -16,9 +16,9 @@ Exit codes:
 from __future__ import annotations
 
 import os
-import re
 import sys
 from pathlib import Path
+import re
 
 try:
     import yaml

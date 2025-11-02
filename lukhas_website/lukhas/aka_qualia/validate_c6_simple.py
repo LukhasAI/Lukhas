@@ -9,9 +9,9 @@ that works with current environment constraints.
 """
 import asyncio
 import sys
-import time
 from pathlib import Path
 
+import time
 
 def test_basic_imports():
     """Test that all required components can be imported"""

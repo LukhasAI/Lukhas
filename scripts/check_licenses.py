@@ -9,10 +9,10 @@ Outputs report to docs/audits/licenses.md
 from __future__ import annotations
 
 import argparse
-import json
 import subprocess
 import sys
 from pathlib import Path
+import json
 from typing import Dict, List, Set
 
 # Approved open-source licenses

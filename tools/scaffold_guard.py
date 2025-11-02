@@ -5,8 +5,8 @@ Prevents commits that modify scaffold-generated files without proper provenance.
 """
 
 import subprocess
-import sys
 from pathlib import Path
+import sys
 
 PROV_PREFIX = "# @generated LUKHAS scaffold v1"
 

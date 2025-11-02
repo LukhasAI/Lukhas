@@ -9,9 +9,9 @@ Add detailed documentation and examples as needed.
 from __future__ import annotations
 
 import argparse
-import json
 import sys
 from pathlib import Path
+import json
 
 
 def load(path: Path) -> dict:

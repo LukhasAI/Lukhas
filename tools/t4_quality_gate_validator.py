@@ -25,6 +25,7 @@ import json
 import subprocess
 import sys
 import time
+import logging
 from datetime import datetime, timezone
 from pathlib import Path
 

@@ -5,8 +5,8 @@ Prevents deprecated terminology and enforces Lambda (Λ) usage rules
 """
 
 import sys
-from pathlib import Path
 
+from pathlib import Path
 # Define brand rules
 DEPRECATED_TERMS = {
     "MATADA": "MΛTRIZ",  # Display form

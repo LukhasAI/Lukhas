@@ -5,8 +5,8 @@ Reports broken references and missing contracts.
 """
 import json
 import pathlib
-import sys
 from typing import Dict
+import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 MANIFESTS_DIR = ROOT / "manifests"

@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 import argparse
-import json
 import random
 import time
 from dataclasses import dataclass
 from typing import Any, Dict, Iterable, List
+
+import json
 
 from memory.adaptive_memory import AdaptiveMemorySystem, MemoryType
 from memory.fold_system import FoldManager

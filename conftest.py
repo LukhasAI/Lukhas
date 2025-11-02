@@ -45,6 +45,7 @@ def pytest_sessionfinish(session, exitstatus):
 # ---- Lukhas alias hook (lukhas.* → canonical), safe & non-invasive ----
 # IMPORTANT: never mutate sys.path; only implement find_spec; never intercept non-lukhas.
 _LUKHAS_PREFIX = "lukhas."
+import pytest
 
 
 class _LukhasAliasFinder(importlib.abc.MetaPathFinder):
@@ -107,9 +108,6 @@ def pytest_sessionstart(session):
 
 
 # ---- Additional test fixtures ----
-import pytest
-
-
 @pytest.fixture(scope="session")
 def labs_root():
     """Provide path to labs (candidate) directory."""

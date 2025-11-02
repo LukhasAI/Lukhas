@@ -7,9 +7,9 @@ Add detailed documentation and examples as needed.
 """
 
 import json
-import pathlib
 import sys
 
+import pathlib
 paths = [
     pathlib.Path("reports/unit.json"),
     pathlib.Path("reports/capabilities.json"),

@@ -9,8 +9,8 @@ Exit codes:
   0 - All required headers present
   1 - Missing headers or validation failed
 """
-import json
 import sys
+import json
 from pathlib import Path
 
 

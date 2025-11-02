@@ -420,7 +420,7 @@ class TestPerformanceRequirements:
                 latencies.append(float('inf'))
 
         # Calculate p95
-        valid_latencies = [l for l in latencies if l != float('inf')]
+        valid_latencies = [latency for latency in latencies if latency != float('inf')]
         valid_latencies.sort()
         p95_index = int(0.95 * len(valid_latencies))
         p50_index = int(0.50 * len(valid_latencies))
@@ -446,7 +446,7 @@ class TestPerformanceRequirements:
                 "actual_p95_ms": p95_latency * 1000 if p95_latency != float('inf') else None,
                 "passed": p95_latency < 0.25
             },
-            "latencies_ms": [l * 1000 for l in valid_latencies[:10]]  # First 10 samples
+            "latencies_ms": [latency * 1000 for latency in valid_latencies[:10]]  # First 10 samples
         }
 
         # Save artifact

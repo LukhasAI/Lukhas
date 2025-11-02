@@ -13,9 +13,9 @@ Follows T4 autofix policy from .t4autofix.toml
 """
 
 import re
-import subprocess
 import sys
 from datetime import datetime
+import subprocess
 from pathlib import Path
 
 try:

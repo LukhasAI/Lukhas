@@ -184,7 +184,13 @@
       "Bash(then)",
       "Bash(if grep -q \"^# import streamlit as st\" \"$file\")",
       "Bash(elif ! grep -q \"import streamlit\" \"$file\")",
-      "Bash(fi)"
+      "Bash(fi)",
+      "Bash(column:*)",
+      "Bash(for pr in 835 834 833 832 831 829 805)",
+      "Bash(do echo \"=== PR #$pr ===\" gh pr view $pr --json number,title,state,headRefName,baseRefName,author,additions,deletions,files,mergeable,isDraft)",
+      "Bash(do echo \"=== PR #$pr CI Status ===\")",
+      "Bash(for pr in 835 834 833 832 831)",
+      "Bash(gh pr review:*)"
     ],
     "deny": [],
     "ask": [],

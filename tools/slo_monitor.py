@@ -12,10 +12,10 @@ Generates weekly SLO reports and triggers alerts when SLOs are at risk.
 
 import argparse
 import glob
-import json
 import pathlib
 from datetime import datetime, timedelta
 from typing import Any, Dict, List, Optional
+import json
 
 import yaml
 

@@ -5,9 +5,9 @@ Handles common patterns while preserving functionality.
 """
 
 import re
-import sys
 from pathlib import Path
 from typing import List, Tuple
+import sys
 
 
 def extract_file_parts(content: str) -> Tuple[str, str, str, str]:

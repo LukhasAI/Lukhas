@@ -6,10 +6,10 @@ Processes code quality issues in batches with comprehensive validation
 
 import hashlib
 import json
-import subprocess
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+import subprocess
 from typing import Any
 
 

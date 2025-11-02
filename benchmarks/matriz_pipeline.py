@@ -16,13 +16,12 @@ import asyncio
 import statistics
 import time
 
-import pytest
-
 try:
     from matriz.core.async_orchestrator import AsyncOrchestrator
     from matriz.core.pipeline_context import (
         PipelineContext,  # noqa: F401  # TODO: matriz.core.pipeline_context.P...
     )
+
     MATRIZ_AVAILABLE = True
 except ImportError:
     MATRIZ_AVAILABLE = False
