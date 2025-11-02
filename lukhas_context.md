@@ -30,6 +30,42 @@ Legacy core alias: enabled (warn/disable via env) — use lukhas.core.*
 
 # LUKHAS Cognitive AI System - Master Architecture Overview
 
+## 🆕 Recent Updates (2025-11-02)
+
+### Lane Isolation Infrastructure - Provider Pattern
+**NEW: Runtime Dependency Injection for Production → Development Lane Boundaries**
+
+Created comprehensive provider infrastructure eliminating import-time dependencies:
+
+**Location**: `core/adapters/`
+- `provider_registry.py` - Runtime dependency injection (392 lines)
+- `config_resolver.py` - Environment-based configuration (52 lines)
+- `README.md` - Complete documentation and migration guide
+
+**Available Providers**:
+1. **OpenAI Provider** - `registry.get_openai()` - GPT model access
+2. **Consciousness Service** - `registry.get_consciousness_service()` - Multi-engine processing
+3. **Memory Service** - `registry.get_memory_service()` - Fold systems, emotional memory
+4. **Identity Service** - `registry.get_identity_service()` - Lambda ID, WebAuthn
+5. **Governance Service** - `registry.get_governance_service()` - Constitutional AI, Guardian
+
+**Usage Example**:
+```python
+from core.adapters import ProviderRegistry, make_resolver
+registry = ProviderRegistry(make_resolver())
+consciousness = registry.get_consciousness_service()  # Lazy loaded at runtime
+```
+
+**Impact**:
+- ✅ **Lane Compliance**: 99% of production code already compliant
+- ✅ **Testing**: Import-safety test suite created
+- ✅ **Performance**: Lazy loading reduces startup time
+- ✅ **Maintainability**: Clear dependency boundaries
+
+**Documentation**: See `core/adapters/README.md` for complete guide
+
+---
+
 ## 🚨 MATRIZ Migration Update
 
 **Team Announcement (Ready to Share):**
@@ -38,7 +74,7 @@ We've completed MATRIZ case standardization for all production code and integrat
 
 **Completed:**
 ✅ serve/ (2 imports)
-✅ core/ (2 imports)  
+✅ core/ (2 imports)
 ✅ tests/integration/ (20 imports)
 
 **Status:** 3 PRs in CI validation

@@ -46,6 +46,26 @@ else:
 logger = logging.getLogger(__name__)
 
 
+def _get_openai_provider():
+    """
+    Get OpenAI provider via registry (runtime injection).
+
+    This function uses lazy loading to prevent import-time dependencies
+    from production → labs. The provider is only imported when actually needed.
+
+    Returns:
+        OpenAIModulatedService instance from labs
+
+    Raises:
+        ImportError: If labs module is not available
+    """
+    from core.adapters.provider_registry import ProviderRegistry
+    from core.adapters.config_resolver import make_resolver
+
+    registry = ProviderRegistry(make_resolver())
+    return registry.get_openai()
+
+
 class OrchestrationMode(Enum):
     """Modes of GPT-Colony orchestration"""
 
@@ -97,8 +117,11 @@ class GPTColonyOrchestrator:
         openai_service: Optional[OpenAIModulatedService] = None,
         signal_bus: Optional[SignalBus] = None,
     ):
-        self.openai_service = openai_service or OpenAIModulatedService()
-        self.signal_bus = signal_bus or SignalBus()
+        # Use provided service or lazy-load via provider (eliminates import-time dependency)
+        self._openai_service = openai_service
+        self._signal_bus = signal_bus
+        self._openai_loaded = False
+        self._signal_bus_loaded = False
 
         # Colony management
         self.colonies: dict[str, EnhancedReasoningColony] = {}
@@ -118,6 +141,32 @@ class GPTColonyOrchestrator:
 
         # Thread pool for parallel execution
         self.executor = ThreadPoolExecutor(max_workers=10)
+
+    @property
+    def openai_service(self):
+        """Lazy-load OpenAI service on first access."""
+        if self._openai_service is None and not self._openai_loaded:
+            try:
+                self._openai_service = _get_openai_provider()
+                self._openai_loaded = True
+            except ImportError as e:
+                logger.warning(f"Failed to load OpenAI provider: {e}")
+                self._openai_loaded = True  # Mark as attempted to avoid repeated failures
+        return self._openai_service
+
+    @property
+    def signal_bus(self):
+        """Lazy-load signal bus on first access."""
+        if self._signal_bus is None and not self._signal_bus_loaded:
+            try:
+                # Import signal bus lazily
+                from orchestration.signals.signal_bus import SignalBus
+                self._signal_bus = SignalBus()
+                self._signal_bus_loaded = True
+            except ImportError as e:
+                logger.warning(f"Failed to load SignalBus: {e}")
+                self._signal_bus_loaded = True
+        return self._signal_bus
 
     def register_colony(self, colony_id: str, colony: EnhancedReasoningColony):
         """Register a colony for orchestration"""
@@ -540,6 +589,14 @@ class GPTColonyOrchestrator:
     async def _process_with_gpt(self, task: OrchestrationTask) -> Optional[dict[str, Any]]:
         """Process task with GPT model"""
         try:
+            # Import OpenAICapability lazily to avoid import-time dependency
+            if TYPE_CHECKING:
+                from labs.consciousness.reflection.openai_modulated_service import OpenAICapability
+            else:
+                import importlib
+                module = importlib.import_module("labs.consciousness.reflection.openai_modulated_service")
+                OpenAICapability = getattr(module, "OpenAICapability")
+
             response = await self.openai_service.process_modulated_request(
                 module="orchestrator",
                 capability=OpenAICapability.REASONING,
