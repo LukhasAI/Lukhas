@@ -70,7 +70,7 @@ class TestWebAuthnAbuseProtection:
                     'curl/7.68.0',
                     'PostmanRuntime/7.29.2'
                 ],
-                'ip_ranges': ['192.168.1.{}'.format(i) for i in range(1, 255)],
+                'ip_ranges': [f'192.168.1.{i}' for i in range(1, 255)],
                 'request_patterns': 'rapid_sequential'
             },
             'device_spoofing': {

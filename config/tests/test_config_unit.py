@@ -4,8 +4,7 @@
 # module: config
 # do_not_edit: false
 #
-"""
-Unit tests for config module.
+"""Unit tests for config module.
 """
 
 import importlib
@@ -51,7 +50,7 @@ class TestConfigCore:
 
             config = ConfigConfig(
                 debug_mode=True,
-                performance_monitoring=False
+                performance_monitoring=False,
             )
 
             assert config.debug_mode is True
@@ -200,11 +199,11 @@ class TestConfigPerformance:
 def pytest_configure(config):
     """Configure pytest for config tests."""
     config.addinivalue_line(
-        "markers", "integration: mark test as integration test"
+        "markers", "integration: mark test as integration test",
     )
     config.addinivalue_line(
-        "markers", "performance: mark test as performance test"
+        "markers", "performance: mark test as performance test",
     )
     config.addinivalue_line(
-        "markers", "slow: mark test as slow running"
+        "markers", "slow: mark test as slow running",
     )

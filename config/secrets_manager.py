@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-LUKHAS API Optimization - Secrets Management
+"""LUKHAS API Optimization - Secrets Management
 
 Secure handling of sensitive configuration values with encryption,
 key rotation, and secure storage capabilities.
@@ -29,6 +28,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class SecretMetadata:
     """Metadata for stored secrets"""
+
     name: str
     created_at: str
     expires_at: Optional[str] = None
@@ -45,6 +45,7 @@ class SecretMetadata:
 @dataclass
 class SecretEntry:
     """Complete secret entry with metadata"""
+
     metadata: SecretMetadata
     encrypted_value: str
     salt: str
@@ -58,13 +59,14 @@ class SecretsManager:
                  master_key: Optional[str] = None,
                  secrets_dir: Path = Path("config/secrets"),
                  auto_rotate_days: int = 90):
-        """
-        Initialize secrets manager
+        """Initialize secrets manager
 
         Args:
+        ----
             master_key: Master encryption key (optional, will be derived)
             secrets_dir: Directory for storing encrypted secrets
             auto_rotate_days: Days before auto-rotation is recommended
+
         """
         self.secrets_dir = Path(secrets_dir)
         self.secrets_dir.mkdir(parents=True, exist_ok=True)
@@ -82,7 +84,6 @@ class SecretsManager:
 
     def _get_or_create_master_key(self) -> str:
         """Get master key from environment or create new one"""
-
         # Try environment variable first
         master_key = os.getenv("LUKHAS_MASTER_KEY")
         if master_key:
@@ -150,7 +151,7 @@ class SecretsManager:
                     metadata=metadata,
                     encrypted_value=entry_data["encrypted_value"],
                     salt=entry_data["salt"],
-                    algorithm=entry_data.get("algorithm", "PBKDF2-FERNET")
+                    algorithm=entry_data.get("algorithm", "PBKDF2-FERNET"),
                 )
                 secrets_db[name] = entry
 
@@ -170,7 +171,7 @@ class SecretsManager:
                 "metadata": asdict(entry.metadata),
                 "encrypted_value": entry.encrypted_value,
                 "salt": entry.salt,
-                "algorithm": entry.algorithm
+                "algorithm": entry.algorithm,
             }
 
         try:
@@ -187,17 +188,19 @@ class SecretsManager:
                     value: str,
                     expires_days: Optional[int] = None,
                     tags: Optional[List[str]] = None) -> bool:
-        """
-        Store a secret securely
+        """Store a secret securely
 
         Args:
+        ----
             name: Secret name/identifier
             value: Secret value to encrypt
             expires_days: Days until expiration (optional)
             tags: Tags for categorization
 
         Returns:
+        -------
             True if successful
+
         """
         try:
             # Generate salt for this secret
@@ -217,14 +220,14 @@ class SecretsManager:
                 name=name,
                 created_at=created_at,
                 expires_at=expires_at,
-                tags=tags or []
+                tags=tags or [],
             )
 
             # Create entry
             entry = SecretEntry(
                 metadata=metadata,
                 encrypted_value=encrypted_b64,
-                salt=salt
+                salt=salt,
             )
 
             # Store in database
@@ -239,14 +242,16 @@ class SecretsManager:
             return False
 
     def get_secret(self, name: str) -> Optional[str]:
-        """
-        Retrieve and decrypt a secret
+        """Retrieve and decrypt a secret
 
         Args:
+        ----
             name: Secret name/identifier
 
         Returns:
+        -------
             Decrypted secret value or None
+
         """
         if name not in self.secrets_db:
             logger.warning(f"Secret '{name}' not found")
@@ -278,15 +283,17 @@ class SecretsManager:
             return None
 
     def rotate_secret(self, name: str, new_value: str) -> bool:
-        """
-        Rotate a secret to a new value
+        """Rotate a secret to a new value
 
         Args:
+        ----
             name: Secret name/identifier  
             new_value: New secret value
 
         Returns:
+        -------
             True if successful
+
         """
         if name not in self.secrets_db:
             logger.warning(f"Secret '{name}' not found for rotation")
@@ -317,14 +324,16 @@ class SecretsManager:
             return False
 
     def delete_secret(self, name: str) -> bool:
-        """
-        Delete a secret
+        """Delete a secret
 
         Args:
+        ----
             name: Secret name/identifier
 
         Returns:
+        -------
             True if successful
+
         """
         if name not in self.secrets_db:
             logger.warning(f"Secret '{name}' not found for deletion")
@@ -342,14 +351,16 @@ class SecretsManager:
             return False
 
     def list_secrets(self, tags: Optional[List[str]] = None) -> List[Dict[str, Any]]:
-        """
-        List all secrets with metadata
+        """List all secrets with metadata
 
         Args:
+        ----
             tags: Filter by tags (optional)
 
         Returns:
+        -------
             List of secret metadata
+
         """
         secrets_list = []
 
@@ -380,7 +391,7 @@ class SecretsManager:
                 "last_accessed": entry.metadata.last_accessed,
                 "tags": entry.metadata.tags,
                 "needs_rotation": needs_rotation,
-                "is_expired": is_expired
+                "is_expired": is_expired,
             })
 
         return secrets_list
@@ -388,15 +399,17 @@ class SecretsManager:
     def export_secrets_for_env(self,
                               environment: str = "production",
                               format: str = "env") -> str:
-        """
-        Export secrets for deployment environment
+        """Export secrets for deployment environment
 
         Args:
+        ----
             environment: Target environment
             format: Export format ('env', 'yaml', 'json')
 
         Returns:
+        -------
             Formatted secrets for deployment
+
         """
         env_secrets = {}
 
@@ -432,14 +445,16 @@ class SecretsManager:
             raise ValueError(f"Unsupported format: {format}")
 
     def import_secrets_from_env(self, prefix: str = "LUKHAS_SECRET_") -> int:
-        """
-        Import secrets from environment variables
+        """Import secrets from environment variables
 
         Args:
+        ----
             prefix: Environment variable prefix
 
         Returns:
+        -------
             Number of secrets imported
+
         """
         imported_count = 0
 
@@ -455,11 +470,12 @@ class SecretsManager:
         return imported_count
 
     def validate_secrets(self) -> Dict[str, Any]:
-        """
-        Validate all secrets and return status
+        """Validate all secrets and return status
 
-        Returns:
+        Returns
+        -------
             Validation results
+
         """
         total_secrets = len(self.secrets_db)
         expired_secrets = []
@@ -496,23 +512,25 @@ class SecretsManager:
             "rotation_needed": rotation_needed,
             "expired_count": len(expired_secrets),
             "rotation_count": len(rotation_needed),
-            "health_score": (accessible_secrets / total_secrets * 100) if total_secrets > 0 else 100
+            "health_score": (accessible_secrets / total_secrets * 100) if total_secrets > 0 else 100,
         }
 
     def generate_api_key(self,
                         name: str,
                         length: int = 32,
                         expires_days: Optional[int] = None) -> Tuple[str, str]:
-        """
-        Generate a secure API key
+        """Generate a secure API key
 
         Args:
+        ----
             name: Name for the API key
             length: Key length in bytes
             expires_days: Days until expiration
 
         Returns:
+        -------
             Tuple of (api_key, key_id)
+
         """
         # Generate secure random key
         api_key = secrets.token_urlsafe(length)
@@ -527,22 +545,24 @@ class SecretsManager:
             full_name,
             api_key,
             expires_days=expires_days,
-            tags=["api_key", name]
+            tags=["api_key", name],
         )
 
         logger.info(f"Generated API key for '{name}' with ID: {key_id}")
         return api_key, key_id
 
     def verify_api_key(self, api_key: str, name: str) -> bool:
-        """
-        Verify an API key
+        """Verify an API key
 
         Args:
+        ----
             api_key: API key to verify
             name: Name associated with the key
 
         Returns:
+        -------
             True if key is valid
+
         """
         # Generate key ID from provided key
         key_hash = hashlib.sha256(api_key.encode()).hexdigest()
@@ -647,7 +667,7 @@ if __name__ == "__main__":
             args.name,
             args.value,
             expires_days=args.expires_days,
-            tags=args.tags
+            tags=args.tags,
         )
         print("✅ Secret stored successfully" if success else "❌ Failed to store secret")
 
@@ -664,18 +684,17 @@ if __name__ == "__main__":
 
         if args.format == "json":
             print(json.dumps(secrets_list, indent=2))
+        elif not secrets_list:
+            print("No secrets found")
         else:
-            if not secrets_list:
-                print("No secrets found")
-            else:
-                print(f"{'Name':<20} {'Created':<20} {'Expires':<20} {'Needs Rotation':<15}")
-                print("-" * 80)
-                for secret in secrets_list:
-                    name = secret["name"][:19]
-                    created = secret["created_at"][:19] if secret["created_at"] else "N/A"
-                    expires = secret["expires_at"][:19] if secret["expires_at"] else "Never"
-                    rotation = "Yes" if secret["needs_rotation"] else "No"
-                    print(f"{name:<20} {created:<20} {expires:<20} {rotation:<15}")
+            print(f"{'Name':<20} {'Created':<20} {'Expires':<20} {'Needs Rotation':<15}")
+            print("-" * 80)
+            for secret in secrets_list:
+                name = secret["name"][:19]
+                created = secret["created_at"][:19] if secret["created_at"] else "N/A"
+                expires = secret["expires_at"][:19] if secret["expires_at"] else "Never"
+                rotation = "Yes" if secret["needs_rotation"] else "No"
+                print(f"{name:<20} {created:<20} {expires:<20} {rotation:<15}")
 
     elif args.command == "rotate":
         success = manager.rotate_secret(args.name, args.new_value)
@@ -688,7 +707,7 @@ if __name__ == "__main__":
     elif args.command == "generate-api-key":
         api_key, key_id = manager.generate_api_key(
             args.name,
-            expires_days=args.expires_days
+            expires_days=args.expires_days,
         )
         print("Generated API Key:")
         print(f"Key ID: {key_id}")
@@ -698,7 +717,7 @@ if __name__ == "__main__":
     elif args.command == "export":
         exported = manager.export_secrets_for_env(
             environment=args.environment,
-            format=args.format
+            format=args.format,
         )
         print(exported)
 

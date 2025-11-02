@@ -18,9 +18,10 @@ import json
 import os
 import re
 import sys
+from collections.abc import Iterator, Sequence
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Iterator, List, Optional, Sequence
+from typing import List, Optional
 
 # --- Config ------------------------------------------------------------------
 SKIP_DIRS = {

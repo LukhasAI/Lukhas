@@ -2,8 +2,9 @@
 from __future__ import annotations
 
 import logging
+from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass
-from typing import Iterable, List, Mapping, Sequence
+from typing import List
 
 logger = logging.getLogger("healix_widget")
 

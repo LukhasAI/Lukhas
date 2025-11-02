@@ -89,9 +89,9 @@ def write_proposed(moves, out='proposed_moves.sh'):
     lines = ["#!/bin/bash", "set -euo pipefail", "echo '=== PROPOSED MOVES — REVIEW BEFORE EXECUTION ==='"]
     for src,dst in moves:
         if dst is None:
-            lines.append("# DUPLICATE (identical sha) - REMOVE: {}".format(src))
+            lines.append(f"# DUPLICATE (identical sha) - REMOVE: {src}")
         else:
-            lines.append("echo 'PROPOSE: git mv -v \"{}\" \"{}\"'".format(src,dst))
+            lines.append(f"echo 'PROPOSE: git mv -v \"{src}\" \"{dst}\"'")
     lines.append("echo '--- End of proposed moves. Edit as needed. To execute, remove the echo and run this script.'")
     with open(out,'w') as f:
         f.write("\n".join(lines))

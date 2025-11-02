@@ -4,10 +4,11 @@ from __future__ import annotations
 
 import os
 import uuid
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Callable, Dict, Iterable, List, Optional
+from typing import Any, Callable, Dict, List, Optional
 
 
 class ControlStatus(Enum):

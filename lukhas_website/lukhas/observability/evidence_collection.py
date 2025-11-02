@@ -20,11 +20,12 @@ import os
 import time
 import zlib
 from collections import deque
+from collections.abc import AsyncGenerator
 from dataclasses import asdict, dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from pathlib import Path
-from typing import Any, AsyncGenerator, Dict, List, Optional
+from typing import Any, Dict, List, Optional
 from uuid import uuid4
 
 from cryptography.hazmat.primitives import hashes, serialization

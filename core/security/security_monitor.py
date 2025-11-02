@@ -12,12 +12,13 @@ still surfacing actionable signals for production and tests.
 from __future__ import annotations
 
 from collections import defaultdict, deque
+from collections.abc import Iterable, Mapping, MutableMapping
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta, timezone
 from enum import Enum
 from threading import RLock
 from time import perf_counter
-from typing import Any, Deque, Dict, Iterable, Mapping, MutableMapping, Optional, Tuple
+from typing import Any, Deque, Dict, Optional, Tuple
 
 from observability import counter, gauge, histogram
 

@@ -25,8 +25,11 @@ try:
     # from ...core.id_service.lambd_id_generator import LambdaIDGenerator
     # from ...core.id_service.lambd_id_validator import LambdaIDValidator
     # from ...core.id_service.lambd_id_entropy import EntropyCalculator
+    logger = logging.getLogger(__name__)
     logger.info("ΛTRACE: LambdaIDController imported successfully.")
 except ImportError as e:
+    logger = logging.getLogger(__name__)
+    logger.error(
         f"ΛTRACE: Failed to import LambdaIDController or core services: {e}. ΛiD routes may not function.",
         exc_info=True,
     )
@@ -62,11 +65,22 @@ try:
     controller = LambdaIDController()
     logger.info("ΛTRACE: LambdaIDController instance created.")
 except Exception as e_controller:
+    logger.error(
         f"ΛTRACE: Failed to instantiate LambdaIDController: {e_controller}. Endpoints will likely fail.",
         exc_info=True,
     )
     controller = LambdaIDController()  # Fallback instance
 
+# Create the Blueprint
+lambda_id_bp = Blueprint("lambda_id", __name__, url_prefix="/lambda-id")
+
+
+@lambda_id_bp.route("/generate", methods=["POST"])
+def generate_lambda_id():
+    """Generate a new Lambda ID with entropy calculation."""
+    req_id = f"gen_{int(time.time() * 1000) % 1000000}"
+    logger.info(f"ΛTRACE ({req_id}): Lambda ID generation request received.")
+    
     try:
         if not request.is_json:
             logger.warning(
@@ -109,6 +123,7 @@ except Exception as e_controller:
         return jsonify(result), status_code
 
     except Exception as e:
+        logger.error(
             f"ΛTRACE ({req_id}): Unhandled error in /generate endpoint: {e}",
             exc_info=True,
         )
@@ -124,6 +139,12 @@ except Exception as e_controller:
         )
 
 
+@lambda_id_bp.route("/validate", methods=["POST"])
+def validate_lambda_id():
+    """Validate a Lambda ID and return its properties."""
+    req_id = f"val_{int(time.time() * 1000) % 1000000}"
+    logger.info(f"ΛTRACE ({req_id}): Lambda ID validation request received.")
+    
     try:
         if not request.is_json:
             logger.warning(f"ΛTRACE ({req_id}): Invalid Content-Type for /validate.")

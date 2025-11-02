@@ -27,10 +27,11 @@ import argparse
 import json
 import re
 import sys
+from collections.abc import Iterable
 from dataclasses import asdict, dataclass
 from enum import Enum
 from pathlib import Path
-from typing import Dict, Iterable, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple
 
 
 class SymbolType(Enum):

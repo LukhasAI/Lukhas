@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 import json
+from collections.abc import Iterable, Mapping, MutableMapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Iterable, List, Mapping, MutableMapping, Optional, Sequence, Tuple
+from typing import List, Optional, Tuple
 
 
 class SecurityReportError(RuntimeError):

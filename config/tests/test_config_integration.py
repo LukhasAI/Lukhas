@@ -4,8 +4,7 @@
 # module: config
 # do_not_edit: false
 #
-"""
-Integration tests for config module.
+"""Integration tests for config module.
 """
 
 from unittest.mock import Mock, patch
@@ -27,7 +26,7 @@ class TestConfigEndToEnd:
             # Test data pipeline
             test_input = {
                 "test_data": "integration_test",
-                "timestamp": "2025-01-01T00:00:00Z"
+                "timestamp": "2025-01-01T00:00:00Z",
             }
 
             result = component.process(test_input)
@@ -251,7 +250,7 @@ def test_data():
         "test_input": {
             "module": "config",
             "test_type": "integration",
-            "timestamp": "2025-01-01T00:00:00Z"
+            "timestamp": "2025-01-01T00:00:00Z",
         },
-        "expected_output_keys": ["result", "status", "timestamp"]
+        "expected_output_keys": ["result", "status", "timestamp"],
     }

@@ -10,6 +10,7 @@ import os
 import sys
 from pathlib import Path
 
+
 def invoke_gemini_with_task(task_brief_path: str):
     """Invoke Gemini 2.0 Flash with code execution to handle a task."""
 

@@ -14,10 +14,11 @@ import asyncio
 import json
 import logging
 from collections import Counter
+from collections.abc import Iterable
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Iterable, Optional
+from typing import Any, Optional
 
 from ethics.core import EthicalDecision, get_shared_ethics_engine
 from ethics.seedra import get_seedra

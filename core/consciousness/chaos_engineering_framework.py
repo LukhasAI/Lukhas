@@ -46,9 +46,7 @@ from typing import Any, Optional
 import numpy as np
 
 # Configure chaos engineering logging
-        try:
-            # Create chaos scenario
-            scenario_class = self.scenarios[scenario_type]
+logger = logging.getLogger(__name__)
             if scenario_type == ChaosScenarioType.TRINITY_COMPONENT_ISOLATION:
                 scenario = scenario_class(intensity, isolated_component="random")
             else:

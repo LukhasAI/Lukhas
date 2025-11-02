@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-LUKHAS API Optimization - Configuration Factory
+"""LUKHAS API Optimization - Configuration Factory
 
 Centralized configuration management for all deployment environments
 with dynamic environment detection, secrets management, and validation.
@@ -23,6 +22,7 @@ logger = logging.getLogger(__name__)
 
 class DeploymentEnvironment(Enum):
     """Supported deployment environments"""
+
     DEVELOPMENT = "development"
     TESTING = "testing"
     STAGING = "staging"
@@ -34,6 +34,7 @@ class DeploymentEnvironment(Enum):
 @dataclass
 class RedisConfig:
     """Redis configuration"""
+
     url: str = "redis://localhost:6379/0"
     password: Optional[str] = None
     pool_size: int = 10
@@ -45,6 +46,7 @@ class RedisConfig:
 @dataclass
 class OptimizationConfig:
     """API optimization configuration"""
+
     strategy: str = "balanced"
     enable_rate_limiting: bool = True
     enable_caching: bool = True
@@ -58,6 +60,7 @@ class OptimizationConfig:
 @dataclass
 class MiddlewareConfig:
     """Middleware pipeline configuration"""
+
     enable_security: bool = True
     enable_validation: bool = True
     enable_analytics: bool = True
@@ -70,6 +73,7 @@ class MiddlewareConfig:
 @dataclass
 class AnalyticsConfig:
     """Analytics and monitoring configuration"""
+
     enable_metrics: bool = True
     enable_alerts: bool = False
     enable_intelligence: bool = False
@@ -81,6 +85,7 @@ class AnalyticsConfig:
 @dataclass
 class IntegrationConfig:
     """Main integration configuration"""
+
     mode: str = "development"
     enable_optimizer: bool = True
     enable_middleware: bool = True
@@ -93,6 +98,7 @@ class IntegrationConfig:
 @dataclass
 class LoggingConfig:
     """Logging configuration"""
+
     level: str = "INFO"
     format: str = "structured"
     output: str = "console"
@@ -104,6 +110,7 @@ class LoggingConfig:
 @dataclass
 class MonitoringConfig:
     """Monitoring and observability configuration"""
+
     prometheus_enabled: bool = False
     prometheus_port: int = 9090
     jaeger_enabled: bool = False
@@ -114,6 +121,7 @@ class MonitoringConfig:
 @dataclass
 class SecurityConfig:
     """Security configuration"""
+
     jwt_secret_key: Optional[str] = None
     api_key_salt: Optional[str] = None
     encryption_key: Optional[str] = None
@@ -125,6 +133,7 @@ class SecurityConfig:
 @dataclass
 class LUKHASAPIOptimizationConfig:
     """Complete LUKHAS API Optimization configuration"""
+
     integration: IntegrationConfig
     optimization: OptimizationConfig
     middleware: MiddlewareConfig
@@ -170,7 +179,6 @@ class ConfigurationFactory:
                      environment: Union[str, DeploymentEnvironment],
                      overrides: Optional[Dict[str, Any]] = None) -> LUKHASAPIOptimizationConfig:
         """Create configuration for specific environment"""
-
         if isinstance(environment, str):
             try:
                 environment = DeploymentEnvironment(environment)
@@ -200,45 +208,44 @@ class ConfigurationFactory:
 
     def _get_environment_config(self, environment: DeploymentEnvironment) -> Dict[str, Any]:
         """Get configuration for specific environment"""
-
         configs = {
             DeploymentEnvironment.DEVELOPMENT: {
                 "integration": {
                     "mode": "development",
                     "enable_intelligent_routing": False,
                     "enable_predictive_caching": False,
-                    "enable_auto_scaling": False
+                    "enable_auto_scaling": False,
                 },
                 "optimization": {
                     "strategy": "balanced",
                     "cache_ttl_seconds": 300,
                     "max_cache_size_mb": 128,
-                    "max_concurrent_requests": 100
+                    "max_concurrent_requests": 100,
                 },
                 "middleware": {
                     "max_request_size_mb": 5,
                     "request_timeout_seconds": 15,
-                    "enable_compression": False
+                    "enable_compression": False,
                 },
                 "analytics": {
                     "enable_alerts": False,
                     "enable_intelligence": False,
                     "retention_days": 3,
-                    "batch_size": 50
+                    "batch_size": 50,
                 },
                 "redis": {
                     "pool_size": 5,
-                    "timeout_seconds": 3
+                    "timeout_seconds": 3,
                 },
                 "logging": {
                     "level": "DEBUG",
                     "format": "structured",
-                    "output": "console"
+                    "output": "console",
                 },
                 "monitoring": {
                     "prometheus_enabled": False,
-                    "jaeger_enabled": False
-                }
+                    "jaeger_enabled": False,
+                },
             },
 
             DeploymentEnvironment.TESTING: {
@@ -246,30 +253,30 @@ class ConfigurationFactory:
                     "mode": "testing",
                     "enable_intelligent_routing": False,
                     "enable_predictive_caching": False,
-                    "enable_auto_scaling": False
+                    "enable_auto_scaling": False,
                 },
                 "optimization": {
                     "strategy": "balanced",
                     "cache_ttl_seconds": 60,
                     "max_cache_size_mb": 64,
-                    "max_concurrent_requests": 50
+                    "max_concurrent_requests": 50,
                 },
                 "analytics": {
                     "enable_alerts": False,
                     "enable_intelligence": False,
                     "retention_days": 1,
-                    "batch_size": 10
+                    "batch_size": 10,
                 },
                 "redis": {
                     "url": "redis://localhost:6379/1",  # Different DB for testing
                     "pool_size": 3,
-                    "timeout_seconds": 2
+                    "timeout_seconds": 2,
                 },
                 "logging": {
                     "level": "WARNING",
                     "format": "json",
-                    "output": "console"
-                }
+                    "output": "console",
+                },
             },
 
             DeploymentEnvironment.PRODUCTION: {
@@ -277,30 +284,30 @@ class ConfigurationFactory:
                     "mode": "production",
                     "enable_intelligent_routing": True,
                     "enable_predictive_caching": True,
-                    "enable_auto_scaling": True
+                    "enable_auto_scaling": True,
                 },
                 "optimization": {
                     "strategy": "high_throughput",
                     "cache_ttl_seconds": 3600,
                     "max_cache_size_mb": 1024,
-                    "max_concurrent_requests": 2000
+                    "max_concurrent_requests": 2000,
                 },
                 "middleware": {
                     "max_request_size_mb": 50,
                     "request_timeout_seconds": 60,
-                    "enable_compression": True
+                    "enable_compression": True,
                 },
                 "analytics": {
                     "enable_alerts": True,
                     "enable_intelligence": True,
                     "retention_days": 30,
                     "batch_size": 1000,
-                    "export_interval_seconds": 30
+                    "export_interval_seconds": 30,
                 },
                 "redis": {
                     "pool_size": 50,
                     "timeout_seconds": 10,
-                    "retry_attempts": 5
+                    "retry_attempts": 5,
                 },
                 "logging": {
                     "level": "INFO",
@@ -308,15 +315,15 @@ class ConfigurationFactory:
                     "output": "file",
                     "file_path": "/var/log/lukhas/api-optimization.log",
                     "rotation": "daily",
-                    "retention_days": 30
+                    "retention_days": 30,
                 },
                 "monitoring": {
                     "prometheus_enabled": True,
                     "prometheus_port": 9090,
                     "jaeger_enabled": True,
                     "jaeger_endpoint": "http://jaeger:14268/api/traces",
-                    "health_check_interval_seconds": 15
-                }
+                    "health_check_interval_seconds": 15,
+                },
             },
 
             DeploymentEnvironment.HIGH_PERFORMANCE: {
@@ -324,34 +331,34 @@ class ConfigurationFactory:
                     "mode": "high_performance",
                     "enable_intelligent_routing": True,
                     "enable_predictive_caching": True,
-                    "enable_auto_scaling": True
+                    "enable_auto_scaling": True,
                 },
                 "optimization": {
                     "strategy": "aggressive_cache",
                     "cache_ttl_seconds": 7200,
                     "max_cache_size_mb": 2048,
-                    "max_concurrent_requests": 5000
+                    "max_concurrent_requests": 5000,
                 },
                 "middleware": {
                     "max_request_size_mb": 100,
                     "request_timeout_seconds": 120,
-                    "enable_compression": True
+                    "enable_compression": True,
                 },
                 "analytics": {
                     "enable_intelligence": True,
                     "retention_days": 90,
                     "batch_size": 2000,
-                    "export_interval_seconds": 10
+                    "export_interval_seconds": 10,
                 },
                 "redis": {
                     "pool_size": 100,
-                    "timeout_seconds": 15
+                    "timeout_seconds": 15,
                 },
                 "monitoring": {
                     "prometheus_enabled": True,
                     "jaeger_enabled": True,
-                    "health_check_interval_seconds": 10
-                }
+                    "health_check_interval_seconds": 10,
+                },
             },
 
             DeploymentEnvironment.RESOURCE_CONSERVATIVE: {
@@ -359,35 +366,35 @@ class ConfigurationFactory:
                     "mode": "resource_conservative",
                     "enable_intelligent_routing": False,
                     "enable_predictive_caching": False,
-                    "enable_auto_scaling": False
+                    "enable_auto_scaling": False,
                 },
                 "optimization": {
                     "strategy": "resource_conservation",
                     "cache_ttl_seconds": 1800,
                     "max_cache_size_mb": 64,
-                    "max_concurrent_requests": 200
+                    "max_concurrent_requests": 200,
                 },
                 "middleware": {
                     "max_request_size_mb": 10,
                     "request_timeout_seconds": 30,
-                    "enable_compression": False
+                    "enable_compression": False,
                 },
                 "analytics": {
                     "enable_intelligence": False,
                     "retention_days": 7,
                     "batch_size": 100,
-                    "export_interval_seconds": 300
+                    "export_interval_seconds": 300,
                 },
                 "redis": {
                     "pool_size": 10,
-                    "timeout_seconds": 5
+                    "timeout_seconds": 5,
                 },
                 "monitoring": {
                     "prometheus_enabled": False,
                     "jaeger_enabled": False,
-                    "health_check_interval_seconds": 60
-                }
-            }
+                    "health_check_interval_seconds": 60,
+                },
+            },
         }
 
         return configs.get(environment, configs[DeploymentEnvironment.DEVELOPMENT])
@@ -460,7 +467,7 @@ class ConfigurationFactory:
             logging=logging_config,
             monitoring=monitoring,
             security=security,
-            environment=environment
+            environment=environment,
         )
 
     def _deep_merge(self, base: Dict[str, Any], override: Dict[str, Any]) -> Dict[str, Any]:
@@ -534,7 +541,7 @@ class ConfigurationFactory:
             "valid": len(issues) == 0,
             "issues": issues,
             "warnings": warnings,
-            "summary": f"Configuration validation: {len(issues)} errors, {len(warnings)} warnings"
+            "summary": f"Configuration validation: {len(issues)} errors, {len(warnings)} warnings",
         }
 
 
@@ -561,7 +568,6 @@ def validate_config(config: LUKHASAPIOptimizationConfig) -> Dict[str, Any]:
 
 def auto_detect_environment() -> str:
     """Auto-detect deployment environment from environment variables"""
-
     # Check explicit environment variable
     env = os.getenv("LUKHAS_ENVIRONMENT", "").lower()
     if env in [e.value for e in DeploymentEnvironment]:
@@ -630,8 +636,7 @@ if __name__ == "__main__":
         else:
             factory.save_config(config, args.output)
         print(f"Configuration saved to {args.output}")
+    elif args.format == "json":
+        print(json.dumps(asdict(config), indent=2))
     else:
-        if args.format == "json":
-            print(json.dumps(asdict(config), indent=2))
-        else:
-            print(yaml.dump(asdict(config), default_flow_style=False, indent=2))
+        print(yaml.dump(asdict(config), default_flow_style=False, indent=2))

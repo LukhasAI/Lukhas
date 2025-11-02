@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from importlib import import_module
-from typing import Iterable
+from collections.abc import Iterable
 
 __all__: list[str] = []
 
