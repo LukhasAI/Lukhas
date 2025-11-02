@@ -200,7 +200,7 @@ include = '\.pyi?$'
 
 [tool.ruff]
 src = ["lukhas", "core", "MATRIZ"]
-target-version = "py39"
+target-version = "py311"
 line-length = 100
 respect-gitignore = true
 fix = true
