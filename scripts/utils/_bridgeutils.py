@@ -8,7 +8,8 @@ from __future__ import annotations
 import warnings
 from importlib import import_module
 from types import ModuleType
-from typing import Callable, Iterable
+from typing import Callable
+from collections.abc import Iterable
 
 
 def resolve_first(paths: Iterable[str]) -> ModuleType:

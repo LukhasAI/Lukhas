@@ -7,7 +7,8 @@ import sys
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence
+from typing import Any, Dict, List, Optional
+from collections.abc import Iterable, Mapping, Sequence
 
 # ΛTAG: hidden_gems_summary
 

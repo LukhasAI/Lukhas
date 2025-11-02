@@ -11,7 +11,8 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, replace
 from enum import Enum
-from typing import Any, Dict, Iterable, Mapping
+from typing import Any, Dict
+from collections.abc import Iterable, Mapping
 
 
 class SecurityReportValidationError(ValueError):

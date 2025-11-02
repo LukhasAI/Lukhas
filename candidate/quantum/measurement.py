@@ -5,7 +5,8 @@ import logging
 import math
 import random
 from dataclasses import dataclass
-from typing import Any, Mapping
+from typing import Any
+from collections.abc import Mapping
 
 from .superposition_engine import SuperpositionState
 

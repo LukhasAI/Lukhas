@@ -22,7 +22,8 @@ import uuid
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Awaitable, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional
+from collections.abc import Awaitable
 
 from opentelemetry import trace
 from prometheus_client import Counter, Histogram

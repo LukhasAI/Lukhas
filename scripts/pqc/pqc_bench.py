@@ -15,7 +15,8 @@ import math
 import sys
 import time
 from dataclasses import dataclass
-from typing import Iterable, List
+from typing import List
+from collections.abc import Iterable
 
 try:
     import oqs  # type: ignore

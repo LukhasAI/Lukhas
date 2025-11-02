@@ -11,7 +11,8 @@ Phase 3: Added as part of security hardening.
 
 import logging
 import re
-from typing import List, Pattern
+from typing import List
+from re import Pattern
 
 # Secret patterns to redact
 _SECRET_PATTERNS: List[Pattern] = [

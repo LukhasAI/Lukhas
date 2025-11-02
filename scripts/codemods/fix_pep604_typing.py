@@ -7,7 +7,8 @@ import io
 import os
 import re
 import sys
-from typing import Iterable, Tuple
+from typing import Tuple
+from collections.abc import Iterable
 
 OPT_PATTERN = re.compile(r"(\b[A-Za-z_][A-Za-z0-9_.]*\b)\s*\|\s*None\b")
 

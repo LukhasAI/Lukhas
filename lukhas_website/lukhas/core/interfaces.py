@@ -25,7 +25,8 @@ Usage (example):
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import Any, Mapping, Optional, Protocol, runtime_checkable
+from typing import Any, Optional, Protocol, runtime_checkable
+from collections.abc import Mapping
 
 
 class CognitiveNodeBase(ABC):

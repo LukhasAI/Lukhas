@@ -7,7 +7,8 @@ import logging
 import math
 import random
 from dataclasses import dataclass
-from typing import Any, Mapping, Sequence
+from typing import Any
+from collections.abc import Mapping, Sequence
 
 logger = logging.getLogger(__name__)
 

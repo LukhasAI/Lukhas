@@ -7,7 +7,8 @@ module imports.
 
 from __future__ import annotations
 
-from typing import Dict, Sequence, Tuple, Type
+from typing import Dict, Tuple, Type
+from collections.abc import Sequence
 
 try:
     from prometheus_client import (  # type: ignore

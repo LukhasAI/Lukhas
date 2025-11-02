@@ -17,7 +17,8 @@ from datetime import datetime, timedelta, timezone
 from enum import Enum
 from threading import RLock
 from time import perf_counter
-from typing import Any, Deque, Dict, Iterable, Mapping, MutableMapping, Optional, Tuple
+from typing import Any, Deque, Dict, Optional, Tuple
+from collections.abc import Iterable, Mapping, MutableMapping
 
 from observability import counter, gauge, histogram
 

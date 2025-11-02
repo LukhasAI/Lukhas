@@ -20,7 +20,8 @@ import re
 import sys
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Iterator, List, Optional, Sequence
+from typing import List, Optional
+from collections.abc import Iterator, Sequence
 
 # --- Config ------------------------------------------------------------------
 SKIP_DIRS = {

@@ -6,7 +6,8 @@ import json
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Any, List, Mapping
+from typing import Any, List
+from collections.abc import Mapping
 
 logger = logging.getLogger("blockchain_wrapper")
 

@@ -5,7 +5,8 @@ import hashlib
 import os
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Iterable, Mapping, MutableMapping, Optional, Sequence
+from typing import Optional
+from collections.abc import Iterable, Mapping, MutableMapping, Sequence
 
 from fastapi import Header, HTTPException, status
 

@@ -18,7 +18,8 @@ import hashlib
 import logging
 import time
 import uuid
-from typing import Any, AsyncGenerator, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional, Union
+from collections.abc import AsyncGenerator
 
 from fastapi import (
     APIRouter,

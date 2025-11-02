@@ -2,7 +2,8 @@
 import logging
 import time
 import uuid
-from typing import Any, Awaitable, Callable, Optional
+from typing import Any, Callable, Optional
+from collections.abc import Awaitable
 
 from fastapi import FastAPI, Header, HTTPException, Request, Response
 from fastapi.middleware.cors import CORSMiddleware

@@ -15,7 +15,8 @@ import os
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, Iterable, Optional
+from typing import Any, Dict, Optional
+from collections.abc import Iterable
 
 import requests
 

@@ -18,7 +18,8 @@ import threading
 from collections import deque
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import Any, Dict, Iterator, List, Optional
+from typing import Any, Dict, List, Optional
+from collections.abc import Iterator
 from uuid import UUID, uuid4
 
 try:

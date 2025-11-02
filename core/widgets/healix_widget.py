@@ -3,7 +3,8 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass
-from typing import Iterable, List, Mapping, Sequence
+from typing import List
+from collections.abc import Iterable, Mapping, Sequence
 
 logger = logging.getLogger("healix_widget")
 

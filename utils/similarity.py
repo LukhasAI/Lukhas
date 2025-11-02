@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from math import sqrt
-from typing import Sequence
+from collections.abc import Sequence
 
 __all__ = ["_cosine"]
 

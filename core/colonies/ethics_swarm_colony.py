@@ -10,7 +10,8 @@ from collections import deque
 from dataclasses import dataclass, field, replace
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Deque, Iterable
+from typing import Any, Deque
+from collections.abc import Iterable
 
 logger = logging.getLogger(__name__)
 

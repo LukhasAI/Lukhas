@@ -4,7 +4,8 @@ from __future__ import annotations
 import warnings
 from importlib import import_module
 from types import ModuleType
-from typing import Callable, Iterable, Mapping
+from typing import Callable
+from collections.abc import Iterable, Mapping
 
 __all__ = [
     "bridge",

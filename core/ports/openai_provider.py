@@ -8,7 +8,8 @@ Part of T4 lane isolation initiative to remove hard dependencies on labs.
 """
 from __future__ import annotations
 
-from typing import Any, AsyncIterator, Iterator, Protocol
+from typing import Any, Protocol
+from collections.abc import AsyncIterator, Iterator
 
 from typing_extensions import NotRequired, TypedDict
 

@@ -3,7 +3,8 @@ from __future__ import annotations
 
 import asyncio
 import importlib as _importlib
-from typing import Awaitable, TypeVar
+from typing import TypeVar
+from collections.abc import Awaitable
 
 T = TypeVar("T")
 

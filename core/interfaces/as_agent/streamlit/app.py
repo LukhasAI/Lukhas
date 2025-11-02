@@ -21,7 +21,8 @@ import logging
 import re
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable, Optional
+from typing import Optional
+from collections.abc import Iterable
 
 import streamlit as st
 

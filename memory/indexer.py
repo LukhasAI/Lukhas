@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 import hashlib
-from typing import Any, Dict, Iterable, List, Optional
+from typing import Any, Dict, List, Optional
+from collections.abc import Iterable
 
 from .backends.pgvector_store import PgVectorStore, VectorDoc
 

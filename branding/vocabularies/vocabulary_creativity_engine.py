@@ -13,7 +13,8 @@ image interpretation, and visual communication.
 """
 
 from dataclasses import dataclass
-from typing import Any, Iterable, Sequence, Union
+from typing import Any, Union
+from collections.abc import Iterable, Sequence
 
 from core.symbolic import VisualSymbol
 from symbolic.vocabularies.vision_vocabulary import VisionSymbolicVocabulary

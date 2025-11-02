@@ -17,7 +17,8 @@ from collections import Counter
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Iterable, Optional
+from typing import Any, Optional
+from collections.abc import Iterable
 
 from ethics.core import EthicalDecision, get_shared_ethics_engine
 from ethics.seedra import get_seedra

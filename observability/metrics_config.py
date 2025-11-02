@@ -3,7 +3,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Optional, Sequence
+from typing import Optional
+from collections.abc import Sequence
 
 __all__ = ["MetricsConfig"]
 

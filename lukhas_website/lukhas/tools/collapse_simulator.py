@@ -16,7 +16,8 @@ import random
 import sys
 import time
 from dataclasses import dataclass, field
-from typing import Any, Dict, Iterable, List, Optional
+from typing import Any, Dict, List, Optional
+from collections.abc import Iterable
 
 # NOTE: TraceRepairEngine is optional; defer import to runtime.
 try:  # pragma: no cover - import side effects tested via simulation

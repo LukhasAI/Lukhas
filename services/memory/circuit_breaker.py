@@ -22,7 +22,8 @@ import time
 from collections import deque
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Awaitable, Callable, Dict, Optional
+from typing import Any, Callable, Dict, Optional
+from collections.abc import Awaitable
 
 logger = logging.getLogger(__name__)
 

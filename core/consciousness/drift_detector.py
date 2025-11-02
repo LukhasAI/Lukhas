@@ -5,7 +5,8 @@ import logging
 from collections import defaultdict, deque
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import Deque, Dict, List, Optional, Sequence
+from typing import Deque, Dict, List, Optional
+from collections.abc import Sequence
 
 from core.symbolic.glyph_specialist import GlyphSignal
 

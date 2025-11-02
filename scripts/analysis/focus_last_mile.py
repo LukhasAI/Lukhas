@@ -5,7 +5,8 @@ import json
 import re
 from collections import Counter
 from pathlib import Path
-from typing import Any, Iterable
+from typing import Any
+from collections.abc import Iterable
 
 ARTIFACTS = Path("artifacts")
 FAILURE_LOG = ARTIFACTS / "import_failures.ndjson"

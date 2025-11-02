@@ -1,7 +1,8 @@
 """Utilities for working with Constellation star canon metadata."""
 from __future__ import annotations
 
-from typing import Dict, Iterable, List
+from typing import Dict, List
+from collections.abc import Iterable
 
 # ΛTAG: star_canon
 _DEF_KEYS = ("id", "emoji", "domain")

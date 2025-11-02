@@ -5,7 +5,8 @@ import logging
 import math
 import random
 from dataclasses import dataclass
-from typing import Any, Callable, Iterable, Mapping
+from typing import Any, Callable
+from collections.abc import Iterable, Mapping
 
 logger = logging.getLogger(__name__)
 

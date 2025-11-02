@@ -22,7 +22,8 @@ import argparse
 import difflib
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable, List, Optional, Tuple
+from typing import List, Optional, Tuple
+from collections.abc import Iterable
 
 import libcst as cst
 from libcst import MaybeSentinel

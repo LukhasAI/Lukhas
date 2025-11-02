@@ -4,7 +4,8 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-from typing import List, Sequence
+from typing import List
+from collections.abc import Sequence
 
 logger = logging.getLogger("Lukhas.GLYPH.Specialist")
 
