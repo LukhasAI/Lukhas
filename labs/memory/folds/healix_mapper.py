@@ -176,7 +176,8 @@ class QIHealixMapper:
         }
 
         # Initialize database
-        asyncio.create_task(self._initialize_database())
+        self._initialization_task: Optional[asyncio.Task[None]] = None
+        self._initialization_task = asyncio.create_task(self._initialize_database())
 
         logger.info("Quantum Healix Mapper initialized with DNA-inspired architecture")
 

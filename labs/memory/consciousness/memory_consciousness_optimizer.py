@@ -118,6 +118,8 @@ class MemoryConsciousnessOptimizer:
             'parameter_adjustments': []
         }
 
+        self._optimization_monitoring_task: Optional[asyncio.Task[None]] = None
+
     async def initialize(self) -> bool:
         """Initialize the memory-consciousness optimizer"""
         try:
@@ -130,7 +132,9 @@ class MemoryConsciousnessOptimizer:
             await self._set_default_optimization_targets()
 
             # Start optimization monitoring
-            asyncio.create_task(self._optimization_monitoring_loop())
+            self._optimization_monitoring_task = asyncio.create_task(
+                self._optimization_monitoring_loop()
+            )
 
             self.optimization_active = True
             self.logger.info("Memory-Consciousness Optimizer initialized successfully")
