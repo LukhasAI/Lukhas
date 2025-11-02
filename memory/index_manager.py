@@ -26,8 +26,9 @@ from __future__ import annotations
 import logging
 import threading
 import time
+from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Dict, Iterable, List, Optional
+from typing import Dict, List, Optional
 from uuid import uuid4
 
 from memory.embedding_index import EmbeddingIndex

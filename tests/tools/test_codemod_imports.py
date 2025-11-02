@@ -12,9 +12,9 @@ Phase 3: Added as stability guarantee after codemod robustness fix (45d40b49c).
 import pathlib
 import subprocess
 import sys
+from typing import Optional
 
 import pytest
-from typing import Optional
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 

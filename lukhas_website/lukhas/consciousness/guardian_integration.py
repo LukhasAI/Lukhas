@@ -19,10 +19,11 @@ import json
 import logging
 import time
 import uuid
+from collections.abc import Awaitable
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-from typing import Any, Awaitable, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional
 
 from opentelemetry import trace
 from prometheus_client import Counter, Histogram

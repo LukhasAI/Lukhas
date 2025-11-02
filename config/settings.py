@@ -1,5 +1,4 @@
-"""
-LUKHAS Configuration Settings Integration
+"""LUKHAS Configuration Settings Integration
 
 This module provides centralized access to LUKHAS configuration settings,
 integrating with the main settings.json file and providing typed access

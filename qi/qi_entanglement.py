@@ -26,8 +26,9 @@ Tier 2 (expandable hooks)
 import logging
 import math
 import uuid
+from collections.abc import Iterable
 from dataclasses import dataclass, field
-from typing import Any, Dict, Iterable, List, Optional
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 

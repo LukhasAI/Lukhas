@@ -12,7 +12,7 @@ Usage:
 import re
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Set, Optional
+from typing import Any, Dict, List, Optional, Set
 
 
 @dataclass

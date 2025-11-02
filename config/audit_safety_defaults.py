@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-"""
-Safety defaults configuration for LUKHAS AI audit preparation.
+"""Safety defaults configuration for LUKHAS AI audit preparation.
 Implements comprehensive safety-first configuration without execution.
 
 Purpose: Define safety defaults for pre/post-MATRIZ workspace auditing.
@@ -35,7 +34,7 @@ class AuditSafetyConfig:
             "FEATURE_CONSCIOUSNESS_ACTIVE": False,
             "FEATURE_MEMORY_PERSISTENCE": False,
             "FEATURE_REAL_API_CALLS": False,
-        }
+        },
     )
 
     # Safety thresholds
@@ -46,7 +45,7 @@ class AuditSafetyConfig:
             "max_test_runtime_seconds": 300,
             "guardian_drift_threshold": 0.01,  # Very conservative
             "audit_trail_retention_days": 30,
-        }
+        },
     )
 
     # Audit-specific settings
@@ -58,7 +57,7 @@ class AuditSafetyConfig:
             "enforce_dry_run_mode": True,
             "block_external_connections": True,
             "require_explicit_consent": True,
-        }
+        },
     )
 
 
@@ -324,13 +323,13 @@ def pytest_runtest_setup(item):
                 [
                     self.config.feature_flags.get("FEATURE_REAL_API_CALLS", True),
                     self.config.feature_flags.get("FEATURE_MEMORY_PERSISTENCE", True),
-                ]
+                ],
             ),
             "conservative_thresholds": all(
                 [
                     self.config.safety_thresholds["max_api_calls_per_test"] == 0,
                     self.config.safety_thresholds["guardian_drift_threshold"] <= 0.01,
-                ]
+                ],
             ),
             "audit_logging_enabled": self.config.audit_settings["enable_comprehensive_logging"],
             "import_validation_active": self.config.audit_settings["validate_all_imports"],
@@ -362,7 +361,7 @@ def pytest_runtest_setup(item):
                     "audit_ready": all(validation.values()),
                 },
                 indent=2,
-            )
+            ),
         )
 
         return {

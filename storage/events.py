@@ -16,9 +16,10 @@ from __future__ import annotations
 import os
 import threading
 from collections import deque
+from collections.abc import Iterator
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import Any, Dict, Iterator, List, Optional
+from typing import Any, Dict, List, Optional
 from uuid import UUID, uuid4
 
 try:

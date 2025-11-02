@@ -11,7 +11,7 @@ from __future__ import annotations
 import argparse
 import re
 from pathlib import Path
-from typing import List, Tuple, Optional
+from typing import List, Optional, Tuple
 
 
 def fix_markdown_links(text: str, old_lane: str, new_lane: str) -> Tuple[str, int]:

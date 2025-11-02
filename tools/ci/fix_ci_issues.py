@@ -7,9 +7,9 @@ Addresses streamlit imports and pre-commit hook issues
 import subprocess
 import sys
 from pathlib import Path
+from typing import Optional
 
 import yaml
-from typing import Optional
 
 
 class CIFixOrchestrator:

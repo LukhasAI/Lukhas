@@ -1,5 +1,4 @@
-"""
-══════════════════════════════════════════════════════════════════════════════════
+"""══════════════════════════════════════════════════════════════════════════════════
 ║ 🧠 LUKHAS AI - CONFIGURATION
 ║ Fallback configuration system for LUKHAS.
 ║ Copyright (c) 2025 LUKHAS AI. All rights reserved.
@@ -56,7 +55,7 @@ class FallbackSettings:
             self.LOG_LEVEL: str = os.getenv("LOG_LEVEL", "WARNING")  # More conservative
             self.DEBUG: bool = os.getenv("DEBUG", "false").lower() == "true"
             logger.warning(
-                "Centralized config not available, using direct os.getenv"
+                "Centralized config not available, using direct os.getenv",
             )
             self._validate_fallback_behavior()
 

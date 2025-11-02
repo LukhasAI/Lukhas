@@ -20,9 +20,10 @@ from __future__ import annotations
 
 import argparse
 import difflib
+from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable, List, Optional, Tuple
+from typing import List, Optional, Tuple
 
 import libcst as cst
 from libcst import MaybeSentinel
