@@ -361,21 +361,21 @@ class CoverageMetricsSystem:
                     # Parse line coverage
                     lines = class_elem.findall('.//line')
                     total_lines = len(lines)
-                    covered_lines = len([l for l in lines if l.get('hits', '0') != '0'])
+                    covered_lines = len([line for line in lines if line.get('hits', '0') != '0'])
 
                     if total_lines > 0:
                         coverage_percent = (covered_lines / total_lines) * 100
 
                         # Get line numbers
                         lines_covered = [
-                            int(l.get('number', 0))
-                            for l in lines
-                            if l.get('hits', '0') != '0'
+                            int(line.get('number', 0))
+                            for line in lines
+                            if line.get('hits', '0') != '0'
                         ]
                         lines_missing = [
-                            int(l.get('number', 0))
-                            for l in lines
-                            if l.get('hits', '0') == '0'
+                            int(line.get('number', 0))
+                            for line in lines
+                            if line.get('hits', '0') == '0'
                         ]
 
                         coverage_data[module_name] = CoverageMetrics(

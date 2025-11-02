@@ -79,7 +79,7 @@ def main():
     # Diff lists
     # name-status: M = modified, A = added, D = deleted, R = renamed
     name_status = sh(f"git diff --name-status {old}..{new}")
-    lines = [l for l in name_status.splitlines() if l.strip()]
+    lines = [line for line in name_status.splitlines() if line.strip()]
     changes = []
     for ln in lines:
         parts = ln.split()
