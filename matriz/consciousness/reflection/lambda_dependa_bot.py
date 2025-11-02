@@ -21,13 +21,7 @@ autonomous architectural optimization and modular intelligence.
 - Elite-tier performance monitoring
 - Integration with ΛBot fleet coordination
 
-Part of TODO #10: Module Dependency Analysis and Network-Based M        self.excluded_dirs = {
-            '__pycache__', '.git', '.vscode', 'node_modules',
-            '.pytest_cache', '.mypy_cache', 'venv', 'env', '.venv', '.env',
-            'temp', 'tmp', 'backup', 'old', 'archive', 'archives',
-            'build', 'dist', '.tox', 'htmlcov', '.coverage',
-            'site-packages', 'lib/python', 'Scripts', 'bin'
-        }rization
+Part of TODO #10: Module Dependency Analysis and Network-Based Modularization
 Integrates with: ΛBot Elite Orchestrator, TODO #8 Performance, TODO #9 Index System
 
 Author: LUKHAS ΛBot System
