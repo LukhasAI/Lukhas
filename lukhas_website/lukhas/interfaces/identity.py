@@ -9,8 +9,9 @@ Other modules, such as `governance`, should import from this module
 to avoid circular dependencies.
 """
 
-from typing import Any, Optional
 import abc
+from typing import Any, Optional
+
 
 def ensure_both_id_keys(obj: dict[str, Any], lid: Optional[str]) -> None:
     """Ensure the mapping `obj` contains both `lid` and `lambda_id` keys.

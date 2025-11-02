@@ -24,10 +24,10 @@
 """
 
 import logging
-from datetime import timezone
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Optional
+
 import numpy as np
 import structlog
 

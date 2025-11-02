@@ -5,7 +5,6 @@ Batch fix E402 errors by reorganizing imports to top of file.
 
 import subprocess
 import sys
-from pathlib import Path
 
 
 def get_files_with_e402(directory=None):

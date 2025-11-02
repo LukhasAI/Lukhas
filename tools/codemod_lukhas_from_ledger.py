@@ -5,7 +5,6 @@ Uses ledger plurality voting to rewrite only proven-reliable imports.
 Supports dry-run (default) and --apply mode with backups.
 """
 import argparse
-import json
 import re
 import shutil
 from collections import Counter, defaultdict

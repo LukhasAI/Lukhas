@@ -18,9 +18,8 @@ value learning from feedback, ethical constraint checking, stakeholder impact an
 cultural sensitivity assessment, and ethical drift monitoring to guide AI decision-making.
 """
 
-import logging
-
 import asyncio
+import logging
 
 # import logging # Replaced by structlog
 import time

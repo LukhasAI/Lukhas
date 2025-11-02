@@ -4,9 +4,11 @@ import pathlib
 import sys
 import types
 from enum import Enum
+
 import pytest
 from fastapi import HTTPException, status
 from pydantic import BaseModel
+
 from lukhas.api import oidc
 
 PROJECT_ROOT = pathlib.Path(__file__).resolve().parents[2]

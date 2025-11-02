@@ -34,6 +34,7 @@ For documentation and support: https://ai/docs
 """
 
 import logging
+
 from qiskit.algorithms import VQE
 from qiskit.circuit.library import TwoLocal
 

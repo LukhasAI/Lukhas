@@ -5,7 +5,7 @@ import json
 import pathlib
 import subprocess
 import sys
-from typing import Set, List
+from typing import List, Set
 
 INTERNAL_TOPS = {'core', 'lukhas', 'matriz'}
 

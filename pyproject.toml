@@ -218,6 +218,8 @@ exclude = [
     "node_modules",
     "**/migrations/**",
     "**/generated/**",
+    "gemini-dev",
+    "b1db8919b599a05a3bdcacda2013e2f4e5803bfe",
 ]
 
 [tool.ruff.lint]

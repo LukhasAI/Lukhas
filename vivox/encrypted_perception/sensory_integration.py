@@ -4,13 +4,15 @@ Processes multiple sensory modalities while maintaining encryption
 """
 
 import logging
-from datetime import timezone
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from typing import Any, Optional
+
 import numpy as np
+
 from core.common import get_logger
+
 from .anomaly_detection import AnomalyDetector
 from .vector_encryption import PerceptualEncryptor
 from .vivox_evrn_core import EncryptedPerception, PerceptualVector

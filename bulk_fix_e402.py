@@ -4,7 +4,6 @@ Bulk fix E402 errors for LUKHAS codebase.
 Handles the common pattern: logging import + logger def before docstring.
 """
 
-import re
 import subprocess
 from pathlib import Path
 

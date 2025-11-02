@@ -32,6 +32,7 @@ try:
     # Backend components
     from backend.learning.meta_learning import MetaLearningSystem
     from backend.security.privacy_manager import PrivacyManager
+    from products.experience.voice.bridge.speech_processor import SpeechProcessor
 
     from core.identity.vault.lukhas_id import IdentityManager
 
@@ -41,7 +42,6 @@ try:
         AdaptiveInterfaceGenerator,
     )
     from frontend.multimodal.image_generator import AdaptiveImageGenerator
-    from products.experience.voice.bridge.speech_processor import SpeechProcessor
 
 except ImportError as e:
     logger.critical(f"Failed to import required components: {e}")

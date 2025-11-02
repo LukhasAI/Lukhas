@@ -10,9 +10,6 @@ from typing import Any, Dict, List, Optional
 import structlog
 
 from core.identity.vault.lukhas_id import (
-
-
-
     IdentityManager,
     IdentityVerificationError,
 )

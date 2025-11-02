@@ -16,12 +16,12 @@ It provides a standardized way to represent reasoning effort levels (low, medium
 throughout the LUKHAS system.
 """
 
-import logging
 from __future__ import annotations
+
+import logging
 
 # Original Stainless generation comment:
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
-
 from typing import Optional
 
 from typing_extensions import Literal, TypeAlias
