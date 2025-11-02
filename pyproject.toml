@@ -248,6 +248,9 @@ ignore = [
     "Q001",     # single quote multiline found but double quotes preferred
     "Q002",     # single quote docstring found but double quotes preferred
     "Q003",     # avoidable escaped quote
+    # Python 3.9 compatibility - disable Python 3.10+ syntax
+    "UP007",    # Use X | Y for union types (requires Python 3.10+)
+    "UP006",    # Use list[X] instead of List[X] (safe with __future__.annotations but disabled for safety)
 ]
 fixable = [
     "E",
