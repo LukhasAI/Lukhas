@@ -116,7 +116,7 @@ class ConsciousnessIntegration:
         self.memory_tensor = MemoryCorrelationTensor()
         self.synthetic_emotions: List[SyntheticEmotion] = []
         self.perception_field: Optional[QuantumPerceptionField] = None
-        
+
         # Memory fold bridge integration
         self.memory_fold_bridge: Optional[MemoryFoldBridge] = None
         self.fold_bridge_enabled: bool = False
@@ -125,7 +125,7 @@ class ConsciousnessIntegration:
         self.max_fold_events_per_window: int = 10
         self.fold_event_count: int = 0
         self.last_throttle_reset: float = time.time()
-        
+
         if MEMORY_FOLD_AVAILABLE:
             try:
                 self.memory_fold_bridge = MemoryFoldBridge()
@@ -181,7 +181,7 @@ class ConsciousnessIntegration:
             fold_payload = self._create_deterministic_fold_payload(
                 symbol, observer_id, context, affect_delta, temporal_state
             )
-            
+
             try:
                 fold_event_published = self.memory_fold_bridge.publish_fold_event(
                     'consciousness_symbol_processing', fold_payload
@@ -211,21 +211,21 @@ class ConsciousnessIntegration:
         }
 
     def _calculate_consciousness_affect_delta(
-        self, 
-        symbol: VisualSymbol, 
-        context: ObserverContext, 
+        self,
+        symbol: VisualSymbol,
+        context: ObserverContext,
         emotion: SyntheticEmotion
     ) -> Dict[str, float]:
         """Calculate ΛTAG affect_delta for consciousness processing"""
         # Base consciousness affect
         consciousness_intensity = context.consciousness_level * symbol.measure_consciousness()
-        
+
         # Emotional modulation
         emotional_magnitude = np.sqrt(emotion.valence**2 + emotion.arousal**2)
-        
+
         # Temporal influence from past states
         temporal_influence = self.temporal_recursion.calculate_influence()
-        
+
         return {
             'consciousness_intensity': consciousness_intensity,
             'emotional_magnitude': emotional_magnitude,
@@ -239,22 +239,22 @@ class ConsciousnessIntegration:
     def _should_publish_fold_event(self, symbol_id: str) -> bool:
         """Guardian-safe throttling to prevent memory fold explosions"""
         current_time = time.time()
-        
+
         # Reset throttle window if needed
         if current_time - self.last_throttle_reset > self.throttle_window:
             self.fold_event_count = 0
             self.last_throttle_reset = current_time
-        
+
         # Check global rate limit
         if self.fold_event_count >= self.max_fold_events_per_window:
             return False
-        
+
         # Check per-symbol throttling (prevent rapid-fire from same symbol)
         if symbol_id in self.fold_event_throttle:
             time_since_last = current_time - self.fold_event_throttle[symbol_id]
             if time_since_last < 0.1:  # Minimum 100ms between events for same symbol
                 return False
-        
+
         return True
 
     def _record_fold_event(self, symbol_id: str) -> None:
@@ -264,11 +264,11 @@ class ConsciousnessIntegration:
         self.fold_event_count += 1
 
     def _create_deterministic_fold_payload(
-        self, 
-        symbol: VisualSymbol, 
-        observer_id: str, 
-        context: ObserverContext, 
-        affect_delta: Dict[str, float], 
+        self,
+        symbol: VisualSymbol,
+        observer_id: str,
+        context: ObserverContext,
+        affect_delta: Dict[str, float],
         temporal_state: Dict[str, Any]
     ) -> Dict[str, Any]:
         """Create deterministic payload for memory fold bridge"""

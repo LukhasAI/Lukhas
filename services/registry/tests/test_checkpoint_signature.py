@@ -5,7 +5,7 @@ from __future__ import annotations
 import base64
 import json
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any, Dict
 
 import pytest
 from fastapi.testclient import TestClient

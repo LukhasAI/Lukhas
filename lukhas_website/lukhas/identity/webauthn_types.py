@@ -15,8 +15,8 @@ Part of Task #591 - Define WebAuthn Types (PREREQUISITE for #581, #589, #597, #5
 from __future__ import annotations
 
 from typing import Any, Literal, Union
-from typing_extensions import TypedDict, NotRequired
 
+from typing_extensions import NotRequired, TypedDict
 
 # Base WebAuthn Types
 

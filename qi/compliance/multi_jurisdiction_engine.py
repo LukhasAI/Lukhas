@@ -10,7 +10,6 @@ from .jurisdictions import CCPAModule, GDPRModule, LGPDModule, PIPEDAModule
 from .jurisdictions.base import BaseJurisdictionModule
 from .policy_engine import PolicyEngine, PolicyRecord
 
-
 _CONSENT_PRIORITY = {
     "implied": 0,
     "opt_out": 1,

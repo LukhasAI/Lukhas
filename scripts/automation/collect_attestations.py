@@ -1,7 +1,8 @@
+import argparse
 import json
 import os
 import subprocess
-import argparse
+
 
 def collect_attestations(att_dir, cosign_pub, output_file):
     report = {

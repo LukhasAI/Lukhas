@@ -8,9 +8,8 @@ infrastructure implemented for the LUKHAS AI platform.
 # ΛTAG: infrastructure_summary, security_integration, cache_integration, storage_integration
 """
 
-from typing import Dict, Any, Optional
-import asyncio
 import logging
+from typing import Any, Dict, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -24,13 +23,13 @@ class LUKHASInfrastructureManager:
     - Hierarchical Caching System with Redis support and intelligent warming
     - Distributed Storage with replication, backup, and lifecycle management
     """
-    
+
     def __init__(self):
         self.security_framework = None
         self.cache_manager = None
         self.storage_manager = None
         self.initialized = False
-    
+
     async def initialize(self) -> bool:
         """
         Initialize all infrastructure components.
@@ -41,33 +40,33 @@ class LUKHASInfrastructureManager:
         try:
             # Initialize security framework
             from security.security_framework import LUKHASSecurityFramework, SecurityConfig
-            
+
             security_config = SecurityConfig()
             self.security_framework = LUKHASSecurityFramework(security_config)
             await self.security_framework.initialize()
-            
+
             # Initialize caching system
-            from caching.cache_system import HierarchicalCacheManager, CacheConfig
-            
+            from caching.cache_system import CacheConfig, HierarchicalCacheManager
+
             cache_config = CacheConfig()
             self.cache_manager = HierarchicalCacheManager(cache_config)
             await self.cache_manager.initialize()
-            
+
             # Initialize distributed storage
             from storage.distributed_storage import DistributedStorageManager, StorageConfig
-            
+
             storage_config = StorageConfig()
             self.storage_manager = DistributedStorageManager(storage_config)
             await self.storage_manager.initialize()
-            
+
             self.initialized = True
             logger.info("🎉 LUKHAS Infrastructure initialized successfully")
             return True
-            
+
         except Exception as e:
             logger.error(f"Failed to initialize LUKHAS Infrastructure: {e}")
             return False
-    
+
     async def get_system_status(self) -> Dict[str, Any]:
         """
         Get comprehensive system status for all infrastructure components.
@@ -77,7 +76,7 @@ class LUKHASInfrastructureManager:
         """
         if not self.initialized:
             return {"status": "not_initialized"}
-        
+
         status = {
             "infrastructure_status": "operational",
             "security": {
@@ -101,7 +100,7 @@ class LUKHASInfrastructureManager:
                 "backup_enabled": hasattr(self.storage_manager, 'backup_task')
             }
         }
-        
+
         # Add performance metrics if available
         try:
             if self.cache_manager:
@@ -109,28 +108,28 @@ class LUKHASInfrastructureManager:
                 status["caching"]["statistics"] = cache_stats
         except Exception as e:
             logger.warning(f"Could not get cache statistics: {e}")
-        
+
         try:
             if self.storage_manager:
                 storage_metrics = await self.storage_manager.get_metrics()
                 status["storage"]["metrics"] = storage_metrics
         except Exception as e:
             logger.warning(f"Could not get storage metrics: {e}")
-        
+
         return status
-    
+
     async def shutdown(self) -> None:
         """Gracefully shutdown all infrastructure components."""
-        
+
         if self.security_framework:
             await self.security_framework.shutdown()
-        
+
         if self.cache_manager:
             await self.cache_manager.shutdown()
-        
+
         if self.storage_manager:
             await self.storage_manager.shutdown()
-        
+
         self.initialized = False
         logger.info("LUKHAS Infrastructure shutdown complete")
 
@@ -142,10 +141,10 @@ _global_infrastructure: Optional[LUKHASInfrastructureManager] = None
 def get_infrastructure() -> LUKHASInfrastructureManager:
     """Get global infrastructure manager instance."""
     global _global_infrastructure
-    
+
     if _global_infrastructure is None:
         _global_infrastructure = LUKHASInfrastructureManager()
-    
+
     return _global_infrastructure
 
 
@@ -210,52 +209,52 @@ INFRASTRUCTURE_FEATURES = {
 
 def print_infrastructure_summary():
     """Print a comprehensive summary of infrastructure capabilities."""
-    
+
     print("🏗️  LUKHAS Advanced Security & Caching Infrastructure")
     print("=" * 80)
-    
+
     for system_name, system_info in INFRASTRUCTURE_FEATURES.items():
         print(f"\n🔧 {system_name.replace('_', ' ').title()}")
         print(f"   {system_info['description']}")
-        
+
         print(f"\n   📦 Components:")
         for component in system_info['components']:
             print(f"      • {component}")
-        
+
         print(f"\n   ⭐ Features:")
         for feature in system_info['features']:
             print(f"      • {feature}")
-    
+
     print(f"\n🎯 Integration Benefits:")
     print(f"   • End-to-end security for all data operations")
     print(f"   • 2-5x performance improvement through intelligent caching")
     print(f"   • Enterprise-grade data durability and availability")
     print(f"   • Comprehensive observability and monitoring")
     print(f"   • Scalable architecture supporting high-throughput operations")
-    
+
     print(f"\n✅ Ready for Production Deployment")
 
 
 if __name__ == "__main__":
     # Print infrastructure summary
     print_infrastructure_summary()
-    
+
     # Example usage
     async def demo_infrastructure():
         infrastructure = get_infrastructure()
-        
+
         # Initialize all components
         success = await infrastructure.initialize()
-        
+
         if success:
             # Get system status
             status = await infrastructure.get_system_status()
             print(f"\n📊 System Status: {status['infrastructure_status']}")
-            
+
             # Shutdown gracefully
             await infrastructure.shutdown()
         else:
             print("❌ Infrastructure initialization failed")
-    
+
     # Run demo if executed directly
     # asyncio.run(demo_infrastructure())

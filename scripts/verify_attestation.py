@@ -1,9 +1,10 @@
-import json
-import subprocess
 import argparse
 import base64
 import hashlib
+import json
 import os
+import subprocess
+
 
 def verify_attestation(attestation_file, cosign_pub_key):
     with open(attestation_file, 'r') as f:

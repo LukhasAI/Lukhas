@@ -59,7 +59,6 @@ consciousness system that addresses the empirically-validated drift issues in cu
 LLMs while providing sophisticated Cognitive AI-level processing capabilities.
 """
 
-import logging
 import asyncio
 import math
 import time

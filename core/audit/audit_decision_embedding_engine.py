@@ -3,9 +3,8 @@
 Audit Decision Embedding Engine
 Embeds audit trails into ALL decisions using event-bus colony/swarm architecture
 """
-import importlib as _importlib
-
 import asyncio
+import importlib as _importlib
 import json
 import time
 import uuid

@@ -9,7 +9,6 @@ from pathlib import Path
 
 from scripts.todo_migration.generate_todo_inventory import scan_file
 
-
 SCRIPT_PATH = (
     Path(__file__).resolve().parents[2]
     / "scripts"

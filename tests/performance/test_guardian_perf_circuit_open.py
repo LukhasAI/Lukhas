@@ -1,6 +1,6 @@
+import importlib as _importlib
 import time
 
-import importlib as _importlib
 import pytest
 
 _mod = _importlib.import_module("labs.governance.guardian_system_integration")

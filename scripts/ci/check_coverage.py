@@ -1,6 +1,8 @@
-import xml.etree.ElementTree as ET
 import argparse
+import xml.etree.ElementTree as ET
+
 import yaml
+
 
 def check_coverage(coverage_xml, thresholds_yml):
     with open(thresholds_yml, 'r') as f:

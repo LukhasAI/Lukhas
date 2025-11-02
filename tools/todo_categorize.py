@@ -15,13 +15,12 @@ __version__ = "1.0.0"
 
 import argparse
 import json
+import os
 import re
 import sys
-import os
 from dataclasses import asdict, dataclass
-from datetime import datetime
 from pathlib import Path
-from typing import Dict, Iterable, Iterator, List, Mapping, Optional, Sequence, Any
+from typing import Iterator, List, Optional, Sequence
 
 # --- Config ------------------------------------------------------------------
 SKIP_DIRS = {

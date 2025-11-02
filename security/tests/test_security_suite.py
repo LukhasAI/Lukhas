@@ -34,10 +34,10 @@ import sys
 import tempfile
 import time
 import unittest
-from unittest import mock
 from contextlib import contextmanager
 from datetime import datetime, timezone
 from typing import Any, Dict, Optional
+from unittest import mock
 
 # Add project root to path for imports
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..'))

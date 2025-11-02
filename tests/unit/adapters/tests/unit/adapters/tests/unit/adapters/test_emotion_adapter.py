@@ -3,7 +3,6 @@ from pathlib import Path
 
 from matriz.adapters.emotion_adapter import UemotionAdapter
 
-from matriz.adapters.emotion_adapter import UemotionAdapter
 from tests.util.mk_msg import mk_msg_from_json
 
 GOLDEN = Path("tests/fixtures/golden/emotion_adapter")

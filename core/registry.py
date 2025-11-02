@@ -4,6 +4,7 @@ Avoid import-time dependency on `labs.core.registry`. This module provides a
 lazy attribute proxy for labs fallback while preferring the in-repo package.
 """
 from __future__ import annotations
+
 import importlib
 from typing import Any
 

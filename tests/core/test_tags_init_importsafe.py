@@ -12,18 +12,18 @@ def test_tags_import_safe():
 def test_tags_dir_proxy_has_expected_names(monkeypatch):
     """Test that core.tags proxy exposes expected tag system names when available."""
     # If you want, simulate labs module with monkeypatch
-    import types
     import sys
-    
+    import types
+
     # Create a fake labs.core.tags module for testing
     fake = types.SimpleNamespace()
     fake.TagRegistry = "MockTagRegistry"
     fake.TagDefinition = "MockTagDefinition"
     fake.get_tag_registry = lambda: "MockRegistry"
-    
+
     # Temporarily install the fake module
     sys.modules['labs.core.tags'] = fake
-    
+
     try:
         import core.tags
         # Test that dir() includes the expected tag system exports
@@ -40,7 +40,7 @@ def test_tags_dir_proxy_has_expected_names(monkeypatch):
 def test_tags_lazy_attribute_access():
     """Test that accessing tag system attributes works when labs is available."""
     import core.tags
-    
+
     try:
         # Try to access a tag system component
         # This should trigger the lazy import of labs.core.tags
@@ -54,7 +54,7 @@ def test_tags_lazy_attribute_access():
 def test_missing_tag_attribute_handling():
     """Test that accessing non-existent tag attributes raises proper AttributeError."""
     import core.tags
-    
+
     try:
         # Try to access a non-existent attribute
         _ = core.tags.NonExistentTagAttribute

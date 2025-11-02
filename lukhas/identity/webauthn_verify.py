@@ -25,15 +25,14 @@ import base64
 import hashlib
 import hmac
 import struct
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
-from cryptography.hazmat.primitives import hashes, serialization
-from cryptography.hazmat.primitives.asymmetric import ec, rsa, padding
 from cryptography.exceptions import InvalidSignature as CryptoInvalidSignature
-from typing_extensions import TypedDict, NotRequired
+from cryptography.hazmat.primitives import hashes, serialization
+from cryptography.hazmat.primitives.asymmetric import ec, padding, rsa
+from typing_extensions import NotRequired, TypedDict
 
 from lukhas.identity.webauthn_credential import WebAuthnCredential
-
 
 # Verification result types
 

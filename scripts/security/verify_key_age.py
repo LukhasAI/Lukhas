@@ -1,5 +1,5 @@
 import argparse
-from datetime import datetime
+
 
 def verify_key_age(audit_log_file):
     print(f"Verifying key age from {audit_log_file}")

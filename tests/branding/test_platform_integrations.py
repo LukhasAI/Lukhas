@@ -7,7 +7,6 @@ import types
 
 import pytest
 
-
 MODULE_NAME = "branding.apis.platform_integrations"
 
 

@@ -5,7 +5,7 @@ Tests the core provider pattern implementation including all available
 providers, configuration management, and error handling.
 """
 
-from core.adapters import ProviderRegistry, Config, make_resolver
+from core.adapters import Config, ProviderRegistry, make_resolver
 
 
 class TestProviderRegistry:
@@ -155,7 +155,7 @@ class TestImportSafety:
     def test_registry_import_safety(self):
         """Test registry can be imported without candidate/labs."""
         try:
-            from core.adapters import ProviderRegistry, Config, make_resolver
+            from core.adapters import Config, ProviderRegistry, make_resolver
 
             assert ProviderRegistry is not None
             assert Config is not None

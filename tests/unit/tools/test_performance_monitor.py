@@ -7,7 +7,6 @@ import asyncio
 from unittest.mock import MagicMock, patch
 
 import pytest
-
 from labs.tools.performance_monitor import (
     PerformanceAnalyzer,
     PerformanceMonitor,

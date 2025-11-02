@@ -1,10 +1,10 @@
 """Unit tests for the QI system orchestrator security handling."""
 
-from types import SimpleNamespace
-from pathlib import Path
 import importlib
-import types
 import sys
+import types
+from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 

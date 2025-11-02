@@ -6,7 +6,6 @@ from types import ModuleType
 
 import pytest
 
-
 MODULE_PATH = (
     Path(__file__).resolve().parents[3]
     / "lukhas_website"

@@ -1,9 +1,10 @@
 import logging
 import time
 from functools import lru_cache
-from typing import Any, Dict, List, Set, Tuple
+from typing import Any, Dict, List, Tuple
 
 import networkx as nx
+
 from core.colonies import BaseColony, ConsensusResult, Tag, TagScope, get_mesh_topology_service
 
 logger = logging.getLogger(__name__)
@@ -42,12 +43,12 @@ class SymbolicReasoningColony(BaseColony):
             "average_propagation_time_ms": 0.0,
             "optimization_saves_ms": 0.0
         }
-        
+
         # Caching for expensive operations
         self._belief_cache: Dict[str, Tuple[Any, float]] = {}
         self._propagation_cache: Dict[str, Tuple[Any, float]] = {}
         self.cache_ttl_seconds = 300.0  # 5 minutes
-        
+
         # Graph optimization
         self._graph_dirty = True
         self._cached_centrality: Dict[str, float] = {}
@@ -151,21 +152,21 @@ class SymbolicReasoningColony(BaseColony):
 
     async def propagate_belief(self, initial_belief: dict[str, Any]) -> dict[str, float]:
         """Optimized belief propagation with caching and performance monitoring."""
-        
+
         start_time = time.time()
-        
+
         # Generate cache key for belief propagation
         cache_key = self._generate_propagation_cache_key(initial_belief)
-        
+
         # Check cache first
         cached_result = self._get_cached_propagation(cache_key)
         if cached_result is not None:
             self.performance_metrics["cache_hits"] += 1
             return cached_result
-        
+
         self.performance_metrics["cache_misses"] += 1
         self.performance_metrics["propagation_count"] += 1
-        
+
         # Initialize belief states
         belief_states = dict.fromkeys(self.agents, 0.0)
         if self.agents:
@@ -184,23 +185,23 @@ class SymbolicReasoningColony(BaseColony):
         iterations = initial_belief.get("iterations", 1)
         for iteration in range(iterations):
             new_states = {}
-            
+
             # Use cached graph metrics when possible
             for agent_id in belief_states:
                 neighbors = self._get_agent_neighbors_cached(agent_id)
                 total_influence = 0.0
-                
+
                 for n in neighbors:
                     distance = self._get_agent_distance_cached(agent_id, n)
                     total_influence += belief_states.get(n, 0) / (1 + distance)
-                
+
                 decay = 0.9
                 new_belief = decay * belief_states[agent_id] + (1 - decay) * total_influence
                 new_states[agent_id] = min(1.0, new_belief)
-                
+
                 if belief_tag and new_belief > 0.1:
                     pass  # placeholder for adoption
-                    
+
             belief_states = new_states
             self.propagation_history.append(
                 {
@@ -209,14 +210,14 @@ class SymbolicReasoningColony(BaseColony):
                     "performance_optimized": True
                 }
             )
-        
+
         # Update performance metrics
         propagation_time_ms = (time.time() - start_time) * 1000
         self._update_propagation_metrics(propagation_time_ms)
-        
+
         # Cache result
         self._cache_propagation_result(cache_key, belief_states)
-        
+
         return belief_states
 
     @lru_cache(maxsize=256)
@@ -228,18 +229,18 @@ class SymbolicReasoningColony(BaseColony):
     @lru_cache(maxsize=512)
     def _get_agent_distance_cached(self, a: str, b: str) -> float:
         """Cached agent distance calculation."""
-        
+
         # Check cached shortest paths
         path_key = (a, b) if a < b else (b, a)
         if path_key in self._cached_shortest_paths:
             return len(self._cached_shortest_paths[path_key]) - 1
-        
+
         # For now, simple distance calculation
         return 1.0
 
     def _generate_propagation_cache_key(self, belief: dict[str, Any]) -> str:
         """Generate cache key for belief propagation."""
-        
+
         # Create deterministic key from belief parameters
         key_parts = [
             belief.get("concept", ""),
@@ -251,19 +252,19 @@ class SymbolicReasoningColony(BaseColony):
 
     def _get_cached_propagation(self, cache_key: str) -> dict[str, float]:
         """Get cached propagation result if valid."""
-        
+
         if cache_key in self._propagation_cache:
             result, timestamp = self._propagation_cache[cache_key]
             if (time.time() - timestamp) < self.cache_ttl_seconds:
                 return result
             else:
                 del self._propagation_cache[cache_key]
-        
+
         return None
 
     def _cache_propagation_result(self, cache_key: str, result: dict[str, float]) -> None:
         """Cache propagation result with timestamp."""
-        
+
         # Implement simple LRU eviction
         if len(self._propagation_cache) >= 100:  # Limit cache size
             oldest_key = min(
@@ -271,43 +272,43 @@ class SymbolicReasoningColony(BaseColony):
                 key=lambda k: self._propagation_cache[k][1]
             )
             del self._propagation_cache[oldest_key]
-        
+
         self._propagation_cache[cache_key] = (result, time.time())
 
     def _update_propagation_metrics(self, duration_ms: float) -> None:
         """Update propagation performance metrics."""
-        
+
         count = self.performance_metrics["propagation_count"]
         current_avg = self.performance_metrics["average_propagation_time_ms"]
-        
+
         # Rolling average
         new_avg = ((current_avg * (count - 1)) + duration_ms) / count
         self.performance_metrics["average_propagation_time_ms"] = new_avg
 
     def optimize_graph_structure(self) -> Dict[str, Any]:
         """Optimize belief network graph structure for better performance."""
-        
+
         if not self._graph_dirty:
             return {"status": "already_optimized", "cache_hit": True}
-        
+
         start_time = time.time()
-        
+
         # Calculate and cache centrality measures
         if len(self.belief_network.nodes()) > 0:
             self._cached_centrality = nx.betweenness_centrality(self.belief_network)
-            
+
             # Cache shortest paths for small graphs
             if len(self.belief_network.nodes()) <= 50:
                 self._cached_shortest_paths = dict(
                     nx.all_pairs_shortest_path(self.belief_network)
                 )
-        
+
         # Mark graph as clean
         self._graph_dirty = False
-        
+
         optimization_time_ms = (time.time() - start_time) * 1000
         self.performance_metrics["optimization_saves_ms"] += optimization_time_ms
-        
+
         return {
             "status": "optimized",
             "optimization_time_ms": optimization_time_ms,
@@ -317,10 +318,10 @@ class SymbolicReasoningColony(BaseColony):
 
     def get_performance_report(self) -> Dict[str, Any]:
         """Get comprehensive performance report for the colony."""
-        
+
         cache_total = self.performance_metrics["cache_hits"] + self.performance_metrics["cache_misses"]
         cache_hit_rate = self.performance_metrics["cache_hits"] / max(1, cache_total)
-        
+
         return {
             "colony_id": self.colony_id,
             "performance_metrics": self.performance_metrics.copy(),

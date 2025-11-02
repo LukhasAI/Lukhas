@@ -169,7 +169,9 @@
       "Bash(grep:*)",
       "Bash(awk:*)",
       "Bash(pushd:*)",
-      "Bash(popd:*)"
+      "Bash(popd:*)",
+      "Bash(for pr in 823 820 813 811 805)",
+      "Bash(BATCH_SIZE=5 bash scripts/automation/run_codmod_and_prs.sh:*)"
     ],
     "deny": [],
     "ask": [],

@@ -7,7 +7,6 @@ PIPEDA, and LGPD compliance.
 from datetime import datetime
 
 import pytest
-
 from qi.compliance.privacy_statement import (
     Jurisdiction,
     OrganizationInfo,

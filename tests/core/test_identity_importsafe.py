@@ -13,7 +13,7 @@ def test_lazy_identity_system_behavior(monkeypatch):
     """Test that core.identity provides expected functionality when labs is available."""
     # Import core.identity (should not trigger labs import)
     import core.identity
-    
+
     # Test that accessing an attribute triggers the lazy load
     # We'll use a known function from labs.identity
     try:
@@ -29,7 +29,7 @@ def test_lazy_identity_system_behavior(monkeypatch):
 def test_missing_attribute_handling():
     """Test that accessing non-existent attributes raises proper AttributeError."""
     import core.identity
-    
+
     try:
         # Try to access a non-existent attribute
         _ = core.identity.NonExistentAttribute

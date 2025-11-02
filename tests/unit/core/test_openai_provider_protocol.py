@@ -4,9 +4,12 @@ Verifies that the Protocol can be implemented by mock classes and used
 for type-safe dependency injection without requiring actual OpenAI clients.
 """
 from __future__ import annotations
-import pytest
+
 from typing import Any
-from core.ports import OpenAIProvider, ChatMessage, ChatCompletionResponse
+
+import pytest
+
+from core.ports import ChatCompletionResponse, ChatMessage, OpenAIProvider
 
 
 class MockOpenAIProvider:

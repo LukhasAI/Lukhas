@@ -13,8 +13,8 @@ This test suite validates the complete Guardian System implementation
 against the requirements from AGENT_TASK_EXECUTION_PLAN.md
 """
 
-import importlib as _importlib
 import asyncio
+import importlib as _importlib
 import tempfile
 import time
 import uuid

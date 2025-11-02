@@ -6,7 +6,6 @@ from typing import Any, Dict, Optional
 
 from .base import BaseJurisdictionModule, JurisdictionSignal
 
-
 _EU_COUNTRIES = {
     "AT",
     "BE",

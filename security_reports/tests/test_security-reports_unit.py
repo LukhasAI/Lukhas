@@ -6,10 +6,8 @@ from pathlib import Path
 
 import pytest
 import yaml
-
 from security_reports import SecurityReportsConfig, load_config
 from security_reports.configuration import SecurityConfigurationError
-
 
 CONFIG_PATH = Path(__file__).resolve().parent.parent / "config" / "config.yaml"
 

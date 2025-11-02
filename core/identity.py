@@ -5,6 +5,7 @@ boundaries. If attributes are accessed that aren't provided by the primary
 `identity` package, they are lazily resolved from `labs.identity`.
 """
 from __future__ import annotations
+
 import importlib
 from typing import Any
 

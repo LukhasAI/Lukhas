@@ -1,8 +1,8 @@
 """Async utilities bridge."""
 from __future__ import annotations
 
-import importlib as _importlib
 import asyncio
+import importlib as _importlib
 from typing import Awaitable, TypeVar
 
 T = TypeVar("T")

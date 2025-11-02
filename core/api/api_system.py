@@ -241,7 +241,7 @@ class EnhancedAPISystem:
             else:
                 # Remove expired entry
                 del self.response_cache[cache_key]
-        
+
         self.performance_metrics["cache_misses"] += 1
         return None
 
@@ -251,13 +251,13 @@ class EnhancedAPISystem:
         if len(self.response_cache) >= self.max_cache_size:
             # Remove oldest 10% of entries
             sorted_entries = sorted(
-                self.response_cache.items(), 
+                self.response_cache.items(),
                 key=lambda x: x[1][1]  # Sort by timestamp
             )
             remove_count = max(1, len(sorted_entries) // 10)
             for key, _ in sorted_entries[:remove_count]:
                 del self.response_cache[key]
-        
+
         self.response_cache[cache_key] = (response, time.time())
 
     async def _coalesce_request(self, request_key: str, request_fn) -> Any:
@@ -269,11 +269,11 @@ class EnhancedAPISystem:
             except Exception:
                 # If existing request failed, try new request
                 pass
-        
+
         # Create new request task
         task = asyncio.create_task(request_fn())
         self.pending_requests[request_key] = task
-        
+
         try:
             result = await task
             return result
@@ -284,12 +284,12 @@ class EnhancedAPISystem:
     def _update_performance_metrics(self, response_time_ms: float, is_error: bool = False) -> None:
         """Update performance metrics."""
         self.performance_metrics["total_requests"] += 1
-        
+
         if is_error:
             self.performance_metrics["error_requests"] += 1
         else:
             self.performance_metrics["successful_requests"] += 1
-        
+
         # Update rolling average response time
         total = self.performance_metrics["total_requests"]
         current_avg = self.performance_metrics["average_response_time"]

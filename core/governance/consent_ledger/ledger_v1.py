@@ -22,9 +22,9 @@ requirements with sub-second validation performance.
 
 Integrates with ΛID system, GLYPH communication protocol, and Constellation Framework (🌌 8-star navigation).
 """
-import importlib as _importlib
 import hashlib
 import hmac
+import importlib as _importlib
 import json
 import logging
 import os

@@ -5,6 +5,7 @@ boundaries. If attributes are accessed that aren't provided by the primary
 `governance` package, they are lazily resolved from `labs.governance`.
 """
 from __future__ import annotations
+
 import importlib
 from typing import Any
 

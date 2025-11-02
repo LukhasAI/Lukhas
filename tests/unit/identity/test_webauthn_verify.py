@@ -19,28 +19,27 @@ from typing import Any, Dict
 
 import pytest
 from cryptography.hazmat.primitives import hashes, serialization
-from cryptography.hazmat.primitives.asymmetric import ec, rsa, padding
+from cryptography.hazmat.primitives.asymmetric import ec, padding, rsa
 
+from lukhas.identity.webauthn_credential import (
+    WebAuthnCredential,
+    WebAuthnCredentialStore,
+)
 from lukhas.identity.webauthn_verify import (
-    verify_assertion,
-    VerificationResult,
-    InvalidSignatureError,
-    InvalidChallengeError,
-    ReplayAttackError,
-    InvalidAssertionError,
     CredentialNotFoundError,
+    InvalidAssertionError,
+    InvalidChallengeError,
+    InvalidSignatureError,
+    ReplayAttackError,
+    VerificationResult,
     _base64url_decode,
     _constant_time_compare,
     _parse_authenticator_data,
     _parse_client_data_json,
     _verify_signature_es256,
     _verify_signature_rs256,
+    verify_assertion,
 )
-from lukhas.identity.webauthn_credential import (
-    WebAuthnCredential,
-    WebAuthnCredentialStore,
-)
-
 
 # Test fixtures
 

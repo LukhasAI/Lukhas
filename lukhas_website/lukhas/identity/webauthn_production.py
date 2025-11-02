@@ -82,17 +82,6 @@ except ImportError:
 
 # Import LUKHAS WebAuthn type definitions (TypedDict for type checking)
 # Resolves: #591, #592, #593, #594, #595, #596
-from lukhas_website.lukhas.identity.webauthn_types import (
-    AuthenticatorAssertionResponse,
-    AuthenticatorAttestationResponse,
-    CredentialCreationOptions,
-    CredentialRequestOptions,
-    PublicKeyCredential,
-    PublicKeyCredentialAssertion,
-    PublicKeyCredentialCreation,
-    VerifiedAuthentication,
-    VerifiedRegistration,
-)
 
 
 def _decode_credential_id(credential_id: str) -> Optional[bytes]:

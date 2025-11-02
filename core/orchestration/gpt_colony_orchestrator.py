@@ -12,7 +12,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, Optional
 
 # Use TYPE_CHECKING to avoid importing heavy/runtime-only modules at module
 # import time. This lets the module be imported in isolation (for linting,
@@ -30,7 +30,6 @@ if TYPE_CHECKING:
         ConsensusResult,
         EnhancedReasoningColony,
     )
-
     from orchestration.signals.signal_bus import Signal, SignalBus, SignalType
 else:
     # Runtime fallback placeholders; modules will be imported lazily when needed
@@ -59,8 +58,8 @@ def _get_openai_provider():
     Raises:
         ImportError: If labs module is not available
     """
-    from core.adapters.provider_registry import ProviderRegistry
     from core.adapters.config_resolver import make_resolver
+    from core.adapters.provider_registry import ProviderRegistry
 
     registry = ProviderRegistry(make_resolver())
     return registry.get_openai()

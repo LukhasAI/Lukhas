@@ -1,5 +1,7 @@
-from datadog import statsd
 import argparse
+
+from datadog import statsd
+
 
 class Metrics:
     def __init__(self, dry_run=False):

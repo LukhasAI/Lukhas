@@ -1,5 +1,5 @@
-import json
 import argparse
+
 
 def compare_benchmarks(current_file, baseline_file, baseline_name):
     print(f"Comparing {current_file} with {baseline_file} for {baseline_name}")

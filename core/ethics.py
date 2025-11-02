@@ -4,6 +4,7 @@ Removes import-time dependency on `labs.core.ethics` by exposing a lazy
 attribute proxy. Prefer `core/ethics/__init__.py` implementation in-repo.
 """
 from __future__ import annotations
+
 import importlib
 from typing import Any
 

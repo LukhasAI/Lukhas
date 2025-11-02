@@ -8,14 +8,15 @@ with dynamic environment detection, secrets management, and validation.
 # ΛTAG: configuration_management, deployment_infrastructure, environment_configuration
 """
 
+import logging
+import os
+from dataclasses import asdict, dataclass
+from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Dict, Any, Optional, Union
+from typing import Any, Dict, Optional, Union
+
 import yaml
-import os
-import logging
-from dataclasses import dataclass, asdict
-from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -132,12 +133,12 @@ class LUKHASAPIOptimizationConfig:
     logging: LoggingConfig
     monitoring: MonitoringConfig
     security: SecurityConfig
-    
+
     # Metadata
     environment: str = "development"
     version: str = "1.0.0"
     created_at: str = ""
-    
+
     def __post_init__(self):
         if not self.created_at:
             self.created_at = datetime.utcnow().isoformat()
@@ -145,15 +146,15 @@ class LUKHASAPIOptimizationConfig:
 
 class ConfigurationFactory:
     """Factory for creating environment-specific configurations"""
-    
+
     def __init__(self, config_dir: Path = Path("config")):
         self.config_dir = Path(config_dir)
         self.config_dir.mkdir(parents=True, exist_ok=True)
         self._base_config = self._load_base_config()
-        
+
         # Setup logging
         logging.basicConfig(level=logging.INFO)
-    
+
     def _load_base_config(self) -> Dict[str, Any]:
         """Load base configuration shared across environments"""
         base_file = self.config_dir / "base.yaml"
@@ -164,42 +165,42 @@ class ConfigurationFactory:
             except Exception as e:
                 logger.warning(f"Failed to load base config: {e}")
         return {}
-    
-    def create_config(self, 
+
+    def create_config(self,
                      environment: Union[str, DeploymentEnvironment],
                      overrides: Optional[Dict[str, Any]] = None) -> LUKHASAPIOptimizationConfig:
         """Create configuration for specific environment"""
-        
+
         if isinstance(environment, str):
             try:
                 environment = DeploymentEnvironment(environment)
             except ValueError:
                 logger.warning(f"Unknown environment: {environment}, using development")
                 environment = DeploymentEnvironment.DEVELOPMENT
-        
+
         logger.info(f"Creating configuration for environment: {environment.value}")
-        
+
         # Start with base config
         config_dict = self._base_config.copy()
-        
+
         # Apply environment-specific settings
         env_config = self._get_environment_config(environment)
         config_dict = self._deep_merge(config_dict, env_config)
-        
+
         # Apply any overrides
         if overrides:
             config_dict = self._deep_merge(config_dict, overrides)
-        
+
         # Apply environment variable overrides
         env_overrides = self._get_env_overrides()
         config_dict = self._deep_merge(config_dict, env_overrides)
-        
+
         # Create structured configuration
         return self._create_structured_config(config_dict, environment.value)
-    
+
     def _get_environment_config(self, environment: DeploymentEnvironment) -> Dict[str, Any]:
         """Get configuration for specific environment"""
-        
+
         configs = {
             DeploymentEnvironment.DEVELOPMENT: {
                 "integration": {
@@ -239,7 +240,7 @@ class ConfigurationFactory:
                     "jaeger_enabled": False
                 }
             },
-            
+
             DeploymentEnvironment.TESTING: {
                 "integration": {
                     "mode": "testing",
@@ -270,7 +271,7 @@ class ConfigurationFactory:
                     "output": "console"
                 }
             },
-            
+
             DeploymentEnvironment.PRODUCTION: {
                 "integration": {
                     "mode": "production",
@@ -317,7 +318,7 @@ class ConfigurationFactory:
                     "health_check_interval_seconds": 15
                 }
             },
-            
+
             DeploymentEnvironment.HIGH_PERFORMANCE: {
                 "integration": {
                     "mode": "high_performance",
@@ -352,7 +353,7 @@ class ConfigurationFactory:
                     "health_check_interval_seconds": 10
                 }
             },
-            
+
             DeploymentEnvironment.RESOURCE_CONSERVATIVE: {
                 "integration": {
                     "mode": "resource_conservative",
@@ -388,31 +389,31 @@ class ConfigurationFactory:
                 }
             }
         }
-        
+
         return configs.get(environment, configs[DeploymentEnvironment.DEVELOPMENT])
-    
+
     def _get_env_overrides(self) -> Dict[str, Any]:
         """Get configuration overrides from environment variables"""
         overrides = {}
-        
+
         # Redis configuration
         if redis_url := os.getenv("LUKHAS_REDIS_URL"):
             overrides.setdefault("redis", {})["url"] = redis_url
         if redis_password := os.getenv("LUKHAS_REDIS_PASSWORD"):
             overrides.setdefault("redis", {})["password"] = redis_password
-        
+
         # Logging configuration
         if log_level := os.getenv("LUKHAS_LOG_LEVEL"):
             overrides.setdefault("logging", {})["level"] = log_level
         if log_file := os.getenv("LUKHAS_LOG_FILE"):
             overrides.setdefault("logging", {})["file_path"] = log_file
-        
+
         # Performance tuning
         if cache_ttl := os.getenv("LUKHAS_CACHE_TTL_DEFAULT"):
             overrides.setdefault("optimization", {})["cache_ttl_seconds"] = int(cache_ttl)
         if max_requests := os.getenv("LUKHAS_MAX_CONCURRENT_REQUESTS"):
             overrides.setdefault("optimization", {})["max_concurrent_requests"] = int(max_requests)
-        
+
         # Security configuration
         if jwt_secret := os.getenv("LUKHAS_JWT_SECRET_KEY"):
             overrides.setdefault("security", {})["jwt_secret_key"] = jwt_secret
@@ -420,25 +421,25 @@ class ConfigurationFactory:
             overrides.setdefault("security", {})["api_key_salt"] = api_salt
         if encryption_key := os.getenv("LUKHAS_ENCRYPTION_KEY"):
             overrides.setdefault("security", {})["encryption_key"] = encryption_key
-        
+
         # Monitoring configuration
         if prometheus_port := os.getenv("LUKHAS_PROMETHEUS_PORT"):
             overrides.setdefault("monitoring", {})["prometheus_port"] = int(prometheus_port)
         if jaeger_endpoint := os.getenv("LUKHAS_JAEGER_ENDPOINT"):
             overrides.setdefault("monitoring", {})["jaeger_endpoint"] = jaeger_endpoint
-        
+
         return overrides
-    
+
     def _create_structured_config(self, config_dict: Dict[str, Any], environment: str) -> LUKHASAPIOptimizationConfig:
         """Create structured configuration from dictionary"""
-        
+
         # Helper function to create dataclass from dict
         def create_dataclass(cls, data: Dict[str, Any]):
             # Filter data to only include fields that exist in the dataclass
             field_names = {f.name for f in cls.__dataclass_fields__.values()}
             filtered_data = {k: v for k, v in data.items() if k in field_names}
             return cls(**filtered_data)
-        
+
         # Create component configurations
         integration = create_dataclass(IntegrationConfig, config_dict.get("integration", {}))
         optimization = create_dataclass(OptimizationConfig, config_dict.get("optimization", {}))
@@ -448,7 +449,7 @@ class ConfigurationFactory:
         logging_config = create_dataclass(LoggingConfig, config_dict.get("logging", {}))
         monitoring = create_dataclass(MonitoringConfig, config_dict.get("monitoring", {}))
         security = create_dataclass(SecurityConfig, config_dict.get("security", {}))
-        
+
         # Create main configuration
         return LUKHASAPIOptimizationConfig(
             integration=integration,
@@ -461,7 +462,7 @@ class ConfigurationFactory:
             security=security,
             environment=environment
         )
-    
+
     def _deep_merge(self, base: Dict[str, Any], override: Dict[str, Any]) -> Dict[str, Any]:
         """Deep merge two dictionaries"""
         result = base.copy()
@@ -471,40 +472,40 @@ class ConfigurationFactory:
             else:
                 result[key] = value
         return result
-    
+
     def save_config(self, config: LUKHASAPIOptimizationConfig, filename: Optional[str] = None) -> Path:
         """Save configuration to file"""
         if not filename:
             filename = f"{config.environment}.yaml"
-        
+
         filepath = self.config_dir / filename
         config_dict = asdict(config)
-        
+
         with open(filepath, 'w') as f:
             yaml.dump(config_dict, f, default_flow_style=False, indent=2)
-        
+
         logger.info(f"Configuration saved to {filepath}")
         return filepath
-    
+
     def load_config(self, filename: str) -> LUKHASAPIOptimizationConfig:
         """Load configuration from file"""
         filepath = self.config_dir / filename
-        
+
         with open(filepath) as f:
             config_dict = yaml.safe_load(f)
-        
+
         environment = config_dict.get("environment", "development")
         return self._create_structured_config(config_dict, environment)
-    
+
     def validate_config(self, config: LUKHASAPIOptimizationConfig) -> Dict[str, Any]:
         """Validate configuration and return validation results"""
         issues = []
         warnings = []
-        
+
         # Validate Redis configuration
         if not config.redis.url:
             issues.append("Redis URL is required")
-        
+
         # Validate security configuration for production
         if config.environment == "production":
             if not config.security.jwt_secret_key:
@@ -513,22 +514,22 @@ class ConfigurationFactory:
                 warnings.append("API key salt should be configured for production")
             if not config.security.encryption_key:
                 warnings.append("Encryption key should be configured for production")
-        
+
         # Validate performance settings
         if config.optimization.max_concurrent_requests > 10000:
             warnings.append("Very high concurrent request limit may impact performance")
-        
+
         if config.optimization.cache_ttl_seconds > 86400:  # 24 hours
             warnings.append("Very long cache TTL may lead to stale data")
-        
+
         # Validate logging configuration
         if config.logging.output == "file" and not config.logging.file_path:
             issues.append("Log file path is required when output is set to 'file'")
-        
+
         # Validate monitoring configuration
         if config.monitoring.jaeger_enabled and not config.monitoring.jaeger_endpoint:
             issues.append("Jaeger endpoint is required when Jaeger is enabled")
-        
+
         return {
             "valid": len(issues) == 0,
             "issues": issues,
@@ -538,7 +539,7 @@ class ConfigurationFactory:
 
 
 # Convenience functions
-def create_config(environment: str, 
+def create_config(environment: str,
                  overrides: Optional[Dict[str, Any]] = None,
                  config_dir: Optional[Path] = None) -> LUKHASAPIOptimizationConfig:
     """Create configuration for environment"""
@@ -560,12 +561,12 @@ def validate_config(config: LUKHASAPIOptimizationConfig) -> Dict[str, Any]:
 
 def auto_detect_environment() -> str:
     """Auto-detect deployment environment from environment variables"""
-    
+
     # Check explicit environment variable
     env = os.getenv("LUKHAS_ENVIRONMENT", "").lower()
     if env in [e.value for e in DeploymentEnvironment]:
         return env
-    
+
     # Check common deployment indicators
     if os.getenv("KUBERNETES_SERVICE_HOST"):
         return "production"
@@ -575,7 +576,7 @@ def auto_detect_environment() -> str:
         return "testing"
     elif os.getenv("DEBUG") == "true":
         return "development"
-    
+
     # Default to development
     return "development"
 
@@ -584,29 +585,29 @@ if __name__ == "__main__":
     """CLI interface for configuration management"""
     import argparse
     import json
-    
+
     parser = argparse.ArgumentParser(description="LUKHAS API Optimization Configuration Manager")
-    parser.add_argument("--environment", "-e", default="development", 
+    parser.add_argument("--environment", "-e", default="development",
                        help="Deployment environment")
     parser.add_argument("--output", "-o", help="Output file path")
-    parser.add_argument("--validate", "-v", action="store_true", 
+    parser.add_argument("--validate", "-v", action="store_true",
                        help="Validate configuration")
     parser.add_argument("--format", "-f", choices=["yaml", "json"], default="yaml",
                        help="Output format")
     parser.add_argument("--auto-detect", "-a", action="store_true",
                        help="Auto-detect environment")
-    
+
     args = parser.parse_args()
-    
+
     # Auto-detect environment if requested
     if args.auto_detect:
         args.environment = auto_detect_environment()
         print(f"Auto-detected environment: {args.environment}")
-    
+
     # Create configuration
     factory = ConfigurationFactory()
     config = factory.create_config(args.environment)
-    
+
     # Validate if requested
     if args.validate:
         validation = factory.validate_config(config)
@@ -620,7 +621,7 @@ if __name__ == "__main__":
             print("Warnings:")
             for warning in validation['warnings']:
                 print(f"  ⚠️  {warning}")
-    
+
     # Output configuration
     if args.output:
         if args.format == "json":
